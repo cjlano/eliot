@@ -16,16 +16,23 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: main.cc,v 1.2 2004/06/19 18:43:35 afrab Exp $ */
+/* $Id: main.cc,v 1.3 2004/06/26 10:40:02 ipkiss Exp $ */
+
+#ifdef WIN32 // mingw32 hack
+#   undef Yield
+#   undef CreateDialog
+#endif
 
 #include <stdlib.h>
 #include <time.h>
+#include <wx/wxprec.h>
+#include <wx/wx.h>
+#include <wx/app.h>
+#include <wx/intl.h>
+
 #include "ewx.h"
 #include "configdb.h"
 #include "mainframe.h"
-
-#include "wx/app.h"
-#include "wx/intl.h"
 
 #include "eliot.xpm"
 
