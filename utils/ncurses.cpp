@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: ncurses.cpp,v 1.7 2005/02/24 08:06:25 ipkiss Exp $
+ * $Id: ncurses.cpp,v 1.8 2005/03/03 22:14:41 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -819,9 +819,15 @@ int main(int argc, char ** argv)
     textdomain(PACKAGE);
 #endif
 
+    Game *game = GameFactory::Instance()->createFromCmdLine(argc, argv);
+    if (game == NULL)
+        return 1;
+
+    game->start();
+
     // Initialize the ncurses library
     WINDOW *wBoard = initscr();
-    keypad( wBoard, true );
+    keypad(wBoard, true);
     // Take input chars one at a time
     cbreak();
     // Do not do NL -> NL/CR
@@ -845,27 +851,7 @@ int main(int argc, char ** argv)
         init_pair(COLOR_RED, COLOR_BLACK, COLOR_RED);
     }
 
-    char dic_path[100];
-    Dictionary dic = NULL;
     srand(time(NULL));
-
-    if (argc != 2)
-    {
-        endwin();
-        fprintf(stdout, _("Usage: eliotcurses /path/to/ods4.dawg\n"));
-        exit(1);
-    }
-    else
-        strcpy(dic_path, argv[1]);
-    if (Dic_load(&dic, dic_path))
-        return -1;
-
-    Game *game = GameFactory::Instance()->createFreeGame(dic);
-    game->addHumanPlayer();
-    game->addAIPlayer();
-//     game->addAIPlayer();
-//     game->addAIPlayer();
-    game->start();
 
     // Do not echo
     noecho();
@@ -874,7 +860,7 @@ int main(int argc, char ** argv)
     CursesIntf mainIntf(wBoard, *game);
     mainIntf.redraw(wBoard);
 
-    while (! mainIntf.isDying())
+    while (!mainIntf.isDying())
     {
         int c = getch();
         if (mainIntf.handleKey(c) == 1)
@@ -883,13 +869,12 @@ int main(int argc, char ** argv)
         }
     }
 
-    GameFactory::Destroy();
-    Dic_destroy(dic);
-
     delwin(wBoard);
 
     // Exit the ncurses library
     endwin();
+
+    GameFactory::Destroy();
 
     return 0;
 }

@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game_factory.h,v 1.1 2005/02/24 08:06:25 ipkiss Exp $
+ * $Id: game_factory.h,v 1.2 2005/03/03 22:14:41 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,30 +31,57 @@
 class GameFactory
 {
 public:
+    static GameFactory *Instance();
+    static void Destroy();
+
     /*************************
      * Functions to create and destroy a game
      * The dictionary does not belong to the
      * game (ie: it won't be destroyed by ~Game)
-     *
-     * The dictionary can be changed afterwards by setDic
      *************************/
-    static GameFactory *Instance();
-    static void Destroy();
-
     Training *createTraining(const Dictionary &iDic);
     FreeGame *createFreeGame(const Dictionary &iDic);
     Duplicate *createDuplicate(const Dictionary &iDic);
     //Game *loadGame(FILE *fin, const Dictionary &iDic);
 
+    Game *createFromCmdLine(int argc, char **argv);
+
     void releaseGame(Game &iGame);
 
 private:
 
-    GameFactory() {}
-    virtual ~GameFactory() {}
+    GameFactory();
+    virtual ~GameFactory();
 
-    // The unique instance of the class
+    /// The unique instance of the class
     static GameFactory *m_factory;
+
+    /// Initial dictionary (it could be changed later)
+    Dictionary m_dic;
+
+    /** Parameters specified on the command-line */
+    //@{
+
+    /// Dictionary
+    string m_dicStr;
+
+    /// Game mode
+    string m_modeStr;
+
+    /// Number of human players
+    int m_human;
+
+    /// Number of AI players
+    int m_ai;
+
+    //@}
+
+    /// Print command-line usage
+    void printUsage(const string &iBinaryName) const;
+
+    /// Print version
+    void printVersion() const;
+
 };
 
 #endif // _GAME_FACTORY_H_

@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: training.h,v 1.4 2005/02/24 08:06:25 ipkiss Exp $
+ * $Id: training.h,v 1.5 2005/03/03 22:14:41 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,6 +46,13 @@ public:
     void search();
     int playResult(int);
     int setRackManual(bool iCheck, const string &iLetters);
+
+    /*************************
+     * Override the default behaviour of these methods, because in training
+     * we only want a human player
+     *************************/
+    virtual void addHumanPlayer();
+    virtual void addAIPlayer();
 
     /*************************
      * Functions to access the current search results

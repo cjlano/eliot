@@ -2,7 +2,7 @@
  * Copyright (C) 1999-2005 Eliot
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *
- * $Id: debug.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: debug.h,v 1.3 2005/03/03 22:14:41 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,11 +26,19 @@
  * General
  **********/
 
-#ifdef DEBUG
+// XXX: Temporary
+#define _DEBUG_
+
+#ifdef _DEBUG_
 #   include <stdio.h>
-#   define PDEBUG(cond,msg) { if (cond) fprintf(stderr,"GAME DEBUG: %s\n",msg);}
+#   define PDEBUG(cond, msg) \
+    { \
+        if (cond) \
+            fprintf(stderr, "GAME DEBUG: %s (at %s#%i)\n", \
+                    msg, __FILE__, __LINE__); \
+    }
 #else
-#   define PDEBUG(cond,msg)
+#   define PDEBUG(cond, msg)
 #endif
 
 #endif

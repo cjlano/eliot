@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.h,v 1.8 2005/02/26 22:57:34 ipkiss Exp $
+ * $Id: game.h,v 1.9 2005/03/03 22:14:41 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -179,8 +179,8 @@ public:
      *************************/
     int  getNPlayers() const    { return m_players.size(); }
     int  getNHumanPlayers() const;
-    void addHumanPlayer();
-    void addAIPlayer();
+    virtual void addHumanPlayer();
+    virtual void addAIPlayer();
     int  getPlayerPoints(int) const;
     string getPlayerRack(int) const;
 

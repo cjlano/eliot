@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: training.cpp,v 1.2 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: training.cpp,v 1.3 2005/03/03 22:14:41 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,15 +44,6 @@ Training::~Training()
 }
 
 
-void Training::search()
-{
-    // Search for the current player
-    Rack r;
-    m_players[m_currPlayer]->getCurrentRack().getRack(r);
-    m_results.search(*m_dic, m_board, r, getNRounds());
-}
-
-
 int Training::play(const string &iCoord, const string &iWord)
 {
     /* Perform all the validity checks, and fill a round */
@@ -75,30 +66,6 @@ int Training::play(const string &iCoord, const string &iWord)
     endTurn();
 
     return 0;
-}
-
-
-int Training::playResult(int n)
-{
-    Player *player = m_players[m_currPlayer];
-    if (n >= m_results.size())
-        return 2;
-    const Round &round = m_results.get(n);
-
-    /* Update the rack and the score of the current player */
-    player->addPoints(round.getPoints());
-    player->endTurn(round, getNRounds());
-
-    int res = helperPlayRound(round);
-
-    if (res == 0)
-        m_results.clear();
-
-    /* Next turn */
-    // XXX: Should it be done by the interface instead?
-    endTurn();
-
-    return res;
 }
 
 
@@ -134,8 +101,8 @@ int Training::start()
     if (getNPlayers() != 0)
         return 1;
 
-    /* Training mode implicitly uses 1 human player */
-    addHumanPlayer();
+    // Training mode implicitly uses 1 human player
+    Game::addHumanPlayer();
     m_currPlayer = 0;
     return 0;
 }
@@ -145,6 +112,53 @@ int Training::endTurn()
 {
     // Nothing to do?
     return 0;
+}
+
+
+void Training::search()
+{
+    // Search for the current player
+    Rack r;
+    m_players[m_currPlayer]->getCurrentRack().getRack(r);
+    m_results.search(*m_dic, m_board, r, getNRounds());
+}
+
+
+int Training::playResult(int n)
+{
+    Player *player = m_players[m_currPlayer];
+    if (n >= m_results.size())
+        return 2;
+    const Round &round = m_results.get(n);
+
+    /* Update the rack and the score of the current player */
+    player->addPoints(round.getPoints());
+    player->endTurn(round, getNRounds());
+
+    int res = helperPlayRound(round);
+
+    if (res == 0)
+        m_results.clear();
+
+    /* Next turn */
+    // XXX: Should it be done by the interface instead?
+    endTurn();
+
+    return res;
+}
+
+
+void Training::addHumanPlayer()
+{
+    // We are not supposed to be here...
+    PDEBUG(true, "Trying to add a human player in Training mode!");
+}
+
+
+void Training::addAIPlayer()
+{
+    // We are not supposed to be here...
+    PDEBUG(true, "Trying to add a AI player in Training mode!");
 }
 
 
