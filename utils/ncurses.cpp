@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: ncurses.cpp,v 1.8 2005/03/03 22:14:41 ipkiss Exp $
+ * $Id: ncurses.cpp,v 1.9 2005/03/27 22:21:29 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -209,8 +209,11 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
     }
 
     // Display a message when the search is complete
-    if (m_game->getMode() == Game::kTRAINING) // && m_game->getNResults())
+    if (m_game->getMode() == Game::kTRAINING &&
+        static_cast<Training*>(m_game)->getNResults())
+    {
         mvwprintw(win, y + 2*yOff - 1, x + 2, _("Search complete"));
+    }
     else
         mvwhline(win, y + 2*yOff - 1, x + 2, ' ', strlen(_("Search complete")));
 }
