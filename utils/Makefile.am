@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-# $Id: Makefile.am,v 1.3 2005/02/06 22:18:11 ipkiss Exp $
+# $Id: Makefile.am,v 1.4 2005/02/06 22:38:10 ipkiss Exp $
 
 top_srcdir = @top_srcdir@
 
@@ -32,7 +32,7 @@ endif
 if BUILD_NCURSES
 noinst_PROGRAMS += eliotcurses
 eliotcurses_SOURCES = ncurses.cpp
-eliotcurses_LDADD = ../game/libgame.a ../dic/libdic.a ../intl/libintl.a
+eliotcurses_LDADD = ../game/libgame.a ../dic/libdic.a @LIBINTL@
 # FIXME
 AM_LDFLAGS = -lncurses
 endif
