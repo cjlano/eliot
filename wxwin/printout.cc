@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: printout.cc,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: printout.cc,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
 
 #include <stdio.h>
 
@@ -186,7 +186,7 @@ GamePrintout::DrawTextLine(wxDC *dc, int numline, long basey, long heightT, floa
   }
 // total points
   if (numline == Game_getnrounds(game) + 1) {
-    str << Game_getpoints(game);
+    str << Game_getplayerpoints(game, 0);
     DRW(4);
   }
 #undef DIM

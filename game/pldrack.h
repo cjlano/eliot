@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: pldrack.h,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: pldrack.h,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
 
 #ifndef _PLAYEDRACK_H_
 #define _PLAYEDRACK_H_
@@ -74,8 +74,9 @@ void       Playedrack_addnew      (Playedrack,tile_t);
 void       Playedrack_addold      (Playedrack,tile_t);
 void       Playedrack_getnewtiles (Playedrack,tile_t*);
 void       Playedrack_getoldtiles (Playedrack,tile_t*);
+void       Playedrack_getalltiles (Playedrack,tile_t*);
 
-int        Playedrack_check_rack  (Playedrack,int);
+int        Playedrack_checkrack   (Playedrack,int);
 
   /*************************
    * 

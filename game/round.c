@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: round.c,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: round.c,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
 
 #include <stdlib.h>
 #include <string.h>
@@ -39,7 +39,6 @@ struct tround {
   Direction dir;
   int points;
   int bonus;
-  int heuristic;
 };
 
 
@@ -65,7 +64,6 @@ Round_init(Round r)
   r->dir       = HORIZONTAL;
   r->points    = 0;
   r->bonus     = 0;
-  r->heuristic = 0;
 }
 
 
@@ -89,6 +87,7 @@ void
 Round_setword(Round r, tile_t* c)
 {
      strncpy((char*)r->word,(char*)c,ROUND_INTERNAL_MAX);
+     r->wordlen = strlen(r->word);
 }
 
 
@@ -122,6 +121,26 @@ void Round_setdir(Round r, Direction d)
 void Round_setbonus(Round r, int b)
 {
      r->bonus = b;
+}
+
+
+void Round_setfromrack(Round r, int c)
+{
+    r->tileorigin[c] &= ~FROMBOARD;
+    r->tileorigin[c] |= FROMRACK;
+}
+
+
+void Round_setfromboard(Round r, int c)
+{
+    r->tileorigin[c] &= ~FROMRACK;
+    r->tileorigin[c] |= FROMBOARD;
+}
+
+
+void Round_setjoker(Round r, int c)
+{
+    r->tileorigin[c] |= JOKER;
 }
 
 

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: pldrack.c,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: pldrack.c,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
 
 #include <stdlib.h>
 #include <string.h>
@@ -48,7 +48,7 @@ Playedrack_create(void)
 }
 
 
-void 
+void
 Playedrack_init(Playedrack p)
 {
   p->oldtiles[0] = '\0';
@@ -58,7 +58,7 @@ Playedrack_init(Playedrack p)
 }
 
 
-void 
+void
 Playedrack_destroy(Playedrack p)
 {
   if (p)
@@ -93,14 +93,14 @@ Playedrack_nold(Playedrack p)
 }
 
 
-int  
+int
 Playedrack_ntiles(Playedrack p)
 {
   return Playedrack_nold(p) + Playedrack_nnew(p);
 }
 
 
-int  
+int
 Playedrack_empty(Playedrack p)
 {
   return Playedrack_ntiles(p) == 0;
@@ -123,7 +123,7 @@ Playedrack_addnew(Playedrack p, tile_t l)
 }
 
 
-void 
+void
 Playedrack_getoldtiles(Playedrack p,tile_t* b)
 {
   int i;
@@ -133,13 +133,25 @@ Playedrack_getoldtiles(Playedrack p,tile_t* b)
 }
 
 
-void 
+void
 Playedrack_getnewtiles(Playedrack p,tile_t* b)
 {
   int i;
   for(i=0; i < p->nnew; i++)
     b[i] = p->newtiles[i];
   b[i] = 0;
+}
+
+
+void
+Playedrack_getalltiles(Playedrack p, tile_t* b)
+{
+    int i, j;
+    for (i = 0; i < p->nold; i++)
+        b[i] = p->oldtiles[i];
+    for (j = 0; j < p->nnew; j++)
+        b[i+j] = p->newtiles[j];
+    b[i+j] = 0;
 }
 
 
@@ -170,7 +182,7 @@ Playedrack_getnew(Playedrack p, Rack r)
 }
 
 
-void 
+void
 Playedrack_getrack(Playedrack p, Rack r)
 {
   int i;
@@ -191,7 +203,7 @@ Playedrack_setold(Playedrack p, Rack r)
   for(i=0; i<TILES_NUMBER; i++)
     {
       for(n=0; n < Rack_in(r,i); n++)
-	Playedrack_addold(p,i);
+        Playedrack_addold(p,i);
     }
 }
 
@@ -205,13 +217,13 @@ Playedrack_setnew(Playedrack p, Rack r)
   for(i=0; i<TILES_NUMBER; i++)
     {
       for(n=0; n < Rack_in(r,i); n++)
-	Playedrack_addnew(p,i);
+        Playedrack_addnew(p,i);
     }
 }
 
 
 int
-Playedrack_check_rack(Playedrack p, int min)
+Playedrack_checkrack(Playedrack p, int min)
 {
   tile_t i;
   int v = 0;
@@ -227,7 +239,6 @@ Playedrack_check_rack(Playedrack p, int min)
       v += Tiles_vowels[p->newtiles[i]];
       c += Tiles_consonants[p->newtiles[i]];
     }
-  return (v >= min) && (c >= min);
+  return (v < min) || (c < min);
 }
-
 

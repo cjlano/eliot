@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: dic.c,v 1.1 2004/04/08 09:43:06 afrab Exp $
+ * $Id: dic.c,v 1.2 2004/08/07 18:10:42 ipkiss Exp $
  */
 
 #include <stdio.h>
@@ -29,7 +29,7 @@
 
 
 
-static int 
+static int
 check_header(FILE* file, Dict_header *header)
 {
   if (fread(header,sizeof(Dict_header),1,file) != 1)
@@ -38,14 +38,12 @@ check_header(FILE* file, Dict_header *header)
 }
 
 
-
-
 int
 Dic_load(Dictionary *dic, const char* path)
 {
   FILE* file;
   Dict_header header;
-  
+
   *dic = NULL;
   if ((file = fopen(path,"rb")) == NULL)
     return 1;
@@ -78,9 +76,7 @@ Dic_load(Dictionary *dic, const char* path)
 }
 
 
-
-
-int 
+int
 Dic_destroy(Dictionary dic)
 {
   if (dic != NULL)
@@ -101,7 +97,6 @@ Dic_destroy(Dictionary dic)
 }
 
 
-
 uint_t
 Dic_next(Dictionary d, uint_t e)
 {
@@ -111,13 +106,11 @@ Dic_next(Dictionary d, uint_t e)
 }
 
 
-
 uint_t
 Dic_succ(Dictionary d, uint_t e)
 {
   return (d->dawg[e]).ptr;
 }
-
 
 
 uint_t
@@ -127,15 +120,11 @@ Dic_root(Dictionary d)
 }
 
 
-
-
 char
 Dic_chr(Dictionary d, uint_t e)
 {
   return (d->dawg[e]).chr;
 }
-
-
 
 
 int
@@ -145,12 +134,38 @@ Dic_last(Dictionary d, uint_t e)
 }
 
 
-
-
 int
 Dic_word(Dictionary d, uint_t e)
 {
   return (d->dawg[e]).term;
 }
 
+
+unsigned int
+Dic_lookup(Dictionary d, unsigned int t, char* s)
+{
+    unsigned int p;
+begin:
+    if (! *s)
+        return t;
+    if (! Dic_succ(d, t))
+        return 0;
+    p = Dic_succ(d, t);
+    do
+    {
+        if (Dic_chr(d, p) == *s)
+        {
+            t = p;
+            s++;
+            goto begin;
+        }
+        else if (Dic_last(d, p))
+        {
+            return 0;
+        }
+        p = Dic_next(d, p);
+    } while (1);
+
+    return 0;
+}
 

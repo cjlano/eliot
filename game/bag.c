@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: bag.c,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: bag.c,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
 
 #include <stdlib.h>
 #include <string.h>
@@ -41,12 +41,12 @@ Bag_create(void)
 }
 
 
-void 
+void
 Bag_init(Bag b)
 {
   int i;
   b->ntiles = 0;
-  for (i = 0; i < TILES_NUMBER; i++) 
+  for (i = 0; i < TILES_NUMBER; i++)
     {
       b->tiles[i] = Tiles_numbers[i];
       b->ntiles += Tiles_numbers[i];
@@ -54,7 +54,7 @@ Bag_init(Bag b)
 }
 
 
-void 
+void
 Bag_destroy(Bag b)
 {
   if (b)
@@ -70,7 +70,7 @@ Bag_copy(Bag dest, Bag src)
 }
 
 
-int 
+int
 Bag_in(Bag b, tile_t c)
 {
   return b->tiles[c];
@@ -117,12 +117,12 @@ Bag_nconsonants(Bag b)
 int
 Bag_taketile(Bag b, tile_t t)
 {
-  if (Bag_in(b,(tile_t)t)) 
+  if (Bag_in(b,(tile_t)t))
     {
       b->tiles[t] --;
       b->ntiles --;
-    } 
-  else 
+    }
+  else
     {
       return 1;
     }
@@ -133,12 +133,12 @@ Bag_taketile(Bag b, tile_t t)
 int
 Bag_replacetile(Bag b, tile_t t)
 {
-  if (b->tiles[t] < Tiles_numbers[t]) 
+  if (b->tiles[t] < Tiles_numbers[t])
     {
       b->tiles[t]++;
       b->ntiles++;
-    } 
-  else 
+    }
+  else
     {
       return 1;
     }
@@ -151,12 +151,12 @@ Bag_select_random(Bag b)
 {
   int i,n;
   double max = (double)b->ntiles;
-  
+
   n = (int)(max * rand() / (RAND_MAX + 1.0));
-  for(i=1; i < TILES_NUMBER; i++) 
+  for(i=1; i < TILES_NUMBER; i++)
     {
       if (n < b->tiles[i])
-	return i;
+        return i;
       n -= b->tiles[i];
     }
   PDEBUG(1,"BAG:we should not come here\n")

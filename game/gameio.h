@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: gameio.h,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: gameio.h,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
 
 #ifndef _GAMEIO_H
 #define _GAMEIO_H
@@ -28,10 +28,15 @@ extern "C" {
 void Game_print_board(FILE*,Game);
 void Game_print_board_joker(FILE*,Game);
 void Game_print_board_point(FILE*,Game);
+void Game_print_board_multipliers(FILE*,Game);
+void Game_print_board_multipliers2(FILE*,Game);
 void Game_print_nonplayed(FILE*,Game);
 void Game_print_playedrack(FILE*,Game,int);
+void Game_print_allracks(FILE*,Game);
 void Game_print_searchresults(FILE*,Game,int);
-  
+void Game_print_points(FILE*,Game);
+void Game_print_allpoints(FILE*,Game);
+
 int  Game_read_game(FILE*,Game);
 void Game_print_game(FILE*,Game);
 

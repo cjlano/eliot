@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: round.h,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: round.h,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
 
 #ifndef _ROUND_H_
 #define _ROUND_H_
@@ -66,6 +66,9 @@ void      Round_setcolumn          (Round,int);
 void      Round_setpoints          (Round,int);
 void      Round_setdir             (Round,Direction);
 void      Round_setbonus           (Round,int);
+void      Round_setfromrack        (Round,int);
+void      Round_setfromboard       (Round,int);
+void      Round_setjoker           (Round,int);
 
   /*************************
    * 

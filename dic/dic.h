@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: dic.h,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: dic.h,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
 
 /*!
  *  \file dic.h
@@ -53,7 +53,7 @@ typedef unsigned int uint_t;
 int    Dic_load   (Dictionary* dic,const char* path);
 
     /**
-     * Détruit un doctionnaire
+     * Détruit un dictionnaire
      *
      */
 int    Dic_destroy(Dictionary);
@@ -74,6 +74,8 @@ uint_t Dic_succ(Dictionary,uint_t);
   /*************************
    * 
    *************************/
+
+unsigned int Dic_lookup(Dictionary, unsigned int, char*);
 
 #if defined(__cplusplus)
   }

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: tiles.h,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: tiles.h,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
 
 #ifndef _TILES_H_
 #define _TILES_H_
@@ -27,8 +27,8 @@ extern "C" {
 
   /*************************
    * A ttile is the internal representation
-   * used within the game library to 
-   * handles letters
+   * used within the game library to
+   * handle letters
    *************************/
 
 typedef unsigned char tile_t;

@@ -16,19 +16,19 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: board.h,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: board.h,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
 
 #ifndef _BOARD_H_
 #define _BOARD_H_
 
 #if defined(__cplusplus)
 extern "C" {
-#endif 
+#endif
 
   /*************************
-   * 
-   * 
-   * 
+   *
+   *
+   *
    *************************/
 
 typedef struct tboard *Board;
@@ -42,8 +42,8 @@ void   Board_init            (Board);
 void   Board_destroy         (Board);
 
   /*************************
-   * 
-   * 
+   *
+   *
    *************************/
 
 tile_t Board_tile            (Board,int,int);
@@ -52,10 +52,11 @@ int    Board_joker           (Board,int,int);
 int    Board_vacant          (Board,int,int);
 void   Board_addround        (Dictionary,Board,Round);
 void   Board_removeround     (Dictionary,Board,Round);
+int    Board_checkround      (Dictionary,Board,Round,int);
 
   /*************************
-   * 
-   * 
+   *
+   *
    *************************/
 
 void   Board_testround       (Board,Round);
@@ -63,34 +64,34 @@ void   Board_removetestround (Board);
 char   Board_gettestchar     (Board,int,int);
 
   /*************************
-   * 
-   * board_search.c 
+   *
+   * board_search.c
    *************************/
 
 void   Board_search          (Dictionary,Board,Rack,Results);
 void   Board_search_first    (Dictionary,Board,Rack,Results);
 
   /*************************
-   * 
-   * board_cross.c 
+   *
+   * board_cross.c
    *************************/
 
 void   Board_buildcross      (Dictionary, Board);
 
   /*************************
-   * 
-   * 
+   *
+   *
    *************************/
 
 int    Board_getwordmultiplier  (Board,int,int);
 int    Board_getlettermultiplier(Board,int,int);
 
   /*************************
-   * 
-   * 
+   *
+   *
    *************************/
 
 #if defined(__cplusplus)
-	   }
-#endif 
+           }
+#endif
 #endif
