@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: dic_search.c,v 1.2 2004/06/19 18:43:35 afrab Exp $
+ * $Id: dic_search.c,v 1.3 2004/06/20 20:13:59 afrab Exp $
  */
 
 #include <ctype.h>
@@ -390,7 +390,7 @@ struct params_regexp_t {
   int wordlen;
   int wordlistlen;
   int wordlistlenmax;
-  struct _automaton *automaton;
+  automaton er_automaton;
 };
 
 void
@@ -438,7 +438,7 @@ Dic_search_RegE(Dictionary dic, char* mask, char wordlist[RES_REGE_MAX][DIC_WORD
 {
   int  i;
   struct params_regexp_t params;
-  struct _automaton a;
+  automaton a = NULL;
 
   for(i=0; i < RES_REGE_MAX; i++)
     wordlist[i][0] = 0;
@@ -446,14 +446,14 @@ Dic_search_RegE(Dictionary dic, char* mask, char wordlist[RES_REGE_MAX][DIC_WORD
   if (dic == NULL || mask == NULL)
     return;
 
-  if (automaton_build("",&a))
-    return;
+/*   if (automaton_build(&a,"")) */
+/*     return; */
 
   params.dic            = dic;
   params.wordlen        = 0;
   params.wordlistlen    = 0;
   params.wordlistlenmax = RES_REGE_MAX;
-  params.automaton      = &a;
+  params.er_automaton   = a;
   Dic_search_regexp_rec(&params, wordlist, dic->dawg + dic->root, 0);
 }
 

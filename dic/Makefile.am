@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software               
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-# $Id: Makefile.am,v 1.2 2004/06/19 18:43:35 afrab Exp $ 
+# $Id: Makefile.am,v 1.3 2004/06/20 20:13:59 afrab Exp $ 
 
 bin_PROGRAMS = compdic listdic 
 
@@ -26,8 +26,9 @@ libdic_a_CFLAGS=-Wall -pipe -g
 libdic_a_SOURCES = 		  \
 	dic_internals.h		  \
 	dic_search.c dic_search.h \
-	dic.c dic.h		\
-	automaton.c automaton.h
+	dic.c dic.h		  \
+	automaton.c automaton.h   \
+	regexp.c regexp.h
 
 compdic_SOURCES=		\
 	dic_internals.h		\
