@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: duplicate.cpp,v 1.6 2005/03/27 21:45:04 ipkiss Exp $
+ * $Id: duplicate.cpp,v 1.7 2005/03/29 06:56:06 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,6 +51,15 @@ int Duplicate::setRackRandom(int p, bool iCheck, set_rack_mode mode)
     return res;
 }
 
+
+string Duplicate::getCurrentRack(int p)
+{
+  PlayedRack r;
+  string s = "Duplicate::getCurrentRack";
+  r = m_players[m_currPlayer]->getCurrentRack();
+  r.toString(s);
+  return s;
+}
 
 int Duplicate::play(const string &iCoord, const string &iWord)
 {

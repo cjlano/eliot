@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.cpp,v 1.9 2005/03/28 22:07:22 ipkiss Exp $
+ * $Id: game.cpp,v 1.10 2005/03/29 06:56:06 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -723,7 +723,6 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
 
     return 0;
 }
-
 
 /*********************************************************
  *********************************************************/

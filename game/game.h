@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.h,v 1.11 2005/03/28 22:07:23 ipkiss Exp $
+ * $Id: game.h,v 1.12 2005/03/29 06:56:06 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -191,6 +191,7 @@ public:
     virtual int setRackRandom(int, bool, set_rack_mode) = 0;
     virtual int play(const string &iCoord, const string &iWord) = 0;
     virtual int endTurn() = 0;
+    virtual string getCurrentRack(int) = 0;
 
 protected:
     /// All the players, indexed by their ID

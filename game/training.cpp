@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: training.cpp,v 1.4 2005/03/27 21:45:04 ipkiss Exp $
+ * $Id: training.cpp,v 1.5 2005/03/29 06:56:06 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -78,6 +78,14 @@ int Training::setRackRandom(int p, bool iCheck, set_rack_mode mode)
     return res;
 }
 
+string Training::getCurrentRack(int p)
+{
+  PlayedRack r;
+  string s = "Training::getCurrentRack";
+  r = m_players[m_currPlayer]->getCurrentRack();
+  r.toString(s);
+  return s;
+}
 
 int Training::setRackManual(bool iCheck, const string &iLetters)
 {

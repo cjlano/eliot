@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.cpp,v 1.8 2005/03/28 15:23:55 ipkiss Exp $
+ * $Id: freegame.cpp,v 1.9 2005/03/29 06:56:06 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,6 +53,14 @@ int FreeGame::setRackRandom(int p, bool iCheck, set_rack_mode mode)
     return res;
 }
 
+string FreeGame::getCurrentRack(int p)
+{
+  PlayedRack r;
+  string s = "FreeGame::getCurrentRack";
+  r = m_players[p]->getCurrentRack();
+  r.toString(s);
+  return s;
+}
 
 int FreeGame::play(const string &iCoord, const string &iWord)
 {

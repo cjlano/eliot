@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.h,v 1.5 2005/03/27 21:45:04 ipkiss Exp $
+ * $Id: freegame.h,v 1.6 2005/03/29 06:56:06 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,6 +53,7 @@ public:
     virtual int setRackRandom(int, bool, set_rack_mode);
     virtual int play(const string &iCoord, const string &iWord);
     virtual int endTurn();
+    virtual string getCurrentRack(int);
     int pass(const string &iToChange, int n);
 
 private:
