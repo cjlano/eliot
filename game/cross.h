@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: cross.h,v 1.2 2005/04/02 17:59:07 ipkiss Exp $
+ * $Id: cross.h,v 1.3 2005/04/02 21:03:45 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,9 +50,10 @@ public:
     void insert(const Tile& iTile)  { m_tilesSet.insert(iTile); }
     void clear();
 
+private:
     // Set of the tiles accepted for the cross check
     set<Tile> m_tilesSet;
-private:
+
     // When this value is true, any letter matches the cross check
     bool m_any;
 };
