@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.cpp,v 1.10 2005/03/29 06:56:06 afrab Exp $
+ * $Id: game.cpp,v 1.11 2005/04/02 20:46:42 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -355,6 +355,7 @@ int Game::helperPlayRound(const Round &iRound)
 
     // Before updating the bag and the board, if we are playing a "joker game",
     // we replace in the round the joker by the letter it represents
+    // This is currently done by a succession of ugly hacks :-/
     if (m_variant == kJOKER)
     {
         for (int i = 0; i < iRound.getWordLen(); i++)
@@ -366,6 +367,30 @@ int Game::helperPlayRound(const Round &iRound)
                 Tile t(toupper(iRound.getTile(i).toChar()));
                 Bag bag;
                 realBag(bag);
+                // FIXME: realBag() does not give us a real bag in this
+                // particular case! This is because Player::endTurn() is called
+                // before Game::helperPlayRound(), which means that the rack
+                // of the player is updated, while the word is not actually
+                // played on the board yet. Since realBag() relies on
+                // Player::getCurrentRack(), it doesn't remove the letters of
+                // the current player, which are in fact available through
+                // Player::getLastRack().
+                // That's why we have to replace the letters of the current
+                // rack and remove the ones from the previous rack...
+                // There is a big design problem here, but i am unsure what is
+                // the best way to fix it.
+                vector<Tile> tiles;
+                m_players[m_currPlayer]->getCurrentRack().getAllTiles(tiles);
+                for (unsigned int j = 0; j < tiles.size(); j++)
+                {
+                    bag.replaceTile(tiles[j]);
+                }
+                m_players[m_currPlayer]->getLastRack().getAllTiles(tiles);
+                for (unsigned int j = 0; j < tiles.size(); j++)
+                {
+                    bag.takeTile(tiles[j]);
+                }
+
                 if (bag.in(t))
                 {
                     // FIXME: A const_cast sucks too...
@@ -489,8 +514,7 @@ void Game::realBag(Bag &ioBag) const
         /* In freegame mode, replace the letters from all the racks */
         for (int i = 0; i < getNPlayers(); i++)
         {
-            PlayedRack pld = m_players[i]->getCurrentRack();
-            pld.getAllTiles(tiles);
+            m_players[i]->getCurrentRack().getAllTiles(tiles);
             for (unsigned int j = 0; j < tiles.size(); j++)
             {
                 ioBag.takeTile(tiles[j]);
@@ -501,9 +525,8 @@ void Game::realBag(Bag &ioBag) const
     {
         /* In training or duplicate mode, replace the rack of the current
          * player only */
-        PlayedRack pld = m_players[m_currPlayer]->getCurrentRack();
-        pld.getAllTiles(tiles);
-        for (int j = 0; j < pld.nTiles(); j++)
+        m_players[m_currPlayer]->getCurrentRack().getAllTiles(tiles);
+        for (unsigned int j = 0; j < tiles.size(); j++)
         {
             ioBag.takeTile(tiles[j]);
         }
