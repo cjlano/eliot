@@ -1,9 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Copyright (C) 2005 Eliot
+ * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: rack.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: cross.h,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,38 +19,39 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
 
-#ifndef _RACK_H_
-#define _RACK_H_
+#ifndef _CROSS_H_
+#define _CROSS_H_
 
 #include "tile.h"
 #include <set>
-#include <list>
 
 using namespace std;
 
 
 /*************************
- * A rack is a set of tiles, no more.
- * Tiles have to be in the bag for the rack to be valid.
+ *
  *************************/
 
-class Rack
+class Cross
 {
 public:
-    Rack() {}
-    virtual ~Rack() {}
+    Cross();
+    virtual ~Cross() {}
 
-    int nTiles() const          { return m_tiles.size(); }
-    bool isEmpty() const        { return nTiles() == 0; }
+    void setAny()                   { m_any = true; }
+    bool isAny() const              { return m_any; }
+    bool check(const Tile& iTile) const;
 
-    int in(const Tile &t) const { return m_tiles.count(t); }
-    void add(const Tile &t)     { m_tiles.insert(t); }
-    void remove(const Tile &t);
-    void clear()                { m_tiles.clear(); }
-    void getTiles(list<Tile> &oTiles) const;
+    // Standard set methods (almost)
+    unsigned int size() const       { return m_tilesSet.size(); }
+    void insert(const Tile& iTile)  { m_tilesSet.insert(iTile); }
+    void clear();
 
+    // Set of the tiles accepted for the cross check
+    set<Tile> m_tilesSet;
 private:
-    multiset<Tile> m_tiles;
+    // When this value is true, any letter matches the cross check
+    bool m_any;
 };
 
 #endif

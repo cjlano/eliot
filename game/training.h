@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: rack.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: training.h,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,38 +20,40 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
 
-#ifndef _RACK_H_
-#define _RACK_H_
+#ifndef _TRAINING_H_
+#define _TRAINING_H_
 
-#include "tile.h"
-#include <set>
-#include <list>
+#include "game.h"
 
-using namespace std;
+using std::string;
 
 
-/*************************
- * A rack is a set of tiles, no more.
- * Tiles have to be in the bag for the rack to be valid.
- *************************/
-
-class Rack
+class Training: public Game
 {
 public:
-    Rack() {}
-    virtual ~Rack() {}
+    /*************************
+     * Functions to create and destroy a game
+     * the dictionary does not belong to the
+     * game (ie: it won't be destroyed by ~Game)
+     *
+     * The dictionary can be changed afterwards by setDic
+     *************************/
+    Training(const Dictionary &iDic);
+    virtual ~Training();
 
-    int nTiles() const          { return m_tiles.size(); }
-    bool isEmpty() const        { return nTiles() == 0; }
+    virtual GameMode getMode() const { return kTRAINING; }
 
-    int in(const Tile &t) const { return m_tiles.count(t); }
-    void add(const Tile &t)     { m_tiles.insert(t); }
-    void remove(const Tile &t);
-    void clear()                { m_tiles.clear(); }
-    void getTiles(list<Tile> &oTiles) const;
+    /*************************
+     * Game handling
+     *************************/
+    virtual int start();
+    virtual int setRackRandom(int, bool, set_rack_mode);
+    virtual int play(const string &iCoord, const string &iWord);
+    virtual int endTurn();
+    int search();
+    int playResult(int);
+    int setRackManual(bool iCheck, const string &iLetters);
 
-private:
-    multiset<Tile> m_tiles;
 };
 
-#endif
+#endif /* _TRAINING_H_ */

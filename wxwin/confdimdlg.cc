@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: confdimdlg.cc,v 1.2 2005/01/01 15:42:55 ipkiss Exp $ */
+/* $Id: confdimdlg.cc,v 1.3 2005/02/05 11:14:56 ipkiss Exp $ */
 
 #include "wx/printdlg.h"
 
@@ -387,7 +387,7 @@ ConfDimDlg::writeconf()
   for(i=0; i<5; i++) {
     wxString str;
     str = Tdim[i]->GetValue();
-    config.setDxText(i,atoi(str.mb_str()));
+    config.setDxText(i, atoi(str.mb_str()));
     switch (Tjust[i]->GetSelection()) {
     case -1: break;
     case 0: config.setJustifT(i,LEFT); break;

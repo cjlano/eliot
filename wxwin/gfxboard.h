@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: gfxboard.h,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: gfxboard.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $ */
 
 #ifndef _GFXBOARD_H
 #define _GFXBOARD_H
@@ -32,12 +32,12 @@ typedef enum {
   BOARD_FORCE_REFRESH
 } board_refresh_t;
 
-#define BOARD_DIM (BOARD_MAX - BOARD_MIN + 1)
+class Game;
 
 class GfxBoard : public wxWindow
 {
 private:
-     Game game;
+     Game &m_game;
      int top,bottom,left,right;
      char paintedboard_char[BOARD_DIM][BOARD_DIM];
      char paintedboard_attr[BOARD_DIM][BOARD_DIM];
@@ -52,7 +52,7 @@ private:
 
      ConfigDB config;
 public:
-     GfxBoard(wxFrame*,Game);
+     GfxBoard(wxFrame*, Game&);
      ~GfxBoard(void);
 
      void Refresh(board_refresh_t force = BOARD_REFRESH);

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: auxframes.h,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: auxframes.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $ */
 
 // -*- C++ -*-
 #ifndef _AUXFRAMES_H
@@ -35,18 +35,18 @@
 #define MAX_FRAME_ID 7
 
 typedef enum {
-  REFRESH,
-  FORCE_REFRESH
+    REFRESH,
+    FORCE_REFRESH
 } refresh_t;
 
 typedef enum {
-  ID_Frame_Verif   = MIN_FRAME_ID + 0,
-  ID_Frame_Search  = MIN_FRAME_ID + 1,
-  ID_Frame_Plus1   = MIN_FRAME_ID + 2, 
-  ID_Frame_Racc    = MIN_FRAME_ID + 3,
-  ID_Frame_Benj    = MIN_FRAME_ID + 4,
-  ID_Frame_Bag     = MIN_FRAME_ID + 5,
-  ID_Frame_Board   = MIN_FRAME_ID + 6
+    ID_Frame_Verif   = MIN_FRAME_ID + 0,
+    ID_Frame_Search  = MIN_FRAME_ID + 1,
+    ID_Frame_Plus1   = MIN_FRAME_ID + 2, 
+    ID_Frame_Racc    = MIN_FRAME_ID + 3,
+    ID_Frame_Benj    = MIN_FRAME_ID + 4,
+    ID_Frame_Bag     = MIN_FRAME_ID + 5,
+    ID_Frame_Board   = MIN_FRAME_ID + 6
 } frames_id_t;
 
 /** ******************************
@@ -56,18 +56,18 @@ typedef enum {
 class AuxFrame: public wxFrame
 {
 protected:
-  int show;
-  frames_id_t frameid;
-  wxString name,classname;
-  ConfigDB   config;
+    int show;
+    frames_id_t frameid;
+    wxString name, classname;
+    ConfigDB   config;
 
 public:
-  AuxFrame(wxFrame*,int,wxString,wxString);
-  ~AuxFrame();
+    AuxFrame(wxFrame*, int, wxString, wxString);
+    ~AuxFrame();
 
-  void SwitchDisplay();
-  void Reload();
-  virtual void Refresh(refresh_t force = REFRESH) {};
+    void SwitchDisplay();
+    void Reload();
+    virtual void Refresh(refresh_t force = REFRESH) {};
 };
 
 /** ******************************
@@ -77,10 +77,10 @@ public:
 class BoardFrame: public AuxFrame
 {
 protected:
-  GfxBoard* board;
+    GfxBoard* board;
 public:
-  BoardFrame(wxFrame*,Game);
-  void Refresh(refresh_t force = REFRESH);
+    BoardFrame(wxFrame*, Game&);
+    void Refresh(refresh_t force = REFRESH);
 };
 
 /** ******************************
@@ -90,11 +90,11 @@ public:
 class BagFrame: public AuxFrame
 {
 private:
-  Game game;
-  wxListCtrl *tiles;
+    Game& m_game;
+    wxListCtrl *tiles;
 public:
-  BagFrame(wxFrame*,Game);
-  void Refresh(refresh_t force = REFRESH);
+    BagFrame(wxFrame*, Game&);
+    void Refresh(refresh_t force = REFRESH);
 };
 
 /** ******************************
@@ -104,10 +104,10 @@ public:
 class SearchFrame: public AuxFrame
 {
 private:
-  SearchPanel *panel;
+    SearchPanel *panel;
 public:
-  SearchFrame(wxFrame*,Dictionary);
-  void Refresh(refresh_t force = REFRESH);
+    SearchFrame(wxFrame*, Dictionary);
+    void Refresh(refresh_t force = REFRESH);
 };
 
 /** ******************************
@@ -117,15 +117,15 @@ public:
 class VerifFrame: public AuxFrame
 {
 private:
-  Dictionary dic;
-  wxTextCtrl *word;
-  wxStaticText *result;
-  void verif();
+    Dictionary dic;
+    wxTextCtrl *word;
+    wxStaticText *result;
+    void verif();
 public:
-  VerifFrame(wxFrame*,Dictionary);
-  void OnText(wxCommandEvent& event);
-  void Refresh(refresh_t force = REFRESH);
-  DECLARE_EVENT_TABLE()
+    VerifFrame(wxFrame*, Dictionary);
+    void OnText(wxCommandEvent& event);
+    void Refresh(refresh_t force = REFRESH);
+    DECLARE_EVENT_TABLE()
 };
 
 
@@ -136,13 +136,13 @@ public:
 class AuxFrameList: public AuxFrame
 {
 protected:
-  wxListBox *listbox;
-  wxButton *button;
+    wxListBox *listbox;
+    wxButton *button;
 public:
-  AuxFrameList(wxFrame*,int,wxString,wxString);
-  void OnCopy(wxCommandEvent& event);
-  void Waiting();
-  DECLARE_EVENT_TABLE()
+    AuxFrameList(wxFrame*, int, wxString, wxString);
+    void OnCopy(wxCommandEvent& event);
+    void Waiting();
+    DECLARE_EVENT_TABLE()
 };
 
 /** ******************************
@@ -152,11 +152,11 @@ public:
 class Plus1Frame: public AuxFrameList
 {
 protected:
-  Game game;
-  char rack[RACK_SIZE_MAX];
+    Game& m_game;
+    string m_rack;
 public:
-  Plus1Frame(wxFrame*,Game);
-  void Refresh(refresh_t force = REFRESH);
+    Plus1Frame(wxFrame*, Game&);
+    void Refresh(refresh_t force = REFRESH);
 };
 
 /** ******************************
@@ -166,11 +166,11 @@ public:
 class BenjFrame: public AuxFrameList
 {
 protected:
-  Game game;
-  wxListCtrl* results;
+    Game& m_game;
+    wxListCtrl* results;
 public:
-  BenjFrame(wxFrame*,Game, wxListCtrl*);
-  void Refresh(refresh_t force = REFRESH);
+    BenjFrame(wxFrame*, Game&, wxListCtrl*);
+    void Refresh(refresh_t force = REFRESH);
 };
 
 /** ******************************
@@ -180,11 +180,11 @@ public:
 class RaccFrame: public AuxFrameList
 {
 protected:
-  Game game;
-  wxListCtrl* results;
+    Game& m_game;
+    wxListCtrl* results;
 public:
-  RaccFrame(wxFrame*,Game, wxListCtrl*);
-  void Refresh(refresh_t force = REFRESH);
+    RaccFrame(wxFrame*, Game&, wxListCtrl*);
+    void Refresh(refresh_t force = REFRESH);
 };
 
 #endif

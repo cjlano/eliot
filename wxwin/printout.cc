@@ -16,11 +16,11 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: printout.cc,v 1.3 2005/01/01 15:42:55 ipkiss Exp $ */
+/* $Id: printout.cc,v 1.4 2005/02/05 11:14:56 ipkiss Exp $ */
 
 #include <stdio.h>
 
-#include <wx/wx.h>
+#include "wx/wx.h"
 
 #include "ewx.h"
 
@@ -33,99 +33,99 @@
 bool
 GamePrintout::OnPrintPage(int page)
 {
-  wxDC *dc = GetDC();
-  if (dc)
-  {
-    if (page == 1)
-      DrawPage(dc);
+    wxDC *dc = GetDC();
+    if (dc)
+    {
+        if (page == 1)
+            DrawPage(dc);
 
-    return TRUE;
-  }
-  else
-    return FALSE;
+        return TRUE;
+    }
+    else
+        return FALSE;
 }
 
 bool
 GamePrintout::HasPage(int pageNum)
 {
-  return pageNum == 1;
+    return pageNum == 1;
 }
 
 bool
 GamePrintout::OnBeginDocument(int startPage, int endPage)
 {
-  if (!wxPrintout::OnBeginDocument(startPage, endPage))
-    return FALSE;
+    if (!wxPrintout::OnBeginDocument(startPage, endPage))
+        return FALSE;
 
-  return TRUE;
+    return TRUE;
 }
 
 void
 GamePrintout::GetPageInfo(int *minPage, int *maxPage, int *selPageFrom, int *selPageTo)
 {
-  *minPage = 1;
-  *maxPage = 1;
-  *selPageFrom = 1;
-  *selPageTo = 1;
+    *minPage = 1;
+    *maxPage = 1;
+    *selPageFrom = 1;
+    *selPageTo = 1;
 }
 
 void
 GamePrintout::SetSpaces(wxString* str, int spaces)
 {
-  size_t i;
-  wxString strs = wxT("");
-  if (str->Len() == 0)
-    return ;
-  for(i=0; i < (str->Len()-1); i++) {
-    strs = strs + str->GetChar(i);
-    strs = strs + wxString(wxChar(' '), spaces);
-  }
-  strs = strs + str->GetChar(str->Len() - 1);
-  *str = strs;
+    size_t i;
+    wxString strs = wxT("");
+    if (str->Len() == 0)
+        return ;
+    for(i=0; i < (str->Len()-1); i++) {
+        strs = strs + str->GetChar(i);
+        strs = strs + wxString(wxChar(' '), spaces);
+    }
+    strs = strs + str->GetChar(str->Len() - 1);
+    *str = strs;
 }
 
 void
 GamePrintout::DrawStringJustif(wxDC *dc, wxString *str, long x, long y, long w,
-			       enum Justif justif, int spaces)
+                               enum Justif justif, int spaces)
 {
-  long  wtext,htext;
+    long  wtext,htext;
 
-  SetSpaces(str,spaces);
-  dc->GetTextExtent(*str,&wtext,&htext);
+    SetSpaces(str,spaces);
+    dc->GetTextExtent(*str,&wtext,&htext);
 
-  switch (justif)
+    switch (justif)
     {
-    case LEFT:
-      break;
-    case CENTER:
-      x = x + (w - wtext) / 2;
-      break;
-    case RIGHT:
-      x = x + w - wtext;
-      break;
+        case LEFT:
+            break;
+        case CENTER:
+            x = x + (w - wtext) / 2;
+            break;
+        case RIGHT:
+            x = x + w - wtext;
+            break;
     }
-  dc->DrawText(*str,x,y);
+    dc->DrawText(*str,x,y);
 }
 
 void
 GamePrintout::DrawHeadingLine(wxDC *dc, long heightH, float mmToLogical)
 {
-  long i,x,w,y;
-  wxString str;
+    long i,x,w,y;
+    wxString str;
 
-  x = config.getMarginX() + config.getDxBegin();
-  y = config.getMarginY() + config.getDyT1();
-  for(i=0; i<5; i++)
+    x = config.getMarginX() + config.getDxBegin();
+    y = config.getMarginY() + config.getDyT1();
+    for (i = 0; i < 5; i++)
     {
-      w = config.getDxText(i);
-      str = config.getNameH(i);
-      DrawStringJustif(dc,&str,
-		       (long) (mmToLogical*x),
-		       (long) (mmToLogical*y),
-		       (long) (mmToLogical*w),
-		       config.getJustifH(i),
-		       config.getSpacesH(i));
-      x += w + config.getDxEnd() + config.getDxBegin();
+        w = config.getDxText(i);
+        str = config.getNameH(i);
+        DrawStringJustif(dc,&str,
+                         (long) (mmToLogical*x),
+                         (long) (mmToLogical*y),
+                         (long) (mmToLogical*w),
+                         config.getJustifH(i),
+                         config.getSpacesH(i));
+        x += w + config.getDxEnd() + config.getDxBegin();
     }
 }
 
@@ -142,55 +142,55 @@ GamePrintout::DrawTextLine(wxDC *dc, int numline, long basey, long heightT, floa
                               (long) (mmToLogical*w),  \
                               config.getJustifT(i),    \
                               config.getSpacesT(i))
-//
-//
-  long x,y,w;
-  char buff[400];
-  wxString str;
 
-  x = config.getMarginX() + config.getDxBegin();
-  y = basey + config.getDyT1()
-    + numline * (config.getDyT1() + heightT + config.getDyT2());
-  w = config.getDxText(0);
-  str = wxT("");
-  // num
-  if (numline < Game_getnrounds(game)) {
-    str << (numline + 1);
-    DRW(0);
-  }
-// rack
-  DIM(1);
-  if (numline < Game_getnrounds(game)) {
-    Game_getplayedrack(game,numline,buff);
-    str = wxU(buff);
-    DRW(1);
-  }
-// word
-  DIM(2);
-  if ((numline > 0) && (numline <= Game_getnrounds(game))) {
-    Game_getplayedword(game,numline - 1,buff);
-    str = wxU(buff);
-    DRW(2);
-  }
-// pos
-  DIM(3);
-  if ((numline > 0) && (numline <= Game_getnrounds(game))) {
-    Game_getplayedcoord(game,numline - 1,buff);
-    str = wxU(buff);
-    DRW(3);
-  }
-// pts
-  DIM(4);
-  if ((numline > 0) && (numline <= Game_getnrounds(game))) {
-    sprintf(buff,"%d",Game_getplayedpoints(game,numline - 1));
-    str = wxU(buff);
-    DRW(4);
-  }
-// total points
-  if (numline == Game_getnrounds(game) + 1) {
-    str << Game_getplayerpoints(game, 0);
-    DRW(4);
-  }
+    long x,y,w;
+    wxString str;
+
+    x = config.getMarginX() + config.getDxBegin();
+    y = basey + config.getDyT1()
+        + numline * (config.getDyT1() + heightT + config.getDyT2());
+    w = config.getDxText(0);
+    str = wxT("");
+    // num
+    if (numline < m_game.getNRounds())
+    {
+        str << (numline + 1);
+        DRW(0);
+    }
+    // rack
+    DIM(1);
+    if (numline < m_game.getNRounds())
+    {
+        str = wxU(m_game.getPlayedRack(numline).c_str());
+        DRW(1);
+    }
+    // word
+    DIM(2);
+    if ((numline > 0) && (numline <= m_game.getNRounds()))
+    {
+        str = wxU(m_game.getPlayedWord(numline - 1).c_str());
+        DRW(2);
+    }
+    // pos
+    DIM(3);
+    if ((numline > 0) && (numline <= m_game.getNRounds()))
+    {
+        str = wxU(m_game.getPlayedCoords(numline - 1).c_str());
+        DRW(3);
+    }
+    // pts
+    DIM(4);
+    if ((numline > 0) && (numline <= m_game.getNRounds()))
+    {
+        str << m_game.getPlayedPoints(numline - 1);
+        DRW(4);
+    }
+    // total points
+    if (numline == m_game.getNRounds() + 1)
+    {
+        str << m_game.getPlayerPoints(0);
+        DRW(4);
+    }
 #undef DIM
 #undef DRW
 }
@@ -246,8 +246,9 @@ GamePrintout::DrawPage(wxDC *dc)
      basey = config.getMarginY() + config.getDyH1() + heightH + config.getDyH2();
      dc->SetFont(Tfont);
      heightT = (long) (dc->GetCharHeight() / mmToLogical);
-     for(i=0; i < (Game_getnrounds(game)+3);i++) {
-	  DrawTextLine(dc,i,basey,heightT,mmToLogical);
+     for(i=0; i < (m_game.getNRounds()+3);i++)
+     {
+         DrawTextLine(dc,i,basey,heightT,mmToLogical);
      }
      dc->SetFont(wxNullFont);
      DrawGameLines(dc,heightH,heightT,mmToLogical,overallScaleX,overallScaleY);
@@ -255,51 +256,53 @@ GamePrintout::DrawPage(wxDC *dc)
 
 void
 GamePrintout::DrawGameLines(wxDC *dc, long heightH, long heightT,
-			    float mmToLogical, float overallScaleX,
-			    float overallScaleY)
+                            float mmToLogical, float overallScaleX,
+                            float overallScaleY)
 {
-  int i, nTextLines;
-  long col,lin, StartX, StartY;
-  long HeadHeight, LineHeight;
-  long TextStart, TextHeight, TextBottom, TextRight;
+    int i, nTextLines;
+    long col,lin, StartX, StartY;
+    long HeadHeight, LineHeight;
+    long TextStart, TextHeight, TextBottom, TextRight;
 
-  float SCALE = config.getPrintLineScale();
-  dc->SetUserScale(SCALE,SCALE);
+    float SCALE = config.getPrintLineScale();
+    dc->SetUserScale(SCALE,SCALE);
 
-  nTextLines = Game_getnrounds(game) + 2;
-  StartX = config.getMarginX();
-  StartY = config.getMarginY();
+    nTextLines = m_game.getNRounds() + 2;
+    StartX = config.getMarginX();
+    StartY = config.getMarginY();
 
-  HeadHeight = config.getDyH1() + heightH + config.getDyH2();
-  LineHeight = config.getDyT1() + heightT + config.getDyT2();
-  TextStart  = StartY + HeadHeight;
-  TextHeight = nTextLines * LineHeight;
-  TextBottom = TextStart  + TextHeight;
+    HeadHeight = config.getDyH1() + heightH + config.getDyH2();
+    LineHeight = config.getDyT1() + heightT + config.getDyT2();
+    TextStart  = StartY + HeadHeight;
+    TextHeight = nTextLines * LineHeight;
+    TextBottom = TextStart  + TextHeight;
 
-  //
-  // columns
-  //
-  float scalefactorX = mmToLogical * overallScaleX / SCALE;
-  float scalefactorY = mmToLogical * overallScaleY / SCALE;
+    //
+    // columns
+    //
+    float scalefactorX = mmToLogical * overallScaleX / SCALE;
+    float scalefactorY = mmToLogical * overallScaleY / SCALE;
 
-  col = StartX;
-  for(i=0; i<=5; i++) {
-    dc->DrawLine((long) (col * scalefactorX),
-		 (long) (StartY * scalefactorY),
-		 (long) (col * scalefactorX),
-		 (long) (TextBottom * scalefactorY));
-    col += i == 5 ? 0 : config.getDxBegin() + config.getDxText(i) + config.getDxEnd();
-  }
-  TextRight = col;
-  //
-  // rows
-  //
-  lin = StartY;
-  for(i=0; i <= (nTextLines + 1); i++) {
-    dc->DrawLine((long) (StartX * scalefactorX),
-		 (long) (lin * scalefactorY),
-		 (long) (TextRight * scalefactorX),
-		 (long) (lin * scalefactorY));
-    lin = StartY + HeadHeight + i * LineHeight;
-  }
+    col = StartX;
+    for (i = 0; i <= 5; i++)
+    {
+        dc->DrawLine((long) (col * scalefactorX),
+                     (long) (StartY * scalefactorY),
+                     (long) (col * scalefactorX),
+                     (long) (TextBottom * scalefactorY));
+        col += i == 5 ? 0 : config.getDxBegin() + config.getDxText(i) + config.getDxEnd();
+    }
+    TextRight = col;
+    //
+    // rows
+    //
+    lin = StartY;
+    for (i = 0; i <= (nTextLines + 1); i++)
+    {
+        dc->DrawLine((long) (StartX * scalefactorX),
+                     (long) (lin * scalefactorY),
+                     (long) (TextRight * scalefactorX),
+                     (long) (lin * scalefactorY));
+        lin = StartY + HeadHeight + i * LineHeight;
+    }
 }

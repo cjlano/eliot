@@ -1,9 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Copyright (C) 2005 Eliot
+ * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: results.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: cross.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,40 +19,27 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
 
-#ifndef _RESULTS_H_
-#define _RESULTS_H_
+#include "cross.h"
 
-#include <vector>
 
-using namespace std;
-
-/*************************
- * Results is a container. The structure
- * stores the rounds that have been found
- * during a search on the board
- *************************/
-
-class Results
+Cross::Cross()
 {
-public:
-    Results() {}
-    virtual ~Results() {}
+    // the default behaviour is to match everything
+    m_any = true;
+}
 
-    /*************************
-     * 
-     * 
-     *************************/
-    int in() const  { return m_rounds.size(); }
-    const Round & get(int) const;
 
-    void add(const Round &iRound)   { m_rounds.push_back(iRound); }
-    void sort();
+void Cross::clear()
+{
+    m_tilesSet.clear();
+    m_any = false;
+}
 
-    void deleteLast();
-    void clear()    { m_rounds.clear(); }
 
-private:
-    vector<Round> m_rounds;
-};
-
-#endif
+bool Cross::check(const Tile& iTile) const
+{
+    if (m_any || (iTile.isJoker() && !m_tilesSet.empty()))
+        return true;
+    set<Tile>::const_iterator it = m_tilesSet.find(iTile);
+    return it != m_tilesSet.end();
+}

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: compdic.c,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: compdic.c,v 1.2 2005/02/05 11:14:56 ipkiss Exp $ */
 #include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -30,12 +30,12 @@
 #include "dic_internals.h"
 
 //#define DEBUG_LIST
-//#define DEBUG_OUTPUT 
+//#define DEBUG_OUTPUT
 //#define DEBUG_OUTPUT_L2
 #define CHECK_RECURSION
 
 char*
-load_uncompressed(const char* file_name, unsigned int *dic_size) 
+load_uncompressed(const char* file_name, unsigned int *dic_size)
 {
   unsigned r;
   char *uncompressed;
@@ -46,9 +46,9 @@ load_uncompressed(const char* file_name, unsigned int *dic_size)
 
   if ((uncompressed = (char*)malloc (sizeof(char)*(*dic_size))) == NULL)
     return NULL;
-  
+
   r = fread (uncompressed, 1, *dic_size, file_desc);
-  if (r < *dic_size) 
+  if (r < *dic_size)
     {
       /* \n is 2 chars under M$ */
       printf("\n");
@@ -64,7 +64,7 @@ load_uncompressed(const char* file_name, unsigned int *dic_size)
 }
 
 
-int 
+int
 file_length(const char* file_name)
 {
   struct stat stat_buf;
@@ -95,8 +95,8 @@ fix_header(FILE* outfile, Dict_header* header)
 {
   strcpy(header->ident,_COMPIL_KEYWORD_);
   header->root = header->edgesused;
-  rewind (outfile); 
-  fwrite (header, sizeof(Dict_header), 1, outfile); 
+  rewind (outfile);
+  fwrite (header, sizeof(Dict_header), 1, outfile);
 }
 
 
@@ -131,7 +131,7 @@ write_node(Dawg_edge *edges, int size, int num, FILE* outfile)
       printf("ptr=%2d t=%d l=%d f=%d chr=%2d (%c)\n",
 	     edges[i].ptr, edges[i].term, edges[i].last,
 	     edges[i].fill, edges[i].chr, edges[i].chr -1 +'a');
-#endif 
+#endif
       fwrite (edges+i, sizeof(Dawg_edge), 1, outfile);
     }
 #else
@@ -143,7 +143,7 @@ write_node(Dawg_edge *edges, int size, int num, FILE* outfile)
 
 
 #define MAX_EDGES 2000
-/* ods3:
+/* ods3: ??   */
 /* ods4: 1746 */
 
 /* global variables */
@@ -155,8 +155,8 @@ char        global_stringbuf[MAX_STRING_LENGTH]; /* Space for current string */
 char*       global_endstring;                    /* Marks END of current string */
 char*       global_input;
 char*       global_endofinput;
- 
-/* 
+
+/*
  * Makenode takes a prefix (as postion relative to stringbuf) and
  * returns an index of the start node of a dawg that recognizes all
  * words beginning with that prefix.  String is a pointer (relative
@@ -175,25 +175,25 @@ makenode(char *prefix)
   Dawg_edge  edges[MAX_EDGES];
   Dawg_edge *edgeptr = edges;
   unsigned  *saved_position;
-  
+
 #ifdef CHECK_RECURSION
   current_rec++;
   if (current_rec > max_rec)
     max_rec = current_rec;
 #endif
 
-  while (prefix == global_endstring) 
-    {  
+  while (prefix == global_endstring)
+    {
       /* More edges out of node */
       edgeptr->ptr  = 0;
       edgeptr->term = 0;
       edgeptr->last = 0;
       edgeptr->fill = 0;
       edgeptr->chr  = 0;
-      
+
       (*(edgeptr++)).chr = (*global_endstring++ = *global_input++) & CHAR;
       if (*global_input == '\n')                 /* End of a word */
-        {                       
+        {
           global_header.nwords++;
           edgeptr[-1].term = 1;                  /* Mark edge as word */
           *global_endstring++ = *global_input++; /* Skip \n */
@@ -204,41 +204,41 @@ makenode(char *prefix)
 	  while(*global_endstring == *global_input)
 	    {
 	       global_endstring++;
-	       global_input++; 
+	       global_input++;
 	    }
         }
       /* make dawg pointed to by this edge */
-      edgeptr[-1].ptr = makenode(prefix + 1);     
+      edgeptr[-1].ptr = makenode(prefix + 1);
     }
-  
+
   numedges = edgeptr - edges;
   if (numedges == 0)
     {
-#ifdef CHECK_RECURSION      
+#ifdef CHECK_RECURSION
       current_rec --;
 #endif
       return 0;             /* Special node zero - no edges */
     }
-  
+
   edgeptr[-1].last = 1;   /* Mark the last edge */
-  
+
   saved_position = (unsigned int*) hash_find (global_hashtable,
 					      (void*)edges,
-					      numedges*sizeof(Dawg_edge)); 
-  if (saved_position) 
-    {           
+					      numedges*sizeof(Dawg_edge));
+  if (saved_position)
+    {
       global_header.edgessaved += numedges;
       global_header.nodessaved++;
 
-#ifdef CHECK_RECURSION      
+#ifdef CHECK_RECURSION
       current_rec --;
-#endif      
+#endif
       return *saved_position;
     }
-  else 
-    {                   
+  else
+    {
       unsigned int node_pos;
-      
+
       node_pos = global_header.edgesused;
       hash_add(global_hashtable,
 	       (void*)edges,numedges*sizeof(Dawg_edge),
@@ -247,7 +247,7 @@ makenode(char *prefix)
       global_header.nodesused++;
       write_node (edges, sizeof(Dawg_edge), numedges, global_outfile);
 
-#ifdef CHECK_RECURSION      
+#ifdef CHECK_RECURSION
       current_rec --;
 #endif
       return node_pos;
@@ -260,7 +260,7 @@ makenode(char *prefix)
 int
 main(int argc, char* argv[])
 {
-  int dicsize;  
+  unsigned int dicsize;
   char *uncompressed;
   Dawg_edge rootnode = {0,0,0,0,0};
   Dawg_edge specialnode = {0,0,0,0,0};
@@ -275,7 +275,7 @@ main(int argc, char* argv[])
       exit(1);
     }
 
-  dicsize = file_length (argv[1]);       
+  dicsize = file_length (argv[1]);
   if (dicsize < 0)
     {
       fprintf(stderr,"Cannot stat uncompressed dictionary %s\n",argv[1]);
@@ -290,33 +290,33 @@ main(int argc, char* argv[])
       exit(1);
     }
 
-  if ((uncompressed = load_uncompressed (argv[1], &dicsize)) == NULL)
+  if ((uncompressed = load_uncompressed(argv[1], &dicsize)) == NULL)
     {
       fprintf(stderr,"Cannot load uncompressed dictionary into memory\n");
       exit(1);
     }
 
   global_input = uncompressed;
-  global_endofinput = global_input + dicsize; 
+  global_endofinput = global_input + dicsize;
 
 #define SCALE 0.6
-  global_hashtable = hash_init(dicsize * SCALE);
+  global_hashtable = hash_init((unsigned int)(dicsize * SCALE));
 #undef SCALE
 
-  skip_init_header(global_outfile,&global_header);      
-        
+  skip_init_header(global_outfile,&global_header);
+
   specialnode.last = 1;
   write_node(&specialnode,sizeof(specialnode),1,global_outfile);
-  /* 
+  /*
    * Call makenode with null (relative to stringbuf) prefix;
-   * Initialize string to null; Put index of start node on output 
+   * Initialize string to null; Put index of start node on output
    */
   starttime=clock();
   rootnode.ptr = makenode(global_endstring = global_stringbuf);
   endtime=clock();
   write_node(&rootnode,sizeof(rootnode),1,global_outfile);
 
-  fix_header(global_outfile,&global_header);           
+  fix_header(global_outfile,&global_header);
 
   print_header_info(&global_header);
   hash_destroy(global_hashtable);
@@ -324,7 +324,7 @@ main(int argc, char* argv[])
   fclose(global_outfile);
 
   printf(" Elapsed time is                 : %f s\n", 1.0*(endtime-starttime) / CLOCKS_PER_SEC);
-#ifdef CHECK_RECURSION      
+#ifdef CHECK_RECURSION
   printf(" Maximum recursion level reached : %d\n",max_rec);
 #endif
   return 0;

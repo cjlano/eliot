@@ -16,25 +16,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-# $Id: Makefile.am,v 1.2 2004/08/07 18:10:42 ipkiss Exp $
+# $Id: Makefile.am,v 1.3 2005/02/05 11:14:56 ipkiss Exp $
 
 noinst_LIBRARIES = libgame.a
 
 INCLUDES = -I$(top_srcdir)/dic
 
 libgame_a_SOURCES = 		\
-	tiles.c tiles.h		\
-	bag.c bag.h		\
-	board.c board.h		\
-	board_cross.c		\
-	board_search.c		\
-	game.c game.h		\
-	gameio.c gameio.h	\
-	player.c player.h	\
-	pldrack.c pldrack.h	\
-	rack.c rack.h		\
-	results.c results.h	\
-	round.c round.h		\
+	tile.cpp tile.h			\
+	bag.cpp bag.h			\
+	cross.cpp cross.h		\
+	board.cpp board.h		\
+	board_cross.cpp			\
+	board_search.cpp		\
+	freegame.cpp freegame.h	\
+	duplicate.cpp duplicate.h	\
+	training.cpp training.h	\
+	game.cpp game.h			\
+	gameio.cpp				\
+	player.cpp player.h		\
+	pldrack.cpp pldrack.h	\
+	rack.cpp rack.h			\
+	results.cpp results.h	\
+	round.cpp round.h		\
 	gamestruct.h
 
 

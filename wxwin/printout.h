@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: printout.h,v 1.2 2005/01/01 15:42:55 ipkiss Exp $ */
+/* $Id: printout.h,v 1.3 2005/02/05 11:14:56 ipkiss Exp $ */
 
 // -*- C++ -*-
 #ifndef _PRINTOUT_H
@@ -28,23 +28,24 @@
 class GamePrintout : public wxPrintout
 {
 private:
-  Game game;
-  ConfigDB config;
+    Game& m_game;
+    ConfigDB config;
 
-  void SetSpaces(wxString*, int);
-  void DrawStringJustif(wxDC*,wxString*,long,long,long,enum Justif, int);
-  void DrawHeadingLine(wxDC*, long, float);
-  void DrawTextLine(wxDC*, int, long, long, float);
-  void DrawGameLines(wxDC*, long, long, float, float, float);
+    void SetSpaces(wxString*, int);
+    void DrawStringJustif(wxDC*,wxString*,long,long,long,enum Justif, int);
+    void DrawHeadingLine(wxDC*, long, float);
+    void DrawTextLine(wxDC*, int, long, long, float);
+    void DrawGameLines(wxDC*, long, long, float, float, float);
 public:
 
-  GamePrintout(Game g, char* title= APPNAME) : wxPrintout(wxU(title)) { game = g; }
+    GamePrintout(Game& iGame, char* title = APPNAME)
+        : wxPrintout(wxU(title)), m_game(iGame) {}
 
-  bool OnPrintPage(int);
-  bool HasPage(int);
-  bool OnBeginDocument(int startPage, int endPage);
-  void GetPageInfo(int *minPage, int *maxPage, int *selPageFrom, int *selPageTo);
-  void DrawPage(wxDC *dc);
+    bool OnPrintPage(int);
+    bool HasPage(int);
+    bool OnBeginDocument(int startPage, int endPage);
+    void GetPageInfo(int *minPage, int *maxPage, int *selPageFrom, int *selPageTo);
+    void DrawPage(wxDC *dc);
 };
 
 #endif

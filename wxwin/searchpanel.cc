@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: searchpanel.cc,v 1.4 2005/01/01 15:42:55 ipkiss Exp $ */
+/* $Id: searchpanel.cc,v 1.5 2005/02/05 11:14:56 ipkiss Exp $ */
 
 #include <string.h>
 #include "wx/panel.h"
@@ -131,7 +131,7 @@ PCross::compute_enter(wxCommandEvent&)
       return;
     }
 
-  strncpy(rack,t->GetValue().mb_str(),DIC_WORD_MAX);
+  strncpy(rack, t->GetValue().mb_str(), DIC_WORD_MAX);
   Dic_search_Cros(dic_,rack,buff);
 
   int resnum = 0;
@@ -175,7 +175,7 @@ PPlus1::compute_enter(wxCommandEvent&)
       return;
     }
 
-  strncpy(rack,t->GetValue().mb_str(),DIC_WORD_MAX);
+  strncpy(rack, t->GetValue().mb_str(), DIC_WORD_MAX);
   Dic_search_7pl1(dic_,rack,buff,TRUE);
 
   int resnum = 0;

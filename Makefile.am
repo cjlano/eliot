@@ -1,1 +1,1 @@
-SUBDIRS = dic game wxwin utils
+SUBDIRS = dic game utils wxwin

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: dic_search.c,v 1.3 2004/06/20 20:13:59 afrab Exp $
+ * $Id: dic_search.c,v 1.4 2005/02/05 11:14:56 ipkiss Exp $
  */
 
 #include <ctype.h>
@@ -32,19 +32,19 @@
 /****************************************/
 
 static Dawg_edge*
-Dic_seek_edgeptr(Dictionary dic, const char* s, Dawg_edge *eptr)
+Dic_seek_edgeptr(const Dictionary dic, const char* s, Dawg_edge *eptr)
 {
   if (*s)
     {
       Dawg_edge *p = dic->dawg + eptr->ptr;
       do {
-        if (p->chr == (unsigned)(*s & CHAR))    
-          return Dic_seek_edgeptr (dic,s + 1, p); 
+        if (p->chr == (unsigned)(*s & CHAR))
+          return Dic_seek_edgeptr (dic,s + 1, p);
       } while (!(*p++).last);
-      return dic->dawg;                       
+      return dic->dawg;
     }
-  else                                          
-    return eptr;                                 
+  else
+    return eptr;
 }
 
 
@@ -53,7 +53,7 @@ Dic_seek_edgeptr(Dictionary dic, const char* s, Dawg_edge *eptr)
 
 
 int
-Dic_search_word(Dictionary dic, const char* word)
+Dic_search_word(const Dictionary dic, const char* word)
 {
   Dawg_edge *e;
   e = Dic_seek_edgeptr(dic,word,dic->dawg + dic->root);
@@ -67,7 +67,7 @@ Dic_search_word(Dictionary dic, const char* word)
  *
  * a pointer to the structure is passed as a parameter
  * so that all the search_* variables appear to the functions
- * as global but the code remains re-entrant. 
+ * as global but the code remains re-entrant.
  * Should be better to change the algorithm ...
  */
 
@@ -86,18 +86,18 @@ Dic_search_word_by_len(struct params_7plus1_t *params, int i, Dawg_edge *edgeptr
 {
   /* depth first search in the dictionary */
   do {
-    /* we use a static array and not a real list so we have to stop if 
+    /* we use a static array and not a real list so we have to stop if
      * the array is full */
     if (params->search_wordlistlen >= params->search_wordlistlenmax)
       break;
 
     /* the test is false only when reach the end-node */
-    if (edgeptr->chr)                        
-      {                                     
+    if (edgeptr->chr)
+      {
 
 	/* is the letter available in search_letters */
 	if (params->search_letters[edgeptr->chr])
-	  {                         
+	  {
 	    params->search_wordtst[i] = edgeptr->chr + 'A' - 1;
 	    params->search_letters[edgeptr->chr] --;
 	    if (i == params->search_len)
@@ -113,7 +113,7 @@ Dic_search_word_by_len(struct params_7plus1_t *params, int i, Dawg_edge *edgeptr
 	    params->search_letters[edgeptr->chr] ++;
 	    params->search_wordtst[i] = '\0';
 	  }
-	
+
 	/* the letter is of course available if we have a joker available */
 	if (params->search_letters[0])
 	  {
@@ -132,17 +132,17 @@ Dic_search_word_by_len(struct params_7plus1_t *params, int i, Dawg_edge *edgeptr
 	    params->search_letters[0] ++;
 	    params->search_wordtst[i] = '\0';
 	  }
-      } 
+      }
   } while (! (*edgeptr++).last);
 }
 
 void
-Dic_search_7pl1(Dictionary dic, char* rack, 
-		char buff[LETTERS][RES_7PL1_MAX][DIC_WORD_MAX], 
-		int joker)
+Dic_search_7pl1(const Dictionary dic, const char* rack,
+                char buff[LETTERS][RES_7PL1_MAX][DIC_WORD_MAX],
+                int joker)
 {
   int i,j,wordlen;
-  char* r = rack;
+  const char* r = rack;
   struct params_7plus1_t params;
   Dawg_edge *root_edge;
 
@@ -150,13 +150,13 @@ Dic_search_7pl1(Dictionary dic, char* rack,
     for(j=0; j < RES_7PL1_MAX; j++)
       buff[i][j][0] = '\0';
 
-  for(i=0; i<LETTERS; i++) 
-    params.search_letters[i] = 0; 
+  for(i=0; i<LETTERS; i++)
+    params.search_letters[i] = 0;
 
   if (dic == NULL || rack == NULL)
     return;
 
-  /* 
+  /*
    * the letters are verified and changed to the dic internal
    * representation (*r & CHAR)
    */
@@ -184,17 +184,17 @@ Dic_search_7pl1(Dictionary dic, char* rack,
 
   if (wordlen < 1)
     return;
-  
-  root_edge = dic->dawg + (dic->dawg[dic->root].ptr); 
+
+  root_edge = dic->dawg + (dic->dawg[dic->root].ptr);
 
   params.search_dic = dic;
   params.search_wordlistlenmax = RES_7PL1_MAX;
-  
+
   /* search for all the words that can be done with the letters */
   params.search_len = wordlen - 1;
   params.search_wordtst[wordlen]='\0';
   params.search_wordlist = & buff[0];
-  params.search_wordlistlen = 0; 
+  params.search_wordlistlen = 0;
   Dic_search_word_by_len(&params,0,root_edge);
 
   /* search for all the words that can be done with the letters +1 */
@@ -205,7 +205,7 @@ Dic_search_7pl1(Dictionary dic, char* rack,
       params.search_letters[i & CHAR]++;
 
       params.search_wordlist = & buff[i & CHAR];
-      params.search_wordlistlen = 0; 
+      params.search_wordlistlen = 0;
       Dic_search_word_by_len(&params,0,root_edge);
 
       params.search_letters[i & CHAR]--;
@@ -216,7 +216,8 @@ Dic_search_7pl1(Dictionary dic, char* rack,
 /****************************************/
 
 void
-Dic_search_Racc(Dictionary dic, char* word, char wordlist[RES_RACC_MAX][DIC_WORD_MAX])
+Dic_search_Racc(const Dictionary dic, const char* word,
+                char wordlist[RES_RACC_MAX][DIC_WORD_MAX])
 {
   /* search_racc will try to add a letter in front and at the end of a word */
 
@@ -239,19 +240,19 @@ Dic_search_Racc(Dictionary dic, char* word, char wordlist[RES_RACC_MAX][DIC_WORD
       if (Dic_search_word(dic,wordtst) && wordlistlen < RES_RACC_MAX)
 	strcpy(wordlist[wordlistlen++],wordtst);
     }
-  
+
   /* add a letter at the end */
   for(i=0; word[i]; i++)
     wordtst[i] = word[i];
 
   wordtst[i  ] = '\0';
   wordtst[i+1] = '\0';
-  
+
   edge = Dic_seek_edgeptr(dic,word,dic->dawg + dic->root);
 
   /* points to what the next letter can be */
   edge = dic->dawg + edge->ptr;
-  
+
   if (edge != dic->dawg)
     {
       do {
@@ -269,7 +270,8 @@ Dic_search_Racc(Dictionary dic, char* word, char wordlist[RES_RACC_MAX][DIC_WORD
 
 
 void
-Dic_search_Benj(Dictionary dic, char* word, char wordlist[RES_BENJ_MAX][DIC_WORD_MAX])
+Dic_search_Benj(const Dictionary dic, const char* word,
+                char wordlist[RES_BENJ_MAX][DIC_WORD_MAX])
 {
   int i,wordlistlen;
   char wordtst[DIC_WORD_MAX];
@@ -280,7 +282,7 @@ Dic_search_Benj(Dictionary dic, char* word, char wordlist[RES_BENJ_MAX][DIC_WORD
 
   if (dic == NULL || word == NULL)
     return;
-  
+
   wordlistlen = 0;
 
   strcpy(wordtst+3,word);
@@ -336,11 +338,11 @@ Dic_search_cross_rec(struct params_cross_t *params, char wordlist[RES_CROS_MAX][
 	}
       while (!(*current++).last);
     }
-  else 
+  else
     {
       do
 	{
-	  if (current->chr == (params->mask[params->wordlen] & CHAR))
+	  if (current->chr == (unsigned int)(params->mask[params->wordlen] & CHAR))
 	    {
 	      params->wordlen ++;
 	      Dic_search_cross_rec(params,wordlist,current);
@@ -355,7 +357,8 @@ Dic_search_cross_rec(struct params_cross_t *params, char wordlist[RES_CROS_MAX][
 
 
 void
-Dic_search_Cros(Dictionary dic, char* mask, char wordlist[RES_CROS_MAX][DIC_WORD_MAX])
+Dic_search_Cros(const Dictionary dic, const char* mask,
+                char wordlist[RES_CROS_MAX][DIC_WORD_MAX])
 {
   int  i;
   struct params_cross_t params;
@@ -434,7 +437,8 @@ Dic_search_regexp_rec(struct params_regexp_t *params, char wordlist[RES_CROS_MAX
 }
 
 void
-Dic_search_RegE(Dictionary dic, char* mask, char wordlist[RES_REGE_MAX][DIC_WORD_MAX])
+Dic_search_RegE(const Dictionary dic, const char* mask,
+                char wordlist[RES_REGE_MAX][DIC_WORD_MAX])
 {
   int  i;
   struct params_regexp_t params;

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: automaton.c,v 1.2 2004/06/22 21:04:08 ipkiss Exp $
+ * $Id: automaton.c,v 1.3 2005/02/05 11:14:56 ipkiss Exp $
  */
 #include <string.h>
 #include <stdlib.h>
@@ -217,6 +217,7 @@ automaton_dump(automaton a, char* filename)
   fprintf(f,"}\n");
   fclose(f);
 
+#ifdef HAVE_SYS_WAIT_H
   pid = fork ();
   if (pid > 0) {
     wait(NULL);
@@ -225,6 +226,7 @@ automaton_dump(automaton a, char* filename)
     printf("exec dotty failed\n");
     exit(1);
   }
+#endif
 }
 
 //////////////////////////////////////////////////

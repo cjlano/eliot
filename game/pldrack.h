@@ -1,89 +1,74 @@
-/* Eliot                                                                     */
-/* Copyright (C) 1999  Antoine Fraboulet                                     */
-/* antoine.fraboulet@free.fr                                                 */
-/*                                                                           */
-/* This program is free software; you can redistribute it and/or modify      */
-/* it under the terms of the GNU General Public License as published by      */
-/* the Free Software Foundation; either version 2 of the License, or         */
-/* (at your option) any later version.                                       */
-/*                                                                           */
-/* This program is distributed in the hope that it will be useful,           */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
-/* GNU General Public License for more details.                              */
-/*                                                                           */
-/* You should have received a copy of the GNU General Public License         */
-/* along with this program; if not, write to the Free Software               */
-/* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
-/* $Id: pldrack.h,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
+/*****************************************************************************
+ * Copyright (C) 1999-2005 Eliot
+ * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
+ *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ *
+ * $Id: pldrack.h,v 1.3 2005/02/05 11:14:56 ipkiss Exp $
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *****************************************************************************/
 
 #ifndef _PLAYEDRACK_H_
 #define _PLAYEDRACK_H_
 
-#if defined(__cplusplus)
-extern "C" {
-#endif 
+#include <vector>
+#include "tile.h"
+
+class Rack;
+
+using namespace std;
+
 
   /*************************
    * A Playedrack is 
    * 
    *************************/
 
-typedef struct tplayedrack* Playedrack;
+class PlayedRack
+{
+public:
+    PlayedRack() {}
+    virtual ~PlayedRack() {}
 
-  /*************************
-   * general routines
-   *************************/
+    void reset();
+    void resetNew();
 
-Playedrack Playedrack_create      (void);
-void       Playedrack_init        (Playedrack);
-void       Playedrack_destroy     (Playedrack);
-void       Playedrack_copy        (Playedrack dst, Playedrack src);
+    void getOld(Rack &oRack) const;
+    void getNew(Rack &oRack) const;
+    void getRack(Rack &oRack) const;
 
-  /*************************
-   * 
-   * 
-   *************************/
+    void setOld(const Rack &iRack);
+    void setNew(const Rack &iRack);
 
-void       Playedrack_resetnew    (Playedrack);
+    int nTiles() const      { return nNew() + nOld(); }
+    int nNew() const        { return m_newTiles.size(); }
+    int nOld() const        { return m_oldTiles.size(); }
 
-void       Playedrack_getold      (Playedrack,Rack);
-void       Playedrack_getnew      (Playedrack,Rack);
-void       Playedrack_getrack     (Playedrack,Rack);
+    void addNew(const Tile &t);
+    void addOld(const Tile &t);
+    void getNewTiles(vector<Tile> &oTiles) const;
+    void getOldTiles(vector<Tile> &oTiles) const;
+    void getAllTiles(vector<Tile> &oTiles) const;
 
-void       Playedrack_setold      (Playedrack,Rack);
-void       Playedrack_setnew      (Playedrack,Rack);
+    bool checkRack(int iMin);
 
-  /*************************
-   * 
-   * 
-   *************************/
+    void operator=(const PlayedRack &iOther);
 
-int        Playedrack_empty       (Playedrack);
-int        Playedrack_ntiles      (Playedrack);
-int        Playedrack_nnew        (Playedrack);
-int        Playedrack_nold        (Playedrack);
+private:
+    vector<Tile> m_oldTiles;
+    vector<Tile> m_newTiles;
+};
 
-  /*************************
-   * 
-   * 
-   *************************/
-
-void       Playedrack_addnew      (Playedrack,tile_t);
-void       Playedrack_addold      (Playedrack,tile_t);
-void       Playedrack_getnewtiles (Playedrack,tile_t*);
-void       Playedrack_getoldtiles (Playedrack,tile_t*);
-void       Playedrack_getalltiles (Playedrack,tile_t*);
-
-int        Playedrack_checkrack   (Playedrack,int);
-
-  /*************************
-   * 
-   * 
-   *************************/
-
-#if defined(__cplusplus)
-	   }
-#endif 
 #endif

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: main.cc,v 1.4 2005/01/01 15:42:55 ipkiss Exp $ */
+/* $Id: main.cc,v 1.5 2005/02/05 11:14:56 ipkiss Exp $ */
 
 #ifdef WIN32 // mingw32 hack
 #   undef Yield
@@ -53,32 +53,32 @@ IMPLEMENT_APP(EliotApp)
 bool
 EliotApp::OnInit()
 {
-     srand(time(NULL));
-     SetVendorName(wxT("Afrab"));
-     SetAppName(wxString(wxT("eliot")) + wxString(wxT("-")) + wxString(wxT(VERSION)));
-     SetClassName(wxT("eliot"));
+    srand(time(NULL));
+    SetVendorName(wxT("Afrab"));
+    SetAppName(wxString(wxT("eliot")) + wxT("-") + wxT(VERSION));
+    SetClassName(wxT("eliot"));
 
-     wxConfigBase* config = wxConfigBase::Get();
-     config = NULL;
+    wxConfigBase* config = wxConfigBase::Get();
+    config = NULL;
 #ifdef ENABLE_LOCALE
-     locale.Init(wxLocale::GetSystemLanguage(),
-		 wxLOCALE_LOAD_DEFAULT | wxLOCALE_CONV_ENCODING);
+    locale.Init(wxLocale::GetSystemLanguage(),
+                wxLOCALE_LOAD_DEFAULT | wxLOCALE_CONV_ENCODING);
 #endif
-     ConfigDB configdb;
-     configdb.setFirstDefault();
-     MainFrame *mainframe = new MainFrame(configdb.getFramePos(wxT(APPNAME)),
-					  configdb.getFrameSize(wxT(APPNAME)));
-     mainframe->SetIcon( wxICON(eliot) );
-     mainframe->Show(TRUE);
-     SetTopWindow(mainframe);
-     return TRUE;
+    ConfigDB configdb;
+    configdb.setFirstDefault();
+    MainFrame *mainframe = new MainFrame(configdb.getFramePos(wxT(APPNAME)),
+                                         configdb.getFrameSize(wxT(APPNAME)));
+    mainframe->SetIcon(wxICON(eliot));
+    mainframe->Show(TRUE);
+    SetTopWindow(mainframe);
+    return TRUE;
 }
 
 int
 EliotApp::OnExit()
 {
-  delete wxConfigBase::Set((wxConfigBase *) NULL);
-  return 0;
+    delete wxConfigBase::Set((wxConfigBase *) NULL);
+    return 0;
 }
 
 

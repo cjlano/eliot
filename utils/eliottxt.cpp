@@ -1,96 +1,38 @@
-/* Eliot                                                                     */
-/* Copyright (C) 1999-2004 Eliot                                             */
-/* Antoine Fraboulet <antoine.fraboulet@free.fr>                             */
-/* Olivier Teuliere  <ipkiss@via.ecp.fr>                                     */
-/*                                                                           */
-/* This program is free software; you can redistribute it and/or modify      */
-/* it under the terms of the GNU General Public License as published by      */
-/* the Free Software Foundation; either version 2 of the License, or         */
-/* (at your option) any later version.                                       */
-/*                                                                           */
-/* This program is distributed in the hope that it will be useful,           */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
-/* GNU General Public License for more details.                              */
-/*                                                                           */
-/* You should have received a copy of the GNU General Public License         */
-/* along with this program; if not, write to the Free Software               */
-/* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
-/* $Id: eliottxt.c,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
+/*****************************************************************************
+ * Copyright (C) 2005 Eliot
+ * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
+ *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ *
+ * $Id: eliottxt.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *****************************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <fstream>
 
 #include "dic.h"
 #include "dic_search.h"
-#include "game.h"
-#include "gameio.h"
+#include "training.h"
+#include "duplicate.h"
+#include "freegame.h"
 
-#if 0
-// test
-#include "tiles.h"
-#include "bag.h"
-#include "rack.h"
-#include "round.h"
-#include "pldrack.h"
-#include "results.h"
-#include "board.h"
-#include "player.h"
-#include "game_internals.h"
-
-void
-test2(Game g, char *coord, char *word, int expected)
-{
-    int res;
-    res = Game_freegame_play(g, coord, word);
-    fprintf(stderr, "res (%d) = %d    score: %3d%3d\n",
-            expected, res, Game_getplayerpoints(g, 0),
-            Game_getplayerpoints(g, 1));
-}
-
-
-void
-test(Game g)
-{
-    int res;
-    Game_addhumanplayer(g);
-    Game_addhumanplayer(g);
-    Game_nextplayer(g);
-    Game_training_setrackmanual(g, 0, "AVNZERI");
-    test2(g, "Z2", "RAVINEZ", 2);
-    test2(g, "H0", "RAVINEZ", 2);
-    test2(g, "H51", "RAVINEZ", 2);
-    test2(g, "HH", "RAVINEZ", 2);
-/*     test2(g, "8H", "RAVINEZ", 2); */
-    test2(g, "H5Z2hello world", "RAVINZ", 2); // XXX
-    test2(g, "H5", "RAVINZ", 3);
-    test2(g, "H10", "RAVINEZ", 6); // XXX
-    test2(g, "H5", "RAVIVEZ", 4);
-    test2(g, "H5", "RAVINEZ", 0);
-
-    Game_nextplayer(g);
-    Game_training_setrackmanual(g, 0, "AEI?NRS");
-    test2(g, "H5", "RAvINE", 7);
-    test2(g, "A1", "SIgNERA", 8);
-    test2(g, "H4", "SIgNERAI", 5);
-    test2(g, "9E", "SIgNERAI", 4);
-    test2(g, "I1", "SIgNERA", 6);
-    test2(g, "8A", "SIgNERAI", 0);
-
-    Game_nextplayer(g);
-    Game_training_setrackmanual(g, 0, "ACIORU?");
-    test2(g, "I1", "COURAIS", 4);
-    test2(g, "I2", "COURAIs", 6);
-    test2(g, "10F", "COeUR", 0);
-    Game_nextplayer(g);
-    test2(g, "I1", "COURAIs", 0);
-}
-#endif
 
 char *
 next_token_alpha(char *cmd, const char *delim)
@@ -174,7 +116,7 @@ next_token_filename(char *cmd, const char *delim)
     char *token = strtok(cmd, delim);
     if (token == NULL)
         return NULL;
-    for (i = 0; token[i] && (isalpha(token[i]) ||
+    for (i = 0; token[i] && (isalnum(token[i]) ||
                              token[i] == '.' ||
                              token[i] == '_'); i++)
         ;
@@ -184,12 +126,12 @@ next_token_filename(char *cmd, const char *delim)
 
 
 void
-eliottxt_get_cross(Dictionary dic, char* cros)
+eliottxt_get_cross(const Dictionary &iDic, char* cros)
 {
     int i;
     //  (Dictionary dic, char* regx, char wordlist[RES_REGX_MAX][DIC_WORD_MAX])
     char wordlist[RES_CROS_MAX][DIC_WORD_MAX];
-    Dic_search_Cros(dic, cros, wordlist);
+    Dic_search_Cros(iDic, cros, wordlist);
     for (i = 0; i<RES_CROS_MAX && wordlist[i][0]; i++)
     {
         printf("  %s\n", wordlist[i]);
@@ -218,6 +160,8 @@ help_training()
     printf("  t [] : changer le tirage\n");
     printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
     printf("  n [] : jouer le résultat numéro []\n");
+    printf("  s [] : sauver la partie en cours dans le fichier []\n");
+    printf("  c [] : charger la partie du fichier []\n");
     printf("  q    : quitter le mode entraînement\n");
 }
 
@@ -241,6 +185,8 @@ help_freegame()
     printf("  d [] : vérifier le mot []\n");
     printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
     printf("  p [] : passer son tour en changeant les lettres []\n");
+    printf("  s [] : sauver la partie en cours dans le fichier []\n");
+    printf("  c [] : charger la partie du fichier []\n");
     printf("  q    : quitter le mode partie libre\n");
 }
 
@@ -262,7 +208,9 @@ help_duplicate()
     printf("            t -- tirage\n");
     printf("  d [] : vérifier le mot []\n");
     printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
-    printf("  s [] : passer au joueur n°[]\n");
+    printf("  n [] : passer au joueur n°[]\n");
+    printf("  s [] : sauver la partie en cours dans le fichier []\n");
+    printf("  c [] : charger la partie du fichier []\n");
     printf("  q    : quitter le mode duplicate\n");
 }
 
@@ -271,8 +219,6 @@ void
 help()
 {
     printf("  ?       : aide -- cette page\n");
-    printf("  c []    : charger la partie []\n");
-    printf("  s []    : sauver la partie []\n");
     printf("  e       : démarrer le mode entraînement\n");
     printf("  d [] {} : démarrer une partie duplicate avec\n");
     printf("                [] joueurs humains et {} joueurs IA\n");
@@ -285,14 +231,14 @@ help()
 
 
 void
-display_data(Game game, const char *delim)
+display_data(const Game &iGame, const char *delim)
 {
     char *token;
 
     token = next_token_alpha(NULL, delim);
     if (token == NULL)
     {
-        printf("commande incomplète\n");
+        cout << "commande incomplète\n";
         return;
     }
     switch (token[0])
@@ -301,19 +247,19 @@ display_data(Game game, const char *delim)
             switch (token[1])
             {
                 case '\0':
-                    Game_print_board(stdout, game);
+                    iGame.printBoard(cout);
                     break;
                 case 'j':
-                    Game_print_board_joker(stdout, game);
+                    iGame.printBoardJoker(cout);
                     break;
-                case 'p':
-                    Game_print_board_point(stdout, game);
-                    break;
+/*                 case 'p': */
+/*                     iGame.printBoardPoint(cout); */
+/*                     break; */
                 case 'm':
-                    Game_print_board_multipliers(stdout, game);
+                    iGame.printBoardMultipliers(cout);
                     break;
                 case 'n':
-                    Game_print_board_multipliers2(stdout, game);
+                    iGame.printBoardMultipliers2(cout);
                     break;
                 default:
                     printf("commande inconnue\n");
@@ -321,50 +267,50 @@ display_data(Game game, const char *delim)
             }
             break;
         case 'j':
-            fprintf(stdout, "Joueur %i\n", Game_currplayer(game));
+            cout << "Joueur " << iGame.currPlayer() << endl;
             break;
         case 'l':
-            Game_print_nonplayed(stdout, game);
+            iGame.printNonPlayed(cout);
             break;
         case 'p':
-            Game_print_game(stdout, game);
+            iGame.save(cout);
             break;
         case 'r':
             token = next_token_digit(NULL, delim);
             if (token == NULL)
-                Game_print_searchresults(stdout, game, 10);
+                iGame.printSearchResults(cout, 10);
             else
-                Game_print_searchresults(stdout, game, atoi(token));
+                iGame.printSearchResults(cout, atoi(token));
             break;
         case 's':
-            Game_print_points(stdout, game);
+            iGame.printPoints(cout);
             break;
         case 'S':
-            Game_print_allpoints(stdout, game);
+            iGame.printAllPoints(cout);
             break;
         case 't':
-            Game_print_playedrack(stdout, game, Game_getnrounds(game));
+            iGame.printPlayedRack(cout, iGame.getNRounds());
             break;
         case 'T':
-            Game_print_allracks(stdout, game);
+            iGame.printAllRacks(cout);
             break;
         default:
-            printf("commande inconnue\n");
+            cout << "commande inconnue\n";
             break;
     }
 }
 
 
 void
-loop_training(Game game)
+loop_training(Training &iGame)
 {
     char *token;
     char commande[100];
     char delim[] = " \t";
     int quit = 0;
 
-    printf("mode entraînement\n");
-    printf("[?] pour l'aide\n");
+    cout << "mode entraînement\n";
+    cout << "[?] pour l'aide\n";
     while (quit == 0)
     {
         printf("commande> ");
@@ -378,7 +324,7 @@ loop_training(Game game)
                     help_training();
                     break;
                 case 'a':
-                    display_data(game, delim);
+                    display_data(iGame, delim);
                     break;
                 case 'd':
                     token = next_token_alpha(NULL, delim);
@@ -386,7 +332,7 @@ loop_training(Game game)
                         help_training();
                     else
                     {
-                        if (Dic_search_word(Game_getdic(game), token))
+                        if (Dic_search_word(iGame.getDic(), token))
                             printf("le mot -%s- existe\n", token);
                         else
                             printf("le mot -%s- n'existe pas\n", token);
@@ -395,7 +341,7 @@ loop_training(Game game)
                case 'j':
                     token = next_token_alpha(NULL, delim);
                     if (token == NULL)
-                        help_duplicate();
+                        help_training();
                     else
                     {
                         int res;
@@ -405,7 +351,7 @@ loop_training(Game game)
                             help_training();
                             break;
                         }
-                        if ((res = Game_training_play(game, coord, token)) != 0)
+                        if ((res = iGame.play(coord, token)) != 0)
                         {
                             fprintf(stderr, "Mot incorrect ou mal placé (%i)\n",
                                     res);
@@ -421,23 +367,23 @@ loop_training(Game game)
                     {
                         int n = atoi(token);
                         if (n <= 0)
-                            Game_back(game, n == 0 ? 1 : -n);
+                            iGame.back(n == 0 ? 1 : -n);
                         else
                         {
-                            if (Game_training_playresult(game, --n))
+                            if (iGame.playResult(--n))
                                 printf("mauvais argument\n");
                         }
                     }
                     break;
                 case 'r':
-                    Game_training_search(game);
+                    iGame.search();
                     break;
                 case 't':
                     token = next_token_alphaplusjoker(NULL, delim);
                     if (token == NULL)
                         help_training();
                     else
-                        if (Game_training_setrackmanual(game, 0, token))
+                        if (iGame.setRackManual(0, token))
                             printf("le sac ne contient pas assez de lettres\n");
                     break;
                 case 'x':
@@ -445,13 +391,27 @@ loop_training(Game game)
                     if (token == NULL)
                         help_training();
                     else
-                        eliottxt_get_cross(Game_getdic(game), token);
+                        eliottxt_get_cross(iGame.getDic(), token);
                     break;
                 case '*':
-                    Game_training_setrackrandom(game, 0, RACK_ALL);
+                    iGame.setRackRandom(0, false, Game::RACK_ALL);
                     break;
                 case '+':
-                    Game_training_setrackrandom(game, 0, RACK_NEW);
+                    iGame.setRackRandom(0, false, Game::RACK_NEW);
+                    break;
+                case 's':
+                    token = next_token_filename(NULL, delim);
+                    if (token != NULL)
+                    {
+                        ofstream fout(token);
+                        if (fout.rdstate() == ios::failbit)
+                        {
+                            printf("impossible d'ouvrir %s\n", token);
+                            break;
+                        }
+                        iGame.save(fout);
+                        fout.close();
+                    }
                     break;
                 case 'q':
                     quit = 1;
@@ -467,7 +427,7 @@ loop_training(Game game)
 
 
 void
-loop_freegame(Game game)
+loop_freegame(FreeGame &iGame)
 {
     char *token;
     char commande[100];
@@ -489,7 +449,7 @@ loop_freegame(Game game)
                     help_freegame();
                     break;
                 case 'a':
-                    display_data(game, delim);
+                    display_data(iGame, delim);
                     break;
                 case 'd':
                     token = next_token_alpha(NULL, delim);
@@ -497,7 +457,7 @@ loop_freegame(Game game)
                         help_freegame();
                     else
                     {
-                        if (Dic_search_word(Game_getdic(game), token))
+                        if (Dic_search_word(iGame.getDic(), token))
                             printf("le mot -%s- existe\n", token);
                         else
                             printf("le mot -%s- n'existe pas\n", token);
@@ -516,7 +476,7 @@ loop_freegame(Game game)
                             help_freegame();
                             break;
                         }
-                        if ((res = Game_freegame_play(game, coord, token)) != 0)
+                        if ((res = iGame.play(coord, token)) != 0)
                         {
                             fprintf(stderr, "Mot incorrect ou mal placé (%i)\n",
                                     res);
@@ -530,9 +490,22 @@ loop_freegame(Game game)
                     if (token == NULL)
                         token = "";
 
-                    if (Game_freegame_pass(game, token,
-                                           Game_currplayer(game)) != 0)
+                    if (iGame.pass(token, iGame.currPlayer()) != 0)
                         break;
+                    break;
+                case 's':
+                    token = next_token_filename(NULL, delim);
+                    if (token != NULL)
+                    {
+                        ofstream fout(token);
+                        if (fout.rdstate() == ios::failbit)
+                        {
+                            printf("impossible d'ouvrir %s\n", token);
+                            break;
+                        }
+                        iGame.save(fout);
+                        fout.close();
+                    }
                     break;
                 case 'q':
                     quit = 1;
@@ -548,7 +521,7 @@ loop_freegame(Game game)
 
 
 void
-loop_duplicate(Game game)
+loop_duplicate(Duplicate &iGame)
 {
     char *token;
     char commande[100];
@@ -570,7 +543,7 @@ loop_duplicate(Game game)
                     help_duplicate();
                     break;
                 case 'a':
-                    display_data(game, delim);
+                    display_data(iGame, delim);
                     break;
                 case 'd':
                     token = next_token_alpha(NULL, delim);
@@ -578,7 +551,7 @@ loop_duplicate(Game game)
                         help_duplicate();
                     else
                     {
-                        if (Dic_search_word(Game_getdic(game), token))
+                        if (Dic_search_word(iGame.getDic(), token))
                             printf("le mot -%s- existe\n", token);
                         else
                             printf("le mot -%s- n'existe pas\n", token);
@@ -597,7 +570,7 @@ loop_duplicate(Game game)
                             help_duplicate();
                             break;
                         }
-                        if ((res = Game_duplicate_play(game, coord, token)) != 0)
+                        if ((res = iGame.play(coord, token)) != 0)
                         {
                             fprintf(stderr, "Mot incorrect ou mal placé (%i)\n",
                                     res);
@@ -605,17 +578,31 @@ loop_duplicate(Game game)
                         }
                     }
                     break;
-                case 's':
+                case 'n':
                     token = next_token_digit(NULL, delim);
                     if (token == NULL)
                         help_duplicate();
                     else
                     {
-                        int res = Game_duplicate_setplayer(game, atoi(token));
+                        int res = iGame.setPlayer(atoi(token));
                         if (res == 1)
                             fprintf(stderr, "Numéro de joueur invalide\n");
                         else if (res == 2)
                             fprintf(stderr, "Impossible de choisir un joueur non humain\n");
+                    }
+                    break;
+                case 's':
+                    token = next_token_filename(NULL, delim);
+                    if (token != NULL)
+                    {
+                        ofstream fout(token);
+                        if (fout.rdstate() == ios::failbit)
+                        {
+                            printf("impossible d'ouvrir %s\n", token);
+                            break;
+                        }
+                        iGame.save(fout);
+                        fout.close();
                     }
                     break;
                 case 'q':
@@ -632,7 +619,7 @@ loop_duplicate(Game game)
 
 
 void
-main_loop(Game game)
+main_loop(const Dictionary &iDic)
 {
     char *token;
     char commande[100];
@@ -640,11 +627,13 @@ main_loop(Game game)
     int quit = 0;
 
     printf("[?] pour l'aide\n");
-    while (quit == 0) {
+    while (quit == 0)
+    {
         printf("commande> ");
         fgets(commande, sizeof(commande), stdin);
         token = strtok(commande, delim);
-        if (token) {
+        if (token)
+        {
             switch (token[0])
             {
                 case '?':
@@ -663,48 +652,44 @@ main_loop(Game game)
                             printf("impossible d'ouvrir %s\n", token);
                             break;
                         }
-                        Game_init(game);
-                        switch (Game_load(game, fin))
-                        {
-                            case 0: /* ok */
-                                break;
-                            case 1:
-                                fprintf(stderr, "format non reconnu\n");
-                                break;
-                            default:
-                                fprintf(stderr, "erreur pendant le chargement\n");
-                                break;
-                        }
+                        Game *game = Game::load(fin, iDic);
                         fclose(fin);
-                    }
-                    break;
-                case 's':
-                    token = next_token_filename(NULL, delim);
-                    if (token == NULL)
-                    {}
-                    else
-                    {
-                        FILE *out;
-                        if ((out = fopen(token, "w")) == NULL)
+                        if (game == NULL)
                         {
-                            printf("impossible d'ouvrir %s\n", token);
-                            break;
+                            fprintf(stderr, "erreur pendant le chargement\n");
                         }
-                        Game_save(game, out);
-                        fclose(out);
+                        else
+                        {
+                            if (game->getMode() == Game::kTRAINING)
+                                loop_training((Training&)*game);
+                            else if (game->getMode() == Game::kFREEGAME)
+                                loop_freegame((FreeGame&)*game);
+                            else
+                                loop_duplicate((Duplicate&)*game);
+                        }
                     }
                     break;
                 case 'e':
-                    /* Re-init the game */
-                    Game_init(game);
-                    Game_training_start(game);
+                {
+                    /* New training game */
+                    Training game(iDic);
+                    game.start();
                     loop_training(game);
                     break;
+                }
                 case 'd':
                 {
                     int i;
-                    /* Re-init the game */
-                    Game_init(game);
+                    /* New duplicate game */
+                    token = next_token_digit(NULL, delim);
+                    if (token == NULL)
+                    {
+                        help();
+                        break;
+                    }
+                    Duplicate game(iDic);
+                    for (i = 0; i < atoi(token); i++)
+                        game.addHumanPlayer();
                     token = next_token_digit(NULL, delim);
                     if (token == NULL)
                     {
@@ -712,24 +697,24 @@ main_loop(Game game)
                         break;
                     }
                     for (i = 0; i < atoi(token); i++)
-                        Game_addhumanplayer(game);
-                    token = next_token_digit(NULL, delim);
-                    if (token == NULL)
-                    {
-                        help();
-                        break;
-                    }
-                    for (i = 0; i < atoi(token); i++)
-                        Game_addaiplayer(game);
-                    Game_duplicate_start(game);
+                        game.addAIPlayer();
+                    game.start();
                     loop_duplicate(game);
                     break;
                 }
                 case 'l':
                 {
                     int i;
-                    /* Re-init the game */
-                    Game_init(game);
+                    /* New free game */
+                    token = next_token_digit(NULL, delim);
+                    if (token == NULL)
+                    {
+                        help();
+                        break;
+                    }
+                    FreeGame game(iDic);
+                    for (i = 0; i < atoi(token); i++)
+                        game.addHumanPlayer();
                     token = next_token_digit(NULL, delim);
                     if (token == NULL)
                     {
@@ -737,35 +722,31 @@ main_loop(Game game)
                         break;
                     }
                     for (i = 0; i < atoi(token); i++)
-                        Game_addhumanplayer(game);
-                    token = next_token_digit(NULL, delim);
-                    if (token == NULL)
-                    {
-                        help();
-                        break;
-                    }
-                    for (i = 0; i < atoi(token); i++)
-                        Game_addaiplayer(game);
-                    Game_freegame_start(game);
+                        game.addAIPlayer();
+                    game.start();
                     loop_freegame(game);
                     break;
                 }
                 case 'D':
-                    /* Re-init the game */
-                    Game_init(game);
-                    Game_addhumanplayer(game);
-                    Game_addaiplayer(game);
-                    Game_duplicate_start(game);
+                {
+                    /* New duplicate game */
+                    Duplicate game(iDic);
+                    game.addHumanPlayer();
+                    game.addAIPlayer();
+                    game.start();
                     loop_duplicate(game);
                     break;
+                }
                 case 'L':
-                    /* Re-init the game */
-                    Game_init(game);
-                    Game_addhumanplayer(game);
-                    Game_addaiplayer(game);
-                    Game_freegame_start(game);
+                {
+                    /* New free game */
+                    FreeGame game(iDic);
+                    game.addHumanPlayer();
+                    game.addAIPlayer();
+                    game.start();
                     loop_freegame(game);
                     break;
+                }
                 case 'q':
                     quit = 1;
                     break;
@@ -783,7 +764,6 @@ main(int argc, char *argv[])
 {
     char dic_path[100];
 
-    Game game = NULL;
     Dictionary dic = NULL;
 
     srand(time(NULL));
@@ -827,10 +807,8 @@ main(int argc, char *argv[])
             break;
     }
 
-    game = Game_create(dic);
-    main_loop(game);
+    main_loop(dic);
 
-    Game_destroy(game);
     Dic_destroy(dic);
     return 0;
 }

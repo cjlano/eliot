@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: rack.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: rack.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,38 +20,23 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
 
-#ifndef _RACK_H_
-#define _RACK_H_
-
-#include "tile.h"
-#include <set>
-#include <list>
-
-using namespace std;
+#include "rack.h"
 
 
-/*************************
- * A rack is a set of tiles, no more.
- * Tiles have to be in the bag for the rack to be valid.
- *************************/
-
-class Rack
+void Rack::remove(const Tile &t)
 {
-public:
-    Rack() {}
-    virtual ~Rack() {}
+    multiset<Tile>::const_iterator it = m_tiles.find(t);
+    if (it != m_tiles.end())
+        m_tiles.erase(it);
+}
 
-    int nTiles() const          { return m_tiles.size(); }
-    bool isEmpty() const        { return nTiles() == 0; }
 
-    int in(const Tile &t) const { return m_tiles.count(t); }
-    void add(const Tile &t)     { m_tiles.insert(t); }
-    void remove(const Tile &t);
-    void clear()                { m_tiles.clear(); }
-    void getTiles(list<Tile> &oTiles) const;
+void Rack::getTiles(list<Tile> &oTiles) const
+{
+    multiset<Tile>::const_iterator it;
+    for (it = m_tiles.begin(); it != m_tiles.end(); it++)
+    {
+        oTiles.push_back(*it);
+    }
+}
 
-private:
-    multiset<Tile> m_tiles;
-};
-
-#endif

@@ -1,85 +1,85 @@
-/* Eliot                                                                     */
-/* Copyright (C) 1999  Antoine Fraboulet                                     */
-/* antoine.fraboulet@free.fr                                                 */
-/*                                                                           */
-/* This program is free software; you can redistribute it and/or modify      */
-/* it under the terms of the GNU General Public License as published by      */
-/* the Free Software Foundation; either version 2 of the License, or         */
-/* (at your option) any later version.                                       */
-/*                                                                           */
-/* This program is distributed in the hope that it will be useful,           */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
-/* GNU General Public License for more details.                              */
-/*                                                                           */
-/* You should have received a copy of the GNU General Public License         */
-/* along with this program; if not, write to the Free Software               */
-/* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
-/* $Id: bag.h,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/*****************************************************************************
+ * Copyright (C) 1999-2005 Eliot
+ * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
+ *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ *
+ * $Id: bag.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *****************************************************************************/
 
 #ifndef _BAG_H_
 #define _BAG_H_
 
-#if defined(__cplusplus)
-extern "C" {
-#endif 
+#include "tile.h"
+#include <map>
 
-  /*************************
-   * A bag stores the set of free 
-   * tiles for the game
-   *************************/
+using namespace std;
 
-typedef struct tbag *Bag;
 
-  /*************************
-   * Bag general routines
-   *************************/
+/*************************
+ * A bag stores the set of free tiles for the game
+ *************************/
 
-Bag   Bag_create  (void);
-void  Bag_init    (Bag b);
-void  Bag_destroy (Bag b);
-void  Bag_copy    (Bag dst, Bag src);
+class Bag
+{
+public:
+    Bag();
+    virtual ~Bag() {}
+    void init();
 
-  /*************************
-   * take or replace a tile in the bag
-   * return value :
-   * 0 : Ok
-   * 1 : an error occured (not enough or too many tiles 
-   *       of that type are in the bag)
-   *************************/
+    /*************************
+     * take or replace a tile in the bag
+     * return value :
+     * 0 : Ok
+     * 1 : an error occured (not enough or too many tiles
+     *       of that type are in the bag)
+     *************************/
+    int takeTile(const Tile &iTile);
+    int replaceTile(const Tile &iTile);
 
-int   Bag_taketile      (Bag b, tile_t t);
-int   Bag_replacetile   (Bag b, tile_t t);
+    /*************************
+     * Returns how many 't' tiles are available
+     *************************/
+    int in(const Tile &iTile) const;
 
-  /*************************
-   * Returns how many 'tile_t' tiles are available
-   *************************/
+    /*************************
+     * Returns how many tiles/vowels/consonants are available
+     * Warning: nVowels(b) + nConsonants(b) != nTiles(b),
+     * because of the jokers and the 'Y'.
+     *************************/
+    unsigned int nTiles() const  { return m_ntiles; }
+    int nVowels() const;
+    int nConsonants() const;
 
-int   Bag_in            (Bag b, tile_t t);
+    /*************************
+     * return a random available tile
+     * the tile is not taken out of the bag.
+     * returns 0 on failure
+     *************************/
+    Tile selectRandom();
 
-  /*************************
-   * Returns how many tiles/vowels/consonants are available
-   * Warning: Bag_nvowels(b) + Bag_nconsonants(b) != Bag_ntiles(b),
-   * because of the jokers and the 'Y'.
-   *************************/
+    void operator=(const Bag &iOther);
 
-int   Bag_ntiles        (Bag b);
-int   Bag_nvowels       (Bag b);
-int   Bag_nconsonants   (Bag b);
+    void dumpAll() const;
 
-  /*************************
-   * return a random available tile 
-   * the tile is not taken out of the
-   * bag.
-   * returns 0 on failure
-   *************************/
+private:
+    // Associate to each tile its number of occurrences in the bag
+    map<Tile, int> m_tilesMap;
+    // Total number of tiles in the bag
+    int m_ntiles;
+};
 
-tile_t Bag_select_random (Bag b);
-
-#if defined(__cplusplus)
-	   }
-#endif 
 #endif
-
-

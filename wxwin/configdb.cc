@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: configdb.cc,v 1.2 2005/01/01 15:42:55 ipkiss Exp $ */
+/* $Id: configdb.cc,v 1.3 2005/02/05 11:14:56 ipkiss Exp $ */
 
 #include <iostream>
 #include "ewx.h"
@@ -101,25 +101,25 @@ long ConfigDB::Read(const wxString& key, long def)
 
 wxFont ConfigDB::Read(const wxString& key, wxFont def)
 {
-    return wxFont(Read(key + FPOINTSIZE,(long)def.GetPointSize()),
-                  Read(key + FFAMILY   ,(long)def.GetFamily()),
-                  Read(key + FSTYLE    ,(long)def.GetStyle()),
-                  Read(key + FWEIGHT   ,(long)def.GetWeight()),
-                  Read(key + FUNDERLINE,(long)def.GetUnderlined()),
-                  ReadStr(key + FFACENAME ,def.GetFaceName())
-                  //,Read(key + FENCODING ,def.GetDefaultEncoding())
-                 );
+  return wxFont(Read(key + FPOINTSIZE,(long)def.GetPointSize()),
+		Read(key + FFAMILY   ,(long)def.GetFamily()),
+		Read(key + FSTYLE    ,(long)def.GetStyle()),
+		Read(key + FWEIGHT   ,(long)def.GetWeight()),
+		Read(key + FUNDERLINE,(long)def.GetUnderlined()),
+		ReadStr(key + FFACENAME ,def.GetFaceName())
+		//,Read(key + FENCODING ,def.GetDefaultEncoding())
+		);
 }
 
 void ConfigDB::Write(const wxString& key, wxFont font)
 {
-    pConfig->Write(key + FPOINTSIZE,(long)font.GetPointSize());
-    pConfig->Write(key + FFAMILY   ,(long)font.GetFamily());
-    pConfig->Write(key + FSTYLE    ,(long)font.GetStyle());
-    pConfig->Write(key + FWEIGHT   ,(long)font.GetWeight());
-    pConfig->Write(key + FUNDERLINE,(long)font.GetUnderlined());
-    pConfig->Write(key + FFACENAME ,font.GetFaceName());
-    //pConfig->Write(key + FENCODING ,font.GetDefaultEncoding());
+  pConfig->Write(key + FPOINTSIZE,(long)font.GetPointSize());
+  pConfig->Write(key + FFAMILY   ,(long)font.GetFamily());
+  pConfig->Write(key + FSTYLE    ,(long)font.GetStyle());
+  pConfig->Write(key + FWEIGHT   ,(long)font.GetWeight());
+  pConfig->Write(key + FUNDERLINE,(long)font.GetUnderlined());
+  pConfig->Write(key + FFACENAME ,font.GetFaceName());
+  //pConfig->Write(key + FENCODING ,font.GetDefaultEncoding());
 }
 
 #define CR wxT(".R")
@@ -128,17 +128,17 @@ void ConfigDB::Write(const wxString& key, wxFont font)
 
 wxColour ConfigDB::Read(const wxString& key, wxColour def)
 {
-  return wxColour(Read(key + CR,(long)def.Red()),
-		  Read(key + CG,(long)def.Green()),
-		  Read(key + CB,(long)def.Blue()));
+    return wxColour(Read(key + CR,(long)def.Red()),
+                    Read(key + CG,(long)def.Green()),
+                    Read(key + CB,(long)def.Blue()));
 }
 
 
 void ConfigDB::Write(const wxString& key, wxColour colour)
 {
-  pConfig->Write(key + CR,(long)colour.Red());
-  pConfig->Write(key + CG, (long)colour.Green());
-  pConfig->Write(key + CB, (long)colour.Blue());
+    pConfig->Write(key + CR,(long)colour.Red());
+    pConfig->Write(key + CG, (long)colour.Green());
+    pConfig->Write(key + CB, (long)colour.Blue());
 }
 
 wxString ConfigDB::ReadStr(const wxString& key, wxString def)
@@ -772,13 +772,13 @@ bool ConfigDB::getRackChecking()
 void
 ConfigDB::setFirstDefault()
 {
-  if (Read(INIT,0L))
+  if (Read(wxString(INIT),0L))
     return;
 
   setFontDefault();
   setColourDefault();
   setFrameDefault();
 
-  Write(INIT,1L);
+  Write(wxString(INIT),1L);
 }
 

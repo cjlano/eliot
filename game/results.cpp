@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: rack.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: results.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,38 +20,44 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
 
-#ifndef _RACK_H_
-#define _RACK_H_
+#include <algorithm>
+#include <functional>
 
 #include "tile.h"
-#include <set>
-#include <list>
-
-using namespace std;
+#include "round.h"
+#include "results.h"
 
 
-/*************************
- * A rack is a set of tiles, no more.
- * Tiles have to be in the bag for the rack to be valid.
- *************************/
-
-class Rack
+struct less_points : public binary_function<const Round&,
+                     const Round&, bool>
 {
-public:
-    Rack() {}
-    virtual ~Rack() {}
-
-    int nTiles() const          { return m_tiles.size(); }
-    bool isEmpty() const        { return nTiles() == 0; }
-
-    int in(const Tile &t) const { return m_tiles.count(t); }
-    void add(const Tile &t)     { m_tiles.insert(t); }
-    void remove(const Tile &t);
-    void clear()                { m_tiles.clear(); }
-    void getTiles(list<Tile> &oTiles) const;
-
-private:
-    multiset<Tile> m_tiles;
+    bool operator()(const Round &r1, const Round &r2)
+    {
+        // We want higher scores first, so we use '>' instead of '<'
+        return r1.getPoints() > r2.getPoints();
+    }
 };
 
-#endif
+void Results::sort()
+{
+    less_points lp;
+    std::sort(m_rounds.begin(), m_rounds.end(), lp);
+}
+
+
+const Round & Results::get(int i) const
+{
+    // TODO: exception
+    if (i >= 0 && i < in())
+    {
+        return m_rounds[i];
+    }
+}
+
+
+void Results::deleteLast()
+{
+    if (in())
+        m_rounds.pop_back();
+}
+

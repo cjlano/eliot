@@ -1,43 +1,46 @@
-# Eliot                                                                     
-# Copyright (C) 1999  Antoine Fraboulet                                     
-# antoine.fraboulet@free.fr                                             
-#                                                                           
-# This program is free software; you can redistribute it and/or modify      
-# it under the terms of the GNU General Public License as published by      
-# the Free Software Foundation; either version 2 of the License, or         
-# (at your option) any later version.                                       
-#                                                                           
-# This program is distributed in the hope that it will be useful,           
-# but WITHOUT ANY WARRANTY; without even the implied warranty of            
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
-# GNU General Public License for more details.                              
-#                                                                           
-# You should have received a copy of the GNU General Public License         
-# along with this program; if not, write to the Free Software               
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+# Eliot
+# Copyright (C) 1999  Antoine Fraboulet
+# antoine.fraboulet@free.fr
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-# $Id: Makefile.am,v 1.3 2004/04/08 10:21:56 afrab Exp $ 
+# $Id: Makefile.am,v 1.4 2005/02/05 11:14:56 ipkiss Exp $
+
+if BUILD_WXWIDGETS
 
 bin_PROGRAMS = eliot
 
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/dic -I$(top_srcdir)/game 
+INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/dic -I$(top_srcdir)/game
 
 AM_CPPFLAGS=@WX_CPPFLAGS@
 
-eliot_SOURCES = 		\
-configdb.cc configdb.h		\
-gfxboard.cc gfxboard.h		\
-printout.cc printout.h		\
-confdimdlg.cc confdimdlg.h	\
-confsearch.cc confsearch.h	\
-searchpanel.cc searchpanel.h	\
-auxframes.cc auxframes.h 	\
-mainframe.cc mainframe.h 	\
-main.cc ewx.h			
+eliot_SOURCES = \
+    configdb.cc configdb.h \
+    gfxboard.cc gfxboard.h \
+    printout.cc printout.h \
+    confdimdlg.cc confdimdlg.h \
+    confsearch.cc confsearch.h \
+    searchpanel.cc searchpanel.h \
+    auxframes.cc auxframes.h  \
+    mainframe.cc mainframe.h  \
+    main.cc ewx.h
 
 eliot_LDADD = @WX_LIBS@ ../dic/libdic.a ../game/libgame.a
 
 EXTRA_DIST = 			\
-eliot.xpm			
+eliot.xpm
 
+endif
 

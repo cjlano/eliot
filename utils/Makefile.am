@@ -1,27 +1,36 @@
-# Eliot                                                                     
-# Copyright (C) 1999  Antoine Fraboulet                                     
-# antoine.fraboulet@free.fr                                             
-#                                                                           
-# This program is free software; you can redistribute it and/or modify      
-# it under the terms of the GNU General Public License as published by      
-# the Free Software Foundation; either version 2 of the License, or         
-# (at your option) any later version.                                       
-#                                                                           
-# This program is distributed in the hope that it will be useful,           
-# but WITHOUT ANY WARRANTY; without even the implied warranty of            
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
-# GNU General Public License for more details.                              
-#                                                                           
-# You should have received a copy of the GNU General Public License         
-# along with this program; if not, write to the Free Software               
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+# Eliot
+# Copyright (C) 1999  Antoine Fraboulet
+# antoine.fraboulet@free.fr
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-# $Id: Makefile.am,v 1.1 2004/04/08 09:43:06 afrab Exp $ 
-
-noinst_PROGRAMS = eliottxt
+# $Id: Makefile.am,v 1.2 2005/02/05 11:14:56 ipkiss Exp $
 
 INCLUDES = -I$(top_srcdir)/dic -I$(top_srcdir)/game
+noinst_PROGRAMS =
 
-eliottxt_SOURCES = eliottxt.c
-
+if BUILD_TEXT
+noinst_PROGRAMS += eliottxt
+eliottxt_SOURCES = eliottxt.cpp
 eliottxt_LDADD = ../dic/libdic.a ../game/libgame.a
+endif
+
+if BUILD_NCURSES
+noinst_PROGRAMS += eliotcurses
+eliotcurses_SOURCES = ncurses.cpp
+eliotcurses_LDADD = ../game/libgame.a ../dic/libdic.a
+# FIXME
+AM_LDFLAGS = -lncurses
+endif
