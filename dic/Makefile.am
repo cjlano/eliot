@@ -16,13 +16,12 @@
 # along with this program; if not, write to the Free Software               
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-# $Id: Makefile.am,v 1.3 2004/06/20 20:13:59 afrab Exp $ 
+# $Id: Makefile.am,v 1.4 2005/04/03 21:12:03 ipkiss Exp $ 
 
 bin_PROGRAMS = compdic listdic 
 
 noinst_LIBRARIES = libdic.a
 
-libdic_a_CFLAGS=-Wall -pipe -g
 libdic_a_SOURCES = 		  \
 	dic_internals.h		  \
 	dic_search.c dic_search.h \

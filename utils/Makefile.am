@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-# $Id: Makefile.am,v 1.5 2005/02/26 22:57:34 ipkiss Exp $
+# $Id: Makefile.am,v 1.6 2005/04/03 21:12:03 ipkiss Exp $
 
 top_srcdir = @top_srcdir@
 
@@ -26,7 +26,7 @@ noinst_PROGRAMS =
 if BUILD_TEXT
 noinst_PROGRAMS += eliottxt
 eliottxt_SOURCES = game_io.h game_io.cpp eliottxt.cpp
-eliottxt_LDADD = ../dic/libdic.a ../game/libgame.a
+eliottxt_LDADD = ../game/libgame.a ../dic/libdic.a
 endif
 
 if BUILD_NCURSES

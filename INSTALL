@@ -2,11 +2,7 @@ Installation sous Linux (Un*x) (bien/facile)
 ------------------------------
 * Pour installer à partir de l'archive CVS :
 
-  autopoint -f
-  aclocal -I m4
-  autoheader
-  automake --add-missing --foreign --copy
-  autoconf
+  ./bootstrap
 
   ./configure --prefix=/usr/local/eliot
   make
@@ -40,13 +36,9 @@ Dans les 2 cas, les étapes sont les mêmes :
 
 * compilation d'Eliot :
 
-    - si vous utilisez l'archive CVS, il y a quelques commandes préalables
-      à exécuter (aussi bien sous Cygwin que sous GNU/Linux) :
-            autopoint -f
-            aclocal -I m4
-            autoheader
-            automake --add-missing --foreign --copy
-            autoconf
+    - si vous utilisez l'archive CVS, il faut générer le script 'configure'
+      (aussi bien sous Cygwin que sous GNU/Linux) :
+            ./bootstrap
 
     - avec Cygwin, configurer avec la ligne de commande suivante :
             CC="gcc -mno-cygwin" CXX="g++ -mno-cygwin" \
@@ -65,5 +57,4 @@ Dans les 2 cas, les étapes sont les mêmes :
       'wx-config' de l'installation de wxWindows.
       Ensuite, un simple 'make' suffit pour terminer la compilation,
       éventuellement suivi de 'make install'.
-
 

@@ -2,7 +2,7 @@
  * Copyright (C) 1999-2005 Eliot
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *
- * $Id: debug.h,v 1.6 2005/03/27 22:08:31 ipkiss Exp $
+ * $Id: debug.h,v 1.7 2005/04/03 21:12:03 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,10 +26,7 @@
  * General
  **********/
 
-// XXX: Temporary
-#define _DEBUG_
-
-#ifdef _DEBUG_
+#ifdef DEBUG
 #   include <iostream>
 // Assertion macro: if the condition is not verified, print a message on stderr
 // and stops execution, otherwise do nothing.

@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-# $Id: Makefile.am,v 1.4 2005/02/05 11:14:56 ipkiss Exp $
+# $Id: Makefile.am,v 1.5 2005/04/03 21:12:03 ipkiss Exp $
 
 if BUILD_WXWIDGETS
 
@@ -24,7 +24,7 @@ bin_PROGRAMS = eliot
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/dic -I$(top_srcdir)/game
 
-AM_CPPFLAGS=@WX_CPPFLAGS@
+AM_CPPFLAGS = @WX_CPPFLAGS@
 
 eliot_SOURCES = \
     configdb.cc configdb.h \
@@ -39,8 +39,8 @@ eliot_SOURCES = \
 
 eliot_LDADD = @WX_LIBS@ ../dic/libdic.a ../game/libgame.a
 
-EXTRA_DIST = 			\
-eliot.xpm
+EXTRA_DIST = \
+    eliot.xpm
 
 endif
 

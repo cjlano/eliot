@@ -16,17 +16,15 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: ewx.h,v 1.4 2005/03/29 07:00:39 afrab Exp $ */
+/* $Id: ewx.h,v 1.5 2005/04/03 21:12:03 ipkiss Exp $ */
 
 #ifndef __EWX__
 #define __EWX__
 
-#define DEBUG_
-
 #ifdef DEBUG
 #  define debug(x...) { fprintf(stderr,x); }
-#else 
-#  define debug(x...) 
+#else
+#  define debug(x...)
 #endif
 
 #if defined(TRACE_TODO)
@@ -35,7 +33,7 @@
        fprintf(stderr,x);                                                \
        }
 #else
-#  define TODO(x...) 
+#  define TODO(x...)
 #endif
 
 #if defined(__WIN32__) || defined(__WIN95__) || defined(__WXMSW__)
@@ -49,22 +47,21 @@
 
 #include "config.h"
 #define APPNAME "Eliot"
-#define DATE "$Date: 2005/03/29 07:00:39 $"
-#endif
+#define DATE "$Date: 2005/04/03 21:12:03 $"
 
-/* wxU is used to convert ansi/utf8 strings to unicode strings (wchar_t) */
+// wxU is used to convert ansi/utf8 strings to unicode strings (wchar_t)
 #if defined( ENABLE_NLS ) && defined( ENABLE_UTF8 )
-#if wxUSE_UNICODE
-#   define wxU(utf8) wxString(utf8, wxConvUTF8)
-#else
-#   define wxU(utf8) wxString(wxConvUTF8.cMB2WC(utf8), *wxConvCurrent)
-#endif
-
+#   if wxUSE_UNICODE
+#       define wxU(utf8) wxString(utf8, wxConvUTF8)
+#   else
+#       define wxU(utf8) wxString(wxConvUTF8.cMB2WC(utf8), *wxConvCurrent)
+#   endif
 #else // ENABLE_NLS && ENABLE_UTF8
-#if wxUSE_UNICODE
-#   define wxU(ansi) wxString(ansi, *wxConvCurrent)
-#else
-#   define wxU(ansi) ansi
-#endif
+#   if wxUSE_UNICODE
+#       define wxU(ansi) wxString(ansi, *wxConvCurrent)
+#   else
+#       define wxU(ansi) ansi
+#   endif
+#endif // ENABLE_NLS && ENABLE_UTF8
 
-#endif
+#endif // __EWX__
