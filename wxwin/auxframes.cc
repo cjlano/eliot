@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: auxframes.cc,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: auxframes.cc,v 1.2 2004/06/20 20:00:09 afrab Exp $ */
 
 #include <iostream>
 using namespace std;
@@ -81,8 +81,19 @@ AuxFrame::SwitchDisplay()
 void
 AuxFrame::Reload()
 {
+  #define MINW 50
+  #define MINH 50
+
+  wxSize size;
   Move(config.getFramePos(classname));
-  SetClientSize(config.getFrameSize(classname));
+  size = config.getFrameSize(classname);
+
+  if (size.GetWidth() < MINW)
+    size.SetWidth(MINW);
+  if (size.GetHeight() < MINH)
+    size.SetHeight(MINH);
+    
+  SetClientSize(size);
   Refresh();
   if (show) { Show(FALSE); Show(TRUE); }
 }
