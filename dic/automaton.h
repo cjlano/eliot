@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: automaton.h,v 1.1 2004/06/20 20:13:59 afrab Exp $
+ * $Id: automaton.h,v 1.2 2005/03/29 08:22:55 afrab Exp $
  */
 
 #ifndef _DIC_AUTOMATON_H_
@@ -26,15 +26,15 @@ struct _automaton {
   int nterm;
   int nstate;
   int init;
-  int **Dtrans;  
+  int **Dtrans;
   int *accept;
-  int  *marque;   
+  int *marque;
 };
 
 typedef struct _automaton* automaton;
 
-int automaton_build(automaton *a, int init_state, int *ptl, int *PS);
+int  automaton_build (automaton *a, int init_state, int *ptl, int *PS);
 void automaton_delete(automaton a);
-void automaton_dump(automaton a, char* filename);
+void automaton_dump  (automaton a, char* filename);
 
 #endif

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: auxframes.cc,v 1.7 2005/03/29 08:05:18 afrab Exp $ */
+/* $Id: auxframes.cc,v 1.8 2005/03/29 08:22:55 afrab Exp $ */
 
 #include <iostream>
 using namespace std;
@@ -32,6 +32,7 @@ using namespace std;
 
 #include "dic.h"
 #include "dic_search.h"
+#include "training.h"
 #include "game.h"
 
 #include "configdb.h"
@@ -383,9 +384,8 @@ BenjFrame::Refresh(refresh_t force)
     }
 
     Waiting();
-    // ANTOINE
-    //    Dic_search_Benj(m_game.getDic(),
-    //                    m_game.getSearchedWord(item).c_str(), wordlist);
+    Dic_search_Benj(m_game.getDic(),
+		    ((Training&)m_game).getSearchedWord(item).c_str(), wordlist);
 
     int resnum = 0;
     wxString res[RES_BENJ_MAX];
@@ -422,9 +422,8 @@ RaccFrame::Refresh(refresh_t force)
     }
 
     Waiting();
-    // ANTOINE
-    //    Dic_search_Racc(m_game.getDic(),
-    //                    m_game.getSearchedWord(item).c_str(), wordlist);
+    Dic_search_Racc(m_game.getDic(),
+		    ((Training&)m_game).getSearchedWord(item).c_str(), wordlist);
 
     int resnum = 0;
     wxString res[RES_RACC_MAX];
