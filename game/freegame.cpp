@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.cpp,v 1.6 2005/03/27 21:45:04 ipkiss Exp $
+ * $Id: freegame.cpp,v 1.7 2005/03/28 14:55:27 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -181,6 +181,9 @@ void FreeGame::end()
 
 int FreeGame::pass(const string &iToChange, int n)
 {
+    if (m_finished)
+        return 3;
+
     // Convert the string into tiles
     vector<Tile> tilesVect;
     for (unsigned int i = 0; i < iToChange.size(); i++)
@@ -191,16 +194,15 @@ int FreeGame::pass(const string &iToChange, int n)
         tilesVect.push_back(tile);
     }
 
-    return helperPass(tilesVect, n);
+    int res = helperPass(tilesVect, n);
+    endTurn();
+    return res;
 }
 
 
 int FreeGame::helperPass(const vector<Tile> &iToChange, int n)
 {
     ASSERT(0 <= n && n < getNPlayers(), "Wrong player number");
-
-    if (m_finished)
-        return 3;
 
     /* You cannot change more letters than what is left in the bag! */
     Bag bag;
