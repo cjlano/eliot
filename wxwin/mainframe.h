@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: mainframe.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $ */
+/* $Id: mainframe.h,v 1.3 2005/03/29 07:00:39 afrab Exp $ */
 
 // -*- C++ -*-
 #ifndef _MAINFRAME_H
@@ -30,10 +30,10 @@ class MainFrame: public wxFrame
 {
 private:
 
-    Dictionary m_dic;
-    Game *m_game;
-    ConfigDB config;
-    AuxFrame* auxframes_ptr[MAX_FRAME_ID];
+    Dictionary  m_dic;
+    Game        *m_game;
+    ConfigDB    config;
+    AuxFrame    *auxframes_ptr[MAX_FRAME_ID];
 
     wxTextCtrl  *rack;
     wxListCtrl  *results;

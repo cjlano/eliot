@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: auxframes.cc,v 1.5 2005/02/05 11:14:56 ipkiss Exp $ */
+/* $Id: auxframes.cc,v 1.6 2005/03/29 07:00:39 afrab Exp $ */
 
 #include <iostream>
 using namespace std;
@@ -329,9 +329,15 @@ void
 Plus1Frame::Refresh(refresh_t force)
 {
     int  i, j;
+    string rack2;
     char buff[LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
 
-    string rack2 = m_game.getPlayedRack(m_game.getNRounds());
+//     if (m_game.getNRounds() > 0)
+//       rack2 = m_game.getPlayedRack(m_game.getNRounds());
+//     else
+//       rack2 = "";
+
+    rack2 = m_game.getCurrentRack(0);
 
     if (m_rack == rack2)
         return;
@@ -381,8 +387,9 @@ BenjFrame::Refresh(refresh_t force)
     }
 
     Waiting();
-    Dic_search_Benj(m_game.getDic(),
-                    m_game.getSearchedWord(item).c_str(), wordlist);
+    // ANTOINE
+    //    Dic_search_Benj(m_game.getDic(),
+    //                    m_game.getSearchedWord(item).c_str(), wordlist);
 
     int resnum = 0;
     wxString res[RES_BENJ_MAX];
@@ -419,8 +426,9 @@ RaccFrame::Refresh(refresh_t force)
     }
 
     Waiting();
-    Dic_search_Racc(m_game.getDic(),
-                    m_game.getSearchedWord(item).c_str(), wordlist);
+    // ANTOINE
+    //    Dic_search_Racc(m_game.getDic(),
+    //                    m_game.getSearchedWord(item).c_str(), wordlist);
 
     int resnum = 0;
     wxString res[RES_RACC_MAX];

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: mainframe.cc,v 1.5 2005/02/05 11:14:56 ipkiss Exp $ */
+/* $Id: mainframe.cc,v 1.6 2005/03/29 07:00:39 afrab Exp $ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -35,7 +35,8 @@ using namespace std;
 #include "ewx.h"
 
 #include "dic.h"
-#include "training.h"
+#include "game.h"
+#include "game_factory.h"
 
 #include "configdb.h"
 #include "confdimdlg.h"
@@ -150,14 +151,8 @@ MainFrame::MainFrame(wxPoint pos_, wxSize size_)
 {
     wxSysColourChangedEvent event;
 
-    wxString dicpath = config.getDicPath();
-    Dic_load(&m_dic, dicpath.mb_str());
-
-    if (m_dic)
-    {
-        m_game = new Training(m_dic);
-        m_game->start();
-    }
+    for(int i=0 ; i < MAX_FRAME_ID; i++)
+      auxframes_ptr[i] = NULL;
 
     rack = new wxTextCtrl(this, Rack_ID, wxU(""), wxPoint(-1, -1), wxSize(-1, -1), wxTE_PROCESS_ENTER);
     rack->SetToolTip(wxT("Tirage"));
@@ -215,6 +210,22 @@ MainFrame::MainFrame(wxPoint pos_, wxSize size_)
 
     SetClientSize(size_);
     Move(config.getFramePos(wxT(APPNAME)));
+
+    wxString dicpath = config.getDicPath();
+    Dic_load(&m_dic, dicpath.mb_str());
+    if (m_dic)
+      {
+	// dictionary already selected
+      }
+    else
+      {
+	wxCommandEvent event;
+	OnMenuConfGameDic(event);	
+	m_game = NULL;
+      }
+    m_game = GameFactory::Instance()->createTraining(m_dic);
+    m_game->start();
+    InitFrames();
 }
 
 /** ******************************
@@ -227,10 +238,16 @@ MainFrame::~MainFrame()
     config.setFramePos(wxT(APPNAME), GetPosition());
     config.setFrameSize(wxT(APPNAME), GetClientSize());
 
-    if (m_game)
-        delete m_game;
+    if (m_game != NULL)
+      {
+	GameFactory::Instance()->releaseGame(*m_game);
+	m_game = NULL;
+      }
+    
     if (m_dic)
-        Dic_destroy(m_dic);
+      {
+	Dic_destroy(m_dic);
+      }
 }
 
  /** ******************************
@@ -326,7 +343,8 @@ MainFrame::UpdateStatusBar()
     text << config.getDicName();
     text << wxT(" ");
     text << config.getTileName();
-    statusbar->SetStatusText(text, 0);
+    if (statusbar)
+      statusbar->SetStatusText(text, 0);
 
     text = wxT("");
     if (m_game)
@@ -335,7 +353,8 @@ MainFrame::UpdateStatusBar()
             << wxT(" ")
             << wxT("points:") << m_game->getPlayerPoints(0);
     }
-    statusbar->SetStatusText(text, 1);
+    if (statusbar)
+      statusbar->SetStatusText(text, 1);
 }
 
 //*****************************************************************************
@@ -346,9 +365,20 @@ void
 MainFrame::OnMenuGameNew(wxCommandEvent&)
 {
     if (m_dic == NULL)
+      {
+        wxMessageBox(wxT("Il n'y a pas de dictionnaire sélectionné"), wxT("Eliot: erreur"),
+                     wxICON_INFORMATION | wxOK);
         return;
-    delete m_game;
-    m_game = new Training(m_dic);
+      }
+
+    TODO("sélection du type de partie dans OnMenuGameNew\n");
+    if (m_game != NULL)
+      {
+	GameFactory::Instance()->releaseGame(*m_game);
+	m_game = NULL;
+      }
+
+    m_game = GameFactory::Instance()->createTraining(m_dic);
     m_game->start();
     rack->SetValue(wxU(""));
     results->DeleteAllItems();
@@ -555,14 +585,12 @@ MainFrame::OnMenuConfGameDic(wxCommandEvent& WXUNUSED(event))
         int res = Dic_load(&dic, dicpath.mb_str());
         if (res == 0)
         {
-            // Normal case
             if (m_dic)
+	      {
                 Dic_destroy(m_dic);
+	      }
+
             m_dic = dic;
-            if (m_game == 0)
-                m_game = new Training(m_dic);
-            else
-                m_game->setDic(m_dic);
             config.setDicPath(dialog.GetPath(), ::wxFileNameFromPath(dialog.GetPath()));
         }
         else
@@ -570,7 +598,7 @@ MainFrame::OnMenuConfGameDic(wxCommandEvent& WXUNUSED(event))
             switch (res)
             {
                 case 0: /* cas normal */ break;
-                case 1: msg << wxT("chargement: problème d'ouverture de ") << dicpath << wxT("\n");        break;
+                case 1: msg << wxT("chargement: problème d'ouverture de ") << dicpath << wxT("\n"); break;
                 case 2: msg << wxT("chargement: mauvais en-tête de dictionnaire\n"); break;
                 case 3: msg << wxT("chargement: problème 3 d'allocation mémoire\n"); break;
                 case 4: msg << wxT("chargement: problème 4 d'allocation mémoire\n"); break;
@@ -717,6 +745,7 @@ MainFrame::OnSetRack(wxCommandEvent& event)
                      wxICON_INFORMATION | wxOK);
         return;
     }
+
     int id;
     Game::set_rack_mode mode = Game::RACK_NEW;
     bool check = config.getRackChecking();
@@ -760,9 +789,9 @@ MainFrame::OnSetRack(wxCommandEvent& event)
             break;
     }
 
-    string r = m_game->getPlayedRack(m_game->getNRounds());
+    string r = m_game->getCurrentRack(0);
     rack->SetValue(wxU(r.c_str()));
-    m_game->removeTestPlay();
+    ((Training*)m_game)->removeTestPlay();
     results->DeleteAllItems();
     UpdateFrames();
 }
@@ -778,30 +807,32 @@ MainFrame::Search()
     //results->Hide();
     results->DeleteAllItems();
     results->SetFont(config.getFont(LISTFONT));
-    for (int i = 0; i < m_game->getNResults(); i++)
-    {
-        wxString word = wxU(m_game->getSearchedWord(i).c_str());
-        wxString coords = wxU(m_game->getSearchedCoords(i).c_str());
-        wxChar bonus = m_game->getSearchedBonus(i) ? '*' : ' ';
-        wxString pts;
-        pts << m_game->getSearchedPoints(i);
 
-        long tmp = results->InsertItem(i, word);
-        results->SetItemData(tmp, i);
-        tmp = results->SetItem(i, 1, bonus);
-        tmp = results->SetItem(i, 2, coords);
-        tmp = results->SetItem(i, 3, pts);
-    }
+    for (int i = 0; i < ((Training*)m_game)->getNResults(); i++)
+      {
+         wxString word = wxU(((Training*)m_game)->getSearchedWord(i).c_str());
+         wxString coords = wxU(((Training*)m_game)->getSearchedCoords(i).c_str());
+         wxChar bonus = ((Training*)m_game)->getSearchedBonus(i) ? '*' : ' ';
+         wxString pts;
+         pts << ((Training*)m_game)->getSearchedPoints(i);
+
+	 long tmp = results->InsertItem(i, word);
+         results->SetItemData(tmp, i);
+         tmp = results->SetItem(i, 1, bonus);
+         tmp = results->SetItem(i, 2, coords);
+         tmp = results->SetItem(i, 3, pts);
+      }
 
     for (int i = 0; i < 4; i++)
         results->SetColumnWidth(i, wxLIST_AUTOSIZE);
 
     results->Show();
-    if (m_game->getNResults())
-    {
-        results->SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED | wxLIST_MASK_STATE);
-        m_game->testPlay(0);
-    }
+
+     if (((Training*)m_game)->getNResults() > 0)
+     {
+         results->SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED | wxLIST_MASK_STATE);
+         ((Training*)m_game)->testPlay(0);
+     }
 }
 
 void
@@ -814,7 +845,7 @@ MainFrame::OnSearch(wxCommandEvent& WXUNUSED(event))
         return;
     }
 
-    m_game->removeTestPlay();
+    ((Training*)m_game)->removeTestPlay();
 
     switch (((Training*)m_game)->setRackManual(config.getRackChecking(), (const char*)rack->GetValue().mb_str()))
     {
@@ -831,7 +862,7 @@ MainFrame::OnSearch(wxCommandEvent& WXUNUSED(event))
         default: statusbar->SetStatusText(wxT("Le tirage a été modifié manuellement"), 0); break;
     }
 
-    string r = m_game->getPlayedRack(m_game->getNRounds());
+    string r = m_game->getCurrentRack(0);
     rack->SetValue(wxU(r.c_str()));
 
     Search();
@@ -843,18 +874,25 @@ MainFrame::OnSearch(wxCommandEvent& WXUNUSED(event))
 void
 MainFrame::Play(int n)
 {
-    m_game->removeTestPlay();
+  ((Training*)m_game)->removeTestPlay();
 
-    if (n == -1)
-        m_game->back(1);
-    else
-        ((Training*)m_game)->playResult(n);
+  if (n == -1)
+    {
+      m_game->back(1);
+    }
+  else
+    {
+      ((Training*)m_game)->playResult(n);
+    }
 
-    string r = m_game->getPlayedRack(m_game->getNRounds());
-    rack->SetValue(wxU(r.c_str()));
-    results->DeleteAllItems();
-    UpdateStatusBar();
-    UpdateFrames();
+  if (m_game->getNRounds() > 0)
+    {
+      string r = m_game->getCurrentRack(0);
+      rack->SetValue(wxU(r.c_str()));
+      results->DeleteAllItems();
+      UpdateStatusBar();
+      UpdateFrames();
+    }
 }
 
 void
@@ -884,9 +922,9 @@ MainFrame::OnPlay(wxCommandEvent& event)
 void
 MainFrame::OnListCtrlSelected(wxListEvent& event)
 {
-    m_game->removeTestPlay();
-    m_game->testPlay(event.m_itemIndex);
-    UpdateFrames();
+  ((Training*)m_game)->removeTestPlay();
+  ((Training*)m_game)->testPlay(event.m_itemIndex);
+  UpdateFrames();
 }
 
 void
@@ -903,25 +941,30 @@ MainFrame::OnListCtrlActivated(wxListEvent& event)
 void
 MainFrame::InitFrames()
 {
-    // XXX TODO XXX TODO XXX TODO XXX TODO XXX TODO
-    if (m_game == NULL)
+  if (m_game == NULL)
     {
-        wxMessageBox(wxT("Pas de partie en cours"), wxT("Eliot: erreur"),
-                     wxICON_INFORMATION | wxOK);
-        return;
+      return;
     }
 
-    auxframes_ptr[ID_Frame_Verif]  = new VerifFrame (this, m_game->getDic());
-    auxframes_ptr[ID_Frame_Search] = new SearchFrame(this, m_game->getDic());
-    auxframes_ptr[ID_Frame_Plus1]  = new Plus1Frame (this, *m_game);
-    auxframes_ptr[ID_Frame_Racc]   = new RaccFrame  (this, *m_game, results);
-    auxframes_ptr[ID_Frame_Benj]   = new BenjFrame  (this, *m_game, results);
-    auxframes_ptr[ID_Frame_Bag]    = new BagFrame   (this, *m_game);
-    auxframes_ptr[ID_Frame_Board]  = new BoardFrame (this, *m_game);
-
-    for (int i = MIN_FRAME_ID; i < MAX_FRAME_ID; i++)
+  for(int i=0 ; i < MAX_FRAME_ID; i++)
     {
-        auxframes_ptr[i]->Reload();
+      if (auxframes_ptr[i] != NULL)
+	{
+	  delete auxframes_ptr[i];
+	}
+    }
+
+  auxframes_ptr[ ID_Frame_Verif  ] = new VerifFrame (this, m_game->getDic());
+  auxframes_ptr[ ID_Frame_Search ] = new SearchFrame(this, m_game->getDic());
+  auxframes_ptr[ ID_Frame_Plus1  ] = new Plus1Frame (this, *m_game);
+  auxframes_ptr[ ID_Frame_Racc   ] = new RaccFrame  (this, *m_game, results);
+  auxframes_ptr[ ID_Frame_Benj   ] = new BenjFrame  (this, *m_game, results);
+  auxframes_ptr[ ID_Frame_Bag    ] = new BagFrame   (this, *m_game);
+  auxframes_ptr[ ID_Frame_Board  ] = new BoardFrame (this, *m_game);
+  
+  for (int i = MIN_FRAME_ID; i < MAX_FRAME_ID; i++)
+    {
+      auxframes_ptr[i]->Reload();
     }
 }
 
@@ -957,6 +1000,9 @@ MainFrame::UpdateFrames(refresh_t force)
     for (int id = 0; id < MAX_FRAME_ID; id++)
     {
         if (auxframes_ptr[id])
+	  {      
+	    // debug("UpdateFrames %d\n",id);
             auxframes_ptr[id]->Refresh(force);
+	  }
     }
 }

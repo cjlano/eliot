@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: ewx.h,v 1.3 2005/02/05 11:14:56 ipkiss Exp $ */
+/* $Id: ewx.h,v 1.4 2005/03/29 07:00:39 afrab Exp $ */
 
 #ifndef __EWX__
 #define __EWX__
@@ -24,24 +24,32 @@
 #define DEBUG_
 
 #ifdef DEBUG
-  #define debug(x...) { fprintf(stderr,x); }
-  #define FRAME_TRACE
+#  define debug(x...) { fprintf(stderr,x); }
 #else 
-  #define debug(x...) 
+#  define debug(x...) 
+#endif
+
+#if defined(TRACE_TODO)
+#  define TODO(x...) {                                                   \
+       fprintf(stderr,"** TODO ** %s:%d: ", __FILE__, __LINE__); \
+       fprintf(stderr,x);                                                \
+       }
+#else
+#  define TODO(x...) 
 #endif
 
 #if defined(__WIN32__) || defined(__WIN95__) || defined(__WXMSW__)
-  #define ENABLE_LC_NO_HEADER
-  #define INCOMPLETE
+#  define ENABLE_LC_NO_HEADER
+#  define INCOMPLETE
 #else
-  #define ENABLE_SAVE_POSTSCRIPT
-  #define ENABLE_LOCALE
-  #define INCOMPLETE { cerr << "incomplete " << __FILE__ << " " << __LINE__ << "\n"; }
+#  define ENABLE_SAVE_POSTSCRIPT
+#  define ENABLE_LOCALE
+#  define INCOMPLETE { cerr << "incomplete " << __FILE__ << " " << __LINE__ << "\n"; }
 #endif
 
 #include "config.h"
 #define APPNAME "Eliot"
-#define DATE "$Date: 2005/02/05 11:14:56 $"
+#define DATE "$Date: 2005/03/29 07:00:39 $"
 #endif
 
 /* wxU is used to convert ansi/utf8 strings to unicode strings (wchar_t) */

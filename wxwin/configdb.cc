@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: configdb.cc,v 1.3 2005/02/05 11:14:56 ipkiss Exp $ */
+/* $Id: configdb.cc,v 1.4 2005/03/29 07:00:39 afrab Exp $ */
 
 #include <iostream>
 #include "ewx.h"
@@ -636,8 +636,12 @@ wxPoint ConfigDB::getFramePos(wxString frame)
   wxPoint pos;
   wxString keyX(frame + PX);
   wxString keyY(frame + PY);
+
   pos.x = Read(keyX,CONFIG_DEFAULT_X);
+  pos.x = pos.x < 0 ? 0 : pos.x;
+
   pos.y = Read(keyY,CONFIG_DEFAULT_Y);
+  pos.y = pos.y < 0 ? 0 : pos.y;
 #ifdef FRAME_TRACE
   cerr << "configdb::getFramePos  " << frame
        << " \tx:" << pos.x << " y:" << pos.y << endl;
@@ -653,8 +657,8 @@ void ConfigDB::setFramePos(wxString frame, wxPoint pos)
 #endif
   wxString keyX(frame + PX);
   wxString keyY(frame + PY);
-  Write(keyX,(long)pos.x);
-  Write(keyY,(long)pos.y);
+  Write(keyX,(long) (pos.x < 0 ? 0 : pos.x));
+  Write(keyY,(long) (pos.y < 0 ? 0 : pos.y));
 }
 
 wxSize ConfigDB::getFrameSize(wxString frame)
@@ -662,8 +666,12 @@ wxSize ConfigDB::getFrameSize(wxString frame)
   wxSize size;
   wxString keyX(frame + SW);
   wxString keyY(frame + SH);
+
   size.x = Read(keyX,CONFIG_DEFAULT_W);
+  size.x = size.x < 0 ? 0 : size.x;
+
   size.y = Read(keyY,CONFIG_DEFAULT_H);
+  size.y = size.y < 0 ? 0 : size.y;
 #ifdef FRAME_TRACE
   cerr << "configdb::getFrameSize " << frame
        << " \tw:" << size.x << " h:" << size.y << endl;
@@ -679,8 +687,8 @@ void ConfigDB::setFrameSize(wxString frame, wxSize size)
 #endif
   wxString keyX(frame + SW);
   wxString keyY(frame + SH);
-  Write(keyX,(long)size.x);
-  Write(keyY,(long)size.y);
+  Write(keyX,(long) (size.x < 0 ? 0 : size.x));
+  Write(keyY,(long) (size.y < 0 ? 0 : size.y));
 }
 
 int ConfigDB::getFrameShow(wxString frame)

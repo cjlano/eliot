@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: main.cc,v 1.5 2005/02/05 11:14:56 ipkiss Exp $ */
+/* $Id: main.cc,v 1.6 2005/03/29 07:00:39 afrab Exp $ */
 
 #ifdef WIN32 // mingw32 hack
 #   undef Yield
@@ -33,6 +33,7 @@
 #include "ewx.h"
 #include "configdb.h"
 #include "mainframe.h"
+#include "game_factory.h"
 
 #include "eliot.xpm"
 
@@ -77,6 +78,7 @@ EliotApp::OnInit()
 int
 EliotApp::OnExit()
 {
+    GameFactory::Destroy();
     delete wxConfigBase::Set((wxConfigBase *) NULL);
     return 0;
 }
