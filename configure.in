@@ -3,12 +3,11 @@ dnl Process this file with autoconf to produce a configure script.
 dnl --------------------------------------------------------------
 dnl configure.in for Eliot
 dnl --------------------------------------------------------------
-dnl AC_REVISION($Id: configure.in,v 1.1 2004/04/08 09:43:06 afrab Exp $)
+dnl AC_REVISION($Id: configure.in,v 1.2 2004/04/08 09:57:28 afrab Exp $)
 AC_INIT(wxwin/main.cc)
 AM_INIT_AUTOMAKE(eliot, 1.4)
 AM_CONFIG_HEADER(config.h)
-dnl AM_DISABLE_STATIC
-dnl AM_PROG_LIBTOOL
+AM_OPTIONS_WXCONFIG
 
 dnl --------------------------------------------------------------
 dnl Checks for programs.
@@ -19,20 +18,26 @@ AC_PROG_CXX
 AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 
-AC_ARG_WITH(wx-prefix,    [  --with-wx-prefix=DIR       Prefix where wxWindows is installed],
-            wx_config_prefix="$withval", wx_config_prefix="")
-AC_ARG_WITH(wx-exec-prefix, [  --with-wx-exec-prefix=DIR  Exec prefix where wxWindows is installed],
-            wx_config_exec_prefix="$withval", wx_config_exec_prefix="")
-
 dnl --------------------------------------------------------------
 dnl Checks for libraries.
 dnl --------------------------------------------------------------
-AM_PATH_WX(2.4.0, WXWIN=1)
-if test "$WXWIN" != 1 ; then
-  echo '*** You should have at least wxWindows 2.4 installed'
-  echo '*** Please install this package first'
-  AC_MSG_ERROR("missing wxWindows >= 2.2")
-fi 
+AM_PATH_WXCONFIG(2.3.4, wxWin=1)
+if test "$wxWin" != 1; then
+   AC_MSG_ERROR([
+     wxWindows must be installed on your system
+     but wx-config script couldn't be found.
+    
+     Please check that wx-config is in path, the directory
+     where wxWindows libraries are installed (returned by
+     'wx-config --libs' command) is in LD_LIBRARY_PATH or
+     equivalent variable and wxWindows version is 2.3.4 or above.
+   ])
+fi
+
+AM_CPPFLAGS="$AM_CPPFLAGS $WX_CPPFLAGS"
+CXXFLAGS="$CXXFLAGS $WX_CXXFLAGS_ONLY"
+CFLAGS="$CFLAGS $WX_CFLAGS_ONLY"
+LDFLAGS="$LDFLAGS $WX_LIBS"
 dnl --------------------------------------------------------------
 dnl Checks for header files.
 dnl --------------------------------------------------------------

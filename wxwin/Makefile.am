@@ -16,13 +16,11 @@
 # along with this program; if not, write to the Free Software               
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-# $Id: Makefile.am,v 1.1 2004/04/08 09:43:06 afrab Exp $ 
+# $Id: Makefile.am,v 1.2 2004/04/08 09:57:28 afrab Exp $ 
 
 bin_PROGRAMS = eliot
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/dic -I$(top_srcdir)/game
-
-CPPFLAGS = -fno-rtti -pipe @WXWIN_CFLAGS@
 
 eliot_SOURCES = 		\
 configdb.cc configdb.h		\
@@ -35,7 +33,7 @@ auxframes.cc auxframes.h 	\
 mainframe.cc mainframe.h 	\
 main.cc ewx.h			
 
-eliot_LDADD = @WXWIN_LIBS@ ../dic/libdic.a ../game/libgame.a
+eliot_LDADD = @WX_LIBS@ ../dic/libdic.a ../game/libgame.a
 
 EXTRA_DIST = 			\
 eliot.xpm			
