@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-06 23:21+0100\n"
+"POT-Creation-Date: 2005-02-07 23:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,7 +47,7 @@ msgid " History of the game "
 msgstr ""
 
 #: utils/ncurses.cpp:250
-msgid " N     RACK        SOLUTION       REF   PTS   P   BONUS"
+msgid " N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS"
 msgstr ""
 
 #: utils/ncurses.cpp:281
@@ -162,39 +162,53 @@ msgstr ""
 msgid "Enter the word to check:"
 msgstr ""
 
-#: utils/ncurses.cpp:363
+#: utils/ncurses.cpp:355
+#, c-format
+msgid "The word '%s' exists"
+msgstr ""
+
+#: utils/ncurses.cpp:357
+#, c-format
+msgid "The word '%s' does not exist"
+msgstr ""
+
+#: utils/ncurses.cpp:367
 msgid " Pass your turn "
 msgstr ""
 
-#: utils/ncurses.cpp:364
+#: utils/ncurses.cpp:368
 msgid "Enter the letters to change:"
 msgstr ""
 
-#: utils/ncurses.cpp:373
+#: utils/ncurses.cpp:377
 msgid "Cannot pass the turn"
 msgstr ""
 
-#: utils/ncurses.cpp:383
+#: utils/ncurses.cpp:387
 msgid " Set rack "
 msgstr ""
 
-#: utils/ncurses.cpp:384
+#: utils/ncurses.cpp:388
 msgid "Enter the new letters:"
 msgstr ""
 
-#: utils/ncurses.cpp:673
-msgid "Training"
-msgstr ""
-
-#: utils/ncurses.cpp:675
-msgid "Free game"
-msgstr ""
-
 #: utils/ncurses.cpp:677
-msgid "Duplicate"
+msgid "Training mode"
 msgstr ""
 
-#: utils/ncurses.cpp:733
+#: utils/ncurses.cpp:679
+msgid "Free game mode"
+msgstr ""
+
+#: utils/ncurses.cpp:681
+msgid "Duplicate mode"
+msgstr ""
+
+#: utils/ncurses.cpp:682
+msgid "[h for help]"
+msgstr ""
+
+#: utils/ncurses.cpp:737
 #, c-format
 msgid "Usage: eliotcurses /path/to/ods4.dawg\n"
 msgstr ""

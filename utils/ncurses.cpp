@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: ncurses.cpp,v 1.2 2005/02/06 22:18:11 ipkiss Exp $
+ * $Id: ncurses.cpp,v 1.3 2005/02/07 22:20:32 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -247,7 +247,7 @@ void CursesIntf::drawHistory(WINDOW *win, int y, int x)
 
     // Heading
     boxPrint(win, m_boxStart, x + 2,
-             _(" N     RACK        SOLUTION       REF   PTS   P   BONUS"));
+             _(" N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS"));
     mvwhline(win, y + 2, x + 2, ACS_HLINE, 55);
 
     int i;
@@ -350,8 +350,12 @@ void CursesIntf::checkWord(WINDOW *win, int y, int x)
     if (readString(win, y + 2, x + 2, 15, word))
     {
         int res = Dic_search_word(m_game.getDic(), word.c_str());
-        drawStatus(win, LINES - 1, 0, string("The word '") + word +
-                   (res ? "' exists" : "' does not exist"));
+        char s[100];
+        if (res)
+            snprintf(s, 100, _("The word '%s' exists"), word.c_str());
+        else
+            snprintf(s, 100, _("The word '%s' does not exist"), word.c_str());
+        drawStatus(win, LINES - 1, 0, s);
     }
     m_state = DEFAULT;
     clearRect(win, y, x, 4, 32);
@@ -670,12 +674,12 @@ void CursesIntf::redraw(WINDOW *win)
     attron(A_REVERSE);
     string mode;
     if (m_game.getMode() == Game::kTRAINING)
-        mode = _("Training");
+        mode = _("Training mode");
     else if (m_game.getMode() == Game::kFREEGAME)
-        mode = _("Free game");
+        mode = _("Free game mode");
     else if (m_game.getMode() == Game::kDUPLICATE)
-        mode = _("Duplicate");
-    string title = "Eliot (" + mode + " mode) [h for help]";
+        mode = _("Duplicate mode");
+    string title = "Eliot (" + mode + ") " + _("[h for help]");
     mvwprintw(win, 0, 0, title.c_str());
     whline(win, ' ', COLS - title.size());
     attroff(A_REVERSE);
