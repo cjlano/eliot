@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: pldrack.h,v 1.5 2005/03/29 06:54:08 afrab Exp $
+ * $Id: pldrack.h,v 1.6 2005/04/02 18:05:21 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ using namespace std;
  * A Playedrack is an "improved" rack, allowing to differentiate new letters
  * from letters that are left from the previous rack.
  * This is useful, to be able to write a rack on the form ABC+DEFG, where
- * A, B, C are the "old" letters and E, F, G, H are the "new" ones.
+ * A, B, C are the "old" letters and D, E, F, G are the "new" ones.
  */
 class PlayedRack
 {
@@ -66,7 +66,7 @@ public:
     bool checkRack(int iMin);
 
     void operator=(const PlayedRack &iOther);
-    void toString(string&);
+    void toString(string&) const;
 
 private:
     vector<Tile> m_oldTiles;

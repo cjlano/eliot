@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: pldrack.cpp,v 1.2 2005/03/29 06:54:08 afrab Exp $
+ * $Id: pldrack.cpp,v 1.3 2005/04/02 18:05:21 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -170,22 +170,22 @@ void PlayedRack::operator=(const PlayedRack &iOther)
 }
 
 
-void PlayedRack::toString(string& s)
+void PlayedRack::toString(string& s) const
 {
-  vector<Tile>::const_iterator it;
-  s = "";
-  if (nOld() > 0)
+    vector<Tile>::const_iterator it;
+    s = "";
+    if (nOld() > 0)
     {
-      for (it = m_oldTiles.begin(); it != m_oldTiles.end(); it++)
-	s += it->toChar();
+        for (it = m_oldTiles.begin(); it != m_oldTiles.end(); it++)
+            s += it->toChar();
     }
-  if (nOld() > 0 && nNew() > 0)
+    if (nOld() > 0 && nNew() > 0)
     {
-      s += "+";
+        s += "+";
     }
-  if (nNew() > 0)
+    if (nNew() > 0)
     {
-      for (it = m_newTiles.begin(); it != m_newTiles.end(); it++)
-	s += it->toChar();
+        for (it = m_newTiles.begin(); it != m_newTiles.end(); it++)
+            s += it->toChar();
     }
 }
