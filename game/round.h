@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: round.h,v 1.3 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: round.h,v 1.4 2005/03/27 17:30:48 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,21 +28,21 @@
 
 using namespace std;
 
-
-/*************************
- * A Round is 
- * 
- *************************/
-
 enum Tdirection {VERTICAL, HORIZONTAL};
 typedef enum Tdirection Direction;
 
+
+/**
+ * A Round is the representation of a played word (or going to be played).
+ * It contains the word itself, of course, but also information of position
+ * on the board, origin of letters (board for a letter already placed, rack
+ * for a letter just being played), points, etc...
+ */
 class Round
 {
 public:
 
     /*************************
-     * 
      * 
      *************************/
     Round();
@@ -51,7 +51,6 @@ public:
 
     /*************************
      * 
-     * 
      *************************/
     void addRightFromBoard(Tile);
     void removeRightToBoard(Tile);
@@ -59,8 +58,7 @@ public:
     void removeRightToRack(Tile, bool);
 
     /*************************
-     * 
-     * 
+     * General setters
      *************************/
     void setRow(int iRow)          { m_row = iRow; }
     void setCol(int iCol)          { m_col = iCol; }
@@ -74,7 +72,6 @@ public:
 
     /*************************
      * 
-     * 
      *************************/
     bool isJoker(int iIndex) const;
     const Tile& getTile(int iIndex) const;
@@ -82,8 +79,7 @@ public:
     bool isPlayedFromRack(int iIndex) const;
 
     /*************************
-     * 
-     * 
+     * General getters
      *************************/
     int getRow() const          { return m_row; }
     int getCol() const          { return m_col; }

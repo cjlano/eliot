@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: training.h,v 1.5 2005/03/03 22:14:41 ipkiss Exp $
+ * $Id: training.h,v 1.6 2005/03/27 17:30:48 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,14 @@
 using std::string;
 
 
+/**
+ * This class handles the logic specific to a training game.
+ * As its name indicates, it is not a game in the literal meaning of the word,
+ * in particular because the rack can be set at will.
+ * Note: No player should be added to this game, a human player is added
+ * automatically (in the start() method)
+ * TODO: really prevent addition of players.
+ */
 class Training: public Game
 {
     friend class GameFactory;

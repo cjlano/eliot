@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.cpp,v 1.6 2005/02/26 22:57:34 ipkiss Exp $
+ * $Id: game.cpp,v 1.7 2005/03/27 17:30:48 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -858,7 +858,7 @@ void Game::nextPlayer()
 int Game::checkPlayedWord(const string &iCoord,
                           const string &iWord, Round &oRound)
 {
-    char l[COOR_SIZE_MAX];
+    char l[4];
     int col, row;
     int res;
     vector<Tile> tiles;

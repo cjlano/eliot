@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: rack.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: rack.h,v 1.3 2005/03/27 17:30:48 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,11 +30,10 @@
 using namespace std;
 
 
-/*************************
+/**
  * A rack is a set of tiles, no more.
  * Tiles have to be in the bag for the rack to be valid.
- *************************/
-
+ */
 class Rack
 {
 public:

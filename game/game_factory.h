@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game_factory.h,v 1.2 2005/03/03 22:14:41 ipkiss Exp $
+ * $Id: game_factory.h,v 1.3 2005/03/27 17:30:48 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,12 @@
 #include "duplicate.h"
 
 
+/**
+ * This class is the entry point to create Game objects, either directly or
+ * using command-line parameters. It also offers a method to destroy Game
+ * objects.
+ * This class implements the Singleton pattern.
+ */
 class GameFactory
 {
 public:
@@ -46,6 +52,7 @@ public:
 
     Game *createFromCmdLine(int argc, char **argv);
 
+    /// Destroy a Game object, created by any of the createXXX methods above
     void releaseGame(Game &iGame);
 
 private:

@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: bag.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: bag.h,v 1.3 2005/03/27 17:30:48 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,10 +29,9 @@
 using namespace std;
 
 
-/*************************
- * A bag stores the set of free tiles for the game
- *************************/
-
+/**
+ * A bag stores the set of free tiles for the game.
+ */
 class Bag
 {
 public:
@@ -40,45 +39,43 @@ public:
     virtual ~Bag() {}
     void init();
 
-    /*************************
+    /**
      * take or replace a tile in the bag
      * return value :
      * 0 : Ok
      * 1 : an error occured (not enough or too many tiles
      *       of that type are in the bag)
-     *************************/
+     */
     int takeTile(const Tile &iTile);
     int replaceTile(const Tile &iTile);
 
-    /*************************
-     * Returns how many 't' tiles are available
-     *************************/
+    /// Return how many tiles idetical to iTile are available in the bag
     int in(const Tile &iTile) const;
 
-    /*************************
-     * Returns how many tiles/vowels/consonants are available
+    /**
+     * Return how many tiles/vowels/consonants are available
      * Warning: nVowels(b) + nConsonants(b) != nTiles(b),
      * because of the jokers and the 'Y'.
-     *************************/
+     */
     unsigned int nTiles() const  { return m_ntiles; }
     int nVowels() const;
     int nConsonants() const;
 
-    /*************************
-     * return a random available tile
-     * the tile is not taken out of the bag.
-     * returns 0 on failure
-     *************************/
+    /**
+     * Return a random available tile
+     * The tile is not taken out of the bag.
+     */
     Tile selectRandom();
 
     void operator=(const Bag &iOther);
 
+    /// Print on stderr all the letters of the bag (for debugging purposes)
     void dumpAll() const;
 
 private:
-    // Associate to each tile its number of occurrences in the bag
+    /// Associate to each tile its number of occurrences in the bag
     map<Tile, int> m_tilesMap;
-    // Total number of tiles in the bag
+    /// Total number of tiles in the bag
     int m_ntiles;
 };
 

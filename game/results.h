@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: results.h,v 1.3 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: results.h,v 1.4 2005/03/27 17:30:48 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,12 +33,12 @@ class Rack;
 typedef struct _Dictionary * Dictionary;
 
 
-/*************************
+/**
  * This class allows to perform a search on the board for a given rack,
  * and it offers accessors to the resulting rounds.
  * The rounds are sorted by decreasing number of points (but there is no
  * other ordering between 2 rounds with the same number of points).
- *************************/
+ */
 class Results
 {
 public:

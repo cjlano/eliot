@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.cpp,v 1.4 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: freegame.cpp,v 1.5 2005/03/27 17:30:48 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -170,7 +170,7 @@ void FreeGame::end()
 
     /* Add the points of the remaining tiles to the score of the current
      * player (i.e. the first player with an empty rack), and remove them
-     * from the score of the players who still had tiles */
+     * from the score of the players who still have tiles */
     for (int i = 0; i < getNPlayers(); i++)
     {
         if (i != m_currPlayer)

@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.h,v 1.3 2005/02/24 08:06:25 ipkiss Exp $
+ * $Id: freegame.h,v 1.4 2005/03/27 17:30:48 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,16 @@
 using std::string;
 
 
+/**
+ * This class handles the logic specific to a "free" game.
+ *
+ * The algorithm is simple: players play at their turn, and they can either
+ * play a word or change letters (changing letters implies passing its turn).
+ *
+ * When a player has no more letters (end of the game), the points of the
+ * letters left in the racks of his opponents are added to his score, and
+ * removed from the score of the latters.
+ */
 class FreeGame: public Game
 {
     friend class GameFactory;

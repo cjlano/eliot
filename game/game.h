@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.h,v 1.9 2005/03/03 22:14:41 ipkiss Exp $
+ * $Id: game.h,v 1.10 2005/03/27 17:30:48 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,31 +45,20 @@ using namespace std;
 
 /*************************
  * Dimensions of the board, the tiles placed on
- * the board can be accessed via Game_getboardchar()
+ * the board can be accessed via getBoardChar()
  *************************/
 #define BOARD_MIN 1
 #define BOARD_MAX 15
 
-/*************************
- * Dimensions of the strings that are used to return
- * values to the GUI
- *************************/
-#define WORD_SIZE_MAX 16
-#define RACK_SIZE_MAX 10
-#define COOR_SIZE_MAX  6
 
-// typedef struct tgame* Game;
-
+/**
+ * Parent class of all the Game types.
+ * It offers the common attributes (Board, Bag, etc...) as well as useful
+ * "helper" methods to factorize some code.
+ */
 class Game
 {
 public:
-    /*************************
-     * Functions to create and destroy a game
-     * the dictionary does not belong to the
-     * game (ie: it won't be destroyed by ~Game)
-     *
-     * The dictionary can be changed afterwards by setDic
-     *************************/
     Game(const Dictionary &iDic);
     virtual ~Game();
 
@@ -113,8 +102,7 @@ public:
     int back(int);
 
     /*************************
-     * int coordinates have to be
-     * BOARD_MIN <= int <= BOARD_MAX
+     * int coordinates have to be BOARD_MIN <= int <= BOARD_MAX
      *
      * getBoardChar returns an upper case letter
      * for normal tiles and a lower case letter for jokers.
@@ -163,7 +151,7 @@ public:
 
     /*************************
      * Functions to access already played words
-     * The int parameter should be 0 <= int < getNRounds
+     * The int parameter should be 0 <= int < getNRounds()
      *************************/
     int getNRounds() const     { return m_roundHistory.size(); }
     string getPlayedRack(int) const;
@@ -175,11 +163,12 @@ public:
 
     /*************************
      * Functions to access players.
-     * The int parameter should be 0 <= int < getNPlayers
+     * The int parameter should be 0 <= int < getNPlayers()
      *************************/
     int  getNPlayers() const    { return m_players.size(); }
     int  getNHumanPlayers() const;
     virtual void addHumanPlayer();
+    // TODO: Ability to specify which kind of AI player is wanted
     virtual void addAIPlayer();
     int  getPlayerPoints(int) const;
     string getPlayerRack(int) const;
@@ -195,11 +184,7 @@ public:
     virtual int endTurn() = 0;
 
 protected:
-    int helperPlayRound(const Round &iRound);
-    int helperSetRackRandom(int p, bool iCheck, set_rack_mode mode);
-    int helperSetRackManual(int p, bool iCheck, const string &iLetters);
-
-    /* All the players, indexed by their ID */
+    // All the players, indexed by their ID
     vector<Player*> m_players;
     int m_currPlayer;
 
@@ -214,11 +199,11 @@ protected:
      * History of the game
      * All the vectors are indexed by the number of turns in the game
      *************************/
-    /* History of the racks */
+    // History of the racks
     vector<PlayedRack*> m_rackHistory;
-    /* History of the rounds */
+    // History of the rounds
     vector<Round*> m_roundHistory;
-    /* ID of the players that played the round for each turn */
+    // ID of the players that played the round for each turn
     vector<int> m_playerHistory;
 
     int m_points;
@@ -228,6 +213,10 @@ protected:
     /*********************************************************
      * Helper functions
      *********************************************************/
+
+    int helperPlayRound(const Round &iRound);
+    int helperSetRackRandom(int p, bool iCheck, set_rack_mode mode);
+    int helperSetRackManual(int p, bool iCheck, const string &iLetters);
 
     string formatCoords(const Round &iRound) const;
     string formatPlayedRack(const PlayedRack &iRack,

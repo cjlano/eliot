@@ -2,7 +2,7 @@
  * Copyright (C) 2004-2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: player.h,v 1.5 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: player.h,v 1.6 2005/03/27 17:30:48 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,10 @@ class Board;
 typedef struct _Dictionary * Dictionary;
 
 
+/**
+ * This class is the parent classes for all the players involved in a game.
+ * It defines the common metohds to update the rack, score, etc...
+ */
 class Player
 {
 public:
@@ -74,6 +78,9 @@ private:
 };
 
 
+/**
+ * Human player.
+ */
 class HumanPlayer: public Player
 {
 public:

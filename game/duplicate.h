@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: duplicate.h,v 1.4 2005/02/24 08:06:25 ipkiss Exp $
+ * $Id: duplicate.h,v 1.5 2005/03/27 17:30:48 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,27 @@
 using std::string;
 
 
+/**
+ * This class handles the logic specific to a duplicate game.
+ * The trick in this mode is that the players will not necessarily play they
+ * word always in the same order, so we need to implement a "synchronization":
+ *   - when a human player wants to play a word, he plays it, and its score
+ *     and rack are updated. He cannot change his word afterwards.
+ *   - if there is still a human player who has not played for the current
+ *     turn, we wait for him
+ *   - if all the human players have played, it's the turn to the AI players
+ *     (currently handled in a loop, but we could imagine that they are running
+ *     in their own thread).
+ *   - once all the players have played, we can really end the turn:
+ *     the best word is played on the board, the history of the game is
+ *     updated, and the new rack is chosen.
+ *
+ * AI players play after human ones, because with the current implementation
+ * of the interfaces it is too easy for a player to see the rack of other
+ * players, and in particular a human player could take advantage of that to
+ * have more clues about the best word.
+ * TODO: better isolation of the players...
+ */
 class Duplicate: public Game
 {
     friend class GameFactory;
