@@ -1,0 +1,200 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Eliot
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-02-06 23:21+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: utils/ncurses.cpp:176
+msgid " Scores "
+msgstr ""
+
+#: utils/ncurses.cpp:182
+#, c-format
+msgid "Player %d: %d"
+msgstr ""
+
+#: utils/ncurses.cpp:190
+msgid " Racks "
+msgstr ""
+
+#: utils/ncurses.cpp:196
+#, c-format
+msgid "Player %d: %s"
+msgstr ""
+
+#: utils/ncurses.cpp:205 utils/ncurses.cpp:207
+msgid "Search complete"
+msgstr ""
+
+#: utils/ncurses.cpp:214
+msgid " Search results "
+msgstr ""
+
+#: utils/ncurses.cpp:243
+msgid " History of the game "
+msgstr ""
+
+#: utils/ncurses.cpp:250
+msgid " N     RACK        SOLUTION       REF   PTS   P   BONUS"
+msgstr ""
+
+#: utils/ncurses.cpp:281
+msgid " Help "
+msgstr ""
+
+#: utils/ncurses.cpp:286
+msgid "[Global]"
+msgstr ""
+
+#: utils/ncurses.cpp:287
+msgid "   h, H, ?          Show/hide help box"
+msgstr ""
+
+#: utils/ncurses.cpp:288
+msgid "   y, Y             Show/hide history of the game"
+msgstr ""
+
+#: utils/ncurses.cpp:289
+msgid "   e, E             Show/hide dots on empty squares of the board"
+msgstr ""
+
+#: utils/ncurses.cpp:290
+msgid "   q, Q             Quit"
+msgstr ""
+
+#: utils/ncurses.cpp:291
+msgid "   d, D             Check the existence of a word in the dictionary"
+msgstr ""
+
+#: utils/ncurses.cpp:292
+msgid "   j, J             Play a word"
+msgstr ""
+
+#: utils/ncurses.cpp:295
+msgid "[Training mode]"
+msgstr ""
+
+#: utils/ncurses.cpp:296
+msgid "   *                Take a random rack"
+msgstr ""
+
+#: utils/ncurses.cpp:297
+msgid "   +                Complete the current rack randomly"
+msgstr ""
+
+#: utils/ncurses.cpp:298
+msgid "   t, T             Set the rack manually"
+msgstr ""
+
+#: utils/ncurses.cpp:299
+msgid "   s, S             Search (compute all the possible words)"
+msgstr ""
+
+#: utils/ncurses.cpp:300
+msgid "   r, R             Show/hide search results"
+msgstr ""
+
+#: utils/ncurses.cpp:303
+msgid "[Duplicate mode]"
+msgstr ""
+
+#: utils/ncurses.cpp:304
+msgid "   n, N             Switch to the next human player"
+msgstr ""
+
+#: utils/ncurses.cpp:307
+msgid "[Free game mode]"
+msgstr ""
+
+#: utils/ncurses.cpp:308
+msgid "   p, P             Pass your turn (with or without changing letters)"
+msgstr ""
+
+#: utils/ncurses.cpp:311
+msgid "[Miscellaneous]"
+msgstr ""
+
+#: utils/ncurses.cpp:312
+msgid "   <up>, <down>     Navigate in a box line by line"
+msgstr ""
+
+#: utils/ncurses.cpp:313
+msgid "   <pgup>, <pgdown> Navigate in a box page by page"
+msgstr ""
+
+#: utils/ncurses.cpp:314
+msgid "   Ctrl-l           Refresh the screen"
+msgstr ""
+
+#: utils/ncurses.cpp:322
+msgid " Play a word "
+msgstr ""
+
+#: utils/ncurses.cpp:323
+msgid "Played word:"
+msgstr ""
+
+#: utils/ncurses.cpp:324 utils/ncurses.cpp:328
+msgid "Coordinates: "
+msgstr ""
+
+#: utils/ncurses.cpp:335
+msgid "Incorrect or misplaced word"
+msgstr ""
+
+#: utils/ncurses.cpp:345
+msgid " Dictionary "
+msgstr ""
+
+#: utils/ncurses.cpp:346
+msgid "Enter the word to check:"
+msgstr ""
+
+#: utils/ncurses.cpp:363
+msgid " Pass your turn "
+msgstr ""
+
+#: utils/ncurses.cpp:364
+msgid "Enter the letters to change:"
+msgstr ""
+
+#: utils/ncurses.cpp:373
+msgid "Cannot pass the turn"
+msgstr ""
+
+#: utils/ncurses.cpp:383
+msgid " Set rack "
+msgstr ""
+
+#: utils/ncurses.cpp:384
+msgid "Enter the new letters:"
+msgstr ""
+
+#: utils/ncurses.cpp:673
+msgid "Training"
+msgstr ""
+
+#: utils/ncurses.cpp:675
+msgid "Free game"
+msgstr ""
+
+#: utils/ncurses.cpp:677
+msgid "Duplicate"
+msgstr ""
+
+#: utils/ncurses.cpp:733
+#, c-format
+msgid "Usage: eliotcurses /path/to/ods4.dawg\n"
+msgstr ""

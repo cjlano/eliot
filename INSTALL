@@ -2,7 +2,8 @@ Installation sous Linux (Un*x) (bien/facile)
 ------------------------------
 * Pour installer à partir de l'archive CVS :
 
-  aclocal
+  autopoint -f
+  aclocal -I m4
   autoheader
   automake --add-missing --foreign --copy
   autoconf
@@ -41,7 +42,8 @@ Dans les 2 cas, les étapes sont les mêmes :
 
     - si vous utilisez l'archive CVS, il y a quelques commandes préalables
       à exécuter (aussi bien sous Cygwin que sous GNU/Linux) :
-            aclocal
+            autopoint -f
+            aclocal -I m4
             autoheader
             automake --add-missing --foreign --copy
             autoconf

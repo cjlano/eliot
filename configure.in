@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 dnl --------------------------------------------------------------
 dnl configure.in for Eliot
 dnl --------------------------------------------------------------
-dnl AC_REVISION($Id: configure.in,v 1.6 2005/02/05 11:14:56 ipkiss Exp $)
+dnl AC_REVISION($Id: configure.in,v 1.7 2005/02/06 22:18:11 ipkiss Exp $)
 AC_INIT(eliot, 1.4)
 AC_CONFIG_SRCDIR(wxwin/main.cc)
 AM_INIT_AUTOMAKE
@@ -64,7 +64,7 @@ dnl --------------------------------------------------------------
 dnl Check for wxWidgets
 AC_ARG_ENABLE(wxwidgets,
 [  --enable-wxwidgets      wxWidgets support (default enabled)])
-if test "${enable_wxwidgets}" != "no"
+if test "${enable_wxwidgets}" = "yes"
 then
   AM_PATH_WXCONFIG(2.4.0, wxwin=1)
   if test "${wxwin}" != 1; then
@@ -100,11 +100,14 @@ AC_ARG_ENABLE(text,
 [  --enable-text           text interface support (default enabled)])
 AM_CONDITIONAL([BUILD_TEXT], [test "${enable_text}" != "no"])
 
+dnl internationalization macros
+AM_GNU_GETTEXT_VERSION(0.11.5)
+AM_GNU_GETTEXT
 
 dnl --------------------------------------------------------------
 dnl Output
 dnl --------------------------------------------------------------
-AC_CONFIG_FILES(
+AC_CONFIG_FILES(intl/Makefile po/Makefile.in
 dic/Makefile
 game/Makefile
 wxwin/Makefile

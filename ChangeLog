@@ -1,3 +1,10 @@
+2005-02-06  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add intl,
+	(ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): New variable.
+	* configure.in (AC_CONFIG_FILES): Add intl/Makefile,
+
 9 fev 03
 - patch Olivier Teulière
 - modifications pour wx2.4.0

@@ -1,9 +1,17 @@
+.*
+ABOUT-NLS
+intl
+m4
+core
+core.*
+gmon.out
 configure
 config.h
 config.h.*
 config.guess
 config.log
 config.cache
+config.rpath
 config.status
 config.sub
 Makefile
