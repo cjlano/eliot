@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: round.h,v 1.4 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: round.h,v 1.5 2005/03/28 22:07:23 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,10 +65,11 @@ public:
     void setPoints(int iPoints)    { m_points = iPoints; }
     void setDir(Direction iDir)    { m_dir = iDir; }
     void setBonus(bool iBonus)     { m_bonus = iBonus; }
+    void setTile(int iIndex, const Tile &iTile) { m_word[iIndex] = iTile; }
     void setWord(const vector<Tile> &iTiles);
     void setFromRack(int iIndex);
     void setFromBoard(int iIndex);
-    void setJoker(int iIndex);
+    void setJoker(int iIndex, bool value = true);
 
     /*************************
      * 

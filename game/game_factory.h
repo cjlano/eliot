@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game_factory.h,v 1.3 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: game_factory.h,v 1.4 2005/03/28 22:07:23 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -80,6 +80,9 @@ private:
 
     /// Number of AI players
     int m_ai;
+
+    /// Variant of the game
+    bool m_joker;
 
     //@}
 

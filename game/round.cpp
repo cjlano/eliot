@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: round.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: round.cpp,v 1.2 2005/03/28 22:07:23 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,9 +75,12 @@ void Round::setFromBoard(int iIndex)
 }
 
 
-void Round::setJoker(int iIndex)
+void Round::setJoker(int iIndex, bool value)
 {
-    m_tileOrigin[iIndex] |= JOKER;
+    if (value)
+        m_tileOrigin[iIndex] |= JOKER;
+    else
+        m_tileOrigin[iIndex] &= ~JOKER;
 }
 
 

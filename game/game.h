@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.h,v 1.10 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: game.h,v 1.11 2005/03/28 22:07:23 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,9 +62,7 @@ public:
     Game(const Dictionary &iDic);
     virtual ~Game();
 
-    /*************************
-     * Handle game mode
-     *************************/
+    /// Game mode: each one of these modes is implemented in an inherited class
     enum GameMode
     {
         kTRAINING,
@@ -74,26 +72,37 @@ public:
     virtual GameMode getMode() const = 0;
     virtual string getModeAsString() const = 0;
 
-    /*************************
-     * handling games
-     * init() will set up a new (empty) game
+    /// Game variant: it slightly modifies the rules of the game
+    enum GameVariant
+    {
+        kNONE,      // Normal game rules
+        kJOKER      // Joker game
+    };
+
+    /**
+     * Accessors for the variant of the game.
+     * The variant can be changed during a game without any problem
+     * (though it seems rather useless...)
+     */
+    void setVariant(GameVariant iVariant)   { m_variant = iVariant; }
+    GameVariant getVariant() const          { return m_variant; }
+
+    /**
+     * Dictionary associated with the game.
+     * The dictionary can be changed during a game without problem
+     */
+    const Dictionary & getDic() const   { return *m_dic; }
+    void setDic(const Dictionary &iDic) { m_dic = &iDic; }
+
+    /**
+     * Saved games handling.
      *
      * load() returns the loaded game, or NULL if there was a problem
      * load() might need some more work to be robust enough to
      * handle "hand written" files
-     *************************/
-
-    void init();
+     */
     static Game * load(FILE *fin, const Dictionary &iDic);
     void save(ostream &out) const;
-
-    /*************************
-    * Dictionary associated with the game
-    * The dictionary can be changed during a
-    * game without problem
-    *************************/
-    const Dictionary & getDic() const   { return *m_dic; }
-    void setDic(const Dictionary &iDic) { m_dic = &iDic; }
 
     /*************************
      * Playing the game
@@ -149,10 +158,10 @@ public:
      *************************/
     int getNCharInBag(char) const;
 
-    /*************************
-     * Functions to access already played words
+    /**
+     * Methods to access already played words.
      * The int parameter should be 0 <= int < getNRounds()
-     *************************/
+     */
     int getNRounds() const     { return m_roundHistory.size(); }
     string getPlayedRack(int) const;
     string getPlayedWord(int) const;
@@ -161,10 +170,10 @@ public:
     int getPlayedBonus(int) const;
     int getPlayedPlayer(int) const;
 
-    /*************************
-     * Functions to access players.
+    /**
+     * Methods to access players.
      * The int parameter should be 0 <= int < getNPlayers()
-     *************************/
+     */
     int  getNPlayers() const    { return m_players.size(); }
     int  getNHumanPlayers() const;
     virtual void addHumanPlayer();
@@ -175,30 +184,39 @@ public:
 
     int  currPlayer() const     { return m_currPlayer; }
 
-    /*************************
+    /**
      * Game handling
-     *************************/
+     */
     virtual int start() = 0;
     virtual int setRackRandom(int, bool, set_rack_mode) = 0;
     virtual int play(const string &iCoord, const string &iWord) = 0;
     virtual int endTurn() = 0;
 
 protected:
-    // All the players, indexed by their ID
+    /// All the players, indexed by their ID
     vector<Player*> m_players;
+    /// ID of the "current" player
     int m_currPlayer;
 
+// TODO: check what should be private and what should be protected
 // private:
 
+    /// Variant
+    GameVariant m_variant;
+
+    /// Dictionary currently associated to the game
     const Dictionary * m_dic;
 
+    /// Bag
     Bag m_bag;
+
+    /// Board
     Board m_board;
 
-    /*************************
-     * History of the game
+    /**
+     * History of the game.
      * All the vectors are indexed by the number of turns in the game
-     *************************/
+     */
     // History of the racks
     vector<PlayedRack*> m_rackHistory;
     // History of the rounds
