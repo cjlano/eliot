@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.h,v 1.5 2005/02/12 18:54:57 ipkiss Exp $
+ * $Id: game.h,v 1.6 2005/02/13 17:14:31 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -215,6 +215,8 @@ public:
 
     /*************************
      * Display methods
+     * XXX: These methods should not be here, as they belong to the text
+     * interface
      *************************/
     void printBoard(ostream &out) const;
     void printBoardJoker(ostream &out) const;

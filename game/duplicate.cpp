@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: duplicate.cpp,v 1.3 2005/02/12 18:54:57 ipkiss Exp $
+ * $Id: duplicate.cpp,v 1.4 2005/02/13 17:14:31 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -106,9 +106,9 @@ int Duplicate::start()
 
     m_currPlayer = 0;
 
-    /* XXX: code similar with endturn() */
+    /* XXX: code similar with endTurnForReal() */
     /* Complete the rack for the player that just played */
-    res = setRackRandom(0, 1, RACK_NEW);
+    res = setRackRandom(m_currPlayer, true, RACK_NEW);
     /* End of the game? */
     if (res == 1)
     {
@@ -168,7 +168,7 @@ int Duplicate::endTurn()
         /* Make AI players play their turn */
         for (i = 0; i < getNPlayers(); i++)
         {
-            if (! m_players[i]->isHuman())
+            if (!m_players[i]->isHuman())
             {
                 // XXX: handle the return value?
                 if (duplicateAI(i))
@@ -225,7 +225,7 @@ int Duplicate::endTurnForReal()
     helperPlayRound(m_players[imax]->getLastRound());
 
     /* Complete the rack for the player that just played */
-    res = setRackRandom(imax, 1, RACK_NEW);
+    res = setRackRandom(imax, true, RACK_NEW);
     /* End of the game? */
     if (res == 1)
     {
@@ -255,7 +255,7 @@ int Duplicate::endTurnForReal()
 
 void Duplicate::end()
 {
-    // TODO
+    m_finished = true;
 }
 
 

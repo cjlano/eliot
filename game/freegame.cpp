@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.cpp,v 1.2 2005/02/09 22:33:56 ipkiss Exp $
+ * $Id: freegame.cpp,v 1.3 2005/02/13 17:14:31 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,7 +122,7 @@ int FreeGame::start()
     /* Set the initial racks of the players */
     for (i = 0; i < getNPlayers(); i++)
     {
-        setRackRandom(i, 0, RACK_ALL);
+        setRackRandom(i, false, RACK_ALL);
     }
 
     // XXX
@@ -142,7 +142,7 @@ int FreeGame::start()
 int FreeGame::endTurn()
 {
     /* Complete the rack for the player that just played */
-    if (setRackRandom(m_currPlayer, 0, RACK_NEW) == 1)
+    if (setRackRandom(m_currPlayer, false, RACK_NEW) == 1)
     {
         /* End of the game */
         end();

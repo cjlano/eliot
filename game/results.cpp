@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: results.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: results.cpp,v 1.2 2005/02/13 17:14:31 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,11 +47,8 @@ void Results::sort()
 
 const Round & Results::get(int i) const
 {
-    // TODO: exception
-    if (i >= 0 && i < in())
-    {
-        return m_rounds[i];
-    }
+    // Use at() instead of [] to check bounds and throw an exception
+    return m_rounds.at(i);
 }
 
 
