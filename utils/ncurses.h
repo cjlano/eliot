@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: ncurses.h,v 1.2 2005/02/21 22:42:06 ipkiss Exp $
+ * $Id: ncurses.h,v 1.3 2005/02/22 23:12:57 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,7 +36,11 @@ using std::string;
 class CursesIntf
 {
 public:
+    // Pre-requisite: the given Game object MUST have been allocated with new
+    // (in particular: not on the stack)
+    // This class also takes the responsability of destroying the Game object.
     CursesIntf(WINDOW *win, Game& iGame);
+    ~CursesIntf();
     bool isDying() const { return m_dying; }
     int handleKey(int iKey);
     void redraw(WINDOW *win);
@@ -73,6 +77,7 @@ private:
     void playWord(WINDOW *win, int y, int x);
     void checkWord(WINDOW *win, int y, int x);
     void saveGame(WINDOW *win, int y, int x);
+    void loadGame(WINDOW *win, int y, int x);
     void passTurn(WINDOW *win, int y, int x, FreeGame &iGame);
     void setRack(WINDOW *win, int y, int x, Training &iGame);
     // Get a string from the user, with a maximum length
@@ -96,8 +101,9 @@ private:
 
     // Main window for drawing
     WINDOW *m_win;
-    // Current game;
-    Game& m_game;
+    // Current game
+    // Invariant: the pointer will always point to a valid Game object
+    Game *m_game;
     // Interface state
     State m_state;
     // True when the user requested to quit

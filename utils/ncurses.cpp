@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: ncurses.cpp,v 1.5 2005/02/21 22:42:06 ipkiss Exp $
+ * $Id: ncurses.cpp,v 1.6 2005/02/22 23:12:57 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,10 +41,16 @@ using namespace std;
 
 
 CursesIntf::CursesIntf(WINDOW *win, Game& iGame)
-    : m_win(win), m_game(iGame), m_state(DEFAULT), m_dying(false),
+    : m_win(win), m_game(&iGame), m_state(DEFAULT), m_dying(false),
     m_boxStart(0), m_boxLines(0), m_boxLinesData(0), m_boxY(0),
     m_showDots(false)
 {
+}
+
+
+CursesIntf::~CursesIntf()
+{
+    delete m_game;
 }
 
 
@@ -134,8 +140,8 @@ void CursesIntf::drawBoard(WINDOW *win, int y, int x) const
         for (int col = 1; col < 16; col++)
         {
             // Handle colors
-            int wm = m_game.getBoardWordMultiplier(row, col);
-            int lm = m_game.getBoardLetterMultiplier(row, col);
+            int wm = m_game->getBoardWordMultiplier(row, col);
+            int lm = m_game->getBoardLetterMultiplier(row, col);
             if (wm == 3)
                 wattron(win, COLOR_PAIR(COLOR_RED));
             else if (wm == 2)
@@ -151,7 +157,7 @@ void CursesIntf::drawBoard(WINDOW *win, int y, int x) const
             mvwprintw(win, y + row + 1, x + 3 * col + 1, "   ");
 
             // Now add the letter
-            char c = m_game.getBoardChar(row, col);
+            char c = m_game->getBoardChar(row, col);
             if (c)
             {
                 if (islower(c))
@@ -174,35 +180,35 @@ void CursesIntf::drawBoard(WINDOW *win, int y, int x) const
 
 void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
 {
-    drawBox(win, y, x, m_game.getNPlayers() + 2, 25, _(" Scores "));
-    for (int i = 0; i < m_game.getNPlayers(); i++)
+    drawBox(win, y, x, m_game->getNPlayers() + 2, 25, _(" Scores "));
+    for (int i = 0; i < m_game->getNPlayers(); i++)
     {
-        if (m_game.getMode() != Game::kTRAINING && i == m_game.currPlayer())
+        if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
             attron(A_BOLD);
         mvwprintw(win, y + i + 1, x + 2,
-                  _("Player %d: %d"), i, m_game.getPlayerPoints(i));
-        if (m_game.getMode() != Game::kTRAINING && i == m_game.currPlayer())
+                  _("Player %d: %d"), i, m_game->getPlayerPoints(i));
+        if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
             attroff(A_BOLD);
     }
 
     // Distance between the 2 boxes
-    int yOff = m_game.getNPlayers() + 3;
+    int yOff = m_game->getNPlayers() + 3;
 
-    drawBox(win, y + yOff, x, m_game.getNPlayers() + 2, 25, _(" Racks "));
-    for (int i = 0; i < m_game.getNPlayers(); i++)
+    drawBox(win, y + yOff, x, m_game->getNPlayers() + 2, 25, _(" Racks "));
+    for (int i = 0; i < m_game->getNPlayers(); i++)
     {
-        if (m_game.getMode() != Game::kTRAINING && i == m_game.currPlayer())
+        if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
             attron(A_BOLD);
         mvwprintw(win, y + yOff + i + 1, x + 2,
-                  _("Player %d: %s"), i, m_game.getPlayerRack(i).c_str());
-        if (m_game.getMode() != Game::kTRAINING && i == m_game.currPlayer())
+                  _("Player %d: %s"), i, m_game->getPlayerRack(i).c_str());
+        if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
             attroff(A_BOLD);
         // Force to refresh the whole rack
-        whline(win, ' ', 7 - m_game.getPlayerRack(i).size());
+        whline(win, ' ', 7 - m_game->getPlayerRack(i).size());
     }
 
     // Display a message when the search is complete
-    if (m_game.getMode() == Game::kTRAINING) // && m_game.getNResults())
+    if (m_game->getMode() == Game::kTRAINING) // && m_game->getNResults())
         mvwprintw(win, y + 2*yOff - 1, x + 2, _("Search complete"));
     else
         mvwhline(win, y + 2*yOff - 1, x + 2, ' ', strlen(_("Search complete")));
@@ -211,25 +217,25 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
 
 void CursesIntf::drawResults(WINDOW *win, int y, int x)
 {
-    if (m_game.getMode() != Game::kTRAINING)
+    if (m_game->getMode() != Game::kTRAINING)
         return;
-    Training &tr_game = static_cast<Training&>(m_game);
+    Training *tr_game = static_cast<Training*>(m_game);
 
     int h = 17;
     drawBox(win, y, x, h, 25, _(" Search results "));
     m_boxY = y + 1;
     m_boxLines = h - 2;
-    m_boxLinesData = tr_game.getNResults();
+    m_boxLinesData = tr_game->getNResults();
 
     int i;
-    for (i = m_boxStart; i < tr_game.getNResults() &&
+    for (i = m_boxStart; i < tr_game->getNResults() &&
                          i < m_boxStart + m_boxLines; i++)
     {
-        string coord = tr_game.getSearchedCoords(i);
+        string coord = tr_game->getSearchedCoords(i);
         boxPrint(win, i, x + 1, "%3d %s%s %3s",
-                 tr_game.getSearchedPoints(i),
-                 tr_game.getSearchedWord(i).c_str(),
-                 string(h - 3 - tr_game.getSearchedWord(i).size(), ' ').c_str(),
+                 tr_game->getSearchedPoints(i),
+                 tr_game->getSearchedWord(i).c_str(),
+                 string(h - 3 - tr_game->getSearchedWord(i).size(), ' ').c_str(),
                  coord.c_str());
     }
     // Complete the list with empty lines, to avoid trails
@@ -248,7 +254,7 @@ void CursesIntf::drawHistory(WINDOW *win, int y, int x)
     drawBox(win, y, x, LINES - y, COLS - x, _(" History of the game "));
     m_boxY = y + 1;
     m_boxLines = LINES - y - 2;
-    m_boxLinesData = m_game.getNRounds();
+    m_boxLinesData = m_game->getNRounds();
 
     // Heading
     boxPrint(win, m_boxStart, x + 2,
@@ -256,18 +262,18 @@ void CursesIntf::drawHistory(WINDOW *win, int y, int x)
     mvwhline(win, y + 2, x + 2, ACS_HLINE, 55);
 
     int i;
-    for (i = m_boxStart + 0; i < m_game.getNRounds() &&
+    for (i = m_boxStart + 0; i < m_game->getNRounds() &&
                          i < m_boxStart + m_boxLines; i++)
     {
-        string word = m_game.getPlayedWord(i);
-        string coord = m_game.getPlayedCoords(i);
+        string word = m_game->getPlayedWord(i);
+        string coord = m_game->getPlayedCoords(i);
         boxPrint(win, i + 2, x + 2,
                  "%2d   %8s   %s%s   %3s   %3d   %1d   %c",
-                 i + 1, m_game.getPlayedRack(i).c_str(), word.c_str(),
+                 i + 1, m_game->getPlayedRack(i).c_str(), word.c_str(),
                  string(15 - word.size(), ' ').c_str(),
-                 coord.c_str(), m_game.getPlayedPoints(i),
-                 m_game.getPlayedPlayer(i),
-                 m_game.getPlayedBonus(i) ? '*' : ' ');
+                 coord.c_str(), m_game->getPlayedPoints(i),
+                 m_game->getPlayedPlayer(i),
+                 m_game->getPlayedBonus(i) ? '*' : ' ');
     }
     mvwvline(win, y + 1, x + 5,  ACS_VLINE, min(i + 2 - m_boxStart, m_boxLines));
     mvwvline(win, y + 1, x + 16, ACS_VLINE, min(i + 2 - m_boxStart, m_boxLines));
@@ -295,6 +301,7 @@ void CursesIntf::drawHelp(WINDOW *win, int y, int x)
     boxPrint(win, n++, x + 2, _("   d, D             Check the existence of a word in the dictionary"));
     boxPrint(win, n++, x + 2, _("   j, J             Play a word"));
     boxPrint(win, n++, x + 2, _("   s, S             Save the game"));
+    boxPrint(win, n++, x + 2, _("   l, L             Load a game"));
     boxPrint(win, n++, x + 2, _("   q, Q             Quit"));
     boxPrint(win, n++, x + 2, "");
 
@@ -346,7 +353,7 @@ void CursesIntf::playWord(WINDOW *win, int y, int x)
     if (readString(win, y + 1, x + xOff, 15, word) &&
         readString(win, y + 2, x + xOff, 3, coord))
     {
-        int res = m_game.play(coord, word);
+        int res = m_game->play(coord, word);
         if (res)
         {
             drawStatus(win, LINES - 1, 0, _("Incorrect or misplaced word"));
@@ -366,7 +373,7 @@ void CursesIntf::checkWord(WINDOW *win, int y, int x)
     string word;
     if (readString(win, y + 2, x + 2, 15, word))
     {
-        int res = Dic_search_word(m_game.getDic(), word.c_str());
+        int res = Dic_search_word(m_game->getDic(), word.c_str());
         char s[100];
         if (res)
             snprintf(s, 100, _("The word '%s' exists"), word.c_str());
@@ -397,9 +404,47 @@ void CursesIntf::saveGame(WINDOW *win, int y, int x)
         }
         else
         {
-            m_game.save(fout);
+            m_game->save(fout);
             fout.close();
             snprintf(s, 100, _("Game saved in %s"), filename.c_str());
+        }
+        drawStatus(win, LINES - 1, 0, s);
+    }
+    m_state = DEFAULT;
+    clearRect(win, y, x, 4, 32);
+}
+
+
+void CursesIntf::loadGame(WINDOW *win, int y, int x)
+{
+    drawBox(win, y, x, 4, 32, _(" Load a game "));
+    mvwprintw(win, y + 1, x + 2, _("Enter the file name:"));
+    wrefresh(win);
+
+    string filename;
+    if (readString(win, y + 2, x + 2, 28, filename, kFILENAME))
+    {
+        char s[100];
+        FILE *fin;
+        if ((fin = fopen(filename.c_str(), "r")) == NULL)
+        {
+            snprintf(s, 100, _("Cannot open file %s for reading"),
+                     filename.c_str());
+        }
+        else
+        {
+            Game *loaded = Game::load(fin, m_game->getDic());
+            if (loaded == NULL)
+            {
+                snprintf(s, 100, _("Invalid saved game"));
+            }
+            else
+            {
+                snprintf(s, 100, _("Game loaded"));
+                delete m_game;
+                m_game = loaded;
+            }
+            fclose(fin);
         }
         drawStatus(win, LINES - 1, 0, s);
     }
@@ -417,7 +462,7 @@ void CursesIntf::passTurn(WINDOW *win, int y, int x, FreeGame &iGame)
     string letters;
     if (readString(win, y + 2, x + 2, 7, letters))
     {
-        int res = iGame.pass(letters, m_game.currPlayer());
+        int res = iGame.pass(letters, m_game->currPlayer());
         if (res)
         {
             drawStatus(win, LINES - 1, 0, _("Cannot pass the turn"));
@@ -570,17 +615,17 @@ int CursesIntf::handleKey(int iKey)
     if (m_state == DEFAULT)
     {
         int res;
-        if (m_game.getMode() == Game::kTRAINING)
+        if (m_game->getMode() == Game::kTRAINING)
         {
-            res = handleKeyForGame(iKey, (Training&)m_game);
+            res = handleKeyForGame(iKey, (Training&)*m_game);
         }
-        else if (m_game.getMode() == Game::kDUPLICATE)
+        else if (m_game->getMode() == Game::kDUPLICATE)
         {
-            res = handleKeyForGame(iKey, (Duplicate&)m_game);
+            res = handleKeyForGame(iKey, (Duplicate&)*m_game);
         }
         else
         {
-            res = handleKeyForGame(iKey, (FreeGame&)m_game);
+            res = handleKeyForGame(iKey, (FreeGame&)*m_game);
         }
 
         if (res != 2)
@@ -657,7 +702,7 @@ int CursesIntf::handleKey(int iKey)
         // Toggle results (training mode only)
         case 'r':
         case 'R':
-            if (m_game.getMode() != Game::kTRAINING)
+            if (m_game->getMode() != Game::kTRAINING)
                 return 0;
             if (m_state == RESULTS)
                 m_state = DEFAULT;
@@ -692,6 +737,13 @@ int CursesIntf::handleKey(int iKey)
         // Ctrl-L should clear and redraw the screen
         case 0x0c:
             clear();
+            return 1;
+
+        case 'l':
+        case 'L':
+            if (m_state != DEFAULT)
+                return 0;
+            loadGame(m_win, 22, 10);
             return 1;
 
         case 's':
@@ -738,11 +790,11 @@ void CursesIntf::redraw(WINDOW *win)
     // Title
     attron(A_REVERSE);
     string mode;
-    if (m_game.getMode() == Game::kTRAINING)
+    if (m_game->getMode() == Game::kTRAINING)
         mode = _("Training mode");
-    else if (m_game.getMode() == Game::kFREEGAME)
+    else if (m_game->getMode() == Game::kFREEGAME)
         mode = _("Free game mode");
-    else if (m_game.getMode() == Game::kDUPLICATE)
+    else if (m_game->getMode() == Game::kDUPLICATE)
         mode = _("Duplicate mode");
     string title = "Eliot (" + mode + ") " + _("[h for help]");
     mvwprintw(win, 0, 0, title.c_str());
@@ -807,17 +859,19 @@ int main(int argc, char ** argv)
     if (Dic_load(&dic, dic_path))
         return -1;
 
-    FreeGame game(dic);
-    game.addHumanPlayer();
-    game.addAIPlayer();
-//     game.addAIPlayer();
-//     game.addAIPlayer();
-    game.start();
+    Game *game;
+    game = new FreeGame(dic);
+    game->addHumanPlayer();
+    game->addAIPlayer();
+//     game->addAIPlayer();
+//     game->addAIPlayer();
+    game->start();
 
     // Do not echo
     noecho();
 
-    CursesIntf mainIntf(wBoard, game);
+    // mainIntf will take care of destroying game for us.
+    CursesIntf mainIntf(wBoard, *game);
     mainIntf.redraw(wBoard);
 
     while (! mainIntf.isDying())
