@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: board.cpp,v 1.4 2005/03/29 06:58:23 afrab Exp $
+ * $Id: board.cpp,v 1.5 2005/04/02 17:59:07 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -432,27 +432,27 @@ int Board::getLetterMultiplier(int iRow, int iCol) const
 #ifdef DEBUG
 void Board::checkDouble()
 {
-    int row, col;
-    for (row = BOARD_MIN; row <= BOARD_MAX; row++)
+    for (int row = BOARD_MIN; row <= BOARD_MAX; row++)
     {
-        for (col = BOARD_MIN; col <= BOARD_MAX; col++)
+        for (int col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-	  /*
-	    does not work, Matrix[][] does not reduce to templace type ?
-	  */
-	  /*
             if (m_tilesRow[row][col] != m_tilesCol[col][row])
-                printf("tiles diff %d %d\n",row,col);
+                printf("tiles diff %d %d\n", row, col);
 
+            // The crossckecks and the points have no reason to be the same
+            // in both directions
+            /*
             if (m_crossRow[row][col] != m_crossCol[col][row])
+            {
                 printf("cross diff %d %d\n",row,col);
+            }
 
             if (m_pointRow[row][col] != m_pointCol[col][row])
                 printf("point diff %d %d\n",row,col);
+            */
 
             if (m_jokerRow[row][col] != m_jokerCol[col][row])
-                printf("joker diff %d %d\n",row,col);
-	  */
+                printf("joker diff %d %d\n", row, col);
         }
     }
     printf("**\n");

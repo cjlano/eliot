@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: cross.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: cross.cpp,v 1.2 2005/04/02 17:59:07 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,4 +42,25 @@ bool Cross::check(const Tile& iTile) const
         return true;
     set<Tile>::const_iterator it = m_tilesSet.find(iTile);
     return it != m_tilesSet.end();
+}
+
+
+bool Cross::operator==(const Cross &iOther) const
+{
+    if (isAny() && iOther.isAny())
+        return true;
+    // Two sets are equal if they have the same size and one of them contains
+    // the other one
+    if (m_tilesSet.size() == iOther.m_tilesSet.size())
+    {
+        set<Tile>::const_iterator it;
+        for (it = m_tilesSet.begin(); it != m_tilesSet.end(); it++)
+        {
+            if (!iOther.check(*it))
+                return false;
+        }
+        return true;
+    }
+    else
+        return false;
 }

@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: cross.h,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: cross.h,v 1.2 2005/04/02 17:59:07 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,9 @@ public:
     void setAny()                   { m_any = true; }
     bool isAny() const              { return m_any; }
     bool check(const Tile& iTile) const;
+
+    bool operator==(const Cross &iOther) const;
+    bool operator!=(const Cross &iOther) const { return !(*this == iOther); }
 
     // Standard set methods (almost)
     unsigned int size() const       { return m_tilesSet.size(); }
