@@ -16,10 +16,17 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: auxframes.cc,v 1.3 2004/06/22 21:04:08 ipkiss Exp $ */
+/* $Id: auxframes.cc,v 1.4 2005/01/01 15:42:55 ipkiss Exp $ */
 
 #include <iostream>
 using namespace std;
+
+#include "wx/sizer.h"
+#include "wx/button.h"
+#include "wx/intl.h"
+
+#include "wx/clipbrd.h"
+#include "wx/dataobj.h"
 
 #include "ewx.h"
 
@@ -32,19 +39,12 @@ using namespace std;
 #include "mainframe.h"
 #include "searchpanel.h"
 
-#include "wx/sizer.h"
-#include "wx/button.h"
-#include "wx/intl.h"
-
-#include "wx/clipbrd.h"
-#include "wx/dataobj.h"
-
 /****************************************************************/
 /* AUXFRAME */
 /****************************************************************/
-  
+
 AuxFrame::AuxFrame(wxFrame* parent, int _id, wxString _name, wxString _classname):
-  wxFrame(parent, -1, wxString("Eliot: ") + _name, wxPoint(-1,-1), wxSize(-1,-1),
+  wxFrame(parent, -1, wxT("Eliot: ") + _name, wxPoint(-1,-1), wxSize(-1,-1),
 	  wxRESIZE_BORDER | wxCAPTION | wxFRAME_FLOAT_ON_PARENT, _classname)
 {
   frameid   = (frames_id_t)_id;
@@ -66,7 +66,7 @@ void
 AuxFrame::SwitchDisplay()
 {
   if (show == 0)
-    {  
+    {
       Show(TRUE);
       Raise();
       show = 1;
@@ -92,7 +92,7 @@ AuxFrame::Reload()
     size.SetWidth(MINW);
   if (size.GetHeight() < MINH)
     size.SetHeight(MINH);
-    
+
   SetClientSize(size);
   Refresh();
   if (show) { Show(FALSE); Show(TRUE); }
@@ -103,7 +103,7 @@ AuxFrame::Reload()
 /****************************************************************/
 
 BoardFrame::BoardFrame(wxFrame* parent, Game _game):
-  AuxFrame(parent, ID_Frame_Board, "Grille", FRAMEBOARD)
+  AuxFrame(parent, ID_Frame_Board, wxT("Grille"), FRAMEBOARD)
 {
   board = new GfxBoard(this,_game);
 
@@ -129,14 +129,14 @@ BoardFrame::Refresh(refresh_t force)
 /****************************************************************/
 
 BagFrame::BagFrame(wxFrame* parent, Game _game):
-  AuxFrame(parent, ID_Frame_Bag, "sac", FRAMEBAG)
+  AuxFrame(parent, ID_Frame_Bag, wxT("sac"), FRAMEBAG)
 {
   game = _game;
   tiles = new wxListCtrl(this,-1);
   tiles->SetSingleStyle(wxLC_LIST);
   tiles->SetColumnWidth(0,wxLIST_AUTOSIZE);
   tiles->SetFont(config.getFont(LISTFONT));
-  tiles->SetToolTip("Lettre, nombre restant");
+  tiles->SetToolTip(wxT("Lettre, nombre restant"));
 
   wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
   sizer->Add(tiles, 1, wxEXPAND | wxALL, 1);
@@ -150,14 +150,14 @@ BagFrame::Refresh(refresh_t force)
 {
   char c;
   wxString buf;
-  wxChar format[] = "%c:%2d";
+  wxChar format[] = wxT("%c:%2d");
 
   tiles->ClearAll();
-  
+
   buf.Printf(format,'?',Game_getcharinbag(game,'?'),0);
   tiles->InsertItem(0,buf);
-  
-  for(c = 'A'; c <= 'Z'; c++) 
+
+  for(c = 'A'; c <= 'Z'; c++)
     {
       buf.Printf(format,c,Game_getcharinbag(game,c));
       tiles->InsertItem(1 + c - 'A',buf);
@@ -169,7 +169,7 @@ BagFrame::Refresh(refresh_t force)
 /****************************************************************/
 
 SearchFrame::SearchFrame(wxFrame *parent, Dictionary _dic):
-  AuxFrame(parent,ID_Frame_Search,"recherche",FRAMESEARCH)
+  AuxFrame(parent,ID_Frame_Search, wxT("recherche"),FRAMESEARCH)
 {
   panel = new SearchPanel(this, _dic);
   wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
@@ -199,13 +199,13 @@ BEGIN_EVENT_TABLE(VerifFrame, AuxFrame)
 END_EVENT_TABLE()
 
 VerifFrame::VerifFrame(wxFrame* parent, Dictionary _dic):
-  AuxFrame(parent, ID_Frame_Verif, "vérification",FRAMEVERIF)
+  AuxFrame(parent, ID_Frame_Verif, wxT("vérification"),FRAMEVERIF)
 {
   dic = _dic;
-  word = new wxTextCtrl(this,Word_Id,wxString(""));
+  word = new wxTextCtrl(this,Word_Id,wxT(""));
   word->SetFont(config.getFont(LISTFONT));
-  word->SetToolTip("Mot à vérifier");
-  result = new wxStaticText(this,Result_Id,wxString(""));
+  word->SetToolTip(wxT("Mot à vérifier"));
+  result = new wxStaticText(this,Result_Id,wxT(""));
   result->SetFont(config.getFont(LISTFONT));
   wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
   sizer->Add(word, 1, wxEXPAND | wxALL, 1);
@@ -222,13 +222,13 @@ VerifFrame::verif()
 {
   if (dic == NULL)
     {
-      result->SetLabel(wxString("pas de dictionnaire"));
+      result->SetLabel(wxT("pas de dictionnaire"));
       return;
     }
-  if (Dic_search_word(dic,(const char*) word->GetValue()))
-    result->SetLabel(wxString("existe"));
+  if (Dic_search_word(dic, word->GetValue().mb_str()))
+    result->SetLabel(wxT("existe"));
   else
-    result->SetLabel(wxString("n'existe pas"));
+    result->SetLabel(wxT("n'existe pas"));
 }
 
 void
@@ -273,7 +273,7 @@ AuxFrameList::AuxFrameList(wxFrame* parent, int _id, wxString _name, wxString _c
   listbox->SetToolTip(name);
   sizer_v->Add(listbox, 1, wxEXPAND | wxALL, 1);
 
-  button = new wxButton(this,ButtonCopyID,"Copier",wxPoint(0,0),wxSize(-1,-1));
+  button = new wxButton(this,ButtonCopyID, wxT("Copier"),wxPoint(0,0),wxSize(-1,-1));
   sizer_v->Add(button, 0, wxEXPAND | wxALL, 1);
 
   wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
@@ -292,13 +292,13 @@ AuxFrameList::OnCopy(wxCommandEvent& event)
 
   if (wxTheClipboard->Open())
     {
-      textdata = "";
+      textdata = wxT("");
       for(int i=0; i < listbox->GetCount(); i++)
 	{
-	  textdata << listbox->GetString(i) << "\n";
+	  textdata << listbox->GetString(i) << wxT("\n");
 	}
       wxTextDataObject* ptr = new wxTextDataObject(textdata);
-      wxTheClipboard->AddData(ptr); 
+      wxTheClipboard->AddData(ptr);
       wxTheClipboard->Close();
     }
 }
@@ -315,7 +315,7 @@ AuxFrameList::Waiting()
 /****************************************************************/
 
 Plus1Frame::Plus1Frame(wxFrame* parent, Game _game):
-  AuxFrameList(parent,ID_Frame_Plus1,wxString("Tirage + 1"),FRAMEPLUS1) 
+  AuxFrameList(parent,ID_Frame_Plus1,wxT("Tirage + 1"),FRAMEPLUS1)
 {
   rack[0] = '\0';
   game = _game;
@@ -330,26 +330,26 @@ Plus1Frame::Refresh(refresh_t force)
 
   if (Game_getdic(game) == NULL)
     return;
-  
+
   Game_getplayedrack(game,Game_getnrounds(game),rack2);
-  
+
   if (strcmp(rack,rack2) == 0)
     return;
 
   strcpy(rack,rack2);
 
   Waiting();
-  Dic_search_7pl1(Game_getdic(game),rack,buff,config.getJokerPlus1()); 
+  Dic_search_7pl1(Game_getdic(game),rack,buff,config.getJokerPlus1());
 
   int resnum = 0;
   wxString res[LETTERS*(RES_7PL1_MAX+1)];
-  res[resnum++] = wxString("Tirage: ") + wxString(rack);
+  res[resnum++] = wxString(wxT("Tirage: ")) + wxU(rack);
   for(i=0; i < LETTERS; i++)
     {
       if (i && buff[i][0][0])
-	res[resnum++] = wxString("+") + wxString((char)(i+'A'-1));
+          res[resnum++] = wxString(wxT("+")) + (wxChar)(i+'A'-1);
       for(j=0; j < RES_7PL1_MAX && buff[i][j][0]; j++)
-	res[resnum++] = wxString("  ") + wxString(buff[i][j]);
+          res[resnum++] = wxString(wxT("  ")) + wxU(buff[i][j]);
     }
   listbox->Set(resnum,res);
 }
@@ -359,7 +359,7 @@ Plus1Frame::Refresh(refresh_t force)
 /****************************************************************/
 
 BenjFrame::BenjFrame(wxFrame* parent,Game _game, wxListCtrl* _results):
-  AuxFrameList(parent,ID_Frame_Benj,wxString("benjamins"), FRAMEBENJ) 
+  AuxFrameList(parent,ID_Frame_Benj,wxT("benjamins"), FRAMEBENJ)
 {
   game = _game;
   results = _results;
@@ -390,7 +390,7 @@ BenjFrame::Refresh(refresh_t force)
   int resnum = 0;
   wxString res[RES_BENJ_MAX];
   for(i=0; (i < RES_BENJ_MAX) && (wordlist[i][0]); i++)
-    res[resnum++] = wxString(wordlist[i]);
+    res[resnum++] = wxU(wordlist[i]);
   listbox->Set(resnum,res);
 }
 
@@ -400,7 +400,7 @@ BenjFrame::Refresh(refresh_t force)
 /****************************************************************/
 
 RaccFrame::RaccFrame(wxFrame* parent,Game _game, wxListCtrl* _results):
-  AuxFrameList(parent,ID_Frame_Racc,wxString("raccords"), FRAMERACC)
+  AuxFrameList(parent,ID_Frame_Racc,wxT("raccords"), FRAMERACC)
 {
   game = _game;
   results = _results;
@@ -432,7 +432,7 @@ RaccFrame::Refresh(refresh_t force)
   wxString res[RES_RACC_MAX];
   for(i=0; (i < RES_RACC_MAX) && (wordlist[i][0]); i++)
     {
-      res[resnum++] = wxString(wordlist[i]);
+      res[resnum++] = wxU(wordlist[i]);
     }
   listbox->Set(resnum,res);
 }

@@ -16,44 +16,44 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: configdb.cc,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: configdb.cc,v 1.2 2005/01/01 15:42:55 ipkiss Exp $ */
 
 #include <iostream>
 #include "ewx.h"
 #include "configdb.h"
 #include "wx/colordlg.h"
 #include "wx/fontdlg.h"
-#include "wx/settings.h" 
+#include "wx/settings.h"
 
 using namespace std;
 
 #define DIM 200
 #define PREFIX  "/"
 
-#define DICPATH  PREFIX"Fichiers/Dictionnaire_Chemin"
-#define DICNAME  PREFIX"Fichiers/Dictionnaire_Nom"
-#define TILEPATH PREFIX"Fichiers/Lettres_Chemin"
-#define TILENAME PREFIX"Fichiers/Lettres_Nom"
+#define DICPATH  wxT(PREFIX"Fichiers/Dictionnaire_Chemin")
+#define DICNAME  wxT(PREFIX"Fichiers/Dictionnaire_Nom")
+#define TILEPATH wxT(PREFIX"Fichiers/Lettres_Chemin")
+#define TILENAME wxT(PREFIX"Fichiers/Lettres_Nom")
 
 ///////////////////////////
 //
 // Print
 //
 ///////////////////////////
-#define ORIENT  PREFIX"Print/Page_Orientation"
-#define MARGINX PREFIX"Print/Page_MargeGauche"
-#define MARGINY PREFIX"Print/Page_MargeHaute"
+#define ORIENT  wxT(PREFIX"Print/Page_Orientation")
+#define MARGINX wxT(PREFIX"Print/Page_MargeGauche")
+#define MARGINY wxT(PREFIX"Print/Page_MargeHaute")
 
-#define HNAME   PREFIX"Print/Header/Nom/"
-#define HDIM    PREFIX"Print/Header/Dimensions/"
-#define HJUST   PREFIX"Print/Header/Justification/"
-#define HSPACE  PREFIX"Print/Header/Espacement/"
+#define HNAME   wxT(PREFIX"Print/Header/Nom/")
+#define HDIM    wxT(PREFIX"Print/Header/Dimensions/")
+#define HJUST   wxT(PREFIX"Print/Header/Justification/")
+#define HSPACE  wxT(PREFIX"Print/Header/Espacement/")
 
-#define TDIM    PREFIX"Print/Text/Dimensions/"
-#define TJUST   PREFIX"Print/Text/Justification/"
-#define TSPACE  PREFIX"Print/Text/Espacement/"
+#define TDIM    wxT(PREFIX"Print/Text/Dimensions/")
+#define TJUST   wxT(PREFIX"Print/Text/Justification/")
+#define TSPACE  wxT(PREFIX"Print/Text/Espacement/")
 
-#define MISC    PREFIX"Divers/"
+#define MISC    wxT(PREFIX"Divers/")
 
 ConfigDB::ConfigDB()
 {
@@ -91,40 +91,40 @@ long ConfigDB::Read(const wxString& key, long def)
   return res;
 }
 
-#define FPOINTSIZE ".PointSize"
-#define FFAMILY    ".Family"
-#define FSTYLE     ".Style"
-#define FWEIGHT    ".Weight"
-#define FUNDERLINE ".Underline"
-#define FFACENAME  ".FaceName"
-#define FENCODING  ".Encoding"
+#define FPOINTSIZE wxT(".PointSize")
+#define FFAMILY    wxT(".Family")
+#define FSTYLE     wxT(".Style")
+#define FWEIGHT    wxT(".Weight")
+#define FUNDERLINE wxT(".Underline")
+#define FFACENAME  wxT(".FaceName")
+#define FENCODING  wxT(".Encoding")
 
 wxFont ConfigDB::Read(const wxString& key, wxFont def)
 {
-  return wxFont(Read(key + FPOINTSIZE,(long)def.GetPointSize()),
-		Read(key + FFAMILY   ,(long)def.GetFamily()),
-		Read(key + FSTYLE    ,(long)def.GetStyle()),
-		Read(key + FWEIGHT   ,(long)def.GetWeight()),
-		Read(key + FUNDERLINE,(long)def.GetUnderlined()),
-		ReadStr(key + FFACENAME ,def.GetFaceName())
-		//,Read(key + FENCODING ,def.GetDefaultEncoding())
-		);
+    return wxFont(Read(key + FPOINTSIZE,(long)def.GetPointSize()),
+                  Read(key + FFAMILY   ,(long)def.GetFamily()),
+                  Read(key + FSTYLE    ,(long)def.GetStyle()),
+                  Read(key + FWEIGHT   ,(long)def.GetWeight()),
+                  Read(key + FUNDERLINE,(long)def.GetUnderlined()),
+                  ReadStr(key + FFACENAME ,def.GetFaceName())
+                  //,Read(key + FENCODING ,def.GetDefaultEncoding())
+                 );
 }
 
 void ConfigDB::Write(const wxString& key, wxFont font)
 {
-  pConfig->Write(key + FPOINTSIZE,(long)font.GetPointSize());
-  pConfig->Write(key + FFAMILY   ,(long)font.GetFamily());
-  pConfig->Write(key + FSTYLE    ,(long)font.GetStyle());
-  pConfig->Write(key + FWEIGHT   ,(long)font.GetWeight());
-  pConfig->Write(key + FUNDERLINE,(long)font.GetUnderlined()); 
-  pConfig->Write(key + FFACENAME ,font.GetFaceName());
-  //pConfig->Write(key + FENCODING ,font.GetDefaultEncoding());
+    pConfig->Write(key + FPOINTSIZE,(long)font.GetPointSize());
+    pConfig->Write(key + FFAMILY   ,(long)font.GetFamily());
+    pConfig->Write(key + FSTYLE    ,(long)font.GetStyle());
+    pConfig->Write(key + FWEIGHT   ,(long)font.GetWeight());
+    pConfig->Write(key + FUNDERLINE,(long)font.GetUnderlined());
+    pConfig->Write(key + FFACENAME ,font.GetFaceName());
+    //pConfig->Write(key + FENCODING ,font.GetDefaultEncoding());
 }
 
-#define CR ".R"
-#define CG ".G"
-#define CB ".B"
+#define CR wxT(".R")
+#define CG wxT(".G")
+#define CB wxT(".B")
 
 wxColour ConfigDB::Read(const wxString& key, wxColour def)
 {
@@ -145,7 +145,7 @@ wxString ConfigDB::ReadStr(const wxString& key, wxString def)
 {
   wxString res;
 
-  /*  
+  /*
   wxString msg;
   msg << "want to read -" << key << "-";
   wxMessageBox(msg, "Eliot configDB", wxICON_INFORMATION | wxOK);
@@ -188,22 +188,22 @@ void ConfigDB::Write(const wxString& key, wxString str)
 
 wxString ConfigDB::getDicPath()
 {
-  return ReadStr(DICPATH,wxString("//"));
+  return ReadStr(DICPATH,wxT("//"));
 }
 
 wxString ConfigDB::getDicName()
 {
-  return ReadStr(DICNAME,wxString("Aucun Dictionnaire"));
+  return ReadStr(DICNAME,wxT("Aucun Dictionnaire"));
 }
 
 wxString ConfigDB::getTilePath()
 {
-  return ReadStr(TILEPATH,wxString("//"));
+  return ReadStr(TILEPATH,wxT("//"));
 }
 
 wxString ConfigDB::getTileName()
 {
-  return ReadStr(TILENAME,wxString(""));
+  return ReadStr(TILENAME,wxT(""));
 }
 
 void ConfigDB::setDicPath(wxString dpath, wxString dname)
@@ -237,7 +237,7 @@ void ConfigDB::setDxBegin(long d)
 long ConfigDB::getDxText(int i)
 {
   long int res;
-  switch (i) 
+  switch (i)
     {
     case 0: res = Read(TDIM"texte/1",10L); break;
     case 1: res = Read(TDIM"texte/2",30L); break;
@@ -252,7 +252,7 @@ long ConfigDB::getDxText(int i)
 void ConfigDB::setDxText(int i, long v)
 {
   wxString key;
-  key << TDIM << "texte/" << (i+1);
+  key << TDIM << wxT("texte/") << (i+1);
   if (i<5)
     Write(key,v);
 }
@@ -310,14 +310,14 @@ void ConfigDB::setDyH2(long d)
 wxString ConfigDB::getNameH(int i)
 {
   wxString res;
-  switch (i) 
+  switch (i)
     {
-    case 0: res = ReadStr(wxString(HNAME)+wxString("1"),wxString("Num")); break;
-    case 1: res = ReadStr(wxString(HNAME)+wxString("2"),wxString("Tirage")); break;
-    case 2: res = ReadStr(wxString(HNAME)+wxString("3"),wxString("Solution")); break;
-    case 3: res = ReadStr(wxString(HNAME)+wxString("4"),wxString("Pos")); break;
-    case 4: res = ReadStr(wxString(HNAME)+wxString("5"),wxString("Pts")); break;
-    default: res = ""; break;
+    case 0: res = ReadStr(wxString(HNAME) + wxT("1"), wxT("Num")); break;
+    case 1: res = ReadStr(wxString(HNAME) + wxT("2"), wxT("Tirage")); break;
+    case 2: res = ReadStr(wxString(HNAME) + wxT("3"), wxT("Solution")); break;
+    case 3: res = ReadStr(wxString(HNAME) + wxT("4"), wxT("Pos")); break;
+    case 4: res = ReadStr(wxString(HNAME) + wxT("5"), wxT("Pts")); break;
+    default: res = wxT(""); break;
   }
   return res;
 }
@@ -338,11 +338,11 @@ void ConfigDB::setNameH(int i, wxString str)
 enum Justif ConfigDB::StrToJust(const wxString& str)
 {
   enum Justif res;
-  if (str.CmpNoCase("gauche") == 0)
+  if (str.CmpNoCase(wxT("gauche")) == 0)
     res = LEFT;
-  else if (str.CmpNoCase("centre") == 0)
+  else if (str.CmpNoCase(wxT("centre")) == 0)
     res = CENTER;
-  else if (str.CmpNoCase("droite") == 0)
+  else if (str.CmpNoCase(wxT("droite")) == 0)
     res = RIGHT;
   else
     res = LEFT;
@@ -353,16 +353,16 @@ wxString ConfigDB::JustToStr(enum Justif j)
 {
   wxString res;
   switch (j) {
-  case LEFT:   res = "gauche"; break;
-  case CENTER: res = "centre"; break;
-  case RIGHT:  res = "droite"; break;
+  case LEFT:   res = wxT("gauche"); break;
+  case CENTER: res = wxT("centre"); break;
+  case RIGHT:  res = wxT("droite"); break;
   }
   return res;
 }
 
 enum Justif ConfigDB::getJustif(const wxString& key)
 {
-  return StrToJust(ReadStr(key,wxString("gauche")));
+  return StrToJust(ReadStr(key,wxT("gauche")));
 }
 
 void ConfigDB::setJustif(const wxString& key, enum Justif j)
@@ -464,7 +464,7 @@ void ConfigDB::setFontDefault()
   setFont(LISTFONT  ,fsys);
   setFont(PRINTHFONT,FHEADERDEF);
   setFont(PRINTTFONT,FTEXTDEF);
-}  
+}
 
 void ConfigDB::setFont(wxString key, wxFont font)
 {
@@ -530,7 +530,7 @@ ConfigDB::getColour(wxString key)
 
 ////////////////////////////////////////////////////////
 //
-// PRINTING 
+// PRINTING
 //
 ////////////////////////////////////////////////////////
 
@@ -558,11 +558,11 @@ long ConfigDB::getOrientation()
 {
   long res;
   wxString str;
-  
-  str = ReadStr(ORIENT,"paysage");
-  if (str.CmpNoCase("portrait") == 0)
+
+  str = ReadStr(ORIENT,wxT("paysage"));
+  if (str.CmpNoCase(wxT("portrait")) == 0)
     res = wxPORTRAIT;
-  else if (str.CmpNoCase("paysage") == 0)
+  else if (str.CmpNoCase(wxT("paysage")) == 0)
     res = wxLANDSCAPE;
   else
     res = wxPORTRAIT;
@@ -571,11 +571,11 @@ long ConfigDB::getOrientation()
 
 void ConfigDB::setOrientation(long o)
 {
-  switch (o) 
+  switch (o)
     {
-    case wxLANDSCAPE: Write(ORIENT,wxString("paysage")); break;
+    case wxLANDSCAPE: Write(ORIENT,wxT("paysage")); break;
     case wxPORTRAIT: // fall through
-    default: Write(ORIENT,wxString("portrait")); break;
+    default: Write(ORIENT,wxT("portrait")); break;
     }
 }
 
@@ -620,11 +620,11 @@ void ConfigDB::setPrintLineScale(float s)
 //
 ////////////////////////////////////////////////////////
 
-#define PX "/x"
-#define PY "/y"
-#define SW "/w"
-#define SH "/h"
-#define SHOW "/show"
+#define PX wxT("/x")
+#define PY wxT("/y")
+#define SW wxT("/w")
+#define SH wxT("/h")
+#define SHOW wxT("/show")
 
 #define CONFIG_DEFAULT_X 150L
 #define CONFIG_DEFAULT_Y 150L
@@ -639,7 +639,7 @@ wxPoint ConfigDB::getFramePos(wxString frame)
   pos.x = Read(keyX,CONFIG_DEFAULT_X);
   pos.y = Read(keyY,CONFIG_DEFAULT_Y);
 #ifdef FRAME_TRACE
-  cerr << "configdb::getFramePos  " << frame 
+  cerr << "configdb::getFramePos  " << frame
        << " \tx:" << pos.x << " y:" << pos.y << endl;
 #endif
   return pos;
@@ -648,7 +648,7 @@ wxPoint ConfigDB::getFramePos(wxString frame)
 void ConfigDB::setFramePos(wxString frame, wxPoint pos)
 {
 #ifdef FRAME_TRACE
-  cerr << "configdb::setFramePos  " << frame 
+  cerr << "configdb::setFramePos  " << frame
        << " \tx:" << pos.x << " y:" << pos.y << endl;
 #endif
   wxString keyX(frame + PX);
@@ -665,16 +665,16 @@ wxSize ConfigDB::getFrameSize(wxString frame)
   size.x = Read(keyX,CONFIG_DEFAULT_W);
   size.y = Read(keyY,CONFIG_DEFAULT_H);
 #ifdef FRAME_TRACE
-  cerr << "configdb::getFrameSize " << frame 
+  cerr << "configdb::getFrameSize " << frame
        << " \tw:" << size.x << " h:" << size.y << endl;
-#endif  
+#endif
   return size;
 }
 
 void ConfigDB::setFrameSize(wxString frame, wxSize size)
 {
 #ifdef FRAME_TRACE
-  cerr << "configdb::setFrameSize " << frame 
+  cerr << "configdb::setFrameSize " << frame
        << " \tw:" << size.x << " h:" << size.y << endl;
 #endif
   wxString keyX(frame + SW);
@@ -697,14 +697,14 @@ void ConfigDB::setFrameShow(wxString frame, int s)
 
 void ConfigDB::setFrameDefault()
 {
-  setFrameSize(FRAMEBOARD ,wxSize(450,450));
-  setFrameSize(FRAMEVERIF ,wxSize(150,50));
-  setFrameSize(FRAMESEARCH,wxSize(350,300));
-  setFrameSize(FRAMEPLUS1 ,wxSize(CONFIG_DEFAULT_W,CONFIG_DEFAULT_H));
-  setFrameSize(FRAMERACC  ,wxSize(CONFIG_DEFAULT_W,CONFIG_DEFAULT_H));
-  setFrameSize(FRAMEBENJ  ,wxSize(CONFIG_DEFAULT_W,CONFIG_DEFAULT_H));
-  setFrameSize(FRAMEBAG   ,wxSize(150,40));
-  setFrameSize(APPNAME    ,wxSize(410,200));
+  setFrameSize(FRAMEBOARD  ,wxSize(450,450));
+  setFrameSize(FRAMEVERIF  ,wxSize(150,50));
+  setFrameSize(FRAMESEARCH ,wxSize(350,300));
+  setFrameSize(FRAMEPLUS1  ,wxSize(CONFIG_DEFAULT_W,CONFIG_DEFAULT_H));
+  setFrameSize(FRAMERACC   ,wxSize(CONFIG_DEFAULT_W,CONFIG_DEFAULT_H));
+  setFrameSize(FRAMEBENJ   ,wxSize(CONFIG_DEFAULT_W,CONFIG_DEFAULT_H));
+  setFrameSize(FRAMEBAG    ,wxSize(150,40));
+  setFrameSize(wxT(APPNAME),wxSize(410,200));
 
   setFramePos(FRAMEBOARD  ,wxPoint(58,76));
   setFramePos(FRAMEVERIF  ,wxPoint(CONFIG_DEFAULT_X,CONFIG_DEFAULT_Y));
@@ -713,7 +713,7 @@ void ConfigDB::setFrameDefault()
   setFramePos(FRAMERACC   ,wxPoint(CONFIG_DEFAULT_X,CONFIG_DEFAULT_Y));
   setFramePos(FRAMEBENJ   ,wxPoint(CONFIG_DEFAULT_X,CONFIG_DEFAULT_Y));
   setFramePos(FRAMEBAG    ,wxPoint(CONFIG_DEFAULT_X,CONFIG_DEFAULT_Y));
-  setFramePos(APPNAME     ,wxPoint(500,9));
+  setFramePos(wxT(APPNAME),wxPoint(500,9));
 
   setFrameShow(FRAMEBOARD ,1L);
   setFrameShow(FRAMEVERIF ,0L);
@@ -736,49 +736,49 @@ void ConfigDB::setFrameDefault()
 void ConfigDB::setJokerPlus1(bool val)
 {
   wxString key;
-  key = wxString(MISC) + wxString("JokersDans7plus1");
+  key = wxString(MISC) + wxT("JokersDans7plus1");
   Write(key,val);
 }
 
 bool ConfigDB::getJokerPlus1()
 {
   wxString key;
-  key = wxString(MISC) + wxString("JokersDans7plus1");
+  key = wxString(MISC) + wxT("JokersDans7plus1");
   return Read(key,(bool)FALSE);
 }
 
 void ConfigDB::setRackChecking(bool val)
 {
   wxString key;
-  key = wxString(MISC) + wxString("VerificationTirages");
+  key = wxString(MISC) + wxT("VerificationTirages");
   Write(key,val);
 }
 
 bool ConfigDB::getRackChecking()
 {
   wxString key;
-  key = wxString(MISC) + wxString("VerificationTirages");
+  key = wxString(MISC) + wxT("VerificationTirages");
   return Read(key,(bool)FALSE);
 }
 
 ////////////////////////////////////////////////////////
 //
-// 
+//
 //
 ////////////////////////////////////////////////////////
 
-#define INIT "/Initialized"
+#define INIT wxT("/Initialized")
 
 void
 ConfigDB::setFirstDefault()
 {
-  if (Read(wxString(INIT),0L))
+  if (Read(INIT,0L))
     return;
 
   setFontDefault();
   setColourDefault();
   setFrameDefault();
 
-  Write(wxString(INIT),1L);
+  Write(INIT,1L);
 }
 

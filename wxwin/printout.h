@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: printout.h,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: printout.h,v 1.2 2005/01/01 15:42:55 ipkiss Exp $ */
 
 // -*- C++ -*-
 #ifndef _PRINTOUT_H
@@ -38,8 +38,8 @@ private:
   void DrawGameLines(wxDC*, long, long, float, float, float);
 public:
 
-  GamePrintout(Game g, char* title= APPNAME) : wxPrintout(title) { game = g; }
-  
+  GamePrintout(Game g, char* title= APPNAME) : wxPrintout(wxU(title)) { game = g; }
+
   bool OnPrintPage(int);
   bool HasPage(int);
   bool OnBeginDocument(int startPage, int endPage);

@@ -16,7 +16,9 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: confdimdlg.cc,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: confdimdlg.cc,v 1.2 2005/01/01 15:42:55 ipkiss Exp $ */
+
+#include "wx/printdlg.h"
 
 #include "ewx.h"
 
@@ -26,8 +28,6 @@
 #include "configdb.h"
 #include "printout.h"
 #include "confdimdlg.h"
-
-#include "wx/printdlg.h"
 
 enum {
   Button_Ok,
@@ -60,13 +60,13 @@ max(int i,int j)
 
 
 ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
-  : wxDialog(parent,-1,wxString("Eliot : Impression"))
+  : wxDialog(parent,-1,wxT("Eliot : Impression"))
 {
   int i;
   wxString choices[3];
-  choices[0] = "gauche";
-  choices[1] = "centré";
-  choices[2] = "droite";
+  choices[0] = wxT("gauche");
+  choices[1] = wxT("centré");
+  choices[2] = wxT("droite");
   wxStaticText* Hcomment[5];
   wxRect        Hcommentrect[5];
   wxRect        Htitlerect[5];
@@ -78,10 +78,10 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
   wxStaticText* Tunit[5];
   wxRect        Tjustrect[5];
   wxRect        Tspacesrect[5];
-  
+
   printdata = pd;
   pagesetupdata = psd;
-    
+
   //
   //     Head
   //        Hcomment Htitle Hjust Hspaces
@@ -106,7 +106,7 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
 
   // ------------
   // Text Section
-  // ------------  
+  // ------------
 #define TFONT        wxPoint(HSPACE, Hcommentrect[4].GetBottom() + 2*VSPACE)
 #define TCOMMENTY(i) (i==0 ? bfonttextrect.GetBottom() + VSPACE : \
 		      VSPACE + Tcommentrect[i-1].GetBottom())
@@ -118,74 +118,74 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
 
 
 #define ESPSIZE      wxSize(spacerect.GetRight() - spacerect.GetLeft(),-1)
-  
-  
-  wxStaticText* justif = new wxStaticText(this,-1,"Justification",wxPoint(0,0));
+
+
+  wxStaticText* justif = new wxStaticText(this,-1,wxT("Justification"),wxPoint(0,0));
   wxRect justifrect = justif->GetRect();
-  wxStaticText* space = new wxStaticText(this,-1,"Espacement",wxPoint(0,0));
+  wxStaticText* space = new wxStaticText(this,-1,wxT("Espacement"),wxPoint(0,0));
   wxRect spacerect = space->GetRect();
- 
+
   // heading, first part
-  bfontheader = new wxButton(this,Button_FontHeader,"Caractères",HFONT);
+  bfontheader = new wxButton(this,Button_FontHeader,wxT("Caractères"),HFONT);
   wxRect bfontheadrect = bfontheader->GetRect();
-  for(i=0; i<5; i++) 
+  for(i=0; i<5; i++)
     {
       wxString txt;
-      txt << "Titre colonne " << (i+1);
+      txt << wxT("Titre colonne ") << (i+1);
       Hcomment[i] = new wxStaticText(this,-1,txt,HCOMMENT(i));
       Hcommentrect[i] = Hcomment[i]->GetRect();
     }
 
   // text, first part
-  bfonttext = new wxButton(this,Button_FontText,"Caractères",TFONT);
+  bfonttext = new wxButton(this,Button_FontText,wxT("Caractères"),TFONT);
   wxRect bfonttextrect = bfonttext->GetRect();
-  for(i=0; i<5; i++) 
+  for(i=0; i<5; i++)
     {
       wxString txt;
-      txt << "Texte colonne " << (i+1);
+      txt << wxT("Texte colonne ") << (i+1);
       Tcomment[i] = new wxStaticText(this,-1,txt,TCOMMENT(i),wxSize(-1,-1));
       Tcommentrect[i] = Tcomment[i]->GetRect();
     }
 
   // heading, second part
-  for(i=0; i<5; i++) 
+  for(i=0; i<5; i++)
     {
-      Htitle[i] = new wxTextCtrl(this,-1,"",HTITLE(i),wxSize(100,-1));
+      Htitle[i] = new wxTextCtrl(this,-1,wxT(""),HTITLE(i),wxSize(100,-1));
       Htitlerect[i] = Htitle[i]->GetRect();
-      Htitle[i]->SetToolTip("Texte du titre de la colonne");
+      Htitle[i]->SetToolTip(wxT("Texte du titre de la colonne"));
 
       Hjust[i] = new wxChoice(this,-1,HJUST(i),wxSize(-1,-1),3,choices);
       Hjustrect[i] = Hjust[i]->GetRect();
-      Hjust[i]->SetToolTip("Justification du titre de la colonne");
+      Hjust[i]->SetToolTip(wxT("Justification du titre de la colonne"));
 
-      Hspaces[i] = new wxTextCtrl(this,-1,"00",HSPACES(i),ESPSIZE);
+      Hspaces[i] = new wxTextCtrl(this,-1,wxT("00"),HSPACES(i),ESPSIZE);
       Hspacesrect[i] = Hspaces[i]->GetRect();
-      Hspaces[i]->SetToolTip("Espacement des caractères du titre");
+      Hspaces[i]->SetToolTip(wxT("Espacement des caractères du titre"));
     }
-  
+
 
   // text, second part
-  for(i=0; i<5; i++) 
+  for(i=0; i<5; i++)
     {
-      Tdim[i] = new wxTextCtrl(this,-1,"",TDIM(i),wxSize(50,-1));
+      Tdim[i] = new wxTextCtrl(this,-1,wxT(""),TDIM(i),wxSize(50,-1));
       Tdimrect[i] = Tdim[i]->GetRect();
-      Tdim[i]->SetToolTip("Dimension intérieure de la colonne (en mm)");
+      Tdim[i]->SetToolTip(wxT("Dimension intérieure de la colonne (en mm)"));
 
-      Tunit[i] = new wxStaticText(this,-1,"mm",
+      Tunit[i] = new wxStaticText(this,-1,wxT("mm"),
 				  wxPoint(Tdimrect[i].GetRight()+
 					  HSPACE,TCOMMENTY(i)+2),
 				  wxSize(-1,-1));
 
       Tjust[i] = new wxChoice(this,-1,TJUST(i),wxSize(-1,-1),3,choices);
       Tjustrect[i] = Tjust[i]->GetRect();
-      Tjust[i]->SetToolTip("Justification du texte de la colonne");
+      Tjust[i]->SetToolTip(wxT("Justification du texte de la colonne"));
 
-      Tspaces[i] = new wxTextCtrl(this,-1,"",TSPACES(i),ESPSIZE);
+      Tspaces[i] = new wxTextCtrl(this,-1,wxT(""),TSPACES(i),ESPSIZE);
       Tspacesrect[i] = Tspaces[i]->GetRect();
-      Tspaces[i]->SetToolTip("Espacement des caractères");
+      Tspaces[i]->SetToolTip(wxT("Espacement des caractères"));
     }
 
-  justif->Move(wxPoint(Tjustrect[0].GetLeft(),bfontheadrect.GetBottom() 
+  justif->Move(wxPoint(Tjustrect[0].GetLeft(),bfontheadrect.GetBottom()
 		       - (justifrect.GetBottom() - justifrect.GetTop())));
   justifrect = justif->GetRect();
   space->Move(wxPoint(Tspacesrect[0].GetLeft(),justifrect.GetTop()));
@@ -233,45 +233,45 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
 #define DIM wxSize(30,-1)
 
   // Left part
-  wxStaticText* dyh1text = new wxStaticText(this,-1,"Titre esp. sup.",DYH1COMMENT,wxSize(-1,-1));
+  wxStaticText* dyh1text = new wxStaticText(this,-1,wxT("Titre esp. sup."),DYH1COMMENT,wxSize(-1,-1));
   wxRect dyh1textrect = dyh1text->GetRect();
-  wxStaticText* dyt1text = new wxStaticText(this,-1,"Texte esp. sup.",DYT1COMMENT,wxSize(-1,-1));
+  wxStaticText* dyt1text = new wxStaticText(this,-1,wxT("Texte esp. sup."),DYT1COMMENT,wxSize(-1,-1));
   wxRect dyt1textrect = dyt1text->GetRect();
-  wxStaticText* dxbegintext = new wxStaticText(this,-1,"Texte esp. gauche.",DXBEGINCOMMENT,wxSize(-1,-1));
+  wxStaticText* dxbegintext = new wxStaticText(this,-1,wxT("Texte esp. gauche."),DXBEGINCOMMENT,wxSize(-1,-1));
   wxRect dxbegintextrect = dxbegintext->GetRect();
 
-  dyh1 = new wxTextCtrl(this,-1,"00",DYH1TEXT,DIM);
+  dyh1 = new wxTextCtrl(this,-1,wxT("00"),DYH1TEXT,DIM);
   wxRect dyh1rect = dyh1->GetRect();
-  wxStaticText* dyh1mm = new wxStaticText(this,-1,"mm",DYH1UNIT,wxSize(-1,-1));
+  wxStaticText* dyh1mm = new wxStaticText(this,-1,wxT("mm"),DYH1UNIT,wxSize(-1,-1));
   wxRect dyh1mmrect = dyh1mm->GetRect();
-  dyt1 = new wxTextCtrl(this,-1,"00",DYT1TEXT,DIM);
+  dyt1 = new wxTextCtrl(this,-1,wxT("00"),DYT1TEXT,DIM);
   wxRect dyt1rect = dyt1->GetRect();
-  wxStaticText* dyt1mm = new wxStaticText(this,-1,"mm",DYT1UNIT,wxSize(-1,-1));
+  wxStaticText* dyt1mm = new wxStaticText(this,-1,wxT("mm"),DYT1UNIT,wxSize(-1,-1));
   wxRect dyt1mmrect = dyt1mm->GetRect();
-  dxbegin = new wxTextCtrl(this,-1,"00",DXBEGINTEXT,DIM);
+  dxbegin = new wxTextCtrl(this,-1,wxT("00"),DXBEGINTEXT,DIM);
   wxRect dxbeginrect = dxbegin->GetRect();
-  wxStaticText* dxbeginmm = new wxStaticText(this,-1,"mm",DXBEGINUNIT,wxSize(-1,-1));
+  wxStaticText* dxbeginmm = new wxStaticText(this,-1,wxT("mm"),DXBEGINUNIT,wxSize(-1,-1));
   wxRect dxbeginmmrect = dxbeginmm->GetRect();
 
   // Right part
-  wxStaticText* dyh2text = new wxStaticText(this,-1,"Titre esp. inf.",DYH2COMMENT,wxSize(-1,-1));
+  wxStaticText* dyh2text = new wxStaticText(this,-1,wxT("Titre esp. inf."),DYH2COMMENT,wxSize(-1,-1));
   wxRect dyh2textrect = dyh2text->GetRect();
-  wxStaticText* dyt2text = new wxStaticText(this,-1,"Texte esp. inf.",DYT2COMMENT,wxSize(-1,-1));
+  wxStaticText* dyt2text = new wxStaticText(this,-1,wxT("Texte esp. inf."),DYT2COMMENT,wxSize(-1,-1));
   wxRect dyt2textrect = dyt2text->GetRect();
-  wxStaticText* dxendtext = new wxStaticText(this,-1,"Texte esp. droit.",DXENDCOMMENT,wxSize(-1,-1));
+  wxStaticText* dxendtext = new wxStaticText(this,-1,wxT("Texte esp. droit."),DXENDCOMMENT,wxSize(-1,-1));
   wxRect dxendtextrect = dxendtext->GetRect();
 
-  dyh2 = new wxTextCtrl(this,-1,"00",DYH2TEXT,DIM);
+  dyh2 = new wxTextCtrl(this,-1,wxT("00"),DYH2TEXT,DIM);
   wxRect dyh2rect = dyh2->GetRect();
-  wxStaticText* dyh2mm = new wxStaticText(this,-1,"mm",DYH2UNIT,wxSize(-1,-1));
+  wxStaticText* dyh2mm = new wxStaticText(this,-1,wxT("mm"),DYH2UNIT,wxSize(-1,-1));
   wxRect dyh2mmrect = dyh2mm->GetRect();
-  dyt2 = new wxTextCtrl(this,-1,"00",DYT2TEXT,DIM);
+  dyt2 = new wxTextCtrl(this,-1,wxT("00"),DYT2TEXT,DIM);
   wxRect dyt2rect = dyt2->GetRect();
-  wxStaticText* dyt2mm = new wxStaticText(this,-1,"mm",DYT2UNIT,wxSize(-1,-1));
+  wxStaticText* dyt2mm = new wxStaticText(this,-1,wxT("mm"),DYT2UNIT,wxSize(-1,-1));
   wxRect dyt2mmrect = dyt2mm->GetRect();
-  dxend = new wxTextCtrl(this,-1,"00",DXENDTEXT,DIM);
+  dxend = new wxTextCtrl(this,-1,wxT("00"),DXENDTEXT,DIM);
   wxRect dxendrect = dxend->GetRect();
-  wxStaticText* dxendmm = new wxStaticText(this,-1,"mm",DXENDUNIT,wxSize(-1,-1));
+  wxStaticText* dxendmm = new wxStaticText(this,-1,wxT("mm"),DXENDUNIT,wxSize(-1,-1));
   wxRect dxendmmrect = dxendmm->GetRect();
 
   // shutdown warnings
@@ -288,25 +288,25 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
 #define BCANCELPOINT wxPoint(Tspacesrect[0].GetRight() - CANCELWIDTH,BPOS)
   //#define BCANCELPOINT  wxPoint(dxendmmrect.GetRight() - CANCELWIDTH,BPOS)
 
-  bprinter = new wxButton(this,Button_Printer,"Imprimante",BPRINTERPOINT);
+  bprinter = new wxButton(this,Button_Printer,wxT("Imprimante"),BPRINTERPOINT);
   wxRect bprinterrect = bprinter->GetRect();
-  bprinter->SetToolTip("Configurer l'imprimante");
+  bprinter->SetToolTip(wxT("Configurer l'imprimante"));
 
-  bpage = new wxButton(this,Button_Page,"Page",BPAGEPOINT);
+  bpage = new wxButton(this,Button_Page,wxT("Page"),BPAGEPOINT);
   //  wxRect bpagerect = bpage->GetRect();
-  bpage->SetToolTip("Configurer la taille de page");
-  
-  bcancel = new wxButton(this,Button_Cancel,"Annuler");
+  bpage->SetToolTip(wxT("Configurer la taille de page"));
+
+  bcancel = new wxButton(this,Button_Cancel,wxT("Annuler"));
   wxRect bcancelrect = bcancel->GetRect();
   bcancel->Move(BCANCELPOINT);
   bcancelrect = bcancel->GetRect();
-  bcancel->SetToolTip("Annuler les dernier changements et quitter");
-  
-  bok = new wxButton(this,Button_Ok,"Quitter");
+  bcancel->SetToolTip(wxT("Annuler les dernier changements et quitter"));
+
+  bok = new wxButton(this,Button_Ok,wxT("Quitter"));
   wxRect bokrect = bok->GetRect();
   bok->Move(BOKPOINT);
   bokrect = bok->GetRect();
-  bok->SetToolTip("Enregistrer les changements et quitter");
+  bok->SetToolTip(wxT("Enregistrer les changements et quitter"));
 
 #define DLGWIDTH     (bcancelrect.GetRight() + HSPACE)
 #define DLGHEIGHT    (bokrect.GetBottom() + VSPACE)
@@ -332,7 +332,7 @@ ConfDimDlg::get(wxTextCtrl* t)
 {
   wxString str;
   str = t->GetValue();
-  return atoi((const char*)str);
+  return atoi(str.mb_str());
 }
 
 void
@@ -387,7 +387,7 @@ ConfDimDlg::writeconf()
   for(i=0; i<5; i++) {
     wxString str;
     str = Tdim[i]->GetValue();
-    config.setDxText(i,atoi((const char*)str));
+    config.setDxText(i,atoi(str.mb_str()));
     switch (Tjust[i]->GetSelection()) {
     case -1: break;
     case 0: config.setJustifT(i,LEFT); break;

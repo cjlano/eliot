@@ -16,14 +16,14 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: confsearch.cc,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: confsearch.cc,v 1.2 2005/01/01 15:42:55 ipkiss Exp $ */
+
+#include "wx/button.h"
+#include "wx/sizer.h"
 
 #include "ewx.h"
 #include "configdb.h"
 #include "confsearch.h"
-
-#include "wx/button.h"
-#include "wx/sizer.h"
 
 enum {
 	Button_Ok,
@@ -40,16 +40,16 @@ END_EVENT_TABLE()
 
 
 ConfSearchDlg::ConfSearchDlg(wxWindow* parent)
-   	: wxDialog(parent,-1,wxString("Configuration recherche"))
+   	: wxDialog(parent,-1,wxT("Configuration recherche"))
 {
 
-  joker_searching = new wxCheckBox(this,CheckBox_Joker,"Recherche sur joker dans 7+1");
-  rack_checking = new wxCheckBox(this,CheckBox_Rack,"Vérification de la validité des tirages");
-  
-  bcancel = new wxButton(this,Button_Cancel,"Annuler",wxPoint(-1,-1));
-  bcancel->SetToolTip("Annuler les dernier changements et quitter");
-  bok = new wxButton(this,Button_Ok,"Quitter",wxPoint(-1,-1));
-  bok->SetToolTip("Enregistrer les changements et quitter");
+  joker_searching = new wxCheckBox(this,CheckBox_Joker,wxT("Recherche sur joker dans 7+1"));
+  rack_checking = new wxCheckBox(this,CheckBox_Rack,wxT("Vérification de la validité des tirages"));
+
+  bcancel = new wxButton(this,Button_Cancel,wxT("Annuler"),wxPoint(-1,-1));
+  bcancel->SetToolTip(wxT("Annuler les dernier changements et quitter"));
+  bok = new wxButton(this,Button_Ok,wxT("Quitter"),wxPoint(-1,-1));
+  bok->SetToolTip(wxT("Enregistrer les changements et quitter"));
 
   wxBoxSizer *bsizer = new wxBoxSizer( wxHORIZONTAL);
   bsizer->Add(bok, 1, wxALL, 1);

@@ -16,9 +16,11 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: printout.cc,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
+/* $Id: printout.cc,v 1.3 2005/01/01 15:42:55 ipkiss Exp $ */
 
 #include <stdio.h>
+
+#include <wx/wx.h>
 
 #include "ewx.h"
 
@@ -28,7 +30,7 @@
 #include "configdb.h"
 #include "printout.h"
 
-bool 
+bool
 GamePrintout::OnPrintPage(int page)
 {
   wxDC *dc = GetDC();
@@ -43,13 +45,13 @@ GamePrintout::OnPrintPage(int page)
     return FALSE;
 }
 
-bool 
+bool
 GamePrintout::HasPage(int pageNum)
 {
   return pageNum == 1;
 }
 
-bool 
+bool
 GamePrintout::OnBeginDocument(int startPage, int endPage)
 {
   if (!wxPrintout::OnBeginDocument(startPage, endPage))
@@ -58,7 +60,7 @@ GamePrintout::OnBeginDocument(int startPage, int endPage)
   return TRUE;
 }
 
-void 
+void
 GamePrintout::GetPageInfo(int *minPage, int *maxPage, int *selPageFrom, int *selPageTo)
 {
   *minPage = 1;
@@ -71,12 +73,12 @@ void
 GamePrintout::SetSpaces(wxString* str, int spaces)
 {
   size_t i;
-  wxString strs = "";
+  wxString strs = wxT("");
   if (str->Len() == 0)
     return ;
   for(i=0; i < (str->Len()-1); i++) {
     strs = strs + str->GetChar(i);
-    strs = strs + wxString(' ',spaces);
+    strs = strs + wxString(wxChar(' '), spaces);
   }
   strs = strs + str->GetChar(str->Len() - 1);
   *str = strs;
@@ -91,7 +93,7 @@ GamePrintout::DrawStringJustif(wxDC *dc, wxString *str, long x, long y, long w,
   SetSpaces(str,spaces);
   dc->GetTextExtent(*str,&wtext,&htext);
 
-  switch (justif) 
+  switch (justif)
     {
     case LEFT:
       break;
@@ -113,7 +115,7 @@ GamePrintout::DrawHeadingLine(wxDC *dc, long heightH, float mmToLogical)
 
   x = config.getMarginX() + config.getDxBegin();
   y = config.getMarginY() + config.getDyT1();
-  for(i=0; i<5; i++) 
+  for(i=0; i<5; i++)
     {
       w = config.getDxText(i);
       str = config.getNameH(i);
@@ -145,12 +147,12 @@ GamePrintout::DrawTextLine(wxDC *dc, int numline, long basey, long heightT, floa
   long x,y,w;
   char buff[400];
   wxString str;
-  
+
   x = config.getMarginX() + config.getDxBegin();
   y = basey + config.getDyT1()
     + numline * (config.getDyT1() + heightT + config.getDyT2());
   w = config.getDxText(0);
-  str = "";
+  str = wxT("");
   // num
   if (numline < Game_getnrounds(game)) {
     str << (numline + 1);
@@ -160,28 +162,28 @@ GamePrintout::DrawTextLine(wxDC *dc, int numline, long basey, long heightT, floa
   DIM(1);
   if (numline < Game_getnrounds(game)) {
     Game_getplayedrack(game,numline,buff);
-    str = buff;
+    str = wxU(buff);
     DRW(1);
   }
 // word
   DIM(2);
   if ((numline > 0) && (numline <= Game_getnrounds(game))) {
     Game_getplayedword(game,numline - 1,buff);
-    str = buff;
+    str = wxU(buff);
     DRW(2);
   }
 // pos
   DIM(3);
   if ((numline > 0) && (numline <= Game_getnrounds(game))) {
     Game_getplayedcoord(game,numline - 1,buff);
-    str = buff;
+    str = wxU(buff);
     DRW(3);
   }
 // pts
   DIM(4);
   if ((numline > 0) && (numline <= Game_getnrounds(game))) {
     sprintf(buff,"%d",Game_getplayedpoints(game,numline - 1));
-    str = buff;
+    str = wxU(buff);
     DRW(4);
   }
 // total points
@@ -193,10 +195,10 @@ GamePrintout::DrawTextLine(wxDC *dc, int numline, long basey, long heightT, floa
 #undef DRW
 }
 
-void 
+void
 GamePrintout::DrawPage(wxDC *dc)
 {
-/* 
+/*
  * Scaling.
  */
      // Get the logical pixels per inch of screen and printer
@@ -231,10 +233,10 @@ GamePrintout::DrawPage(wxDC *dc)
      wxFont Hfont = config.getFont(PRINTHFONT);
      wxFont Tfont = config.getFont(PRINTTFONT);
 
-     wxColour *wxBlack = wxTheColourDatabase->FindColour("BLACK");
-     wxColour *wxWhite = wxTheColourDatabase->FindColour("WHITE");
-     wxPen    *blackPen = wxThePenList->FindOrCreatePen(*wxBlack, 1, wxSOLID);
-     wxBrush  *whiteBrush = wxTheBrushList->FindOrCreateBrush(*wxWhite, wxSOLID);
+     wxColour wxBlack = wxTheColourDatabase->Find(wxT("BLACK"));
+     wxColour wxWhite = wxTheColourDatabase->Find(wxT("WHITE"));
+     wxPen    *blackPen = wxThePenList->FindOrCreatePen(wxBlack, 1, wxSOLID);
+     wxBrush  *whiteBrush = wxTheBrushList->FindOrCreateBrush(wxWhite, wxSOLID);
 
      dc->SetPen(* blackPen);
      dc->SetBrush(* whiteBrush);
@@ -260,10 +262,10 @@ GamePrintout::DrawGameLines(wxDC *dc, long heightH, long heightT,
   long col,lin, StartX, StartY;
   long HeadHeight, LineHeight;
   long TextStart, TextHeight, TextBottom, TextRight;
-  
+
   float SCALE = config.getPrintLineScale();
   dc->SetUserScale(SCALE,SCALE);
-  
+
   nTextLines = Game_getnrounds(game) + 2;
   StartX = config.getMarginX();
   StartY = config.getMarginY();

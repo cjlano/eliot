@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: ewx.h,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: ewx.h,v 1.2 2005/01/01 15:42:55 ipkiss Exp $ */
 
 #ifndef __EWX__
 #define __EWX__
@@ -41,5 +41,23 @@
 
 #include "config.h"
 #define APPNAME "Eliot"
-#define DATE "$Date: 2004/04/08 09:43:06 $"
+#define DATE "$Date: 2005/01/01 15:42:55 $"
 #endif
+
+/* wxU is used to convert ansi/utf8 strings to unicode strings (wchar_t) */
+#if defined( ENABLE_NLS ) && defined( ENABLE_UTF8 )
+#if wxUSE_UNICODE
+#   define wxU(utf8) wxString(utf8, wxConvUTF8)
+#else
+#   define wxU(utf8) wxString(wxConvUTF8.cMB2WC(utf8), *wxConvCurrent)
+#endif
+
+#else // ENABLE_NLS && ENABLE_UTF8
+#if wxUSE_UNICODE
+#   define wxU(ansi) wxString(ansi, *wxConvCurrent)
+#else
+#   define wxU(ansi) ansi
+#endif
+
+#endif
+

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: main.cc,v 1.3 2004/06/26 10:40:02 ipkiss Exp $ */
+/* $Id: main.cc,v 1.4 2005/01/01 15:42:55 ipkiss Exp $ */
 
 #ifdef WIN32 // mingw32 hack
 #   undef Yield
@@ -54,9 +54,9 @@ bool
 EliotApp::OnInit()
 {
      srand(time(NULL));
-     SetVendorName("Afrab");
-     SetAppName(wxString("eliot") + wxString("-") + wxString(VERSION));
-     SetClassName("eliot");
+     SetVendorName(wxT("Afrab"));
+     SetAppName(wxString(wxT("eliot")) + wxString(wxT("-")) + wxString(wxT(VERSION)));
+     SetClassName(wxT("eliot"));
 
      wxConfigBase* config = wxConfigBase::Get();
      config = NULL;
@@ -66,8 +66,8 @@ EliotApp::OnInit()
 #endif
      ConfigDB configdb;
      configdb.setFirstDefault();
-     MainFrame *mainframe = new MainFrame(configdb.getFramePos(APPNAME),
-					  configdb.getFrameSize(APPNAME));
+     MainFrame *mainframe = new MainFrame(configdb.getFramePos(wxT(APPNAME)),
+					  configdb.getFrameSize(wxT(APPNAME)));
      mainframe->SetIcon( wxICON(eliot) );
      mainframe->Show(TRUE);
      SetTopWindow(mainframe);

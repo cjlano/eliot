@@ -57,7 +57,7 @@ Dans les 2 cas, les étapes sont les mêmes :
     - pour la cross-compilation depuis GNU/Linux, configurer avec la ligne
       de commande suivante :
             CC=i586-mingw32msvc-gcc CXX=i586-mingw32msvc-g++ \
-            ./configure --host=i586-mingx32msvc --build=i386-linux \
+            ./configure --host=i586-mingw32msvc --build=i386-linux \
             --with-wx-config=/path/to/wx-config
       en prenant soin d'indiquer le chemin correct vers le fichier
       'wx-config' de l'installation de wxWindows.
