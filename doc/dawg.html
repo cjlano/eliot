@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Directed Acyclic Word Graphs</TITLE>
+<META NAME="authors" CONTENT="Mark & Ceal Wutka">
+<META NAME="HTML_editor" CONTENT="Arachnophilia 3.9">
+<META NAME="keywords" CONTENT="Scrabble, Dictionary, Scrabble Dictionary, Word Graphs">
+<META NAME="date" CONTENT="12 JUN 1999">
+<META NAME="date" CONTENT="15 APR 1999">
+<STYLE TYPE="text/css">
+<!--
+BODY 
+{	background: url(scrabble_back.gif) white
+	color: #000099
+}
+A:link
+{	font-family: "comic sans MS", "comic sans", arial;
+	font-size: -1;
+	color:  #FF0000
+}
+A:visited	
+{	font-family: "comic sans MS", "comic sans";
+	font-size: -1;
+	color:  #990000
+}
+A:active
+{	font-family: "comic sans MS", "comic sans";
+	color: #00CCCC;
+	font-size: -1
+}
+P 
+{	font-family: georgia, serif;
+	font-size: 14px;
+	letter-spacing: 2px;
+	line-height: 120%;
+	color: #000099
+}
+UL LI
+{	font-family: georgia, serif;
+	font-size: 14px;
+	letter-spacing: 2px;
+	line-height: 120%;
+	color: #000099
+}
+H1
+{	font-family: verdana, sans-serif
+	font-size: 18px;
+	letter-spacing: 2px;
+	color: #0000FF;
+	font-weight: 700;
+	text-align: center
+}
+H2
+{	font-family: verdana, sans-serif
+	font-size: 16px;
+	letter-spacing: 2px;
+	color: #0000FF;
+	font-weight: 700;
+	text-align: center
+}
+-->
+</STYLE>
+</HEAD>
+
+This page has been stolen from <a href="http://www.wutka.com/dawg.html">here</a>.<br>
+<br>
+
+<H1>Directed Acyclic Word Graphs</H1>
+
+<P>A Directed Acyclic Word Graph, or DAWG, is a data structure that permits
+extremely fast word searches.  The entry point into the graph represents
+the starting letter in the search. Each node represents a letter, and you
+can travel from the node to two other nodes, depending on whether you the
+letter matches the one you are searching for.</p>
+
+<P>It's a Directed graph because you can only move in a specific direction
+between two nodes. In other words, you can move from A to B, but you can't
+move from B to A. It's Acyclic because there are no cycles. You cannot have
+a path from A to B to C and then back to A. The link back to A would create
+a cycle, and probably an endless loop in your search program.</p>
+
+<P>The description is a little confusing without an example, so imagine we have
+a DAWG containing the words CAT, CAN, DO, and DOG. The graph woud look like this:</p>
+
+<P>
+<PRE>
+     C --Child--> A --Child--> N (EOW)
+     |                         |
+     |                       Next
+   Next                        |
+     |                         v
+     |                         T (EOW)
+     v
+     D--Child--> O (EOW) --Child --> G (EOW)
+</PRE>
+
+<P>Now, imagine that we want to see if CAT is in the DAWG. We start at the entry
+point (the C) in this case. Since C is also the letter we are looking for,
+we go to the child node of C. Now we are looking for the next letter in CAT,
+which is A. Again, the node we are on (A) has the letter we are looking for,
+so we again pick the child node which is now N.  Since we are looking for T
+and the current node is not T, we take the Next node instead of the child.
+The Next node of N is T. T has the letter we want. Now, since we have processed
+all the letters in the word we are searching for, we need to make sure that
+the current node has an End-of-word flag (EOW) which it does, so CAT is
+stored in the graph.</p>
+
+<P>One of the tricks with making a DAWG is trimming it down so that words with
+common endings all end at the same node.  For example, suppose we want to store
+DOG and LOG in a DAWG. The ideal would be something like this:</p>
+
+<P>
+<PRE>
+   D --Child--> O --Child--> G(EOW)
+   |            ^
+  Next          |
+   |            |
+   v            |
+   L --Child----
+</PRE></p>
+
+<P>In other words, the OG in DOG and LOG is defined by the same pair of nodes.</P>
+
+&nbsp;
+<H2>Creating a DAWG</H2>
+
+<P>I'm not sure this is the optimal way to create a DAWG, but I have been able 
+to create a program that is reasonably efficient (160000 words in about 2 
+minutes). </p>
+
+<P>The idea is to first create a tree, where a leaf would represent the end of
+a word and there can be multiple leaves that are identical.  For example,
+DOG and LOG would be stored like this:</p>
+
+<P>
+<PRE>
+  D --Child--> O --Child--> G (EOW)
+  |
+ Next
+  |
+  v
+  L --Child-> O --Child--> G (EOW)
+</PRE></p>
+
+<P>Now, suppose you want to add DOGMA to the tree. You'd proceed as if you were
+doing a search. Once you get to G, you find it has no children, so you add
+a child M, and then add a child A to the M, making the graph look like:</p>
+
+<P>
+<PRE>
+  D --Child--> O --Child--> G (EOW) --Child--> M --Child--> A (EOW)
+  |
+ Next
+  |
+  v
+  L --Child-> O --Child--> G (EOW)
+</PRE></p>
+
+<P>As you can see, by adding nodes to the tree this way, you share common
+beginnings, but the endings are still separated.  To shrink the size of the
+DAWG, you need to find common endings and combine them. To do this, you start
+at the leaf nodes (the nodes that have no children). If two leaf nodes are
+identical, you combine them, moving all the references from one node to the
+other. For two nodes to be identical, they not only must have the same letter,
+but if they have Next nodes, the Next nodes must also be identical (if they
+have child nodes, the child nodes must also be identical).</p>
+
+<P>Take the following tree of CITIES, CITY, PITIES and PITY:</p>
+
+<P>
+<PRE>
+ C --Child--> I --Child--> T --Child--> I --Child--> E --Child--> S (EOW)
+ |                                      |
+ |                                     Next
+Next                                    |
+ |                                      v
+ |                                      Y (EOW)
+ P --Child--> I --Child--> T --Child--> I --Child--> E --Child--> S (EOW)
+                                        |
+                                       Next
+                                        |
+                                        v
+                                        Y (EOW)
+</PRE></p>
+
+<P>It's probably pretty obvious to you that there is a lot of redundant
+information here. The trick is to make it obvious to a computer. While you
+can see that it would be easiest just to make C and P point to the same
+I, my algorithm for this takes a longer approach.</p>
+
+<P>Once I create the tree, I run through it and tag each node with a number of
+children and a child depth (the highest number of nodes you can go through
+from the current node to reach a leaf). Leaf nodes have 0 for the child depth and
+0 for the number of children. The main reason for the tagging is that when
+looking for identical nodes, you can quickly rule out nodes with a different
+number of children or a different child depth. When I tag the nodes, I also
+put them in an array of nodes with a similar child depth (again to speed
+searching).</p>
+
+<P>Now that the nodes have been tagged and sorted by depth, I start with the
+children that have a depth of 0. If node X and node Y are identical, I make
+any node that points to Y as a child now point to X. Originally, I also allowed
+nodes that pointed to Y as a Next node point to X. While this works from
+a data structure standpoint, it made it impossible to store the DAWG in a file
+the way I needed to.</p>
+
+<P>In the CITY-PITY graph, the algorithm would see that the S's at the end are the
+same. Although the Y nodes are identical, they are not referenced by any
+Child links, only Next links. As I said before, combining common next links
+make it difficult to store the graph the way I needed to.
+The graph would look like this after processing the nodes with a 0 child depth (leaf nodes):</p>
+
+<P>
+<PRE>
+ C --Child--> I --Child--> T --Child--> I --Child--> E --Child--> S (EOW)
+ |                                      |                       ^
+ |                                     Next                     |
+Next                                    |                       |
+ |                                      v                       |
+ |                                      Y (EOW)                 |
+ P --Child--> I --Child--> T --Child--> I --Child--> E --Child--
+                                        |
+                                       Next
+                                        |
+                                        v
+                                        Y (EOW)
+</PRE></p>
+
+<P>Next, the algorithm looks at nodes with a child depth of 1, which in this
+case would be the two E nodes (although T has 1-deep path to Y, it's
+child depth is 3 because the longest path is the 3-deep path to S).
+In order to test that the two E's are identical, you first see that the letters
+are the same, which they are. Now you make sure that the children are identical.
+Since the only child of E is the same node, you KNOW they are identical. So
+the E's are now combined:</p>
+
+<P><PRE>
+ C --Child--> I --Child--> T --Child--> I --Child--> E --Child--> S (EOW)
+ |                                      |          ^
+ |                                     Next        |
+Next                                    |          |
+ |                                      v          |
+ |                                      Y (EOW)    |
+ P --Child--> I --Child--> T --Child--> I --Child-->
+                                        |
+                                       Next
+                                        |
+                                        v
+                                        Y (EOW)
+</PRE></p>
+
+<P>Notice that the E and S nodes that come from the PITIES word are no longer
+needed. This technique pares the tree down pretty nicely.</p>
+
+<P>Next come the nodes with a child depth of 2, which would be the I (the
+I's that have ES and Y as children) nodes.
+Applying the same comparison strategy, we can see that both the I nodes are
+identical, so they become combined. This procedure repeats for the T nodes
+and then the I nodes that are the parents of T. The last set of nodes, the
+C & P nodes, are not identical, so they can't be combined. The final tree
+looks like this:</p>
+
+<P><PRE>
+ C --Child--> I --Child--> T --Child--> I --Child--> E --Child--> S (EOW)
+ |            |                         |
+ |            |                        Next
+Next          |                         |
+ |            |                         v
+ |            |                         Y (EOW)
+ P --Child---- 
+</PRE></p>
+
+&nbsp;
+<H2>File Format</H2>
+
+<P>One of the easiest ways to store the DAWG is by writing out each node as a
+4-byte number. The number contains a reference to the first child node,
+some flags to indicate whether the node can end a word, a flag to
+indicate whether the node is the last node in a Next chain, and the letter
+the node represents. Notice that the Next pointer itself is not contained
+in the 4-byte number. Instead, when a node is written, the node that its
+Next pointer refers to is written immediately after it in the file. That's
+why you have an indicator to tell when the node is the last in a Next chain.</p>
+
+<P>Let's assume, for a minute, that the format used is:
+<UL>
+	<LI>2-bytes for the Child pointer,
+	<LI>1 byte for the flags (2 indicates end-of-list, 1 indicates end-of-word)
+	<LI>1 byte for the character
+</UL>
+
+<P>The CITY-PITY tree could be written this way:</p>
+
+<P><PRE>
+00 00 03 00  Dummy null value, allows 0 to indicate no child
+00 03 00 43  C, child at 4-byte-word # 3
+00 03 02 50  P, child at 4-byte-word #3, end-of-list
+00 04 00 49  I, child at 4-byte-word #4
+00 05 00 54  T, child at 4-byte-word #5
+00 06 00 49  I, child at 4-byte-word #7
+00 00 03 59  Y, no child, end-of-word, end-of-list
+00 08 00 45  E, child at 4-byte-word #8
+00 00 03 53  S, no child, end-of-word, end of list
+</PRE></p>
+
+<P>Having only two bytes for the child pointer limits you to 65536 total nodes.
+The Hasbro Scrabble CDROM uses a more expanded format. The leftmost 22-bits
+indicate the offset of the child node. The next bit is the end-of-list,
+followed by the end-of-word bit. The last 8 bits are the letter (always
+lower-case).  Using a 22-bit offset, you can handle 4 million nodes. If you
+ever need more than that, you can get up to 32 million and still store the
+nodes in 4 bytes. For the maximum storage, put the offset in the left-most
+25 bits. The next bit for end-of-list, followed by a bit for end-of-word.
+Finally, the last 5 bits would be the letter, numbered from 0 to 25 for A-Z.</p>
+
+<P>Also, it is up to you where to start the tree. In the above example, the
+tree starts at offset 1. The Hasbro Scrabble CDROM uses the last 26 nodes in
+the file as the beginning of the tree.</p>
+
+</BODY>
+</HTML>
+

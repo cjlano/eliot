@@ -1,0 +1,22 @@
+
+  Eliot est un jeu de Scrabble
+
+  Il ne s'agit pas d'un programme pour jouer à plusieurs mais plutôt
+  d'un programme pour s'entrainer et jouer en duplicate.
+
+  Eliot, ainsi que son dictionnaire, sont disponibles librement en accord 
+  avec la license GPL (http://www.gnu.org/).
+
+  Eliot permet de rechercher le meilleur coup que l'on peut jouer sur
+  une grille avec un tirage. 
+
+  Eliot incorpore la recherche des raccords sur un coup, des benjamins
+  et  mots composables avec les lettres du tirage plus une. Un module de 
+  recherche est aussi disponible pour la recherche des anagrammes
+  et les jeux de mots-croisés.
+
+  Bon jeux ! 
+
+  antoine.fraboulet@free.fr
+  http://afrab.free.fr/eliot/
+ 

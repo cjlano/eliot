@@ -1,0 +1,47 @@
+Installation sous Linux (Un*x) (bien)
+------------------------------
+* Pour installer à partir de l'archive CVS :
+
+  aclocal
+  autoheader 
+  autoconf
+  automake
+
+  ./configure --prefix=/usr/local/eliot
+  make
+  make install
+
+* Pour installer à partir de l'archive tar.gz
+
+  ./configure --prefix=/usr/local/eliot
+  make
+  make install
+
+Il suffit de rajouter le chemin pour trouver eliot
+sur sa ligne de commande et le tour est joué.
+
+Simple non ?
+
+Installation sous Windows (moins bien)
+-------------------------
+
+* Mingw32
+  J'utilise mingw32 version 2.95.2 comme compilateur sous
+  windows la suite est disponible à l'adresse 
+
+  http://agnes.dida.physik.uni-essen.de/~janjaap/mingw32/index.html
+
+  La compilation d'Eliot est on ne peut plus simple, il suffit de se
+  placer dans le répertoire msw et taper 'build'. Tout ceci suppose que
+  mingw32 et wxMSW soient correctement installés mais cette étape ne
+  rentre pas dans le présent document.
+
+* Borland/Inprise C/C++ compiler 5.5.1
+  La version en ligne de commande du compilateur Borland est disponible
+  gratuitement par téléchargement. Cet (excellent) compilateur
+  permet aussi de produire un executable d'Eliot.
+  Toujours dans le répertoir eliot\msw il vous faudra taper
+
+  make -f makefile.b32
+
+ 

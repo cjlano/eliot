@@ -1,0 +1,79 @@
+dnl -*-m4-*-
+dnl Process this file with autoconf to produce a configure script.
+dnl --------------------------------------------------------------
+dnl configure.in for Eliot
+dnl --------------------------------------------------------------
+dnl AC_REVISION($Id: configure.in,v 1.1 2004/04/08 09:43:06 afrab Exp $)
+AC_INIT(wxwin/main.cc)
+AM_INIT_AUTOMAKE(eliot, 1.4)
+AM_CONFIG_HEADER(config.h)
+dnl AM_DISABLE_STATIC
+dnl AM_PROG_LIBTOOL
+
+dnl --------------------------------------------------------------
+dnl Checks for programs.
+dnl --------------------------------------------------------------
+AC_PROG_INSTALL
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_MAKE_SET
+AC_PROG_RANLIB
+
+AC_ARG_WITH(wx-prefix,    [  --with-wx-prefix=DIR       Prefix where wxWindows is installed],
+            wx_config_prefix="$withval", wx_config_prefix="")
+AC_ARG_WITH(wx-exec-prefix, [  --with-wx-exec-prefix=DIR  Exec prefix where wxWindows is installed],
+            wx_config_exec_prefix="$withval", wx_config_exec_prefix="")
+
+dnl --------------------------------------------------------------
+dnl Checks for libraries.
+dnl --------------------------------------------------------------
+AM_PATH_WX(2.4.0, WXWIN=1)
+if test "$WXWIN" != 1 ; then
+  echo '*** You should have at least wxWindows 2.4 installed'
+  echo '*** Please install this package first'
+  AC_MSG_ERROR("missing wxWindows >= 2.2")
+fi 
+dnl --------------------------------------------------------------
+dnl Checks for header files.
+dnl --------------------------------------------------------------
+AC_HEADER_STDC
+AC_CHECK_HEADERS(fcntl.h unistd.h)
+
+dnl --------------------------------------------------------------
+dnl Checks for typedefs, structures, and compiler characteristics.
+dnl --------------------------------------------------------------
+AC_C_CONST
+AC_TYPE_SIZE_T
+dnl AC_C_BIGENDIAN
+AC_INLINE
+AC_CHECK_SIZEOF(char, 1)
+AC_CHECK_SIZEOF(short, 2)
+AC_CHECK_SIZEOF(int *, 4)
+AC_CHECK_SIZEOF(int, 4)
+AC_CHECK_SIZEOF(long, 4)
+AC_CHECK_SIZEOF(long long, 0)
+
+dnl --------------------------------------------------------------
+dnl Checks for library functions.
+dnl --------------------------------------------------------------
+AC_FUNC_MEMCMP
+
+dnl --------------------------------------------------------------
+dnl Output
+dnl --------------------------------------------------------------
+AC_OUTPUT(
+dic/Makefile 
+game/Makefile
+wxwin/Makefile  
+utils/Makefile
+Makefile)
+
+
+
+
+
+
+
+
+
+
