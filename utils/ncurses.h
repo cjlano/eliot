@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: ncurses.h,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: ncurses.h,v 1.2 2005/02/21 22:42:06 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,6 +72,7 @@ private:
     // Draw the "Play word" box, and handle the played word
     void playWord(WINDOW *win, int y, int x);
     void checkWord(WINDOW *win, int y, int x);
+    void saveGame(WINDOW *win, int y, int x);
     void passTurn(WINDOW *win, int y, int x, FreeGame &iGame);
     void setRack(WINDOW *win, int y, int x, Training &iGame);
     // Get a string from the user, with a maximum length
@@ -83,6 +84,8 @@ private:
     // parameter of the readString() method.
     // Indicate that the '?' character is accepted
     static const unsigned int kJOKER = 1 << 0;
+    // Accept characters for a file name
+    static const unsigned int kFILENAME = 1 << 0;
 
     // Handle the key in Training mode
     int handleKeyForGame(int iKey, Training &iGame);

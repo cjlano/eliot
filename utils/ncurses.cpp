@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: ncurses.cpp,v 1.4 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: ncurses.cpp,v 1.5 2005/02/21 22:42:06 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #endif
 
 #include <ctype.h>
+#include <fstream>
 
 #include "ncurses.h"
 #include "dic.h"
@@ -291,16 +292,17 @@ void CursesIntf::drawHelp(WINDOW *win, int y, int x)
     boxPrint(win, n++, x + 2, _("   h, H, ?          Show/hide help box"));
     boxPrint(win, n++, x + 2, _("   y, Y             Show/hide history of the game"));
     boxPrint(win, n++, x + 2, _("   e, E             Show/hide dots on empty squares of the board"));
-    boxPrint(win, n++, x + 2, _("   q, Q             Quit"));
     boxPrint(win, n++, x + 2, _("   d, D             Check the existence of a word in the dictionary"));
     boxPrint(win, n++, x + 2, _("   j, J             Play a word"));
+    boxPrint(win, n++, x + 2, _("   s, S             Save the game"));
+    boxPrint(win, n++, x + 2, _("   q, Q             Quit"));
     boxPrint(win, n++, x + 2, "");
 
     boxPrint(win, n++, x + 2, _("[Training mode]"));
     boxPrint(win, n++, x + 2, _("   *                Take a random rack"));
     boxPrint(win, n++, x + 2, _("   +                Complete the current rack randomly"));
     boxPrint(win, n++, x + 2, _("   t, T             Set the rack manually"));
-    boxPrint(win, n++, x + 2, _("   s, S             Search (compute all the possible words)"));
+    boxPrint(win, n++, x + 2, _("   c, C             Compute all the possible words"));
     boxPrint(win, n++, x + 2, _("   r, R             Show/hide search results"));
     boxPrint(win, n++, x + 2, "");
 
@@ -370,6 +372,35 @@ void CursesIntf::checkWord(WINDOW *win, int y, int x)
             snprintf(s, 100, _("The word '%s' exists"), word.c_str());
         else
             snprintf(s, 100, _("The word '%s' does not exist"), word.c_str());
+        drawStatus(win, LINES - 1, 0, s);
+    }
+    m_state = DEFAULT;
+    clearRect(win, y, x, 4, 32);
+}
+
+
+void CursesIntf::saveGame(WINDOW *win, int y, int x)
+{
+    drawBox(win, y, x, 4, 32, _(" Save the game "));
+    mvwprintw(win, y + 1, x + 2, _("Enter the file name:"));
+    wrefresh(win);
+
+    string filename;
+    if (readString(win, y + 2, x + 2, 28, filename, kFILENAME))
+    {
+        ofstream fout(filename.c_str());
+        char s[100];
+        if (fout.rdstate() == ios::failbit)
+        {
+            snprintf(s, 100, _("Cannot open file %s for writing"),
+                     filename.c_str());
+        }
+        else
+        {
+            m_game.save(fout);
+            fout.close();
+            snprintf(s, 100, _("Game saved in %s"), filename.c_str());
+        }
         drawStatus(win, LINES - 1, 0, s);
     }
     m_state = DEFAULT;
@@ -450,11 +481,23 @@ bool CursesIntf::readString(WINDOW *win, int y, int x, int n, string &oString,
             x++;
             oString += (char)c;
         }
-        else if (flag & kJOKER && c == '?')
+        else
         {
-            mvwprintw(win, y, x, "%c", c);
-            x++;
-            oString += (char)c;
+            if (flag & kJOKER && c == '?')
+            {
+                mvwprintw(win, y, x, "%c", c);
+                x++;
+                oString += (char)c;
+            }
+            if (flag & kFILENAME)
+            {
+                if (c == '/' || c == '.' || c == '-' || c == '_' || c == ' ')
+                {
+                    mvwprintw(win, y, x, "%c", c);
+                    x++;
+                    oString += (char)c;
+                }
+            }
         }
 //         else
 //             mvwprintw(win, 0, 0, "%3d", c);
@@ -481,8 +524,8 @@ int CursesIntf::handleKeyForGame(int iKey, Training &iGame)
             setRack(m_win, 22, 10, iGame);
             return 1;
 
-        case 's':
-        case 'S':
+        case 'c':
+        case 'C':
             iGame.search();
             return 1;
 
@@ -649,6 +692,13 @@ int CursesIntf::handleKey(int iKey)
         // Ctrl-L should clear and redraw the screen
         case 0x0c:
             clear();
+            return 1;
+
+        case 's':
+        case 'S':
+            if (m_state != DEFAULT)
+                return 0;
+            saveGame(m_win, 22, 10);
             return 1;
 
         // Quit
