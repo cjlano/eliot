@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: confsearch.h,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: confsearch.h,v 1.2 2005/03/29 08:05:18 afrab Exp $ */
 
 #ifndef _CONFSEARCH_H
 #define _CONFSEARCH_H
@@ -24,6 +24,7 @@
 #include "wx/button.h"
 #include "wx/dialog.h"
 #include "wx/checkbox.h"
+#include "configdb.h"
 
 class ConfSearchDlg : public wxDialog
 {

@@ -16,13 +16,10 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: confsearch.cc,v 1.3 2005/02/05 11:14:56 ipkiss Exp $ */
-
-#include "wx/button.h"
-#include "wx/sizer.h"
+/* $Id: confsearch.cc,v 1.4 2005/03/29 08:05:18 afrab Exp $ */
 
 #include "ewx.h"
-#include "configdb.h"
+#include "wx/sizer.h"
 #include "confsearch.h"
 
 enum {

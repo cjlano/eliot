@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: printout.cc,v 1.4 2005/02/05 11:14:56 ipkiss Exp $ */
+/* $Id: printout.cc,v 1.5 2005/03/29 08:05:18 afrab Exp $ */
 
 #include <stdio.h>
 
@@ -233,10 +233,18 @@ GamePrintout::DrawPage(wxDC *dc)
      wxFont Hfont = config.getFont(PRINTHFONT);
      wxFont Tfont = config.getFont(PRINTTFONT);
 
+#if wxCHECK_VERSION(2,5,0)
      wxColour wxBlack = wxTheColourDatabase->Find(wxT("BLACK"));
      wxColour wxWhite = wxTheColourDatabase->Find(wxT("WHITE"));
      wxPen    *blackPen = wxThePenList->FindOrCreatePen(wxBlack, 1, wxSOLID);
      wxBrush  *whiteBrush = wxTheBrushList->FindOrCreateBrush(wxWhite, wxSOLID);
+#else
+     wxColour *wxBlack = wxTheColourDatabase->FindColour(wxT("BLACK"));
+     wxColour *wxWhite = wxTheColourDatabase->FindColour(wxT("WHITE"));
+     wxPen    *blackPen = wxThePenList->FindOrCreatePen(*wxBlack, 1, wxSOLID);
+     wxBrush  *whiteBrush = wxTheBrushList->FindOrCreateBrush(*wxWhite, wxSOLID);
+#endif
+
 
      dc->SetPen(* blackPen);
      dc->SetBrush(* whiteBrush);

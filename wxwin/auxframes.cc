@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: auxframes.cc,v 1.6 2005/03/29 07:00:39 afrab Exp $ */
+/* $Id: auxframes.cc,v 1.7 2005/03/29 08:05:18 afrab Exp $ */
 
 #include <iostream>
 using namespace std;
@@ -332,11 +332,6 @@ Plus1Frame::Refresh(refresh_t force)
     string rack2;
     char buff[LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
 
-//     if (m_game.getNRounds() > 0)
-//       rack2 = m_game.getPlayedRack(m_game.getNRounds());
-//     else
-//       rack2 = "";
-
     rack2 = m_game.getCurrentRack(0);
 
     if (m_rack == rack2)
@@ -349,7 +344,8 @@ Plus1Frame::Refresh(refresh_t force)
 
     int resnum = 0;
     wxString res[LETTERS*(RES_7PL1_MAX+1)];
-    res[resnum++] = wxT("Tirage: ") + wxU(m_rack.c_str());
+    // wxString(wxT) added for clean compile with wx2.4
+    res[resnum++] = wxString(wxT("Tirage: ")) + wxString(wxU(m_rack.c_str()));
     for (i = 0; i < LETTERS; i++)
     {
         if (i && buff[i][0][0])
