@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: auxframes.cc,v 1.8 2005/03/29 08:22:55 afrab Exp $ */
+/* $Id: auxframes.cc,v 1.9 2005/04/02 21:21:30 ipkiss Exp $ */
 
 #include <iostream>
 using namespace std;
@@ -333,7 +333,7 @@ Plus1Frame::Refresh(refresh_t force)
     string rack2;
     char buff[LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
 
-    rack2 = m_game.getCurrentRack(0);
+    rack2 = m_game.getPlayerRack(0);
 
     if (m_rack == rack2)
         return;

@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: duplicate.h,v 1.7 2005/03/29 06:56:06 afrab Exp $
+ * $Id: duplicate.h,v 1.8 2005/04/02 21:21:30 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,6 @@ public:
     virtual int setRackRandom(int, bool, set_rack_mode);
     virtual int play(const string &iCoord, const string &iWord);
     virtual int endTurn();
-    virtual string getCurrentRack(int p);
 
     int setPlayer(int);
     // Switch to the previous human player who has not played yet

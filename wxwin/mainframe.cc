@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: mainframe.cc,v 1.6 2005/03/29 07:00:39 afrab Exp $ */
+/* $Id: mainframe.cc,v 1.7 2005/04/02 21:21:30 ipkiss Exp $ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -789,7 +789,7 @@ MainFrame::OnSetRack(wxCommandEvent& event)
             break;
     }
 
-    string r = m_game->getCurrentRack(0);
+    string r = m_game->getPlayerRack(0);
     rack->SetValue(wxU(r.c_str()));
     ((Training*)m_game)->removeTestPlay();
     results->DeleteAllItems();
@@ -862,7 +862,7 @@ MainFrame::OnSearch(wxCommandEvent& WXUNUSED(event))
         default: statusbar->SetStatusText(wxT("Le tirage a été modifié manuellement"), 0); break;
     }
 
-    string r = m_game->getCurrentRack(0);
+    string r = m_game->getPlayerRack(0);
     rack->SetValue(wxU(r.c_str()));
 
     Search();
@@ -874,24 +874,24 @@ MainFrame::OnSearch(wxCommandEvent& WXUNUSED(event))
 void
 MainFrame::Play(int n)
 {
-  ((Training*)m_game)->removeTestPlay();
+    ((Training*)m_game)->removeTestPlay();
 
-  if (n == -1)
+    if (n == -1)
     {
-      m_game->back(1);
+        m_game->back(1);
     }
-  else
+    else
     {
-      ((Training*)m_game)->playResult(n);
+        ((Training*)m_game)->playResult(n);
     }
 
-  if (m_game->getNRounds() > 0)
+    if (m_game->getNRounds() > 0)
     {
-      string r = m_game->getCurrentRack(0);
-      rack->SetValue(wxU(r.c_str()));
-      results->DeleteAllItems();
-      UpdateStatusBar();
-      UpdateFrames();
+        string r = m_game->getPlayerRack(0);
+        rack->SetValue(wxU(r.c_str()));
+        results->DeleteAllItems();
+        UpdateStatusBar();
+        UpdateFrames();
     }
 }
 
