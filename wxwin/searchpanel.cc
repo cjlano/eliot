@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: searchpanel.cc,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: searchpanel.cc,v 1.2 2004/06/19 18:43:35 afrab Exp $ */
 
 #include <string.h>
 #include "ewx.h"
@@ -197,12 +197,48 @@ PPlus1::compute_enter(wxCommandEvent&)
 // ************************************************************
 // ************************************************************
 
+class PRegExp : public SimpleSearchPanel
+{
+private:
+public:
+  void compute_char(wxCommandEvent&) { };
+  void compute_enter(wxCommandEvent&);
+  PRegExp(wxWindow* parent, int id, Dictionary dic) : SimpleSearchPanel(parent,id,dic) {};
+};
+
+void
+PRegExp::compute_enter(wxCommandEvent&)
+{
+  int  i;
+  char re[DIC_WORD_MAX];
+  char buff[RES_REGE_MAX][DIC_WORD_MAX];
+
+  if (!check())
+    return;
+
+  strncpy(re,t->GetValue().c_str(),DIC_WORD_MAX);
+  Dic_search_RegE(dic_,re,buff);
+
+  int resnum = 0;
+  wxString res[RES_REGE_MAX];
+  for(i=0; i < RES_REGE_MAX && buff[i][0]; i++)
+    res[resnum++] =  wxString(buff[i]);
+  l->Set(resnum,res);
+
+  if (l->Number() == 0)
+    l->Append("Aucun résultat");
+}
+
+// ************************************************************
+// ************************************************************
+// ************************************************************
+
 SearchPanel::SearchPanel(wxFrame *parent, Dictionary dic) :
   wxNotebook(parent, -1)
 {
   AddPage(new PCross(this,ID_PANEL_CROSS,dic),"Mots croisés");
   AddPage(new PPlus1(this,ID_PANEL_PLUS1,dic),"Plus 1");
-  //  AddPage(new PCross(this,ID_PANEL_REGEXP,dic),"RegExp");
+  AddPage(new PRegExp(this,ID_PANEL_REGEXP,dic),"Exp. Rationnelle");
   SetSelection(0);  
 }
 

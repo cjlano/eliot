@@ -34,12 +34,4 @@ Installation sous Windows (moins bien/facile)
   mingw32 et wxMSW soient correctement installés mais cette étape ne
   rentre pas dans le présent document.
 
-* Borland/Inprise C/C++ compiler 5.5.1
-  La version en ligne de commande du compilateur Borland est disponible
-  gratuitement par téléchargement. Cet (excellent) compilateur
-  permet aussi de produire un executable d'Eliot.
-  Toujours dans le répertoir eliot\msw il vous faudra taper
-
-  make -f makefile.b32
-
  

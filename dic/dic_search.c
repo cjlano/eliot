@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: dic_search.c,v 1.1 2004/04/08 09:43:06 afrab Exp $
+ * $Id: dic_search.c,v 1.2 2004/06/19 18:43:35 afrab Exp $
  */
 
 #include <ctype.h>
@@ -26,7 +26,7 @@
 #include "dic_internals.h"
 #include "dic.h"
 #include "dic_search.h"
-
+#include "automaton.h"
 
 /****************************************/
 /****************************************/
@@ -380,6 +380,81 @@ Dic_search_Cros(Dictionary dic, char* mask, char wordlist[RES_CROS_MAX][DIC_WORD
   params.wordlistlen    = 0;
   params.wordlistlenmax = RES_CROS_MAX;
   Dic_search_cross_rec(&params, wordlist, dic->dawg + dic->root);
+}
+
+/****************************************/
+/****************************************/
+
+struct params_regexp_t {
+  Dictionary dic;
+  int wordlen;
+  int wordlistlen;
+  int wordlistlenmax;
+  struct _automaton *automaton;
+};
+
+void
+Dic_search_regexp_rec(struct params_regexp_t *params, char wordlist[RES_CROS_MAX][DIC_WORD_MAX], Dawg_edge *edgeptr, int state)
+{
+  //  Dawg_edge *current = params->dic->dawg + edgeptr->ptr;
+/*   // fin du motif et fin de mot */
+/*   if (params->mask[params->wordlen] == '\0' && edgeptr->term) */
+/*     { */
+/*       if (params->wordlistlen < params->wordlistlenmax) */
+/* 	strcpy(wordlist[params->wordlistlen++],params->mask); */
+/*     } */
+/*   // n'importe quel char */
+/*   else if (params->mask[params->wordlen] == '.') */
+/*     { */
+/*       do */
+/* 	{ */
+/* 	  params->mask[params->wordlen] = current->chr + 'a' - 1; */
+/* 	  params->wordlen ++; */
+/* 	  Dic_search_regexp_rec(params,wordlist,current, ??); */
+/* 	  params->wordlen --; */
+/* 	  params->mask[params->wordlen] = '.'; */
+/* 	} */
+/*       while (!(*current++).last); */
+/*     } */
+/*   // une lettre dans le motif */
+/*   else  */
+/*     { */
+/*       do */
+/* 	{ */
+/* 	  if (current->chr == (params->mask[params->wordlen] & CHAR)) */
+/* 	    { */
+/* 	      params->wordlen ++; */
+/* 	      Dic_search_cross_rec(params,wordlist,current); */
+/* 	      params->wordlen --; */
+/* 	      break; */
+/* 	    } */
+/* 	} */
+/*       while (!(*current++).last); */
+/*     } */
+}
+
+void
+Dic_search_RegE(Dictionary dic, char* mask, char wordlist[RES_REGE_MAX][DIC_WORD_MAX])
+{
+  int  i;
+  struct params_regexp_t params;
+  struct _automaton a;
+
+  for(i=0; i < RES_REGE_MAX; i++)
+    wordlist[i][0] = 0;
+
+  if (dic == NULL || mask == NULL)
+    return;
+
+  if (automaton_build("",&a))
+    return;
+
+  params.dic            = dic;
+  params.wordlen        = 0;
+  params.wordlistlen    = 0;
+  params.wordlistlenmax = RES_REGE_MAX;
+  params.automaton      = &a;
+  Dic_search_regexp_rec(&params, wordlist, dic->dawg + dic->root, 0);
 }
 
 /****************************************/

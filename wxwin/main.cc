@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: main.cc,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: main.cc,v 1.2 2004/06/19 18:43:35 afrab Exp $ */
 
 #include <stdlib.h>
 #include <time.h>
@@ -48,7 +48,7 @@ EliotApp::OnInit()
 {
      srand(time(NULL));
      SetVendorName("Afrab");
-     SetAppName("eliot");
+     SetAppName(wxString("eliot") + wxString("-") + wxString(VERSION));
      SetClassName("eliot");
 
      wxConfigBase* config = wxConfigBase::Get();
