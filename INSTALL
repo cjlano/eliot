@@ -3,7 +3,7 @@ Installation sous Linux (Un*x) (bien/facile)
 * Pour installer à partir de l'archive CVS :
 
   aclocal
-  autoheader 
+  autoheader
   automake --add-missing --foreign --copy
   autoconf
 
@@ -20,18 +20,48 @@ Installation sous Linux (Un*x) (bien/facile)
 Il suffit de rajouter le chemin pour trouver eliot
 sur sa ligne de commande et le tour est joué.
 
-Installation sous Windows (moins bien/facile)
+
+
+Installation pour Windows (moins bien/facile)
 -------------------------
 
-* Mingw32
-  J'utilise mingw32 version 2.95.2 comme compilateur sous
-  windows la suite est disponible à l'adresse 
+Il y a 2 principales façons de procéder :
+* directement depuis Windows, en utilisant Cygwin (http://www.cygwin.com/).
+* depuis GNU/Linux, en utilisant le cross-compilateur Mingw32.
 
-  http://agnes.dida.physik.uni-essen.de/~janjaap/mingw32/index.html
 
-  La compilation d'Eliot est on ne peut plus simple, il suffit de se
-  placer dans le répertoire msw et taper 'build'. Tout ceci suppose que
-  mingw32 et wxMSW soient correctement installés mais cette étape ne
-  rentre pas dans le présent document.
+Dans les 2 cas, les étapes sont les mêmes :
+* installation de l'environnement de compilation (cette étape n'est pas
+  décrite ici, car elle ne rentre pas dans le cadre de ce document)
 
- 
+* compilation et installation de wxWindows (http://www.wxwidgets.org/),
+  version 2.4.2 ou ultérieure (même remarque)
+
+* compilation d'Eliot :
+
+    - si vous utilisez l'archive CVS, il y a quelques commandes préalables
+      à exécuter (aussi bien sous Cygwin que sous GNU/Linux) :
+            aclocal
+            autoheader
+            automake --add-missing --foreign --copy
+            autoconf
+
+    - avec Cygwin, configurer avec la ligne de commande suivante :
+            CC="gcc -mno-cygwin" CXX="g++ -mno-cygwin" \
+            ./configure --with-wx-config=/path/to/wx-config
+      en prenant soin d'indiquer le chemin correct vers le fichier
+      'wx-config' de l'installation de wxWindows.
+      Ensuite, un simple 'make' suffit pour terminer la compilation,
+      éventuellement suivi de 'make install'.
+
+    - pour la cross-compilation depuis GNU/Linux, configurer avec la ligne
+      de commande suivante :
+            CC=i586-mingw32msvc-gcc CXX=i586-mingw32msvc-g++ \
+            ./configure --host=i586-mingx32msvc --build=i386-linux \
+            --with-wx-config=/path/to/wx-config
+      en prenant soin d'indiquer le chemin correct vers le fichier
+      'wx-config' de l'installation de wxWindows.
+      Ensuite, un simple 'make' suffit pour terminer la compilation,
+      éventuellement suivi de 'make install'.
+
+
