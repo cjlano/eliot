@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: board.h,v 1.5 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: board.h,v 1.6 2005/03/29 06:58:23 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -130,6 +130,10 @@ private:
                       Matrix<bool> &iJokerMx,
                       Round &iRound,
                       bool firstturn);
+#ifdef DEBUG
+    void checkDouble();
+#endif
+
 };
 
 #endif

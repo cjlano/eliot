@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: board.cpp,v 1.3 2005/03/27 21:45:04 ipkiss Exp $
+ * $Id: board.cpp,v 1.4 2005/03/29 06:58:23 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -432,10 +432,15 @@ int Board::getLetterMultiplier(int iRow, int iCol) const
 #ifdef DEBUG
 void Board::checkDouble()
 {
-    for (int row = BOARD_MIN; row <= BOARD_MAX; row++)
+    int row, col;
+    for (row = BOARD_MIN; row <= BOARD_MAX; row++)
     {
-        for (int col = BOARD_MIN; col <= BOARD_MAX; col++)
+        for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
+	  /*
+	    does not work, Matrix[][] does not reduce to templace type ?
+	  */
+	  /*
             if (m_tilesRow[row][col] != m_tilesCol[col][row])
                 printf("tiles diff %d %d\n",row,col);
 
@@ -447,6 +452,7 @@ void Board::checkDouble()
 
             if (m_jokerRow[row][col] != m_jokerCol[col][row])
                 printf("joker diff %d %d\n",row,col);
+	  */
         }
     }
     printf("**\n");
