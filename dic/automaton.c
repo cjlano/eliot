@@ -16,21 +16,23 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: automaton.c,v 1.1 2004/06/20 20:13:59 afrab Exp $
+ * $Id: automaton.c,v 1.2 2004/06/22 21:04:08 ipkiss Exp $
  */
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
-#include <sys/wait.h>
+#ifdef HAVE_SYS_WAIT_H
+#   include <sys/wait.h>
+#endif
 #include <unistd.h>
 #include "automaton.h"
 
 #ifndef PDBG
 #ifdef DEBUG
-#define PDBG(x) { x ; }
+#   define PDBG(x) { x ; }
 #else
-#define PDBG(x) { }
+#   define PDBG(x) { }
 #endif
 #endif
 

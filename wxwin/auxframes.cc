@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: auxframes.cc,v 1.2 2004/06/20 20:00:09 afrab Exp $ */
+/* $Id: auxframes.cc,v 1.3 2004/06/22 21:04:08 ipkiss Exp $ */
 
 #include <iostream>
 using namespace std;
@@ -293,7 +293,7 @@ AuxFrameList::OnCopy(wxCommandEvent& event)
   if (wxTheClipboard->Open())
     {
       textdata = "";
-      for(int i=0; i < listbox->Number(); i++)
+      for(int i=0; i < listbox->GetCount(); i++)
 	{
 	  textdata << listbox->GetString(i) << "\n";
 	}

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: searchpanel.cc,v 1.2 2004/06/19 18:43:35 afrab Exp $ */
+/* $Id: searchpanel.cc,v 1.3 2004/06/22 21:04:09 ipkiss Exp $ */
 
 #include <string.h>
 #include "ewx.h"
@@ -140,7 +140,7 @@ PCross::compute_enter(wxCommandEvent&)
     res[resnum++] =  wxString(buff[i]);
   l->Set(resnum,res);
 
-  if (l->Number() == 0)
+  if (l->GetCount() == 0)
     l->Append("Aucun résultat");
 }
 
@@ -189,7 +189,7 @@ PPlus1::compute_enter(wxCommandEvent&)
     }
   l->Set(resnum,res);
 
-  if (l->Number() == 0)
+  if (l->GetCount() == 0)
     l->Append("Aucun résultat");
 }
 
@@ -225,7 +225,7 @@ PRegExp::compute_enter(wxCommandEvent&)
     res[resnum++] =  wxString(buff[i]);
   l->Set(resnum,res);
 
-  if (l->Number() == 0)
+  if (l->GetCount() == 0)
     l->Append("Aucun résultat");
 }
 
