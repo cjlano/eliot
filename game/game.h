@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.h,v 1.7 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: game.h,v 1.8 2005/02/26 22:57:34 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,9 +34,6 @@ class PlayedRack;
 class Round;
 class Rack;
 typedef struct _Dictionary * Dictionary;
-
-// XXX: temporary
-class Training;
 
 using namespace std;
 
@@ -154,7 +151,7 @@ public:
      *    2 : the rack check was set on and failed
      *    3 : the rack cannot be completed (Game_*_setrackrandom only)
      *************************/
-#define RACK_MAX 7
+    static const int RACK_SIZE;
     typedef enum {RACK_ALL, RACK_NEW} set_rack_mode;
 
     /*************************
@@ -196,24 +193,6 @@ public:
     virtual int setRackRandom(int, bool, set_rack_mode) = 0;
     virtual int play(const string &iCoord, const string &iWord) = 0;
     virtual int endTurn() = 0;
-
-    /*************************
-     * Display methods
-     * XXX: These methods should not be here, as they belong to the text
-     * interface
-     *************************/
-    void printBoard(ostream &out) const;
-    void printBoardJoker(ostream &out) const;
-//     void printBoardPoint(ostream &out) const;
-    void printBoardMultipliers(ostream &out) const;
-    void printBoardMultipliers2(ostream &out) const;
-    void printNonPlayed(ostream &out) const;
-    void printPlayedRack(ostream &out, int n) const;
-    void printAllRacks(ostream &out) const;
-    void printSearchResults(ostream &out, const Training &iGame, int) const;
-    void printPoints(ostream &out) const;
-    void printAllPoints(ostream &out) const;
-
 
 protected:
     int helperPlayRound(const Round &iRound);

@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: eliottxt.cpp,v 1.3 2005/02/24 08:06:25 ipkiss Exp $
+ * $Id: eliottxt.cpp,v 1.4 2005/02/26 22:57:34 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 
 #include "dic.h"
 #include "dic_search.h"
+#include "game_io.h"
 #include "game_factory.h"
 #include "training.h"
 #include "duplicate.h"
@@ -248,19 +249,16 @@ display_data(const Game &iGame, const char *delim)
             switch (token[1])
             {
                 case '\0':
-                    iGame.printBoard(cout);
+                    GameIO::printBoard(cout, iGame);
                     break;
                 case 'j':
-                    iGame.printBoardJoker(cout);
+                    GameIO::printBoardJoker(cout, iGame);
                     break;
-/*                 case 'p': */
-/*                     iGame.printBoardPoint(cout); */
-/*                     break; */
                 case 'm':
-                    iGame.printBoardMultipliers(cout);
+                    GameIO::printBoardMultipliers(cout, iGame);
                     break;
                 case 'n':
-                    iGame.printBoardMultipliers2(cout);
+                    GameIO::printBoardMultipliers2(cout, iGame);
                     break;
                 default:
                     printf("commande inconnue\n");
@@ -271,7 +269,7 @@ display_data(const Game &iGame, const char *delim)
             cout << "Joueur " << iGame.currPlayer() << endl;
             break;
         case 'l':
-            iGame.printNonPlayed(cout);
+            GameIO::printNonPlayed(cout, iGame);
             break;
         case 'p':
             iGame.save(cout);
@@ -279,25 +277,25 @@ display_data(const Game &iGame, const char *delim)
         case 'r':
             token = next_token_digit(NULL, delim);
             if (token == NULL)
-                iGame.printSearchResults(cout,
-                                         static_cast<const Training&>(iGame),
-                                         10);
+                GameIO::printSearchResults(cout,
+                                           static_cast<const Training&>(iGame),
+                                           10);
             else
-                iGame.printSearchResults(cout,
-                                         static_cast<const Training&>(iGame),
-                                         atoi(token));
+                GameIO::printSearchResults(cout,
+                                           static_cast<const Training&>(iGame),
+                                           atoi(token));
             break;
         case 's':
-            iGame.printPoints(cout);
+            GameIO::printPoints(cout, iGame);
             break;
         case 'S':
-            iGame.printAllPoints(cout);
+            GameIO::printAllPoints(cout, iGame);
             break;
         case 't':
-            iGame.printPlayedRack(cout, iGame.getNRounds());
+            GameIO::printPlayedRack(cout, iGame, iGame.getNRounds());
             break;
         case 'T':
-            iGame.printAllRacks(cout);
+            GameIO::printAllRacks(cout, iGame);
             break;
         default:
             cout << "commande inconnue\n";

@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-# $Id: Makefile.am,v 1.5 2005/02/24 08:06:24 ipkiss Exp $
+# $Id: Makefile.am,v 1.6 2005/02/26 22:57:34 ipkiss Exp $
 
 noinst_LIBRARIES = libgame.a
 
@@ -35,13 +35,10 @@ libgame_a_SOURCES = 		\
 	freegame.cpp freegame.h	\
 	game.cpp game.h			\
 	game_factory.cpp game_factory.h	\
-	gameio.cpp				\
 	player.cpp player.h		\
 	pldrack.cpp pldrack.h	\
 	rack.cpp rack.h			\
 	results.cpp results.h	\
 	round.cpp round.h		\
-	training.cpp training.h	\
-	gamestruct.h
-
+	training.cpp training.h
 

@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: gameio.cpp,v 1.2 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: game_io.cpp,v 1.1 2005/02/26 22:57:34 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,24 +21,16 @@
  *****************************************************************************/
 
 #include <iomanip>
-#include <ctype.h>
+#include <string>
 
-#include "dic.h"
-#include "tile.h"
-#include "bag.h"
-#include "rack.h"
-#include "round.h"
-#include "pldrack.h"
-#include "results.h"
-#include "board.h"
-#include "player.h"
-
+#include "game_io.h"
 #include "game.h"
 #include "training.h"
 
-#include "debug.h"
+using namespace std;
 
-void Game::printBoard(ostream &out) const
+
+void GameIO::printBoard(ostream &out, const Game &iGame)
 {
     int row, col;
 
@@ -51,7 +43,7 @@ void Game::printBoard(ostream &out) const
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            char l = this->getBoardChar(row, col);
+            char l = iGame.getBoardChar(row, col);
             out << setw(3) << (l ? l : '-');
         }
         out << endl;
@@ -59,7 +51,7 @@ void Game::printBoard(ostream &out) const
 }
 
 
-void Game::printBoardJoker(ostream &out) const
+void GameIO::printBoardJoker(ostream &out, const Game &iGame)
 {
     int row,col;
 
@@ -73,8 +65,8 @@ void Game::printBoardJoker(ostream &out) const
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            char l = this->getBoardChar(row, col);
-            bool j = (this->getBoardCharAttr(row, col) & ATTR_JOKER);
+            char l = iGame.getBoardChar(row, col);
+            bool j = (iGame.getBoardCharAttr(row, col) & ATTR_JOKER);
 
             out << " " << (j ? '.' : (l ? ' ' : '-'));
             out << (l ? l : '-');
@@ -84,8 +76,7 @@ void Game::printBoardJoker(ostream &out) const
 }
 
 
-#if 0
-void Game::printBoardPoint(ostream &out) const
+void GameIO::printBoardMultipliers(ostream &out, const Game &iGame)
 {
     int row, col;
 
@@ -99,48 +90,13 @@ void Game::printBoardPoint(ostream &out) const
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            char l = this->getBoardChar(row, col);
-            int p1 = this->m_board.m_pointRow[row][col];
-            int p2 = this->m_board.m_pointCol[col][row];
-
-            if (p1 > 0 && p2 > 0)
-                out << setw(3) << p1 + p2;
-            else if (p1 > 0)
-                out << setw(3) << p1;
-            else if (p2 > 0)
-                out << setw(3) << p2;
-            else if (l)
-                out << setw(3) << l;
-            else
-                out << " --";
-        }
-        out << endl;
-    }
-}
-#endif
-
-
-void Game::printBoardMultipliers(ostream &out) const
-{
-    int row, col;
-
-    out << "   ";
-    for (col = BOARD_MIN; col <= BOARD_MAX; col++)
-        out << setw(3) << col - BOARD_MIN + 1;
-    out << endl;
-
-    for (row = BOARD_MIN; row <= BOARD_MAX; row++)
-    {
-        out << " " << (char)(row - BOARD_MIN + 'A') << " ";
-        for (col = BOARD_MIN; col <= BOARD_MAX; col++)
-        {
-            char l = this->getBoardChar(row, col);
+            char l = iGame.getBoardChar(row, col);
             if (l != 0)
                 out << "  " << l;
             else
             {
-                int wm = this->getBoardWordMultiplier(row, col);
-                int tm = this->getBoardLetterMultiplier(row, col);
+                int wm = iGame.getBoardWordMultiplier(row, col);
+                int tm = iGame.getBoardLetterMultiplier(row, col);
 
                 if (wm > 1)
                     out << "  " << ((wm == 3) ? '@' : '#');
@@ -155,7 +111,7 @@ void Game::printBoardMultipliers(ostream &out) const
 }
 
 
-void Game::printBoardMultipliers2(ostream &out) const
+void GameIO::printBoardMultipliers2(ostream &out, const Game &iGame)
 {
     int row, col;
 
@@ -169,9 +125,9 @@ void Game::printBoardMultipliers2(ostream &out) const
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            char l = this->getBoardChar(row, col);
-            int wm = this->getBoardWordMultiplier(row, col);
-            int tm = this->getBoardLetterMultiplier(row, col);
+            char l = iGame.getBoardChar(row, col);
+            int wm = iGame.getBoardWordMultiplier(row, col);
+            int tm = iGame.getBoardLetterMultiplier(row, col);
 
             if (wm > 1)
                 out << " " << ((wm == 3) ? '@' : '#');
@@ -186,14 +142,14 @@ void Game::printBoardMultipliers2(ostream &out) const
 }
 
 
-void Game::printNonPlayed(ostream &out) const
+void GameIO::printNonPlayed(ostream &out, const Game &iGame)
 {
     const list<Tile>& allTiles = Tile::getAllTiles();
     list<Tile>::const_iterator it;
 
     for (it = allTiles.begin(); it != allTiles.end(); it++)
     {
-        if (this->m_bag.in(*it) > 9)
+        if (iGame.getNCharInBag(it->toChar()) > 9)
             out << " ";
         out << setw(2) << it->toChar();
     }
@@ -201,24 +157,24 @@ void Game::printNonPlayed(ostream &out) const
 
     for (it = allTiles.begin(); it != allTiles.end(); it++)
     {
-        out << " " << this->m_bag.in(*it);
+        out << " " << iGame.getNCharInBag(it->toChar());
     }
     out << endl;
 }
 
 
-void Game::printPlayedRack(ostream &out, int n) const
+void GameIO::printPlayedRack(ostream &out, const Game &iGame, int n)
 {
-    out << this->getPlayerRack(this->currPlayer()) << endl;
+    out << iGame.getPlayerRack(iGame.currPlayer()) << endl;
 }
 
 
-void Game::printAllRacks(ostream &out) const
+void GameIO::printAllRacks(ostream &out, const Game &iGame)
 {
-    for (int j = 0; j < this->getNPlayers(); j++)
+    for (int j = 0; j < iGame.getNPlayers(); j++)
     {
         out << "Joueur " << j << ": ";
-        out << this->getPlayerRack(j) << endl;
+        out << iGame.getPlayerRack(j) << endl;
     }
 }
 
@@ -235,7 +191,7 @@ static void searchResultLine(ostream &out, const Training &iGame, int num)
 }
 
 
-void Game::printSearchResults(ostream &out, const Training &iGame, int num) const
+void GameIO::printSearchResults(ostream &out, const Training &iGame, int num)
 {
     for (int i = 0; i < num && i < iGame.getNResults(); i++)
     {
@@ -246,18 +202,18 @@ void Game::printSearchResults(ostream &out, const Training &iGame, int num) cons
 }
 
 
-void Game::printPoints(ostream &out) const
+void GameIO::printPoints(ostream &out, const Game &iGame)
 {
-    out << this->getPlayerPoints(0) << endl;
+    out << iGame.getPlayerPoints(0) << endl;
 }
 
 
-void Game::printAllPoints(ostream &out) const
+void GameIO::printAllPoints(ostream &out, const Game &iGame)
 {
-    for (int i = 0; i < this->getNPlayers(); i++)
+    for (int i = 0; i < iGame.getNPlayers(); i++)
     {
         out << "Joueur " << i << ": "
-            << setw(4) << this->getPlayerPoints(i) << endl;
+            << setw(4) << iGame.getPlayerPoints(i) << endl;
     }
 }
 

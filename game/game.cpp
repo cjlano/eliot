@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.cpp,v 1.5 2005/02/24 08:06:25 ipkiss Exp $
+ * $Id: game.cpp,v 1.6 2005/02/26 22:57:34 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
 
-#include <iomanip>
 #include "dic.h"
 #include "dic_search.h"
 #include "tile.h"
@@ -34,6 +33,9 @@
 #include "game_factory.h"
 
 #include "debug.h"
+
+
+const int Game::RACK_SIZE = 7;
 
 
 /*********************************************************
@@ -578,16 +580,16 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
                 oldv++;
         }
 
-        /* RACK_MAX - nold is the number of letters to add */
-        if (min > oldc + RACK_MAX - nold ||
-            min > oldv + RACK_MAX - nold)
+        /* RACK_SIZE - nold is the number of letters to add */
+        if (min > oldc + RACK_SIZE - nold ||
+            min > oldv + RACK_SIZE - nold)
         {
             return 3;
         }
     }
 
     /* Get new tiles from the bag */
-    for (int i = nold; (bag.nTiles() != 0) && (i < RACK_MAX); i++)
+    for (int i = nold; (bag.nTiles() != 0) && (i < RACK_SIZE); i++)
     {
         l = bag.selectRandom();
         bag.takeTile(l);
