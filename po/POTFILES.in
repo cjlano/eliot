@@ -26,7 +26,6 @@
 ./game/freegame.h
 ./game/game.cpp
 ./game/game.h
-./game/gameio.cpp
 ./game/player.cpp
 ./game/player.h
 ./game/pldrack.cpp
@@ -42,6 +41,8 @@
 ./game/training.cpp
 ./game/training.h
 ./utils/eliottxt.cpp
+./utils/game_io.h
+./utils/game_io.cpp
 ./utils/ncurses.cpp
 ./utils/ncurses.h
 ./wxwin/auxframes.h
