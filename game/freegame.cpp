@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.cpp,v 1.7 2005/03/28 14:55:27 ipkiss Exp $
+ * $Id: freegame.cpp,v 1.8 2005/03/28 15:23:55 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -157,6 +157,17 @@ void FreeGame::end()
 {
     vector<Tile> tiles;
 
+    // TODO: According to te rules of the game in the ODS, a game can end in 3
+    // cases:
+    // 1) no more letter in the bag, and one player has no letter in his rack
+    // 2) the game is "blocked", no one can play
+    // 3) the players have used all the time they had (for example: 30 min
+    //    in total, for each player)
+    // We currently handle case 1, and cannot handle case 3 until timers are
+    // implemented.
+    // For case 2, we need both to detect a blocked situation (not easy...) and
+    // to handle it in the end() method (very easy).
+
     /* Add the points of the remaining tiles to the score of the current
      * player (i.e. the first player with an empty rack), and remove them
      * from the score of the players who still have tiles */
@@ -184,6 +195,13 @@ int FreeGame::pass(const string &iToChange, int n)
     if (m_finished)
         return 3;
 
+    // According to the rules in the ODS, it is allowed to pass its turn (no
+    // need to change letters for that).
+    // TODO: However, if all the players pass their turn, the first one has to
+    // play, or change at least one letter. To implement this behaviour, we
+    // must also take care of blocked positions, where no one _can_ play (see
+    // also comment in the end() method).
+
     // Convert the string into tiles
     vector<Tile> tilesVect;
     for (unsigned int i = 0; i < iToChange.size(); i++)
@@ -204,10 +222,11 @@ int FreeGame::helperPass(const vector<Tile> &iToChange, int n)
 {
     ASSERT(0 <= n && n < getNPlayers(), "Wrong player number");
 
-    /* You cannot change more letters than what is left in the bag! */
+    // It is forbidden to change letters when the bag does not contain at
+    // least 7 letters (this is explicitely stated in the ODS).
     Bag bag;
     realBag(bag);
-    if (bag.nTiles() < iToChange.size())
+    if (bag.nTiles() < 7)
     {
         return 1;
     }
