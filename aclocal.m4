@@ -15,7 +15,7 @@ dnl -----------------------------------------------
 dnl custom macros for autoconf script
 dnl Author: Antoine Fraboulet
 dnl Created: 20.06.99
-dnl Version: $Id: aclocal.m4,v 1.1 2004/04/08 09:57:28 afrab Exp $
+dnl Version: $Id: aclocal.m4,v 1.2 2004/04/08 10:21:56 afrab Exp $
 dnl -----------------------------------------------
 
 

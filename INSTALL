@@ -1,4 +1,4 @@
-Installation sous Linux (Un*x) (bien)
+Installation sous Linux (Un*x) (bien/facile)
 ------------------------------
 * Pour installer à partir de l'archive CVS :
 
@@ -20,9 +20,7 @@ Installation sous Linux (Un*x) (bien)
 Il suffit de rajouter le chemin pour trouver eliot
 sur sa ligne de commande et le tour est joué.
 
-Simple non ?
-
-Installation sous Windows (moins bien)
+Installation sous Windows (moins bien/facile)
 -------------------------
 
 * Mingw32

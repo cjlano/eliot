@@ -16,11 +16,13 @@
 # along with this program; if not, write to the Free Software               
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-# $Id: Makefile.am,v 1.2 2004/04/08 09:57:28 afrab Exp $ 
+# $Id: Makefile.am,v 1.3 2004/04/08 10:21:56 afrab Exp $ 
 
 bin_PROGRAMS = eliot
 
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/dic -I$(top_srcdir)/game
+INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/dic -I$(top_srcdir)/game 
+
+AM_CPPFLAGS=@WX_CPPFLAGS@
 
 eliot_SOURCES = 		\
 configdb.cc configdb.h		\
