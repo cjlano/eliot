@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: ncurses.cpp,v 1.10 2005/04/02 18:22:53 ipkiss Exp $
+ * $Id: ncurses.cpp,v 1.11 2005/04/02 21:18:24 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -800,7 +800,10 @@ void CursesIntf::redraw(WINDOW *win)
         mode = _("Free game mode");
     else if (m_game->getMode() == Game::kDUPLICATE)
         mode = _("Duplicate mode");
-    string title = "Eliot (" + mode + ") " + _("[h for help]");
+    string variant = "";
+    if (m_game->getVariant() == Game::kJOKER)
+        variant = string(" - ") + _("Joker game");
+    string title = "Eliot (" + mode + variant + ") " + _("[h for help]");
     mvwprintw(win, 0, 0, title.c_str());
     whline(win, ' ', COLS - title.size());
     attroff(A_REVERSE);
