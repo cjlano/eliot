@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: mainframe.cc,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: mainframe.cc,v 1.2 2004/07/05 21:39:16 ipkiss Exp $ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -243,10 +243,10 @@ MainFrame::InitMenu()
   // menus
   wxMenu *menu_game = new wxMenu;
   menu_game->Append(Menu_Game_New,"Nouvelle","Démarrer une nouvelle partie");
-  menu_game->Append(Menu_Game_Open,"Charge","Charger une partie");
-  menu_game->Append(Menu_Game_Save,"Sauver","Sauver cette partie");
+  menu_game->Append(Menu_Game_Open,"Charger...","Charger une partie");
+  menu_game->Append(Menu_Game_Save,"Sauver...","Sauver cette partie");
   menu_game->AppendSeparator();
-  menu_game->Append(Menu_Game_Print,"Imprimer","Imprimer cette partie");
+  menu_game->Append(Menu_Game_Print,"Imprimer...","Imprimer cette partie");
   menu_game->Append(Menu_Game_PrintPreview,"Préimpression","Préimpression de la partie");
 #ifdef ENABLE_SAVE_POSTSCRIPT
   menu_game->AppendSeparator();
@@ -255,14 +255,14 @@ MainFrame::InitMenu()
   //
   wxMenu *menu_conf_game = new wxMenu;
   menu_conf_game->Append(Menu_Conf_Game_Dic,"Dictionnaire","Choix du dictionnaire");
-  menu_conf_game->Append(Menu_Conf_Game_Search,"Recherche","Options de recherches");
+  menu_conf_game->Append(Menu_Conf_Game_Search,"Recherche","Options de recherche");
   //
   wxMenu *menu_conf_board_colour = new wxMenu;
   menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Background,"Fond","Couleur du fond");
-  menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Lines,"Lignes","Couleurs des lignes");
+  menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Lines,"Lignes","Couleur des lignes");
   menu_conf_board_colour->AppendSeparator();
-  menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Letters,"Lettres jouées","lettres jouées sur la grille");
-  menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_TestLetters,"Lettres provisoires","lettre du mot à jouer");
+  menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Letters,"Lettres jouées","Lettres jouées sur la grille");
+  menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_TestLetters,"Lettres provisoires","Lettres du mot à jouer");
   menu_conf_board_colour->AppendSeparator();
   menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Wx2,"Mot compte double","Mot compte double");
   menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Wx3,"Mot compte triple","Mot compte triple");
@@ -272,17 +272,17 @@ MainFrame::InitMenu()
   menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Default,"Couleurs d'origine","Retrouver les couleurs d'origine");
   //
   wxMenu *menu_conf_board_font = new wxMenu;
-  menu_conf_board_font->Append(Menu_Conf_Aspect_Font_Search,"Lettres de recherche","Police de caractère pour les recherches");
-  menu_conf_board_font->Append(Menu_Conf_Aspect_Font_Board,"Lettres de la grille","Police de caractère de la grille");
+  menu_conf_board_font->Append(Menu_Conf_Aspect_Font_Search,"Lettres de recherche","Police de caractères pour les recherches");
+  menu_conf_board_font->Append(Menu_Conf_Aspect_Font_Board,"Lettres de la grille","Police de caractères de la grille");
   //
   wxMenu *menu_conf = new wxMenu;
-  menu_conf->Append(Menu_Conf_Game,"Jeux",menu_conf_game,"Configuration du jeux");
+  menu_conf->Append(Menu_Conf_Game,"Jeu",menu_conf_game,"Configuration du jeu");
   menu_conf->Append(Menu_Conf_Aspect_Font,"Fonte des lettres",menu_conf_board_font,"Modification des fontes");
   menu_conf->Append(Menu_Conf_Aspect_BoardColour,"Couleurs de la grille",menu_conf_board_colour,"Modification des couleurs");
   menu_conf->Append(Menu_Conf_Print,"Impression","Dimensions de la partie");
   //
   wxMenu *menu_frame = new wxMenu;
-  menu_frame->Append(Menu_ShowBoard,"Grille","Grille de jeux");
+  menu_frame->Append(Menu_ShowBoard,"Grille","Grille de jeu");
   menu_frame->Append(Menu_ShowVerif,"Vérification","Vérification d'un mot dans le dictionnaire");
   menu_frame->Append(Menu_ShowSearch,"Recherche","Recherche dans le dictionnaire");
   menu_frame->AppendSeparator();
@@ -293,12 +293,12 @@ MainFrame::InitMenu()
   menu_frame->Append(Menu_ShowBag,"Sac","Lettres restantes dans le sac");
   //
   wxMenu *menu_quit = new wxMenu;
-  menu_quit->Append(Menu_Quit_Apropos,"A propos","A propos d'Eliot");
+  menu_quit->Append(Menu_Quit_Apropos,"A propos...","A propos d'Eliot");
   menu_quit->Append(Menu_Quit_Confirm,"Quitter","Quitter");
   //
   wxMenuBar *menu_bar = new wxMenuBar;
   menu_bar->Append(menu_game,"Partie");
-  menu_bar->Append(menu_conf,"Configurer");
+  menu_bar->Append(menu_conf,"Configuration");
   menu_bar->Append(menu_frame,"Fenêtres");
   menu_bar->Append(menu_quit,"Quitter");
 
@@ -334,9 +334,9 @@ MainFrame::UpdateStatusBar()
   statusbar->SetStatusText(text,1);
 }
 
-//**************************************************************************************
+//*****************************************************************************
 //   MENU GAME
-//**************************************************************************************
+//*****************************************************************************
 
 void
 MainFrame::OnMenuGameNew(wxCommandEvent&)
@@ -377,18 +377,18 @@ MainFrame::OnMenuGameOpen(wxCommandEvent&)
       switch (Game_load(game,fin)) {
       case 0: // everything is ok
 	break;
-      case 1: 
-	{ 
-	  wxMessageDialog msg(this,"Format de fichier inconnu","chargement de partie");
-	  msg.ShowModal(); 
+      case 1:
+	{
+      wxMessageDialog msg(this,"Format de fichier inconnu","Chargement de partie");
+	  msg.ShowModal();
 	}
-	break; 
-      default: 
+	break;
+      default:
 	{ 
 	  wxMessageDialog msg(this,"Erreur pendant la lecture de la partie","chargement de partie");
-	  msg.ShowModal(); 
+	  msg.ShowModal();
 	}
-	break; 
+	break;
       }
       fclose(fin);
     }
@@ -833,10 +833,10 @@ MainFrame::Play(int n)
   else
     Game_play(game,n);
 
-  Game_getplayedrack(game,Game_getnrounds(game),r); 
-  rack->SetValue(wxString(r));                      
-  results->DeleteAllItems();                        
-  UpdateStatusBar();                                
+  Game_getplayedrack(game,Game_getnrounds(game),r);
+  rack->SetValue(wxString(r));
+  results->DeleteAllItems();
+  UpdateStatusBar();
   UpdateFrames();
 }
 
