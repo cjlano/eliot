@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: pldrack.h,v 1.4 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: pldrack.h,v 1.5 2005/03/29 06:54:08 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,6 +66,7 @@ public:
     bool checkRack(int iMin);
 
     void operator=(const PlayedRack &iOther);
+    void toString(string&);
 
 private:
     vector<Tile> m_oldTiles;
