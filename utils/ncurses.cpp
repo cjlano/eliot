@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: ncurses.cpp,v 1.9 2005/03/27 22:21:29 ipkiss Exp $
+ * $Id: ncurses.cpp,v 1.10 2005/04/02 18:22:53 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -822,6 +822,8 @@ int main(int argc, char ** argv)
     textdomain(PACKAGE);
 #endif
 
+    srand(time(NULL));
+
     Game *game = GameFactory::Instance()->createFromCmdLine(argc, argv);
     if (game == NULL)
         return 1;
@@ -853,8 +855,6 @@ int main(int argc, char ** argv)
         init_pair(COLOR_MAGENTA, COLOR_BLACK, COLOR_MAGENTA);
         init_pair(COLOR_RED, COLOR_BLACK, COLOR_RED);
     }
-
-    srand(time(NULL));
 
     // Do not echo
     noecho();
