@@ -2,7 +2,7 @@
  * Copyright (C) 2004-2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: player.h,v 1.3 2005/02/09 22:33:56 ipkiss Exp $
+ * $Id: player.h,v 1.4 2005/02/12 18:54:57 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,13 +59,6 @@ public:
     void endTurn(const Round &iRound, int iTurn);
 
     /**************************
-     *
-     **************************/
-    typedef enum {PLAYED, TO_PLAY} play_status;
-    void setStatus(play_status iStatus)     { m_status = iStatus; }
-    play_status getStatus() const           { return m_status; }
-
-    /**************************
      * AI (Artificial Intelligence) handling
      * The int argument of Player_ai_search() is the 'turn' number
      * (starting from 0)
@@ -105,8 +98,6 @@ private:
     bool m_human;
     // Score of the player
     int m_score;
-    // Play status (XXX: only used by duplicate mode currently)
-    play_status m_status;
 
     // History of the racks and rounds for the player
     vector<PlayedRack *> m_playedRacks;

@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: duplicate.h,v 1.2 2005/02/09 22:33:56 ipkiss Exp $
+ * $Id: duplicate.h,v 1.3 2005/02/12 18:54:57 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,6 +51,10 @@ public:
     virtual int play(const string &iCoord, const string &iWord);
     virtual int endTurn();
     int setPlayer(int);
+    // Switch to the previous human player who has not played yet
+    void prevHumanPlayer();
+    // Switch to the next human player who has not played yet
+    void nextHumanPlayer();
 
 private:
 
@@ -58,6 +62,9 @@ private:
     int  endTurnForReal();
     void end();
     int  duplicateAI(int n);
+
+    // m_hasPlayed[p] is true iff player p has played for this turn
+    map<int, bool> m_hasPlayed;
 };
 
 #endif /* _DUPLICATE_H_ */

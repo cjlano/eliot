@@ -2,7 +2,7 @@
  * Copyright (C) 2004-2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: player.cpp,v 1.2 2005/02/09 22:33:56 ipkiss Exp $
+ * $Id: player.cpp,v 1.3 2005/02/12 18:54:57 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,8 +31,7 @@
 
 Player::Player(bool iHuman):
     m_human(iHuman),
-    m_score(0),
-    m_status(TO_PLAY)
+    m_score(0)
 {
     // Start with an empty rack
     m_playedRacks.push_back(new PlayedRack());

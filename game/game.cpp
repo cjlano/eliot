@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.cpp,v 1.2 2005/02/09 22:33:56 ipkiss Exp $
+ * $Id: game.cpp,v 1.3 2005/02/12 18:54:57 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -288,7 +288,14 @@ Game * Game::load(FILE *fin, const Dictionary &iDic)
     {
         // We don't really know whose turn it is, but at least we know that
         // the game was saved while a human was to play.
-        pGame->nextHumanPlayer();
+        for (int i = 0; i < pGame->getNPlayers(); i++)
+        {
+            if (pGame->m_players[i]->isHuman())
+            {
+                pGame->m_currPlayer = i;
+                break;
+            }
+        }
     }
     return pGame;
 }
@@ -299,7 +306,7 @@ void Game::save(ostream &out) const
     const string decal = "   ";
     // "Header" of the game
     out << IDENT_STRING << endl << endl;
-    out << "Game type: " << getModeAsString();
+    out << "Game type: " << getModeAsString() << endl;
     for (int i = 0; i < getNPlayers(); i++)
     {
         out << "Player " << i << ": ";
@@ -899,30 +906,6 @@ void Game::nextPlayer()
         m_currPlayer = 0;
     else
         m_currPlayer++;
-}
-
-
-void Game::prevHumanPlayer()
-{
-    if (getNHumanPlayers() == 0)
-        return;
-    do
-    {
-        prevPlayer();
-    } while (!m_players[m_currPlayer]->isHuman() ||
-             m_players[m_currPlayer]->getStatus() != Player::TO_PLAY);
-}
-
-
-void Game::nextHumanPlayer()
-{
-    if (getNHumanPlayers() == 0)
-        return;
-    do
-    {
-        nextPlayer();
-    } while (!m_players[m_currPlayer]->isHuman() ||
-             m_players[m_currPlayer]->getStatus() != Player::TO_PLAY);
 }
 
 

@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: duplicate.cpp,v 1.2 2005/02/09 22:33:56 ipkiss Exp $
+ * $Id: duplicate.cpp,v 1.3 2005/02/12 18:54:57 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -125,7 +125,7 @@ int Duplicate::start()
             m_players[i]->setCurrentRack(pld);
         }
         /* Nobody has played yet in this round */
-        m_players[i]->setStatus(Player::TO_PLAY);
+        m_hasPlayed[i] = false;
     }
 
     /* Next turn */
@@ -153,8 +153,7 @@ int Duplicate::endTurn()
     int i;
     for (i = 0; i < getNPlayers(); i++)
     {
-        if (m_players[i]->isHuman() &&
-            m_players[i]->getStatus() == Player::TO_PLAY)
+        if (m_players[i]->isHuman() && !m_hasPlayed[i])
         {
             /* A human player has not played... */
             m_currPlayer = i;
@@ -198,7 +197,7 @@ void Duplicate::playRound(const Round &iRound, int n)
     player->addPoints(iRound.getPoints());
     player->endTurn(iRound, getNRounds());
 
-    player->setStatus(Player::PLAYED);
+    m_hasPlayed[n] = true;
 }
 
 
@@ -243,7 +242,7 @@ int Duplicate::endTurnForReal()
             m_players[i]->setCurrentRack(pld);
         }
         /* Nobody has played yet in this round */
-        m_players[i]->setStatus(Player::TO_PLAY);
+        m_hasPlayed[i] = false;
     }
 
     /* XXX: Little hack to handle the games with only AI players.
@@ -270,5 +269,31 @@ int Duplicate::setPlayer(int n)
 
     m_currPlayer = n;
     return 0;
+}
+
+
+void Duplicate::prevHumanPlayer()
+{
+    if (getNHumanPlayers() == 0)
+        return;
+    // FIXME: possible infinite loop...
+    do
+    {
+        prevPlayer();
+    } while (!m_players[m_currPlayer]->isHuman() ||
+             m_hasPlayed[m_currPlayer]);
+}
+
+
+void Duplicate::nextHumanPlayer()
+{
+    if (getNHumanPlayers() == 0)
+        return;
+    // FIXME: possible infinite loop...
+    do
+    {
+        nextPlayer();
+    } while (!m_players[m_currPlayer]->isHuman() ||
+             m_hasPlayed[m_currPlayer]);
 }
 
