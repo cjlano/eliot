@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.h,v 1.3 2005/02/24 08:06:25 ipkiss Exp $
+ * $Id: game_factory.h,v 1.1 2005/02/24 08:06:25 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,37 +19,42 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
 
-#ifndef _FREEGAME_H_
-#define _FREEGAME_H_
+#ifndef _GAME_FACTORY_H_
+#define _GAME_FACTORY_H_
 
 #include "game.h"
+#include "training.h"
+#include "freegame.h"
+#include "duplicate.h"
 
-using std::string;
 
-
-class FreeGame: public Game
+class GameFactory
 {
-    friend class GameFactory;
 public:
-    virtual GameMode getMode() const { return kFREEGAME; }
-    virtual string getModeAsString() const { return "Free game"; }
-
     /*************************
-     * Game handling
+     * Functions to create and destroy a game
+     * The dictionary does not belong to the
+     * game (ie: it won't be destroyed by ~Game)
+     *
+     * The dictionary can be changed afterwards by setDic
      *************************/
-    virtual int start();
-    virtual int setRackRandom(int, bool, set_rack_mode);
-    virtual int play(const string &iCoord, const string &iWord);
-    virtual int endTurn();
-    int pass(const string &iToChange, int n);
+    static GameFactory *Instance();
+    static void Destroy();
+
+    Training *createTraining(const Dictionary &iDic);
+    FreeGame *createFreeGame(const Dictionary &iDic);
+    Duplicate *createDuplicate(const Dictionary &iDic);
+    //Game *loadGame(FILE *fin, const Dictionary &iDic);
+
+    void releaseGame(Game &iGame);
 
 private:
-    // Private constructor and destructor to force using the GameFactory class
-    FreeGame(const Dictionary &iDic);
-    virtual ~FreeGame();
 
-    int  freegameAI(int n);
-    void end();
+    GameFactory() {}
+    virtual ~GameFactory() {}
+
+    // The unique instance of the class
+    static GameFactory *m_factory;
 };
 
-#endif /* _FREEGAME_H_ */
+#endif // _GAME_FACTORY_H_

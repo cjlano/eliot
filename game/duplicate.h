@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: duplicate.h,v 1.3 2005/02/12 18:54:57 ipkiss Exp $
+ * $Id: duplicate.h,v 1.4 2005/02/24 08:06:25 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,17 +29,8 @@ using std::string;
 
 class Duplicate: public Game
 {
+    friend class GameFactory;
 public:
-    /*************************
-     * Functions to create and destroy a game
-     * the dictionary does not belong to the
-     * game (ie: it won't be destroyed by ~Game)
-     *
-     * The dictionary can be changed afterwards by setDic
-     *************************/
-    Duplicate(const Dictionary &iDic);
-    virtual ~Duplicate();
-
     virtual GameMode getMode() const { return kDUPLICATE; }
     virtual string getModeAsString() const { return "Duplicate"; }
 
@@ -57,6 +48,9 @@ public:
     void nextHumanPlayer();
 
 private:
+    // Private constructor and destructor to force using the GameFactory class
+    Duplicate(const Dictionary &iDic);
+    virtual ~Duplicate();
 
     void playRound(const Round &iRound, int n);
     int  endTurnForReal();

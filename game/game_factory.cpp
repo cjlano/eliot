@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.h,v 1.3 2005/02/24 08:06:25 ipkiss Exp $
+ * $Id: game_factory.cpp,v 1.1 2005/02/24 08:06:25 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,37 +19,51 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
 
-#ifndef _FREEGAME_H_
-#define _FREEGAME_H_
-
-#include "game.h"
-
-using std::string;
+#include "game_factory.h"
 
 
-class FreeGame: public Game
+GameFactory *GameFactory::m_factory = NULL;
+
+
+GameFactory *GameFactory::Instance()
 {
-    friend class GameFactory;
-public:
-    virtual GameMode getMode() const { return kFREEGAME; }
-    virtual string getModeAsString() const { return "Free game"; }
+    if (m_factory == NULL)
+        m_factory = new GameFactory;
+    return m_factory;
+}
 
-    /*************************
-     * Game handling
-     *************************/
-    virtual int start();
-    virtual int setRackRandom(int, bool, set_rack_mode);
-    virtual int play(const string &iCoord, const string &iWord);
-    virtual int endTurn();
-    int pass(const string &iToChange, int n);
 
-private:
-    // Private constructor and destructor to force using the GameFactory class
-    FreeGame(const Dictionary &iDic);
-    virtual ~FreeGame();
+void GameFactory::Destroy()
+{
+    if (m_factory)
+        delete m_factory;
+    m_factory = NULL;
+}
 
-    int  freegameAI(int n);
-    void end();
-};
 
-#endif /* _FREEGAME_H_ */
+Training *GameFactory::createTraining(const Dictionary &iDic)
+{
+    Training *game = new Training(iDic);
+    return game;
+}
+
+
+FreeGame *GameFactory::createFreeGame(const Dictionary &iDic)
+{
+    FreeGame *game = new FreeGame(iDic);
+    return game;
+}
+
+
+Duplicate *GameFactory::createDuplicate(const Dictionary &iDic)
+{
+    Duplicate *game = new Duplicate(iDic);
+    return game;
+}
+
+
+void GameFactory::releaseGame(Game &iGame)
+{
+    delete &iGame;
+}
+

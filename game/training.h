@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: training.h,v 1.3 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: training.h,v 1.4 2005/02/24 08:06:25 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,17 +31,8 @@ using std::string;
 
 class Training: public Game
 {
+    friend class GameFactory;
 public:
-    /*************************
-     * Functions to create and destroy a game
-     * the dictionary does not belong to the
-     * game (ie: it won't be destroyed by ~Game)
-     *
-     * The dictionary can be changed afterwards by setDic
-     *************************/
-    Training(const Dictionary &iDic);
-    virtual ~Training();
-
     virtual GameMode getMode() const { return kTRAINING; }
     virtual string getModeAsString() const { return "Training"; }
 
@@ -77,6 +68,10 @@ public:
     int removeTestPlay();
 
 private:
+    // Private constructor and destructor to force using the GameFactory class
+    Training(const Dictionary &iDic);
+    virtual ~Training();
+
     // Search results, with all the possible rounds
     Results m_results;
 };

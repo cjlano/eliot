@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: eliottxt.cpp,v 1.2 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: eliottxt.cpp,v 1.3 2005/02/24 08:06:25 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 
 #include "dic.h"
 #include "dic_search.h"
+#include "game_factory.h"
 #include "training.h"
 #include "duplicate.h"
 #include "freegame.h"
@@ -675,25 +676,26 @@ main_loop(const Dictionary &iDic)
                     break;
                 case 'e':
                 {
-                    /* New training game */
-                    Training game(iDic);
-                    game.start();
-                    loop_training(game);
+                    // New training game
+                    Training *game = GameFactory::Instance()->createTraining(iDic);
+                    game->start();
+                    loop_training(*game);
+                    GameFactory::Instance()->releaseGame(*game);
                     break;
                 }
                 case 'd':
                 {
                     int i;
-                    /* New duplicate game */
+                    // New duplicate game
                     token = next_token_digit(NULL, delim);
                     if (token == NULL)
                     {
                         help();
                         break;
                     }
-                    Duplicate game(iDic);
+                    Duplicate *game = GameFactory::Instance()->createDuplicate(iDic);
                     for (i = 0; i < atoi(token); i++)
-                        game.addHumanPlayer();
+                        game->addHumanPlayer();
                     token = next_token_digit(NULL, delim);
                     if (token == NULL)
                     {
@@ -701,24 +703,25 @@ main_loop(const Dictionary &iDic)
                         break;
                     }
                     for (i = 0; i < atoi(token); i++)
-                        game.addAIPlayer();
-                    game.start();
-                    loop_duplicate(game);
+                        game->addAIPlayer();
+                    game->start();
+                    loop_duplicate(*game);
+                    GameFactory::Instance()->releaseGame(*game);
                     break;
                 }
                 case 'l':
                 {
                     int i;
-                    /* New free game */
+                    // New free game
                     token = next_token_digit(NULL, delim);
                     if (token == NULL)
                     {
                         help();
                         break;
                     }
-                    FreeGame game(iDic);
+                    FreeGame *game = GameFactory::Instance()->createFreeGame(iDic);
                     for (i = 0; i < atoi(token); i++)
-                        game.addHumanPlayer();
+                        game->addHumanPlayer();
                     token = next_token_digit(NULL, delim);
                     if (token == NULL)
                     {
@@ -726,29 +729,32 @@ main_loop(const Dictionary &iDic)
                         break;
                     }
                     for (i = 0; i < atoi(token); i++)
-                        game.addAIPlayer();
-                    game.start();
-                    loop_freegame(game);
+                        game->addAIPlayer();
+                    game->start();
+                    loop_freegame(*game);
+                    GameFactory::Instance()->releaseGame(*game);
                     break;
                 }
                 case 'D':
                 {
-                    /* New duplicate game */
-                    Duplicate game(iDic);
-                    game.addHumanPlayer();
-                    game.addAIPlayer();
-                    game.start();
-                    loop_duplicate(game);
+                    // New duplicate game
+                    Duplicate *game = GameFactory::Instance()->createDuplicate(iDic);
+                    game->addHumanPlayer();
+                    game->addAIPlayer();
+                    game->start();
+                    loop_duplicate(*game);
+                    GameFactory::Instance()->releaseGame(*game);
                     break;
                 }
                 case 'L':
                 {
-                    /* New free game */
-                    FreeGame game(iDic);
-                    game.addHumanPlayer();
-                    game.addAIPlayer();
-                    game.start();
-                    loop_freegame(game);
+                    // New free game
+                    FreeGame *game = GameFactory::Instance()->createFreeGame(iDic);
+                    game->addHumanPlayer();
+                    game->addAIPlayer();
+                    game->start();
+                    loop_freegame(*game);
+                    GameFactory::Instance()->releaseGame(*game);
                     break;
                 }
                 case 'q':
@@ -812,6 +818,7 @@ main(int argc, char *argv[])
     }
 
     main_loop(dic);
+    GameFactory::Destroy();
 
     Dic_destroy(dic);
     return 0;

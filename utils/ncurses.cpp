@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: ncurses.cpp,v 1.6 2005/02/22 23:12:57 ipkiss Exp $
+ * $Id: ncurses.cpp,v 1.7 2005/02/24 08:06:25 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@
 #include "ncurses.h"
 #include "dic.h"
 #include "dic_search.h"
+#include "game_factory.h"
 #include "training.h"
 #include "duplicate.h"
 #include "freegame.h"
@@ -50,7 +51,7 @@ CursesIntf::CursesIntf(WINDOW *win, Game& iGame)
 
 CursesIntf::~CursesIntf()
 {
-    delete m_game;
+    GameFactory::Instance()->releaseGame(*m_game);
 }
 
 
@@ -441,7 +442,7 @@ void CursesIntf::loadGame(WINDOW *win, int y, int x)
             else
             {
                 snprintf(s, 100, _("Game loaded"));
-                delete m_game;
+                GameFactory::Instance()->releaseGame(*m_game);
                 m_game = loaded;
             }
             fclose(fin);
@@ -859,8 +860,7 @@ int main(int argc, char ** argv)
     if (Dic_load(&dic, dic_path))
         return -1;
 
-    Game *game;
-    game = new FreeGame(dic);
+    Game *game = GameFactory::Instance()->createFreeGame(dic);
     game->addHumanPlayer();
     game->addAIPlayer();
 //     game->addAIPlayer();
@@ -883,6 +883,7 @@ int main(int argc, char ** argv)
         }
     }
 
+    GameFactory::Destroy();
     Dic_destroy(dic);
 
     delwin(wBoard);

@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.cpp,v 1.4 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: game.cpp,v 1.5 2005/02/24 08:06:25 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,11 +31,7 @@
 #include "player.h"
 #include "ai_percent.h"
 #include "game.h"
-
-// FIXME: this indicates a design flaw!
-#include "training.h"
-#include "duplicate.h"
-#include "freegame.h"
+#include "game_factory.h"
 
 #include "debug.h"
 
@@ -115,11 +111,11 @@ Game * Game::load(FILE *fin, const Dictionary &iDic)
             }
             // Create the correct Game object
             if (strstr(buff, "Training"))
-                pGame = new Training(iDic);
-            else if (strstr(buff, "Duplicate"))
-                pGame = new Duplicate(iDic);
+                pGame = GameFactory::Instance()->createTraining(iDic);
             else if (strstr(buff, "Free game"))
-                pGame = new FreeGame(iDic);
+                pGame = GameFactory::Instance()->createFreeGame(iDic);
+            else if (strstr(buff, "Duplicate"))
+                pGame = GameFactory::Instance()->createDuplicate(iDic);
             else
                 return NULL;
             // Read next line
