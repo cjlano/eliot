@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.h,v 1.4 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: freegame.h,v 1.5 2005/03/27 21:45:04 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,8 +23,10 @@
 #define _FREEGAME_H_
 
 #include "game.h"
+#include "tile.h"
 
 using std::string;
+using std::vector;
 
 
 /**
@@ -58,8 +60,9 @@ private:
     FreeGame(const Dictionary &iDic);
     virtual ~FreeGame();
 
-    int  freegameAI(int n);
+    void freegameAI(int n);
     void end();
+    int helperPass(const vector<Tile> &iToChange, int n);
 };
 
 #endif /* _FREEGAME_H_ */

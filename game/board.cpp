@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: board.cpp,v 1.2 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: board.cpp,v 1.3 2005/03/27 21:45:04 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -251,7 +251,7 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
             isolated = false;
             iRound.setFromBoard(i);
 
-            if (! iJokerMx[row][col + i])
+            if (!iJokerMx[row][col + i])
                 pts += t.getPoints();
         }
         else
@@ -260,10 +260,10 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
             if (iCrossMx[row][col + i].check(t))
             {
                 /* A non-trivial cross-check means an anchor square */
-                if (! iCrossMx[row][col + i].isAny())
+                if (!iCrossMx[row][col + i].isAny())
                     isolated = false;
 
-                if (! iRound.isJoker(i))
+                if (!iRound.isJoker(i))
                     l = t.getPoints() * m_tileMultipliers[row][col + i];
                 else
                     l = 0;

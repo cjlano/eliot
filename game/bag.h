@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: bag.h,v 1.3 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: bag.h,v 1.4 2005/03/27 21:45:04 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include "tile.h"
 #include <map>
 
-using namespace std;
+using std::map;
 
 
 /**
@@ -39,15 +39,10 @@ public:
     virtual ~Bag() {}
     void init();
 
-    /**
-     * take or replace a tile in the bag
-     * return value :
-     * 0 : Ok
-     * 1 : an error occured (not enough or too many tiles
-     *       of that type are in the bag)
-     */
-    int takeTile(const Tile &iTile);
-    int replaceTile(const Tile &iTile);
+    /// Take a tile in the bag
+    void takeTile(const Tile &iTile);
+    /// Replace a tile into the bag
+    void replaceTile(const Tile &iTile);
 
     /// Return how many tiles idetical to iTile are available in the bag
     int in(const Tile &iTile) const;

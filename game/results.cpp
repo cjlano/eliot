@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: results.cpp,v 1.3 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: results.cpp,v 1.4 2005/03/27 21:45:04 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include "round.h"
 #include "board.h"
 #include "results.h"
+#include "debug.h"
 
 
 struct less_points : public binary_function<const Round&,
@@ -42,8 +43,9 @@ struct less_points : public binary_function<const Round&,
 
 const Round & Results::get(int i) const
 {
-    // Use at() instead of [] to check bounds and throw an exception
-    return m_rounds.at(i);
+    ASSERT(0 <= i && i < size(),
+           "Results index out of bounds");
+    return m_rounds[i];
 }
 
 

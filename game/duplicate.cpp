@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: duplicate.cpp,v 1.5 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: duplicate.cpp,v 1.6 2005/03/27 21:45:04 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,42 +73,36 @@ int Duplicate::play(const string &iCoord, const string &iWord)
 }
 
 
-int Duplicate::duplicateAI(int n)
+void Duplicate::duplicateAI(int n)
 {
-    PDEBUG(n < 0 || n >= getNPlayers(), "GAME: wrong player number\n");
-    PDEBUG(m_players[n]->isHuman(), "GAME: AI requested for a human player!\n");
+    ASSERT(0 <= n && n < getNPlayers(), "Wrong player number");
+    ASSERT(!m_players[n]->isHuman(), "AI requested for a human player");
 
     AIPlayer *player = static_cast<AIPlayer*>(m_players[n]);
-
     player->compute(*m_dic, m_board, getNRounds());
+
     if (player->changesLetters())
     {
-        /* The AI player has nothing to play.
-         * XXX: Is it even possible? */
-        PDEBUG(1, "GAME: Yes, this is possible...");
-        return 1;
+        // The AI player has nothing to play. This should not happen in
+        // duplicate mode, otherwise the implementation of the AI is buggy...
+        ASSERT(false, "AI player has nothing to play!");
     }
     else
     {
         playRound(player->getChosenRound(), n);
     }
-
-    return 0;
 }
 
 
 int Duplicate::start()
 {
-    int res, i;
-
-    if (getNPlayers() == 0)
-        return 1;
+    ASSERT(getNPlayers(), "Cannot start a game without any player");
 
     m_currPlayer = 0;
 
     /* XXX: code similar with endTurnForReal() */
     /* Complete the rack for the player that just played */
-    res = setRackRandom(m_currPlayer, true, RACK_NEW);
+    int res = setRackRandom(m_currPlayer, true, RACK_NEW);
     /* End of the game? */
     if (res == 1)
     {
@@ -118,7 +112,7 @@ int Duplicate::start()
 
     PlayedRack pld = m_players[m_currPlayer]->getCurrentRack();
     /* All the players have the same rack */
-    for (i = 0; i < getNPlayers(); i++)
+    for (int i = 0; i < getNPlayers(); i++)
     {
         if (i != m_currPlayer)
         {
@@ -170,12 +164,7 @@ int Duplicate::endTurn()
         {
             if (!m_players[i]->isHuman())
             {
-                // XXX: handle the return value?
-                if (duplicateAI(i))
-                {
-                    // XXX: check return code meaning
-                    return 2;
-                }
+                duplicateAI(i);
             }
         }
 
@@ -190,7 +179,7 @@ int Duplicate::endTurn()
 
 void Duplicate::playRound(const Round &iRound, int n)
 {
-    PDEBUG(n < 0 || n >= getNPlayers(), "GAME: wrong player number\n");
+    ASSERT(0 <= n && n < getNPlayers(), "Wrong player number");
     Player *player = m_players[n];
 
     /* Update the rack and the score of the current player */
@@ -261,11 +250,11 @@ void Duplicate::end()
 
 int Duplicate::setPlayer(int n)
 {
-    if (n < 0 || n >= getNPlayers())
-        return 1;
+    ASSERT(0 <= n && n < getNPlayers(), "Wrong player number");
+
     /* Forbid switching to an AI player */
-    if (! m_players[n]->isHuman())
-        return 2;
+    if (!m_players[n]->isHuman())
+        return 1;
 
     m_currPlayer = n;
     return 0;

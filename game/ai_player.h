@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: ai_player.h,v 1.2 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: ai_player.h,v 1.3 2005/03/27 21:45:04 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,7 +72,12 @@ public:
      * of the following methods, so it must prepare everything for them.
      */
     virtual void compute(const Dictionary &iDic, Board &iBoard, int turn) = 0;
-    /// Return true when the AI wants to change letters instead of playing a word
+    /**
+     * Return true when the AI wants to change letters instead of playing a
+     * word.
+     * Should return false in duplicate mode, as it is not allowed to change
+     * letters.
+     */
     virtual bool changesLetters() const = 0;
     /// Return the round played by the AI (if changesLetters() returns false)
     virtual const Round & getChosenRound() const = 0;
@@ -80,7 +85,7 @@ public:
     virtual vector<Tile> getChangedLetters() const = 0;
 
 protected:
-    /// This class is a pure interface, forbid any instanciation
+    /// This class is a pure interface, forbid any direct instanciation
     AIPlayer() {}
 };
 

@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: training.cpp,v 1.3 2005/03/03 22:14:41 ipkiss Exp $
+ * $Id: training.cpp,v 1.4 2005/03/27 21:45:04 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,9 +30,6 @@
 
 #include "debug.h"
 
-
-/*********************************************************
- *********************************************************/
 
 Training::Training(const Dictionary &iDic): Game(iDic)
 {
@@ -151,14 +148,14 @@ int Training::playResult(int n)
 void Training::addHumanPlayer()
 {
     // We are not supposed to be here...
-    PDEBUG(true, "Trying to add a human player in Training mode!");
+    ASSERT(false, "Trying to add a human player in Training mode");
 }
 
 
 void Training::addAIPlayer()
 {
     // We are not supposed to be here...
-    PDEBUG(true, "Trying to add a AI player in Training mode!");
+    ASSERT(false, "Trying to add a AI player in Training mode");
 }
 
 
@@ -170,8 +167,7 @@ int Training::getNResults() const
 
 string Training::getSearchedWord(int num) const
 {
-    if (num < 0 || num >= m_results.size())
-        return "";
+    ASSERT(0 <= num && num < m_results.size(), "Wrong result number");
     char c;
     string s;
     const Round &r = m_results.get(num);
@@ -188,42 +184,34 @@ string Training::getSearchedWord(int num) const
 
 string Training::getSearchedCoords(int num) const
 {
-    if (num < 0 || num >= m_results.size())
-        return "";
+    ASSERT(0 <= num && num < m_results.size(), "Wrong result number");
     return formatCoords(m_results.get(num));
 }
 
 
 int Training::getSearchedPoints(int num) const
 {
-    if (num < 0 || num >= m_results.size())
-        return 0;
+    ASSERT(0 <= num && num < m_results.size(), "Wrong result number");
     return m_results.get(num).getPoints();
 }
 
 
 int Training::getSearchedBonus(int num) const
 {
-    if (num < 0 || num >= m_results.size())
-        return 0;
+    ASSERT(0 <= num && num < m_results.size(), "Wrong result number");
     return m_results.get(num).getBonus();
 }
 
 
-int Training::testPlay(int n)
+void Training::testPlay(int num)
 {
-    Round round;
-
-    if (n >= m_results.size())
-        return 2;
-    m_board.testRound(m_results.get(n));
-    return 0;
+    ASSERT(0 <= num && num < m_results.size(), "Wrong result number");
+    m_board.testRound(m_results.get(num));
 }
 
 
-int Training::removeTestPlay()
+void Training::removeTestPlay()
 {
     m_board.removeTestRound();
-    return 0;
 }
 

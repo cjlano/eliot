@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.cpp,v 1.7 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: game.cpp,v 1.8 2005/03/27 21:45:04 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -513,11 +513,10 @@ bool Game::rackInBag(const Rack &iRack, const Bag &iBag) const
 
 int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
 {
-    Tile l;
+    ASSERT(0 <= p && p < getNPlayers(), "Wrong player number");
+
     vector<Tile> tiles;
     int nold, min;
-
-    PDEBUG(p < 0 || p >= getNPlayers(), "GAME: wrong player number\n");
 
     PlayedRack pld = m_players[p]->getCurrentRack();
     nold = pld.nOld();
@@ -589,6 +588,7 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
     }
 
     /* Get new tiles from the bag */
+    Tile l;
     for (int i = nold; (bag.nTiles() != 0) && (i < RACK_SIZE); i++)
     {
         l = bag.selectRandom();
@@ -643,7 +643,7 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
 
     Rack rack;
     pld.getRack(rack);
-    if (! rackInBag(rack, m_bag))
+    if (!rackInBag(rack, m_bag))
     {
         pld.reset();
         return 1;
@@ -716,16 +716,14 @@ string Game::formatPlayedRack(const PlayedRack &iRack, bool showExtraSigns) cons
 
 string Game::getPlayedRack(int num) const
 {
-    if (num < 0 || num > getNRounds())
-        return "";
+    ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
     return formatPlayedRack(*m_rackHistory[num]);
 }
 
 
 string Game::getPlayedWord(int num) const
 {
-    if (num < 0 || num >= getNRounds())
-        return "";
+    ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
     char c;
     string s;
     const Round &r = *m_roundHistory[num];
@@ -742,32 +740,28 @@ string Game::getPlayedWord(int num) const
 
 string Game::getPlayedCoords(int num) const
 {
-    if (num < 0 || num >= getNRounds())
-        return "";
+    ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
     return formatCoords(*m_roundHistory[num]);
 }
 
 
 int Game::getPlayedPoints(int num) const
 {
-    if (num < 0 || num >= getNRounds())
-        return 0;
+    ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
     return m_roundHistory[num]->getPoints();
 }
 
 
 int Game::getPlayedBonus(int num) const
 {
-    if (num < 0 || num >= getNRounds())
-        return 0;
+    ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
     return m_roundHistory[num]->getBonus();
 }
 
 
 int Game::getPlayedPlayer(int num) const
 {
-    if (num < 0 || num >= getNRounds())
-        return 0;
+    ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
     return m_playerHistory[num];
 }
 
@@ -776,16 +770,14 @@ int Game::getPlayedPlayer(int num) const
 
 int Game::getPlayerPoints(int num) const
 {
-    if (num < 0 || num >= getNPlayers())
-        return 0;
+    ASSERT(0 <= num && num < getNPlayers(), "Wrong player number");
     return m_players[num]->getPoints();
 }
 
 
 string Game::getPlayerRack(int num) const
 {
-    if (num < 0 || num >= getNPlayers())
-        return "";
+    ASSERT(0 <= num && num < getNPlayers(), "Wrong player number");
     return formatPlayedRack(m_players[num]->getCurrentRack(), false);
 }
 
@@ -813,9 +805,7 @@ void Game::addAIPlayer()
 
 void Game::prevPlayer()
 {
-    // TODO: assertion...
-    if (getNPlayers() == 0)
-        return;
+    ASSERT(getNPlayers() != 0, "Expected at least one player");
 
     if (m_currPlayer == 0)
         m_currPlayer = getNPlayers() - 1;
@@ -826,9 +816,7 @@ void Game::prevPlayer()
 
 void Game::nextPlayer()
 {
-    // TODO: assertion...
-    if (getNPlayers() == 0)
-        return;
+    ASSERT(getNPlayers() != 0, "Expected at least one player");
 
     if (m_currPlayer == getNPlayers() - 1)
         m_currPlayer = 0;
@@ -858,13 +846,13 @@ void Game::nextPlayer()
 int Game::checkPlayedWord(const string &iCoord,
                           const string &iWord, Round &oRound)
 {
+    ASSERT(getNPlayers() != 0, "Expected at least one player");
+
     char l[4];
     int col, row;
     int res;
     vector<Tile> tiles;
     Tile t;
-
-    // TODO: check that there is at least 1 player.
 
     /* Init the round with the given coordinates */
     oRound.init();
@@ -889,7 +877,7 @@ int Game::checkPlayedWord(const string &iCoord,
 
     /* Set the word */
     // TODO: make this a Round_ function (Round_setwordfromchar for example)
-    // or a Tiles_ function (to transform a char* into a Tile*)
+    // or a Tiles_ function (to transform a char* into a vector<Tile>)
     // Adding a getter on the word could help too...
     for (unsigned int i = 0; i < iWord.size(); i++)
     {
@@ -924,7 +912,7 @@ int Game::checkPlayedWord(const string &iCoord,
             else
                 t = oRound.getTile(i);
 
-            if (! rack.in(t))
+            if (!rack.in(t))
             {
                 return 4;
             }

@@ -2,7 +2,7 @@
  * Copyright (C) 1999-2005 Eliot
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *
- * $Id: debug.h,v 1.4 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: debug.h,v 1.5 2005/03/27 21:45:04 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,19 +27,23 @@
  **********/
 
 // XXX: Temporary
-// TODO: Implement assertion macros
 #define _DEBUG_
 
 #ifdef _DEBUG_
-#   include <stdio.h>
-#   define PDEBUG(cond, msg) \
+#   include <iostream>
+// Assertion macro: if the condition is not verified, print a message on stderr
+// and stops execution, otherwise do nothing.
+#   define ASSERT(cond, msg) \
     { \
-        if (cond) \
-            fprintf(stderr, "GAME DEBUG: %s (at %s#%i)\n", \
-                    msg, __FILE__, __LINE__); \
+        if (!cond) \
+        { \
+            cerr << "ASSERTION FAILED: " << msg << " (at " \
+                 << __FILE__ << "#" << __LINE__ << ")\n"; \
+            abort(); \
+        } \
     }
 #else
-#   define PDEBUG(cond, msg)
+#   define ASSERT(cond, msg)
 #endif
 
 #endif

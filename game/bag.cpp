@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: bag.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: bag.cpp,v 1.2 2005/03/27 21:45:04 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
+
+#include <string>
 
 #include "tile.h"
 #include "bag.h"
@@ -81,33 +83,23 @@ int Bag::nConsonants() const
 }
 
 
-int Bag::takeTile(const Tile &iTile)
+void Bag::takeTile(const Tile &iTile)
 {
-    if (in(iTile))
-    {
-        m_tilesMap[iTile]--;
-        m_ntiles--;
-    }
-    else
-    {
-        return 1;
-    }
-    return 0;
+    ASSERT(in(iTile),
+           string("The bag does not contain the letter ") + iTile.toChar());
+
+    m_tilesMap[iTile]--;
+    m_ntiles--;
 }
 
 
-int Bag::replaceTile(const Tile &iTile)
+void Bag::replaceTile(const Tile &iTile)
 {
-    if (in(iTile) < iTile.maxNumber())
-    {
-        m_tilesMap[iTile]++;
-        m_ntiles++;
-    }
-    else
-    {
-        return 1;
-    }
-    return 0;
+    ASSERT(in(iTile) < iTile.maxNumber(),
+           string("Cannot replace tile: ") + iTile.toChar());
+
+    m_tilesMap[iTile]++;
+    m_ntiles++;
 }
 
 
@@ -124,7 +116,7 @@ Tile Bag::selectRandom()
             return it->first;
         n -= it->second;
     }
-    PDEBUG(1, "BAG: we should not come here\n");
+    ASSERT(false, "We should not come here");
     return Tile::dummy();
 }
 

@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: duplicate.h,v 1.5 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: duplicate.h,v 1.6 2005/03/27 21:45:04 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,7 +76,7 @@ private:
     void playRound(const Round &iRound, int n);
     int  endTurnForReal();
     void end();
-    int  duplicateAI(int n);
+    void duplicateAI(int n);
 
     // m_hasPlayed[p] is true iff player p has played for this turn
     map<int, bool> m_hasPlayed;

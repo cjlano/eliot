@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: training.h,v 1.6 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: training.h,v 1.7 2005/03/27 21:45:04 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@
 #ifndef _TRAINING_H_
 #define _TRAINING_H_
 
+#include <string>
+
 #include "game.h"
 #include "results.h"
 
@@ -35,7 +37,6 @@ using std::string;
  * in particular because the rack can be set at will.
  * Note: No player should be added to this game, a human player is added
  * automatically (in the start() method)
- * TODO: really prevent addition of players.
  */
 class Training: public Game
 {
@@ -72,15 +73,10 @@ public:
     int getSearchedPoints(int) const;
     int getSearchedBonus (int) const;
 
-    /*************************
-     * testplay will place a temporary word on the board for
-     * preview purpose
-     * return value is
-     *  0 : ok
-     *  2 : not enough played rounds for the request
-     *************************/
-    int testPlay(int);
-    int removeTestPlay();
+    /// Place a temporary word on the board for preview purpose
+    void testPlay(int);
+    /// Remove the temporary word(s)
+    void removeTestPlay();
 
 private:
     // Private constructor and destructor to force using the GameFactory class

@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.cpp,v 1.5 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: freegame.cpp,v 1.6 2005/03/27 21:45:04 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,9 +32,6 @@
 
 #include "debug.h"
 
-
-/*********************************************************
- *********************************************************/
 
 FreeGame::FreeGame(const Dictionary &iDic): Game(iDic)
 {
@@ -83,20 +80,18 @@ int FreeGame::play(const string &iCoord, const string &iWord)
 }
 
 
-int FreeGame::freegameAI(int n)
+void FreeGame::freegameAI(int n)
 {
-    PDEBUG(n < 0 || n >= getNPlayers(), "GAME: wrong player number\n");
-    PDEBUG(m_players[n]->isHuman(), "GAME: AI requested for a human player!\n");
+    ASSERT(0 <= n && n < getNPlayers(), "Wrong player number");
+    ASSERT(!m_players[n]->isHuman(), "AI requested for a human player");
 
     AIPlayer *player = static_cast<AIPlayer*>(m_players[n]);
 
     player->compute(*m_dic, m_board, getNRounds());
     if (player->changesLetters())
     {
-        /* TODO: take into account the letters returned by
-         * player->getChangedLetters()
-         */
-        pass("", n);
+        helperPass(player->getChangedLetters(), n);
+        endTurn();
     }
     else
     {
@@ -108,31 +103,26 @@ int FreeGame::freegameAI(int n)
         helperPlayRound(round);
         endTurn();
     }
-
-    return 0;
 }
 
 
 int FreeGame::start()
 {
-    int i;
-    if (getNPlayers() == 0)
-        return 1;
+    ASSERT(getNPlayers(), "Cannot start a game without any player");
 
     /* Set the initial racks of the players */
-    for (i = 0; i < getNPlayers(); i++)
+    for (int i = 0; i < getNPlayers(); i++)
     {
-        setRackRandom(i, false, RACK_ALL);
+        setRackRandom(i, false, RACK_NEW);
     }
 
     // XXX
     m_currPlayer = 0;
 
     /* If the first player is an AI, make it play now */
-    if (! m_players[0]->isHuman())
+    if (!m_players[0]->isHuman())
     {
-        if (freegameAI(0))
-            return 2;
+        freegameAI(0);
     }
 
     return 0;
@@ -155,15 +145,14 @@ int FreeGame::endTurn()
     /* If this player is an AI, make it play now */
     if (!m_players[m_currPlayer]->isHuman())
     {
-        if (freegameAI(m_currPlayer))
-            return 2;
+        freegameAI(m_currPlayer);
     }
 
     return 0;
 }
 
 
-/* Adjust the scores of the players with the points of the remaining tiles */
+// Adjust the scores of the players with the points of the remaining tiles
 void FreeGame::end()
 {
     vector<Tile> tiles;
@@ -192,10 +181,26 @@ void FreeGame::end()
 
 int FreeGame::pass(const string &iToChange, int n)
 {
+    // Convert the string into tiles
+    vector<Tile> tilesVect;
+    for (unsigned int i = 0; i < iToChange.size(); i++)
+    {
+        Tile tile(iToChange[i]);
+        if (islower(iToChange[i]))
+            tile = Tile::Joker();
+        tilesVect.push_back(tile);
+    }
+
+    return helperPass(tilesVect, n);
+}
+
+
+int FreeGame::helperPass(const vector<Tile> &iToChange, int n)
+{
+    ASSERT(0 <= n && n < getNPlayers(), "Wrong player number");
+
     if (m_finished)
         return 3;
-    PDEBUG(n < 0 || n >= getNPlayers(), "GAME: wrong player number\n");
-    Player *player = m_players[n];
 
     /* You cannot change more letters than what is left in the bag! */
     Bag bag;
@@ -205,23 +210,19 @@ int FreeGame::pass(const string &iToChange, int n)
         return 1;
     }
 
+    Player *player = m_players[n];
     PlayedRack pld = player->getCurrentRack();
     Rack rack;
     pld.getRack(rack);
 
     for (unsigned int i = 0; i < iToChange.size(); i++)
     {
-        /* Transform into a tile */
-        Tile tile(iToChange[i]);
-        if (islower(iToChange[i]))
-            tile = Tile::Joker();
-
-        /* Remove it from the rack */
-        if (! rack.in(tile))
+        /* Remove the letter from the rack */
+        if (!rack.in(iToChange[i]))
         {
             return 2;
         }
-        rack.remove(tile);
+        rack.remove(iToChange[i]);
     }
 
     pld.reset();
@@ -231,10 +232,6 @@ int FreeGame::pass(const string &iToChange, int n)
 
     // FIXME: the letters to change should not be in the bag while generating
     // the new rack!
-
-    /* Next turn */
-    // XXX: Should it be done by the interface instead?
-    endTurn();
 
     return 0;
 }
