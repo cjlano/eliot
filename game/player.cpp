@@ -1,8 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
+ * Copyright (C) 2004-2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: player.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: player.cpp,v 1.2 2005/02/09 22:33:56 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,9 +48,15 @@ Player::~Player()
 }
 
 
-PlayedRack & Player::getPlayedRack() const
+const PlayedRack & Player::getCurrentRack() const
 {
     return *m_playedRacks.back();
+}
+
+
+void Player::setCurrentRack(const PlayedRack &iPld)
+{
+    *m_playedRacks.back() = iPld;
 }
 
 

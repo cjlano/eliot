@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: duplicate.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: duplicate.cpp,v 1.2 2005/02/09 22:33:56 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -116,13 +116,13 @@ int Duplicate::start()
         return 1;
     }
 
-    PlayedRack &pld = m_players[m_currPlayer]->getPlayedRack();
+    PlayedRack pld = m_players[m_currPlayer]->getCurrentRack();
     /* All the players have the same rack */
     for (i = 0; i < getNPlayers(); i++)
     {
         if (i != m_currPlayer)
         {
-            m_players[i]->getPlayedRack() = pld;
+            m_players[i]->setCurrentRack(pld);
         }
         /* Nobody has played yet in this round */
         m_players[i]->setStatus(Player::TO_PLAY);
@@ -234,13 +234,13 @@ int Duplicate::endTurnForReal()
         return 1;
     }
 
-    PlayedRack &pld = m_players[imax]->getPlayedRack();
+    PlayedRack pld = m_players[imax]->getCurrentRack();
     /* All the players have the same rack */
     for (i = 0; i < getNPlayers(); i++)
     {
         if (i != imax)
         {
-            m_players[i]->getPlayedRack() = pld;
+            m_players[i]->setCurrentRack(pld);
         }
         /* Nobody has played yet in this round */
         m_players[i]->setStatus(Player::TO_PLAY);

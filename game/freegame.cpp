@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: freegame.cpp,v 1.2 2005/02/09 22:33:56 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -175,7 +175,7 @@ void FreeGame::end()
     {
         if (i != m_currPlayer)
         {
-            PlayedRack &pld = m_players[i]->getPlayedRack();
+            const PlayedRack &pld = m_players[i]->getCurrentRack();
             pld.getAllTiles(tiles);
             for (unsigned int j = 0; j < tiles.size(); j++)
             {
@@ -205,7 +205,7 @@ int FreeGame::pass(const string &iToChange, int n)
         return 1;
     }
 
-    PlayedRack &pld = player->getPlayedRack();
+    PlayedRack pld = player->getCurrentRack();
     Rack rack;
     pld.getRack(rack);
 
@@ -226,6 +226,8 @@ int FreeGame::pass(const string &iToChange, int n)
 
     pld.reset();
     pld.setOld(rack);
+
+    player->setCurrentRack(pld);
 
     // FIXME: the letters to change should not be in the bag while generating
     // the new rack!

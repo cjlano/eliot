@@ -2,7 +2,7 @@
  * Copyright (C) 2004-2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: player.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: player.h,v 1.3 2005/02/09 22:33:56 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,9 +40,11 @@ public:
      * General getters
      **************************/
     // FIXME: we should have a const getter!
-    PlayedRack & getPlayedRack() const;
+    const PlayedRack & getCurrentRack() const;
     const PlayedRack & getLastRack() const;
     const Round & getLastRound() const;
+
+    void setCurrentRack(const PlayedRack &iPld);
 
     /**************************
      * Add (or remove, if the given value is negative) points

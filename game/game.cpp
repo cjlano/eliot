@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: game.cpp,v 1.2 2005/02/09 22:33:56 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -171,7 +171,7 @@ Game * Game::load(FILE *fin, const Dictionary &iDic)
                 }
 
                 // Give the rack to the player
-                pGame->m_players[nb]->getPlayedRack() = pldrack;
+                pGame->m_players[nb]->setCurrentRack(pldrack);
             }
             // Read next line
             continue;
@@ -273,7 +273,7 @@ Game * Game::load(FILE *fin, const Dictionary &iDic)
 
             pGame->m_currPlayer = player;
             // Update the rack for the player
-            pGame->m_players[player]->getPlayedRack() = pldrack;
+            pGame->m_players[player]->setCurrentRack(pldrack);
             // End the turn for the current player (this creates a new rack)
             pGame->m_players[player]->endTurn(round, num - 1);
             // Add the points
@@ -299,13 +299,7 @@ void Game::save(ostream &out) const
     const string decal = "   ";
     // "Header" of the game
     out << IDENT_STRING << endl << endl;
-    out << "Game type: ";
-    if (getMode() == kTRAINING)
-        out << "Training" << endl;
-    else if (getMode() == kDUPLICATE)
-        out << "Duplicate" << endl;
-    else
-        out << "Free game" << endl;
+    out << "Game type: " << getModeAsString();
     for (int i = 0; i < getNPlayers(); i++)
     {
         out << "Player " << i << ": ";
@@ -340,7 +334,7 @@ void Game::save(ostream &out) const
     out << endl;
     for (int i = 0; i < getNPlayers(); i++)
     {
-        string rack = formatPlayedRack(m_players[i]->getPlayedRack());
+        string rack = formatPlayedRack(m_players[i]->getCurrentRack());
         out << "Rack " << i << ": " << rack << endl;
     }
 }
@@ -494,7 +488,7 @@ void Game::realBag(Bag &ioBag) const
         /* In freegame mode, replace the letters from all the racks */
         for (int i = 0; i < getNPlayers(); i++)
         {
-            PlayedRack &pld = m_players[i]->getPlayedRack();
+            PlayedRack pld = m_players[i]->getCurrentRack();
             pld.getAllTiles(tiles);
             for (unsigned int j = 0; j < tiles.size(); j++)
             {
@@ -506,7 +500,7 @@ void Game::realBag(Bag &ioBag) const
     {
         /* In training or duplicate mode, replace the rack of the current
          * player only */
-        PlayedRack &pld = m_players[m_currPlayer]->getPlayedRack();
+        PlayedRack pld = m_players[m_currPlayer]->getCurrentRack();
         pld.getAllTiles(tiles);
         for (int j = 0; j < pld.nTiles(); j++)
         {
@@ -537,7 +531,7 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
 
     PDEBUG(p < 0 || p >= getNPlayers(), "GAME: wrong player number\n");
 
-    PlayedRack &pld = m_players[p]->getPlayedRack();
+    PlayedRack pld = m_players[p]->getCurrentRack();
     nold = pld.nOld();
 
     /* Create a copy of the bag in which we can do everything we want */
@@ -617,6 +611,8 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
     if (iCheck && !pld.checkRack(min))
         return 2;
 
+    m_players[p]->setCurrentRack(pld);
+
     return 0;
 }
 
@@ -626,7 +622,7 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
     unsigned int i;
     int min;
 
-    PlayedRack &pld = m_players[p]->getPlayedRack();
+    PlayedRack pld = m_players[p]->getCurrentRack();
     m_players[p]->clearResults();
     pld.reset();
 
@@ -673,8 +669,11 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
             min = 2;
         else
             min = 1;
-        return pld.checkRack(min) ? 0 : 2;
+        if (!pld.checkRack(min))
+            return 2;
     }
+
+    m_players[p]->setCurrentRack(pld);
 
     return 0;
 }
@@ -852,7 +851,7 @@ string Game::getPlayerRack(int num) const
 {
     if (num < 0 || num >= getNPlayers())
         return "";
-    return formatPlayedRack(m_players[num]->getPlayedRack(), false);
+    return formatPlayedRack(m_players[num]->getCurrentRack(), false);
 }
 
 
@@ -1003,7 +1002,7 @@ int Game::checkPlayedWord(const string &iCoord,
      * one by one */
     Rack rack;
     Player *player = m_players[m_currPlayer];
-    player->getPlayedRack().getRack(rack);
+    player->getCurrentRack().getRack(rack);
 
     for (int i = 0; i < oRound.getWordLen(); i++)
     {

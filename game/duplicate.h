@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: duplicate.h,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: duplicate.h,v 1.2 2005/02/09 22:33:56 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@ public:
     virtual ~Duplicate();
 
     virtual GameMode getMode() const { return kDUPLICATE; }
+    virtual string getModeAsString() const { return "Duplicate"; }
 
     /*************************
      * Game handling
