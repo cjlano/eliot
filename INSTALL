@@ -4,8 +4,8 @@ Installation sous Linux (Un*x) (bien/facile)
 
   aclocal
   autoheader 
+  automake --add-missing --foreign --copy
   autoconf
-  automake
 
   ./configure --prefix=/usr/local/eliot
   make
