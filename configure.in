@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 dnl --------------------------------------------------------------
 dnl configure.in for Eliot
 dnl --------------------------------------------------------------
-dnl AC_REVISION($Id: configure.in,v 1.7 2005/02/06 22:18:11 ipkiss Exp $)
+dnl AC_REVISION($Id: configure.in,v 1.8 2005/02/18 18:16:23 ipkiss Exp $)
 AC_INIT(eliot, 1.4)
 AC_CONFIG_SRCDIR(wxwin/main.cc)
 AM_INIT_AUTOMAKE
@@ -63,7 +63,7 @@ dnl --------------------------------------------------------------
 
 dnl Check for wxWidgets
 AC_ARG_ENABLE(wxwidgets,
-[  --enable-wxwidgets      wxWidgets support (default enabled)])
+[  --enable-wxwidgets      wxWidgets support (default disabled)])
 if test "${enable_wxwidgets}" = "yes"
 then
   AM_PATH_WXCONFIG(2.4.0, wxwin=1)
