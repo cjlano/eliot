@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: gameio.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: gameio.cpp,v 1.2 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@
 #include "player.h"
 
 #include "game.h"
+#include "training.h"
 
 #include "debug.h"
 
@@ -222,7 +223,7 @@ void Game::printAllRacks(ostream &out) const
 }
 
 
-static void searchResultLine(ostream &out, const Game &iGame, int num)
+static void searchResultLine(ostream &out, const Training &iGame, int num)
 {
     string word = iGame.getSearchedWord(num);
     if (word.size() == 0)
@@ -234,12 +235,12 @@ static void searchResultLine(ostream &out, const Game &iGame, int num)
 }
 
 
-void Game::printSearchResults(ostream &out, int num) const
+void Game::printSearchResults(ostream &out, const Training &iGame, int num) const
 {
-    for (int i = 0; i < num && i < this->getNResults(); i++)
+    for (int i = 0; i < num && i < iGame.getNResults(); i++)
     {
         out << setw(3) << i + 1 << ": ";
-        searchResultLine(out, *this, i);
+        searchResultLine(out, iGame, i);
         out << endl;
     }
 }

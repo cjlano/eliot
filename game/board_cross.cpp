@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: board_cross.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: board_cross.cpp,v 1.2 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ static void Board_checkout_tile(const Dictionary &iDic,
 
     /* Points on the left part */
     int i = index;
-    while (iTiles[i - 1] != Tile::dummy())
+    while (!iTiles[i - 1].isEmpty())
     {
         i--;
         if (!iJoker[i])
@@ -63,7 +63,7 @@ static void Board_checkout_tile(const Dictionary &iDic,
 
     // FIXME: same thing for the right part
     char rightTiles[BOARD_DIM + 1];
-    for (j = index + 1; iTiles[j] != Tile::dummy(); j++)
+    for (j = index + 1; !iTiles[j].isEmpty(); j++)
         rightTiles[j - index - 1] = toupper(iTiles[j].toChar()) - 'A' + 1;
     rightTiles[j - index - 1] = 0;
     for (succ = Dic_succ(iDic, node); succ; succ = Dic_next(iDic, succ))
@@ -75,7 +75,7 @@ static void Board_checkout_tile(const Dictionary &iDic,
     }
 
      /* Points on the right part */
-     while (iTiles[index] != Tile::dummy())
+     while (!iTiles[index].isEmpty())
      {
          index++;
          if (!iJoker[index])
@@ -95,10 +95,10 @@ static void Board_check(const Dictionary &iDic,
         for (int j = 1; j <= BOARD_DIM; j++)
         {
             iPointMx[j][i] = -1;
-            if (iTilesMx[i][j] != Tile::dummy())
+            if (!iTilesMx[i][j].isEmpty())
                 iCrossMx[j][i].clear();
-            else if (iTilesMx[i][j - 1] != Tile::dummy() ||
-                     iTilesMx[i][j + 1] != Tile::dummy())
+            else if (!iTilesMx[i][j - 1].isEmpty() ||
+                     !iTilesMx[i][j + 1].isEmpty())
             {
                 iCrossMx[j][i].clear();
                 Board_checkout_tile(iDic,

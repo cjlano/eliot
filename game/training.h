@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: training.h,v 1.2 2005/02/09 22:33:56 ipkiss Exp $
+ * $Id: training.h,v 1.3 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #define _TRAINING_H_
 
 #include "game.h"
+#include "results.h"
 
 using std::string;
 
@@ -51,10 +52,33 @@ public:
     virtual int setRackRandom(int, bool, set_rack_mode);
     virtual int play(const string &iCoord, const string &iWord);
     virtual int endTurn();
-    int search();
+    void search();
     int playResult(int);
     int setRackManual(bool iCheck, const string &iLetters);
 
+    /*************************
+     * Functions to access the current search results
+     * The int parameter should be 0 <= int < getNResults
+     *************************/
+    int getNResults() const;
+    string getSearchedWord(int) const;
+    string getSearchedCoords(int) const;
+    int getSearchedPoints(int) const;
+    int getSearchedBonus (int) const;
+
+    /*************************
+     * testplay will place a temporary word on the board for
+     * preview purpose
+     * return value is
+     *  0 : ok
+     *  2 : not enough played rounds for the request
+     *************************/
+    int testPlay(int);
+    int removeTestPlay();
+
+private:
+    // Search results, with all the possible rounds
+    Results m_results;
 };
 
 #endif /* _TRAINING_H_ */

@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: board.h,v 1.3 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: board.h,v 1.4 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -87,8 +87,8 @@ public:
      *
      * board_search.c
      *************************/
-    void search(const Dictionary &iDic, Rack &iRack, Results &iResults);
-    void searchFirst(const Dictionary &iDic, Rack &iRack, Results &iResults);
+    void search(const Dictionary &iDic, const Rack &iRack, Results &oResults);
+    void searchFirst(const Dictionary &iDic, const Rack &iRack, Results &oResults);
 
     /*************************
      *

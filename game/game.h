@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.h,v 1.6 2005/02/13 17:14:31 ipkiss Exp $
+ * $Id: game.h,v 1.7 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,9 @@ class PlayedRack;
 class Round;
 class Rack;
 typedef struct _Dictionary * Dictionary;
+
+// XXX: temporary
+class Training;
 
 using namespace std;
 
@@ -109,17 +112,8 @@ public:
     /*************************
      * Playing the game
      * the int parameter should be 0 <= int < getNRounds
-     *
-     * testplay will place a temporary word on the board for
-     * preview purpose
-     * return value is
-     *  0 : ok
-     *  1 : dictionary is set to NULL
-     *  2 : not enough played rounds for the request
      *************************/
     int back(int);
-    int testPlay(int);
-    int removeTestPlay();
 
     /*************************
      * int coordinates have to be
@@ -172,7 +166,7 @@ public:
 
     /*************************
      * Functions to access already played words
-     * The int parameter should be 0 <= int < getnrounds
+     * The int parameter should be 0 <= int < getNRounds
      *************************/
     int getNRounds() const     { return m_roundHistory.size(); }
     string getPlayedRack(int) const;
@@ -181,16 +175,6 @@ public:
     int getPlayedPoints(int) const;
     int getPlayedBonus(int) const;
     int getPlayedPlayer(int) const;
-
-    /*************************
-     * Functions to access the current search results
-     * The int parameter should be 0 <= int < getNResults
-     *************************/
-    int getNResults() const;
-    string getSearchedWord(int) const;
-    string getSearchedCoords(int) const;
-    int getSearchedPoints(int) const;
-    int getSearchedBonus (int) const;
 
     /*************************
      * Functions to access players.
@@ -226,7 +210,7 @@ public:
     void printNonPlayed(ostream &out) const;
     void printPlayedRack(ostream &out, int n) const;
     void printAllRacks(ostream &out) const;
-    void printSearchResults(ostream &out, int) const;
+    void printSearchResults(ostream &out, const Training &iGame, int) const;
     void printPoints(ostream &out) const;
     void printAllPoints(ostream &out) const;
 

@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.cpp,v 1.3 2005/02/13 17:14:31 ipkiss Exp $
+ * $Id: freegame.cpp,v 1.4 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include "pldrack.h"
 #include "results.h"
 #include "player.h"
+#include "ai_player.h"
 #include "freegame.h"
 
 #include "debug.h"
@@ -85,22 +86,21 @@ int FreeGame::play(const string &iCoord, const string &iWord)
 int FreeGame::freegameAI(int n)
 {
     PDEBUG(n < 0 || n >= getNPlayers(), "GAME: wrong player number\n");
-    Player *player = m_players[n];
+    PDEBUG(m_players[n]->isHuman(), "GAME: AI requested for a human player!\n");
 
-    PDEBUG(player->isHuman(), "GAME: AI requested for a human player!\n");
+    AIPlayer *player = static_cast<AIPlayer*>(m_players[n]);
 
-    player->aiSearch(*m_dic, m_board, getNRounds());
-    const Results &results = player->aiGetResults();
-    if (results.in() == 0)
+    player->compute(*m_dic, m_board, getNRounds());
+    if (player->changesLetters())
     {
-        /* XXX: a better way to indicate that the AI player passes
-         * should be found. In particular, we don't know the letters
-         * it wants to change. */
+        /* TODO: take into account the letters returned by
+         * player->getChangedLetters()
+         */
         pass("", n);
     }
     else
     {
-        const Round &round = results.get(0);
+        const Round &round = player->getChosenRound();
         /* Update the rack and the score of the current player */
         player->addPoints(round.getPoints());
         player->endTurn(round, getNRounds());

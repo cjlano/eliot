@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: board_search.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: board_search.cpp,v 1.2 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ static void BoardSearchEvalMove(const Board &iBoard,
 
     for (i = 0; i < len; i++)
     {
-        if (iTilesMx[row][col+i] != Tile::dummy())
+        if (!iTilesMx[row][col+i].isEmpty())
         {
             if (! iJokerMx[row][col+i])
                 pts += iWord.getTile(i).getPoints();
@@ -107,7 +107,7 @@ static void ExtendRight(const Board &iBoard,
     Tile l;
     unsigned int succ;
 
-    if (iTilesMx[iRow][iCol] == Tile::dummy())
+    if (iTilesMx[iRow][iCol].isEmpty())
     {
         if (Dic_word(iDic, iNode) && iCol > anchor)
             BoardSearchEvalMove(iBoard, iTilesMx, iPointsMx, iJokerMx,
@@ -226,13 +226,13 @@ static void BoardSearchAux(const Board &iBoard,
         lastanchor = 0;
         for (col = 1; col <= BOARD_DIM; col++)
         {
-            if (iTilesMx[row][col] == Tile::dummy() &&
-                (iTilesMx[row][col - 1] != Tile::dummy() ||
-                 iTilesMx[row][col + 1] != Tile::dummy() ||
-                 iTilesMx[row - 1][col] != Tile::dummy() ||
-                 iTilesMx[row + 1][col] != Tile::dummy()))
+            if (iTilesMx[row][col].isEmpty() &&
+                (!iTilesMx[row][col - 1].isEmpty() ||
+                 !iTilesMx[row][col + 1].isEmpty() ||
+                 !iTilesMx[row - 1][col].isEmpty() ||
+                 !iTilesMx[row + 1][col].isEmpty()))
             {
-                if (iTilesMx[row][col - 1] != Tile::dummy())
+                if (!iTilesMx[row][col - 1].isEmpty())
                 {
                     partialword.setCol(lastanchor + 1);
                     ExtendRight(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
@@ -255,33 +255,39 @@ static void BoardSearchAux(const Board &iBoard,
 
 
 void Board::search(const Dictionary &iDic,
-                   Rack &iRack,
-                   Results &iResults)
+                   const Rack &iRack,
+                   Results &oResults)
 {
+    // Create a copy of the rack to avoid modifying the given one
+    Rack copyRack = iRack;
+
     BoardSearchAux(*this, iDic, m_tilesRow, m_crossRow,
                    m_pointRow, m_jokerRow,
-                   iRack, iResults, HORIZONTAL);
+                   copyRack, oResults, HORIZONTAL);
 
     BoardSearchAux(*this, iDic, m_tilesCol, m_crossCol,
                    m_pointCol, m_jokerCol,
-                   iRack, iResults, VERTICAL);
-    iResults.sort();
+                   copyRack, oResults, VERTICAL);
+    oResults.sort();
 }
 
 
 void Board::searchFirst(const Dictionary &iDic,
-                        Rack &iRack,
-                        Results &iResults)
+                        const Rack &iRack,
+                        Results &oResults)
 {
     Round partialword;
     int row = 8, col = 8;
+
+    // Create a copy of the rack to avoid modifying the given one
+    Rack copyRack = iRack;
 
     partialword.setRow(row);
     partialword.setCol(col);
     partialword.setDir(HORIZONTAL);
     LeftPart(*this, iDic, m_tilesRow, m_crossRow,
              m_pointRow, m_jokerRow,
-             iRack, partialword, iResults, Dic_root(iDic), row, col,
-             iRack.nTiles() - 1);
-    iResults.sort();
+             copyRack, partialword, oResults, Dic_root(iDic), row, col,
+             copyRack.nTiles() - 1);
+    oResults.sort();
 }

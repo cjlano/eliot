@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.cpp,v 1.3 2005/02/12 18:54:57 ipkiss Exp $
+ * $Id: game.cpp,v 1.4 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 #include "pldrack.h"
 #include "results.h"
 #include "player.h"
+#include "ai_percent.h"
 #include "game.h"
 
 // FIXME: this indicates a design flaw!
@@ -237,7 +238,7 @@ Game * Game::load(FILE *fin, const Dictionary &iDic)
                 {
                     tile = Tile(word[i]);
 
-                    if (pGame->m_board.getTile(round.getRow(), round.getCol() + i) != Tile::dummy())
+                    if (!pGame->m_board.getTile(round.getRow(), round.getCol() + i).isEmpty())
                     {
                         round.addRightFromBoard(tile);
                     }
@@ -259,7 +260,7 @@ Game * Game::load(FILE *fin, const Dictionary &iDic)
                 {
                     tile = Tile(word[i]);
 
-                    if (pGame->m_board.getTile(round.getRow() + i, round.getCol()) != Tile::dummy())
+                    if (!pGame->m_board.getTile(round.getRow() + i, round.getCol()).isEmpty())
                     {
                         round.addRightFromBoard(tile);
                     }
@@ -425,24 +426,6 @@ int Game::back(int n)
 }
 
 
-int Game::testPlay(int n)
-{
-    Round round;
-    const Results &results = m_players[m_currPlayer]->aiGetResults();
-
-    if (n >= results.in())
-        return 2;
-    m_board.testRound(results.get(n));
-    return 0;
-}
-
-
-int Game::removeTestPlay()
-{
-    m_board.removeTestRound();
-    return 0;
-}
-
 /*********************************************************
  *********************************************************/
 
@@ -450,7 +433,7 @@ char Game::getBoardChar(int iRow, int iCol) const
 {
     char letter = 0;
     Tile tile = m_board.getTile(iRow, iCol);
-    if (tile != Tile::dummy())
+    if (!tile.isEmpty())
     {
         letter = tile.toChar();
         if (m_board.isJoker(iRow, iCol))
@@ -630,7 +613,6 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
     int min;
 
     PlayedRack pld = m_players[p]->getCurrentRack();
-    m_players[p]->clearResults();
     pld.reset();
 
     if (iLetters.size() == 0)
@@ -641,7 +623,7 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
     for (i = 0; i < iLetters.size() && iLetters[i] != '+'; i++)
     {
         Tile tile(iLetters[i]);
-        if (tile == Tile::dummy())
+        if (tile.isEmpty())
         {
             return 1;
         }
@@ -653,7 +635,7 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
         for (i++; i < iLetters.size(); i++)
         {
             Tile tile(iLetters[i]);
-            if (tile == Tile::dummy())
+            if (tile.isEmpty())
             {
                 return 1;
             }
@@ -794,58 +776,6 @@ int Game::getPlayedPlayer(int num) const
 /*********************************************************
  *********************************************************/
 
-int Game::getNResults() const
-{
-    return m_players[m_currPlayer]->aiGetResults().in();
-}
-
-
-string Game::getSearchedWord(int num) const
-{
-    const Results &results = m_players[m_currPlayer]->aiGetResults();
-    if (num < 0 || num >= results.in())
-        return "";
-    char c;
-    string s;
-    const Round &r = results.get(num);
-    for (int i = 0; i < r.getWordLen(); i++)
-    {
-        c = r.getTile(i).toChar();
-        if (r.isJoker(i))
-            c = tolower(c);
-        s += c;
-    }
-    return s;
-}
-
-
-string Game::getSearchedCoords(int num) const
-{
-    const Results &results = m_players[m_currPlayer]->aiGetResults();
-    if (num < 0 || num >= results.in())
-        return "";
-    return formatCoords(results.get(num));
-}
-
-
-int Game::getSearchedPoints(int num) const
-{
-    const Results &results = m_players[m_currPlayer]->aiGetResults();
-    if (num < 0 || num >= results.in())
-        return 0;
-    return results.get(num).getPoints();
-}
-
-
-int Game::getSearchedBonus(int num) const
-{
-    const Results &results = m_players[m_currPlayer]->aiGetResults();
-    if (num < 0 || num >= results.in())
-        return 0;
-    return results.get(num).getBonus();
-}
-
-
 int Game::getPlayerPoints(int num) const
 {
     if (num < 0 || num >= getNPlayers())
@@ -873,13 +803,13 @@ int Game::getNHumanPlayers() const
 
 void Game::addHumanPlayer()
 {
-    m_players.push_back(new Player(true));
+    m_players.push_back(new HumanPlayer());
 }
 
 
 void Game::addAIPlayer()
 {
-    m_players.push_back(new Player(false));
+    m_players.push_back(new AIPercent(0));
 }
 
 

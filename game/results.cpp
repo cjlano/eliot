@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: results.cpp,v 1.2 2005/02/13 17:14:31 ipkiss Exp $
+ * $Id: results.cpp,v 1.3 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 
 #include "tile.h"
 #include "round.h"
+#include "board.h"
 #include "results.h"
 
 
@@ -38,12 +39,6 @@ struct less_points : public binary_function<const Round&,
     }
 };
 
-void Results::sort()
-{
-    less_points lp;
-    std::sort(m_rounds.begin(), m_rounds.end(), lp);
-}
-
 
 const Round & Results::get(int i) const
 {
@@ -52,9 +47,22 @@ const Round & Results::get(int i) const
 }
 
 
-void Results::deleteLast()
+void Results::search(const Dictionary &iDic, Board &iBoard,
+                     const Rack &iRack, int iTurn)
 {
-    if (in())
-        m_rounds.pop_back();
+    clear();
+
+    if (iTurn == 0)
+        iBoard.searchFirst(iDic, iRack, *this);
+    else
+        iBoard.search(iDic, iRack, *this);
 }
+
+
+void Results::sort()
+{
+    less_points lp;
+    std::sort(m_rounds.begin(), m_rounds.end(), lp);
+}
+
 

@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: tile.h,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: tile.h,v 1.2 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ public:
     Tile(char c = 0);
     virtual ~Tile() {}
 
+    bool isEmpty() const        { return m_dummy; }
     bool isJoker() const        { return m_joker; }
     bool isVowel() const;
     bool isConsonant() const;

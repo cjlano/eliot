@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: eliottxt.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: eliottxt.cpp,v 1.2 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -278,9 +278,13 @@ display_data(const Game &iGame, const char *delim)
         case 'r':
             token = next_token_digit(NULL, delim);
             if (token == NULL)
-                iGame.printSearchResults(cout, 10);
+                iGame.printSearchResults(cout,
+                                         static_cast<const Training&>(iGame),
+                                         10);
             else
-                iGame.printSearchResults(cout, atoi(token));
+                iGame.printSearchResults(cout,
+                                         static_cast<const Training&>(iGame),
+                                         atoi(token));
             break;
         case 's':
             iGame.printPoints(cout);

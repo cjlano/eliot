@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: ncurses.cpp,v 1.3 2005/02/07 22:20:32 ipkiss Exp $
+ * $Id: ncurses.cpp,v 1.4 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -201,7 +201,7 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
     }
 
     // Display a message when the search is complete
-    if (m_game.getMode() == Game::kTRAINING && m_game.getNResults())
+    if (m_game.getMode() == Game::kTRAINING) // && m_game.getNResults())
         mvwprintw(win, y + 2*yOff - 1, x + 2, _("Search complete"));
     else
         mvwhline(win, y + 2*yOff - 1, x + 2, ' ', strlen(_("Search complete")));
@@ -210,21 +210,25 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
 
 void CursesIntf::drawResults(WINDOW *win, int y, int x)
 {
+    if (m_game.getMode() != Game::kTRAINING)
+        return;
+    Training &tr_game = static_cast<Training&>(m_game);
+
     int h = 17;
     drawBox(win, y, x, h, 25, _(" Search results "));
     m_boxY = y + 1;
     m_boxLines = h - 2;
-    m_boxLinesData = m_game.getNResults();
+    m_boxLinesData = tr_game.getNResults();
 
     int i;
-    for (i = m_boxStart; i < m_game.getNResults() &&
+    for (i = m_boxStart; i < tr_game.getNResults() &&
                          i < m_boxStart + m_boxLines; i++)
     {
-        string coord = m_game.getSearchedCoords(i);
+        string coord = tr_game.getSearchedCoords(i);
         boxPrint(win, i, x + 1, "%3d %s%s %3s",
-                 m_game.getSearchedPoints(i),
-                 m_game.getSearchedWord(i).c_str(),
-                 string(h - 3 - m_game.getSearchedWord(i).size(), ' ').c_str(),
+                 tr_game.getSearchedPoints(i),
+                 tr_game.getSearchedWord(i).c_str(),
+                 string(h - 3 - tr_game.getSearchedWord(i).size(), ' ').c_str(),
                  coord.c_str());
     }
     // Complete the list with empty lines, to avoid trails
@@ -321,11 +325,22 @@ void CursesIntf::playWord(WINDOW *win, int y, int x)
 {
     drawBox(win, y, x, 4, 32, _(" Play a word "));
     mvwprintw(win, y + 1, x + 2, _("Played word:"));
-    mvwprintw(win, y + 2, x + 2, _("Coordinates: "));
+    mvwprintw(win, y + 2, x + 2, _("Coordinates:"));
     wrefresh(win);
 
+    // TRANSLATORS: Align the : when translating "Played word:" and
+    // "Coordinates:". For example:
+    // Pl. word   :
+    // Coordinates:
+    int l1 = strlen(_("Played word:"));
+    int l2 = strlen(_("Coordinates:"));
+    int xOff;
+    if (l1 > l2)
+        xOff = l1 + 3;
+    else
+        xOff = l2 + 3;
+
     string word, coord;
-    int xOff = strlen(_("Coordinates: ")) + 2;
     if (readString(win, y + 1, x + xOff, 15, word) &&
         readString(win, y + 2, x + xOff, 3, coord))
     {

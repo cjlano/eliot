@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: results.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: results.h,v 1.3 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,33 +24,39 @@
 #define _RESULTS_H_
 
 #include <vector>
+#include "round.h"
 
 using namespace std;
 
-/*************************
- * Results is a container. The structure
- * stores the rounds that have been found
- * during a search on the board
- *************************/
+class Board;
+class Rack;
+typedef struct _Dictionary * Dictionary;
 
+
+/*************************
+ * This class allows to perform a search on the board for a given rack,
+ * and it offers accessors to the resulting rounds.
+ * The rounds are sorted by decreasing number of points (but there is no
+ * other ordering between 2 rounds with the same number of points).
+ *************************/
 class Results
 {
 public:
     Results() {}
     virtual ~Results() {}
 
-    /*************************
-     * 
-     * 
-     *************************/
-    int in() const  { return m_rounds.size(); }
+    int size() const    { return m_rounds.size(); }
+    void clear()        { m_rounds.clear(); }
     const Round & get(int) const;
 
-    void add(const Round &iRound)   { m_rounds.push_back(iRound); }
-    void sort();
+    // Perform a search on the board
+    void search(const Dictionary &iDic, Board &iBoard,
+                const Rack &iRack, int iTurn);
 
-    void deleteLast();
-    void clear()    { m_rounds.clear(); }
+    // FIXME: These methods are used to fill the container with the rounds,
+    // but they should not be part of the public interface
+    void sort();
+    void add(const Round &iRound)   { m_rounds.push_back(iRound); }
 
 private:
     vector<Round> m_rounds;

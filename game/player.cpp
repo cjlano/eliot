@@ -2,7 +2,7 @@
  * Copyright (C) 2004-2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: player.cpp,v 1.3 2005/02/12 18:54:57 ipkiss Exp $
+ * $Id: player.cpp,v 1.4 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,8 +29,7 @@
 
 #include "debug.h"
 
-Player::Player(bool iHuman):
-    m_human(iHuman),
+Player::Player():
     m_score(0)
 {
     // Start with an empty rack
@@ -100,25 +99,4 @@ void Player::endTurn(const Round &iRound, int iTurn)
     /* Now m_playedRacks.back() is the newly created PlayedRack object */
     m_playedRacks.back()->setOld(rack);
 }
-
-
-int Player::aiSearch(const Dictionary &iDic, Board &iBoard, int turn)
-{
-    m_results.clear();
-
-    Rack rack;
-    m_playedRacks.back()->getRack(rack);
-    if (turn == 0)
-        iBoard.searchFirst(iDic, rack, m_results);
-    else
-        iBoard.search(iDic, rack, m_results);
-    return 0;
-}
-
-
-const Round & Player::aiBestRound()
-{
-    return m_results.get(0);
-}
-
 

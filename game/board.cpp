@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: board.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: board.cpp,v 1.2 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -125,22 +125,22 @@ bool Board::isVacant(int iRow, int iCol) const
     {
         return false;
     }
-    return m_tilesRow[iRow][iCol] == Tile::dummy();
+    return m_tilesRow[iRow][iCol].isEmpty();
 }
 
 
 void Board::addRound(const Dictionary &iDic, const Round &iRound)
 {
     Tile t;
-    int row, col, i;
+    int row, col;
 
     row = iRound.getRow();
     col = iRound.getCol();
     if (iRound.getDir() == HORIZONTAL)
     {
-        for (i = 0; i < iRound.getWordLen(); i++)
+        for (int i = 0; i < iRound.getWordLen(); i++)
         {
-            if (m_tilesRow[row][col + i] == Tile::dummy())
+            if (m_tilesRow[row][col + i].isEmpty())
             {
                 t = iRound.getTile(i);
                 m_tilesRow[row][col + i] = t;
@@ -152,9 +152,9 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
     }
     else
     {
-        for (i = 0; i < iRound.getWordLen(); i++)
+        for (int i = 0; i < iRound.getWordLen(); i++)
         {
-            if (m_tilesRow[row + i][col] == Tile::dummy())
+            if (m_tilesRow[row + i][col].isEmpty())
             {
                 t = iRound.getTile(i);
                 m_tilesRow[row + i][col] = t;
@@ -173,13 +173,13 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
 
 void Board::removeRound(const Dictionary &iDic, const Round &iRound)
 {
-    int row, col, i;
+    int row, col;
 
     row = iRound.getRow();
     col = iRound.getCol();
     if (iRound.getDir() == HORIZONTAL)
     {
-        for (i = 0; i < iRound.getWordLen(); i++)
+        for (int i = 0; i < iRound.getWordLen(); i++)
         {
             if (iRound.isPlayedFromRack(i))
             {
@@ -192,7 +192,7 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
     }
     else
     {
-        for (i = 0; i < iRound.getWordLen(); i++)
+        for (int i = 0; i < iRound.getWordLen(); i++)
         {
             if (iRound.isPlayedFromRack(i))
             {
@@ -233,8 +233,8 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
     col = iRound.getCol();
 
     /* Is the word an extension of another word? */
-    if (iTilesMx[row][col - 1] != Tile::dummy() ||
-        iTilesMx[row][col + iRound.getWordLen()] != Tile::dummy())
+    if (!iTilesMx[row][col - 1].isEmpty() ||
+        !iTilesMx[row][col + iRound.getWordLen()].isEmpty())
     {
         return 1;
     }
@@ -242,7 +242,7 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
     for (i = 0; i < iRound.getWordLen(); i++)
     {
         t = iRound.getTile(i);
-        if (iTilesMx[row][col + i] != Tile::dummy())
+        if (!iTilesMx[row][col + i].isEmpty())
         {
             /* There is already a letter on the board */
             if (iTilesMx[row][col + i] != t)
@@ -346,15 +346,15 @@ int Board::checkRound(Round &iRound, bool firstturn)
 void Board::testRound(const Round &iRound)
 {
     Tile t;
-    int row, col, i;
+    int row, col;
 
     row = iRound.getRow();
     col = iRound.getCol();
     if (iRound.getDir() == HORIZONTAL)
     {
-        for (i = 0; i < iRound.getWordLen(); i++)
+        for (int i = 0; i < iRound.getWordLen(); i++)
         {
-            if (m_tilesRow[row][col + i] == Tile::dummy())
+            if (m_tilesRow[row][col + i].isEmpty())
             {
                 t = iRound.getTile(i);
                 m_tilesRow[row][col + i] = t;
@@ -368,9 +368,9 @@ void Board::testRound(const Round &iRound)
     }
     else
     {
-        for (i = 0; i < iRound.getWordLen(); i++)
+        for (int i = 0; i < iRound.getWordLen(); i++)
         {
-            if (m_tilesRow[row + i][col] == Tile::dummy())
+            if (m_tilesRow[row + i][col].isEmpty())
             {
                 t = iRound.getTile(i);
                 m_tilesRow[row + i][col] = t;
@@ -387,10 +387,9 @@ void Board::testRound(const Round &iRound)
 
 void Board::removeTestRound()
 {
-    int row, col;
-    for (row = 1; row <= BOARD_DIM; row++)
+    for (int row = 1; row <= BOARD_DIM; row++)
     {
-        for (col = 1; col <= BOARD_DIM; col++)
+        for (int col = 1; col <= BOARD_DIM; col++)
         {
             if (m_testsRow[row][col])
             {
@@ -433,10 +432,9 @@ int Board::getLetterMultiplier(int iRow, int iCol) const
 #ifdef DEBUG
 void Board::checkDouble()
 {
-    int row, col;
-    for (row = BOARD_MIN; row <= BOARD_MAX; row++)
+    for (int row = BOARD_MIN; row <= BOARD_MAX; row++)
     {
-        for (col = BOARD_MIN; col <= BOARD_MAX; col++)
+        for (int col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
             if (m_tilesRow[row][col] != m_tilesCol[col][row])
                 printf("tiles diff %d %d\n",row,col);

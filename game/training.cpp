@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: training.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: training.cpp,v 1.2 2005/02/17 20:01:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@
 #include "rack.h"
 #include "round.h"
 #include "pldrack.h"
-#include "results.h"
 #include "player.h"
 #include "training.h"
 
@@ -45,10 +44,12 @@ Training::~Training()
 }
 
 
-int Training::search()
+void Training::search()
 {
     // Search for the current player
-    return m_players[m_currPlayer]->aiSearch(*m_dic, m_board, getNRounds());
+    Rack r;
+    m_players[m_currPlayer]->getCurrentRack().getRack(r);
+    m_results.search(*m_dic, m_board, r, getNRounds());
 }
 
 
@@ -80,10 +81,9 @@ int Training::play(const string &iCoord, const string &iWord)
 int Training::playResult(int n)
 {
     Player *player = m_players[m_currPlayer];
-    const Results &results = player->aiGetResults();
-    if (n >= results.in())
+    if (n >= m_results.size())
         return 2;
-    const Round &round = results.get(n);
+    const Round &round = m_results.get(n);
 
     /* Update the rack and the score of the current player */
     player->addPoints(round.getPoints());
@@ -92,7 +92,7 @@ int Training::playResult(int n)
     int res = helperPlayRound(round);
 
     if (res == 0)
-        player->clearResults();
+        m_results.clear();
 
     /* Next turn */
     // XXX: Should it be done by the interface instead?
@@ -105,7 +105,7 @@ int Training::playResult(int n)
 int Training::setRackRandom(int p, bool iCheck, set_rack_mode mode)
 {
     int res;
-    m_players[p]->clearResults();
+    m_results.clear();
     do
     {
         res = helperSetRackRandom(p, iCheck, mode);
@@ -119,7 +119,7 @@ int Training::setRackManual(bool iCheck, const string &iLetters)
 {
     int res;
     int p = m_currPlayer;
-    m_players[p]->clearResults();
+    m_results.clear();
     do
     {
         res = helperSetRackManual(p, iCheck, iLetters);
@@ -144,6 +144,72 @@ int Training::start()
 int Training::endTurn()
 {
     // Nothing to do?
+    return 0;
+}
+
+
+int Training::getNResults() const
+{
+    return m_results.size();
+}
+
+
+string Training::getSearchedWord(int num) const
+{
+    if (num < 0 || num >= m_results.size())
+        return "";
+    char c;
+    string s;
+    const Round &r = m_results.get(num);
+    for (int i = 0; i < r.getWordLen(); i++)
+    {
+        c = r.getTile(i).toChar();
+        if (r.isJoker(i))
+            c = tolower(c);
+        s += c;
+    }
+    return s;
+}
+
+
+string Training::getSearchedCoords(int num) const
+{
+    if (num < 0 || num >= m_results.size())
+        return "";
+    return formatCoords(m_results.get(num));
+}
+
+
+int Training::getSearchedPoints(int num) const
+{
+    if (num < 0 || num >= m_results.size())
+        return 0;
+    return m_results.get(num).getPoints();
+}
+
+
+int Training::getSearchedBonus(int num) const
+{
+    if (num < 0 || num >= m_results.size())
+        return 0;
+    return m_results.get(num).getBonus();
+}
+
+
+int Training::testPlay(int n)
+{
+    Round round;
+
+    if (n >= m_results.size())
+        return 2;
+    m_board.testRound(m_results.get(n));
+    return 0;
+}
+
+
+int Training::removeTestPlay()
+{
+    m_board.removeTestRound();
     return 0;
 }
 
