@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: pldrack.cpp,v 1.3 2005/04/02 18:05:21 ipkiss Exp $
+ * $Id: pldrack.cpp,v 1.4 2005/04/02 18:21:24 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -138,7 +138,7 @@ void PlayedRack::setNew(const Rack &iRack)
 }
 
 
-bool PlayedRack::checkRack(int iMin)
+bool PlayedRack::checkRack(int iMin) const
 {
     vector<Tile>::const_iterator it;
     int v = 0;
@@ -160,13 +160,8 @@ bool PlayedRack::checkRack(int iMin)
 
 void PlayedRack::operator=(const PlayedRack &iOther)
 {
-    vector<Tile>::const_iterator it;
-    m_oldTiles.clear();
-    for (it = iOther.m_oldTiles.begin(); it != iOther.m_oldTiles.end(); it++)
-        m_oldTiles.push_back(*it);
-    m_newTiles.clear();
-    for (it = iOther.m_newTiles.begin(); it != iOther.m_newTiles.end(); it++)
-        m_newTiles.push_back(*it);
+    m_oldTiles = iOther.m_oldTiles;
+    m_newTiles = iOther.m_newTiles;
 }
 
 

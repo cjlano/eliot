@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: pldrack.h,v 1.6 2005/04/02 18:05:21 ipkiss Exp $
+ * $Id: pldrack.h,v 1.7 2005/04/02 18:21:24 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ public:
     void getOldTiles(vector<Tile> &oTiles) const;
     void getAllTiles(vector<Tile> &oTiles) const;
 
-    bool checkRack(int iMin);
+    bool checkRack(int iMin) const;
 
     void operator=(const PlayedRack &iOther);
     void toString(string&) const;
