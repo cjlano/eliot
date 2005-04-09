@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: auxframes.cc,v 1.9 2005/04/02 21:21:30 ipkiss Exp $ */
+/* $Id: auxframes.cc,v 1.10 2005/04/09 19:16:56 afrab Exp $ */
 
 #include <iostream>
 using namespace std;
@@ -331,7 +331,7 @@ Plus1Frame::Refresh(refresh_t force)
 {
     int  i, j;
     string rack2;
-    char buff[LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
+    char buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
 
     rack2 = m_game.getPlayerRack(0);
 
@@ -344,10 +344,10 @@ Plus1Frame::Refresh(refresh_t force)
     Dic_search_7pl1(m_game.getDic(), m_rack.c_str(), buff, config.getJokerPlus1());
 
     int resnum = 0;
-    wxString res[LETTERS*(RES_7PL1_MAX+1)];
+    wxString res[DIC_LETTERS*(RES_7PL1_MAX+1)];
     // wxString(wxT) added for clean compile with wx2.4
     res[resnum++] = wxString(wxT("Tirage: ")) + wxString(wxU(m_rack.c_str()));
-    for (i = 0; i < LETTERS; i++)
+    for (i = 0; i < DIC_LETTERS; i++)
     {
         if (i && buff[i][0][0])
             res[resnum++] = wxString(wxT("+")) + (wxChar)(i + 'A' - 1);

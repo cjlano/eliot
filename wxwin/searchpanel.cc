@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: searchpanel.cc,v 1.5 2005/02/05 11:14:56 ipkiss Exp $ */
+/* $Id: searchpanel.cc,v 1.6 2005/04/09 19:16:56 afrab Exp $ */
 
 #include <string.h>
 #include "wx/panel.h"
@@ -162,7 +162,7 @@ PPlus1::compute_enter(wxCommandEvent&)
 {
   int  i,j;
   char rack[DIC_WORD_MAX];
-  char buff[LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
+  char buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
 
   if (!check())
     return;
@@ -179,8 +179,8 @@ PPlus1::compute_enter(wxCommandEvent&)
   Dic_search_7pl1(dic_,rack,buff,TRUE);
 
   int resnum = 0;
-  wxString res[LETTERS*(RES_7PL1_MAX+1)];
-  for(i=0; i < LETTERS; i++)
+  wxString res[DIC_LETTERS*(RES_7PL1_MAX+1)];
+  for(i=0; i < DIC_LETTERS; i++)
     {
       if (i && buff[i][0][0])
           res[resnum++] = wxString(wxT("+")) + (wxChar)(i+'A'-1);
