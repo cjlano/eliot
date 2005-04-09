@@ -16,8 +16,9 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: automaton.c,v 1.3 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: automaton.c,v 1.4 2005/04/09 19:16:09 afrab Exp $
  */
+#include "config.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -30,15 +31,19 @@
 
 #ifndef PDBG
 #ifdef DEBUG
-#   define PDBG(x) { x ; }
+#   define PDBG(s...) { printf(s); }
 #else
-#   define PDBG(x) { }
+#   define PDBG(s...) { }
 #endif
 #endif
 
-int 
-automaton_build(automaton* aa, int init_state, int *ptl, int *PS)
+automaton
+automaton_build(int init_state, int *ptl, int *PS)
 {
+  /* int init_state;                            */
+  /* int *ptl;   // mapping postition -> lettre */
+  /* int *PS;    // Position Suivante [ 1 << (position-1)] = \cup { 1 << (p-1) | p \in position acceptée } */
+
   int  i,l,pos,letter,ens;
   int  state,plist;
   int  *state_list;
@@ -46,7 +51,6 @@ automaton_build(automaton* aa, int init_state, int *ptl, int *PS)
   automaton a;
 
   a = (automaton)malloc(sizeof(struct _automaton));
-  *aa = a;
   
   a->nterm  = PS[0];
   a->nstate = 1;
@@ -68,7 +72,7 @@ automaton_build(automaton* aa, int init_state, int *ptl, int *PS)
   while (plist)
     {
       state = state_list[--plist];
-      PDBG(printf("** traitement état 0x%08x\n",state));
+      PDBG("** traitement état 0x%08x\n",state);
       memset(used_letter,0,sizeof(used_letter));
       /* 3: \foreach l in \sigma | l \neq # */
       for(l=1; l < PS[0]; l++) 
@@ -88,7 +92,7 @@ automaton_build(automaton* aa, int init_state, int *ptl, int *PS)
 		{
 		  state_list[plist++] = ens;
 		  a->Dtrans[state][letter] = ens;
-		  PDBG(printf("  adding %x -%c> %x (queue %x)\n",state,letter,ens,ens));
+		  PDBG("  adding %x -%c> %x (queue %x)\n",state,letter,ens,ens);
 		  if (ens != state)
 		    {
 		      a->nstate = a->nstate + 1;
@@ -98,7 +102,7 @@ automaton_build(automaton* aa, int init_state, int *ptl, int *PS)
 	      if (ens && a->marque[ens] == 1)
 		{
 		  a->Dtrans[state][letter] = ens;
-		  PDBG(printf("  adding %x -%c> %x\n",state,letter,ens));
+		  PDBG("  adding %x -%c> %x\n",state,letter,ens);
 		}
 	      a->marque[state] = 1;
 	      used_letter[letter] = 1;
@@ -106,19 +110,19 @@ automaton_build(automaton* aa, int init_state, int *ptl, int *PS)
 	}
     }
 
-  PDBG(printf("** accept : "));
+  PDBG("** accept : ");
   for(i=0; i < (1 << PS[0]); i++)
     {
       if (a->marque[i] && (i & (1 << (PS[0] - 1))))
 	{
 	  a->accept[i] = 1;
-	  PDBG(printf("%x ",i));
+	  PDBG("%x ",i);
 	}
     }
-  PDBG(printf("\n"));
+  PDBG("\n");
 
   free(state_list);
-  return 0;
+  return a;
 }
 
 //////////////////////////////////////////////////

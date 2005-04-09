@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: dic_search.h,v 1.3 2005/02/05 11:14:56 ipkiss Exp $ */
+/* $Id: dic_search.h,v 1.4 2005/04/09 19:16:09 afrab Exp $ */
 
 #ifndef _DIC_SEARCH_H_
 #define _DIC_SEARCH_H_
@@ -26,7 +26,9 @@ extern "C"
   {
 #endif 
 
-#define DIC_WORD_MAX 16
+#define DIC_LETTERS  27  // different letters in the dictionary
+#define DIC_WORD_MAX 16  // max length of words (including last \0)
+
 #define RES_7PL1_MAX 200
 #define RES_RACC_MAX 100
 #define RES_BENJ_MAX 100
@@ -34,11 +36,11 @@ extern "C"
 #define RES_REGE_MAX 200
 
 int  Dic_search_word(Dictionary, const char*);
-void Dic_search_7pl1(Dictionary, const char* rack, char wordlist[LETTERS][RES_7PL1_MAX][DIC_WORD_MAX], int joker);
+void Dic_search_7pl1(Dictionary, const char* rack, char wordlist[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX], int joker);
 void Dic_search_Racc(Dictionary, const char* word, char wordlist[RES_RACC_MAX][DIC_WORD_MAX]);
 void Dic_search_Benj(Dictionary, const char* word, char wordlist[RES_BENJ_MAX][DIC_WORD_MAX]);
 void Dic_search_Cros(Dictionary, const char* mask, char wordlist[RES_CROS_MAX][DIC_WORD_MAX]);
-void Dic_search_RegE(Dictionary, const char* mask, char wordlist[RES_CROS_MAX][DIC_WORD_MAX]);
+void Dic_search_RegE(Dictionary, const char* mask, char wordlist[RES_REGE_MAX][DIC_WORD_MAX]);
 
 #if defined(__cplusplus)
   }

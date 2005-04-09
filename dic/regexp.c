@@ -16,15 +16,20 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: regexp.c,v 1.1 2004/06/21 16:06:54 afrab Exp $
+ * $Id: regexp.c,v 1.2 2005/04/09 19:16:09 afrab Exp $
  */
+#include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef HAVE_SYS_WAIT_H
+#   include <sys/wait.h>
+#endif
+#include <unistd.h>
+
 #include "regexp.h"
 #include "automaton.h"
 
-#define MAX 32
 
 #ifndef PDBG
 #ifdef DEBUG
@@ -34,6 +39,8 @@
 #endif
 #endif
 
+static void print_node(NODE *n);
+
 //////////////////////////////////////////////////
 // position, annulable, PP, DP
 // r   = root
@@ -42,13 +49,13 @@
 // ptl = position to letter
 //////////////////////////////////////////////////
 
-void parcours(NODE* r, int *p, int *n, int ptl[])
+void regexp_parcours(NODE* r, int *p, int *n, int ptl[])
 {
   if (r == NULL)
     return;
 
-  parcours(r->fg,p,n,ptl);
-  parcours(r->fd,p,n,ptl);
+  regexp_parcours(r->fg,p,n,ptl);
+  regexp_parcours(r->fd,p,n,ptl);
 
   switch (r->type)
     {
@@ -91,14 +98,14 @@ void parcours(NODE* r, int *p, int *n, int ptl[])
 // PosSuivante
 //////////////////////////////////////////////////
 
-void possuivante(NODE* r, int PS[])
+void regexp_possuivante(NODE* r, int PS[])
 {
   int pos;
   if (r == NULL)
     return;
 
-  possuivante(r->fg,PS);
-  possuivante(r->fd,PS);
+  regexp_possuivante(r->fg,PS);
+  regexp_possuivante(r->fd,PS);
 
   switch (r->type)
     {
@@ -122,8 +129,7 @@ void possuivante(NODE* r, int PS[])
 
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
-#if 0
-void print_node(NODE *n)
+static void print_node(NODE *n)
 {
   if (n == NULL)
     return;
@@ -151,7 +157,7 @@ void print_node(NODE *n)
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 
-void print_PS(int PS[])
+void regexp_print_PS(int PS[])
 {
   int i;
   printf("** positions suivantes **\n");
@@ -164,7 +170,7 @@ void print_PS(int PS[])
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 
-void print_ptl(int ptl[])
+void regexp_print_ptl(int ptl[])
 {
   int i;
   printf("** pos -> lettre: ");
@@ -178,7 +184,7 @@ void print_ptl(int ptl[])
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 
-void print_tree_nodes(FILE* f, NODE* n)
+static void print_tree_nodes(FILE* f, NODE* n)
 {
   if (n == NULL) 
     return; 
@@ -205,7 +211,7 @@ void print_tree_nodes(FILE* f, NODE* n)
   fprintf(f,"\\n annulable=%d\\n PP=0x%08x\\n DP=0x%08x\"];\n",n->annulable,n->PP,n->DP);
 }
 
-void print_tree_edges(FILE* f, NODE* n)
+static void print_tree_edges(FILE* f, NODE* n)
 {
   if (n == NULL)
     return;
@@ -229,7 +235,7 @@ void print_tree_edges(FILE* f, NODE* n)
     }
 }
 
-void print_tree(NODE* n)
+void regexp_print_tree(NODE* n)
 {
   FILE* f;
   pid_t   pid; 
@@ -243,6 +249,7 @@ void print_tree(NODE* n)
   fprintf(f,"}\n");
   fclose(f);
 
+#ifdef HAVE_SYS_WAIT_H
   pid = fork ();
   if (pid > 0) {
     wait(NULL);
@@ -251,52 +258,6 @@ void print_tree(NODE* n)
     printf("exec dotty failed\n");
     exit(1);
   }
-}
 #endif
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-#if 0
-int main(int argc, char* argv[])
-{
-  int i,p,n;
-  int ptl[MAX+1]; // mapping postition -> lettre
-  int PS [MAX+1]; // Position Suivante [ 1 << (position-1)] = \cup { 1 << (p-1) | p \in position acceptée }
-  automaton a,b;
-
-  for(i=0; i < MAX; i++)
-    {
-      PS[i] = 0;
-      ptl[i] = 0;
-    }
-
-  yyparse();
-
-  n = 1;
-  p = 1;
-  parcours(root,&p,&n,ptl);
-  PS [0] = p - 1;
-  ptl[0] = p - 1;
-  PDBG(printf("** regexp: nombre de terminaux: %d\n",PS[0]));
-  PDBG(printf("** regexp: nombre de noeuds dans l'arbre: %d\n",n));
-  PDBG(print_ptl(ptl));
-
-  possuivante(root,PS);
-  PDBG(print_tree(root));
-  PDBG(print_PS(PS));
-
-  automaton_build(&a,root->PP,ptl,PS);
-  PDBG(printf("** auto: nombre d'états: %d\n",a.nstate));
-  print_automaton(&a);
-  
-  automaton_minimize(&a,&b);
-  PDBG(printf("** auto: nombre d'états: %d\n",b.nstate));
-  PDBG(print_automaton(&b));
-
-  automaton_destroy(&a);
-  automaton_destroy(&b);
-  return 0;
 }
-#endif
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
 

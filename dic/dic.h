@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: dic.h,v 1.2 2004/08/07 18:10:42 ipkiss Exp $ */
+/* $Id: dic.h,v 1.3 2005/04/09 19:16:09 afrab Exp $ */
 
 /*!
  *  \file dic.h
@@ -35,8 +35,6 @@ extern "C"
   {
 #endif 
   
-#define LETTERS      27
-
 typedef struct _Dictionary* Dictionary;
 typedef unsigned int uint_t;
 

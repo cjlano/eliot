@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: dic_search.c,v 1.4 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: dic_search.c,v 1.5 2005/04/09 19:16:09 afrab Exp $
  */
 
 #include <ctype.h>
@@ -26,6 +26,8 @@
 #include "dic_internals.h"
 #include "dic.h"
 #include "dic_search.h"
+
+#include "regexp.h"
 #include "automaton.h"
 
 /****************************************/
@@ -77,7 +79,7 @@ struct params_7plus1_t {
  int search_wordlistlen;
  int search_wordlistlenmax;
  char search_wordtst[DIC_WORD_MAX];
- char search_letters[LETTERS];
+ char search_letters[DIC_LETTERS];
  char (*search_wordlist)[RES_7PL1_MAX][DIC_WORD_MAX];
 };
 
@@ -138,7 +140,7 @@ Dic_search_word_by_len(struct params_7plus1_t *params, int i, Dawg_edge *edgeptr
 
 void
 Dic_search_7pl1(const Dictionary dic, const char* rack,
-                char buff[LETTERS][RES_7PL1_MAX][DIC_WORD_MAX],
+                char buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX],
                 int joker)
 {
   int i,j,wordlen;
@@ -146,11 +148,11 @@ Dic_search_7pl1(const Dictionary dic, const char* rack,
   struct params_7plus1_t params;
   Dawg_edge *root_edge;
 
-  for(i=0; i < LETTERS; i++)
+  for(i=0; i < DIC_LETTERS; i++)
     for(j=0; j < RES_7PL1_MAX; j++)
       buff[i][j][0] = '\0';
 
-  for(i=0; i<LETTERS; i++)
+  for(i=0; i<DIC_LETTERS; i++)
     params.search_letters[i] = 0;
 
   if (dic == NULL || rack == NULL)
@@ -397,51 +399,59 @@ struct params_regexp_t {
 };
 
 void
-Dic_search_regexp_rec(struct params_regexp_t *params, char wordlist[RES_CROS_MAX][DIC_WORD_MAX], Dawg_edge *edgeptr, int state)
+Dic_search_regexp_rec(struct params_regexp_t *params, 
+		      char wordlist[RES_CROS_MAX][DIC_WORD_MAX], 
+		      Dawg_edge *edgeptr, int state)
 {
+  /*
   //  Dawg_edge *current = params->dic->dawg + edgeptr->ptr;
-/*   // fin du motif et fin de mot */
-/*   if (params->mask[params->wordlen] == '\0' && edgeptr->term) */
-/*     { */
-/*       if (params->wordlistlen < params->wordlistlenmax) */
-/* 	strcpy(wordlist[params->wordlistlen++],params->mask); */
-/*     } */
-/*   // n'importe quel char */
-/*   else if (params->mask[params->wordlen] == '.') */
-/*     { */
-/*       do */
-/* 	{ */
-/* 	  params->mask[params->wordlen] = current->chr + 'a' - 1; */
-/* 	  params->wordlen ++; */
-/* 	  Dic_search_regexp_rec(params,wordlist,current, ??); */
-/* 	  params->wordlen --; */
-/* 	  params->mask[params->wordlen] = '.'; */
-/* 	} */
-/*       while (!(*current++).last); */
-/*     } */
-/*   // une lettre dans le motif */
-/*   else  */
-/*     { */
-/*       do */
-/* 	{ */
-/* 	  if (current->chr == (params->mask[params->wordlen] & CHAR)) */
-/* 	    { */
-/* 	      params->wordlen ++; */
-/* 	      Dic_search_cross_rec(params,wordlist,current); */
-/* 	      params->wordlen --; */
-/* 	      break; */
-/* 	    } */
-/* 	} */
-/*       while (!(*current++).last); */
-/*     } */
+  // fin du motif et fin de mot
+  if (params->mask[params->wordlen] == '\0' && edgeptr->term)
+    {
+      if (params->wordlistlen < params->wordlistlenmax)
+	strcpy(wordlist[params->wordlistlen++],params->mask);
+    }
+  // n'importe quel char
+  else if (params->mask[params->wordlen] == '.')
+    {
+      do
+	{
+	  params->mask[params->wordlen] = current->chr + 'a' - 1;
+	  params->wordlen ++;
+	  Dic_search_regexp_rec(params,wordlist,current, ??);
+	  params->wordlen --;
+	  params->mask[params->wordlen] = '.';
+	}
+      while (!(*current++).last);
+    }
+  // une lettre dans le motif
+  else
+    {
+      do
+	{
+	  if (current->chr == (params->mask[params->wordlen] & CHAR))
+	    {
+	      params->wordlen ++;
+	      Dic_search_cross_rec(params,wordlist,current);
+	      params->wordlen --;
+	      break;
+	    }
+	}
+      while (!(*current++).last);
+    }
+  */
 }
 
 void
 Dic_search_RegE(const Dictionary dic, const char* mask,
                 char wordlist[RES_REGE_MAX][DIC_WORD_MAX])
 {
-  int  i;
+  int  i,p,n;
   struct params_regexp_t params;
+
+  int ptl[REGEXP_MAX+1]; // mapping postition -> lettre
+  int PS [REGEXP_MAX+1]; // Position Suivante [ 1 << (position-1)] = \cup { 1 << (p-1) | p \in position acceptée }
+
   automaton a = NULL;
 
   for(i=0; i < RES_REGE_MAX; i++)
@@ -450,8 +460,22 @@ Dic_search_RegE(const Dictionary dic, const char* mask,
   if (dic == NULL || mask == NULL)
     return;
 
-/*   if (automaton_build(&a,"")) */
-/*     return; */
+  /*
+   * we stop here right now
+
+  if ((root = regexp_parse(mask)) == NULL)
+    return;
+
+  n = 1;
+  p = 1;
+  regexp_parcours(root,&p,&n,ptl);
+  PS [0] = p - 1;
+  ptl[0] = p - 1;
+
+  regexp_possuivante(root,PS);
+  
+  if ((a = automaton_build()) == NULL)
+    return; 
 
   params.dic            = dic;
   params.wordlen        = 0;
@@ -459,6 +483,9 @@ Dic_search_RegE(const Dictionary dic, const char* mask,
   params.wordlistlenmax = RES_REGE_MAX;
   params.er_automaton   = a;
   Dic_search_regexp_rec(&params, wordlist, dic->dawg + dic->root, 0);
+
+  automaton_delete(a);
+  */
 }
 
 /****************************************/

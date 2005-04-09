@@ -16,44 +16,58 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: regexp.h,v 1.2 2005/04/09 19:16:09 afrab Exp $
+ * $Id: regexpmain.c,v 1.1 2005/04/09 19:16:09 afrab Exp $
  */
-#ifndef _TREE_H_
-#define _TREE_H_
+#include "config.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#define NODE_TOP    0
-#define NODE_VAR    1
-#define NODE_OR     2
-#define NODE_AND    3
-#define NODE_STAR   4
+#include "regexp.h"
+#include "automaton.h"
 
-typedef struct node {
-  int              type;
-  char             var; 
-  struct node      *fg; 
-  struct node      *fd; 
-  
-  int numero;
-  int position;
-  int annulable;
-  int PP;
-  int DP;
-} NODE;
-
-extern NODE* root;
-
-/* max regexp length */
-#define REGEXP_MAX 32 
-
-void regexp_parcours(NODE* r, int *p, int *n, int ptl[]);
-void regexp_possuivante(NODE* r, int PS[]);
-
-void regexp_print_PS(int PS[]);
-void regexp_print_ptl(int ptl[]);
-void regexp_print_tree(NODE* n);
-
-
+#ifndef PDBG
+#ifdef DEBUG
+#define PDBG(x) { x ; }
+#else
+#define PDBG(x) { }
+#endif
 #endif
 
+NODE* root;
 
+int main(int argc, char* argv[])
+{
+  int i,p,n;
+  int ptl[REGEXP_MAX+1]; // mapping postition -> lettre
+  int PS [REGEXP_MAX+1]; // Position Suivante [ 1 << (position-1)] = \cup { 1 << (p-1) | p \in position acceptée }
+  automaton a;
 
+  for(i=0; i < REGEXP_MAX; i++)
+    {
+      PS[i] = 0;
+      ptl[i] = 0;
+    }
+
+  yyparse(argv[1]);
+
+  n = 1;
+  p = 1;
+  regexp_parcours(root,&p,&n,ptl);
+  PS [0] = p - 1;
+  ptl[0] = p - 1;
+  PDBG(printf("** regexp: nombre de terminaux: %d\n",PS[0]));
+  PDBG(printf("** regexp: nombre de noeuds dans l'arbre: %d\n",n));
+  PDBG(regexp_print_ptl(ptl));
+
+  regexp_possuivante(root,PS);
+  PDBG(regexp_print_tree(root));
+  PDBG(regexp_print_PS(PS));
+
+  a = automaton_build(root->PP,ptl,PS);
+  PDBG(printf("** auto: nombre d'états: %d\n",a->nstate));
+  automaton_dump(a,"regexp.auto");
+  
+  automaton_delete(a);
+  return 0;
+}
