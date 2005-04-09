@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: training.cpp,v 1.6 2005/04/02 21:21:30 ipkiss Exp $
+ * $Id: training.cpp,v 1.7 2005/04/09 15:14:00 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -74,7 +74,9 @@ int Training::setRackRandom(int p, bool iCheck, set_rack_mode mode)
     {
         res = helperSetRackRandom(p, iCheck, mode);
     } while (res == 2);
-
+    // 0 : ok
+    // 1 : not enough tiles
+    // 2 : check failed (number of voyels before round 15)
     return res;
 }
 
@@ -83,12 +85,21 @@ int Training::setRackManual(bool iCheck, const string &iLetters)
 {
     int res;
     int p = m_currPlayer;
+    string::iterator it;
+    string uLetters; // uppercase letters
+    // letters can be lowercase or uppercase as they are
+    // coming from user input. We do not consider a lowercase
+    // letter to be a joker which has been assigned to a letter.
     m_results.clear();
-    do
-    {
-        res = helperSetRackManual(p, iCheck, iLetters);
-    } while (res == 2);
-
+    uLetters = iLetters;
+    for(it = uLetters.begin(); it != uLetters.end(); it ++)
+      {
+	*it = toupper(*it);
+      }
+    res = helperSetRackManual(p, iCheck, uLetters);
+    // 0 : ok
+    // 1 : not enough tiles
+    // 2 : check failed (number of voyels before round 15)
     return res;
 }
 
