@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.cpp,v 1.11 2005/04/02 20:46:42 ipkiss Exp $
+ * $Id: game.cpp,v 1.12 2005/04/09 16:10:25 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -439,7 +439,6 @@ int Game::back(int n)
             /* Remove the points of this round */
             player->addPoints(- lastround.getPoints());
             m_points -= lastround.getPoints();
-
             /* Remove the word from the board, and put its letters back
              * into the bag */
             m_board.removeRound(*m_dic, lastround);
@@ -457,6 +456,10 @@ int Game::back(int n)
             m_roundHistory.pop_back();
             m_playerHistory.pop_back();
         }
+	else
+	{
+            return 1;
+	}
     }
     return 0;
 }
@@ -856,10 +859,10 @@ int Game::getPlayerPoints(int num) const
 }
 
 
-string Game::getPlayerRack(int num) const
+string Game::getPlayerRack(int num, bool showExtraSigns) const
 {
     ASSERT(0 <= num && num < getNPlayers(), "Wrong player number");
-    return formatPlayedRack(m_players[num]->getCurrentRack(), false);
+    return formatPlayedRack(m_players[num]->getCurrentRack(), showExtraSigns);
 }
 
 
