@@ -24,3 +24,11 @@ install-sh
 missing
 mkinstalldirs
 stamp-*
+cscope.files
+cscope.out
+dic/cscope.files
+dic/cscope.out
+game/cscope.files
+game/cscope.out
+wxwin/cscope.files
+wxwin/cscope.out
