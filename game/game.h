@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.h,v 1.13 2005/04/02 21:21:30 ipkiss Exp $
+ * $Id: game.h,v 1.14 2005/04/09 16:11:04 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -180,7 +180,7 @@ public:
     // TODO: Ability to specify which kind of AI player is wanted
     virtual void addAIPlayer();
     int  getPlayerPoints(int) const;
-    string getPlayerRack(int) const;
+    string getPlayerRack(int,bool = false) const;
 
     int  currPlayer() const     { return m_currPlayer; }
 
