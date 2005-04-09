@@ -2,7 +2,7 @@
  * Copyright (C) 1999-2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: tile.cpp,v 1.1 2005/02/05 11:14:56 ipkiss Exp $
+ * $Id: tile.cpp,v 1.2 2005/04/09 14:56:03 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,54 +22,66 @@
 #include "tile.h"
 #include <ctype.h>
 
-
 /*************************
+ * French tiles
  * Zero + 26 letters + joker
+ * tiles ares supposed to be contiguous and joker is separated
  *************************/
-#define TILES_NUMBER 28
+
+#define TILE_START     'A'
+#define TILE_END       'Z'
+#define TILE_JOKER     '?'
+#define TILE_DUMMY     '%'
+
+#define TILE_IDX_START   1
+#define TILE_IDX_END    26
+#define TILE_IDX_JOKER  27
+
+#define TILES_NUMBER    28
 
 /* The jokers and the 'Y' can be considered both as vowels or consonants */
-const int Tiles_vowels[TILES_NUMBER] =
+const unsigned int Tiles_vowels[TILES_NUMBER] =
 {
 /* x A B C D  E F G H I J  K L M N O P Q R S T U V  W  X  Y  Z ? */
    0,1,0,0,0, 1,0,0,0,1,0, 0,0,0,0,1,0,0,0,0,0,1,0, 0, 0, 1, 0,1
 };
 
-const int Tiles_consonants[TILES_NUMBER] =
+const unsigned int Tiles_consonants[TILES_NUMBER] =
 {
 /* x A B C D  E F G H I J  K L M N O P Q R S T U V  W  X  Y  Z ? */
    0,0,1,1,1, 0,1,1,1,0,1, 1,1,1,1,0,1,1,1,1,1,0,1, 1, 1, 1, 1,1
 };
 
-const int Tiles_numbers[TILES_NUMBER] =
+const unsigned int Tiles_numbers[TILES_NUMBER] =
 {
 /* x A B C D  E F G H I J  K L M N O P Q R S T U V  W  X  Y  Z ? */
    0,9,2,2,3,15,2,2,2,8,1, 1,5,3,6,6,2,1,6,6,6,6,2, 1, 1, 1, 1,2
 };
 
-const int Tiles_points[TILES_NUMBER] =
+const unsigned int Tiles_points[TILES_NUMBER] =
 {
 /* x A B C D  E F G H I J  K L M N O P Q R S T U V  W  X  Y  Z ? */
    0,1,3,3,2, 1,4,2,4,1,8,10,1,2,1,1,3,8,1,1,1,1,4,10,10,10,10,0
 };
 
+/***************************
+ ***************************/
 
 list<Tile> Tile::m_tilesList;
-const Tile Tile::m_TheJoker('?');
+const Tile Tile::m_TheJoker(TILE_JOKER);
 const Tile Tile::m_TheDummy(0);
 
 
 Tile::Tile(char c)
 {
-    if (c == '?')
+    if (c == TILE_JOKER)
     {
         m_joker = true;
         m_dummy = false;
-        m_char = 63;
+        m_char = TILE_JOKER; 
     }
     else if (isalpha(c))
     {
-        // XXX: is a lowercase character always a joker?
         m_joker = islower(c);
         m_dummy = false;
         m_char = toupper(c);
@@ -88,8 +100,8 @@ bool Tile::isVowel() const
     if (m_dummy)
         return false;
     if (m_joker)
-        return Tiles_vowels[27];
-    return Tiles_vowels[m_char - 'A' + 1];
+        return Tiles_vowels[TILE_IDX_JOKER];
+    return Tiles_vowels[TILE_IDX_START + m_char - TILE_START];
 }
 
 
@@ -98,28 +110,28 @@ bool Tile::isConsonant() const
     if (m_dummy)
         return false;
     if (m_joker)
-        return Tiles_consonants[27];
-    return Tiles_consonants[m_char - 'A' + 1];
+        return Tiles_consonants[TILE_IDX_JOKER];
+    return Tiles_consonants[TILE_IDX_START + m_char - TILE_START];
 }
 
 
-int Tile::maxNumber() const
+unsigned int Tile::maxNumber() const
 {
     if (m_dummy)
         return false;
     if (m_joker)
-        return Tiles_numbers[27];
-    return Tiles_numbers[m_char - 'A' + 1];
+        return Tiles_numbers[TILE_IDX_JOKER];
+    return Tiles_numbers[TILE_IDX_START + m_char - TILE_START];
 }
 
 
-int Tile::getPoints() const
+unsigned int Tile::getPoints() const
 {
     if (m_dummy)
         return false;
     if (m_joker)
-        return Tiles_points[27];
-    return Tiles_points[m_char - 'A' + 1];
+        return Tiles_points[TILE_IDX_JOKER];
+    return Tiles_points[TILE_IDX_START + m_char - TILE_START];
 }
 
 
@@ -128,9 +140,9 @@ const list<Tile>& Tile::getAllTiles()
     if (Tile::m_tilesList.size() == 0)
     {
         // XXX: this should be filled from a "language file" instead
-        for (char i = 'A'; i <= 'Z'; i++)
+        for (char i = TILE_START; i <= TILE_END; i++)
             Tile::m_tilesList.push_back(Tile(i));
-        m_tilesList.push_back(Tile('?'));
+        m_tilesList.push_back(Tile(TILE_JOKER));
     }
     return Tile::m_tilesList;
 }
@@ -138,16 +150,14 @@ const list<Tile>& Tile::getAllTiles()
 
 char Tile::toChar() const
 {
-    // XXX: What should we return for a dummy char?
     if (m_dummy)
-        return '%';
-    // XXX: is this clever enough?
+        return TILE_DUMMY;
     if (m_joker)
     {
         if (isalpha(m_char))
             return tolower(m_char);
         else
-            return '?';
+            return TILE_JOKER;
     }
     return m_char;
 }

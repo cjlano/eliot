@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: tile.h,v 1.2 2005/02/17 20:01:59 ipkiss Exp $
+ * $Id: tile.h,v 1.3 2005/04/09 14:56:03 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,12 @@ using namespace std;
 class Tile
 {
 public:
+
+  // a lowercase character always a joker
+  // - this permits to detect joker in already played games
+  // - we need to pay attention when inserting character taken
+  //   from user input
+
     Tile(char c = 0);
     virtual ~Tile() {}
 
@@ -42,8 +48,8 @@ public:
     bool isJoker() const        { return m_joker; }
     bool isVowel() const;
     bool isConsonant() const;
-    int maxNumber() const;
-    int getPoints() const;
+    unsigned int maxNumber() const;
+    unsigned int getPoints() const;
     char toChar() const;
 
     static const Tile &dummy()  { return m_TheDummy; }
@@ -63,7 +69,7 @@ private:
     static const Tile m_TheJoker;
     static const Tile m_TheDummy;
 
-    // XXX: this should probably be moved to the Bag class...
+    // List of available tiles
     static list<Tile> m_tilesList;
 };
 
