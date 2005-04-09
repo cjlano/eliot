@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: bag.h,v 1.4 2005/03/27 21:45:04 ipkiss Exp $
+ * $Id: bag.h,v 1.5 2005/04/09 14:58:24 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,8 +44,8 @@ public:
     /// Replace a tile into the bag
     void replaceTile(const Tile &iTile);
 
-    /// Return how many tiles idetical to iTile are available in the bag
-    int in(const Tile &iTile) const;
+    /// Return how many tiles identical to iTile are available in the bag
+    unsigned int in(const Tile &iTile) const;
 
     /**
      * Return how many tiles/vowels/consonants are available
@@ -53,8 +53,8 @@ public:
      * because of the jokers and the 'Y'.
      */
     unsigned int nTiles() const  { return m_ntiles; }
-    int nVowels() const;
-    int nConsonants() const;
+    unsigned int nVowels() const;
+    unsigned int nConsonants() const;
 
     /**
      * Return a random available tile

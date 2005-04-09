@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: rack.h,v 1.3 2005/03/27 17:30:48 ipkiss Exp $
+ * $Id: rack.h,v 1.4 2005/04/09 14:58:24 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ public:
     int nTiles() const          { return m_tiles.size(); }
     bool isEmpty() const        { return nTiles() == 0; }
 
-    int in(const Tile &t) const { return m_tiles.count(t); }
+    unsigned int in(const Tile &t) const { return m_tiles.count(t); }
     void add(const Tile &t)     { m_tiles.insert(t); }
     void remove(const Tile &t);
     void clear()                { m_tiles.clear(); }

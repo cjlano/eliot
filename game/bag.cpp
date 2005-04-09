@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: bag.cpp,v 1.2 2005/03/27 21:45:04 ipkiss Exp $
+ * $Id: bag.cpp,v 1.3 2005/04/09 14:58:24 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ void Bag::init()
 }
 
 
-int Bag::in(const Tile &iTile) const
+unsigned int Bag::in(const Tile &iTile) const
 {
     map<Tile, int>::const_iterator it = m_tilesMap.find(iTile);
     if (it != m_tilesMap.end())
@@ -55,7 +55,7 @@ int Bag::in(const Tile &iTile) const
 }
 
 
-int Bag::nVowels() const
+unsigned int Bag::nVowels() const
 {
     map<Tile, int>::const_iterator it;
     int v = 0;
@@ -69,7 +69,7 @@ int Bag::nVowels() const
 }
 
 
-int Bag::nConsonants() const
+unsigned int Bag::nConsonants() const
 {
     map<Tile, int>::const_iterator it;
     int c = 0;
