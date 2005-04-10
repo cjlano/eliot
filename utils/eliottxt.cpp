@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: eliottxt.cpp,v 1.4 2005/02/26 22:57:34 ipkiss Exp $
+ * $Id: eliottxt.cpp,v 1.5 2005/04/10 12:15:40 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -774,11 +774,9 @@ main(int argc, char *argv[])
 
     Dictionary dic = NULL;
 
-    srand(time(NULL));
-
-    if (argc != 2)
+    if (argc != 2 && argc != 3)
     {
-        fprintf(stdout, "Usage: eliot /chemin/vers/ods4.dawg\n");
+        fprintf(stdout, "Usage: eliot /chemin/vers/ods4.dawg [random_seed]\n");
         exit(1);
     }
     else
@@ -814,6 +812,11 @@ main(int argc, char *argv[])
             exit(6);
             break;
     }
+
+    if (argc == 3)
+        srand(atoi(argv[2]));
+    else
+        srand(time(NULL));
 
     main_loop(dic);
     GameFactory::Destroy();
