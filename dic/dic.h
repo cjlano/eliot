@@ -16,15 +16,13 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: dic.h,v 1.3 2005/04/09 19:16:09 afrab Exp $ */
+/* $Id: dic.h,v 1.4 2005/04/10 13:35:10 ipkiss Exp $ */
 
-/*!
+/**
  *  \file dic.h
  *  \brief  Dictionnaire sous forme de Dawg
- *  \long
  *  \author Antoine Fraboulet
  *  \date   2002
- *  \version 1
  */
 
 #ifndef _DIC_H_
