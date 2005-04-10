@@ -1,9 +1,12 @@
-TARGETS=programming.ps programming.pdf
+TARGETS = doxygen programming.ps programming.pdf
 
-all: $(TARGETS) 
+all: $(TARGETS)
+
+doxygen: Doxyfile
+	doxygen $<
 
 %.pdf: %.ps
-	ps2pdf $< 
+	ps2pdf $<
 
 %.ps: %.dvi
 	dvips $< -o
@@ -15,7 +18,8 @@ all: $(TARGETS)
 	fig2dev -L eps $< > $@
 
 clean:
-	rm -f *.dvi *.ps *.pdf *.aux *.log *.bak *.eps
+	rm -f *.dvi *.ps *.pdf *.aux *.log *.bak *.eps *.tags
+	rm -rf doxygen
 
 clean_intermediate_files:
 	rm -f *.aux *.log *.bak *.eps
