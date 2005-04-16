@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: regexp.c,v 1.2 2005/04/09 19:16:09 afrab Exp $
+ * $Id: regexp.c,v 1.3 2005/04/16 20:55:51 afrab Exp $
  */
 #include "config.h"
 #include <stdio.h>
@@ -41,6 +41,32 @@
 
 static void print_node(NODE *n);
 
+NODE* regexp_createNODE(int type,char v,NODE *fg,NODE *fd)
+{
+  NODE *x;
+  x=(NODE *)malloc(sizeof(NODE));
+  x->type      = type;
+  x->var       = v;
+  x->fd        = fd;
+  x->fg        = fg;
+  x->numero    = 0;
+  x->position  = 0;
+  x->annulable = 0;
+  x->PP        = 0;
+  x->DP        = 0;
+  return x;
+}
+
+
+void regexp_delete_tree(NODE *root)
+{
+  if (root == NULL)
+    return;
+  regexp_delete_tree(root->fg);
+  regexp_delete_tree(root->fd);
+  free(root);
+}
+
 //////////////////////////////////////////////////
 // position, annulable, PP, DP
 // r   = root
@@ -63,7 +89,6 @@ void regexp_parcours(NODE* r, int *p, int *n, int ptl[])
       r->position = *p;
       ptl[*p] = r->var;
       *p = *p + 1;
-
       r->annulable = 0;
       r->PP = 1 << (r->position - 1);
       r->DP = 1 << (r->position - 1);
@@ -184,13 +209,13 @@ void regexp_print_ptl(int ptl[])
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 
-static void print_tree_nodes(FILE* f, NODE* n)
+static void print_tree_nodes(FILE* f, NODE* n, int detail)
 {
   if (n == NULL) 
     return; 
 
-  print_tree_nodes(f,n->fg);
-  print_tree_nodes(f,n->fd);
+  print_tree_nodes(f,n->fg,detail);
+  print_tree_nodes(f,n->fd,detail);
   
   fprintf(f,"%d [ label=\"",n->numero);
   switch (n->type)
@@ -208,7 +233,12 @@ static void print_tree_nodes(FILE* f, NODE* n)
       fprintf(f,"*");
       break;
     }
-  fprintf(f,"\\n annulable=%d\\n PP=0x%08x\\n DP=0x%08x\"];\n",n->annulable,n->PP,n->DP);
+  if (detail)
+    {
+      fprintf(f,"\\n annulable=%d\\n PP=0x%08x\\n DP=0x%08x",
+	      n->annulable,n->PP,n->DP);
+    }
+  fprintf(f,"\"];\n");
 }
 
 static void print_tree_edges(FILE* f, NODE* n)
@@ -235,15 +265,14 @@ static void print_tree_edges(FILE* f, NODE* n)
     }
 }
 
-void regexp_print_tree(NODE* n)
+void regexp_print_tree(NODE* n, char* name, int detail)
 {
   FILE* f;
   pid_t   pid; 
-  char name[] = "tree";
   
   f=fopen(name,"w");
   fprintf(f,"digraph %s {\n",name);
-  print_tree_nodes(f,n);
+  print_tree_nodes(f,n,detail);
   print_tree_edges(f,n);
   fprintf(f,"fontsize=20;\n");
   fprintf(f,"}\n");

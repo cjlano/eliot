@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software               
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-# $Id: Makefile.am,v 1.5 2005/04/09 19:16:09 afrab Exp $ 
+# $Id: Makefile.am,v 1.6 2005/04/16 20:55:51 afrab Exp $ 
 
 noinst_LIBRARIES = libdic.a
 
@@ -52,10 +52,10 @@ regexp_YFLAGS=-d
 regexp_CFLAGS=${REGEXP_FLAGS}
 
 regexp_SOURCES=	                \
+	er.y			\
+	er.l			\
 	regexpmain.c		\
 	regexp.c regexp.h	\
-	automaton.h automaton.c	\
-	er.y			\
-	er.l			
+	automaton.h automaton.c	
 
 # endif

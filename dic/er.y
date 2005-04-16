@@ -3,79 +3,117 @@
 #include <malloc.h>  
 #include <stdlib.h> 
 #include "regexp.h"
+#include "regexp-er.h"
+#include "scanner.h"
 
-int yylex();
-void yyerror(char*);
-
-NODE *createNODE(int type, char v, NODE *fg, NODE *fd);
+void yyerror (yyscan_t scanner, NODE** root, char const *msg);
 
 %}   
 %union {
-  char variable;
+  char c;
   NODE *NODE_TYPE;
 };
 
-%token  DIESE PAR_G PAR_D FIN
-%token  <variable>  VARIABLE
-%left   OR
+/* Pure yylex.  */
+%pure-parser
+%parse-param {yyscan_t yyscanner}
+%parse-param {NODE **root}
+%lex-param   {yyscan_t yyscanner}
+
+/* Token declaration */
+%token  SHARP
+%token  L_BRACKET R_BRACKET 
+%token  L_SQBRACKET R_SQBRACKET 
+%token  HAT 
+%token  <c>  CHAR
 %left   AND
+%left   OR
 %left   STAR
 %type   <NODE_TYPE> var
 %type   <NODE_TYPE> expr
+%type   <NODE_TYPE> exprdis
 %start  start        
 %%
 
-/* start : ex ex */
-/*        { root=createNODE(NODE_TOP,'\0',$1,$2); YYACCEPT; } */
-/*      ; */
-
-start: expr FIN 
-     { root = createNODE(NODE_AND,'\0',$1,createNODE(NODE_VAR,'#',NULL,NULL)); YYACCEPT; }
+start: L_BRACKET expr R_BRACKET AND SHARP
+     { 
+       NODE *sharp;
+       NODE *er;
+       sharp = regexp_createNODE(NODE_VAR,'#',NULL,NULL);
+       er = $2;
+       *root = regexp_createNODE(NODE_AND,'\0',er,sharp);
+       YYACCEPT; 
+     }
      ;
 
-expr : var                   {$$=$1;}  
-     | expr expr             {$$=createNODE(NODE_AND,'\0',$1,$2);}
-     | expr AND expr         {$$=createNODE(NODE_AND,'\0',$1,$3);}
-     | PAR_G expr PAR_D      {$$=$2;}
-     | expr OR expr          {$$=createNODE(NODE_OR,'\0',$1,$3);}
-     | var STAR              {$$=createNODE(NODE_STAR,'\0',$1,NULL);}
-     | PAR_G expr PAR_D STAR {$$=createNODE(NODE_STAR,'\0',$2,NULL);}
+expr : var                      
+       {
+	 $$=$1;
+       }  
+     | expr expr                
+       {
+	 $$=regexp_createNODE(NODE_AND,'\0',$1,$2);
+       }
+     | expr AND expr            
+       {
+	 $$=regexp_createNODE(NODE_AND,'\0',$1,$3);
+       }
+     | expr OR expr             
+       {
+	 $$=regexp_createNODE(NODE_OR,'\0',$1,$3);
+       }
+     | var STAR                 
+       {
+	 $$=regexp_createNODE(NODE_STAR,'\0',$1,NULL);
+       }
+     | L_BRACKET expr R_BRACKET 
+       {
+	 $$=$2;
+       }
+     | L_BRACKET expr R_BRACKET STAR    
+       {
+	 $$=regexp_createNODE(NODE_STAR,'\0',$2,NULL);
+       }
+     | L_SQBRACKET exprdis R_SQBRACKET
+       {
+	 $$=$2;
+       }
+     | L_SQBRACKET exprdis R_SQBRACKET STAR
+       {
+	 $$=regexp_createNODE(NODE_STAR,'\0',$2,NULL);
+       }
      ;    
 
-var : VARIABLE
-    {$$=createNODE(NODE_VAR,$1,NULL,NULL);}  
-    ;
+
+
+exprdis: var                      
+       {
+	 $$=$1;
+       }  
+     | exprdis exprdis
+       {
+	 $$=regexp_createNODE(NODE_OR,'\0',$1,$2);
+       }
+     ;
+
+
+
+
+var : CHAR
+       {
+         $$=regexp_createNODE(NODE_VAR,$1,NULL,NULL);
+       }  
+     ;
 
 %%
 /*--------------------------------------------------------         
- *                FONCTIONS LEX/YACC
- *--------------------------------------------------------*/
-
-void yyerror(char *s)
-{
-  printf("\n erreur ! (%s)\n",s);
-  exit(1);
-}
-
-/*--------------------------------------------------------         
  *
  *--------------------------------------------------------*/
-NODE *createNODE(int type,char v,NODE *fg,NODE *fd)
+
+void yyerror (yyscan_t yyscanner, NODE** root, char const *msg)
 {
-  NODE *x;
-  x=(NODE *)malloc(sizeof(NODE));
-
-  x->type      = type;
-  x->var       = v;
-  x->fd        = fd;
-  x->fg        = fg;
-
-  x->numero    = 0;
-  x->position  = 0;
-  x->annulable = 0;
-  x->PP        = 0;
-  x->DP        = 0;
-  return (x);
+  printf("\n erreur ! (%s)\n",msg);
 }
+
 
 

@@ -154,10 +154,11 @@ print_header(char* filename)
 void
 print_node_hex(int i, Dictionary dic)
 {
+  unsigned int* pe;
   Dawg_edge e = dic->dawg[i];
+  pe = (unsigned int*)&e;
   printf("0x%s %s |%2d ptr=%2d t=%d l=%d f=%d chr=%d (%c)\n",
-	 offset(&(dic->dawg[0]),&(dic->dawg[i])),
-	 hexl(*((unsigned int*)&e)),i,
+	 offset(&(dic->dawg[0]),&(dic->dawg[i])),hexl(*pe),i,
 	 e.ptr, e.term, e.last, e.fill, e.chr, e.chr +'a' -1);
 }
 

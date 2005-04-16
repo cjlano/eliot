@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: regexp.h,v 1.2 2005/04/09 19:16:09 afrab Exp $
+ * $Id: regexp.h,v 1.3 2005/04/16 20:55:51 afrab Exp $
  */
 #ifndef _TREE_H_
 #define _TREE_H_
@@ -45,12 +45,15 @@ extern NODE* root;
 /* max regexp length */
 #define REGEXP_MAX 32 
 
+NODE *regexp_createNODE(int type,char v,NODE *fg,NODE *fd);
+void regexp_delete_tree(NODE * root);
+
 void regexp_parcours(NODE* r, int *p, int *n, int ptl[]);
 void regexp_possuivante(NODE* r, int PS[]);
 
 void regexp_print_PS(int PS[]);
 void regexp_print_ptl(int ptl[]);
-void regexp_print_tree(NODE* n);
+void regexp_print_tree(NODE* n, char* name, int detail);
 
 
 #endif

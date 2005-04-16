@@ -3,22 +3,25 @@
 #include "regexp.h"
 #include "regexp-er.h"
 
-#define YY_NO_UNPUT
-
 %}
-%option noyywrap
+%option 8bit reentrant bison-bridge
+%option header-file="scanner.h"
+%option nounput noyywrap
 
 alphabet [a-zA-Z]
 %%
 
-{alphabet} {yylval.variable = yytext[0]; return VARIABLE;}
-"("        {return PAR_G;}
-")"        {return PAR_D;}
-"#"        {return DIESE;}
+{alphabet} {yylval_param->c = yytext[0]; return CHAR;}
+"["        {return L_SQBRACKET;}
+"]"        {return R_SQBRACKET;}
+"("        {return L_BRACKET;}
+")"        {return R_BRACKET;}
+"^"        {return HAT;}
+
 "*"        {return STAR;}
 "+"        {return OR;}
 "."        {return AND;}
 
-"\n"       {return FIN;}
+"#"        {return SHARP;}
 %%
 

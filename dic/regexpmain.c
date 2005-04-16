@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: regexpmain.c,v 1.1 2005/04/09 19:16:09 afrab Exp $
+ * $Id: regexpmain.c,v 1.2 2005/04/16 20:55:51 afrab Exp $
  */
 #include "config.h"
 #include <stdio.h>
@@ -24,6 +24,8 @@
 #include <string.h>
 
 #include "regexp.h"
+#include "regexp-er.h"
+#include "scanner.h"
 #include "automaton.h"
 
 #ifndef PDBG
@@ -34,14 +36,28 @@
 #endif
 #endif
 
-NODE* root;
+extern int yyparse(yyscan_t scanner, NODE ** root);
 
-int main(int argc, char* argv[])
+
+int buildauto(char* er)
 {
-  int i,p,n;
-  int ptl[REGEXP_MAX+1]; // mapping postition -> lettre
-  int PS [REGEXP_MAX+1]; // Position Suivante [ 1 << (position-1)] = \cup { 1 << (p-1) | p \in position acceptée }
+  int i,p,n,value;
+
+  int ptl[REGEXP_MAX+1]; 
+  int PS [REGEXP_MAX+1]; 
+
+  NODE* root;
+  yyscan_t scanner;
+  YY_BUFFER_STATE buf;
+
   automaton a;
+
+  char stringbuf[250];
+
+
+  /* (expr).# */
+  sprintf(stringbuf,"(%s).#",er);
+
 
   for(i=0; i < REGEXP_MAX; i++)
     {
@@ -49,25 +65,64 @@ int main(int argc, char* argv[])
       ptl[i] = 0;
     }
 
-  yyparse(argv[1]);
+  yylex_init( &scanner );
+  buf   = yy_scan_string( stringbuf, scanner );
+  root  = NULL;
+  value = yyparse( scanner , &root);
+  yy_delete_buffer(buf,scanner);
+  yylex_destroy( scanner );
+
+  if (value)
+    {
+      regexp_delete_tree(root);
+      return 0;
+    }
 
   n = 1;
   p = 1;
-  regexp_parcours(root,&p,&n,ptl);
+  regexp_parcours(root, &p, &n, ptl);
   PS [0] = p - 1;
   ptl[0] = p - 1;
-  PDBG(printf("** regexp: nombre de terminaux: %d\n",PS[0]));
-  PDBG(printf("** regexp: nombre de noeuds dans l'arbre: %d\n",n));
-  PDBG(regexp_print_ptl(ptl));
+
+  /*  
+  printf("** regexp: nombre de terminaux: %d\n",PS[0]);
+  printf("** regexp: nombre de noeuds dans l'arbre: %d\n",n);
+  printf("** position des lettres : \n");
+  regexp_print_ptl(ptl);
+  */
 
   regexp_possuivante(root,PS);
-  PDBG(regexp_print_tree(root));
-  PDBG(regexp_print_PS(PS));
+
+  /*
+  regexp_print_tree(root,"tree",1);
+  regexp_print_PS(PS);
+  */
 
   a = automaton_build(root->PP,ptl,PS);
-  PDBG(printf("** auto: nombre d'états: %d\n",a->nstate));
-  automaton_dump(a,"regexp.auto");
-  
+
+  /*
+  printf("** auto: nombre d'états: %d\n",a->nstate);
+  */
+
+  automaton_dump(a,"auto");
   automaton_delete(a);
+  regexp_delete_tree(root);
+  return 0;
+}
+
+int main(int argc, char* argv[])
+{
+  char stringbuf[200];
+  strcpy(stringbuf,".");
+
+  while (strcmp(stringbuf,""))
+    {
+      fprintf(stdout,"entrer une ER:\n");
+      fgets(stringbuf,sizeof(stringbuf),stdin);
+      /* strip \n */
+      stringbuf[strlen(stringbuf) - 1] = '\0';
+      
+      buildauto(stringbuf);
+    }
   return 0;
 }
