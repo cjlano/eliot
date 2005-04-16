@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: freegame.cpp,v 1.10 2005/04/02 21:21:30 ipkiss Exp $
+ * $Id: freegame.cpp,v 1.11 2005/04/16 15:43:14 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -206,14 +206,13 @@ int FreeGame::pass(const string &iToChange, int n)
     vector<Tile> tilesVect;
     for (unsigned int i = 0; i < iToChange.size(); i++)
     {
-        Tile tile(iToChange[i]);
-        if (islower(iToChange[i]))
-            tile = Tile::Joker();
+        Tile tile(toupper(iToChange[i]));
         tilesVect.push_back(tile);
     }
 
     int res = helperPass(tilesVect, n);
-    endTurn();
+    if (res == 0)
+        endTurn();
     return res;
 }
 
