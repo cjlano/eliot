@@ -1,0 +1,45 @@
+[?] pour l'aide
+commande> mode partie libre
+[?] pour l'aide
+commande> Joueur 0: 
+Joueur 1: DEPKAS
+Joueur 2: DILMQ
+commande> Joueur 0:  392
+Joueur 1:  258
+Joueur 2:  205
+commande> Eliot
+
+Game type: Free game
+Player 0: Computer
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  RTADHIR | HARDI           |  H4 |  26 | 0 |  
+    2 |  ANO?EEA | ANEE            |  I4 |  18 | 1 |  
+    3 |  WIG?TEN | IWaN            |  J1 |  38 | 2 |  
+    4 | RT+NTEIU | INTUITER        |  1F |  77 | 0 | *
+    5 | AO?+TFBA | BAFOuAT         |  J7 |  69 | 1 | *
+    6 | EGT+OSTR | GROTTES         |  9B |  70 | 2 | *
+    7 |  UEEOERE | GOUREE          |  B9 |  18 | 0 |  
+    8 |  EAMIZUO | INTUITEREZ      |  1F |  57 | 1 |  
+    9 |  XRUMGRQ | GRAUX           | 12H |  34 | 2 |  
+   10 | EE+ONLAS | ENOLATES        |  E4 |  82 | 0 | *
+   11 | AIMOU+NN | NOMINAUX        |  L5 |  69 | 1 | *
+   12 | MQR+LIHJ | HI              |  F6 |  28 | 2 |  
+   13 |  PLCYEFE | CAPEYE          |  3I |  48 | 0 |  
+   14 |  EVLETDE | VOLETE          |  D8 |  36 | 1 |  
+   15 | JLMQR+OB | ROB             |  O3 |  25 | 2 |  
+   16 | FL+UUSML | FULL            |  D1 |  24 | 0 |  
+   17 | DE+ICPEV | VICE            |  C2 |  27 | 1 |  
+   18 | JLMQ+DSI | JANS            |  5G |  24 | 2 |  
+   19 | MSU+SAAI | ASSUMAI         | 15A |  85 | 0 | *
+
+   Total: 855
+
+Rack 0: 
+Rack 1: DEP+KAS
+Rack 2: DILMQ
+commande> fin du mode partie libre
+commande> 

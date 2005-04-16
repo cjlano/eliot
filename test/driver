@@ -1,0 +1,46 @@
+# Each regression scenario must be on one line, with the following syntax:
+# scenario_name   rand_seed
+#
+# The rand seed is a number, used to initialize the random numbers generator.
+# To each scenario 'scenario' correspond an input file 'scenario.input' and a
+# reference file 'scenario.ref'. The regression gives the input file to the
+# text interface (along with the rand seed), which generates a 'scenario.run'
+# file. This file is then compared to the reference file, and if there is no
+# difference the scenario is considered successful.
+#
+# Everything after a # is ignored.
+
+
+#
+# Training mode
+#
+
+# Check various words in the dictionary
+training_dict       0  # randseed unused
+# Display the tiles remaining in the bag
+training_bag        0  # randseed unused
+# Enter a rack, then display all the possibilities
+training_search     0  # randseed unused
+# Several ways of getting a rack and playing a word
+training_play       4
+
+
+#
+# Duplicate mode
+#
+
+# 2 AI players
+duplicate_2_ai      5
+
+
+#
+# Free game mode
+#
+
+# The human player always passes, letting the AI player do what it wants
+freegame_passing    1
+# 2 human players, changing letters a lot
+freegame_change     3
+# Three AI players
+freegame_3_ai       2
+

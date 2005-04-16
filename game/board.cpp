@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: board.cpp,v 1.5 2005/04/02 17:59:07 ipkiss Exp $
+ * $Id: board.cpp,v 1.6 2005/04/16 15:47:59 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -455,6 +455,6 @@ void Board::checkDouble()
                 printf("joker diff %d %d\n", row, col);
         }
     }
-    printf("**\n");
 }
 #endif
+

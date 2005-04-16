@@ -1,0 +1,45 @@
+[?] pour l'aide
+commande> mode duplicate
+[?] pour l'aide
+commande> Joueur 0:  884
+Joueur 1:  884
+commande> Joueur 0: ENOT
+Joueur 1: ENOT
+commande>  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
+ 0 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0 0 1 0 0 0 0 0 0 0
+commande> Eliot
+
+Game type: Duplicate
+Player 0: Computer
+Player 1: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  EA?AEBF | FABAcEE         |  H4 |  80 | 0 | *
+    2 |  LMUAEYE | YEBLE           |  6F |  38 | 0 |  
+    3 | AMU+JEIG | MEJUGEAI        |  9G |  78 | 0 | *
+    4 |  LEHNMGA | HALE            |  8L |  43 | 0 |  
+    5 | GMN+NSEO | MENSONGE        |  O1 |  83 | 0 | *
+    6 |  ARAURIU | FURIA           |  4H |  16 | 0 |  
+    7 | ARU+TSDE | DATEURS         | 11B |  78 | 0 | *
+    8 |  AONIAVP | PAVANE          |  2J |  34 | 0 |  
+    9 | IO+DSONE | NODOSITE        |  D5 |  70 | 0 | *
+   10 |  OXTOLNS | LUXONS          |  J8 |  35 | 0 |  
+   11 | OT+ZMIAI | MAZOT           |  8A |  45 | 0 |  
+   12 | IIO+WIFT | WU              | F10 |  31 | 0 |  
+   13 | FIIIOT+C | CHETIF          |  L7 |  28 | 0 |  
+   14 | IIO+LBEV | BALIVE          | C10 |  26 | 0 |  
+   15 | IO+PL?KC | ChEIK           | 15A |  48 | 0 |  
+   16 | LOP+EERR | OPERERA         |  B2 |  22 | 0 |  
+   17 | L+IERDTU | DUIT            |  C1 |  22 | 0 |  
+   18 | ELR+RNUE | DELURER         |  1C |  27 | 0 |  
+   19 | N+SUOSHT | MEJUGEAIS       |  9G |  29 | 0 |  
+   20 | HNOSTU+I | SUSHI           | 13J |  31 | 0 |  
+   21 |  NOT+EQT | QAT             |  M1 |  20 | 0 |  
+
+   Total: 884
+
+Rack 0: ENOT
+Rack 1: ENOT
+commande> fin du mode duplicate
+commande> 
