@@ -14,28 +14,32 @@ void yyerror (yyscan_t scanner, NODE** root, char const *msg);
   NODE *NODE_TYPE;
 };
 
-/* Pure yylex.  */
+%defines
 %pure-parser
 %parse-param {yyscan_t yyscanner}
 %parse-param {NODE **root}
 %lex-param   {yyscan_t yyscanner}
+/* %locations        */
+/* %name-prefix="ER" */
 
 /* Token declaration */
-%token  SHARP
-%token  L_BRACKET R_BRACKET 
-%token  L_SQBRACKET R_SQBRACKET 
-%token  HAT 
 %token  <c>  CHAR
-%left   AND
-%left   OR
-%left   STAR
+%token  L_SQBRACKET R_SQBRACKET 
+%token  L_BRACKET R_BRACKET 
+%token  HAT 
+%token  NIMP
+%token  CONS
+%token  VOYL
+%token  PLUS
+%token  STAR
+%token  SHARP
 %type   <NODE_TYPE> var
 %type   <NODE_TYPE> expr
 %type   <NODE_TYPE> exprdis
 %start  start        
 %%
 
-start: L_BRACKET expr R_BRACKET AND SHARP
+start: L_BRACKET expr R_BRACKET SHARP
      { 
        NODE *sharp;
        NODE *er;
@@ -53,14 +57,6 @@ expr : var
      | expr expr                
        {
 	 $$=regexp_createNODE(NODE_AND,'\0',$1,$2);
-       }
-     | expr AND expr            
-       {
-	 $$=regexp_createNODE(NODE_AND,'\0',$1,$3);
-       }
-     | expr OR expr             
-       {
-	 $$=regexp_createNODE(NODE_OR,'\0',$1,$3);
        }
      | var STAR                 
        {
@@ -85,7 +81,6 @@ expr : var
      ;    
 
 
-
 exprdis: var                      
        {
 	 $$=$1;
@@ -98,22 +93,24 @@ exprdis: var
 
 
 
-
 var : CHAR
        {
          $$=regexp_createNODE(NODE_VAR,$1,NULL,NULL);
        }  
+     | NIMP
+       {
+         $$=regexp_createNODE_AllMatch();
+       }
+     | VOYL
+       {
+         $$=regexp_createNODE_VoylMatch();
+       }
+     | CONS
+       {
+         $$=regexp_createNODE_ConsMatch();
+       }
      ;
 
 %%
-/*--------------------------------------------------------         
- *
- *--------------------------------------------------------*/
-
-void yyerror (yyscan_t yyscanner, NODE** root, char const *msg)
-{
-  printf("\n erreur ! (%s)\n",msg);
-}
-
 
 

@@ -3,6 +3,9 @@
 #include "regexp.h"
 #include "regexp-er.h"
 
+/* %option bison-locations */
+/* %option prefix="ER"     */
+
 %}
 %option 8bit reentrant bison-bridge
 %option header-file="scanner.h"
@@ -18,9 +21,12 @@ alphabet [a-zA-Z]
 ")"        {return R_BRACKET;}
 "^"        {return HAT;}
 
+"."        {return NIMP;}
+":c:"      {return CONS;}
+":v:"      {return VOYL;}
+
+"+"        {return PLUS;}
 "*"        {return STAR;}
-"+"        {return OR;}
-"."        {return AND;}
 
 "#"        {return SHARP;}
 %%

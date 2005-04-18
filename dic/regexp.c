@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: regexp.c,v 1.3 2005/04/16 20:55:51 afrab Exp $
+ * $Id: regexp.c,v 1.4 2005/04/18 17:40:36 afrab Exp $
  */
 #include "config.h"
 #include <stdio.h>
@@ -39,8 +39,6 @@
 #endif
 #endif
 
-static void print_node(NODE *n);
-
 NODE* regexp_createNODE(int type,char v,NODE *fg,NODE *fd)
 {
   NODE *x;
@@ -57,6 +55,20 @@ NODE* regexp_createNODE(int type,char v,NODE *fg,NODE *fd)
   return x;
 }
 
+NODE *regexp_createNODE_AllMatch()
+{
+  return regexp_createNODE(NODE_VAR,'A',NULL,NULL);
+}
+
+NODE *regexp_createNODE_ConsMatch()
+{
+  return regexp_createNODE(NODE_VAR,'C',NULL,NULL);
+}
+
+NODE *regexp_createNODE_VoylMatch()
+{
+  return regexp_createNODE(NODE_VAR,'V',NULL,NULL);
+}
 
 void regexp_delete_tree(NODE *root)
 {
@@ -67,13 +79,15 @@ void regexp_delete_tree(NODE *root)
   free(root);
 }
 
-//////////////////////////////////////////////////
+static void print_node(NODE *n);
+
+/*////////////////////////////////////////////////
 // position, annulable, PP, DP
 // r   = root
 // p   = current leaf position
 // n   = current node number
 // ptl = position to letter
-//////////////////////////////////////////////////
+////////////////////////////////////////////////*/
 
 void regexp_parcours(NODE* r, int *p, int *n, int ptl[])
 {
@@ -119,9 +133,9 @@ void regexp_parcours(NODE* r, int *p, int *n, int ptl[])
   PDBG(print_node(r));
 }
 
-//////////////////////////////////////////////////
+/*////////////////////////////////////////////////
 // PosSuivante
-//////////////////////////////////////////////////
+////////////////////////////////////////////////*/
 
 void regexp_possuivante(NODE* r, int PS[])
 {
@@ -152,8 +166,8 @@ void regexp_possuivante(NODE* r, int PS[])
 }
 
 
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
+/*////////////////////////////////////////////////
+////////////////////////////////////////////////*/
 static void print_node(NODE *n)
 {
   if (n == NULL)
@@ -179,8 +193,8 @@ static void print_node(NODE *n)
   printf(" DP: 0x%08x\n",n->DP);
 }
 
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
+/*////////////////////////////////////////////////
+////////////////////////////////////////////////*/
 
 void regexp_print_PS(int PS[])
 {
@@ -192,8 +206,8 @@ void regexp_print_PS(int PS[])
     }
 }
 
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
+/*////////////////////////////////////////////////
+////////////////////////////////////////////////*/
 
 void regexp_print_ptl(int ptl[])
 {
@@ -206,8 +220,8 @@ void regexp_print_ptl(int ptl[])
   printf("\n");
 }
 
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
+/*////////////////////////////////////////////////
+////////////////////////////////////////////////*/
 
 static void print_tree_nodes(FILE* f, NODE* n, int detail)
 {

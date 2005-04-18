@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: dic_search.c,v 1.5 2005/04/09 19:16:09 afrab Exp $
+ * $Id: dic_search.c,v 1.6 2005/04/18 17:40:36 afrab Exp $
  */
 
 #include <ctype.h>
@@ -446,13 +446,14 @@ void
 Dic_search_RegE(const Dictionary dic, const char* mask,
                 char wordlist[RES_REGE_MAX][DIC_WORD_MAX])
 {
-  int  i,p,n;
-  struct params_regexp_t params;
+  int  i;
+  // int  p,n;
+  // struct params_regexp_t params;
 
-  int ptl[REGEXP_MAX+1]; // mapping postition -> lettre
-  int PS [REGEXP_MAX+1]; // Position Suivante [ 1 << (position-1)] = \cup { 1 << (p-1) | p \in position acceptée }
+  // int ptl[REGEXP_MAX+1]; // mapping postition -> lettre
+  // int PS [REGEXP_MAX+1]; // Position Suivante [ 1 << (position-1)] = \cup { 1 << (p-1) | p \in position acceptée }
 
-  automaton a = NULL;
+  // automaton a = NULL;
 
   for(i=0; i < RES_REGE_MAX; i++)
     wordlist[i][0] = 0;
