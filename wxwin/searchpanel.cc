@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: searchpanel.cc,v 1.6 2005/04/09 19:16:56 afrab Exp $ */
+/* $Id: searchpanel.cc,v 1.7 2005/04/19 16:21:15 afrab Exp $ */
 
 #include <string.h>
 #include "wx/panel.h"
@@ -28,7 +28,9 @@
 #include "ewx.h"
 #include "dic.h"
 #include "dic_search.h"
+#include "regexp.h"
 #include "searchpanel.h"
+#include "tile.h"
 #include "configdb.h"
 
 enum {
@@ -200,11 +202,51 @@ PPlus1::compute_enter(wxCommandEvent&)
 class PRegExp : public SimpleSearchPanel
 {
 private:
+  struct search_RegE_list_t llist;
+  void build_letter_lists();
 public:
   void compute_char(wxCommandEvent&) { };
   void compute_enter(wxCommandEvent&);
   PRegExp(wxWindow* parent, int id, Dictionary dic) : SimpleSearchPanel(parent,id,dic) {};
 };
+
+void
+PRegExp::build_letter_lists()
+{
+  list<Tile> all_tiles;
+
+  llist.symbl[0] = RE_ALL_MATCH;
+  llist.symbl[1] = RE_VOWL_MATCH;
+  llist.symbl[2] = RE_CONS_MATCH;
+  llist.symbl[3] = RE_USR1_MATCH;
+  llist.symbl[5] = RE_USR2_MATCH;
+
+  llist.valid[0] = 1; // all letters
+  llist.valid[1] = 1; // vowels
+  llist.valid[2] = 1; // consonants
+  llist.valid[3] = 0; // user defined list 1
+  llist.valid[4] = 0; // user defined list 2
+
+  const list<Tile>& allTiles = Tile::getAllTiles();
+  list<Tile>::const_iterator it;
+  for (it = allTiles.begin(); it != allTiles.end(); it++)
+    {
+      if (! it->isJoker() && ! it->isEmpty())
+	{
+	  llist.letters[0][it->toCode()] = 1;
+
+	  if (it->isVowel())
+	    {
+	      llist.letters[1][it->toCode()] = 1;
+	    }
+
+	  if (it->isConsonant())
+	    {
+	      llist.letters[2][it->toCode()] = 1;
+	    }
+	}
+    }
+}
 
 void
 PRegExp::compute_enter(wxCommandEvent&)
@@ -216,13 +258,15 @@ PRegExp::compute_enter(wxCommandEvent&)
   if (!check())
     return;
 
+  build_letter_lists();
   strncpy(re, t->GetValue().mb_str(),DIC_WORD_MAX);
-  Dic_search_RegE(dic_,re,buff);
+  Dic_search_RegE(dic_,re,buff,&llist);
 
   int resnum = 0;
   wxString res[RES_REGE_MAX];
   for(i=0; i < RES_REGE_MAX && buff[i][0]; i++)
     res[resnum++] =  wxU(buff[i]);
+
   l->Set(resnum,res);
 
   if (l->GetCount() == 0)
@@ -245,5 +289,3 @@ SearchPanel::SearchPanel(wxFrame *parent, Dictionary dic) :
 SearchPanel::~SearchPanel()
 {
 }
-
-
