@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: gfxboard.cc,v 1.3 2005/02/05 11:14:56 ipkiss Exp $ */
+/* $Id: gfxboard.cc,v 1.4 2005/04/19 21:48:36 afrab Exp $ */
 
 #include <string.h>
 #include <math.h>
@@ -30,13 +30,16 @@
 #include "configdb.h"
 #include "gfxboard.h"
 
+
 BEGIN_EVENT_TABLE(GfxBoard, wxWindow)
   EVT_PAINT(GfxBoard::OnPaint)
   EVT_SIZE(GfxBoard::OnSize)
 END_EVENT_TABLE()
 
+
 #define LINE_WIDTH 2
 #define BOARD_SIZE 17
+
 
 GfxBoard::GfxBoard(wxFrame *parent, Game &iGame) :
     wxWindow(parent, -1), m_game(iGame)
@@ -57,12 +60,15 @@ GfxBoard::~GfxBoard(void)
     }
 }
 
+
 void
 GfxBoard::OnSize(wxSizeEvent& e)
 {
   size = GetClientSize();
 
-  board_size = size.GetWidth() < size.GetHeight() ? size.GetWidth() : size.GetHeight();
+  board_size = size.GetWidth() < size.GetHeight() ? 
+    size.GetWidth() : size.GetHeight();
+
   tile_size = (int)((float)board_size / (float)(BOARD_SIZE)) - LINE_WIDTH;
 
   TopLeft  = wxPoint((size.GetWidth()  - (board_size - tile_size/2)) / 2,
@@ -74,6 +80,7 @@ GfxBoard::OnSize(wxSizeEvent& e)
       bmp = NULL;
     }
 }
+
 
 void
 GfxBoard::CreateBMP()
@@ -91,6 +98,7 @@ GfxBoard::CreateBMP()
         }
     }
 }
+
 
 void
 GfxBoard::OnPaint(wxPaintEvent&)
@@ -123,6 +131,7 @@ GfxBoard::OnPaint(wxPaintEvent&)
       DrawBoard(&dc);
     }
 }
+
 
 void
 GfxBoard::Refresh(board_refresh_t force)
@@ -170,30 +179,43 @@ GfxBoard::Refresh(board_refresh_t force)
     }
 }
 
+
 void
 GfxBoard::DrawTile(wxDC *dc, wxString& wxs, int row, int column)
 {
-  long width,height;
-  long posx,posy;
+  int l;
+  char c = 0;
+  wxCoord width, height;
+  wxCoord posx, posy;
 
+  // redraw borders 
   if (row && column)
     dc->DrawRectangle(column*(tile_size+LINE_WIDTH) + TopLeft.x,
 		      row*(tile_size+LINE_WIDTH)    + TopLeft.y,
 		      tile_size + 2*LINE_WIDTH,
 		      tile_size + 2*LINE_WIDTH);
 
-  const char* ptr = wxs.mb_str();
-  if (wxs.Len() && isalnum(*ptr))
-    {
-      //
+  //   const char* ptr = wxs.mb_str();
+  //   if (wxs.Len() && isalnum(*ptr))
+  //     {
 
-      // letter
+  const char* ptr = (const char*)wxs.c_str();
+  l = strlen(ptr);
+  if (ptr)
+    c = *ptr;
+
+  if (l > 0 && isalnum(c))
+    {
+      // we got a letter (or 2 chars for coordinates > 9)
       dc->GetTextExtent(wxs,&width,&height);
-      posx = TopLeft.x + column*(tile_size+LINE_WIDTH) + LINE_WIDTH + (tile_size - width) / 2;
-      posy = TopLeft.y + row*(tile_size+LINE_WIDTH) + LINE_WIDTH + (tile_size - height) / 2;
+      posx = TopLeft.x + column*(tile_size+LINE_WIDTH) + LINE_WIDTH +
+	(tile_size - width) / 2;
+      posy = TopLeft.y +    row*(tile_size+LINE_WIDTH) + LINE_WIDTH + 
+	(tile_size - height) / 2;
       dc->DrawText(wxs,posx,posy);
     }
 }
+
 
 void
 GfxBoard::DrawBoard(wxDC *dc)
@@ -219,7 +241,9 @@ GfxBoard::DrawBoard(wxDC *dc)
   wxColour colLx2         = config.getColour(wxString(BCOLOURLX2));
 
   wxPen   *LinesPen = wxThePenList->FindOrCreatePen(colLines, 1, wxSOLID);
-  wxBrush *BackgroundBrush = wxTheBrushList->FindOrCreateBrush(colBackground, wxSOLID);
+  wxBrush *BackgroundBrush = wxTheBrushList->FindOrCreateBrush(colBackground, 
+							       wxSOLID);
+
   wxBrush *Wx3Brush = wxTheBrushList->FindOrCreateBrush(colWx3, wxSOLID);
   wxBrush *Wx2Brush = wxTheBrushList->FindOrCreateBrush(colWx2, wxSOLID);
   wxBrush *Lx3Brush = wxTheBrushList->FindOrCreateBrush(colLx3, wxSOLID);
@@ -286,7 +310,7 @@ GfxBoard::DrawBoard(wxDC *dc)
                 dc->SetTextBackground(colWx3);
             }
 
-            wxs = (wxChar)m_game.getBoardChar(row, column);
+            wxs = wxString((wxChar)m_game.getBoardChar(row, column));
             attr = m_game.getBoardCharAttr(row, column);
             if ((paintedboard_char[row - BOARD_MIN][column - BOARD_MIN] != wxs.GetChar(0)) ||
                 (paintedboard_attr[row - BOARD_MIN][column - BOARD_MIN] != attr))

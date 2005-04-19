@@ -16,7 +16,14 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: gfxboard.h,v 1.2 2005/02/05 11:14:56 ipkiss Exp $ */
+/* $Id: gfxboard.h,v 1.3 2005/04/19 21:48:37 afrab Exp $ */
+
+/**
+ *  \file gfxboard.h
+ *  \brief  Game board graphical view
+ *  \author Antoine Fraboulet
+ *  \date   2002
+ */
 
 #ifndef _GFXBOARD_H
 #define _GFXBOARD_H
@@ -32,7 +39,6 @@ typedef enum {
   BOARD_FORCE_REFRESH
 } board_refresh_t;
 
-class Game;
 
 class GfxBoard : public wxWindow
 {
