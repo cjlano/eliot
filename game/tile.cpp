@@ -2,7 +2,7 @@
  * Copyright (C) 1999-2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: tile.cpp,v 1.2 2005/04/09 14:56:03 afrab Exp $
+ * $Id: tile.cpp,v 1.3 2005/04/19 16:24:32 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@
 #define TILE_JOKER     '?'
 #define TILE_DUMMY     '%'
 
+#define TILE_IDX_DUMMY   0
 #define TILE_IDX_START   1
 #define TILE_IDX_END    26
 #define TILE_IDX_JOKER  27
@@ -162,6 +163,14 @@ char Tile::toChar() const
     return m_char;
 }
 
+int Tile::toCode() const
+{
+    if (m_dummy)
+        return TILE_IDX_DUMMY;
+    if (m_joker)
+        return TILE_IDX_DUMMY;
+    return (TILE_IDX_START + m_char - TILE_START);
+}
 
 bool Tile::operator <(const Tile &iOther) const
 {

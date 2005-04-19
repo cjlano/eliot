@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: tile.h,v 1.3 2005/04/09 14:56:03 afrab Exp $
+ * $Id: tile.h,v 1.4 2005/04/19 16:24:32 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,8 @@ public:
     unsigned int maxNumber() const;
     unsigned int getPoints() const;
     char toChar() const;
-
+    int toCode() const;
+    
     static const Tile &dummy()  { return m_TheDummy; }
     static const Tile &Joker()  { return m_TheJoker; }
     static const list<Tile>& getAllTiles();
