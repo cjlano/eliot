@@ -16,13 +16,11 @@
 # along with this program; if not, write to the Free Software               
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-# $Id: Makefile.am,v 1.9 2005/04/19 18:07:14 afrab Exp $ 
+# $Id: Makefile.am,v 1.10 2005/04/19 18:09:44 afrab Exp $ 
 
 noinst_LIBRARIES = libdic.a
 
 INCLUDES = -I$(top_srcdir)
-
-DEBUGFLAGS=-DDEBUG_RE
 
 libdic_a_CFLAGS=$(DEBUGFLAGS)
 libdic_a_YFLAGS=-d
@@ -69,7 +67,6 @@ listdic_SOURCES=		\
 	dic.c dic.h		\
 	listdic.c
 
-regexp_CFLAGS=${REGEXP_FLAGS} $(DEBUGFLAGS)
 regexp_SOURCES=	regexpmain.c		
 regexp_LDADD = libdic.a
 
