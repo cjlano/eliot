@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: dic_search.c,v 1.7 2005/04/19 16:26:51 afrab Exp $
+ * $Id: dic_search.c,v 1.8 2005/04/19 20:02:55 afrab Exp $
  */
 
 /**
@@ -464,35 +464,43 @@ Dic_search_regexp_rec(struct params_regexp_t *params,
     /* 2 : we search in user defined list */
     for(i=0; i < DIC_SEARCH_REGE_LIST; i++)
       {
-	special_char = params->charlist->symbl[i];
-	next_state   = params->automaton->Dtrans[state][special_char];
-	if (params->charlist->valid[i]                 && // list must be scanned
-	    params->charlist->letters[i][current->chr] && // current->chr is in the list
-	    params->automaton->marque[next_state])        // next state is valid
+	if (params->charlist->valid[i])
 	  {
+	    /* symbol code in automaton */
+	    special_char = params->charlist->symbl[i]; 
+	    /* next possible state using the extra symbol */
+	    next_state   = params->automaton->Dtrans[state][special_char]; 
+
+	    /* current->chr is in the list AND next state is valid */
+	    if (params->charlist->letters[i][current->chr] && 
+		params->automaton->marque[next_state])        
+	      {
 #ifdef DEBUG_RE
-	    fprintf(stderr,"** special char ");
-	    regexp_print_letter(stderr,special_char);
-	    fprintf(stderr," resolves to ");
-	    regexp_print_letter(stderr,current->chr);
-	    fprintf(stderr,"\n");
+		fprintf(stderr,"** special char ");
+		regexp_print_letter(stderr,special_char);
+		fprintf(stderr," resolves to ");
+		regexp_print_letter(stderr,current->chr);
+		fprintf(stderr,"\n");
 #endif
-	    params->word[params->wordlen] = current->chr + 'a' - 1;
-	    params->wordlen ++;
-	    Dic_search_regexp_rec(params,next_state,current,wordlist);
-	    params->wordlen --;
-	    params->word[params->wordlen] = '\0';
-	  }     
+		params->word[params->wordlen] = current->chr + 'a' - 1;
+		params->wordlen ++;
+		Dic_search_regexp_rec(params,next_state,current,wordlist);
+		params->wordlen --;
+		params->word[params->wordlen] = '\0';
+	      }
+	  }
 #ifdef DEBUG_RE
-	else
+	else /* params->charlist->valid[i] */
 	  {
+	    special_char = params->charlist->symbl[i]; 
+	    next_state   = params->automaton->Dtrans[state][special_char]; 
 	    if (params->automaton->marque[next_state] && ! params->charlist->valid[i])
 	      {
 		fprintf(stderr,"special char ");
 		regexp_print_letter(stderr,special_char);
 		fprintf(stderr," appears in automaton but the list is invalid\n");
 	      }
-	  }
+	  } 
 #endif
       }
   } while (!(*current++).last);
@@ -568,15 +576,27 @@ Dic_search_RegE(const Dictionary dic, const char* re,
   fprintf(stderr,"recherche de l'expression %s\n",stringbuf);
   fprintf(stderr,"lettres (%s) :",(list->valid[0])?"valid":"non valide");
   for(i=0; i<DIC_LETTERS; i++)
-    regexp_print_letter(stderr,list->letters[0][i]);
+    if (list->letters[0][i])
+      {
+	//fprintf(stderr,"%c",i+'a'-1);
+	regexp_print_letter(stderr,i);
+      }
   fprintf(stderr,"\n");
   fprintf(stderr,"voyelles (%s) :",(list->valid[1])?"valid":"non valide");
   for(i=0; i<DIC_LETTERS; i++)
-    regexp_print_letter(stderr,list->letters[1][i]);
+    if (list->letters[1][i])
+      {
+	//fprintf(stderr,"%c",i+'a'-1);
+	regexp_print_letter(stderr,i);
+      }
   fprintf(stderr,"\n");
   fprintf(stderr,"consonnes (%s) :",(list->valid[2])?"valid":"non valide");
   for(i=0; i<DIC_LETTERS; i++)
-    regexp_print_letter(stderr,list->letters[2][i]);
+    if (list->letters[2][i])
+      {
+	//fprintf(stderr,"%c",i+'a'-1);
+	regexp_print_letter(stderr,i);
+      }
   fprintf(stderr,"\n");
 #endif
 
