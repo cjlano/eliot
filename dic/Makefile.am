@@ -16,24 +16,40 @@
 # along with this program; if not, write to the Free Software               
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-# $Id: Makefile.am,v 1.8 2005/04/19 16:40:24 afrab Exp $ 
+# $Id: Makefile.am,v 1.9 2005/04/19 18:07:14 afrab Exp $ 
 
 noinst_LIBRARIES = libdic.a
 
 INCLUDES = -I$(top_srcdir)
 
-# DEBUGFLAGS=-DDEBUG_RE
+DEBUGFLAGS=-DDEBUG_RE
 
 libdic_a_CFLAGS=$(DEBUGFLAGS)
 libdic_a_YFLAGS=-d
 libdic_a_SOURCES = 		  \
-	er.l			  \
 	er.y			  \
+	er.l			  \
 	dic_internals.h		  \
 	dic_search.c dic_search.h \
 	dic.c dic.h		  \
 	automaton.c automaton.h   \
 	regexp.c regexp.h	  
+
+nodist_libdic_a_SOURCES=	\
+	er.c			\
+	scanner.h		\
+	libdic_a-er.c 		\
+	libdic_a-er.h
+
+BUILT_SOURCES=er.c 	\
+	scanner.h 	\
+	libdic_a-er.c 	\
+	libdic_a-er.h
+
+CLEANFILES=er.c		\
+	scanner.h 	\
+	libdic_a-er.c	\
+	libdic_a-er.h
 
 ##################################### 
 if BUILD_DICTOOLS
