@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: auxframes.cc,v 1.10 2005/04/09 19:16:56 afrab Exp $ */
+/* $Id: auxframes.cc,v 1.11 2005/04/19 16:20:24 afrab Exp $ */
 
 #include <iostream>
 using namespace std;
@@ -153,19 +153,18 @@ BagFrame::BagFrame(wxFrame* parent, Game& iGame):
 void
 BagFrame::Refresh(refresh_t force)
 {
-    char c;
+    int index;
     wxString buf;
     wxChar format[] = wxT("%c:%2d");
 
     tiles->ClearAll();
 
-    buf.Printf(format, '?', m_game.getNCharInBag('?'), 0);
-    tiles->InsertItem(0, buf);
-
-    for (c = 'A'; c <= 'Z'; c++)
+    const list<Tile>& allTiles = Tile::getAllTiles();
+    list<Tile>::const_iterator it;
+    for (index = 0, it = allTiles.begin(); it != allTiles.end(); index++, it++)
     {
-        buf.Printf(format, c, m_game.getNCharInBag(c));
-        tiles->InsertItem(1 + c - 'A', buf);
+        buf.Printf(format, it->toChar(), m_game.getNCharInBag(*it));
+        tiles->InsertItem(index,buf);
     }
 }
 
