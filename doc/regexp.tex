@@ -8,6 +8,10 @@ expressions rationnelles habituelles.
 
 \section{utilisation}
 
+Les mots recherchés sont complets : la recherche d'une expression
+\verb=e= correspond à l'expression \verb=^e$=. Pour rechercher un 
+motif \verb=m= dans un mot il faut donc utiliser l'expression \verb=.*m.*=
+
 \subsection{caractères}
 
 \begin{itemize}
@@ -15,6 +19,8 @@ expressions rationnelles habituelles.
 \item \texttt{.} :  n'importe quel caractère
 \item \texttt{:v:} : n'importe quelle voyelle 
 \item \texttt{:c:} : n'importe quelle consonne
+\item \texttt{:1:} : liste 1 définie par l'utilisateur
+\item \texttt{:2:} : liste 2 définie par l'utilisateur
 \end{itemize}
 
 \subsection{répétitions}
@@ -37,5 +43,13 @@ expressions rationnelles habituelles.
 \end{itemize}
 
 \subsection{exemples}
+
+\begin{itemize}
+\item \verb=a.*= : liste des mots débutant par la lettre \verb=a=
+\item \verb=.*a= : liste des mots se terminant par la lettre \verb=a=
+\item \verb=.*oula.*= : liste des mots contenant le motif \verb=oula=
+\item \verb=a.*b= : liste des mots débutant par \verb=a= et se terminant par \verb=b=
+\item \verb=.*a.*e.*i.*o.*u.*= : liste des mots contenant les les lettres \verb=aeiou= dans l'ordre
+\end{itemize}
 
 \end{document}

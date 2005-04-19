@@ -73,7 +73,7 @@ The header structure is the following:
 
 #define _COMPIL_KEYWORD_ "_COMPILED_DICTIONARY_"
 
-typedef struct _Dict_header {
+typedef struct _Dict_header {              // offset
   char ident[sizeof(_COMPIL_KEYWORD_)];    // 0x00
   char unused_1;                           // 0x16
   char unused_2;                           // 0x17
@@ -82,7 +82,7 @@ typedef struct _Dict_header {
   unsigned int edgesused;                  // 0x20
   unsigned int nodesused;                  // 0x24
   unsigned int nodessaved;                 // 0x2c
-  unsigned int edgessaved;                 // 0x28
+  unsigned int edgessaved;                 // 0x30
 } Dict_header;
 
 binary output of the header:
@@ -98,11 +98,11 @@ binary output of the header:
 0x2c edges saved :      1 00000001
 ===================================================================
 
-The real array of data begins at offset 0x30. Integer are stored in a
+The real array of data begins at offset 0x34. Integer are stored in a
 machine dependent way. This dictionary was compiled on a i386 and is
-not readable on a machine with a different endianess.  The array is
-stored 'as is' right after the header. Each array cell is a
-bit-structure:
+not readable on a machine with a different endianess (unless swapping
+all necessary information).  The array is stored 'as is' right after 
+the header. Each array cell is a bit-structure on 4 bytes :
 
 typedef struct _Dawg_edge { 
    unsigned int ptr  : 24; 
@@ -115,8 +115,8 @@ typedef struct _Dawg_edge {
 Characters are not stored in ASCII. The order is preserved but
 we changed the values: A=1, B=2, ... This is very easy to do 
 with the ASCII table as ('A' & 0x1f) == ('a' & 0x1f) == 1.
-This may not work on machines that are not using ASCII (like 
-Macintosh.)
+This may not work on machines that are not using ASCII. The dictionary
+can thus handle up to 32 different letters but not more.
 
 offs binary       structure         
 ---- -------- |   ------------------
