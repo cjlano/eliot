@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.h,v 1.14 2005/04/09 16:11:04 afrab Exp $
+ * $Id: game.h,v 1.15 2005/04/19 16:23:04 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -156,7 +156,7 @@ public:
      * The parameter has to be
      * 'a' <= char <= 'z' or 'A' <= char <= 'Z' or '?'
      *************************/
-    int getNCharInBag(char) const;
+    int getNCharInBag(Tile) const;
 
     /**
      * Methods to access already played words.

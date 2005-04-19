@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.cpp,v 1.12 2005/04/09 16:10:25 afrab Exp $
+ * $Id: game.cpp,v 1.13 2005/04/19 16:23:05 afrab Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -753,9 +753,9 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
 /*********************************************************
  *********************************************************/
 
-int Game::getNCharInBag(char c) const
+int Game::getNCharInBag(Tile c) const
 {
-    return m_bag.in(Tile(c));
+    return m_bag.in(c);
 }
 
 
