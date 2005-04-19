@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: searchpanel.cc,v 1.7 2005/04/19 16:21:15 afrab Exp $ */
+/* $Id: searchpanel.cc,v 1.8 2005/04/19 19:59:03 afrab Exp $ */
 
 #include <string.h>
 #include "wx/panel.h"
@@ -213,6 +213,7 @@ public:
 void
 PRegExp::build_letter_lists()
 {
+  int i;
   list<Tile> all_tiles;
 
   llist.symbl[0] = RE_ALL_MATCH;
@@ -226,6 +227,11 @@ PRegExp::build_letter_lists()
   llist.valid[2] = 1; // consonants
   llist.valid[3] = 0; // user defined list 1
   llist.valid[4] = 0; // user defined list 2
+
+  for(i=0; i < DIC_SEARCH_REGE_LIST; i++)
+    {
+      memset(llist.letters[i],0,sizeof(llist.letters[i]));
+    }
 
   const list<Tile>& allTiles = Tile::getAllTiles();
   list<Tile>::const_iterator it;
