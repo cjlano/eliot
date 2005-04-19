@@ -3,3 +3,5 @@ Makefile
 Makefile.in
 eliot
 eliot.exe
+cscope.files
+cscope.out
