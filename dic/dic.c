@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: dic.c,v 1.2 2004/08/07 18:10:42 ipkiss Exp $
+ * $Id: dic.c,v 1.3 2005/04/19 16:26:51 afrab Exp $
  */
 
 #include <stdio.h>
@@ -66,7 +66,7 @@ Dic_load(Dictionary *dic, const char* path)
       *dic = NULL;
       return 5;
     }
-  (*dic)->root = header.root;
+  (*dic)->root   = header.root;
   (*dic)->nwords = header.nwords;
   (*dic)->nnodes = header.nodesused;
   (*dic)->nedges = header.edgesused;

@@ -16,25 +16,27 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: automaton.h,v 1.3 2005/04/09 19:16:09 afrab Exp $
+ * $Id: automaton.h,v 1.4 2005/04/19 16:26:51 afrab Exp $
  */
 
 #ifndef _DIC_AUTOMATON_H_
 #define _DIC_AUTOMATON_H_
 
 struct _automaton {
-  int nterm;
-  int nstate;
-  int init;
-  int **Dtrans;  
-  int *accept; 
-  int *marque;
+  int nterm;       /* (1 << nterm) == index of maximum state */
+  int nstate;      /* number of states                       */
+  int init;        /* index of initial state                 */
+  int **Dtrans;    /* Dtrans[state][letter] == next state    */
+  int *accept;     /* accept[state] == 1 -> accept state     */
+  int *marque;     /* marque[state] == 1 -> valid state      */
 };
 
 typedef struct _automaton* automaton;
 
 automaton automaton_build (int init_state, int *ptl, int *PS);
 void      automaton_delete(automaton a);
-void      automaton_dump  (automaton a, char* filename);
 
+#ifdef DEBUG_RE
+void      automaton_dump  (automaton a, char* filename);
+#endif
 #endif

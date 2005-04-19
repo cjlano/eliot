@@ -15,9 +15,9 @@
 /* You should have received a copy of the GNU General Public License         */
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-/*
- * $Id: regexp.c,v 1.4 2005/04/18 17:40:36 afrab Exp $
- */
+
+/* $Id: regexp.c,v 1.5 2005/04/19 16:26:51 afrab Exp $ */
+
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,15 +27,15 @@
 #endif
 #include <unistd.h>
 
+#include "dic.h"
 #include "regexp.h"
 #include "automaton.h"
 
-
 #ifndef PDBG
-#ifdef DEBUG
-#define PDBG(x) { x ; }
+#ifdef DEBUG_RE2
+#define PDBG(x) x 
 #else
-#define PDBG(x) { }
+#define PDBG(x) 
 #endif
 #endif
 
@@ -55,21 +55,6 @@ NODE* regexp_createNODE(int type,char v,NODE *fg,NODE *fd)
   return x;
 }
 
-NODE *regexp_createNODE_AllMatch()
-{
-  return regexp_createNODE(NODE_VAR,'A',NULL,NULL);
-}
-
-NODE *regexp_createNODE_ConsMatch()
-{
-  return regexp_createNODE(NODE_VAR,'C',NULL,NULL);
-}
-
-NODE *regexp_createNODE_VoylMatch()
-{
-  return regexp_createNODE(NODE_VAR,'V',NULL,NULL);
-}
-
 void regexp_delete_tree(NODE *root)
 {
   if (root == NULL)
@@ -79,15 +64,17 @@ void regexp_delete_tree(NODE *root)
   free(root);
 }
 
-static void print_node(NODE *n);
+#ifdef DEBUG_RE
+static void print_node(FILE*, NODE *n, int detail);
+#endif
 
-/*////////////////////////////////////////////////
-// position, annulable, PP, DP
-// r   = root
-// p   = current leaf position
-// n   = current node number
-// ptl = position to letter
-////////////////////////////////////////////////*/
+/**
+ * computes position, annulable, PP, DP attributes 
+ * @param r   = root
+ * @param p   = current leaf position
+ * @param n   = current node number
+ * @param ptl = position to letter
+ */
 
 void regexp_parcours(NODE* r, int *p, int *n, int ptl[])
 {
@@ -130,12 +117,14 @@ void regexp_parcours(NODE* r, int *p, int *n, int ptl[])
   r->numero = *n;
   *n = *n + 1;
   
-  PDBG(print_node(r));
+  PDBG(print_node(stdout,r,1));
 }
 
-/*////////////////////////////////////////////////
-// PosSuivante
-////////////////////////////////////////////////*/
+/**
+ * computes possuivante 
+ * @param r   = root
+ * @param PS  = next position
+ */
 
 void regexp_possuivante(NODE* r, int PS[])
 {
@@ -165,37 +154,11 @@ void regexp_possuivante(NODE* r, int PS[])
     }
 }
 
-
 /*////////////////////////////////////////////////
-////////////////////////////////////////////////*/
-static void print_node(NODE *n)
-{
-  if (n == NULL)
-    return;
-  
-  switch (n->type)
-    {
-    case NODE_VAR:
-      printf("%c (%d)",n->var,n->position);
-      break;
-    case NODE_OR:
-      printf("OR");
-      break;
-    case NODE_AND:
-      printf("AND");
-      break;
-    case NODE_STAR:
-      printf("STAR");
-      break;
-    }
-  printf("\tannulable: %d",n->annulable);
-  printf(" PP: 0x%08x",n->PP);
-  printf(" DP: 0x%08x\n",n->DP);
-}
-
-/*////////////////////////////////////////////////
+// DEBUG only fonctions
 ////////////////////////////////////////////////*/
 
+#ifdef DEBUG_RE
 void regexp_print_PS(int PS[])
 {
   int i;
@@ -205,10 +168,12 @@ void regexp_print_PS(int PS[])
       printf("%02d: 0x%08x\n", i, PS[i]);
     }
 }
+#endif
 
 /*////////////////////////////////////////////////
 ////////////////////////////////////////////////*/
 
+#ifdef DEBUG_RE
 void regexp_print_ptl(int ptl[])
 {
   int i;
@@ -219,23 +184,39 @@ void regexp_print_ptl(int ptl[])
     }
   printf("\n");
 }
+#endif
 
 /*////////////////////////////////////////////////
 ////////////////////////////////////////////////*/
 
-static void print_tree_nodes(FILE* f, NODE* n, int detail)
+#ifdef DEBUG_RE
+void regexp_print_letter(FILE* f, char l)
 {
-  if (n == NULL) 
-    return; 
+  switch (l)
+    {
+    case RE_ALL_MATCH:  fprintf(f,"(.   [%d])",RE_ALL_MATCH);   break;
+    case RE_VOWL_MATCH: fprintf(f,"(:v: [%d])",RE_VOWL_MATCH); break;
+    case RE_CONS_MATCH: fprintf(f,"(:c: [%d])",RE_CONS_MATCH); break;
+    case RE_USR1_MATCH: fprintf(f,"(:1: [%d])",RE_USR1_MATCH); break;
+    case RE_USR2_MATCH: fprintf(f,"(:2: [%d])",RE_USR2_MATCH); break;
+    default: fprintf(f," (%c [%d]) ",l + 'a' - 1, l); break;
+    }
+}
+#endif
 
-  print_tree_nodes(f,n->fg,detail);
-  print_tree_nodes(f,n->fd,detail);
-  
-  fprintf(f,"%d [ label=\"",n->numero);
+/*////////////////////////////////////////////////
+////////////////////////////////////////////////*/
+
+#ifdef DEBUG_RE
+static void print_node(FILE* f, NODE *n, int detail)
+{
+  if (n == NULL)
+    return;
+
   switch (n->type)
     {
     case NODE_VAR:
-      fprintf(f,"%c (%d)",n->var,n->position);
+      regexp_print_letter(f,n->var);
       break;
     case NODE_OR:
       fprintf(f,"OR");
@@ -247,14 +228,36 @@ static void print_tree_nodes(FILE* f, NODE* n, int detail)
       fprintf(f,"*");
       break;
     }
-  if (detail)
+  if (detail == 2)
     {
       fprintf(f,"\\n annulable=%d\\n PP=0x%08x\\n DP=0x%08x",
 	      n->annulable,n->PP,n->DP);
     }
+}
+#endif 
+
+/*////////////////////////////////////////////////
+////////////////////////////////////////////////*/
+
+#ifdef DEBUG_RE
+static void print_tree_nodes(FILE* f, NODE* n, int detail)
+{
+  if (n == NULL) 
+    return; 
+
+  print_tree_nodes(f,n->fg,detail);
+  print_tree_nodes(f,n->fd,detail);
+
+  fprintf(f,"%d [ label=\"",n->numero);
+  print_node(f,n,detail);
   fprintf(f,"\"];\n");
 }
+#endif
 
+/*////////////////////////////////////////////////
+////////////////////////////////////////////////*/
+
+#ifdef DEBUG_RE
 static void print_tree_edges(FILE* f, NODE* n)
 {
   if (n == NULL)
@@ -278,7 +281,12 @@ static void print_tree_edges(FILE* f, NODE* n)
       break;
     }
 }
+#endif
 
+/*////////////////////////////////////////////////
+////////////////////////////////////////////////*/
+
+#ifdef DEBUG_RE
 void regexp_print_tree(NODE* n, char* name, int detail)
 {
   FILE* f;
@@ -303,4 +311,5 @@ void regexp_print_tree(NODE* n, char* name, int detail)
   }
 #endif
 }
+#endif
 

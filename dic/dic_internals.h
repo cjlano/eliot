@@ -15,35 +15,48 @@
 /* You should have received a copy of the GNU General Public License         */
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-/*
- * $Id: dic_internals.h,v 1.1 2004/04/08 09:43:06 afrab Exp $
+
+/* $Id: dic_internals.h,v 1.2 2005/04/19 16:26:51 afrab Exp $ */
+
+/**
+ *  \file dic_internals.h
+ *  \brief  Internal dictionary structures
+ *  \author Antoine Fraboulet
+ *  \date   2002
  */
+
 #ifndef _DIC_INTERNALS_H
 #define _DIC_INTERNALS_H
+#if defined(__cplusplus)
+extern "C" 
+  {
+#endif 
 
+/**
+ * bit masking for ascii characters \n
+ * ('a' & CHAR) == ('A' & CHAR) == 1    
+ */
+#define DIC_CHAR_MASK    0x1F
 
-/* bit masking for ascii characters */
-/* 'a' & CHAR == 'A' & CHAR == 1    */
-#define CHAR    0x1F
-
-
+/**
+ * keyword included in dictionary headers
+ * implies little endian storage on words
+ */
 #define _COMPIL_KEYWORD_ "_COMPILED_DICTIONARY_"
 
-/*
-
-   structure of a compressed dictionary
-
-   ----------------
-   header
-   ----------------
-   specialnode (0)
-   +
-   + nodes
-   +
-   firstnode (= root)
-   ----------------
-
-*/
+/**
+ *  structure of a compressed dictionary \n
+ *  \n
+ *  ----------------    \n
+ *  header              \n
+ *  ----------------    \n
+ *  specialnode (0)     \n
+ *  +                   \n
+ *  + nodes             \n
+ *  +                   \n
+ *  firstnode (= root)  \n
+ *  ----------------
+ */
 
 typedef struct _Dawg_edge { 
    unsigned int ptr  : 24; 
@@ -74,4 +87,8 @@ struct _Dictionary
   int nedges;
 };
 
-#endif
+#if defined(__cplusplus)
+  }
+#endif 
+#endif /* _DIC_INTERNALS_H */
+

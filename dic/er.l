@@ -1,7 +1,7 @@
 %{
 
 #include "regexp.h"
-#include "regexp-er.h"
+#include "libdic_a-er.h"
 
 /* %option bison-locations */
 /* %option prefix="ER"     */
@@ -14,20 +14,22 @@
 alphabet [a-zA-Z]
 %%
 
-{alphabet} {yylval_param->c = yytext[0]; return CHAR;}
-"["        {return L_SQBRACKET;}
-"]"        {return R_SQBRACKET;}
-"("        {return L_BRACKET;}
-")"        {return R_BRACKET;}
-"^"        {return HAT;}
+{alphabet} {yylval_param->c = yytext[0]; return LEX_CHAR;}
+"["        {return LEX_L_SQBRACKET;}
+"]"        {return LEX_R_SQBRACKET;}
+"("        {return LEX_L_BRACKET;}
+")"        {return LEX_R_BRACKET;}
+"^"        {return LEX_HAT;}
 
-"."        {return NIMP;}
-":c:"      {return CONS;}
-":v:"      {return VOYL;}
+"."        {return LEX_ALL;}
+":v:"      {return LEX_VOWL;}
+":c:"      {return LEX_CONS;}
+":1:"      {return LEX_USER1;}
+":2:"      {return LEX_USER2;}
 
-"+"        {return PLUS;}
-"*"        {return STAR;}
+"+"        {return LEX_PLUS;}
+"*"        {return LEX_STAR;}
 
-"#"        {return SHARP;}
+"#"        {return LEX_SHARP;}
 %%
 

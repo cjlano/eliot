@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: dic.h,v 1.4 2005/04/10 13:35:10 ipkiss Exp $ */
+/* $Id: dic.h,v 1.5 2005/04/19 16:26:51 afrab Exp $ */
 
 /**
  *  \file dic.h
@@ -27,18 +27,23 @@
 
 #ifndef _DIC_H_
 #define _DIC_H_
-
 #if defined(__cplusplus)
 extern "C" 
   {
 #endif 
   
+/** 
+ * different letters in the dictionary     
+ */
+#define DIC_LETTERS  27
+
+/** 
+ * max length of words (including last \0) 
+ */        
+#define DIC_WORD_MAX 16
+
 typedef struct _Dictionary* Dictionary;
 typedef unsigned int uint_t;
-
-  /*************************
-   * 
-   *************************/
 
     /**
      * Création et chargement d'un dictionnaire
@@ -54,9 +59,9 @@ int    Dic_load   (Dictionary* dic,const char* path);
      */
 int    Dic_destroy(Dictionary);
 
-  /*************************
-   * functions to access the elements 
-   *************************/
+    /**
+     * functions to access the elements 
+     */
 
 char   Dic_chr (Dictionary,uint_t);
 int    Dic_last(Dictionary,uint_t);
@@ -67,13 +72,13 @@ uint_t Dic_root(Dictionary);
 uint_t Dic_next(Dictionary,uint_t);
 uint_t Dic_succ(Dictionary,uint_t);
 
-  /*************************
-   * 
-   *************************/
+    /**
+     * 
+     */
 
 unsigned int Dic_lookup(Dictionary, unsigned int, char*);
 
 #if defined(__cplusplus)
   }
 #endif 
-#endif
+#endif /* _DIC_H_ */

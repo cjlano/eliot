@@ -16,33 +16,92 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: dic_search.h,v 1.4 2005/04/09 19:16:09 afrab Exp $ */
+/* $Id: dic_search.h,v 1.5 2005/04/19 16:26:51 afrab Exp $ */
+
+/**
+ *  \file dic_search.h
+ *  \brief  Dictionary lookup functions
+ *  \author Antoine Fraboulet
+ *  \date   2002
+ */
 
 #ifndef _DIC_SEARCH_H_
 #define _DIC_SEARCH_H_
-
 #if defined(__cplusplus)
 extern "C" 
   {
 #endif 
 
-#define DIC_LETTERS  27  // different letters in the dictionary
-#define DIC_WORD_MAX 16  // max length of words (including last \0)
+    /** 
+     * number of lists for regexp letter match \n
+     * 0 : all tiles                           \n
+     * 1 : vowels                              \n
+     * 2 : consonants                          \n
+     * 3 : user defined 1                      \n
+     * 4 : user defined 2                      \n
+     */
+#define DIC_SEARCH_REGE_LIST 5
 
+    /**
+     * number of results for each search 
+     */
 #define RES_7PL1_MAX 200
 #define RES_RACC_MAX 100
 #define RES_BENJ_MAX 100
 #define RES_CROS_MAX 200
 #define RES_REGE_MAX 200
 
-int  Dic_search_word(Dictionary, const char*);
-void Dic_search_7pl1(Dictionary, const char* rack, char wordlist[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX], int joker);
-void Dic_search_Racc(Dictionary, const char* word, char wordlist[RES_RACC_MAX][DIC_WORD_MAX]);
-void Dic_search_Benj(Dictionary, const char* word, char wordlist[RES_BENJ_MAX][DIC_WORD_MAX]);
-void Dic_search_Cros(Dictionary, const char* mask, char wordlist[RES_CROS_MAX][DIC_WORD_MAX]);
-void Dic_search_RegE(Dictionary, const char* mask, char wordlist[RES_REGE_MAX][DIC_WORD_MAX]);
+    /**
+     * Search for a word in the dictionnary
+     * @param dic : dictionary
+     * @param path : lookup word
+     * @return 1 present, 0 error
+     */
+int  Dic_search_word(Dictionary dic, const char* path);
+    /**
+     * Search for all feasible word with "rack" plus one letter
+     * @param dic : dictionary
+     * @param rack : letters
+     * @param wordlist : results
+     */
+void Dic_search_7pl1(Dictionary dic, const char* rack, char wordlist[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX], int joker);
+    /**
+     * Search for all feasible word adding a letter in front or at the end
+     * @param dic : dictionary
+     * @param word : word
+     * @param wordlist : results
+     */
+void Dic_search_Racc(Dictionary dic, const char* word, char wordlist[RES_RACC_MAX][DIC_WORD_MAX]);
+    /**
+     * Search for benjamins
+     * @param dic : dictionary
+     * @param rack : letters
+     * @param wordlist : results
+     */
+void Dic_search_Benj(Dictionary dic, const char* word, char wordlist[RES_BENJ_MAX][DIC_WORD_MAX]);
+    /**
+     * Search for crosswords 
+     * @param dic : dictionary
+     * @param rack : letters
+     * @param wordlist : results
+     */
+void Dic_search_Cros(Dictionary dic, const char* mask, char wordlist[RES_CROS_MAX][DIC_WORD_MAX]);
+    /**
+     * Search for words matching a regular expression 
+     * @param dic : dictionary
+     * @param re : regular expression
+     * @param wordlist : results
+     */
+struct search_RegE_list_t {
+  char symbl[DIC_SEARCH_REGE_LIST];                // special symbol associated with the list
+  int  valid[DIC_SEARCH_REGE_LIST];                // 0 or 1 if list is valid
+  char letters[DIC_SEARCH_REGE_LIST][DIC_LETTERS]; // 0 or 1 if letter is present
+};
+
+void Dic_search_RegE(Dictionary dic, const char* re, char wordlist[RES_REGE_MAX][DIC_WORD_MAX],
+		     struct search_RegE_list_t *list);
 
 #if defined(__cplusplus)
   }
 #endif 
-#endif
+#endif /* _DIC_SEARCH_H_ */

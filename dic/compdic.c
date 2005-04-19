@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: compdic.c,v 1.2 2005/02/05 11:14:56 ipkiss Exp $ */
+/* $Id: compdic.c,v 1.3 2005/04/19 16:26:51 afrab Exp $ */
 #include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -50,7 +50,7 @@ load_uncompressed(const char* file_name, unsigned int *dic_size)
   r = fread (uncompressed, 1, *dic_size, file_desc);
   if (r < *dic_size)
     {
-      /* \n is 2 chars under M$ */
+      /* \n is 2 chars under MS OS */
       printf("\n");
       printf("** The number of bytes read is less than the size of the file **\n");
       printf("** this may be OK if you run a Microsoft OS but not on Unix   **\n");
@@ -157,7 +157,7 @@ char*       global_input;
 char*       global_endofinput;
 
 /*
- * Makenode takes a prefix (as postion relative to stringbuf) and
+ * Makenode takes a prefix (as position relative to stringbuf) and
  * returns an index of the start node of a dawg that recognizes all
  * words beginning with that prefix.  String is a pointer (relative
  * to stringbuf) indicating how much of prefix is matched in the
@@ -191,7 +191,7 @@ makenode(char *prefix)
       edgeptr->fill = 0;
       edgeptr->chr  = 0;
 
-      (*(edgeptr++)).chr = (*global_endstring++ = *global_input++) & CHAR;
+      (*(edgeptr++)).chr = (*global_endstring++ = *global_input++) & DIC_CHAR_MASK;
       if (*global_input == '\n')                 /* End of a word */
         {
           global_header.nwords++;
@@ -220,7 +220,7 @@ makenode(char *prefix)
       return 0;             /* Special node zero - no edges */
     }
 
-  edgeptr[-1].last = 1;   /* Mark the last edge */
+  edgeptr[-1].last = 1;     /* Mark the last edge */
 
   saved_position = (unsigned int*) hash_find (global_hashtable,
 					      (void*)edges,

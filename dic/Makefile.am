@@ -16,22 +16,27 @@
 # along with this program; if not, write to the Free Software               
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-# $Id: Makefile.am,v 1.6 2005/04/16 20:55:51 afrab Exp $ 
+# $Id: Makefile.am,v 1.7 2005/04/19 16:26:50 afrab Exp $ 
 
 noinst_LIBRARIES = libdic.a
 
 INCLUDES = -I$(top_srcdir)
 
+# DEBUGFLAGS=-DDEBUG_RE
+
+libdic_a_CFLAGS=$(DEBUGFLAGS)
+libdic_a_YFLAGS=-d
 libdic_a_SOURCES = 		  \
+	er.l			  \
+	er.y		 	  \
 	dic_internals.h		  \
 	dic_search.c dic_search.h \
 	dic.c dic.h		  \
 	automaton.c automaton.h   \
-	regexp.c regexp.h
+	regexp.c regexp.h	  
 
 ##################################### 
-# if BUILD_DICTOOLS
-# automake does not support regexp_YFLAGS being defined conditionally
+if BUILD_DICTOOLS
 
 bin_PROGRAMS = 			\
 	compdic 		\
@@ -48,14 +53,8 @@ listdic_SOURCES=		\
 	dic.c dic.h		\
 	listdic.c
 
-regexp_YFLAGS=-d
-regexp_CFLAGS=${REGEXP_FLAGS}
+regexp_CFLAGS=${REGEXP_FLAGS} $(DEBUGFLAGS)
+regexp_SOURCES=	regexpmain.c		
+regexp_LDADD = libdic.a
 
-regexp_SOURCES=	                \
-	er.y			\
-	er.l			\
-	regexpmain.c		\
-	regexp.c regexp.h	\
-	automaton.h automaton.c	
-
-# endif
+endif

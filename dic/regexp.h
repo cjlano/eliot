@@ -15,11 +15,22 @@
 /* You should have received a copy of the GNU General Public License         */
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-/*
- * $Id: regexp.h,v 1.4 2005/04/18 17:40:36 afrab Exp $
+
+/* $Id: regexp.h,v 1.5 2005/04/19 16:26:51 afrab Exp $ */
+
+/**
+ *  \file regexp.h
+ *  \brief  Regular Expression fonctions
+ *  \author Antoine Fraboulet
+ *  \date   2005
  */
+
 #ifndef _TREE_H_
 #define _TREE_H_
+#if defined(__cplusplus)
+extern "C" 
+  {
+#endif 
 
 #define NODE_TOP    0
 #define NODE_VAR    1
@@ -32,7 +43,6 @@ typedef struct node {
   char             var; 
   struct node      *fg; 
   struct node      *fd; 
-  
   int numero;
   int position;
   int annulable;
@@ -40,25 +50,32 @@ typedef struct node {
   int DP;
 } NODE;
 
-
 /* max regexp length */
 #define REGEXP_MAX 32 
 
-NODE *regexp_createNODE(int type,char v,NODE *fg,NODE *fd);
-NODE *regexp_createNODE_AllMatch();
-NODE *regexp_createNODE_ConsMatch();
-NODE *regexp_createNODE_VoylMatch();
+/** special letters that should not appear in the dictionary */
+#define RE_ALL_MATCH   (DIC_LETTERS + 1)
+#define RE_VOWL_MATCH  (DIC_LETTERS + 2)
+#define RE_CONS_MATCH  (DIC_LETTERS + 3)
+#define RE_USR1_MATCH  (DIC_LETTERS + 4)
+#define RE_USR2_MATCH  (DIC_LETTERS + 5)
 
-void regexp_delete_tree(NODE * root);
+NODE* regexp_createNODE(int type,char v,NODE *fg,NODE *fd);
+void  regexp_delete_tree(NODE * root);
 
-void regexp_parcours(NODE* r, int *p, int *n, int ptl[]);
-void regexp_possuivante(NODE* r, int PS[]);
+void  regexp_parcours(NODE* r, int *p, int *n, int ptl[]);
+void  regexp_possuivante(NODE* r, int PS[]);
 
-void regexp_print_PS(int PS[]);
-void regexp_print_ptl(int ptl[]);
-void regexp_print_tree(NODE* n, char* name, int detail);
+#ifdef DEBUG_RE
+#include <stdio.h>
 
+void  regexp_print_letter(FILE* f, char l);
+void  regexp_print_PS(int PS[]);
+void  regexp_print_ptl(int ptl[]);
+void  regexp_print_tree(NODE* n, char* name, int detail);
 #endif
 
-
-
+#if defined(__cplusplus)
+  }
+#endif 
+#endif /* _TREE_H_ */

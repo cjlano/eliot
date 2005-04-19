@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: automaton.c,v 1.4 2005/04/09 19:16:09 afrab Exp $
+ * $Id: automaton.c,v 1.5 2005/04/19 16:26:51 afrab Exp $
  */
 #include "config.h"
 #include <string.h>
@@ -27,22 +27,24 @@
 #   include <sys/wait.h>
 #endif
 #include <unistd.h>
+#include "dic.h"
+#include "regexp.h"
 #include "automaton.h"
 
 #ifndef PDBG
-#ifdef DEBUG
-#   define PDBG(s...) { printf(s); }
+#ifdef DEBUG_RE2
+#   define PDBG(s) s
 #else
-#   define PDBG(s...) { }
+#   define PDBG(s) 
 #endif
 #endif
 
 automaton
 automaton_build(int init_state, int *ptl, int *PS)
 {
-  /* int init_state;                            */
-  /* int *ptl;   // mapping postition -> lettre */
-  /* int *PS;    // Position Suivante [ 1 << (position-1)] = \cup { 1 << (p-1) | p \in position acceptée } */
+  /* int init_state; == root->PP           */
+  /* int *ptl; mapping postition -> lettre */
+  /* int *PS;  Position Suivante [ 1 << (position-1)] = \cup { 1 << (p-1) | p \in position acceptée } */
 
   int  i,l,pos,letter,ens;
   int  state,plist;
@@ -55,15 +57,14 @@ automaton_build(int init_state, int *ptl, int *PS)
   a->nterm  = PS[0];
   a->nstate = 1;
   a->init   = init_state;
-  a->accept = (int*) calloc(1 << PS[0], sizeof(int));   // #{etats}
-  a->marque = (int*) calloc(1 << PS[0], sizeof(int));   // #{etats}
-  a->Dtrans = (int**)calloc(1 << PS[0], sizeof(int*));  // #{etats} * #{lettres}
+  a->accept = (int*) calloc(1 << PS[0], sizeof(int));   // #{states}
+  a->marque = (int*) calloc(1 << PS[0], sizeof(int));   // #{states}
+  a->Dtrans = (int**)calloc(1 << PS[0], sizeof(int*));  // #{states} * #{letters}
   for(i=0; i < (1 << PS[0]); i++)
     {
-      a->Dtrans[i] = (int*)calloc(256, sizeof(int));
+      a->Dtrans[i] = (int*)calloc(256, sizeof(int));    // 256 different letters max
     }
-  
-  state_list = (int*)calloc(1 << PS[0], sizeof(int));   // #{etats} 
+  state_list = (int*)calloc(1 << PS[0], sizeof(int));   // #{states} 
 
   /* 1: init_state = root->PP */
   plist = 0;
@@ -72,7 +73,7 @@ automaton_build(int init_state, int *ptl, int *PS)
   while (plist)
     {
       state = state_list[--plist];
-      PDBG("** traitement état 0x%08x\n",state);
+      PDBG(fprintf(stdout,"** traitement état 0x%08x\n",state));
       memset(used_letter,0,sizeof(used_letter));
       /* 3: \foreach l in \sigma | l \neq # */
       for(l=1; l < PS[0]; l++) 
@@ -92,7 +93,9 @@ automaton_build(int init_state, int *ptl, int *PS)
 		{
 		  state_list[plist++] = ens;
 		  a->Dtrans[state][letter] = ens;
-		  PDBG("  adding %x -%c> %x (queue %x)\n",state,letter,ens,ens);
+		  PDBG(fprintf(stdout,"  adding %x +",state));
+		  PDBG(regexp_print_letter(stdout,letter));
+		  PDBG(fprintf(stdout,"> %x (queue %x)\n",ens,ens));
 		  if (ens != state)
 		    {
 		      a->nstate = a->nstate + 1;
@@ -102,7 +105,9 @@ automaton_build(int init_state, int *ptl, int *PS)
 	      if (ens && a->marque[ens] == 1)
 		{
 		  a->Dtrans[state][letter] = ens;
-		  PDBG("  adding %x -%c> %x\n",state,letter,ens);
+		  PDBG(fprintf(stdout,"  adding %x -",state));
+		  PDBG(regexp_print_letter(stdout,letter));
+		  PDBG(fprintf(stdout,"> %x\n",ens));
 		}
 	      a->marque[state] = 1;
 	      used_letter[letter] = 1;
@@ -110,16 +115,16 @@ automaton_build(int init_state, int *ptl, int *PS)
 	}
     }
 
-  PDBG("** accept : ");
+  PDBG(fprintf(stdout,"** accept : "));
   for(i=0; i < (1 << PS[0]); i++)
     {
       if (a->marque[i] && (i & (1 << (PS[0] - 1))))
 	{
 	  a->accept[i] = 1;
-	  PDBG("%x ",i);
+	  PDBG(fprintf(stdout,"%x ",i));
 	}
     }
-  PDBG("\n");
+  PDBG(fprintf(stdout,"\n"));
 
   free(state_list);
   return a;
@@ -144,6 +149,7 @@ automaton_delete(automaton a)
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 
+#if 0
 void 
 automaton_minimize(automaton a, automaton b)
 {
@@ -161,24 +167,26 @@ automaton_minimize(automaton a, automaton b)
   
   /* NOT DONE */
 }
+#endif 
 
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 
+#ifdef DEBUG_RE
 static void 
 print_automaton_nodes(FILE* f, automaton a)
 {
-  int i;
-  for(i=0; i < (1 << a->nterm); i++)
+  int state;
+  for(state=0; state < (1 << a->nterm); state++)
     {
-      if (a->marque[i])
+      if (a->marque[state])
 	{
-	  fprintf(f,"\t%d [label = \"%x\"",i,i);
-	  if (a->init == i)
+	  fprintf(f,"\t%d [label = \"%x\"",state,state);
+	  if (a->init == state)
 	    {
 	      fprintf(f,", style = filled, color=lightgrey");
 	    }
-	  if (a->accept[i])
+	  if (a->accept[state])
  	    {
 	      fprintf(f,", shape = doublecircle");
 	    }
@@ -187,26 +195,32 @@ print_automaton_nodes(FILE* f, automaton a)
     }
   fprintf(f,"\n");
 }
+#endif
 
+#ifdef DEBUG_RE
 static void 
 print_automaton_edges(FILE* f, automaton a)
 {
-  int i,j;
-  for(i=0; i < (1 << a->nterm); i++)
+  int state,letter;
+  for(state=0; state < (1 << a->nterm); state++)
     {
-      if (a->marque[i])
+      if (a->marque[state]) 
 	{
-	  for(j=0; j < 255; j++)
+	  for(letter=0; letter < 255; letter++)
 	    {
-	      if (a->Dtrans[i][j])
+	      if (a->Dtrans[state][letter])
 		{
-		  fprintf(f,"\t%d -> %d [label = \"%c\"];\n",i,a->Dtrans[i][j],j);
+		  fprintf(f,"\t%d -> %d [label = \"",state,a->Dtrans[state][letter]);
+		  regexp_print_letter(f,letter);
+		  fprintf(f,"\"];\n");
 		}
 	    }
 	}
     }
 }
+#endif
 
+#ifdef DEBUG_RE
 void 
 automaton_dump(automaton a, char* filename)
 {
@@ -232,6 +246,7 @@ automaton_dump(automaton a, char* filename)
   }
 #endif
 }
+#endif
 
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
