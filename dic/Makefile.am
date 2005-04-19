@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software               
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-# $Id: Makefile.am,v 1.7 2005/04/19 16:26:50 afrab Exp $ 
+# $Id: Makefile.am,v 1.8 2005/04/19 16:40:24 afrab Exp $ 
 
 noinst_LIBRARIES = libdic.a
 
@@ -28,7 +28,7 @@ libdic_a_CFLAGS=$(DEBUGFLAGS)
 libdic_a_YFLAGS=-d
 libdic_a_SOURCES = 		  \
 	er.l			  \
-	er.y		 	  \
+	er.y			  \
 	dic_internals.h		  \
 	dic_search.c dic_search.h \
 	dic.c dic.h		  \
