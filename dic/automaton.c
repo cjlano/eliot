@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: automaton.c,v 1.5 2005/04/19 16:26:51 afrab Exp $
+ * $Id: automaton.c,v 1.6 2005/04/19 20:18:32 afrab Exp $
  */
 #include "config.h"
 #include <string.h>
@@ -60,10 +60,14 @@ automaton_build(int init_state, int *ptl, int *PS)
   a->accept = (int*) calloc(1 << PS[0], sizeof(int));   // #{states}
   a->marque = (int*) calloc(1 << PS[0], sizeof(int));   // #{states}
   a->Dtrans = (int**)calloc(1 << PS[0], sizeof(int*));  // #{states} * #{letters}
+  a->callocsize = 1 << PS[0];
+
   for(i=0; i < (1 << PS[0]); i++)
     {
-      a->Dtrans[i] = (int*)calloc(256, sizeof(int));    // 256 different letters max
+      // 256 different letters max
+      a->Dtrans[i] = (int*)calloc(256, sizeof(int));    
     }
+
   state_list = (int*)calloc(1 << PS[0], sizeof(int));   // #{states} 
 
   /* 1: init_state = root->PP */
@@ -139,11 +143,12 @@ automaton_delete(automaton a)
   int i;
   free(a->accept);
   free(a->marque);
-  for(i=0; i < a->nstate; i++)
+  for(i=0; i < a->callocsize; i++)
     {
       free(a->Dtrans[i]);
     }
   free(a->Dtrans);
+  free(a);
 }
 
 //////////////////////////////////////////////////

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: automaton.h,v 1.4 2005/04/19 16:26:51 afrab Exp $
+ * $Id: automaton.h,v 1.5 2005/04/19 20:18:32 afrab Exp $
  */
 
 #ifndef _DIC_AUTOMATON_H_
@@ -29,6 +29,7 @@ struct _automaton {
   int **Dtrans;    /* Dtrans[state][letter] == next state    */
   int *accept;     /* accept[state] == 1 -> accept state     */
   int *marque;     /* marque[state] == 1 -> valid state      */
+  int callocsize;  /* keep track of allocated size */
 };
 
 typedef struct _automaton* automaton;
