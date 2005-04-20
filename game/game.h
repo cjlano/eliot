@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game.h,v 1.15 2005/04/19 16:23:04 afrab Exp $
+ * $Id: game.h,v 1.16 2005/04/20 20:58:52 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -156,7 +156,7 @@ public:
      * The parameter has to be
      * 'a' <= char <= 'z' or 'A' <= char <= 'Z' or '?'
      *************************/
-    int getNCharInBag(Tile) const;
+    int getNCharInBag(const Tile&) const;
 
     /**
      * Methods to access already played words.
@@ -180,7 +180,7 @@ public:
     // TODO: Ability to specify which kind of AI player is wanted
     virtual void addAIPlayer();
     int  getPlayerPoints(int) const;
-    string getPlayerRack(int,bool = false) const;
+    string getPlayerRack(int, bool = false) const;
 
     int  currPlayer() const     { return m_currPlayer; }
 
