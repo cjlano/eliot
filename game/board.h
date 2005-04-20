@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: board.h,v 1.6 2005/03/29 06:58:23 afrab Exp $
+ * $Id: board.h,v 1.7 2005/04/20 18:52:39 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,16 +49,12 @@ public:
     // Construct a matrix with an initial value
     Matrix(int iSize1, int iSize2, const T &iValue)
     {
-        resize(iSize1);
-        for (int i = 0; i < iSize1; i++)
-            this->operator[](i).resize(iSize2, iValue);
+        resize(iSize1, vector<T>(iSize2, iValue));
     }
     // Construct a square matrix with an initial value
     Matrix(int iSize, const T &iValue)
     {
-        resize(iSize);
-        for (int i = 0; i < iSize; i++)
-            this->operator[](i).resize(iSize, iValue);
+        resize(iSize, vector<T>(iSize, iValue));
     }
 };
 
