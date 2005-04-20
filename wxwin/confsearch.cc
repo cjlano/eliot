@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: confsearch.cc,v 1.4 2005/03/29 08:05:18 afrab Exp $ */
+/* $Id: confsearch.cc,v 1.5 2005/04/20 19:48:59 ipkiss Exp $ */
 
 #include "ewx.h"
 #include "wx/sizer.h"
@@ -37,7 +37,7 @@ END_EVENT_TABLE()
 
 
 ConfSearchDlg::ConfSearchDlg(wxWindow* parent)
-   	: wxDialog(parent,-1,wxT("Configuration recherche"))
+   	: wxDialog(parent, -1, wxString(wxT("Configuration recherche")))
 {
 
   joker_searching = new wxCheckBox(this,CheckBox_Joker,wxT("Recherche sur joker dans 7+1"));

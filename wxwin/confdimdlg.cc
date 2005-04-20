@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: confdimdlg.cc,v 1.3 2005/02/05 11:14:56 ipkiss Exp $ */
+/* $Id: confdimdlg.cc,v 1.4 2005/04/20 19:48:59 ipkiss Exp $ */
 
 #include "wx/printdlg.h"
 
@@ -60,7 +60,7 @@ max(int i,int j)
 
 
 ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
-  : wxDialog(parent,-1,wxT("Eliot : Impression"))
+  : wxDialog(parent, -1, wxString(wxT("Eliot : Impression")))
 {
   int i;
   wxString choices[3];
@@ -74,7 +74,7 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
   wxRect        Hspacesrect[5];
   wxStaticText* Tcomment[5];
   wxRect        Tcommentrect[5];
-  wxRect 	Tdimrect[5];
+  wxRect        Tdimrect[5];
   wxStaticText* Tunit[5];
   wxRect        Tjustrect[5];
   wxRect        Tspacesrect[5];
