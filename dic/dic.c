@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*
- * $Id: dic.c,v 1.3 2005/04/19 16:26:51 afrab Exp $
+ * $Id: dic.c,v 1.4 2005/04/20 18:11:00 afrab Exp $
  */
 
 #include <stdio.h>
@@ -97,8 +97,8 @@ Dic_destroy(Dictionary dic)
 }
 
 
-uint_t
-Dic_next(Dictionary d, uint_t e)
+dic_elt_t
+Dic_next(Dictionary d, dic_elt_t e)
 {
      if (! Dic_last(d,e))
           return e+1;
@@ -106,14 +106,14 @@ Dic_next(Dictionary d, uint_t e)
 }
 
 
-uint_t
-Dic_succ(Dictionary d, uint_t e)
+dic_elt_t
+Dic_succ(Dictionary d, dic_elt_t e)
 {
   return (d->dawg[e]).ptr;
 }
 
 
-uint_t
+dic_elt_t
 Dic_root(Dictionary d)
 {
   return d->root;
@@ -121,41 +121,41 @@ Dic_root(Dictionary d)
 
 
 char
-Dic_chr(Dictionary d, uint_t e)
+Dic_chr(Dictionary d, dic_elt_t e)
 {
   return (d->dawg[e]).chr;
 }
 
 
 int
-Dic_last(Dictionary d, uint_t e)
+Dic_last(Dictionary d, dic_elt_t e)
 {
   return (d->dawg[e]).last;
 }
 
 
 int
-Dic_word(Dictionary d, uint_t e)
+Dic_word(Dictionary d, dic_elt_t e)
 {
   return (d->dawg[e]).term;
 }
 
 
 unsigned int
-Dic_lookup(Dictionary d, unsigned int t, char* s)
+Dic_lookup(Dictionary d, dic_elt_t root, char* s)
 {
     unsigned int p;
 begin:
     if (! *s)
-        return t;
-    if (! Dic_succ(d, t))
+        return root;
+    if (! Dic_succ(d, root))
         return 0;
-    p = Dic_succ(d, t);
+    p = Dic_succ(d, root);
     do
     {
         if (Dic_chr(d, p) == *s)
         {
-            t = p;
+            root = p;
             s++;
             goto begin;
         }
