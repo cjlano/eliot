@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: confsearch.cc,v 1.5 2005/04/20 19:48:59 ipkiss Exp $ */
+/* $Id: confsearch.cc,v 1.6 2005/04/20 19:51:06 ipkiss Exp $ */
 
 #include "ewx.h"
 #include "wx/sizer.h"
@@ -45,7 +45,7 @@ ConfSearchDlg::ConfSearchDlg(wxWindow* parent)
 
   bcancel = new wxButton(this,Button_Cancel,wxT("Annuler"),wxPoint(-1,-1));
   bcancel->SetToolTip(wxT("Annuler les dernier changements et quitter"));
-  bok = new wxButton(this,Button_Ok,wxT("Quitter"),wxPoint(-1,-1));
+  bok = new wxButton(this,Button_Ok,wxT("OK"),wxPoint(-1,-1));
   bok->SetToolTip(wxT("Enregistrer les changements et quitter"));
 
   wxBoxSizer *bsizer = new wxBoxSizer( wxHORIZONTAL);

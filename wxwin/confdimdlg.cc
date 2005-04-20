@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: confdimdlg.cc,v 1.4 2005/04/20 19:48:59 ipkiss Exp $ */
+/* $Id: confdimdlg.cc,v 1.5 2005/04/20 19:51:06 ipkiss Exp $ */
 
 #include "wx/printdlg.h"
 
@@ -302,7 +302,7 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
   bcancelrect = bcancel->GetRect();
   bcancel->SetToolTip(wxT("Annuler les dernier changements et quitter"));
 
-  bok = new wxButton(this,Button_Ok,wxT("Quitter"));
+  bok = new wxButton(this,Button_Ok,wxT("OK"));
   wxRect bokrect = bok->GetRect();
   bok->Move(BOKPOINT);
   bokrect = bok->GetRect();
