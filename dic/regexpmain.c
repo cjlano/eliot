@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: regexpmain.c,v 1.4 2005/04/19 16:26:51 afrab Exp $ */
+/* $Id: regexpmain.c,v 1.5 2005/04/25 09:17:53 afrab Exp $ */
 
 #include "config.h"
 #include <stdio.h>
@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
   strcpy(er,".");
   struct search_RegE_list_t list;
 
-  if (Dic_load(&dic,"/home/antoine/projets/eliot/cvs/web/download/ods4.dawg"))
+  if (Dic_load(&dic,argv[1]))
     {
       fprintf(stdout,"impossible de lire le dictionnaire\n");
       return 1;

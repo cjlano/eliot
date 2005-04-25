@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: regexp.c,v 1.5 2005/04/19 16:26:51 afrab Exp $ */
+/* $Id: regexp.c,v 1.6 2005/04/25 09:17:53 afrab Exp $ */
 
 #include "config.h"
 #include <stdio.h>
@@ -106,6 +106,18 @@ void regexp_parcours(NODE* r, int *p, int *n, int ptl[])
       r->PP = (r->fg->annulable) ? (r->fg->PP | r->fd->PP) : r->fg->PP;
       r->DP = (r->fd->annulable) ? (r->fg->DP | r->fd->DP) : r->fd->DP;
       break;
+    case NODE_QMARK:
+      r->position = 0;
+      r->annulable = 1;
+      r->PP = r->fg->PP;
+      r->DP = r->fg->DP;
+      break;
+    case NODE_PLUS:
+      r->position = 0;
+      r->annulable = 0;
+      r->PP = r->fg->PP;
+      r->DP = r->fg->DP;
+      break;
     case NODE_STAR:
       r->position = 0;
       r->annulable = 1;
@@ -138,13 +150,47 @@ void regexp_possuivante(NODE* r, int PS[])
   switch (r->type)
     {
     case NODE_AND:
+      /************************************/
+      /* \forall p \in DP(left)           */
+      /*     PS[p] = PS[p] \cup PP(right) */ 
+      /************************************/
       for(pos=1; pos <= PS[0]; pos++)
 	{
 	  if (r->fg->DP & (1 << (pos-1)))
 	    PS[pos] |= r->fd->PP;
 	}
       break;
+    case NODE_QMARK:
+      /************************************************/
+      /* \forall p \in DP(left)                       */
+      /*     PS[p] = PS[p] \cup ( PP(left) \minus p ) */
+      /*                                              */
+      /* TODO : correct  a[bcd]?e                     */ 
+      /* these expression are not handled correctly   */
+      /************************************************/
+      for(pos=1; pos <= PS[0]; pos++)
+	{
+	  if (r->DP & (1 << (pos-1)))
+	    PS[pos] |= r->PP;
+	}
+      break;
+    case NODE_PLUS:
+      /************************************/
+      /* == same as START                 */
+      /* \forall p \in DP(left)           */
+      /*     PS[p] = PS[p] \cup PP(left)  */ 
+      /************************************/
+      for(pos=1; pos <= PS[0]; pos++)
+	{
+	  if (r->DP & (1 << (pos-1)))
+	    PS[pos] |= r->PP;
+	}
+      break;
     case NODE_STAR:
+      /************************************/
+      /* \forall p \in DP(left)           */
+      /*     PS[p] = PS[p] \cup PP(left)  */ 
+      /************************************/
       for(pos=1; pos <= PS[0]; pos++)
 	{
 	  if (r->DP & (1 << (pos-1)))
@@ -224,6 +270,12 @@ static void print_node(FILE* f, NODE *n, int detail)
     case NODE_AND:
       fprintf(f,"AND");
       break;
+    case NODE_QMARK:
+      fprintf(f,"?");
+      break;
+    case NODE_PLUS:
+      fprintf(f,"*");
+      break;
     case NODE_STAR:
       fprintf(f,"*");
       break;
@@ -276,6 +328,8 @@ static void print_tree_edges(FILE* f, NODE* n)
       fprintf(f,"%d -> %d;",n->numero,n->fg->numero);
       fprintf(f,"%d -> %d;",n->numero,n->fd->numero);
       break;
+    case NODE_QMARK:
+    case NODE_PLUS:
     case NODE_STAR:
       fprintf(f,"%d -> %d;",n->numero,n->fg->numero);
       break;
