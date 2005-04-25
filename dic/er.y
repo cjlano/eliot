@@ -25,16 +25,17 @@ void yyerror (yyscan_t scanner, NODE** root, char const *msg);
 %lex-param   {yyscan_t yyscanner}
 
 %token  <c>  LEX_CHAR
-%token  LEX_L_SQBRACKET LEX_R_SQBRACKET 
-%token  LEX_L_BRACKET LEX_R_BRACKET 
-%token  LEX_HAT 
-
 %token  LEX_ALL
 %token  LEX_VOWL
 %token  LEX_CONS
 %token  LEX_USER1
 %token  LEX_USER2
 
+%token  LEX_L_SQBRACKET LEX_R_SQBRACKET 
+%token  LEX_L_BRACKET LEX_R_BRACKET 
+%token  LEX_HAT 
+
+%token  LEX_QMARK
 %token  LEX_PLUS
 %token  LEX_STAR
 %token  LEX_SHARP
@@ -64,21 +65,47 @@ expr : var
        {
 	 $$=regexp_createNODE(NODE_AND,'\0',$1,$2);
        }
+     | var LEX_QMARK                 
+       {
+	 $$=regexp_createNODE(NODE_QMARK,'\0',$1,NULL);
+       }
+     | var LEX_PLUS
+       {
+	 $$=regexp_createNODE(NODE_PLUS,'\0',$1,NULL);
+       }
      | var LEX_STAR                 
        {
 	 $$=regexp_createNODE(NODE_STAR,'\0',$1,NULL);
        }
+/* () */
      | LEX_L_BRACKET expr LEX_R_BRACKET 
        {
 	 $$=$2;
+       }
+     | LEX_L_BRACKET expr LEX_R_BRACKET LEX_QMARK    
+       {
+	 $$=regexp_createNODE(NODE_QMARK,'\0',$2,NULL);
+       }
+     | LEX_L_BRACKET expr LEX_R_BRACKET LEX_PLUS    
+       {
+	 $$=regexp_createNODE(NODE_PLUS,'\0',$2,NULL);
        }
      | LEX_L_BRACKET expr LEX_R_BRACKET LEX_STAR    
        {
 	 $$=regexp_createNODE(NODE_STAR,'\0',$2,NULL);
        }
+/* [] */
      | LEX_L_SQBRACKET exprdis LEX_R_SQBRACKET
        {
 	 $$=$2;
+       }
+     | LEX_L_SQBRACKET exprdis LEX_R_SQBRACKET LEX_QMARK
+       {
+	 $$=regexp_createNODE(NODE_QMARK,'\0',$2,NULL);
+       }
+     | LEX_L_SQBRACKET exprdis LEX_R_SQBRACKET LEX_PLUS
+       {
+	 $$=regexp_createNODE(NODE_PLUS,'\0',$2,NULL);
        }
      | LEX_L_SQBRACKET exprdis LEX_R_SQBRACKET LEX_STAR
        {

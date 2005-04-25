@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: regexp.h,v 1.5 2005/04/19 16:26:51 afrab Exp $ */
+/* $Id: regexp.h,v 1.6 2005/04/25 08:18:24 afrab Exp $ */
 
 /**
  *  \file regexp.h
@@ -37,6 +37,8 @@ extern "C"
 #define NODE_OR     2
 #define NODE_AND    3
 #define NODE_STAR   4
+#define NODE_PLUS   5
+#define NODE_QMARK  6
 
 typedef struct node {
   int              type;

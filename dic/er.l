@@ -27,6 +27,7 @@ alphabet [a-zA-Z]
 ":1:"      {return LEX_USER1;}
 ":2:"      {return LEX_USER2;}
 
+"?"        {return LEX_QMARK;}
 "+"        {return LEX_PLUS;}
 "*"        {return LEX_STAR;}
 
