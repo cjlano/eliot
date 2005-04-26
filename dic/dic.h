@@ -16,11 +16,11 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: dic.h,v 1.6 2005/04/20 18:11:00 afrab Exp $ */
+/* $Id: dic.h,v 1.7 2005/04/26 07:37:55 afrab Exp $ */
 
 /**
  *  \file dic.h
- *  \brief  Dictionnaire sous forme de Dawg
+ *  \brief  Dawg dictionary
  *  \author Antoine Fraboulet
  *  \date   2002
  */

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: dic_search.h,v 1.5 2005/04/19 16:26:51 afrab Exp $ */
+/* $Id: dic_search.h,v 1.6 2005/04/26 07:37:55 afrab Exp $ */
 
 /**
  *  \file dic_search.h
@@ -43,12 +43,28 @@ extern "C"
 #define DIC_SEARCH_REGE_LIST 5
 
     /**
-     * number of results for each search 
+     * number of results for Rack+1 search (Dic_search_7pl1)
      */
 #define RES_7PL1_MAX 200
+
+    /**
+     * number of results for Extensions search (Dic_search_Racc)
+     */
 #define RES_RACC_MAX 100
+
+    /**
+     * number of results for Benjamin search (Dic_search_Benj)
+     */
 #define RES_BENJ_MAX 100
+
+    /**
+     * number of results for CrossWords search (Dic_search_Cros)
+     */
 #define RES_CROS_MAX 200
+
+    /**
+     * number of results for Regular Expression search (Dic_search_RegE)
+     */
 #define RES_REGE_MAX 200
 
     /**
@@ -58,6 +74,7 @@ extern "C"
      * @return 1 present, 0 error
      */
 int  Dic_search_word(Dictionary dic, const char* path);
+
     /**
      * Search for all feasible word with "rack" plus one letter
      * @param dic : dictionary
@@ -65,6 +82,7 @@ int  Dic_search_word(Dictionary dic, const char* path);
      * @param wordlist : results
      */
 void Dic_search_7pl1(Dictionary dic, const char* rack, char wordlist[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX], int joker);
+
     /**
      * Search for all feasible word adding a letter in front or at the end
      * @param dic : dictionary
@@ -72,6 +90,7 @@ void Dic_search_7pl1(Dictionary dic, const char* rack, char wordlist[DIC_LETTERS
      * @param wordlist : results
      */
 void Dic_search_Racc(Dictionary dic, const char* word, char wordlist[RES_RACC_MAX][DIC_WORD_MAX]);
+
     /**
      * Search for benjamins
      * @param dic : dictionary
@@ -79,6 +98,7 @@ void Dic_search_Racc(Dictionary dic, const char* word, char wordlist[RES_RACC_MA
      * @param wordlist : results
      */
 void Dic_search_Benj(Dictionary dic, const char* word, char wordlist[RES_BENJ_MAX][DIC_WORD_MAX]);
+
     /**
      * Search for crosswords 
      * @param dic : dictionary
@@ -86,18 +106,27 @@ void Dic_search_Benj(Dictionary dic, const char* word, char wordlist[RES_BENJ_MA
      * @param wordlist : results
      */
 void Dic_search_Cros(Dictionary dic, const char* mask, char wordlist[RES_CROS_MAX][DIC_WORD_MAX]);
+
+    /** 
+     * Structure used for Dic_search_RegE \n
+     * this structure is used to explicit letters list that will be matched 
+     * against special tokens in the regular expression search
+     */
+struct search_RegE_list_t {
+  /** special symbol associated with the list */
+  char symbl[DIC_SEARCH_REGE_LIST];                
+  /** 0 or 1 if list is valid */
+  int  valid[DIC_SEARCH_REGE_LIST];                
+  /** 0 or 1 if letter is present in the list */
+  char letters[DIC_SEARCH_REGE_LIST][DIC_LETTERS]; 
+};
+
     /**
      * Search for words matching a regular expression 
      * @param dic : dictionary
      * @param re : regular expression
      * @param wordlist : results
      */
-struct search_RegE_list_t {
-  char symbl[DIC_SEARCH_REGE_LIST];                // special symbol associated with the list
-  int  valid[DIC_SEARCH_REGE_LIST];                // 0 or 1 if list is valid
-  char letters[DIC_SEARCH_REGE_LIST][DIC_LETTERS]; // 0 or 1 if letter is present
-};
-
 void Dic_search_RegE(Dictionary dic, const char* re, char wordlist[RES_REGE_MAX][DIC_WORD_MAX],
 		     struct search_RegE_list_t *list);
 
