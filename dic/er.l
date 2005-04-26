@@ -3,12 +3,11 @@
 #include "regexp.h"
 #include "libdic_a-er.h"
 
-/* %option bison-locations */
-/* %option prefix="ER"     */
-
 %}
-%option 8bit reentrant bison-bridge
+%option prefix="regexp"
+%option outfile="lex.yy.c"
 %option header-file="scanner.h"
+%option 8bit reentrant bison-bridge
 %option nounput noyywrap
 
 alphabet [a-zA-Z]

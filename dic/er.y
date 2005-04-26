@@ -10,7 +10,7 @@
 #include "libdic_a-er.h"
 #include "scanner.h"
 
-void yyerror (yyscan_t scanner, NODE** root, char const *msg);
+void regexperror (yyscan_t scanner, NODE** root, char const *msg);
 
 %}   
 %union {
@@ -19,6 +19,7 @@ void yyerror (yyscan_t scanner, NODE** root, char const *msg);
 };
 
 %defines
+%name-prefix="regexp"
 %pure-parser
 %parse-param {yyscan_t yyscanner}
 %parse-param {NODE **root}
@@ -61,7 +62,7 @@ expr : var
        {
 	 $$=$1;
        }  
-     | expr expr                
+     | var expr                
        {
 	 $$=regexp_createNODE(NODE_AND,'\0',$1,$2);
        }
@@ -118,7 +119,7 @@ exprdis: var
        {
 	 $$=$1;
        }  
-     | exprdis exprdis
+     | var exprdis
        {
 	 $$=regexp_createNODE(NODE_OR,'\0',$1,$2);
        }
