@@ -1,19 +1,24 @@
 %{
 
+#include "dic.h"
 #include "regexp.h"
 #include "libdic_a-er.h"
+
+#define MASK_TO_REMOVE    0x1F
 
 %}
 %option prefix="regexp"
 %option outfile="lex.yy.c"
 %option header-file="scanner.h"
-%option 8bit reentrant bison-bridge
-%option nounput noyywrap
+%option reentrant bison-bridge
+%option bison-locations
+%option noyywrap
 
+/* TODO : remove lexer translation */
 alphabet [a-zA-Z]
 %%
 
-{alphabet} {yylval_param->c = yytext[0]; return LEX_CHAR;}
+{alphabet} {yylval_param->c=(yytext[0]&MASK_TO_REMOVE); return LEX_CHAR;}
 "["        {return LEX_L_SQBRACKET;}
 "]"        {return LEX_R_SQBRACKET;}
 "("        {return LEX_L_BRACKET;}

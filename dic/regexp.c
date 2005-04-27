@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: regexp.c,v 1.6 2005/04/25 09:17:53 afrab Exp $ */
+/* $Id: regexp.c,v 1.7 2005/04/27 17:35:03 afrab Exp $ */
 
 #include "config.h"
 #include <stdio.h>
@@ -128,8 +128,6 @@ void regexp_parcours(NODE* r, int *p, int *n, int ptl[])
 
   r->numero = *n;
   *n = *n + 1;
-  
-  PDBG(print_node(stdout,r,1));
 }
 
 /**
@@ -240,12 +238,42 @@ void regexp_print_letter(FILE* f, char l)
 {
   switch (l)
     {
-    case RE_ALL_MATCH:  fprintf(f,"(.   [%d])",RE_ALL_MATCH);   break;
+    case RE_FINAL_TOK:  fprintf(f,"( #  [%d])",RE_FINAL_TOK);  break;
+    case RE_ALL_MATCH:  fprintf(f,"( .  [%d])",RE_ALL_MATCH);  break;
     case RE_VOWL_MATCH: fprintf(f,"(:v: [%d])",RE_VOWL_MATCH); break;
     case RE_CONS_MATCH: fprintf(f,"(:c: [%d])",RE_CONS_MATCH); break;
     case RE_USR1_MATCH: fprintf(f,"(:1: [%d])",RE_USR1_MATCH); break;
     case RE_USR2_MATCH: fprintf(f,"(:2: [%d])",RE_USR2_MATCH); break;
-    default: fprintf(f," (%c [%d]) ",l + 'a' - 1, l); break;
+    default: 
+      if (l < RE_FINAL_TOK)
+	fprintf(f," (%c [%d]) ",l + 'a' - 1, l); 
+      else
+	fprintf(f," (liste %d)",l - RE_LIST_USER_END);
+	break;
+    }
+}
+#endif
+
+/*////////////////////////////////////////////////
+////////////////////////////////////////////////*/
+
+#ifdef DEBUG_RE
+void regexp_print_letter2(FILE* f, char l)
+{
+  switch (l)
+    {
+    case RE_FINAL_TOK:  fprintf(f,"#");  break;
+    case RE_ALL_MATCH:  fprintf(f,".");  break;
+    case RE_VOWL_MATCH: fprintf(f,":v:"); break;
+    case RE_CONS_MATCH: fprintf(f,":c:"); break;
+    case RE_USR1_MATCH: fprintf(f,":1:"); break;
+    case RE_USR2_MATCH: fprintf(f,":2:"); break;
+    default: 
+      if (l < RE_FINAL_TOK)
+	fprintf(f,"%c",l + 'a' - 1); 
+      else
+	fprintf(f,"l%d",l - RE_LIST_USER_END);
+	break;
     }
 }
 #endif

@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: regexpmain.c,v 1.5 2005/04/25 09:17:53 afrab Exp $ */
+/* $Id: regexpmain.c,v 1.6 2005/04/27 17:35:03 afrab Exp $ */
 
 #include "config.h"
 #include <stdio.h>
@@ -24,8 +24,12 @@
 #include <string.h>
 
 #include "dic.h"
-#include "dic_search.h"
 #include "regexp.h"
+#include "dic_search.h"
+
+/********************************************************/
+/********************************************************/
+/********************************************************/
 
 const unsigned int all_letter[DIC_LETTERS] = 
   {
@@ -47,6 +51,32 @@ const unsigned int consonants[DIC_LETTERS] =
        0,0,1,1,1, 0,1,1,1,0,1, 1,1,1,1,0,1,1,1,1,1,0,1, 1, 1, 1, 1 
   };
 
+void init_letter_lists(struct search_RegE_list_t *list)
+{
+  int i;
+  memset (list,0,sizeof(*list));
+  list->valid[0] = 1; // all letters
+  list->symbl[0] = RE_ALL_MATCH;
+  list->valid[1] = 1; // vowels
+  list->symbl[1] = RE_VOWL_MATCH;
+  list->valid[2] = 1; // consonants
+  list->symbl[2] = RE_CONS_MATCH;
+  for(i=0; i < DIC_LETTERS; i++)
+    {
+      list->letters[0][i] = all_letter[i];
+      list->letters[1][i] = vowels[i];
+      list->letters[2][i] = consonants[i];
+    }  
+  list->valid[3] = 0; // user defined list 1
+  list->symbl[3] = RE_USR1_MATCH;
+  list->valid[4] = 0; // user defined list 2
+  list->symbl[4] = RE_USR2_MATCH;
+}
+
+/********************************************************/
+/********************************************************/
+/********************************************************/
+
 int main(int argc, char* argv[])
 {
   int i;
@@ -62,32 +92,17 @@ int main(int argc, char* argv[])
       return 1;
     }
 
-  list.valid[0] = 1; // all letters
-  list.symbl[0] = RE_ALL_MATCH;
-  list.valid[1] = 1; // vowels
-  list.symbl[1] = RE_VOWL_MATCH;
-  list.valid[2] = 1; // consonants
-  list.symbl[2] = RE_CONS_MATCH;
-  for(i=0; i < DIC_LETTERS; i++)
-    {
-      list.letters[0][i] = all_letter[i];
-      list.letters[1][i] = vowels[i];
-      list.letters[2][i] = consonants[i];
-    }  
-
-  list.valid[3] = 0; // user defined list 1
-  list.symbl[3] = RE_USR1_MATCH;
-  list.valid[4] = 0; // user defined list 2
-  list.symbl[5] = RE_USR2_MATCH;
-
   while (strcmp(er,""))
     {
       fprintf(stdout,"\nentrer une ER:\n");
       fgets(er,sizeof(er),stdin);
       /* strip \n */
       er[strlen(er) - 1] = '\0';
+
       /* automaton */
+      init_letter_lists(&list);
       Dic_search_RegE(dic,er,wordlist,&list);
+
       fprintf(stdout,"résultat:\n");
       for(i=0; i<RES_REGE_MAX && wordlist[i][0]; i++)
 	{

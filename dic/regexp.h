@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: regexp.h,v 1.6 2005/04/25 08:18:24 afrab Exp $ */
+/* $Id: regexp.h,v 1.7 2005/04/27 17:35:03 afrab Exp $ */
 
 /**
  *  \file regexp.h
@@ -52,26 +52,95 @@ typedef struct node {
   int DP;
 } NODE;
 
-/* max regexp length */
+    /**
+     * maximum number of accepted terminals in regular expressions
+     */
 #define REGEXP_MAX 32 
 
-/** special letters that should not appear in the dictionary */
-#define RE_ALL_MATCH   (DIC_LETTERS + 1)
-#define RE_VOWL_MATCH  (DIC_LETTERS + 2)
-#define RE_CONS_MATCH  (DIC_LETTERS + 3)
-#define RE_USR1_MATCH  (DIC_LETTERS + 4)
-#define RE_USR2_MATCH  (DIC_LETTERS + 5)
+    /** 
+     * special terminals that should not appear in the dictionary 
+     */
+#define RE_FINAL_TOK   (DIC_LETTERS + 1)
+#define RE_ALL_MATCH   (DIC_LETTERS + 2)
+#define RE_VOWL_MATCH  (DIC_LETTERS + 3)
+#define RE_CONS_MATCH  (DIC_LETTERS + 4)
+#define RE_USR1_MATCH  (DIC_LETTERS + 5)
+#define RE_USR2_MATCH  (DIC_LETTERS + 6)
+    
+    /** 
+     * number of lists for regexp letter match \n
+     * 0 : all tiles                           \n
+     * 1 : vowels                              \n
+     * 2 : consonants                          \n
+     * 3 : user defined 1                      \n
+     * 4 : user defined 2                      \n
+     * x : lists used during parsing           \n
+     */
+#define DIC_SEARCH_REGE_LIST (REGEXP_MAX)
 
+    /** 
+     * Structure used for Dic_search_RegE \n
+     * this structure is used to explicit letters list that will be matched 
+     * against special tokens in the regular expression search
+     */
+struct search_RegE_list_t {
+  /** special symbol associated with the list */
+  char symbl[DIC_SEARCH_REGE_LIST];                
+  /** 0 or 1 if list is valid */
+  int  valid[DIC_SEARCH_REGE_LIST];                
+  /** 0 or 1 if letter is present in the list */
+  char letters[DIC_SEARCH_REGE_LIST][DIC_LETTERS]; 
+};
+
+#define RE_LIST_ALL_MATCH  0
+#define RE_LIST_VOYL_MATCH 1
+#define RE_LIST_CONS_MATCH 2
+#define RE_LIST_USER_BEGIN 3
+#define RE_LIST_USER_END   4
+
+    /**
+     * Create a node for the syntactic tree used for
+     * parsing regular expressions                    \n
+     * The fonction is called by bison grammar rules
+     */
 NODE* regexp_createNODE(int type,char v,NODE *fg,NODE *fd);
+    
+    /**
+     * delete regexp syntactic tree
+     */
 void  regexp_delete_tree(NODE * root);
 
+    /**
+     * Computes positions, first positions (PP), last position (DP)
+     * and translation table 'position to letter' (ptl)
+     * @param p : max position found in the tree (must be initialized to 1)
+     * @param n : number of nodes in the tree (must be initialized to 1)
+     * @param ptl : position to letter translation table
+     */
 void  regexp_parcours(NODE* r, int *p, int *n, int ptl[]);
+
+    /**
+     * Computes 'next position' table used for building the
+     * automaton
+     * @param r : root node of the syntactic tree
+     * @param PS : next position table, PS[0] must contain the
+     * number of terminals contained in the regular expression
+     */
 void  regexp_possuivante(NODE* r, int PS[]);
+
+#define MAX_REGEXP_ERROR_LENGTH 500
+
+struct regexp_error_report_t {
+  int pos1;
+  int pos2;
+  char msg[MAX_REGEXP_ERROR_LENGTH];
+};
 
 #ifdef DEBUG_RE
 #include <stdio.h>
 
 void  regexp_print_letter(FILE* f, char l);
+void  regexp_print_letter2(FILE* f, char l);
 void  regexp_print_PS(int PS[]);
 void  regexp_print_ptl(int ptl[]);
 void  regexp_print_tree(NODE* n, char* name, int detail);

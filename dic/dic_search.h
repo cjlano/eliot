@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: dic_search.h,v 1.6 2005/04/26 07:37:55 afrab Exp $ */
+/* $Id: dic_search.h,v 1.7 2005/04/27 17:35:03 afrab Exp $ */
 
 /**
  *  \file dic_search.h
@@ -31,16 +31,6 @@
 extern "C" 
   {
 #endif 
-
-    /** 
-     * number of lists for regexp letter match \n
-     * 0 : all tiles                           \n
-     * 1 : vowels                              \n
-     * 2 : consonants                          \n
-     * 3 : user defined 1                      \n
-     * 4 : user defined 2                      \n
-     */
-#define DIC_SEARCH_REGE_LIST 5
 
     /**
      * number of results for Rack+1 search (Dic_search_7pl1)
@@ -107,28 +97,13 @@ void Dic_search_Benj(Dictionary dic, const char* word, char wordlist[RES_BENJ_MA
      */
 void Dic_search_Cros(Dictionary dic, const char* mask, char wordlist[RES_CROS_MAX][DIC_WORD_MAX]);
 
-    /** 
-     * Structure used for Dic_search_RegE \n
-     * this structure is used to explicit letters list that will be matched 
-     * against special tokens in the regular expression search
-     */
-struct search_RegE_list_t {
-  /** special symbol associated with the list */
-  char symbl[DIC_SEARCH_REGE_LIST];                
-  /** 0 or 1 if list is valid */
-  int  valid[DIC_SEARCH_REGE_LIST];                
-  /** 0 or 1 if letter is present in the list */
-  char letters[DIC_SEARCH_REGE_LIST][DIC_LETTERS]; 
-};
-
     /**
      * Search for words matching a regular expression 
      * @param dic : dictionary
      * @param re : regular expression
      * @param wordlist : results
      */
-void Dic_search_RegE(Dictionary dic, const char* re, char wordlist[RES_REGE_MAX][DIC_WORD_MAX],
-		     struct search_RegE_list_t *list);
+void Dic_search_RegE(Dictionary dic, const char* re, char wordlist[RES_REGE_MAX][DIC_WORD_MAX], struct search_RegE_list_t *list);
 
 #if defined(__cplusplus)
   }
