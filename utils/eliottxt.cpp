@@ -3,7 +3,7 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: eliottxt.cpp,v 1.5 2005/04/10 12:15:40 ipkiss Exp $
+ * $Id: eliottxt.cpp,v 1.6 2005/04/27 17:55:33 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <fstream>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 #include "dic.h"
 #include "dic_search.h"
@@ -34,6 +36,34 @@
 #include "training.h"
 #include "duplicate.h"
 #include "freegame.h"
+
+
+/* A static variable for holding the line. */
+static char *line_read = NULL;
+
+/**
+ * Read a string, and return a pointer to it.
+ * Returns NULL on EOF.
+ */
+char *rl_gets()
+{
+    // If the buffer has already been allocated, return the memory to the free
+    // pool
+    if (line_read)
+    {
+        free(line_read);
+        line_read = NULL;
+    }
+
+    // Get a line from the user
+    line_read = readline("commande> ");
+
+    // If the line has any text in it, save it on the history
+    if (line_read && *line_read)
+        add_history(line_read);
+
+    return line_read;
+}
 
 
 char *
@@ -308,7 +338,7 @@ void
 loop_training(Training &iGame)
 {
     char *token;
-    char commande[100];
+    char *commande = NULL;
     char delim[] = " \t";
     int quit = 0;
 
@@ -316,8 +346,7 @@ loop_training(Training &iGame)
     cout << "[?] pour l'aide\n";
     while (quit == 0)
     {
-        printf("commande> ");
-        fgets(commande, sizeof(commande), stdin);
+        commande = rl_gets();
         token = strtok(commande, delim);
         if (token)
         {
@@ -433,7 +462,7 @@ void
 loop_freegame(FreeGame &iGame)
 {
     char *token;
-    char commande[100];
+    char *commande = NULL;
     char delim[] = " \t";
     int quit = 0;
 
@@ -441,8 +470,7 @@ loop_freegame(FreeGame &iGame)
     printf("[?] pour l'aide\n");
     while (quit == 0)
     {
-        printf("commande> ");
-        fgets(commande, sizeof(commande), stdin);
+        commande = rl_gets();
         token = strtok(commande, delim);
         if (token)
         {
@@ -527,7 +555,7 @@ void
 loop_duplicate(Duplicate &iGame)
 {
     char *token;
-    char commande[100];
+    char *commande = NULL;
     char delim[] = " \t";
     int quit = 0;
 
@@ -535,8 +563,7 @@ loop_duplicate(Duplicate &iGame)
     printf("[?] pour l'aide\n");
     while (quit == 0)
     {
-        printf("commande> ");
-        fgets(commande, sizeof(commande), stdin);
+        commande = rl_gets();
         token = strtok(commande, delim);
         if (token)
         {
@@ -625,15 +652,14 @@ void
 main_loop(const Dictionary &iDic)
 {
     char *token;
-    char commande[100];
+    char *commande = NULL;
     char delim[] = " \t";
     int quit = 0;
 
     printf("[?] pour l'aide\n");
     while (quit == 0)
     {
-        printf("commande> ");
-        fgets(commande, sizeof(commande), stdin);
+        commande = rl_gets();
         token = strtok(commande, delim);
         if (token)
         {
@@ -822,5 +848,10 @@ main(int argc, char *argv[])
     GameFactory::Destroy();
 
     Dic_destroy(dic);
+
+    // Free the readline static variable
+    if (line_read)
+        free(line_read);
+
     return 0;
 }
