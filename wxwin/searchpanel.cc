@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: searchpanel.cc,v 1.8 2005/04/19 19:59:03 afrab Exp $ */
+/* $Id: searchpanel.cc,v 1.9 2005/04/27 17:39:29 afrab Exp $ */
 
 #include <string.h>
 #include "wx/panel.h"
@@ -216,6 +216,8 @@ PRegExp::build_letter_lists()
   int i;
   list<Tile> all_tiles;
 
+  memset (&llist,0,sizeof(llist));
+
   llist.symbl[0] = RE_ALL_MATCH;
   llist.symbl[1] = RE_VOWL_MATCH;
   llist.symbl[2] = RE_CONS_MATCH;
@@ -239,13 +241,14 @@ PRegExp::build_letter_lists()
     {
       if (! it->isJoker() && ! it->isEmpty())
 	{
+	  // all tiles
 	  llist.letters[0][it->toCode()] = 1;
-
+	  // vowels
 	  if (it->isVowel())
 	    {
 	      llist.letters[1][it->toCode()] = 1;
 	    }
-
+	  // consonants
 	  if (it->isConsonant())
 	    {
 	      llist.letters[2][it->toCode()] = 1;
