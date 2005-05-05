@@ -1,13 +1,14 @@
 /* Eliot                                                                     */
-/* Copyright (C) 1999  antoine.fraboulet                                     */
-/* antoine.fraboulet@free.fr                                                 */
+/* Copyright (C) 1999  Antoine Fraboulet                                     */
 /*                                                                           */
-/* This program is free software; you can redistribute it and/or modify      */
+/* This file is part of Eliot.                                               */
+/*                                                                           */
+/* Eliot is free software; you can redistribute it and/or modify             */
 /* it under the terms of the GNU General Public License as published by      */
 /* the Free Software Foundation; either version 2 of the License, or         */
 /* (at your option) any later version.                                       */
 /*                                                                           */
-/* This program is distributed in the hope that it will be useful,           */
+/* Elit is distributed in the hope that it will be useful,                   */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
@@ -16,7 +17,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: regexp.c,v 1.7 2005/04/27 17:35:03 afrab Exp $ */
+/* $Id: regexp.c,v 1.8 2005/05/05 23:45:04 afrab Exp $ */
 
 #include "config.h"
 #include <stdio.h>
@@ -106,12 +107,6 @@ void regexp_parcours(NODE* r, int *p, int *n, int ptl[])
       r->PP = (r->fg->annulable) ? (r->fg->PP | r->fd->PP) : r->fg->PP;
       r->DP = (r->fd->annulable) ? (r->fg->DP | r->fd->DP) : r->fd->DP;
       break;
-    case NODE_QMARK:
-      r->position = 0;
-      r->annulable = 1;
-      r->PP = r->fg->PP;
-      r->DP = r->fg->DP;
-      break;
     case NODE_PLUS:
       r->position = 0;
       r->annulable = 0;
@@ -156,20 +151,6 @@ void regexp_possuivante(NODE* r, int PS[])
 	{
 	  if (r->fg->DP & (1 << (pos-1)))
 	    PS[pos] |= r->fd->PP;
-	}
-      break;
-    case NODE_QMARK:
-      /************************************************/
-      /* \forall p \in DP(left)                       */
-      /*     PS[p] = PS[p] \cup ( PP(left) \minus p ) */
-      /*                                              */
-      /* TODO : correct  a[bcd]?e                     */ 
-      /* these expression are not handled correctly   */
-      /************************************************/
-      for(pos=1; pos <= PS[0]; pos++)
-	{
-	  if (r->DP & (1 << (pos-1)))
-	    PS[pos] |= r->PP;
 	}
       break;
     case NODE_PLUS:
@@ -233,17 +214,17 @@ void regexp_print_ptl(int ptl[])
 /*////////////////////////////////////////////////
 ////////////////////////////////////////////////*/
 
-#ifdef DEBUG_RE
 void regexp_print_letter(FILE* f, char l)
 {
   switch (l)
     {
-    case RE_FINAL_TOK:  fprintf(f,"( #  [%d])",RE_FINAL_TOK);  break;
-    case RE_ALL_MATCH:  fprintf(f,"( .  [%d])",RE_ALL_MATCH);  break;
-    case RE_VOWL_MATCH: fprintf(f,"(:v: [%d])",RE_VOWL_MATCH); break;
-    case RE_CONS_MATCH: fprintf(f,"(:c: [%d])",RE_CONS_MATCH); break;
-    case RE_USR1_MATCH: fprintf(f,"(:1: [%d])",RE_USR1_MATCH); break;
-    case RE_USR2_MATCH: fprintf(f,"(:2: [%d])",RE_USR2_MATCH); break;
+    case RE_EPSILON:    fprintf(f,"( &  [%d])",l); break;
+    case RE_FINAL_TOK:  fprintf(f,"( #  [%d])",l);  break;
+    case RE_ALL_MATCH:  fprintf(f,"( .  [%d])",l);  break;
+    case RE_VOWL_MATCH: fprintf(f,"(:v: [%d])",l); break;
+    case RE_CONS_MATCH: fprintf(f,"(:c: [%d])",l); break;
+    case RE_USR1_MATCH: fprintf(f,"(:1: [%d])",l); break;
+    case RE_USR2_MATCH: fprintf(f,"(:2: [%d])",l); break;
     default: 
       if (l < RE_FINAL_TOK)
 	fprintf(f," (%c [%d]) ",l + 'a' - 1, l); 
@@ -252,16 +233,15 @@ void regexp_print_letter(FILE* f, char l)
 	break;
     }
 }
-#endif
 
 /*////////////////////////////////////////////////
 ////////////////////////////////////////////////*/
 
-#ifdef DEBUG_RE
 void regexp_print_letter2(FILE* f, char l)
 {
   switch (l)
     {
+    case RE_EPSILON:    fprintf(f,"&"); break;
     case RE_FINAL_TOK:  fprintf(f,"#");  break;
     case RE_ALL_MATCH:  fprintf(f,".");  break;
     case RE_VOWL_MATCH: fprintf(f,":v:"); break;
@@ -276,7 +256,6 @@ void regexp_print_letter2(FILE* f, char l)
 	break;
     }
 }
-#endif
 
 /*////////////////////////////////////////////////
 ////////////////////////////////////////////////*/
@@ -298,11 +277,8 @@ static void print_node(FILE* f, NODE *n, int detail)
     case NODE_AND:
       fprintf(f,"AND");
       break;
-    case NODE_QMARK:
-      fprintf(f,"?");
-      break;
     case NODE_PLUS:
-      fprintf(f,"*");
+      fprintf(f,"+");
       break;
     case NODE_STAR:
       fprintf(f,"*");
@@ -310,8 +286,8 @@ static void print_node(FILE* f, NODE *n, int detail)
     }
   if (detail == 2)
     {
-      fprintf(f,"\\n annulable=%d\\n PP=0x%08x\\n DP=0x%08x",
-	      n->annulable,n->PP,n->DP);
+      fprintf(f,"\\n pos=%d\\n annul=%d\\n PP=0x%04x\\n DP=0x%04x",
+	      n->position,n->annulable,n->PP,n->DP);
     }
 }
 #endif 
@@ -356,7 +332,6 @@ static void print_tree_edges(FILE* f, NODE* n)
       fprintf(f,"%d -> %d;",n->numero,n->fg->numero);
       fprintf(f,"%d -> %d;",n->numero,n->fd->numero);
       break;
-    case NODE_QMARK:
     case NODE_PLUS:
     case NODE_STAR:
       fprintf(f,"%d -> %d;",n->numero,n->fg->numero);

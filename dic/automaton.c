@@ -1,13 +1,14 @@
 /* Eliot                                                                     */
-/* Copyright (C) 1999  antoine.fraboulet                                     */
-/* antoine.fraboulet@free.fr                                                 */
+/* Copyright (C) 2005  Antoine Fraboulet                                     */
 /*                                                                           */
-/* This program is free software; you can redistribute it and/or modify      */
+/* This file is part of Eliot.                                               */
+/*                                                                           */
+/* Eliot is free software; you can redistribute it and/or modify             */
 /* it under the terms of the GNU General Public License as published by      */
 /* the Free Software Foundation; either version 2 of the License, or         */
 /* (at your option) any later version.                                       */
 /*                                                                           */
-/* This program is distributed in the hope that it will be useful,           */
+/* Elit is distributed in the hope that it will be useful,                   */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
@@ -15,10 +16,13 @@
 /* You should have received a copy of the GNU General Public License         */
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+
 /*
- * $Id: automaton.c,v 1.6 2005/04/19 20:18:32 afrab Exp $
+ * $Id: automaton.c,v 1.7 2005/05/05 23:45:04 afrab Exp $
  */
+
 #include "config.h"
+#include <assert.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -27,215 +31,174 @@
 #   include <sys/wait.h>
 #endif
 #include <unistd.h>
+
 #include "dic.h"
 #include "regexp.h"
+#include "alist.h"
 #include "automaton.h"
 
-#ifndef PDBG
-#ifdef DEBUG_RE2
-#   define PDBG(s) s
+#ifdef DEBUG_AUTOMATON__
+#define DMSG(a) a
 #else
-#   define PDBG(s) 
-#endif
+#define DMSG(a)
 #endif
 
-automaton
-automaton_build(int init_state, int *ptl, int *PS)
+#define MAX_TRANSITION_LETTERS 256
+
+typedef struct automaton_state_t *astate;
+typedef struct Automaton_t       *Automaton;
+
+/* ************************************************** *
+   exported functions for static automata
+ * ************************************************** */
+ 
+automaton automaton_build          (int init_state, int *ptl, int *PS, struct search_RegE_list_t *list);
+void      automaton_delete         (automaton a);
+int       automaton_get_nstate     (automaton a);
+int       automaton_get_init       (automaton a);
+int       automaton_get_accept     (automaton a, int state);
+int       automaton_get_next_state (automaton a, int start, char l);
+void      automaton_dump           (automaton a, char* filename);
+     
+
+/* ************************************************** *
+   static functions for dynamic automata
+ * ************************************************** */
+
+static Automaton s_automaton_create         ();
+static void      s_automaton_delete         (Automaton a);
+
+static alist     s_automaton_id_create      (int id);
+static char*     s_automaton_id_to_str      (alist id);
+
+static astate    s_automaton_state_create   (alist id);
+
+static void      s_automaton_add_state      (Automaton a, astate s);
+static astate    s_automaton_get_state      (Automaton a, alist id);
+
+static Automaton s_automaton_PS_to_NFA      (int init_state, int *ptl, int *PS);
+static Automaton s_automaton_NFA_to_DFA     (Automaton a, struct search_RegE_list_t *list);
+static automaton s_automaton_finalize       (Automaton a);
+#ifdef DEBUG_AUTOMATON
+static void      s_automaton_dump           (Automaton a, char* filename);
+#endif
+
+/* ************************************************** *
+   data types
+ * ************************************************** */
+
+struct automaton_state_t {
+  alist    id;                     // alist of int
+  int      accept;
+  int      id_static;
+  astate   next[MAX_TRANSITION_LETTERS];
+};
+
+struct Automaton_t {
+  int      nstates;
+  astate   init_state;
+  alist    states;                 // alist of alist of int
+};
+
+struct automaton_t {
+  int   nstates;
+  int   init;
+  int  *accept;
+  int **trans;
+};
+
+/* ************************************************** *
+   exported functions for static automata
+ * ************************************************** */
+
+automaton 
+automaton_build(int init_state, int *ptl, int *PS, struct search_RegE_list_t *list)
 {
-  /* int init_state; == root->PP           */
-  /* int *ptl; mapping postition -> lettre */
-  /* int *PS;  Position Suivante [ 1 << (position-1)] = \cup { 1 << (p-1) | p \in position acceptée } */
+  Automaton nfa,dfa;
+  automaton final;
 
-  int  i,l,pos,letter,ens;
-  int  state,plist;
-  int  *state_list;
-  char used_letter[256];
-  automaton a;
+  nfa = s_automaton_PS_to_NFA(init_state,ptl,PS);
+  DMSG(printf("\n non deterministic automaton OK \n\n"));
+  DMSG(s_automaton_dump(nfa,"auto_nfa"));
 
-  a = (automaton)malloc(sizeof(struct _automaton));
-  
-  a->nterm  = PS[0];
-  a->nstate = 1;
-  a->init   = init_state;
-  a->accept = (int*) calloc(1 << PS[0], sizeof(int));   // #{states}
-  a->marque = (int*) calloc(1 << PS[0], sizeof(int));   // #{states}
-  a->Dtrans = (int**)calloc(1 << PS[0], sizeof(int*));  // #{states} * #{letters}
-  a->callocsize = 1 << PS[0];
+  dfa = s_automaton_NFA_to_DFA(nfa, list);
+  DMSG(printf("\n deterministic automaton OK \n\n"));
+  DMSG(s_automaton_dump(dfa,"auto_dfa"));
 
-  for(i=0; i < (1 << PS[0]); i++)
-    {
-      // 256 different letters max
-      a->Dtrans[i] = (int*)calloc(256, sizeof(int));    
-    }
+  final = s_automaton_finalize(dfa);
+  DMSG(printf("\n final automaton OK \n\n"));
+  DMSG(automaton_dump(final,"auto_fin"));
 
-  state_list = (int*)calloc(1 << PS[0], sizeof(int));   // #{states} 
-
-  /* 1: init_state = root->PP */
-  plist = 0;
-  state_list[plist++] = a->init;
-  /* 2: while \exist state \in state_list */
-  while (plist)
-    {
-      state = state_list[--plist];
-      PDBG(fprintf(stdout,"** traitement état 0x%08x\n",state));
-      memset(used_letter,0,sizeof(used_letter));
-      /* 3: \foreach l in \sigma | l \neq # */
-      for(l=1; l < PS[0]; l++) 
-	{
-	  letter = ptl[l];
-	  if (used_letter[letter] == 0)
-	    {
-	      /* 4: int ens = \cup { PS(pos) | pos \in state \wedge pos == l } */
-	      ens = 0;
-	      for(pos = 1; pos <= PS[0]; pos++)
-		{
-		  if (ptl[pos] == letter && (state & (1 << (pos - 1))))
-		    ens |= PS[pos];
-		}
-	      /* 5: */
-	      if (ens && a->marque[ens] == 0)
-		{
-		  state_list[plist++] = ens;
-		  a->Dtrans[state][letter] = ens;
-		  PDBG(fprintf(stdout,"  adding %x +",state));
-		  PDBG(regexp_print_letter(stdout,letter));
-		  PDBG(fprintf(stdout,"> %x (queue %x)\n",ens,ens));
-		  if (ens != state)
-		    {
-		      a->nstate = a->nstate + 1;
-		    }
-		}
-	      /* 6: */
-	      if (ens && a->marque[ens] == 1)
-		{
-		  a->Dtrans[state][letter] = ens;
-		  PDBG(fprintf(stdout,"  adding %x -",state));
-		  PDBG(regexp_print_letter(stdout,letter));
-		  PDBG(fprintf(stdout,"> %x\n",ens));
-		}
-	      a->marque[state] = 1;
-	      used_letter[letter] = 1;
-	    }
-	}
-    }
-
-  PDBG(fprintf(stdout,"** accept : "));
-  for(i=0; i < (1 << PS[0]); i++)
-    {
-      if (a->marque[i] && (i & (1 << (PS[0] - 1))))
-	{
-	  a->accept[i] = 1;
-	  PDBG(fprintf(stdout,"%x ",i));
-	}
-    }
-  PDBG(fprintf(stdout,"\n"));
-
-  free(state_list);
-  return a;
+  s_automaton_delete(nfa);
+  s_automaton_delete(dfa);
+  return final;
 }
-
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
 
 void 
 automaton_delete(automaton a)
 {
   int i;
   free(a->accept);
-  free(a->marque);
-  for(i=0; i < a->callocsize; i++)
-    {
-      free(a->Dtrans[i]);
-    }
-  free(a->Dtrans);
+  for(i=0; i <= a->nstates; i++)
+    free(a->trans[i]);
+  free(a->trans);
   free(a);
 }
 
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-
-#if 0
-void 
-automaton_minimize(automaton a, automaton b)
+inline int
+automaton_get_nstates(automaton a)
 {
-  int i;
-  b->nterm  = a->nterm;
-  b->nstate = a->nstate;
-  b->init   = a->init;
-  b->accept = (int*) calloc(a->nstate, sizeof(int ));  // #{etats}
-  b->marque = (int*) calloc(a->nstate, sizeof(int ));  // #{etats}
-  b->Dtrans = (int**)calloc(a->nstate, sizeof(int*));  // #{etats} * #{lettres}
-  for(i=0; i < a->nstate; i++)
-    {
-      b->Dtrans[i] = (int*)calloc(256, sizeof(int));
-    }
-  
-  /* NOT DONE */
+  return a->nstates;
 }
-#endif 
 
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-
-#ifdef DEBUG_RE
-static void 
-print_automaton_nodes(FILE* f, automaton a)
+inline int
+automaton_get_init(automaton a)
 {
-  int state;
-  for(state=0; state < (1 << a->nterm); state++)
-    {
-      if (a->marque[state])
-	{
-	  fprintf(f,"\t%d [label = \"%x\"",state,state);
-	  if (a->init == state)
-	    {
-	      fprintf(f,", style = filled, color=lightgrey");
-	    }
-	  if (a->accept[state])
- 	    {
-	      fprintf(f,", shape = doublecircle");
-	    }
-	  fprintf(f,"];\n");
-	}
-    }
-  fprintf(f,"\n");
+  return a->init;
 }
-#endif
 
-#ifdef DEBUG_RE
-static void 
-print_automaton_edges(FILE* f, automaton a)
+inline int
+automaton_get_accept(automaton a, int state)
 {
-  int state,letter;
-  for(state=0; state < (1 << a->nterm); state++)
-    {
-      if (a->marque[state]) 
-	{
-	  for(letter=0; letter < 255; letter++)
-	    {
-	      if (a->Dtrans[state][letter])
-		{
-		  fprintf(f,"\t%d -> %d [label = \"",state,a->Dtrans[state][letter]);
-		  regexp_print_letter(f,letter);
-		  fprintf(f,"\"];\n");
-		}
-	    }
-	}
-    }
+  assert(0 <= state && state <= a->nstates);
+  return a->accept[state];
 }
-#endif
 
-#ifdef DEBUG_RE
+inline int
+automaton_get_next_state(automaton a, int state, char l)
+{
+  assert(0 <= state && state <= a->nstates);
+  return a->trans[state][(int)l];
+}
+
 void 
 automaton_dump(automaton a, char* filename)
 {
+  int i,l;
   FILE* f;
   pid_t   pid;
-
+  if (a == NULL)
+    return ;
   f=fopen(filename,"w");
   fprintf(f,"digraph automaton {\n");
-  print_automaton_nodes(f,a);
-  print_automaton_edges(f,a);
+  for(i=1; i<=a->nstates; i++)
+    {
+      fprintf(f,"\t%d [label = \"%d\"",i,i);
+      if (i == a->init)
+	fprintf(f,", style = filled, color=lightgrey");
+      if (a->accept[i])
+	fprintf(f,", shape = doublecircle");
+      fprintf(f,"];\n");
+    }
+  fprintf(f,"\n");
+  for(i=1; i<=a->nstates; i++)
+    for(l=0; l < MAX_TRANSITION_LETTERS; l++)
+      if (a->trans[i][l])
+	{
+	  fprintf(f,"\t%d -> %d [label = \"",i,a->trans[i][l]);
+	  regexp_print_letter(f,l);
+	  fprintf(f,"\"];\n");
+	}
   fprintf(f,"fontsize=20;\n");
   fprintf(f,"}\n");
   fclose(f);
@@ -251,8 +214,474 @@ automaton_dump(automaton a, char* filename)
   }
 #endif
 }
+
+/* ************************************************** *
+ * ************************************************** *
+ * ************************************************** */
+
+void
+state_delete_fun(void* ps)
+{
+  astate s = ps;
+  alist_delete(s->id);
+  free(s);
+}
+
+static Automaton
+s_automaton_create()
+{  
+  Automaton a; 
+  a = (Automaton)malloc(sizeof(struct Automaton_t));
+  a->nstates      = 0;
+  a->init_state   = NULL;
+  a->states       = alist_create();
+  alist_set_delete(a->states,state_delete_fun);
+  return a;
+}
+
+
+static void
+s_automaton_delete(Automaton a)
+{
+  alist_delete(a->states);
+  free(a);
+}
+
+static alist
+s_automaton_id_create(int id)
+{
+  alist a = alist_create();
+  alist_add(a,(void*)id);
+  return a;
+}
+
+static char* s_automaton_id_to_str(alist id)
+{
+  static char s[250];
+  memset(s,0,sizeof(s));
+  alist_elt ptr;
+  for(ptr = alist_get_first(id); ptr ; ptr = alist_get_next(id,ptr))
+    {
+      char tmp[50];
+      sprintf(tmp,"%d ",(int)alist_elt_get_value(ptr));
+      strcat(s,tmp);
+    }
+  return s;
+}
+
+static astate
+s_automaton_state_create(alist id)
+{
+  astate s;
+  s = (astate)malloc(sizeof(struct automaton_state_t));
+  s->id      = id;
+  s->accept  = 0;
+  memset(s->next,0,sizeof(astate)*MAX_TRANSITION_LETTERS);
+  DMSG(printf("** state %s creation\n",s_automaton_id_to_str(id)));
+  return s;
+}
+
+static void 
+s_automaton_add_state(Automaton a, astate s)
+{ 
+  a->nstates ++;
+  alist_add(a->states,(void*)s);
+  DMSG(printf("** state %s added to automaton\n",s_automaton_id_to_str(s->id)));
+}
+
+static astate
+s_automaton_get_state(Automaton a, alist id)
+{
+  astate s;
+  alist_elt ptr;
+  for(ptr = alist_get_first(a->states) ;  ptr ; ptr = alist_get_next(a->states,ptr))
+    {
+      s = alist_elt_get_value(ptr);
+      if (alist_equal(s->id,id))
+	{
+	  //DMSG(printf("** get state %s ok\n",s_automaton_id_to_str(s->id)));
+	  return s;
+	}
+    } 
+  return NULL;
+}
+
+/* ************************************************** *
+ * ************************************************** *
+ * ************************************************** */
+
+Automaton
+s_automaton_PS_to_NFA(int init_state_id, int *ptl, int *PS)
+{
+  int p;
+  int maxpos = PS[0];
+  Automaton nfa = NULL;
+  alist temp_id;
+  alist_elt ptr;
+  astate temp_state,current_state;
+  alist L;
+  char used_letter[MAX_TRANSITION_LETTERS];
+
+  nfa = s_automaton_create();
+  L   = alist_create();
+
+  /* 1: init_state = root->PP */
+  temp_id          = s_automaton_id_create(init_state_id);
+  temp_state       = s_automaton_state_create(temp_id);
+  nfa->init_state  = temp_state;
+  s_automaton_add_state(nfa,temp_state);
+  alist_add(L,temp_state);
+  /* 2: while \exist state \in state_list */
+  while (! alist_is_empty(L))
+    {
+      current_state = (astate)alist_pop_first_value(L);
+      DMSG(printf("** current state = %s\n",s_automaton_id_to_str(current_state->id)));
+      memset(used_letter,0,sizeof(used_letter));
+      /* 3: \foreach l in \sigma | l \neq # */
+      for(p=1; p < maxpos; p++) 
+	{
+	  int current_letter = ptl[p];
+	  if (used_letter[current_letter] == 0)
+	    {
+	      /* 4: int set = \cup { PS(pos) | pos \in state \wedge pos == l } */
+	      int pos, ens = 0;
+	      for(pos = 1; pos <= maxpos; pos++)
+		{
+		  if (ptl[pos] == current_letter && 
+		      (int)alist_elt_get_value(alist_get_first(current_state->id)) & (1 << (pos - 1)))
+		    ens |= PS[pos];
+		}
+	      /* 5: transition from current_state to temp_state */
+	      if (ens)
+		{
+		  temp_id    = s_automaton_id_create(ens);
+		  temp_state = s_automaton_get_state(nfa,temp_id);
+		  if (temp_state == NULL)
+		    {
+		      temp_state = s_automaton_state_create(temp_id);
+		      s_automaton_add_state     (nfa,temp_state);
+		      current_state->next[current_letter] = temp_state;
+		      alist_add(L,temp_state);
+		    }
+		  else 
+		    {
+		      alist_delete(temp_id);
+		      current_state->next[current_letter] = temp_state;
+		    }
+		}
+	      used_letter[current_letter] = 1;
+	    }
+	}
+    }
+
+  alist_delete(L);
+
+  for(ptr = alist_get_first(nfa->states); ptr ; ptr = alist_get_next(nfa->states,ptr))
+    {
+      astate s = (astate)alist_elt_get_value(ptr);
+      if ((int)alist_elt_get_value(alist_get_first(s->id)) & (1 << (maxpos - 1)))
+	s->accept = 1;
+    }
+
+  return nfa;
+}
+
+/* ************************************************** *
+ * ************************************************** *
+ * ************************************************** */
+
+static alist
+s_automaton_successor(alist S, int letter, Automaton nfa, struct search_RegE_list_t *list)
+{
+  alist R,r;
+  alist_elt ptr;
+  R = alist_create();                                       /* R = \empty */
+                                                            /* \forall y \in S */
+  for(ptr = alist_get_first(S); ptr ; ptr = alist_get_next(S,ptr))
+    {
+      int i;
+      alist t, Ry; astate y,z;
+
+      i = (int)alist_elt_get_value(ptr);
+      t = s_automaton_id_create(i);
+      assert(y = s_automaton_get_state(nfa,t));
+      alist_delete(t);
+
+      Ry = alist_create();                                 /* Ry = \empty             */
+
+      if ((z = y->next[letter]) != NULL)                   /* \delta (y,z) = l        */
+	{
+	  r = s_automaton_successor(z->id,RE_EPSILON,nfa, list);    
+	  alist_insert(Ry,r);
+	  alist_delete(r);
+	  alist_insert(Ry,z->id);                          /* Ry = Ry \cup succ(z)    */
+	}
+
+#if 0
+      if ((z = y->next[RE_EPSILON]) != NULL)               /* \delta (y,z) = \epsilon */
+	{
+	  r = s_automaton_successor(z->id,letter,nfa, list);    
+	  alist_insert(Ry,r);                              /* Ry = Ry \cup succ(z)    */
+	  alist_delete(r);
+	}
 #endif
 
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
+      if (letter < RE_FINAL_TOK)
+	{
+	  for(i = 0 ; i < DIC_SEARCH_REGE_LIST ; i++)
+	    if (list->valid[i])
+	      {
+		if (list->letters[i][letter] && (z = y->next[(int)list->symbl[i]]) != NULL)
+		  {
+		    DMSG(printf("*** letter "));
+		    DMSG(regexp_print_letter(stdout,letter));
+		    DMSG(printf("is in "));
+		    DMSG(regexp_print_letter(stdout,i));
+
+		    r = s_automaton_successor(z->id,RE_EPSILON,nfa, list);    
+		    alist_insert(Ry,r);
+		    alist_delete(r);
+		    alist_insert(Ry,z->id);
+		  }
+	      }
+	}
+
+      //      if (alist_is_empty(Ry))                              /* Ry = \empty             */
+      //	return Ry;
+
+      alist_insert(R,Ry);                                  /* R = R \cup Ry           */
+      alist_delete(Ry);
+    }
+
+  return R;
+}
+
+static void
+s_automaton_node_set_accept(astate s, Automaton nfa)
+{
+  void* idx;
+  alist_elt ptr;
+
+  DMSG(printf("=== setting accept for node (%s) :",s_automaton_id_to_str(s->id)));
+  for(ptr = alist_get_first(nfa->states) ; ptr ; ptr = alist_get_next(nfa->states,ptr))
+    {
+      astate ns = (astate)alist_elt_get_value(ptr);
+      idx = alist_elt_get_value(alist_get_first(ns->id));
+      DMSG(printf("%s ",s_automaton_id_to_str(ns->id)));
+      if (ns->accept && alist_is_in(s->id,idx))
+	{
+	  DMSG(printf("(ok) ")); 
+	  s->accept = 1;
+	}
+    }
+  DMSG(printf("\n"));
+}
+
+static Automaton 
+s_automaton_NFA_to_DFA(Automaton nfa, struct search_RegE_list_t *list)
+{
+  Automaton dfa = NULL;
+  alist temp_id;
+  alist_elt ptr;
+  astate temp_state, current_state;
+  alist L;
+  int letter;
+
+  dfa = s_automaton_create();
+  L   = alist_create();
+
+  temp_id         = alist_clone(nfa->init_state->id);
+  temp_state      = s_automaton_state_create(temp_id);
+  dfa->init_state = temp_state;
+  s_automaton_add_state(dfa,temp_state);
+  alist_add(L,temp_state);
+  while (! alist_is_empty(L))
+    {
+      current_state = (astate)alist_pop_first_value(L);
+      DMSG(printf("** current state = %s\n",s_automaton_id_to_str(current_state->id)));
+      for(letter = 1; letter < DIC_LETTERS; letter++)
+	{
+	  //	  DMSG(printf("*** start successor of %s\n",s_automaton_id_to_str(current_state->id)));
+
+	  temp_id = s_automaton_successor(current_state->id,letter,nfa,list);
+
+	  if (! alist_is_empty(temp_id))
+	    {
+	      
+	      DMSG(printf("*** successor of %s for ",s_automaton_id_to_str(current_state->id)));
+	      DMSG(regexp_print_letter(stdout,letter));
+	      DMSG(printf(" = %s\n", s_automaton_id_to_str(temp_id)));
+
+	      temp_state = s_automaton_get_state(dfa,temp_id);
+
+	      //	  DMSG(printf("*** automaton get state -%s- ok\n",s_automaton_id_to_str(temp_id)));
+	      
+	      if (temp_state == NULL)
+		{
+		  temp_state = s_automaton_state_create(temp_id);
+		  s_automaton_add_state(dfa,temp_state);
+		  current_state->next[letter] = temp_state;
+		  alist_add(L,temp_state);
+		}
+	      else
+		{
+		  alist_delete(temp_id);
+		  current_state->next[letter] = temp_state;
+		}
+	    }
+	  else
+	    {
+	      alist_delete(temp_id);
+	    }
+	} 
+    }
+
+  for(ptr = alist_get_first(dfa->states) ; ptr ; ptr = alist_get_next(dfa->states,ptr))
+    {
+      astate s = (astate)alist_elt_get_value(ptr);
+      s_automaton_node_set_accept(s,nfa);
+    }
+  
+  alist_delete(L);
+  return dfa;
+}
+
+/* ************************************************** *
+ * ************************************************** *
+ * ************************************************** */
+
+static automaton 
+s_automaton_finalize(Automaton a)
+{
+  int i,l;
+  automaton fa = NULL; 
+  alist_elt ptr;
+  astate s;
+
+  if (a == NULL)
+    return NULL;
+
+  /* creation */
+  fa = (automaton)malloc(sizeof(struct automaton_t));
+  fa->nstates = a->nstates;
+  fa->accept  = (int*) malloc((fa->nstates + 1)*sizeof(int));
+  memset(fa->accept,0,(fa->nstates + 1)*sizeof(int));
+  fa->trans   = (int**)malloc((fa->nstates + 1)*sizeof(int*));
+  for(i=0; i <= fa->nstates; i++)
+    {
+      fa->trans[i] = (int*)malloc(MAX_TRANSITION_LETTERS * sizeof(int));
+      memset(fa->trans[i],0,MAX_TRANSITION_LETTERS * sizeof(int));
+    }
+
+  /* create new id for states */
+  for(i = 1 , ptr = alist_get_first(a->states); ptr ; ptr = alist_get_next(a->states,ptr), i++)
+    {
+      s = (astate)alist_elt_get_value(ptr);
+      s->id_static = i;
+    }
+
+  /* build new automaton */
+  for(ptr = alist_get_first(a->states); ptr ; ptr = alist_get_next(a->states,ptr))
+    {
+      s = (astate)alist_elt_get_value(ptr);
+      i = s->id_static;
+
+      if (s == a->init_state) 
+	fa->init = i;
+      if (s->accept == 1)    
+	fa->accept[i] = 1;
+
+      for(l=0; l < MAX_TRANSITION_LETTERS; l++)
+	if (s->next[l])
+	  fa->trans[i][l] = s->next[l]->id_static;
+    }
+
+  return fa;
+}
+
+
+/* ************************************************** *
+ * ************************************************** *
+ * ************************************************** */
+
+static void 
+s_automaton_print_nodes(FILE* f, Automaton a)
+{
+  char * sid;
+  astate s;
+  alist_elt ptr;
+  for(ptr = alist_get_first(a->states) ; ptr != NULL ; ptr = alist_get_next(a->states,ptr))
+    {
+      s = alist_elt_get_value(ptr);
+      sid = s_automaton_id_to_str(s->id);
+      fprintf(f,"\t\"%s\" [label = \"%s\"",sid,sid);
+      if (s == a->init_state)
+	    {
+	      fprintf(f,", style = filled, color=lightgrey");
+	    }
+      if (s->accept)
+	{
+	  fprintf(f,", shape = doublecircle");
+	}
+      fprintf(f,"];\n");
+    }
+  fprintf(f,"\n");
+}
+
+static void 
+s_automaton_print_edges(FILE* f, Automaton a)
+{
+  int letter;
+  char * sid;
+  astate s;
+  alist_elt ptr;
+  for(ptr = alist_get_first(a->states) ; ptr != NULL ; ptr = alist_get_next(a->states,ptr))
+    {
+      s = (astate)alist_elt_get_value(ptr);
+      for(letter=0; letter < 255; letter++)
+	{
+	  if (s->next[letter])
+	    {
+	      sid = s_automaton_id_to_str(s->id);
+	      fprintf(f,"\t\"%s\" -> ",sid);
+	      sid = s_automaton_id_to_str(s->next[letter]->id);
+	      fprintf(f,"\"%s\" [label = \"",sid);
+	      regexp_print_letter(f,letter);
+	      fprintf(f,"\"];\n");
+	    }
+	}
+    }
+}
+
+static void 
+s_automaton_dump(Automaton a, char* filename)
+{
+  FILE* f;
+  pid_t   pid;
+
+  if (a == NULL)
+    return;
+  f=fopen(filename,"w");
+  fprintf(f,"digraph automaton {\n");
+  s_automaton_print_nodes(f,a);
+  s_automaton_print_edges(f,a);
+  fprintf(f,"fontsize=20;\n");
+  fprintf(f,"}\n");
+  fclose(f);
+
+#ifdef HAVE_SYS_WAIT_H
+  pid = fork ();
+  if (pid > 0) {
+    wait(NULL);
+  } else if (pid == 0) {
+    execlp("dotty","dotty",filename,NULL);
+    printf("exec dotty failed\n");
+    exit(1);
+  }
+#endif
+}
+
+/* ************************************************** *
+ * ************************************************** *
+ * ************************************************** */
 

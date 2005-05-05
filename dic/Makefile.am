@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software               
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-# $Id: Makefile.am,v 1.10 2005/04/19 18:09:44 afrab Exp $ 
+# $Id: Makefile.am,v 1.11 2005/05/05 23:45:04 afrab Exp $ 
 
 noinst_LIBRARIES = libdic.a
 
@@ -31,7 +31,9 @@ libdic_a_SOURCES = 		  \
 	dic_search.c dic_search.h \
 	dic.c dic.h		  \
 	automaton.c automaton.h   \
-	regexp.c regexp.h	  
+	hashtable.h hashtable.c	  \
+	regexp.c regexp.h	  \
+	alist.h alist.c
 
 nodist_libdic_a_SOURCES=	\
 	er.c			\

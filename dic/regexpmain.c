@@ -1,13 +1,14 @@
 /* Eliot                                                                     */
-/* Copyright (C) 1999  antoine.fraboulet                                     */
-/* antoine.fraboulet@free.fr                                                 */
+/* Copyright (C) 1999  Antoine Fraboulet                                     */
 /*                                                                           */
-/* This program is free software; you can redistribute it and/or modify      */
+/* This file is part of Eliot.                                               */
+/*                                                                           */
+/* Eliot is free software; you can redistribute it and/or modify             */
 /* it under the terms of the GNU General Public License as published by      */
 /* the Free Software Foundation; either version 2 of the License, or         */
 /* (at your option) any later version.                                       */
 /*                                                                           */
-/* This program is distributed in the hope that it will be useful,           */
+/* Elit is distributed in the hope that it will be useful,                   */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
@@ -16,7 +17,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: regexpmain.c,v 1.6 2005/04/27 17:35:03 afrab Exp $ */
+/* $Id: regexpmain.c,v 1.7 2005/05/05 23:45:04 afrab Exp $ */
 
 #include "config.h"
 #include <stdio.h>
@@ -94,10 +95,14 @@ int main(int argc, char* argv[])
 
   while (strcmp(er,""))
     {
-      fprintf(stdout,"\nentrer une ER:\n");
+      fprintf(stdout,"**************************************************************\n");
+      fprintf(stdout,"**************************************************************\n");
+      fprintf(stdout,"entrer une ER:\n");
       fgets(er,sizeof(er),stdin);
       /* strip \n */
       er[strlen(er) - 1] = '\0';
+      if (strcmp(er,"") == 0)
+	break;
 
       /* automaton */
       init_letter_lists(&list);
@@ -106,7 +111,7 @@ int main(int argc, char* argv[])
       fprintf(stdout,"résultat:\n");
       for(i=0; i<RES_REGE_MAX && wordlist[i][0]; i++)
 	{
-	  fprintf(stdout,"  %03d : %s\n",i,wordlist[i]);
+	  fprintf(stderr,"%s\n",wordlist[i]);
 	}
     }
 

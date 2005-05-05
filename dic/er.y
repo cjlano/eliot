@@ -1,4 +1,23 @@
 %{
+/* Eliot                                                                     */
+/* Copyright (C) 2005  Antoine Fraboulet                                     */
+/*                                                                           */
+/* This file is part of Eliot.                                               */
+/*                                                                           */
+/* Eliot is free software; you can redistribute it and/or modify             */
+/* it under the terms of the GNU General Public License as published by      */
+/* the Free Software Foundation; either version 2 of the License, or         */
+/* (at your option) any later version.                                       */
+/*                                                                           */
+/* Elit is distributed in the hope that it will be useful,                   */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/* GNU General Public License for more details.                              */
+/*                                                                           */
+/* You should have received a copy of the GNU General Public License         */
+/* along with this program; if not, write to the Free Software               */
+/* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+
 #include <stdio.h>
 #include <malloc.h>  
 #include <stdlib.h> 
@@ -72,11 +91,8 @@ void regexperror(YYLTYPE *llocp, yyscan_t scanner, NODE** root,
 
 start: LEX_L_BRACKET expr LEX_R_BRACKET LEX_SHARP
        { 
-	 NODE *sharp;
-	 NODE *er;
-	 sharp = regexp_createNODE(NODE_VAR,RE_FINAL_TOK,NULL,NULL);
-	 er = $2;
-	 *root = regexp_createNODE(NODE_AND,'\0',er,sharp);
+	 NODE* sharp = regexp_createNODE(NODE_VAR,RE_FINAL_TOK,NULL,NULL);
+	 *root = regexp_createNODE(NODE_AND,'\0',$2,sharp);
 	 YYACCEPT; 
        }
      ;
@@ -92,7 +108,8 @@ expr : var
        }
      | var LEX_QMARK                 
        {
-	 $$=regexp_createNODE(NODE_QMARK,'\0',$1,NULL);
+	 NODE* epsilon=regexp_createNODE(NODE_VAR,RE_EPSILON,NULL,NULL);
+	 $$=regexp_createNODE(NODE_OR,'\0',$1,epsilon);
        }
      | var LEX_PLUS
        {
@@ -109,7 +126,8 @@ expr : var
        }
      | LEX_L_BRACKET expr LEX_R_BRACKET LEX_QMARK    
        {
-	 $$=regexp_createNODE(NODE_QMARK,'\0',$2,NULL);
+	 NODE* epsilon=regexp_createNODE(NODE_VAR,RE_EPSILON,NULL,NULL);
+	 $$=regexp_createNODE(NODE_OR,'\0',$2,epsilon);
        }
      | LEX_L_BRACKET expr LEX_R_BRACKET LEX_PLUS    
        {
@@ -126,7 +144,8 @@ expr : var
        }
      | LEX_L_SQBRACKET exprdisnode LEX_R_SQBRACKET LEX_QMARK
        {
-	 $$=regexp_createNODE(NODE_QMARK,'\0',$2,NULL);
+	 NODE* epsilon=regexp_createNODE(NODE_VAR,RE_EPSILON,NULL,NULL);
+	 $$=regexp_createNODE(NODE_OR,'\0',$2,epsilon);
        }
      | LEX_L_SQBRACKET exprdisnode LEX_R_SQBRACKET LEX_PLUS
        {
@@ -142,7 +161,7 @@ expr : var
 
 var : LEX_CHAR
        {
-#ifdef DEBUG_RE
+#ifdef DEBUG_RE_PARSE
 	 printf("var : lecture %c\n",$1 + 'a' -1);
 #endif
          $$=regexp_createNODE(NODE_VAR,$1,NULL,NULL);
@@ -173,7 +192,7 @@ var : LEX_CHAR
 exprdisnode : exprdis
        {
 	 int i,j;
-#ifdef DEBUG_RE
+#ifdef DEBUG_RE_PARSE
 	 printf("exprdisnode : exprdis : ");
 #endif
 	 for(i=RE_LIST_USER_END + 1; i < DIC_SEARCH_REGE_LIST; i++)
@@ -185,7 +204,7 @@ exprdisnode : exprdis
 		 list->letters[i][0] = 0;
 		 for(j=1; j < DIC_LETTERS; j++)
 		   list->letters[i][j] = $1[j] ? 1 : 0;
-#ifdef DEBUG_RE
+#ifdef DEBUG_RE_PARSE
 		 printf("list %d symbl x%02x : ",i,list->symbl[i]);
 		 for(j=0; j < DIC_LETTERS; j++)
 		   if (list->letters[i][j])
@@ -200,7 +219,7 @@ exprdisnode : exprdis
      | LEX_HAT exprdis
        {
 	 int i,j;
-#ifdef DEBUG_RE
+#ifdef DEBUG_RE_PARSE
 	 printf("exprdisnode : HAT exprdis : ");
 #endif
 	 for(i=RE_LIST_USER_END + 1; i < DIC_SEARCH_REGE_LIST; i++)
@@ -212,7 +231,7 @@ exprdisnode : exprdis
 		 list->letters[i][0] = 0;
 		 for(j=1; j < DIC_LETTERS; j++)
 		   list->letters[i][j] = $2[j] ? 0 : 1;
-#ifdef DEBUG_RE
+#ifdef DEBUG_RE_PARSE
 		 printf("list %d symbl x%02x : ",i,list->symbl[i]);
 		 for(j=0; j < DIC_LETTERS; j++)
 		   if (list->letters[i][j])
@@ -245,7 +264,7 @@ vardis: LEX_CHAR
        {
 	 int c = $1;
 	 memset($$,0,sizeof(char)*DIC_LETTERS);
-#ifdef DEBUG_RE
+#ifdef DEBUG_RE_PARSE
 	 printf("vardis : lecture %c\n",c + 'a' -1);
 #endif
 	 $$[c] = 1;
@@ -262,4 +281,13 @@ void regexperror(YYLTYPE *llocp, yyscan_t yyscanner, NODE** root,
   err->pos1 = llocp->first_column;
   err->pos2 = llocp->last_column;
   strncpy(err->msg,msg,sizeof(err->msg));
+}
+
+/*
+ * shut down the compiler
+ */
+static int yy_init_globals (yyscan_t yyscanner )
+{
+  yy_init_globals(yyscanner);
+  return 0;
 }

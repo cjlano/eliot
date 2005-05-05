@@ -1,13 +1,14 @@
 /* Eliot                                                                     */
-/* Copyright (C) 1999  antoine.fraboulet                                     */
-/* antoine.fraboulet@free.fr                                                 */
+/* Copyright (C) 1999  Antoine Fraboulet                                     */
 /*                                                                           */
-/* This program is free software; you can redistribute it and/or modify      */
+/* This file is part of Eliot.                                               */
+/*                                                                           */
+/* Eliot is free software; you can redistribute it and/or modify             */
 /* it under the terms of the GNU General Public License as published by      */
 /* the Free Software Foundation; either version 2 of the License, or         */
 /* (at your option) any later version.                                       */
 /*                                                                           */
-/* This program is distributed in the hope that it will be useful,           */
+/* Elit is distributed in the hope that it will be useful,                   */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
@@ -16,7 +17,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: regexp.h,v 1.7 2005/04/27 17:35:03 afrab Exp $ */
+/* $Id: regexp.h,v 1.8 2005/05/05 23:45:04 afrab Exp $ */
 
 /**
  *  \file regexp.h
@@ -38,7 +39,6 @@ extern "C"
 #define NODE_AND    3
 #define NODE_STAR   4
 #define NODE_PLUS   5
-#define NODE_QMARK  6
 
 typedef struct node {
   int              type;
@@ -60,6 +60,7 @@ typedef struct node {
     /** 
      * special terminals that should not appear in the dictionary 
      */
+#define RE_EPSILON     (DIC_LETTERS + 0)
 #define RE_FINAL_TOK   (DIC_LETTERS + 1)
 #define RE_ALL_MATCH   (DIC_LETTERS + 2)
 #define RE_VOWL_MATCH  (DIC_LETTERS + 3)
@@ -136,7 +137,6 @@ struct regexp_error_report_t {
   char msg[MAX_REGEXP_ERROR_LENGTH];
 };
 
-#ifdef DEBUG_RE
 #include <stdio.h>
 
 void  regexp_print_letter(FILE* f, char l);
@@ -144,7 +144,6 @@ void  regexp_print_letter2(FILE* f, char l);
 void  regexp_print_PS(int PS[]);
 void  regexp_print_ptl(int ptl[]);
 void  regexp_print_tree(NODE* n, char* name, int detail);
-#endif
 
 #if defined(__cplusplus)
   }

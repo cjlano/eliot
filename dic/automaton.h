@@ -1,13 +1,14 @@
 /* Eliot                                                                     */
-/* Copyright (C) 1999  antoine.fraboulet                                     */
-/* antoine.fraboulet@free.fr                                                 */
+/* Copyright (C) 2005  Antoine Fraboulet                                     */
 /*                                                                           */
-/* This program is free software; you can redistribute it and/or modify      */
+/* This file is part of Eliot.                                               */
+/*                                                                           */
+/* Eliot is free software; you can redistribute it and/or modify             */
 /* it under the terms of the GNU General Public License as published by      */
 /* the Free Software Foundation; either version 2 of the License, or         */
 /* (at your option) any later version.                                       */
 /*                                                                           */
-/* This program is distributed in the hope that it will be useful,           */
+/* Elit is distributed in the hope that it will be useful,                   */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
@@ -15,29 +16,65 @@
 /* You should have received a copy of the GNU General Public License         */
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+
 /*
- * $Id: automaton.h,v 1.5 2005/04/19 20:18:32 afrab Exp $
+ * $Id: automaton.h,v 1.6 2005/05/05 23:45:04 afrab Exp $
+ */
+
+/**
+ *  \file   dic.h
+ *  \brief  Diterministic Finite Automaton 
+ *  \author Antoine Fraboulet
+ *  \date   2005
  */
 
 #ifndef _DIC_AUTOMATON_H_
 #define _DIC_AUTOMATON_H_
+#if defined(__cplusplus)
+extern "C" 
+  {
+#endif 
 
-struct _automaton {
-  int nterm;       /* (1 << nterm) == index of maximum state */
-  int nstate;      /* number of states                       */
-  int init;        /* index of initial state                 */
-  int **Dtrans;    /* Dtrans[state][letter] == next state    */
-  int *accept;     /* accept[state] == 1 -> accept state     */
-  int *marque;     /* marque[state] == 1 -> valid state      */
-  int callocsize;  /* keep track of allocated size */
-};
+typedef struct automaton_t       *automaton;
 
-typedef struct _automaton* automaton;
+    /**
+     * build a static deterministic finite automaton from 
+     * "init_state", "ptl" and "PS" given by the parser
+     */     
+automaton automaton_build(int init_state, int *ptl, int *PS, struct search_RegE_list_t *list);
 
-automaton automaton_build (int init_state, int *ptl, int *PS);
-void      automaton_delete(automaton a);
+    /**
+     * automaton delete function
+     */
+void      automaton_delete         (automaton a);
 
-#ifdef DEBUG_RE
-void      automaton_dump  (automaton a, char* filename);
-#endif
-#endif
+    /**
+     * get the number of states in the automaton
+     * @returns number of states
+     */
+int       automaton_get_nstate     (automaton a);
+
+    /**
+     * query the id of the init state
+     * @returns init state id
+     */
+int       automaton_get_init       (automaton a);
+
+    /**
+     * ask for the acceptor flag for the state
+     * @returns boolean flag 0 or 1
+     */
+int       automaton_get_accept     (automaton a, int state);
+
+    /**
+     * returns the next state when the transition is taken
+     * @returns next state id (1 <= id <= nstate, 0 = invalid id)
+     */
+int       automaton_get_next_state (automaton a, int start, char l);
+
+void      automaton_dump           (automaton a, char* filename);
+
+#if defined(__cplusplus)
+  }
+#endif 
+#endif /* _DIC_AUTOMATON_H_ */
