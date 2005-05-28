@@ -16,7 +16,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: mainframe.cc,v 1.8 2005/04/09 16:13:44 afrab Exp $ */
+/* $Id: mainframe.cc,v 1.9 2005/05/28 20:59:14 afrab Exp $ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -973,8 +973,6 @@ MainFrame::OnMenuShowFrame(wxCommandEvent& event)
 {
     int id;
     id = event.GetId();
-
-    debug("switch display auxframe %d\n", id);
 
     if (!GetMenuBar()->FindItem(id))
         return;

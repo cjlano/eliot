@@ -18,7 +18,7 @@
 /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 /*
- * $Id: automaton.c,v 1.7 2005/05/05 23:45:04 afrab Exp $
+ * $Id: automaton.c,v 1.8 2005/05/28 20:59:14 afrab Exp $
  */
 
 #include "config.h"
@@ -160,14 +160,12 @@ automaton_get_init(automaton a)
 inline int
 automaton_get_accept(automaton a, int state)
 {
-  assert(0 <= state && state <= a->nstates);
   return a->accept[state];
 }
 
 inline int
 automaton_get_next_state(automaton a, int state, char l)
 {
-  assert(0 <= state && state <= a->nstates);
   return a->trans[state][(int)l];
 }
 
