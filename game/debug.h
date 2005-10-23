@@ -2,7 +2,7 @@
  * Copyright (C) 1999-2005 Eliot
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *
- * $Id: debug.h,v 1.7 2005/04/03 21:12:03 ipkiss Exp $
+ * $Id: debug.h,v 1.8 2005/10/23 14:53:43 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
 #ifndef _CONST_H_

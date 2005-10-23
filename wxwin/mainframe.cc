@@ -14,9 +14,9 @@
 /*                                                                           */
 /* You should have received a copy of the GNU General Public License         */
 /* along with this program; if not, write to the Free Software               */
-/* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: mainframe.cc,v 1.9 2005/05/28 20:59:14 afrab Exp $ */
+/* $Id: mainframe.cc,v 1.10 2005/10/23 14:53:44 ipkiss Exp $ */
 
 #include <stdlib.h>
 #include <stdio.h>

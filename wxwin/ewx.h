@@ -14,9 +14,9 @@
 /*                                                                           */
 /* You should have received a copy of the GNU General Public License         */
 /* along with this program; if not, write to the Free Software               */
-/* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: ewx.h,v 1.6 2005/04/20 19:48:59 ipkiss Exp $ */
+/* $Id: ewx.h,v 1.7 2005/10/23 14:53:44 ipkiss Exp $ */
 
 #ifndef __EWX__
 #define __EWX__

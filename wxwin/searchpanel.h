@@ -14,9 +14,9 @@
 /*                                                                           */
 /* You should have received a copy of the GNU General Public License         */
 /* along with this program; if not, write to the Free Software               */
-/* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: searchpanel.h,v 1.1 2004/04/08 09:43:06 afrab Exp $ */
+/* $Id: searchpanel.h,v 1.2 2005/10/23 14:53:44 ipkiss Exp $ */
 
 // -*- C++ -*-
 #ifndef _SEARCHPANEL_H
