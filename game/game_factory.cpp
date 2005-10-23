@@ -2,7 +2,7 @@
  * Copyright (C) 2005 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: game_factory.cpp,v 1.4 2005/10/23 14:53:43 ipkiss Exp $
+ * $Id: game_factory.cpp,v 1.5 2005/10/23 16:12:29 ipkiss Exp $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -97,6 +97,8 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
 
     int option_index = 1;
     int res;
+    bool found_d = false;
+    bool found_m = false;
     while ((res = getopt_long(argc, argv, short_options,
                               long_options, &option_index)) != -1)
     {
@@ -112,9 +114,11 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
             return NULL;
         case 'd':
             m_dicStr = optarg;
+            found_d = true;
             break;
         case 'm':
             m_modeStr = optarg;
+            found_m = true;
             break;
         case 300:
             m_human++;
@@ -128,14 +132,28 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
         }
     }
 
-    // 2) Try to load the dictionary
+    // 2) Make sure the mandatory options are present
+    if (!found_d || !found_m)
+    {
+        cerr << "Mandatory option missing: ";
+        if (!found_d)
+            cerr << "dict";
+        else if (!found_m)
+            cerr << "mode";
+        cerr << "\n";
+
+        printUsage(argv[0]);
+        return NULL;
+    }
+
+    // 3) Try to load the dictionary
     if (Dic_load(&m_dic, m_dicStr.c_str()))
     {
         cerr << "Could not load dictionary '" << m_dicStr << "'\n";
         return NULL;
     }
 
-    // 3) Try to create a game object
+    // 4) Try to create a game object
     Game *game = NULL;
     if (m_modeStr == "training" || m_modeStr == "t")
     {
@@ -155,13 +173,13 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
         return NULL;
     }
 
-    // 4) Add the players
+    // 5) Add the players
     for (int i = 0; i < m_human; i++)
         game->addHumanPlayer();
     for (int i = 0; i < m_ai; i++)
         game->addAIPlayer();
 
-    // 5) Set the variant
+    // 6) Set the variant
     if (m_joker)
         game->setVariant(Game::kJOKER);
 
@@ -178,12 +196,12 @@ void GameFactory::releaseGame(Game &iGame)
 void GameFactory::printUsage(const string &iBinaryName) const
 {
     cout << "Usage: " << iBinaryName << " [options]\n"
-         << "\n"
+         << "Options:\n"
          << "  -h, --help               Print this help and exit\n"
          << "  -v, --version            Print version information and exit\n"
          << "  -m, --mode {duplicate,d,freegame,f,training,t}\n"
-         << "                           Choose game mode\n"
-         << "  -d, --dict <string>      Choose a dictionary\n"
+         << "                           Choose game mode (mandatory)\n"
+         << "  -d, --dict <string>      Choose a dictionary (mandatory)\n"
          << "      --human              Add a human player\n"
          << "      --ai                 Add a AI (Artificial Intelligence) player\n"
          << "      --joker              Play with the \"Joker game\" variant\n";
