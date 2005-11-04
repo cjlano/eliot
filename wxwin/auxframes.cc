@@ -161,7 +161,7 @@ BagFrame::Refresh(refresh_t force)
     list<Tile>::const_iterator it;
     for (index = 0, it = allTiles.begin(); it != allTiles.end(); index++, it++)
     {
-        buf.Printf(format, it->toChar(), m_game.getNCharInBag(*it));
+        buf.Printf(format, it->toChar(), m_game.getBag().in(*it));
         tiles->InsertItem(index,buf);
     }
 }

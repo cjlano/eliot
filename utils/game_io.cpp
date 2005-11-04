@@ -41,7 +41,7 @@ void GameIO::printBoard(ostream &out, const Game &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            char l = iGame.getBoardChar(row, col);
+            char l = iGame.getBoard().getChar(row, col);
             out << setw(3) << (l ? l : '-');
         }
         out << endl;
@@ -63,8 +63,8 @@ void GameIO::printBoardJoker(ostream &out, const Game &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            char l = iGame.getBoardChar(row, col);
-            bool j = (iGame.getBoardCharAttr(row, col) & ATTR_JOKER);
+            char l = iGame.getBoard().getChar(row, col);
+            bool j = (iGame.getBoard().getCharAttr(row, col) & ATTR_JOKER);
 
             out << " " << (j ? '.' : (l ? ' ' : '-'));
             out << (l ? l : '-');
@@ -88,13 +88,13 @@ void GameIO::printBoardMultipliers(ostream &out, const Game &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            char l = iGame.getBoardChar(row, col);
+            char l = iGame.getBoard().getChar(row, col);
             if (l != 0)
                 out << "  " << l;
             else
             {
-                int wm = iGame.getBoardWordMultiplier(row, col);
-                int tm = iGame.getBoardLetterMultiplier(row, col);
+                int wm = iGame.getBoard().getWordMultiplier(row, col);
+                int tm = iGame.getBoard().getLetterMultiplier(row, col);
 
                 if (wm > 1)
                     out << "  " << ((wm == 3) ? '@' : '#');
@@ -123,9 +123,9 @@ void GameIO::printBoardMultipliers2(ostream &out, const Game &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            char l = iGame.getBoardChar(row, col);
-            int wm = iGame.getBoardWordMultiplier(row, col);
-            int tm = iGame.getBoardLetterMultiplier(row, col);
+            char l = iGame.getBoard().getChar(row, col);
+            int wm = iGame.getBoard().getWordMultiplier(row, col);
+            int tm = iGame.getBoard().getLetterMultiplier(row, col);
 
             if (wm > 1)
                 out << " " << ((wm == 3) ? '@' : '#');
@@ -147,7 +147,7 @@ void GameIO::printNonPlayed(ostream &out, const Game &iGame)
 
     for (it = allTiles.begin(); it != allTiles.end(); it++)
     {
-        if (iGame.getNCharInBag(it->toChar()) > 9)
+        if (iGame.getBag().in(it->toChar()) > 9)
             out << " ";
         out << setw(2) << it->toChar();
     }
@@ -155,7 +155,7 @@ void GameIO::printNonPlayed(ostream &out, const Game &iGame)
 
     for (it = allTiles.begin(); it != allTiles.end(); it++)
     {
-        out << " " << iGame.getNCharInBag(it->toChar());
+        out << " " << iGame.getBag().in(it->toChar());
     }
     out << endl;
 }

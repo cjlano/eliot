@@ -41,14 +41,6 @@ using namespace std;
  *************************/
 #define IDENT_STRING "Eliot"
 
-/*************************
- * Dimensions of the board, the tiles placed on
- * the board can be accessed via getBoardChar()
- *************************/
-#define BOARD_MIN 1
-#define BOARD_MAX 15
-
-
 /**
  * Parent class of all the Game types.
  * It offers the common attributes (Board, Bag, etc...) as well as useful
@@ -76,6 +68,9 @@ public:
         kNONE,      // Normal game rules
         kJOKER      // Joker game
     };
+
+    const Board& getBoard() const { return m_board; }
+    const Bag&   getBag()   const { return m_bag; }
 
     /**
      * Accessors for the variant of the game.
@@ -109,28 +104,6 @@ public:
     int back(int);
 
     /*************************
-     * int coordinates have to be BOARD_MIN <= int <= BOARD_MAX
-     *
-     * getBoardChar returns an upper case letter
-     * for normal tiles and a lower case letter for jokers.
-     *
-     * getBoardCharAttr tells the attributes of the tile
-     *   0 : normal played tile
-     *   1 : joker tile
-     *   2 : test tile for preview purpose
-     * attributes can be combined with the or (|) operator
-     *************************/
-#define ATTR_NORMAL 0
-#define ATTR_JOKER  1
-#define ATTR_TEST   2
-
-    char getBoardChar    (int iRow, int iCol) const;
-    int  getBoardCharAttr(int iRow, int iCol) const;
-
-    int  getBoardWordMultiplier  (int iRow, int iCol) const;
-    int  getBoardLetterMultiplier(int iRow, int iCol) const;
-
-    /*************************
      * Set the rack for searching
      *
      * The int parameter is a boolean, if this parameter
@@ -148,13 +121,6 @@ public:
      *************************/
     static const int RACK_SIZE;
     typedef enum {RACK_ALL, RACK_NEW} set_rack_mode;
-
-    /*************************
-     * Get the number of tiles available in the bag.
-     * The parameter has to be
-     * 'a' <= char <= 'z' or 'A' <= char <= 'Z' or '?'
-     *************************/
-    int getNCharInBag(const Tile&) const;
 
     /**
      * Methods to access already played words.

@@ -139,8 +139,8 @@ void CursesIntf::drawBoard(WINDOW *win, int y, int x) const
         for (int col = 1; col < 16; col++)
         {
             // Handle colors
-            int wm = m_game->getBoardWordMultiplier(row, col);
-            int lm = m_game->getBoardLetterMultiplier(row, col);
+            int wm = m_game->getBoard().getWordMultiplier(row, col);
+            int lm = m_game->getBoard().getLetterMultiplier(row, col);
             if (wm == 3)
                 wattron(win, COLOR_PAIR(COLOR_RED));
             else if (wm == 2)
@@ -156,7 +156,7 @@ void CursesIntf::drawBoard(WINDOW *win, int y, int x) const
             mvwprintw(win, y + row + 1, x + 3 * col + 1, "   ");
 
             // Now add the letter
-            char c = m_game->getBoardChar(row, col);
+            char c = m_game->getBoard().getChar(row, col);
             if (c)
             {
                 if (islower(c))

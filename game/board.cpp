@@ -104,6 +104,27 @@ Board::Board():
 }
 
 
+char Board::getChar(int iRow, int iCol) const
+{
+    char letter = 0;
+    Tile tile = getTile(iRow, iCol);
+    if (!tile.isEmpty())
+    {
+        letter = tile.toChar();
+        if (isJoker(iRow, iCol))
+            letter = tolower(letter);
+    }
+    return letter;
+}
+
+int Board::getCharAttr(int iRow, int iCol) const
+{
+    int t = getTestChar(iRow, iCol);
+    int j = isJoker(iRow, iCol);
+    return  (t << 1) | j;
+}
+
+
 Tile Board::getTile(int iRow, int iCol) const
 {
     return m_tilesRow[iRow][iCol];

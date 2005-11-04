@@ -63,10 +63,29 @@ public:
     Board();
     virtual ~Board() {}
 
+    /*************************
+     * Coordinates have to be BOARD_MIN <= int <= BOARD_MAX
+     *
+     * getChar returns an upper case letter for normal tiles and a
+     * lower case letter for jokers.
+     *
+     * getCharAttr tells the attributes of the tile
+     *   0 : normal played tile
+     *   1 : joker tile
+     *   2 : test tile for preview purpose
+     * Attributes can be combined with the or (|) operator
+     *************************/
+#define ATTR_NORMAL 0
+#define ATTR_JOKER  1
+#define ATTR_TEST   2
+
+    char getChar    (int iRow, int iCol) const;
+    int  getCharAttr(int iRow, int iCol) const;
+
     Tile getTile(int iRow, int iCol) const;
     bool isJoker(int iRow, int iCol) const;
     bool isVacant(int iRow, int iCol) const;
-    /*int  score(Round);*/
+
     void addRound(const Dictionary &iDic, const Round &iRound);
     void removeRound(const Dictionary &iDic, const Round &iRound);
     int checkRound(Round &iRound, bool iFirstTurn);

@@ -27,81 +27,104 @@
 #include <string>
 #include "coord.h"
 
+
 Coord::Coord()
 {
-    m_row    = 1;
-    m_col    = 1;
-    m_dir    = HORIZONTAL;
+    m_row = 1;
+    m_col = 1;
+    m_dir = HORIZONTAL;
+}
+
+Coord::Coord(const string &iStr)
+{
+    m_row = 1;
+    m_col = 1;
+    setFromString(iStr);
 }
 
 Coord::~Coord()
 {
 }
 
-Direction
-Coord::getDir() const
+Direction Coord::getDir() const
 {
     return m_dir;
 }
 
-int
-Coord::getRow() const
+int Coord::getRow() const
 {
     return m_row;
 }
 
-int
-Coord::getCol() const
+int Coord::getCol() const
 {
     return m_col;
 }
 
-void
-Coord::setRow(int iRow)
+void Coord::setRow(int iRow)
 {
     m_row = iRow;
 }
 
-void
-Coord::setCol(int iCol)
+void Coord::setCol(int iCol)
 {
     m_col = iCol;
 }
 
-void
-Coord::setDir(Direction iDir)
+void Coord::setDir(Direction iDir)
 {
     m_dir = iDir;
 }
 
-void
-Coord::operator=(const Coord &iOther)
+void Coord::operator=(const Coord &iOther)
 {
     m_dir = iOther.m_dir;
     m_row = iOther.m_row;
     m_col = iOther.m_col;
 }
 
-std::string
-Coord::toString() const
+void Coord::setFromString(const string &iStr)
 {
-    std::string rs;
+    char l[4];
+    int col;
+
+    if (sscanf(iStr.c_str(), "%1[a-oA-O]%2d", l, &col) == 2)
+    {
+        setDir(HORIZONTAL);
+    }
+    else if (sscanf(iStr.c_str(), "%2d%1[a-oA-O]", &col, l) == 2)
+    {
+        setDir(VERTICAL);
+    }
+    else
+    {
+        col = 1;
+        l[0] = 'A';
+    }
+    int row = toupper(*l) - 'A' + 1;
+    setCol(col);
+    setRow(row);
+}
+
+string Coord::toString() const
+{
+    string rs;
     if (getDir() == HORIZONTAL)
     {
         char s[5];
         sprintf(s, "%d", m_col);
-        rs = std::string(1, m_row + 'A' - 1) + s;
+        rs = string(1, m_row + 'A' - 1) + s;
     }
     else
     {
         char s[5];
         sprintf(s, "%d", m_col);
-        rs = s + std::string(1, m_row + 'A' - 1);
+        rs = s + string(1, m_row + 'A' - 1);
     }
     return rs;
 }
 
-
+
 /// Local Variables:
 /// mode: hs-minor
 /// c-basic-offset: 4

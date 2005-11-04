@@ -90,8 +90,7 @@ Round Turn::getRound() const
 }
 
 
-void
-Turn::operator=(const Turn &iOther)
+void Turn::operator=(const Turn &iOther)
 {
     num     = iOther.num;
     pldrack = iOther.pldrack;
@@ -99,20 +98,18 @@ Turn::operator=(const Turn &iOther)
 }
 
 
-string
-Turn::toString(bool showExtraSigns) const
+string Turn::toString(bool showExtraSigns) const
 {
     string rs = "";
     if (showExtraSigns)
-	{
-	    rs = ""; // TODO
-	}
+    {
+        rs = ""; // TODO
+    }
     rs = rs + pldrack.toString() + " " + round.toString();
     return rs;
 }
 
 
-
 /// Local Variables:
 /// mode: hs-minor
 /// c-basic-offset: 4

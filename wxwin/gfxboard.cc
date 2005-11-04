@@ -287,29 +287,29 @@ GfxBoard::DrawBoard(wxDC *dc)
     {
         for (column = BOARD_MIN; column <= BOARD_MAX; column++)
         {
-            if (m_game.getBoardLetterMultiplier(row, column) == 2)
+            if (m_game.getBoard().getLetterMultiplier(row, column) == 2)
             {
                 dc->SetBrush(*Lx2Brush);
                 dc->SetTextBackground(colLx2);
             }
-            else if (m_game.getBoardLetterMultiplier(row, column) == 3)
+            else if (m_game.getBoard().getLetterMultiplier(row, column) == 3)
             {
                 dc->SetBrush(*Lx3Brush);
                 dc->SetTextBackground(colLx3);
             }
-            else if (m_game.getBoardWordMultiplier(row, column) == 2)
+            else if (m_game.getBoard().getWordMultiplier(row, column) == 2)
             {
                 dc->SetBrush(*Wx2Brush);
                 dc->SetTextBackground(colWx2);
             }
-            else if (m_game.getBoardWordMultiplier(row, column) == 3)
+            else if (m_game.getBoard().getWordMultiplier(row, column) == 3)
             {
                 dc->SetBrush(*Wx3Brush);
                 dc->SetTextBackground(colWx3);
             }
 
-            wxs = wxString((wxChar)m_game.getBoardChar(row, column));
-            attr = m_game.getBoardCharAttr(row, column);
+            wxs = wxString((wxChar)m_game.getBoard().getChar(row, column));
+            attr = m_game.getBoard().getCharAttr(row, column);
             if ((paintedboard_char[row - BOARD_MIN][column - BOARD_MIN] != wxs.GetChar(0)) ||
                 (paintedboard_attr[row - BOARD_MIN][column - BOARD_MIN] != attr))
             {

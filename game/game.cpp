@@ -454,50 +454,14 @@ int Game::back(int n)
             m_roundHistory.pop_back();
             m_playerHistory.pop_back();
         }
-	else
-	{
+        else
+        {
             return 1;
-	}
+        }
     }
     return 0;
 }
 
-
-/*********************************************************
- *********************************************************/
-
-char Game::getBoardChar(int iRow, int iCol) const
-{
-    char letter = 0;
-    Tile tile = m_board.getTile(iRow, iCol);
-    if (!tile.isEmpty())
-    {
-        letter = tile.toChar();
-        if (m_board.isJoker(iRow, iCol))
-            letter = tolower(letter);
-    }
-    return letter;
-}
-
-
-int Game::getBoardCharAttr(int iRow, int iCol) const
-{
-    int t = m_board.getTestChar(iRow, iCol);
-    int j = m_board.isJoker(iRow, iCol);
-    return  (t << 1) | j;
-}
-
-
-int Game::getBoardWordMultiplier(int iRow, int iCol) const
-{
-    return m_board.getWordMultiplier(iRow, iCol);
-}
-
-
-int Game::getBoardLetterMultiplier(int iRow, int iCol) const
-{
-    return m_board.getLetterMultiplier(iRow, iCol);
-}
 
 /*********************************************************
  *********************************************************/
@@ -750,12 +714,6 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
 
 /*********************************************************
  *********************************************************/
-
-int Game::getNCharInBag(const Tile &c) const
-{
-    return m_bag.in(c);
-}
-
 
 string Game::formatCoords(const Round &iRound) const
 {

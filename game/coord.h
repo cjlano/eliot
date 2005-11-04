@@ -27,6 +27,8 @@
 #ifndef _COORD_H
 #define _COORD_H
 
+using std::string;
+
 class Coord
 {
 public:
@@ -34,7 +36,7 @@ public:
     enum Direction {VERTICAL, HORIZONTAL};
 
     Coord();
-    Coord(const std::string& iCoord);
+    Coord(const string &iStr);
     virtual ~Coord();
 
     void setRow(int iRow);
@@ -46,9 +48,10 @@ public:
     int getCol() const;
 
     void operator=(const Coord &iOther);
-    std::string toString() const;
+    void setFromString(const string &iStr);
+    string toString() const;
 
- private:
+private:
     Direction m_dir;
     int m_row, m_col;
 
