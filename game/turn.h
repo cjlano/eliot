@@ -17,11 +17,9 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: turn.h,v 1.2 2005/10/23 14:53:43 ipkiss Exp $ */
-
 /**
  *  \file   turn.h
- *  \brief  Game turn (= id + pldrack + round) 
+ *  \brief  Game turn (= id + pldrack + round)
  *  \author Antoine Fraboulet
  *  \date   2005
  */
@@ -36,7 +34,7 @@ class Turn
     int        player;
     PlayedRack pldrack;
     Round      round;
-    
+
  public:
     Turn();
     ~Turn();

@@ -17,8 +17,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: coord.cpp,v 1.2 2005/10/23 14:53:43 ipkiss Exp $ */
-
 /**
  *  \file   coord.cpp
  *  \brief  Eliot coordinate system
@@ -58,25 +56,25 @@ Coord::getCol() const
     return m_col;
 }
 
-void 
+void
 Coord::setRow(int iRow)
 {
     m_row = iRow;
 }
- 
-void 
+
+void
 Coord::setCol(int iCol)
 {
     m_col = iCol;
 }
 
-void 
+void
 Coord::setDir(Direction iDir)
 {
     m_dir = iDir;
 }
 
-void 
+void
 Coord::operator=(const Coord &iOther)
 {
     m_dir = iOther.m_dir;
@@ -84,7 +82,7 @@ Coord::operator=(const Coord &iOther)
     m_col = iOther.m_col;
 }
 
-std::string 
+std::string
 Coord::toString() const
 {
     std::string rs;

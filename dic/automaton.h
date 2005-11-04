@@ -17,13 +17,9 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/*
- * $Id: automaton.h,v 1.8 2005/10/23 14:53:43 ipkiss Exp $
- */
-
 /**
  *  \file   automaton.h
- *  \brief  Diterministic Finite Automaton 
+ *  \brief  Diterministic Finite Automaton
  *  \author Antoine Fraboulet
  *  \date   2005
  */
@@ -31,16 +27,16 @@
 #ifndef _DIC_AUTOMATON_H_
 #define _DIC_AUTOMATON_H_
 #if defined(__cplusplus)
-extern "C" 
+extern "C"
   {
-#endif 
+#endif
 
 typedef struct automaton_t       *automaton;
 
     /**
-     * build a static deterministic finite automaton from 
+     * build a static deterministic finite automaton from
      * "init_state", "ptl" and "PS" given by the parser
-     */     
+     */
 automaton automaton_build(int init_state, int *ptl, int *PS, struct search_RegE_list_t *list);
 
     /**
@@ -76,5 +72,5 @@ void      automaton_dump           (automaton a, char* filename);
 
 #if defined(__cplusplus)
   }
-#endif 
+#endif
 #endif /* _DIC_AUTOMATON_H_ */

@@ -17,10 +17,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/*
- * $Id: automaton.c,v 1.9 2005/10/23 14:53:43 ipkiss Exp $
- */
-
 #include "config.h"
 #include <assert.h>
 #include <string.h>
@@ -51,7 +47,7 @@ typedef struct Automaton_t       *Automaton;
 /* ************************************************** *
    exported functions for static automata
  * ************************************************** */
- 
+
 automaton automaton_build          (int init_state, int *ptl, int *PS, struct search_RegE_list_t *list);
 void      automaton_delete         (automaton a);
 int       automaton_get_nstate     (automaton a);
@@ -59,7 +55,7 @@ int       automaton_get_init       (automaton a);
 int       automaton_get_accept     (automaton a, int state);
 int       automaton_get_next_state (automaton a, int start, char l);
 void      automaton_dump           (automaton a, char* filename);
-     
+
 
 /* ************************************************** *
    static functions for dynamic automata
@@ -111,7 +107,7 @@ struct automaton_t {
    exported functions for static automata
  * ************************************************** */
 
-automaton 
+automaton
 automaton_build(int init_state, int *ptl, int *PS, struct search_RegE_list_t *list)
 {
   Automaton nfa,dfa;
@@ -134,7 +130,7 @@ automaton_build(int init_state, int *ptl, int *PS, struct search_RegE_list_t *li
   return final;
 }
 
-void 
+void
 automaton_delete(automaton a)
 {
   int i;
@@ -169,7 +165,7 @@ automaton_get_next_state(automaton a, int state, char l)
   return a->trans[state][(int)l];
 }
 
-void 
+void
 automaton_dump(automaton a, char* filename)
 {
   int i,l;
@@ -227,8 +223,8 @@ state_delete_fun(void* ps)
 
 static Automaton
 s_automaton_create()
-{  
-  Automaton a; 
+{
+  Automaton a;
   a = (Automaton)malloc(sizeof(struct Automaton_t));
   a->nstates      = 0;
   a->init_state   = NULL;
@@ -279,9 +275,9 @@ s_automaton_state_create(alist id)
   return s;
 }
 
-static void 
+static void
 s_automaton_add_state(Automaton a, astate s)
-{ 
+{
   a->nstates ++;
   alist_add(a->states,(void*)s);
   DMSG(printf("** state %s added to automaton\n",s_automaton_id_to_str(s->id)));
@@ -300,7 +296,7 @@ s_automaton_get_state(Automaton a, alist id)
 	  //DMSG(printf("** get state %s ok\n",s_automaton_id_to_str(s->id)));
 	  return s;
 	}
-    } 
+    }
   return NULL;
 }
 
@@ -336,7 +332,7 @@ s_automaton_PS_to_NFA(int init_state_id, int *ptl, int *PS)
       DMSG(printf("** current state = %s\n",s_automaton_id_to_str(current_state->id)));
       memset(used_letter,0,sizeof(used_letter));
       /* 3: \foreach l in \sigma | l \neq # */
-      for(p=1; p < maxpos; p++) 
+      for(p=1; p < maxpos; p++)
 	{
 	  int current_letter = ptl[p];
 	  if (used_letter[current_letter] == 0)
@@ -345,7 +341,7 @@ s_automaton_PS_to_NFA(int init_state_id, int *ptl, int *PS)
 	      int pos, ens = 0;
 	      for(pos = 1; pos <= maxpos; pos++)
 		{
-		  if (ptl[pos] == current_letter && 
+		  if (ptl[pos] == current_letter &&
 		      (int)alist_elt_get_value(alist_get_first(current_state->id)) & (1 << (pos - 1)))
 		    ens |= PS[pos];
 		}
@@ -361,7 +357,7 @@ s_automaton_PS_to_NFA(int init_state_id, int *ptl, int *PS)
 		      current_state->next[current_letter] = temp_state;
 		      alist_add(L,temp_state);
 		    }
-		  else 
+		  else
 		    {
 		      alist_delete(temp_id);
 		      current_state->next[current_letter] = temp_state;
@@ -409,7 +405,7 @@ s_automaton_successor(alist S, int letter, Automaton nfa, struct search_RegE_lis
 
       if ((z = y->next[letter]) != NULL)                   /* \delta (y,z) = l        */
 	{
-	  r = s_automaton_successor(z->id,RE_EPSILON,nfa, list);    
+	  r = s_automaton_successor(z->id,RE_EPSILON,nfa, list);
 	  alist_insert(Ry,r);
 	  alist_delete(r);
 	  alist_insert(Ry,z->id);                          /* Ry = Ry \cup succ(z)    */
@@ -418,7 +414,7 @@ s_automaton_successor(alist S, int letter, Automaton nfa, struct search_RegE_lis
 #if 0
       if ((z = y->next[RE_EPSILON]) != NULL)               /* \delta (y,z) = \epsilon */
 	{
-	  r = s_automaton_successor(z->id,letter,nfa, list);    
+	  r = s_automaton_successor(z->id,letter,nfa, list);
 	  alist_insert(Ry,r);                              /* Ry = Ry \cup succ(z)    */
 	  alist_delete(r);
 	}
@@ -436,7 +432,7 @@ s_automaton_successor(alist S, int letter, Automaton nfa, struct search_RegE_lis
 		    DMSG(printf("is in "));
 		    DMSG(regexp_print_letter(stdout,i));
 
-		    r = s_automaton_successor(z->id,RE_EPSILON,nfa, list);    
+		    r = s_automaton_successor(z->id,RE_EPSILON,nfa, list);
 		    alist_insert(Ry,r);
 		    alist_delete(r);
 		    alist_insert(Ry,z->id);
@@ -468,14 +464,14 @@ s_automaton_node_set_accept(astate s, Automaton nfa)
       DMSG(printf("%s ",s_automaton_id_to_str(ns->id)));
       if (ns->accept && alist_is_in(s->id,idx))
 	{
-	  DMSG(printf("(ok) ")); 
+	  DMSG(printf("(ok) "));
 	  s->accept = 1;
 	}
     }
   DMSG(printf("\n"));
 }
 
-static Automaton 
+static Automaton
 s_automaton_NFA_to_DFA(Automaton nfa, struct search_RegE_list_t *list)
 {
   Automaton dfa = NULL;
@@ -505,7 +501,7 @@ s_automaton_NFA_to_DFA(Automaton nfa, struct search_RegE_list_t *list)
 
 	  if (! alist_is_empty(temp_id))
 	    {
-	      
+
 	      DMSG(printf("*** successor of %s for ",s_automaton_id_to_str(current_state->id)));
 	      DMSG(regexp_print_letter(stdout,letter));
 	      DMSG(printf(" = %s\n", s_automaton_id_to_str(temp_id)));
@@ -513,7 +509,7 @@ s_automaton_NFA_to_DFA(Automaton nfa, struct search_RegE_list_t *list)
 	      temp_state = s_automaton_get_state(dfa,temp_id);
 
 	      //	  DMSG(printf("*** automaton get state -%s- ok\n",s_automaton_id_to_str(temp_id)));
-	      
+
 	      if (temp_state == NULL)
 		{
 		  temp_state = s_automaton_state_create(temp_id);
@@ -531,7 +527,7 @@ s_automaton_NFA_to_DFA(Automaton nfa, struct search_RegE_list_t *list)
 	    {
 	      alist_delete(temp_id);
 	    }
-	} 
+	}
     }
 
   for(ptr = alist_get_first(dfa->states) ; ptr ; ptr = alist_get_next(dfa->states,ptr))
@@ -539,7 +535,7 @@ s_automaton_NFA_to_DFA(Automaton nfa, struct search_RegE_list_t *list)
       astate s = (astate)alist_elt_get_value(ptr);
       s_automaton_node_set_accept(s,nfa);
     }
-  
+
   alist_delete(L);
   return dfa;
 }
@@ -548,11 +544,11 @@ s_automaton_NFA_to_DFA(Automaton nfa, struct search_RegE_list_t *list)
  * ************************************************** *
  * ************************************************** */
 
-static automaton 
+static automaton
 s_automaton_finalize(Automaton a)
 {
   int i,l;
-  automaton fa = NULL; 
+  automaton fa = NULL;
   alist_elt ptr;
   astate s;
 
@@ -584,9 +580,9 @@ s_automaton_finalize(Automaton a)
       s = (astate)alist_elt_get_value(ptr);
       i = s->id_static;
 
-      if (s == a->init_state) 
+      if (s == a->init_state)
 	fa->init = i;
-      if (s->accept == 1)    
+      if (s->accept == 1)
 	fa->accept[i] = 1;
 
       for(l=0; l < MAX_TRANSITION_LETTERS; l++)
@@ -602,7 +598,7 @@ s_automaton_finalize(Automaton a)
  * ************************************************** *
  * ************************************************** */
 
-static void 
+static void
 s_automaton_print_nodes(FILE* f, Automaton a)
 {
   char * sid;
@@ -626,7 +622,7 @@ s_automaton_print_nodes(FILE* f, Automaton a)
   fprintf(f,"\n");
 }
 
-static void 
+static void
 s_automaton_print_edges(FILE* f, Automaton a)
 {
   int letter;
@@ -651,7 +647,7 @@ s_automaton_print_edges(FILE* f, Automaton a)
     }
 }
 
-static void 
+static void
 s_automaton_dump(Automaton a, char* filename)
 {
   FILE* f;

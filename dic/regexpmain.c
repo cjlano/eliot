@@ -17,8 +17,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: regexpmain.c,v 1.8 2005/10/23 14:53:43 ipkiss Exp $ */
-
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,24 +30,24 @@
 /********************************************************/
 /********************************************************/
 
-const unsigned int all_letter[DIC_LETTERS] = 
+const unsigned int all_letter[DIC_LETTERS] =
   {
     /*                      1  1 1 1 1 1 1 1 1 1 2 2 2  2  2  2  2 */
     /* 0 1 2 3 4  5 6 7 8 9 0  1 2 3 4 5 6 7 8 9 0 1 2  3  4  5  6 */
     /* x A B C D  E F G H I J  K L M N O P Q R S T U V  W  X  Y  Z */
-       0,1,1,1,1, 1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1, 1, 1, 1, 1 
+       0,1,1,1,1, 1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1, 1, 1, 1, 1
   };
 
-const unsigned int vowels[DIC_LETTERS] =             
+const unsigned int vowels[DIC_LETTERS] =
   {
     /* x A B C D  E F G H I J  K L M N O P Q R S T U V  W  X  Y  Z */
-       0,1,0,0,0, 1,0,0,0,1,0, 0,0,0,0,1,0,0,0,0,0,1,0, 0, 0, 1, 0 
+       0,1,0,0,0, 1,0,0,0,1,0, 0,0,0,0,1,0,0,0,0,0,1,0, 0, 0, 1, 0
   };
 
-const unsigned int consonants[DIC_LETTERS] =         
+const unsigned int consonants[DIC_LETTERS] =
   {
     /* x A B C D  E F G H I J  K L M N O P Q R S T U V  W  X  Y  Z */
-       0,0,1,1,1, 0,1,1,1,0,1, 1,1,1,1,0,1,1,1,1,1,0,1, 1, 1, 1, 1 
+       0,0,1,1,1, 0,1,1,1,0,1, 1,1,1,1,0,1,1,1,1,1,0,1, 1, 1, 1, 1
   };
 
 void init_letter_lists(struct search_RegE_list_t *list)
@@ -67,7 +65,7 @@ void init_letter_lists(struct search_RegE_list_t *list)
       list->letters[0][i] = all_letter[i];
       list->letters[1][i] = vowels[i];
       list->letters[2][i] = consonants[i];
-    }  
+    }
   list->valid[3] = 0; // user defined list 1
   list->symbl[3] = RE_USR1_MATCH;
   list->valid[4] = 0; // user defined list 2

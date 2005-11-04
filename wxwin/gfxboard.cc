@@ -16,8 +16,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: gfxboard.cc,v 1.5 2005/10/23 14:53:44 ipkiss Exp $ */
-
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
@@ -66,7 +64,7 @@ GfxBoard::OnSize(wxSizeEvent& e)
 {
   size = GetClientSize();
 
-  board_size = size.GetWidth() < size.GetHeight() ? 
+  board_size = size.GetWidth() < size.GetHeight() ?
     size.GetWidth() : size.GetHeight();
 
   tile_size = (int)((float)board_size / (float)(BOARD_SIZE)) - LINE_WIDTH;
@@ -188,7 +186,7 @@ GfxBoard::DrawTile(wxDC *dc, wxString& wxs, int row, int column)
   wxCoord width, height;
   wxCoord posx, posy;
 
-  // redraw borders 
+  // redraw borders
   if (row && column)
     dc->DrawRectangle(column*(tile_size+LINE_WIDTH) + TopLeft.x,
 		      row*(tile_size+LINE_WIDTH)    + TopLeft.y,
@@ -210,7 +208,7 @@ GfxBoard::DrawTile(wxDC *dc, wxString& wxs, int row, int column)
       dc->GetTextExtent(wxs,&width,&height);
       posx = TopLeft.x + column*(tile_size+LINE_WIDTH) + LINE_WIDTH +
 	(tile_size - width) / 2;
-      posy = TopLeft.y +    row*(tile_size+LINE_WIDTH) + LINE_WIDTH + 
+      posy = TopLeft.y +    row*(tile_size+LINE_WIDTH) + LINE_WIDTH +
 	(tile_size - height) / 2;
       dc->DrawText(wxs,posx,posy);
     }
@@ -241,7 +239,7 @@ GfxBoard::DrawBoard(wxDC *dc)
   wxColour colLx2         = config.getColour(wxString(BCOLOURLX2));
 
   wxPen   *LinesPen = wxThePenList->FindOrCreatePen(colLines, 1, wxSOLID);
-  wxBrush *BackgroundBrush = wxTheBrushList->FindOrCreateBrush(colBackground, 
+  wxBrush *BackgroundBrush = wxTheBrushList->FindOrCreateBrush(colBackground,
 							       wxSOLID);
 
   wxBrush *Wx3Brush = wxTheBrushList->FindOrCreateBrush(colWx3, wxSOLID);

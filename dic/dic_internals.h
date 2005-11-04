@@ -17,10 +17,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* 
- * $Id: dic_internals.h,v 1.4 2005/10/23 14:53:43 ipkiss Exp $ 
- */
-
 /**
  *  \file dic_internals.h
  *  \brief  Internal dictionary structures
@@ -31,13 +27,13 @@
 #ifndef _DIC_INTERNALS_H
 #define _DIC_INTERNALS_H
 #if defined(__cplusplus)
-extern "C" 
+extern "C"
   {
-#endif 
+#endif
 
 /**
  * bit masking for ascii characters \n
- * ('a' & CHAR) == ('A' & CHAR) == 1    
+ * ('a' & CHAR) == ('A' & CHAR) == 1
  */
 #define DIC_CHAR_MASK    0x1F
 
@@ -61,13 +57,13 @@ extern "C"
  *  ----------------
  */
 
-typedef struct _Dawg_edge { 
-   unsigned int ptr  : 24; 
-   unsigned int term : 1;  
-   unsigned int last : 1;  
-   unsigned int fill : 1;  
-   unsigned int chr  : 5;  
-} Dawg_edge;    
+typedef struct _Dawg_edge {
+   unsigned int ptr  : 24;
+   unsigned int term : 1;
+   unsigned int last : 1;
+   unsigned int fill : 1;
+   unsigned int chr  : 5;
+} Dawg_edge;
 
 typedef struct _Dict_header {
   char ident[sizeof(_COMPIL_KEYWORD_)];
@@ -83,7 +79,7 @@ typedef struct _Dict_header {
 
 struct _Dictionary
 {
-  Dawg_edge *dawg; 
+  Dawg_edge *dawg;
   unsigned int root;
   int nwords;
   int nnodes;
@@ -92,6 +88,6 @@ struct _Dictionary
 
 #if defined(__cplusplus)
   }
-#endif 
+#endif
 #endif /* _DIC_INTERNALS_H */
 

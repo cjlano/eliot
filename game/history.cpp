@@ -17,8 +17,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: history.cpp,v 1.2 2005/10/23 14:53:43 ipkiss Exp $ */
-
 /**
  *  \file   history.cpp
  *  \brief  Game history  system
@@ -92,7 +90,7 @@ void History::playRound(int player, int turn, const Round& round)
     Rack rack;
     Turn * current_turn;
     Turn * next_turn;
-    
+
     current_turn = history.back();
 
     /* set the number and the round */
@@ -126,7 +124,7 @@ void History::removeLastTurn()
 {
     int idx = history.size();
     ASSERT(0 < idx , "Wrong turn number");
-    
+
     if (idx > 1)
 	{
 	    Turn *t = history.back();
@@ -145,7 +143,7 @@ void History::removeLastTurn()
 }
 
 
-std::string 
+std::string
 History::toString() const
 {
     std::string rs = "";

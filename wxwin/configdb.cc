@@ -16,8 +16,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: configdb.cc,v 1.5 2005/10/23 14:53:44 ipkiss Exp $ */
-
 #include <iostream>
 #include "ewx.h"
 #include "configdb.h"

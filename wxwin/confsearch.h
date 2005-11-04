@@ -16,8 +16,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: confsearch.h,v 1.3 2005/10/23 14:53:44 ipkiss Exp $ */
-
 #ifndef _CONFSEARCH_H
 #define _CONFSEARCH_H
 
@@ -30,23 +28,23 @@ class ConfSearchDlg : public wxDialog
 {
 private:
   ConfigDB config;
-  
+
   wxButton *bok;
   wxButton *bcancel;
-  
+
   wxCheckBox *joker_searching;
   wxCheckBox *rack_checking;
 
   void readconf();
   void writeconf();
-  
+
 public:
 
   ConfSearchDlg(wxWindow* parent);
   void OnButtonOk    (wxCommandEvent& event);
   void OnButtonCancel(wxCommandEvent& event);
   void OnCloseWindow (wxCloseEvent& event);
-  
+
   DECLARE_EVENT_TABLE()
 };
 #endif

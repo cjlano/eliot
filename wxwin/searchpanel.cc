@@ -16,8 +16,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: searchpanel.cc,v 1.10 2005/10/23 14:53:44 ipkiss Exp $ */
-
 #include <string.h>
 #include "wx/panel.h"
 #include "wx/textctrl.h"

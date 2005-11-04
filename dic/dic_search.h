@@ -17,10 +17,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* 
- * $Id: dic_search.h,v 1.9 2005/10/23 14:53:43 ipkiss Exp $ 
- */
-
 /**
  *  \file dic_search.h
  *  \brief  Dictionary lookup functions
@@ -31,9 +27,9 @@
 #ifndef _DIC_SEARCH_H_
 #define _DIC_SEARCH_H_
 #if defined(__cplusplus)
-extern "C" 
+extern "C"
   {
-#endif 
+#endif
 
     /**
      * number of results for Rack+1 search (Dic_search_7pl1)
@@ -93,7 +89,7 @@ void Dic_search_Racc(Dictionary dic, const char* word, char wordlist[RES_RACC_MA
 void Dic_search_Benj(Dictionary dic, const char* word, char wordlist[RES_BENJ_MAX][DIC_WORD_MAX]);
 
     /**
-     * Search for crosswords 
+     * Search for crosswords
      * @param dic : dictionary
      * @param rack : letters
      * @param wordlist : results
@@ -101,7 +97,7 @@ void Dic_search_Benj(Dictionary dic, const char* word, char wordlist[RES_BENJ_MA
 void Dic_search_Cros(Dictionary dic, const char* mask, char wordlist[RES_CROS_MAX][DIC_WORD_MAX]);
 
     /**
-     * Search for words matching a regular expression 
+     * Search for words matching a regular expression
      * @param dic : dictionary
      * @param re : regular expression
      * @param wordlist : results
@@ -110,5 +106,5 @@ void Dic_search_RegE(Dictionary dic, const char* re, char wordlist[RES_REGE_MAX]
 
 #if defined(__cplusplus)
   }
-#endif 
+#endif
 #endif /* _DIC_SEARCH_H_ */

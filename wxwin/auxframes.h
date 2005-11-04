@@ -16,8 +16,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: auxframes.h,v 1.3 2005/10/23 14:53:44 ipkiss Exp $ */
-
 // -*- C++ -*-
 #ifndef _AUXFRAMES_H
 #define _AUXFRAMES_H
@@ -42,7 +40,7 @@ typedef enum {
 typedef enum {
     ID_Frame_Verif   = MIN_FRAME_ID + 0,
     ID_Frame_Search  = MIN_FRAME_ID + 1,
-    ID_Frame_Plus1   = MIN_FRAME_ID + 2, 
+    ID_Frame_Plus1   = MIN_FRAME_ID + 2,
     ID_Frame_Racc    = MIN_FRAME_ID + 3,
     ID_Frame_Benj    = MIN_FRAME_ID + 4,
     ID_Frame_Bag     = MIN_FRAME_ID + 5,

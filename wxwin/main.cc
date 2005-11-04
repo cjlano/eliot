@@ -16,8 +16,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: main.cc,v 1.7 2005/10/23 14:53:44 ipkiss Exp $ */
-
 #ifdef WIN32 // mingw32 hack
 #   undef Yield
 #   undef CreateDialog

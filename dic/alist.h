@@ -17,13 +17,9 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/*
- * $Id: alist.h,v 1.2 2005/10/23 14:53:43 ipkiss Exp $
- */
-
 /**
  *  \file   alist.h
- *  \brief  List type used by automaton 
+ *  \brief  List type used by automaton
  *  \author Antoine Fraboulet
  *  \date   2005
  */
@@ -31,9 +27,9 @@
 #ifndef _ALIST_H_
 #define _ALIST_H_
 #if defined(__cplusplus)
-extern "C" 
+extern "C"
   {
-#endif 
+#endif
 
     /**
      * untyped list type element
@@ -46,30 +42,30 @@ extern "C"
      * what the value type is
      */
     void* alist_elt_get_value(alist_elt);
-    
+
     /**
      * untyped list type
      */
     typedef struct alist_t* alist;
 
     /**
-     * list creation 
+     * list creation
      * @returns list
      */
     alist     alist_create     ();
     alist     alist_clone      (alist);
 
     /**
-     * funtion to use on data during list deletion.  
+     * funtion to use on data during list deletion.
      */
     void      alist_set_delete (alist,void (*f)(void*));
 
     /**
-     * delete a complete list. 
+     * delete a complete list.
      */
     void      alist_delete     (alist);
-    
-    /** 
+
+    /**
      * add a element to the list
      */
     void      alist_add        (alist, void*);
@@ -98,5 +94,5 @@ extern "C"
 
 #if defined(__cplusplus)
   }
-#endif 
+#endif
 #endif /* _ALIST_H_ */

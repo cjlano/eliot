@@ -17,8 +17,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: history.h,v 1.2 2005/10/23 14:53:43 ipkiss Exp $ */
-
 /**
  *  \file   history.h
  *  \brief  Game history system
@@ -37,16 +35,16 @@ class History
  public:
     History();
     ~History();
-    
+
     /// get the size of the history
     int              getSize() const;
 
-    /// Get the (possibly incomplete) rack 
+    /// Get the (possibly incomplete) rack
     const PlayedRack getCurrentRack() const;
 
     /// Set the current rack
     void             setCurrentRack(const PlayedRack &iPld);
-    
+
     /// Get the previous turn
     const Turn       getPreviousTurn() const;
 
@@ -56,7 +54,7 @@ class History
 
     /// Remove last turn
     void removeLastTurn();
-    
+
     std::string toString() const;
 
  private:

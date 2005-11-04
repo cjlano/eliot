@@ -16,8 +16,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: gfxboard.h,v 1.4 2005/10/23 14:53:44 ipkiss Exp $ */
-
 /**
  *  \file gfxboard.h
  *  \brief  Game board graphical view
@@ -47,7 +45,7 @@ private:
      int top,bottom,left,right;
      char paintedboard_char[BOARD_DIM][BOARD_DIM];
      char paintedboard_attr[BOARD_DIM][BOARD_DIM];
-     int board_size; 
+     int board_size;
      int tile_size;
      wxPoint TopLeft;
      wxSize size;

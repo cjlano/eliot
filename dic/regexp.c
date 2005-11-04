@@ -17,8 +17,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: regexp.c,v 1.9 2005/10/23 14:53:43 ipkiss Exp $ */
-
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,9 +32,9 @@
 
 #ifndef PDBG
 #ifdef DEBUG_RE2
-#define PDBG(x) x 
+#define PDBG(x) x
 #else
-#define PDBG(x) 
+#define PDBG(x)
 #endif
 #endif
 
@@ -70,7 +68,7 @@ static void print_node(FILE*, NODE *n, int detail);
 #endif
 
 /**
- * computes position, annulable, PP, DP attributes 
+ * computes position, annulable, PP, DP attributes
  * @param r   = root
  * @param p   = current leaf position
  * @param n   = current node number
@@ -126,7 +124,7 @@ void regexp_parcours(NODE* r, int *p, int *n, int ptl[])
 }
 
 /**
- * computes possuivante 
+ * computes possuivante
  * @param r   = root
  * @param PS  = next position
  */
@@ -145,7 +143,7 @@ void regexp_possuivante(NODE* r, int PS[])
     case NODE_AND:
       /************************************/
       /* \forall p \in DP(left)           */
-      /*     PS[p] = PS[p] \cup PP(right) */ 
+      /*     PS[p] = PS[p] \cup PP(right) */
       /************************************/
       for(pos=1; pos <= PS[0]; pos++)
 	{
@@ -157,7 +155,7 @@ void regexp_possuivante(NODE* r, int PS[])
       /************************************/
       /* == same as START                 */
       /* \forall p \in DP(left)           */
-      /*     PS[p] = PS[p] \cup PP(left)  */ 
+      /*     PS[p] = PS[p] \cup PP(left)  */
       /************************************/
       for(pos=1; pos <= PS[0]; pos++)
 	{
@@ -168,7 +166,7 @@ void regexp_possuivante(NODE* r, int PS[])
     case NODE_STAR:
       /************************************/
       /* \forall p \in DP(left)           */
-      /*     PS[p] = PS[p] \cup PP(left)  */ 
+      /*     PS[p] = PS[p] \cup PP(left)  */
       /************************************/
       for(pos=1; pos <= PS[0]; pos++)
 	{
@@ -225,9 +223,9 @@ void regexp_print_letter(FILE* f, char l)
     case RE_CONS_MATCH: fprintf(f,"(:c: [%d])",l); break;
     case RE_USR1_MATCH: fprintf(f,"(:1: [%d])",l); break;
     case RE_USR2_MATCH: fprintf(f,"(:2: [%d])",l); break;
-    default: 
+    default:
       if (l < RE_FINAL_TOK)
-	fprintf(f," (%c [%d]) ",l + 'a' - 1, l); 
+	fprintf(f," (%c [%d]) ",l + 'a' - 1, l);
       else
 	fprintf(f," (liste %d)",l - RE_LIST_USER_END);
 	break;
@@ -248,9 +246,9 @@ void regexp_print_letter2(FILE* f, char l)
     case RE_CONS_MATCH: fprintf(f,":c:"); break;
     case RE_USR1_MATCH: fprintf(f,":1:"); break;
     case RE_USR2_MATCH: fprintf(f,":2:"); break;
-    default: 
+    default:
       if (l < RE_FINAL_TOK)
-	fprintf(f,"%c",l + 'a' - 1); 
+	fprintf(f,"%c",l + 'a' - 1);
       else
 	fprintf(f,"l%d",l - RE_LIST_USER_END);
 	break;
@@ -290,7 +288,7 @@ static void print_node(FILE* f, NODE *n, int detail)
 	      n->position,n->annulable,n->PP,n->DP);
     }
 }
-#endif 
+#endif
 
 /*////////////////////////////////////////////////
 ////////////////////////////////////////////////*/
@@ -298,8 +296,8 @@ static void print_node(FILE* f, NODE *n, int detail)
 #ifdef DEBUG_RE
 static void print_tree_nodes(FILE* f, NODE* n, int detail)
 {
-  if (n == NULL) 
-    return; 
+  if (n == NULL)
+    return;
 
   print_tree_nodes(f,n->fg,detail);
   print_tree_nodes(f,n->fd,detail);
@@ -321,7 +319,7 @@ static void print_tree_edges(FILE* f, NODE* n)
 
   print_tree_edges(f,n->fg);
   print_tree_edges(f,n->fd);
-  
+
   switch (n->type)
     {
     case NODE_OR:
@@ -347,8 +345,8 @@ static void print_tree_edges(FILE* f, NODE* n)
 void regexp_print_tree(NODE* n, char* name, int detail)
 {
   FILE* f;
-  pid_t   pid; 
-  
+  pid_t   pid;
+
   f=fopen(name,"w");
   fprintf(f,"digraph %s {\n",name);
   print_tree_nodes(f,n,detail);

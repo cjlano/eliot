@@ -17,10 +17,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/*
- * $Id: hashtable.h,v 1.3 2005/10/23 14:53:43 ipkiss Exp $	 
- */
-
 /**
  *  \file   hashtable.h
  *  \brief  Hashtable type
@@ -31,9 +27,9 @@
 #ifndef _HASHTABLE_H
 #define _HASHTABLE_H
 #if defined(__cplusplus)
-extern "C" 
+extern "C"
   {
-#endif 
+#endif
 
 typedef struct _Hash_table* Hash_table;
 
@@ -46,5 +42,5 @@ int        hash_add (Hash_table,void* key,unsigned keysize,
 
 #if defined(__cplusplus)
   }
-#endif 
+#endif
 #endif /* _HASHTABLE_H_ */

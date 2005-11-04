@@ -16,8 +16,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-# $Id: Makefile.am,v 1.6 2005/10/23 14:53:44 ipkiss Exp $
-
 if BUILD_WXWIDGETS
 
 bin_PROGRAMS = eliot

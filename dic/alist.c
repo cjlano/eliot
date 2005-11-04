@@ -17,13 +17,9 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/*
- * $Id: alist.c,v 1.2 2005/10/23 14:53:43 ipkiss Exp $
- */
-
 /**
  *  \file   alist.c
- *  \brief  List type used by automaton 
+ *  \brief  List type used by automaton
  *  \author Antoine Fraboulet
  *  \date   2005
  */
@@ -44,12 +40,12 @@ struct alist_t {
 };
 
 
-void* 
+void*
 alist_elt_get_value(alist_elt e)
 {
   return e->info;
 }
-    
+
 alist_elt
 alist_elt_create(void* info)
 {
@@ -107,7 +103,7 @@ alist_delete_rec(alist_elt e, void (*delete_function)(void*))
     }
 }
 
-void      
+void
 alist_delete(alist l)
 {
   alist_delete_rec(l->start,l->delete_function);
@@ -163,13 +159,13 @@ alist_insert(alist dst, alist src)
     }
 }
 
-alist_elt 
+alist_elt
 alist_get_first(alist l)
 {
   return l->start;
 }
 
-alist_elt 
+alist_elt
 alist_get_next(alist l, alist_elt e)
 {
   return e->next;

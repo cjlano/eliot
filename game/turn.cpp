@@ -17,11 +17,9 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: turn.cpp,v 1.2 2005/10/23 14:53:43 ipkiss Exp $ */
-
 /**
  *  \file   turn.cpp
- *  \brief  Game turn (= id + pldrack + round) 
+ *  \brief  Game turn (= id + pldrack + round)
  *  \author Antoine Fraboulet
  *  \date   2005
  */
@@ -38,7 +36,7 @@ Turn::Turn()
     pldrack = PlayedRack();
     round   = Round();
 }
-    
+
 
 Turn::~Turn()
 {
@@ -92,7 +90,7 @@ Round Turn::getRound() const
 }
 
 
-void 
+void
 Turn::operator=(const Turn &iOther)
 {
     num     = iOther.num;
@@ -101,7 +99,7 @@ Turn::operator=(const Turn &iOther)
 }
 
 
-string 
+string
 Turn::toString(bool showExtraSigns) const
 {
     string rs = "";

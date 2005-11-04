@@ -16,8 +16,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: confdimdlg.h,v 1.2 2005/10/23 14:53:44 ipkiss Exp $ */
-
 #ifndef _CONFDIMDLG_H
 #define _CONFDIMDLG_H
 
@@ -77,7 +75,7 @@ public:
   void OnConfFontText(wxCommandEvent& event);
   void OnConfPage(wxCommandEvent& event);
   void OnConfPrinter(wxCommandEvent& event);
-  
+
   wxPrintData getPrintData();
   wxPageSetupData getPageSetupData();
 

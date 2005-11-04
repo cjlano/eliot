@@ -16,8 +16,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-# $Id: Makefile.am,v 1.8 2005/10/23 14:53:44 ipkiss Exp $
-
 top_srcdir = @top_srcdir@
 
 INCLUDES = -I$(top_srcdir)/dic -I$(top_srcdir)/game -I$(top_srcdir)/intl

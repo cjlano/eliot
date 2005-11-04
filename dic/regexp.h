@@ -17,8 +17,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: regexp.h,v 1.9 2005/10/23 14:53:43 ipkiss Exp $ */
-
 /**
  *  \file regexp.h
  *  \brief  Regular Expression fonctions
@@ -29,9 +27,9 @@
 #ifndef _TREE_H_
 #define _TREE_H_
 #if defined(__cplusplus)
-extern "C" 
+extern "C"
   {
-#endif 
+#endif
 
 #define NODE_TOP    0
 #define NODE_VAR    1
@@ -42,9 +40,9 @@ extern "C"
 
 typedef struct node {
   int              type;
-  char             var; 
-  struct node      *fg; 
-  struct node      *fd; 
+  char             var;
+  struct node      *fg;
+  struct node      *fd;
   int numero;
   int position;
   int annulable;
@@ -55,10 +53,10 @@ typedef struct node {
     /**
      * maximum number of accepted terminals in regular expressions
      */
-#define REGEXP_MAX 32 
+#define REGEXP_MAX 32
 
-    /** 
-     * special terminals that should not appear in the dictionary 
+    /**
+     * special terminals that should not appear in the dictionary
      */
 #define RE_EPSILON     (DIC_LETTERS + 0)
 #define RE_FINAL_TOK   (DIC_LETTERS + 1)
@@ -67,8 +65,8 @@ typedef struct node {
 #define RE_CONS_MATCH  (DIC_LETTERS + 4)
 #define RE_USR1_MATCH  (DIC_LETTERS + 5)
 #define RE_USR2_MATCH  (DIC_LETTERS + 6)
-    
-    /** 
+
+    /**
      * number of lists for regexp letter match \n
      * 0 : all tiles                           \n
      * 1 : vowels                              \n
@@ -79,18 +77,18 @@ typedef struct node {
      */
 #define DIC_SEARCH_REGE_LIST (REGEXP_MAX)
 
-    /** 
+    /**
      * Structure used for Dic_search_RegE \n
-     * this structure is used to explicit letters list that will be matched 
+     * this structure is used to explicit letters list that will be matched
      * against special tokens in the regular expression search
      */
 struct search_RegE_list_t {
   /** special symbol associated with the list */
-  char symbl[DIC_SEARCH_REGE_LIST];                
+  char symbl[DIC_SEARCH_REGE_LIST];
   /** 0 or 1 if list is valid */
-  int  valid[DIC_SEARCH_REGE_LIST];                
+  int  valid[DIC_SEARCH_REGE_LIST];
   /** 0 or 1 if letter is present in the list */
-  char letters[DIC_SEARCH_REGE_LIST][DIC_LETTERS]; 
+  char letters[DIC_SEARCH_REGE_LIST][DIC_LETTERS];
 };
 
 #define RE_LIST_ALL_MATCH  0
@@ -105,7 +103,7 @@ struct search_RegE_list_t {
      * The fonction is called by bison grammar rules
      */
 NODE* regexp_createNODE(int type,char v,NODE *fg,NODE *fd);
-    
+
     /**
      * delete regexp syntactic tree
      */
@@ -147,5 +145,5 @@ void  regexp_print_tree(NODE* n, char* name, int detail);
 
 #if defined(__cplusplus)
   }
-#endif 
+#endif
 #endif /* _TREE_H_ */

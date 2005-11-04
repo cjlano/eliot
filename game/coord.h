@@ -17,8 +17,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: coord.h,v 1.2 2005/10/23 14:53:43 ipkiss Exp $ */
-
 /**
  *  \file   coord.h
  *  \brief  Game coordinates system
@@ -29,18 +27,18 @@
 #ifndef _COORD_H
 #define _COORD_H
 
-enum Tdirection {VERTICAL, HORIZONTAL};
-typedef enum Tdirection Direction;
-
 class Coord
 {
- public:
+public:
+
+    enum Direction {VERTICAL, HORIZONTAL};
 
     Coord();
-    ~Coord();
-    
-    void setRow(int iRow);      
-    void setCol(int iCol);      
+    Coord(const std::string& iCoord);
+    virtual ~Coord();
+
+    void setRow(int iRow);
+    void setCol(int iCol);
     void setDir(Direction iDir);
 
     Direction getDir() const;
@@ -58,7 +56,7 @@ class Coord
 
 #endif
 
-
+
 /// Local Variables:
 /// mode: hs-minor
 /// c-basic-offset: 4

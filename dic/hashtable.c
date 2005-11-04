@@ -17,10 +17,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/*
- * $Id: hashtable.c,v 1.3 2005/10/23 14:53:43 ipkiss Exp $
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -143,7 +139,7 @@ new_entry(void* key, unsigned int keysize, void* value, unsigned int
 
 int
 hash_add(Hash_table hashtable,
-	 void* key, unsigned int keysize, 
+	 void* key, unsigned int keysize,
 	 void* value, unsigned int valuesize)
 {
   Hash_node *entry;

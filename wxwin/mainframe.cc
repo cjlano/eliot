@@ -16,8 +16,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: mainframe.cc,v 1.10 2005/10/23 14:53:44 ipkiss Exp $ */
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -220,7 +218,7 @@ MainFrame::MainFrame(wxPoint pos_, wxSize size_)
     else
       {
 	wxCommandEvent event;
-	OnMenuConfGameDic(event);	
+	OnMenuConfGameDic(event);
 	m_game = NULL;
       }
     m_game = GameFactory::Instance()->createTraining(m_dic);
@@ -243,7 +241,7 @@ MainFrame::~MainFrame()
 	GameFactory::Instance()->releaseGame(*m_game);
 	m_game = NULL;
       }
-    
+
     if (m_dic)
       {
 	Dic_destroy(m_dic);
@@ -961,7 +959,7 @@ MainFrame::InitFrames()
   auxframes_ptr[ ID_Frame_Benj   ] = new BenjFrame  (this, *m_game, results);
   auxframes_ptr[ ID_Frame_Bag    ] = new BagFrame   (this, *m_game);
   auxframes_ptr[ ID_Frame_Board  ] = new BoardFrame (this, *m_game);
-  
+
   for (int i = MIN_FRAME_ID; i < MAX_FRAME_ID; i++)
     {
       auxframes_ptr[i]->Reload();
@@ -998,7 +996,7 @@ MainFrame::UpdateFrames(refresh_t force)
     for (int id = 0; id < MAX_FRAME_ID; id++)
     {
         if (auxframes_ptr[id])
-	  {      
+	  {
 	    // debug("UpdateFrames %d\n",id);
             auxframes_ptr[id]->Refresh(force);
 	  }

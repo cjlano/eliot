@@ -17,8 +17,6 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/* $Id: dic.h,v 1.9 2005/10/23 14:53:43 ipkiss Exp $ */
-
 /**
  *  \file   dic.h
  *  \brief  Dawg dictionary
@@ -29,18 +27,18 @@
 #ifndef _DIC_H_
 #define _DIC_H_
 #if defined(__cplusplus)
-extern "C" 
+extern "C"
   {
-#endif 
-  
-/** 
- * different letters in the dictionary     
+#endif
+
+/**
+ * different letters in the dictionary
  */
 #define DIC_LETTERS  27
 
-/** 
- * max length of words (including last \0) 
- */        
+/**
+ * max length of words (including last \0)
+ */
 #define DIC_WORD_MAX 16
 
 typedef struct _Dictionary* Dictionary;
@@ -80,7 +78,7 @@ int    Dic_last(Dictionary dic, dic_elt_t elt);
      */
 int    Dic_word(Dictionary dic, dic_elt_t elt);
 
-    /** 
+    /**
      * Returns the root of the dictionary
      * @returns root element
      */
@@ -108,7 +106,7 @@ dic_elt_t Dic_succ(Dictionary dic, dic_elt_t elt);
      * @params root : starting dictionary node for the search
      * @params pattern : string encoded according to the dictionary codes,
      * the pattern must be null ('\0') terminated
-     * @returns 0 if the string cannot be matched otherwise returns the 
+     * @returns 0 if the string cannot be matched otherwise returns the
      * element that results from walking the dictionary according to the
      * pattern
      */
@@ -116,5 +114,5 @@ unsigned int Dic_lookup(Dictionary dic, dic_elt_t root, char* pattern);
 
 #if defined(__cplusplus)
   }
-#endif 
+#endif
 #endif /* _DIC_H_ */

@@ -3,8 +3,6 @@
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
- * $Id: round.h,v 1.6 2005/10/23 14:53:43 ipkiss Exp $
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -43,14 +41,14 @@ class Round
 public:
 
     /*************************
-     * 
+     *
      *************************/
     Round();
     virtual ~Round() {}
     void init();
 
     /*************************
-     * 
+     *
      *************************/
     void addRightFromBoard(Tile);
     void removeRightToBoard(Tile);
@@ -72,7 +70,7 @@ public:
     void setJoker(int iIndex, bool value = true);
 
     /*************************
-     * 
+     *
      *************************/
     bool isJoker(int iIndex) const;
     const Tile& getTile(int iIndex) const;
