@@ -23,11 +23,9 @@
 
 #include <vector>
 #include "tile.h"
+#include "coord.h"
 
 using namespace std;
-
-enum Tdirection {VERTICAL, HORIZONTAL};
-typedef enum Tdirection Direction;
 
 
 /**
@@ -58,10 +56,7 @@ public:
     /*************************
      * General setters
      *************************/
-    void setRow(int iRow)          { m_row = iRow; }
-    void setCol(int iCol)          { m_col = iCol; }
     void setPoints(int iPoints)    { m_points = iPoints; }
-    void setDir(Direction iDir)    { m_dir = iDir; }
     void setBonus(bool iBonus)     { m_bonus = iBonus; }
     void setTile(int iIndex, const Tile &iTile) { m_word[iIndex] = iTile; }
     void setWord(const vector<Tile> &iTiles);
@@ -70,27 +65,29 @@ public:
     void setJoker(int iIndex, bool value = true);
 
     /*************************
-     *
-     *************************/
-    bool isJoker(int iIndex) const;
-    const Tile& getTile(int iIndex) const;
-    int getWordLen() const;
-    bool isPlayedFromRack(int iIndex) const;
-
-    /*************************
      * General getters
      *************************/
-    int getRow() const          { return m_row; }
-    int getCol() const          { return m_col; }
-    int getPoints() const       { return m_points; }
-    int getBonus() const        { return m_bonus; }
-    Direction getDir() const    { return m_dir; }
+    bool isJoker         (int iIndex) const;
+    bool isPlayedFromRack(int iIndex) const;
+    const Tile& getTile  (int iIndex) const;
+    int getWordLen() const;
+    int getPoints()  const      { return m_points; }
+    int getBonus()   const      { return m_bonus; }
+
+    /*************************
+     * Coordinates
+     *************************/
+    int getRow() const                 { return m_coord.getRow(); }
+    int getCol() const                 { return m_coord.getCol(); }
+    Coord::Direction getDir() const    { return m_coord.getDir(); }
+    void setRow(int iRow)              { m_coord.setRow(iRow); }
+    void setCol(int iCol)              { m_coord.setCol(iCol); }
+    void setDir(Coord::Direction iDir) { m_coord.setDir(iDir); }
 
 private:
     vector<Tile> m_word;
     vector<char> m_tileOrigin;
-    Direction m_dir;
-    int m_row, m_col;
+    Coord m_coord;
     int m_points;
     int m_bonus;
 };

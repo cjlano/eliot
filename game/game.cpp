@@ -216,7 +216,7 @@ Game * Game::load(FILE *fin, const Dictionary &iDic)
             if (isalpha(ref[0]))
             {
                 // Horizontal word
-                round.setDir(HORIZONTAL);
+                round.setDir(Coord::HORIZONTAL);
                 round.setRow(ref[0] - 'A' + 1);
                 round.setCol(atoi(ref + 1));
 
@@ -238,7 +238,7 @@ Game * Game::load(FILE *fin, const Dictionary &iDic)
             else
             {
                 // Vertical word
-                round.setDir(VERTICAL);
+                round.setDir(Coord::VERTICAL);
                 round.setRow(ref[strlen(ref) - 1] - 'A' + 1);
                 round.setCol(atoi(ref));
 
@@ -717,7 +717,7 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
 
 string Game::formatCoords(const Round &iRound) const
 {
-    if (iRound.getDir() == HORIZONTAL)
+    if (iRound.getDir() == Coord::HORIZONTAL)
     {
         char s[5];
         sprintf(s, "%d", iRound.getCol());
@@ -897,9 +897,9 @@ int Game::checkPlayedWord(const string &iCoord,
     /* Init the round with the given coordinates */
     oRound.init();
     if (sscanf(iCoord.c_str(), "%1[a-oA-O]%2d", l, &col) == 2)
-        oRound.setDir(HORIZONTAL);
+        oRound.setDir(Coord::HORIZONTAL);
     else if (sscanf(iCoord.c_str(), "%2d%1[a-oA-O]", &col, l) == 2)
-        oRound.setDir(VERTICAL);
+        oRound.setDir(Coord::VERTICAL);
     else
         return 2;
     row = toupper(*l) - 'A' + 1;

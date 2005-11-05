@@ -25,6 +25,7 @@ libgame_a_SOURCES = 		\
 	ai_player.h				\
 	tile.cpp tile.h			\
 	bag.cpp bag.h			\
+	coord.cpp coord.h		\
 	cross.cpp cross.h		\
 	board.cpp board.h		\
 	board_cross.cpp			\

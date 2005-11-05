@@ -78,13 +78,13 @@ static void BoardSearchEvalMove(const Board &iBoard,
     iWord.setBonus(fromrack == 7);
     iWord.setPoints(pts);
 
-    if (iWord.getDir() == VERTICAL)
+    if (iWord.getDir() == Coord::VERTICAL)
     {
         iWord.setRow(col);
         iWord.setCol(row);
     }
     iResults.add(iWord);
-    if (iWord.getDir() == VERTICAL)
+    if (iWord.getDir() == Coord::VERTICAL)
     {
         iWord.setRow(row);
         iWord.setCol(col);
@@ -212,7 +212,8 @@ static void BoardSearchAux(const Board &iBoard,
                            Matrix<Cross> &iCrossMx,
                            Matrix<int> &iPointsMx,
                            Matrix<bool> &iJokerMx,
-                           Rack &iRack, Results &iResults, Direction iDir)
+                           Rack &iRack, Results &iResults,
+                           Coord::Direction iDir)
 {
     int row, col, lastanchor;
     Round partialword;
@@ -261,11 +262,11 @@ void Board::search(const Dictionary &iDic,
 
     BoardSearchAux(*this, iDic, m_tilesRow, m_crossRow,
                    m_pointRow, m_jokerRow,
-                   copyRack, oResults, HORIZONTAL);
+                   copyRack, oResults, Coord::HORIZONTAL);
 
     BoardSearchAux(*this, iDic, m_tilesCol, m_crossCol,
                    m_pointCol, m_jokerCol,
-                   copyRack, oResults, VERTICAL);
+                   copyRack, oResults, Coord::VERTICAL);
     oResults.sort();
 }
 
@@ -282,7 +283,7 @@ void Board::searchFirst(const Dictionary &iDic,
 
     partialword.setRow(row);
     partialword.setCol(col);
-    partialword.setDir(HORIZONTAL);
+    partialword.setDir(Coord::HORIZONTAL);
     LeftPart(*this, iDic, m_tilesRow, m_crossRow,
              m_pointRow, m_jokerRow,
              copyRack, partialword, oResults, Dic_root(iDic), row, col,

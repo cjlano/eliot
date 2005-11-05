@@ -46,7 +46,7 @@ Coord::~Coord()
 {
 }
 
-Direction Coord::getDir() const
+Coord::Direction Coord::getDir() const
 {
     return m_dir;
 }

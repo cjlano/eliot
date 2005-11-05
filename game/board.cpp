@@ -155,7 +155,7 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
 
     row = iRound.getRow();
     col = iRound.getCol();
-    if (iRound.getDir() == HORIZONTAL)
+    if (iRound.getDir() == Coord::HORIZONTAL)
     {
         for (int i = 0; i < iRound.getWordLen(); i++)
         {
@@ -196,7 +196,7 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
 
     row = iRound.getRow();
     col = iRound.getCol();
-    if (iRound.getDir() == HORIZONTAL)
+    if (iRound.getDir() == Coord::HORIZONTAL)
     {
         for (int i = 0; i < iRound.getWordLen(); i++)
         {
@@ -314,7 +314,7 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
     if (isolated && !firstturn)
         return 5;
     /* The first word must be horizontal */
-    if (firstturn && iRound.getDir() == VERTICAL)
+    if (firstturn && iRound.getDir() == Coord::VERTICAL)
         return 6;
     /* The first word must cover the H8 square */
     if (firstturn
@@ -334,7 +334,7 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
 
 int Board::checkRound(Round &iRound, bool firstturn)
 {
-    if (iRound.getDir() == HORIZONTAL)
+    if (iRound.getDir() == Coord::HORIZONTAL)
         return checkRoundAux(m_tilesRow, m_crossRow,
                              m_pointRow, m_jokerRow,
                              iRound, firstturn);
@@ -369,7 +369,7 @@ void Board::testRound(const Round &iRound)
 
     row = iRound.getRow();
     col = iRound.getCol();
-    if (iRound.getDir() == HORIZONTAL)
+    if (iRound.getDir() == Coord::HORIZONTAL)
     {
         for (int i = 0; i < iRound.getWordLen(); i++)
         {
