@@ -209,22 +209,22 @@ Game * Game::load(FILE *fin, const Dictionary &iDic)
 
             // Build a round
             Round round;
+            round.accessCoord().setFromString(ref);
+            if (!round.getCoord().isValid())
+                continue;
+
             round.setPoints(pts);
             if (bonus == '*')
                 round.setBonus(1);
 
-            if (isalpha(ref[0]))
+            for (unsigned int i = 0; i < strlen(word); i++)
             {
-                // Horizontal word
-                round.setDir(Coord::HORIZONTAL);
-                round.setRow(ref[0] - 'A' + 1);
-                round.setCol(atoi(ref + 1));
+                tile = Tile(word[i]);
 
-                for (unsigned int i = 0; i < strlen(word); i++)
+                if (round.getCoord().getDir() == Coord::HORIZONTAL)
                 {
-                    tile = Tile(word[i]);
-
-                    if (!pGame->m_board.getTile(round.getRow(), round.getCol() + i).isEmpty())
+                    if (!pGame->m_board.getTile(round.getCoord().getRow(),
+                                                round.getCoord().getCol() + i).isEmpty())
                     {
                         round.addRightFromBoard(tile);
                     }
@@ -234,19 +234,10 @@ Game * Game::load(FILE *fin, const Dictionary &iDic)
                         pGame->m_bag.takeTile((islower(word[i])) ? Tile::Joker() : tile);
                     }
                 }
-            }
-            else
-            {
-                // Vertical word
-                round.setDir(Coord::VERTICAL);
-                round.setRow(ref[strlen(ref) - 1] - 'A' + 1);
-                round.setCol(atoi(ref));
-
-                for (unsigned int i = 0; i < strlen(word); i++)
+                else
                 {
-                    tile = Tile(word[i]);
-
-                    if (!pGame->m_board.getTile(round.getRow() + i, round.getCol()).isEmpty())
+                    if (!pGame->m_board.getTile(round.getCoord().getRow() + i,
+                                                round.getCoord().getCol()).isEmpty())
                     {
                         round.addRightFromBoard(tile);
                     }
@@ -717,18 +708,8 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
 
 string Game::formatCoords(const Round &iRound) const
 {
-    if (iRound.getDir() == Coord::HORIZONTAL)
-    {
-        char s[5];
-        sprintf(s, "%d", iRound.getCol());
-        return string(1, iRound.getRow() + 'A' - 1) + s;
-    }
-    else
-    {
-        char s[5];
-        sprintf(s, "%d", iRound.getCol());
-        return s + string(1, iRound.getRow() + 'A' - 1);
-    }
+    ASSERT(iRound.getCoord().isValid(), "Invalid coordinates");
+    return iRound.getCoord().toString();
 }
 
 
@@ -888,28 +869,15 @@ int Game::checkPlayedWord(const string &iCoord,
 {
     ASSERT(getNPlayers() != 0, "Expected at least one player");
 
-    char l[4];
-    int col, row;
     int res;
     vector<Tile> tiles;
     Tile t;
 
     /* Init the round with the given coordinates */
     oRound.init();
-    if (sscanf(iCoord.c_str(), "%1[a-oA-O]%2d", l, &col) == 2)
-        oRound.setDir(Coord::HORIZONTAL);
-    else if (sscanf(iCoord.c_str(), "%2d%1[a-oA-O]", &col, l) == 2)
-        oRound.setDir(Coord::VERTICAL);
-    else
+    oRound.accessCoord().setFromString(iCoord);
+    if (!oRound.getCoord().isValid())
         return 2;
-    row = toupper(*l) - 'A' + 1;
-    if (col < BOARD_MIN || col > BOARD_MAX ||
-        row < BOARD_MIN || row > BOARD_MAX)
-    {
-        return 2;
-    }
-    oRound.setCol(col);
-    oRound.setRow(row);
 
     /* Check the existence of the word */
     if (Dic_search_word(*m_dic, iWord.c_str()) == 0)

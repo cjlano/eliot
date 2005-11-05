@@ -26,54 +26,25 @@
 
 #include <string>
 #include "coord.h"
+#include "board.h" // for BOARD_MIN and BOARD_MAX (TODO: remove this include)
 
 
-Coord::Coord()
+Coord::Coord(int iRow, int iCol, Direction iDir)
 {
-    m_row = 1;
-    m_col = 1;
-    m_dir = HORIZONTAL;
+    m_row = iRow;
+    m_col = iCol;
+    m_dir = iDir;
 }
 
 Coord::Coord(const string &iStr)
 {
-    m_row = 1;
-    m_col = 1;
     setFromString(iStr);
 }
 
-Coord::~Coord()
+bool Coord::isValid() const
 {
-}
-
-Coord::Direction Coord::getDir() const
-{
-    return m_dir;
-}
-
-int Coord::getRow() const
-{
-    return m_row;
-}
-
-int Coord::getCol() const
-{
-    return m_col;
-}
-
-void Coord::setRow(int iRow)
-{
-    m_row = iRow;
-}
-
-void Coord::setCol(int iCol)
-{
-    m_col = iCol;
-}
-
-void Coord::setDir(Direction iDir)
-{
-    m_dir = iDir;
+    return (m_row >= BOARD_MIN && m_row <= BOARD_MAX &&
+            m_col >= BOARD_MIN && m_col <= BOARD_MAX);
 }
 
 void Coord::operator=(const Coord &iOther)
@@ -81,6 +52,13 @@ void Coord::operator=(const Coord &iOther)
     m_dir = iOther.m_dir;
     m_row = iOther.m_row;
     m_col = iOther.m_col;
+}
+
+void Coord::swap()
+{
+    int tmp = m_col;
+    m_col = m_row;
+    m_row = tmp;
 }
 
 void Coord::setFromString(const string &iStr)
@@ -98,8 +76,8 @@ void Coord::setFromString(const string &iStr)
     }
     else
     {
-        col = 1;
-        l[0] = 'A';
+        col = -1;
+        l[0] = 'A' - 1;
     }
     int row = toupper(*l) - 'A' + 1;
     setCol(col);
@@ -109,16 +87,15 @@ void Coord::setFromString(const string &iStr)
 string Coord::toString() const
 {
     string rs;
+
+    char s[5];
+    sprintf(s, "%d", m_col);
     if (getDir() == HORIZONTAL)
     {
-        char s[5];
-        sprintf(s, "%d", m_col);
         rs = string(1, m_row + 'A' - 1) + s;
     }
     else
     {
-        char s[5];
-        sprintf(s, "%d", m_col);
         rs = s + string(1, m_row + 'A' - 1);
     }
     return rs;

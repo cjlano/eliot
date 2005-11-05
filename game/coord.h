@@ -35,19 +35,25 @@ public:
 
     enum Direction {VERTICAL, HORIZONTAL};
 
-    Coord();
+    // Construction, destruction
+    Coord(int iRow = -1, int iCol = -1, Direction iDir = HORIZONTAL);
     Coord(const string &iStr);
-    virtual ~Coord();
+    virtual ~Coord() {}
 
-    void setRow(int iRow);
-    void setCol(int iCol);
-    void setDir(Direction iDir);
+    // Accessors
+    void setRow(int iRow)       { m_row = iRow; }
+    void setCol(int iCol)       { m_col = iCol; }
+    void setDir(Direction iDir) { m_dir = iDir; }
+    int getRow() const          { return m_row; }
+    int getCol() const          { return m_col; }
+    Direction getDir() const    { return m_dir; }
 
-    Direction getDir() const;
-    int getRow() const;
-    int getCol() const;
-
+    bool isValid() const;
     void operator=(const Coord &iOther);
+
+    // Swap the coordinates (without changing the direction)
+    void swap();
+
     void setFromString(const string &iStr);
     string toString() const;
 

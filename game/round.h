@@ -71,18 +71,14 @@ public:
     bool isPlayedFromRack(int iIndex) const;
     const Tile& getTile  (int iIndex) const;
     int getWordLen() const;
-    int getPoints()  const      { return m_points; }
-    int getBonus()   const      { return m_bonus; }
+    int getPoints()  const        { return m_points; }
+    int getBonus()   const        { return m_bonus; }
 
     /*************************
      * Coordinates
      *************************/
-    int getRow() const                 { return m_coord.getRow(); }
-    int getCol() const                 { return m_coord.getCol(); }
-    Coord::Direction getDir() const    { return m_coord.getDir(); }
-    void setRow(int iRow)              { m_coord.setRow(iRow); }
-    void setCol(int iCol)              { m_coord.setCol(iCol); }
-    void setDir(Coord::Direction iDir) { m_coord.setDir(iDir); }
+    const Coord& getCoord() const { return m_coord; }
+    Coord& accessCoord()          { return m_coord; }
 
 private:
     vector<Tile> m_word;

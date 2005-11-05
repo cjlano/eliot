@@ -153,9 +153,9 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
     Tile t;
     int row, col;
 
-    row = iRound.getRow();
-    col = iRound.getCol();
-    if (iRound.getDir() == Coord::HORIZONTAL)
+    row = iRound.getCoord().getRow();
+    col = iRound.getCoord().getCol();
+    if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
     {
         for (int i = 0; i < iRound.getWordLen(); i++)
         {
@@ -194,9 +194,9 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
 {
     int row, col;
 
-    row = iRound.getRow();
-    col = iRound.getCol();
-    if (iRound.getDir() == Coord::HORIZONTAL)
+    row = iRound.getCoord().getRow();
+    col = iRound.getCoord().getCol();
+    if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
     {
         for (int i = 0; i < iRound.getWordLen(); i++)
         {
@@ -248,8 +248,8 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
     pts = 0;
     ptscross = 0;
     wordmul = 1;
-    row = iRound.getRow();
-    col = iRound.getCol();
+    row = iRound.getCoord().getRow();
+    col = iRound.getCoord().getCol();
 
     /* Is the word an extension of another word? */
     if (!iTilesMx[row][col - 1].isEmpty() ||
@@ -314,7 +314,7 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
     if (isolated && !firstturn)
         return 5;
     /* The first word must be horizontal */
-    if (firstturn && iRound.getDir() == Coord::VERTICAL)
+    if (firstturn && iRound.getCoord().getDir() == Coord::VERTICAL)
         return 6;
     /* The first word must cover the H8 square */
     if (firstturn
@@ -334,28 +334,24 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
 
 int Board::checkRound(Round &iRound, bool firstturn)
 {
-    if (iRound.getDir() == Coord::HORIZONTAL)
+    if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
+    {
         return checkRoundAux(m_tilesRow, m_crossRow,
                              m_pointRow, m_jokerRow,
                              iRound, firstturn);
+    }
     else
     {
-        int res, tmp;
-
         // XXX: ugly!
-        /* Exchange the coordinates temporarily */
-        tmp = iRound.getRow();
-        iRound.setRow(iRound.getCol());
-        iRound.setCol(tmp);
+        // Exchange the coordinates temporarily
+        iRound.accessCoord().swap();
 
-        res = checkRoundAux(m_tilesCol, m_crossCol,
-                            m_pointCol, m_jokerCol,
-                            iRound, firstturn);
+        int res = checkRoundAux(m_tilesCol, m_crossCol,
+                                m_pointCol, m_jokerCol,
+                                iRound, firstturn);
 
-        /* Restore the coordinates */
-        tmp = iRound.getRow();
-        iRound.setRow(iRound.getCol());
-        iRound.setCol(tmp);
+        // Restore the coordinates
+        iRound.accessCoord().swap();
 
         return res;
     }
@@ -367,9 +363,9 @@ void Board::testRound(const Round &iRound)
     Tile t;
     int row, col;
 
-    row = iRound.getRow();
-    col = iRound.getCol();
-    if (iRound.getDir() == Coord::HORIZONTAL)
+    row = iRound.getCoord().getRow();
+    col = iRound.getCoord().getCol();
+    if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
     {
         for (int i = 0; i < iRound.getWordLen(); i++)
         {

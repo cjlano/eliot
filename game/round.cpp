@@ -37,8 +37,8 @@ void Round::init()
 {
     m_word.clear();
     m_tileOrigin.clear();
-    m_coord.setRow(1);
-    m_coord.setCol(1);
+    m_coord.setRow(-1);
+    m_coord.setCol(-1);
     m_coord.setDir(Coord::HORIZONTAL);
     m_points = 0;
     m_bonus  = 0;
