@@ -17,6 +17,13 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
+/**
+ *  \file   regexpmain.c
+ *  \brief  Program used to test regexp
+ *  \author Antoine Fraboulet
+ *  \date   2005
+ */
+
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,6 +61,8 @@ void init_letter_lists(struct search_RegE_list_t *list)
 {
   int i;
   memset (list,0,sizeof(*list));
+  list->minlength = 1;
+  list->maxlength = 15;
   list->valid[0] = 1; // all letters
   list->symbl[0] = RE_ALL_MATCH;
   list->valid[1] = 1; // vowels
@@ -75,6 +84,12 @@ void init_letter_lists(struct search_RegE_list_t *list)
 /********************************************************/
 /********************************************************/
 /********************************************************/
+void
+usage(int argc, char* argv[])
+{
+  fprintf(stderr,"usage: %s dictionary\n",argv[0]);
+  fprintf(stderr,"   dictionary : path to dawg eliot dictionary\n");
+}
 
 int main(int argc, char* argv[])
 {
@@ -84,6 +99,11 @@ int main(int argc, char* argv[])
   char er[200];
   strcpy(er,".");
   struct search_RegE_list_t list;
+
+  if (argc < 2)
+    {
+      usage(argc,argv);
+    }
 
   if (Dic_load(&dic,argv[1]))
     {

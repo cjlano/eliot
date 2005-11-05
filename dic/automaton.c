@@ -33,7 +33,7 @@
 #include "alist.h"
 #include "automaton.h"
 
-#ifdef DEBUG_AUTOMATON__
+#ifdef DEBUG_AUTOMATON
 #define DMSG(a) a
 #else
 #define DMSG(a)
@@ -170,7 +170,10 @@ automaton_dump(automaton a, char* filename)
 {
   int i,l;
   FILE* f;
+#ifdef HAVE_SYS_WAIT_H
   pid_t   pid;
+#endif
+
   if (a == NULL)
     return ;
   f=fopen(filename,"w");
@@ -411,14 +414,13 @@ s_automaton_successor(alist S, int letter, Automaton nfa, struct search_RegE_lis
 	  alist_insert(Ry,z->id);                          /* Ry = Ry \cup succ(z)    */
 	}
 
-#if 0
+      /* \epsilon transition from start node */
       if ((z = y->next[RE_EPSILON]) != NULL)               /* \delta (y,z) = \epsilon */
 	{
 	  r = s_automaton_successor(z->id,letter,nfa, list);
 	  alist_insert(Ry,r);                              /* Ry = Ry \cup succ(z)    */
 	  alist_delete(r);
 	}
-#endif
 
       if (letter < RE_FINAL_TOK)
 	{
@@ -440,8 +442,10 @@ s_automaton_successor(alist S, int letter, Automaton nfa, struct search_RegE_lis
 	      }
 	}
 
-      //      if (alist_is_empty(Ry))                              /* Ry = \empty             */
-      //	return Ry;
+#if 0
+      if (alist_is_empty(Ry))                              /* Ry = \empty             */
+      	return Ry;
+#endif
 
       alist_insert(R,Ry);                                  /* R = R \cup Ry           */
       alist_delete(Ry);
@@ -651,8 +655,9 @@ static void
 s_automaton_dump(Automaton a, char* filename)
 {
   FILE* f;
+#ifdef HAVE_SYS_WAIT_H
   pid_t   pid;
-
+#endif
   if (a == NULL)
     return;
   f=fopen(filename,"w");

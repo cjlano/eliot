@@ -19,7 +19,7 @@
 
 /**
  *  \file   hashtable.h
- *  \brief  Hashtable type
+ *  \brief  Simple hashtable type
  *  \author Antoine Fraboulet
  *  \date   1999
  */

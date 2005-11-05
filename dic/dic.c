@@ -26,7 +26,6 @@
 #include "dic.h"
 
 
-
 static int
 check_header(FILE* file, Dict_header *header)
 {

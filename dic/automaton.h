@@ -19,7 +19,7 @@
 
 /**
  *  \file   automaton.h
- *  \brief  Diterministic Finite Automaton
+ *  \brief  (Non)Deterministic Finite Automaton for Regexp
  *  \author Antoine Fraboulet
  *  \date   2005
  */

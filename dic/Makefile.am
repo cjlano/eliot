@@ -68,6 +68,7 @@ listdic_SOURCES=		\
 	listdic.c
 
 regexp_SOURCES=	regexpmain.c
-regexp_LDADD = libdic.a
+#regexp_CFLAGS=-DDEBUG_RE
+regexp_LDADD=libdic.a
 
 endif

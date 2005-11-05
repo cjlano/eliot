@@ -18,7 +18,7 @@
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
 /**
- *  \file regexp.h
+ *  \file   regexp.h
  *  \brief  Regular Expression fonctions
  *  \author Antoine Fraboulet
  *  \date   2005
@@ -83,6 +83,10 @@ typedef struct node {
      * against special tokens in the regular expression search
      */
 struct search_RegE_list_t {
+  /** maximum length for results */
+  int minlength;
+  /** maximum length for results */
+  int maxlength;
   /** special symbol associated with the list */
   char symbl[DIC_SEARCH_REGE_LIST];
   /** 0 or 1 if list is valid */

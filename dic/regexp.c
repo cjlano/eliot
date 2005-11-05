@@ -17,6 +17,13 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
+/**
+ *  \file   regexp.c
+ *  \brief  Regular Expression fonctions
+ *  \author Antoine Fraboulet
+ *  \date   2005
+ */
+
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -368,3 +375,8 @@ void regexp_print_tree(NODE* n, char* name, int detail)
 }
 #endif
 
+
+/// Local Variables:
+/// mode: hs-minor
+/// c-basic-offset: 2
+/// End:

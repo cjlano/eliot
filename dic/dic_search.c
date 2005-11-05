@@ -18,7 +18,7 @@
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
 /**
- *  \file dic_search.h
+ *  \file   dic_search.c
  *  \brief  Dictionary lookup functions
  *  \author Antoine Fraboulet
  *  \date   2002
@@ -415,6 +415,8 @@ Dic_search_Cros(const Dictionary dic, const char* mask,
 
 struct params_regexp_t {
   Dictionary dic;
+  int minlength;
+  int maxlength;
   automaton automaton;
   struct search_RegE_list_t *charlist;
   char word[DIC_WORD_MAX];
@@ -434,7 +436,10 @@ Dic_search_regexp_rec(struct params_regexp_t *params,
   /* if we have a valid word we store it */
   if (automaton_get_accept(params->automaton,state) && edgeptr->term)
     {
-      if (params->wordlistlen < params->wordlistlenmax)
+      int l = strlen(params->word);
+      if (params->wordlistlen < params->wordlistlenmax &&
+	  params->minlength <= l                        &&
+	  params->maxlength >= l)
 	{
 	  strcpy(wordlist[params->wordlistlen++],params->word);
 	}
@@ -528,6 +533,8 @@ Dic_search_RegE(const Dictionary dic, const char* re,
   if ((a = automaton_build(root->PP,ptl,PS,list)) != NULL)
     {
       params.dic            = dic;
+      params.minlength      = list->minlength;
+      params.maxlength      = list->maxlength;
       params.automaton      = a;
       params.charlist       = list;
       memset(params.word,'\0',sizeof(params.word));
