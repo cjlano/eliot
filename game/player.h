@@ -21,11 +21,9 @@
 #define _PLAYER_H_
 
 #include <vector>
+#include "pldrack.h"
 
-class Playedrack;
 class Round;
-class Board;
-typedef struct _Dictionary * Dictionary;
 
 
 /**
@@ -66,10 +64,13 @@ public:
     void endTurn(const Round &iRound, int iTurn);
 
 private:
-    // Score of the player
+    /// Score of the player
     int m_score;
 
-    // History of the racks and rounds for the player
+    /// Current played rack of the player
+    PlayedRack m_pldrack;
+
+    /// History of the racks and rounds for the player
     vector<PlayedRack *> m_playedRacks;
     vector<Round *> m_rounds;
     vector<int> m_turns;

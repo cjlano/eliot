@@ -27,11 +27,10 @@
 
 #include "debug.h"
 
-Player::Player():
-    m_score(0)
+
+Player::Player()
 {
-    // Start with an empty rack
-    m_playedRacks.push_back(new PlayedRack());
+    m_score = 0;
 }
 
 
@@ -46,19 +45,19 @@ Player::~Player()
 
 const PlayedRack & Player::getCurrentRack() const
 {
-    return *m_playedRacks.back();
+    return m_pldrack;
 }
 
 
 void Player::setCurrentRack(const PlayedRack &iPld)
 {
-    *m_playedRacks.back() = iPld;
+    m_pldrack = iPld;
 }
 
 
 const PlayedRack & Player::getLastRack() const
 {
-    return *m_playedRacks[m_playedRacks.size() - 2];
+    return *m_playedRacks.back();
 }
 
 
@@ -77,11 +76,12 @@ void Player::endTurn(const Round &iRound, int iTurn)
 {
     m_turns.push_back(iTurn);
     m_rounds.push_back(new Round(iRound));
+    m_playedRacks.push_back(new PlayedRack(m_pldrack));
 
     Rack rack;
-    m_playedRacks.back()->getRack(rack);
+    m_pldrack.getRack(rack);
 
-    /* We remove the played tiles from the rack */
+    // We remove the played tiles from the rack
     for (int i = 0; i < iRound.getWordLen(); i++)
     {
         if (iRound.isPlayedFromRack(i))
@@ -93,8 +93,8 @@ void Player::endTurn(const Round &iRound, int iTurn)
         }
     }
 
-    m_playedRacks.push_back(new PlayedRack());
-    /* Now m_playedRacks.back() is the newly created PlayedRack object */
-    m_playedRacks.back()->setOld(rack);
+    // Now reinitialize the current rack with the remaining tiles
+    m_pldrack = PlayedRack();
+    m_pldrack.setOld(rack);
 }
 
