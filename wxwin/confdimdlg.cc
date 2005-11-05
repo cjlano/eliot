@@ -63,7 +63,8 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
   int i;
   wxString choices[3];
   choices[0] = wxT("gauche");
-  choices[1] = wxT("centré");
+// XXX:  choices[1] = wxT("centré");
+  choices[1] = wxT("centre");
   choices[2] = wxT("droite");
   wxStaticText* Hcomment[5];
   wxRect        Hcommentrect[5];
@@ -124,7 +125,8 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
   wxRect spacerect = space->GetRect();
 
   // heading, first part
-  bfontheader = new wxButton(this,Button_FontHeader,wxT("Caractères"),HFONT);
+// XXX:  bfontheader = new wxButton(this,Button_FontHeader,wxT("Caractères"),HFONT);
+  bfontheader = new wxButton(this,Button_FontHeader,wxT("Caracteres"),HFONT);
   wxRect bfontheadrect = bfontheader->GetRect();
   for(i=0; i<5; i++)
     {
@@ -135,7 +137,8 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
     }
 
   // text, first part
-  bfonttext = new wxButton(this,Button_FontText,wxT("Caractères"),TFONT);
+// XXX:  bfonttext = new wxButton(this,Button_FontText,wxT("Caractères"),TFONT);
+  bfonttext = new wxButton(this,Button_FontText,wxT("Caracteres"),TFONT);
   wxRect bfonttextrect = bfonttext->GetRect();
   for(i=0; i<5; i++)
     {
@@ -158,7 +161,8 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
 
       Hspaces[i] = new wxTextCtrl(this,-1,wxT("00"),HSPACES(i),ESPSIZE);
       Hspacesrect[i] = Hspaces[i]->GetRect();
-      Hspaces[i]->SetToolTip(wxT("Espacement des caractères du titre"));
+// XXX:      Hspaces[i]->SetToolTip(wxT("Espacement des caractères du titre"));
+      Hspaces[i]->SetToolTip(wxT("Espacement des caracteres du titre"));
     }
 
 
@@ -167,7 +171,8 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
     {
       Tdim[i] = new wxTextCtrl(this,-1,wxT(""),TDIM(i),wxSize(50,-1));
       Tdimrect[i] = Tdim[i]->GetRect();
-      Tdim[i]->SetToolTip(wxT("Dimension intérieure de la colonne (en mm)"));
+// XXX:      Tdim[i]->SetToolTip(wxT("Dimension intérieure de la colonne (en mm)"));
+      Tdim[i]->SetToolTip(wxT("Dimension interieure de la colonne (en mm)"));
 
       Tunit[i] = new wxStaticText(this,-1,wxT("mm"),
 				  wxPoint(Tdimrect[i].GetRight()+
@@ -180,7 +185,8 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
 
       Tspaces[i] = new wxTextCtrl(this,-1,wxT(""),TSPACES(i),ESPSIZE);
       Tspacesrect[i] = Tspaces[i]->GetRect();
-      Tspaces[i]->SetToolTip(wxT("Espacement des caractères"));
+// XXX:      Tspaces[i]->SetToolTip(wxT("Espacement des caractères"));
+      Tspaces[i]->SetToolTip(wxT("Espacement des caracteres"));
     }
 
   justif->Move(wxPoint(Tjustrect[0].GetLeft(),bfontheadrect.GetBottom()

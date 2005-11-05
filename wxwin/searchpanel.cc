@@ -126,7 +126,8 @@ PCross::compute_enter(wxCommandEvent&)
   if (t->GetValue().Len() >= DIC_WORD_MAX)
     {
       wxString msg = wxT("");
-      msg << wxT("La recherche est limitée à ") << DIC_WORD_MAX - 1 << wxT(" lettres");
+// XXX:      msg << wxT("La recherche est limitée à ") << DIC_WORD_MAX - 1 << wxT(" lettres");
+      msg << wxT("La recherche est limitee a ") << DIC_WORD_MAX - 1 << wxT(" lettres");
       l->Append(msg);
       return;
     }
@@ -141,7 +142,8 @@ PCross::compute_enter(wxCommandEvent&)
   l->Set(resnum,res);
 
   if (l->GetCount() == 0)
-    l->Append(wxT("Aucun résultat"));
+// XXX:    l->Append(wxT("Aucun résultat"));
+    l->Append(wxT("Aucun resultat"));
 }
 
 // ************************************************************
@@ -170,7 +172,8 @@ PPlus1::compute_enter(wxCommandEvent&)
   if (t->GetValue().Len() >= DIC_WORD_MAX)
     {
       wxString msg = wxT("");
-      msg << wxT("La recherche est limitée à ") << DIC_WORD_MAX - 1 << wxT(" lettres");
+// XXX:      msg << wxT("La recherche est limitée à ") << DIC_WORD_MAX - 1 << wxT(" lettres");
+      msg << wxT("La recherche est limitee a ") << DIC_WORD_MAX - 1 << wxT(" lettres");
       l->Append(msg);
       return;
     }
@@ -190,7 +193,8 @@ PPlus1::compute_enter(wxCommandEvent&)
   l->Set(resnum,res);
 
   if (l->GetCount() == 0)
-    l->Append(wxT("Aucun résultat"));
+// XXX:    l->Append(wxT("Aucun résultat"));
+    l->Append(wxT("Aucun resultat"));
 }
 
 // ************************************************************
@@ -277,7 +281,8 @@ PRegExp::compute_enter(wxCommandEvent&)
   l->Set(resnum,res);
 
   if (l->GetCount() == 0)
-    l->Append(wxT("Aucun résultat"));
+// XXX:    l->Append(wxT("Aucun résultat"));
+    l->Append(wxT("Aucun resultat"));
 }
 
 // ************************************************************
@@ -287,7 +292,8 @@ PRegExp::compute_enter(wxCommandEvent&)
 SearchPanel::SearchPanel(wxFrame *parent, Dictionary dic) :
   wxNotebook(parent, -1)
 {
-  AddPage(new PCross(this,ID_PANEL_CROSS,dic),wxT("Mots croisés"));
+// XXX:  AddPage(new PCross(this,ID_PANEL_CROSS,dic),wxT("Mots croisés"));
+  AddPage(new PCross(this,ID_PANEL_CROSS,dic),wxT("Mots croises"));
   AddPage(new PPlus1(this,ID_PANEL_PLUS1,dic),wxT("Plus 1"));
   AddPage(new PRegExp(this,ID_PANEL_REGEXP,dic),wxT("Exp. Rationnelle"));
   SetSelection(0);

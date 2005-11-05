@@ -39,7 +39,8 @@ ConfSearchDlg::ConfSearchDlg(wxWindow* parent)
 {
 
   joker_searching = new wxCheckBox(this,CheckBox_Joker,wxT("Recherche sur joker dans 7+1"));
-  rack_checking = new wxCheckBox(this,CheckBox_Rack,wxT("Vérification de la validité des tirages"));
+// XXX:  rack_checking = new wxCheckBox(this,CheckBox_Rack,wxT("Vérification de la validité des tirages"));
+  rack_checking = new wxCheckBox(this,CheckBox_Rack,wxT("Verification de la validite des tirages"));
 
   bcancel = new wxButton(this,Button_Cancel,wxT("Annuler"),wxPoint(-1,-1));
   bcancel->SetToolTip(wxT("Annuler les dernier changements et quitter"));

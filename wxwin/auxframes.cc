@@ -201,12 +201,14 @@ BEGIN_EVENT_TABLE(VerifFrame, AuxFrame)
 END_EVENT_TABLE()
 
 VerifFrame::VerifFrame(wxFrame* parent, Dictionary _dic):
-  AuxFrame(parent, ID_Frame_Verif, wxT("vérification"), FRAMEVERIF)
+// XXX:  AuxFrame(parent, ID_Frame_Verif, wxT("vérification"), FRAMEVERIF)
+  AuxFrame(parent, ID_Frame_Verif, wxT("verification"), FRAMEVERIF)
 {
     dic = _dic;
     word = new wxTextCtrl(this, Word_Id, wxT(""));
     word->SetFont(config.getFont(LISTFONT));
-    word->SetToolTip(wxT("Mot à vérifier"));
+// XXX:    word->SetToolTip(wxT("Mot à vérifier"));
+    word->SetToolTip(wxT("Mot a verifier"));
     result = new wxStaticText(this, Result_Id, wxT(""));
     result->SetFont(config.getFont(LISTFONT));
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
