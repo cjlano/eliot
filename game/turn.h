@@ -29,33 +29,38 @@
 
 class Turn
 {
- protected:
-    int        num;
-    int        player;
-    PlayedRack pldrack;
-    Round      round;
+public:
+//     Turn();
+    Turn(int iNum, int iPlayer,
+         const PlayedRack& iPldRack, const Round& iRound);
+    virtual ~Turn() {};
 
- public:
-    Turn();
-    ~Turn();
+#if 0
+    void setNum(int iNum)                          { m_num = iNum; }
+    void setPlayer(int iPldRack)                   { m_player = iPldRack; }
+    void setPlayedRack(const PlayedRack& iPldRack) { m_pldrack = iPldRack; }
+    void setRound(const Round& iRound)             { m_round = iRound; }
+#endif
 
-    void setNum(int);
-    void setPlayer(int);
-    void setPlayedRack(const PlayedRack&);
-    void setRound(const Round&);
+    int               getNum()        const { return m_num; }
+    int               getPlayer()     const { return m_player; }
+    const PlayedRack& getPlayedRack() const { return m_pldrack; }
+    const Round&      getRound()      const { return m_round; }
 
-    int        getNum()        const;
-    int        getPlayer()     const;
-    PlayedRack getPlayedRack() const;
-    Round      getRound()      const;
+//     void operator=(const Turn &iOther);
+    string toString(bool iShowExtraSigns = false) const;
 
-    void operator=(const Turn &iOther);
-    string toString(bool showExtraSigns = false) const;
+private:
+    int        m_num;
+    int        m_player;
+    PlayedRack m_pldrack;
+    Round      m_round;
+
 };
 
 #endif
 
-
+
 /// Local Variables:
 /// mode: hs-minor
 /// c-basic-offset: 4

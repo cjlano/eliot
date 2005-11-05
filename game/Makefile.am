@@ -39,5 +39,6 @@ libgame_a_SOURCES = 		\
 	rack.cpp rack.h			\
 	results.cpp results.h	\
 	round.cpp round.h		\
-	training.cpp training.h
+	training.cpp training.h	\
+	turn.cpp turn.h
 

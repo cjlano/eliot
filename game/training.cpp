@@ -51,7 +51,7 @@ int Training::play(const string &iCoord, const string &iWord)
 
     /* Update the rack and the score of the current player */
     m_players[m_currPlayer]->addPoints(round.getPoints());
-    m_players[m_currPlayer]->endTurn(round, getNRounds());
+    m_players[m_currPlayer]->endTurn(round, getNTurns());
 
     /* Everything is OK, we can play the word */
     helperPlayRound(round);
@@ -126,7 +126,7 @@ void Training::search()
     // Search for the current player
     Rack r;
     m_players[m_currPlayer]->getCurrentRack().getRack(r);
-    m_results.search(*m_dic, m_board, r, getNRounds());
+    m_results.search(*m_dic, m_board, r, getNTurns());
 }
 
 
@@ -139,7 +139,7 @@ int Training::playResult(int n)
 
     /* Update the rack and the score of the current player */
     player->addPoints(round.getPoints());
-    player->endTurn(round, getNRounds());
+    player->endTurn(round, getNTurns());
 
     int res = helperPlayRound(round);
 

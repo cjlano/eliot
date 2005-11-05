@@ -363,7 +363,7 @@ MainFrame::UpdateStatusBar()
     text = wxT("");
     if (m_game)
     {
-        text << wxT("coup:") << (m_game->getNRounds() + 1)
+        text << wxT("coup:") << (m_game->getNTurns() + 1)
             << wxT(" ")
             << wxT("points:") << m_game->getPlayer(0).getPoints();
     }
@@ -439,7 +439,7 @@ MainFrame::OnMenuGameOpen(wxCommandEvent&)
             return;
         }
     }
-    string r = m_game->getPlayedRack(m_game->getNRounds());
+    string r = m_game->getPlayedRack(m_game->getNTurns());
     rack->SetValue(wxU(r.c_str()));
     results->DeleteAllItems();
     UpdateStatusBar();
@@ -919,7 +919,7 @@ MainFrame::Play(int n)
         ((Training*)m_game)->playResult(n);
     }
 
-    if (m_game->getNRounds() >= 0)
+    if (m_game->getNTurns() >= 0)
     {
         string r = m_game->getPlayerRack(0,true);
         rack->SetValue(wxU(r.c_str()));

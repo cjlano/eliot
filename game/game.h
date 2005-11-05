@@ -31,6 +31,7 @@ class Player;
 class PlayedRack;
 class Round;
 class Rack;
+class Turn;
 typedef struct _Dictionary * Dictionary;
 
 using namespace std;
@@ -100,7 +101,7 @@ public:
 
     /*************************
      * Playing the game
-     * the int parameter should be 0 <= int < getNRounds
+     * the int parameter should be 0 <= int < getNTurns
      *************************/
     int back(int);
 
@@ -125,9 +126,9 @@ public:
 
     /**
      * Methods to access already played words.
-     * The int parameter should be 0 <= int < getNRounds()
+     * The int parameter should be 0 <= int < getNTurns()
      */
-    int getNRounds() const     { return m_roundHistory.size(); }
+    int getNTurns() const     { return m_history.size(); }
     string getPlayedRack(int) const;
     string getPlayedWord(int) const;
     string getPlayedCoords(int num) const;
@@ -179,14 +180,9 @@ protected:
 
     /**
      * History of the game.
-     * All the vectors are indexed by the number of turns in the game
+     * The vector is indexed by the number of turns in the game
      */
-    // History of the racks
-    vector<PlayedRack*> m_rackHistory;
-    // History of the rounds
-    vector<Round*> m_roundHistory;
-    // ID of the players that played the round for each turn
-    vector<int> m_playerHistory;
+    vector<Turn*> m_history;
 
     int m_points;
 

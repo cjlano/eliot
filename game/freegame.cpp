@@ -65,7 +65,7 @@ int FreeGame::play(const string &iCoord, const string &iWord)
 
     /* Update the rack and the score of the current player */
     m_players[m_currPlayer]->addPoints(round.getPoints());
-    m_players[m_currPlayer]->endTurn(round, getNRounds());
+    m_players[m_currPlayer]->endTurn(round, getNTurns());
 
     /* Everything is OK, we can play the word */
     helperPlayRound(round);
@@ -85,7 +85,7 @@ void FreeGame::freegameAI(int n)
 
     AIPlayer *player = static_cast<AIPlayer*>(m_players[n]);
 
-    player->compute(*m_dic, m_board, getNRounds());
+    player->compute(*m_dic, m_board, getNTurns());
     if (player->changesLetters())
     {
         helperPass(player->getChangedLetters(), n);
@@ -96,7 +96,7 @@ void FreeGame::freegameAI(int n)
         const Round &round = player->getChosenRound();
         /* Update the rack and the score of the current player */
         player->addPoints(round.getPoints());
-        player->endTurn(round, getNRounds());
+        player->endTurn(round, getNTurns());
 
         helperPlayRound(round);
         endTurn();

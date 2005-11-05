@@ -29,6 +29,7 @@
 #include "ai_percent.h"
 #include "game.h"
 #include "game_factory.h"
+#include "turn.h"
 
 #include "debug.h"
 
@@ -48,13 +49,9 @@ Game::Game(const Dictionary &iDic):
 
 Game::~Game()
 {
-    for (unsigned int i = 0; i < m_roundHistory.size(); i++)
+    for (unsigned int i = 0; i < m_history.size(); i++)
     {
-        delete m_roundHistory[i];
-    }
-    for (unsigned int i = 0; i < m_rackHistory.size(); i++)
-    {
-        delete m_rackHistory[i];
+        delete m_history[i];
     }
     for (int i = 0; i < getNPlayers(); i++)
     {
@@ -308,7 +305,7 @@ void Game::save(ostream &out) const
     out << decal << "===|==========|=================|=====|=====|===|======" << endl;
 
     // Print the game itself
-    for (int i = 0; i < getNRounds(); i++)
+    for (int i = 0; i < getNTurns(); i++)
     {
         string word = getPlayedWord(i);
         string coord = getPlayedCoords(i);
@@ -343,9 +340,9 @@ int Game::helperPlayRound(const Round &iRound)
      */
 
     // History of the game
-    m_roundHistory.push_back(new Round(iRound));
-    m_rackHistory.push_back(new PlayedRack(m_players[m_currPlayer]->getLastRack()));
-    m_playerHistory.push_back(m_currPlayer);
+    m_history.push_back(new Turn(m_history.size(), m_currPlayer,
+                                 m_players[m_currPlayer]->getLastRack(),
+                                 iRound));
 
     m_points += iRound.getPoints();
 
@@ -426,11 +423,11 @@ int Game::back(int n)
 
     for (i = 0; i < n; i++)
     {
-        if (m_roundHistory.size())
+        if (m_history.size())
         {
             prevPlayer();
             player = m_players[m_currPlayer];
-            const Round &lastround = *m_roundHistory.back();
+            const Round &lastround = m_history.back()->getRound();
 
             /* Remove the points of this round */
             player->addPoints(- lastround.getPoints());
@@ -449,8 +446,7 @@ int Game::back(int n)
                 }
             }
             delete &lastround;
-            m_roundHistory.pop_back();
-            m_playerHistory.pop_back();
+            m_history.pop_back();
         }
         else
         {
@@ -567,7 +563,7 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
         }
         // 2 vowels and 2 consonants are needed up to the 15th turn
         if (bag.nVowels() > 1 && bag.nConsonants() > 1
-            && getNRounds() < 15)
+            && getNTurns() < 15)
             min = 2;
         else
             min = 1;
@@ -697,7 +693,7 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
     if (iCheck)
     {
         if (m_bag.nVowels() > 1 && m_bag.nConsonants() > 1
-            && getNRounds() < 15)
+            && getNTurns() < 15)
             min = 2;
         else
             min = 1;
@@ -715,17 +711,17 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
 
 string Game::getPlayedRack(int num) const
 {
-    ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
-    return m_rackHistory[num]->toString();
+    ASSERT(0 <= num && num < getNTurns(), "Wrong turn number");
+    return m_history[num]->getPlayedRack().toString();
 }
 
 
 string Game::getPlayedWord(int num) const
 {
-    ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
+    ASSERT(0 <= num && num < getNTurns(), "Wrong turn number");
     char c;
     string s;
-    const Round &r = *m_roundHistory[num];
+    const Round &r = m_history[num]->getRound();
     for (int i = 0; i < r.getWordLen(); i++)
     {
         c = r.getTile(i).toChar();
@@ -739,29 +735,29 @@ string Game::getPlayedWord(int num) const
 
 string Game::getPlayedCoords(int num) const
 {
-    ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
-    return m_roundHistory[num]->getCoord().toString();
+    ASSERT(0 <= num && num < getNTurns(), "Wrong turn number");
+    return m_history[num]->getRound().getCoord().toString();
 }
 
 
 int Game::getPlayedPoints(int num) const
 {
-    ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
-    return m_roundHistory[num]->getPoints();
+    ASSERT(0 <= num && num < getNTurns(), "Wrong turn number");
+    return m_history[num]->getRound().getPoints();
 }
 
 
 int Game::getPlayedBonus(int num) const
 {
-    ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
-    return m_roundHistory[num]->getBonus();
+    ASSERT(0 <= num && num < getNTurns(), "Wrong turn number");
+    return m_history[num]->getRound().getBonus();
 }
 
 
 int Game::getPlayedPlayer(int num) const
 {
-    ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
-    return m_playerHistory[num];
+    ASSERT(0 <= num && num < getNTurns(), "Wrong turn number");
+    return m_history[num]->getPlayer();
 }
 
 /*********************************************************
@@ -870,7 +866,7 @@ int Game::checkPlayedWord(const string &iCoord,
 
     /* Check the word position, compute its points,
      * and specify the origin of each letter (board or rack) */
-    res = m_board.checkRound(oRound, getNRounds() == 0);
+    res = m_board.checkRound(oRound, getNTurns() == 0);
     if (res != 0)
         return res + 4;
 

@@ -30,83 +30,34 @@
 #include "turn.h"
 
 
-Turn::Turn()
-{
-    num     = 0;
-    pldrack = PlayedRack();
-    round   = Round();
-}
-
-
-Turn::~Turn()
+Turn::Turn(int iNum, int iPlayer,
+           const PlayedRack& iPldRack, const Round& iRound)
+    : m_num(iNum), m_player(iPlayer), m_pldrack(iPldRack), m_round(iRound)
 {
 }
 
 
-void Turn::setNum(int n)
-{
-    num = n;
-}
-
-
-void Turn::setPlayer(int p)
-{
-    player = p;
-}
-
-
-void Turn::setPlayedRack(const PlayedRack &r)
-{
-    pldrack = r;
-}
-
-void Turn::setRound(const Round &r)
-{
-    round = r;
-}
-
-
-int Turn::getNum() const
-{
-    return num;
-}
-
-
-int Turn::getPlayer() const
-{
-    return player;
-}
-
-
-PlayedRack Turn::getPlayedRack() const
-{
-    return pldrack;
-}
-
-
-Round Turn::getRound() const
-{
-    return round;
-}
-
-
+#if 0
 void Turn::operator=(const Turn &iOther)
 {
     num     = iOther.num;
     pldrack = iOther.pldrack;
     round   = iOther.round;
 }
+#endif
 
 
-string Turn::toString(bool showExtraSigns) const
+string Turn::toString(bool iShowExtraSigns) const
 {
+#if 0
     string rs = "";
-    if (showExtraSigns)
+    if (iShowExtraSigns)
     {
         rs = ""; // TODO
     }
-    rs = rs + pldrack.toString() + " " + round.toString();
+    rs = rs + m_pldrack.toString() + " " + m_round.toString();
     return rs;
+#endif
 }
 
 

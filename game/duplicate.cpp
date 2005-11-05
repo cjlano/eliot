@@ -77,7 +77,7 @@ void Duplicate::duplicateAI(int n)
     ASSERT(!m_players[n]->isHuman(), "AI requested for a human player");
 
     AIPlayer *player = static_cast<AIPlayer*>(m_players[n]);
-    player->compute(*m_dic, m_board, getNRounds());
+    player->compute(*m_dic, m_board, getNTurns());
 
     if (player->changesLetters())
     {
@@ -182,7 +182,7 @@ void Duplicate::playRound(const Round &iRound, int n)
 
     /* Update the rack and the score of the current player */
     player->addPoints(iRound.getPoints());
-    player->endTurn(iRound, getNRounds());
+    player->endTurn(iRound, getNTurns());
 
     m_hasPlayed[n] = true;
 }

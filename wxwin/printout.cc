@@ -151,41 +151,41 @@ GamePrintout::DrawTextLine(wxDC *dc, int numline, long basey, long heightT, floa
     w = config.getDxText(0);
     str = wxT("");
     // num
-    if (numline < m_game.getNRounds())
+    if (numline < m_game.getNTurns())
     {
         str << (numline + 1);
         DRW(0);
     }
     // rack
     DIM(1);
-    if (numline < m_game.getNRounds())
+    if (numline < m_game.getNTurns())
     {
         str = wxU(m_game.getPlayedRack(numline).c_str());
         DRW(1);
     }
     // word
     DIM(2);
-    if ((numline > 0) && (numline <= m_game.getNRounds()))
+    if ((numline > 0) && (numline <= m_game.getNTurns()))
     {
         str = wxU(m_game.getPlayedWord(numline - 1).c_str());
         DRW(2);
     }
     // pos
     DIM(3);
-    if ((numline > 0) && (numline <= m_game.getNRounds()))
+    if ((numline > 0) && (numline <= m_game.getNTurns()))
     {
         str = wxU(m_game.getPlayedCoords(numline - 1).c_str());
         DRW(3);
     }
     // pts
     DIM(4);
-    if ((numline > 0) && (numline <= m_game.getNRounds()))
+    if ((numline > 0) && (numline <= m_game.getNTurns()))
     {
         str << m_game.getPlayedPoints(numline - 1);
         DRW(4);
     }
     // total points
-    if (numline == m_game.getNRounds() + 1)
+    if (numline == m_game.getNTurns() + 1)
     {
         str << m_game.getPlayer(0).getPoints();
         DRW(4);
@@ -253,7 +253,7 @@ GamePrintout::DrawPage(wxDC *dc)
      basey = config.getMarginY() + config.getDyH1() + heightH + config.getDyH2();
      dc->SetFont(Tfont);
      heightT = (long) (dc->GetCharHeight() / mmToLogical);
-     for(i=0; i < (m_game.getNRounds()+3);i++)
+     for(i=0; i < (m_game.getNTurns()+3);i++)
      {
          DrawTextLine(dc,i,basey,heightT,mmToLogical);
      }
@@ -274,7 +274,7 @@ GamePrintout::DrawGameLines(wxDC *dc, long heightH, long heightT,
     float SCALE = config.getPrintLineScale();
     dc->SetUserScale(SCALE,SCALE);
 
-    nTextLines = m_game.getNRounds() + 2;
+    nTextLines = m_game.getNTurns() + 2;
     StartX = config.getMarginX();
     StartY = config.getMarginY();
 

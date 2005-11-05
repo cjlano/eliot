@@ -257,7 +257,7 @@ void CursesIntf::drawHistory(WINDOW *win, int y, int x)
     drawBox(win, y, x, LINES - y, COLS - x, _(" History of the game "));
     m_boxY = y + 1;
     m_boxLines = LINES - y - 2;
-    m_boxLinesData = m_game->getNRounds();
+    m_boxLinesData = m_game->getNTurns();
 
     // Heading
     boxPrint(win, m_boxStart, x + 2,
@@ -265,7 +265,7 @@ void CursesIntf::drawHistory(WINDOW *win, int y, int x)
     mvwhline(win, y + 2, x + 2, ACS_HLINE, 55);
 
     int i;
-    for (i = m_boxStart + 0; i < m_game->getNRounds() &&
+    for (i = m_boxStart + 0; i < m_game->getNTurns() &&
                          i < m_boxStart + m_boxLines; i++)
     {
         string word = m_game->getPlayedWord(i);
