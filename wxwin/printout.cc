@@ -24,6 +24,7 @@
 
 #include "dic.h"
 #include "game.h"
+#include "player.h"
 
 #include "configdb.h"
 #include "printout.h"
@@ -186,7 +187,7 @@ GamePrintout::DrawTextLine(wxDC *dc, int numline, long basey, long heightT, floa
     // total points
     if (numline == m_game.getNRounds() + 1)
     {
-        str << m_game.getPlayerPoints(0);
+        str << m_game.getPlayer(0).getPoints();
         DRW(4);
     }
 #undef DIM

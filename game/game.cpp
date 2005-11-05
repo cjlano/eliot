@@ -63,6 +63,13 @@ Game::~Game()
 }
 
 
+const Player& Game::getPlayer(int num) const
+{
+    ASSERT(0 <= num && num < (int)m_players.size(), "Wrong player number");
+    return *(m_players[num]);
+}
+
+
 Game * Game::load(FILE *fin, const Dictionary &iDic)
 {
     char buff[4096];
@@ -319,7 +326,7 @@ void Game::save(ostream &out) const
     out << endl;
     for (int i = 0; i < getNPlayers(); i++)
     {
-        string rack = formatPlayedRack(m_players[i]->getCurrentRack());
+        string rack = m_players[i]->getCurrentRack().toString();
         out << "Rack " << i << ": " << rack << endl;
     }
 }
@@ -706,39 +713,10 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
 /*********************************************************
  *********************************************************/
 
-string Game::formatCoords(const Round &iRound) const
-{
-    ASSERT(iRound.getCoord().isValid(), "Invalid coordinates");
-    return iRound.getCoord().toString();
-}
-
-
-string Game::formatPlayedRack(const PlayedRack &iRack, bool showExtraSigns) const
-{
-    vector<Tile> tiles;
-    unsigned int i;
-    string s;
-
-    iRack.getOldTiles(tiles);
-    for (i = 0; i < tiles.size(); i++)
-        s += tiles[i].toChar();
-
-    iRack.getNewTiles(tiles);
-    if (showExtraSigns && i > 0 && tiles.size())
-        s += '+';
-
-    for (i = 0; i < tiles.size(); i++)
-        s += tiles[i].toChar();
-    return s;
-}
-
-/*********************************************************
- *********************************************************/
-
 string Game::getPlayedRack(int num) const
 {
     ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
-    return formatPlayedRack(*m_rackHistory[num]);
+    return m_rackHistory[num]->toString();
 }
 
 
@@ -762,7 +740,7 @@ string Game::getPlayedWord(int num) const
 string Game::getPlayedCoords(int num) const
 {
     ASSERT(0 <= num && num < getNRounds(), "Wrong turn number");
-    return formatCoords(*m_roundHistory[num]);
+    return m_roundHistory[num]->getCoord().toString();
 }
 
 
@@ -789,17 +767,9 @@ int Game::getPlayedPlayer(int num) const
 /*********************************************************
  *********************************************************/
 
-int Game::getPlayerPoints(int num) const
+string Game::getPlayerRack(int num, bool iShowExtraSigns) const
 {
-    ASSERT(0 <= num && num < getNPlayers(), "Wrong player number");
-    return m_players[num]->getPoints();
-}
-
-
-string Game::getPlayerRack(int num, bool showExtraSigns) const
-{
-    ASSERT(0 <= num && num < getNPlayers(), "Wrong player number");
-    return formatPlayedRack(m_players[num]->getCurrentRack(), showExtraSigns);
+    return getPlayer(num).getCurrentRack().toString(iShowExtraSigns);
 }
 
 

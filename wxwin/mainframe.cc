@@ -35,6 +35,7 @@ using namespace std;
 #include "dic.h"
 #include "game.h"
 #include "game_factory.h"
+#include "player.h"
 
 #include "configdb.h"
 #include "confdimdlg.h"
@@ -349,7 +350,7 @@ MainFrame::UpdateStatusBar()
     {
         text << wxT("coup:") << (m_game->getNRounds() + 1)
             << wxT(" ")
-            << wxT("points:") << m_game->getPlayerPoints(0);
+            << wxT("points:") << m_game->getPlayer(0).getPoints();
     }
     if (statusbar)
       statusbar->SetStatusText(text, 1);

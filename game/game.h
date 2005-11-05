@@ -69,9 +69,6 @@ public:
         kJOKER      // Joker game
     };
 
-    const Board& getBoard() const { return m_board; }
-    const Bag&   getBag()   const { return m_bag; }
-
     /**
      * Accessors for the variant of the game.
      * The variant can be changed during a game without any problem
@@ -86,6 +83,10 @@ public:
      */
     const Dictionary & getDic() const   { return *m_dic; }
     void setDic(const Dictionary &iDic) { m_dic = &iDic; }
+
+    const Board&  getBoard() const { return m_board; }
+    const Bag&    getBag()   const { return m_bag; }
+    const Player& getPlayer(int iIndex) const;
 
     /**
      * Saved games handling.
@@ -143,7 +144,6 @@ public:
     virtual void addHumanPlayer();
     // TODO: Ability to specify which kind of AI player is wanted
     virtual void addAIPlayer();
-    int  getPlayerPoints(int) const;
     string getPlayerRack(int, bool = false) const;
 
     int  currPlayer() const     { return m_currPlayer; }
@@ -200,9 +200,6 @@ protected:
     int helperSetRackRandom(int p, bool iCheck, set_rack_mode mode);
     int helperSetRackManual(int p, bool iCheck, const string &iLetters);
 
-    string formatCoords(const Round &iRound) const;
-    string formatPlayedRack(const PlayedRack &iRack,
-                            bool showExtraSigns = true) const;
     void prevPlayer();
     void nextPlayer();
     bool rackInBag(const Rack &iRack, const Bag &iBag) const;

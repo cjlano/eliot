@@ -41,8 +41,7 @@ struct less_points : public binary_function<const Round&,
 
 const Round & Results::get(int i) const
 {
-    ASSERT(0 <= i && i < size(),
-           "Results index out of bounds");
+    ASSERT(0 <= i && i < size(), "Results index out of bounds");
     return m_rounds[i];
 }
 

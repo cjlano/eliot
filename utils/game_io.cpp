@@ -24,6 +24,7 @@
 #include "game_io.h"
 #include "game.h"
 #include "training.h"
+#include "player.h"
 
 using namespace std;
 
@@ -202,7 +203,7 @@ void GameIO::printSearchResults(ostream &out, const Training &iGame, int num)
 
 void GameIO::printPoints(ostream &out, const Game &iGame)
 {
-    out << iGame.getPlayerPoints(0) << endl;
+    out << iGame.getPlayer(0).getPoints() << endl;
 }
 
 
@@ -211,7 +212,7 @@ void GameIO::printAllPoints(ostream &out, const Game &iGame)
     for (int i = 0; i < iGame.getNPlayers(); i++)
     {
         out << "Joueur " << i << ": "
-            << setw(4) << iGame.getPlayerPoints(i) << endl;
+            << setw(4) << iGame.getPlayer(i).getPoints() << endl;
     }
 }
 

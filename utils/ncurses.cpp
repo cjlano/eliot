@@ -35,6 +35,7 @@
 #include "training.h"
 #include "duplicate.h"
 #include "freegame.h"
+#include "player.h"
 
 using namespace std;
 
@@ -185,7 +186,7 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
         if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
             attron(A_BOLD);
         mvwprintw(win, y + i + 1, x + 2,
-                  _("Player %d: %d"), i, m_game->getPlayerPoints(i));
+                  _("Player %d: %d"), i, m_game->getPlayer(i).getPoints());
         if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
             attroff(A_BOLD);
     }

@@ -163,22 +163,19 @@ void PlayedRack::operator=(const PlayedRack &iOther)
 }
 
 
-void PlayedRack::toString(string& s) const
+string PlayedRack::toString(bool iShowExtraSigns) const
 {
     vector<Tile>::const_iterator it;
-    s = "";
-    if (nOld() > 0)
-    {
-        for (it = m_oldTiles.begin(); it != m_oldTiles.end(); it++)
-            s += it->toChar();
-    }
-    if (nOld() > 0 && nNew() > 0)
-    {
+    string s;
+
+    for (it = m_oldTiles.begin(); it != m_oldTiles.end(); it++)
+        s += it->toChar();
+
+    if (iShowExtraSigns && nOld() > 0 && nNew() > 0)
         s += "+";
-    }
-    if (nNew() > 0)
-    {
-        for (it = m_newTiles.begin(); it != m_newTiles.end(); it++)
-            s += it->toChar();
-    }
+
+    for (it = m_newTiles.begin(); it != m_newTiles.end(); it++)
+        s += it->toChar();
+
+    return s;
 }

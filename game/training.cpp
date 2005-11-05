@@ -193,28 +193,24 @@ string Training::getSearchedWord(int num) const
 
 string Training::getSearchedCoords(int num) const
 {
-    ASSERT(0 <= num && num < m_results.size(), "Wrong result number");
-    return formatCoords(m_results.get(num));
+    return m_results.get(num).getCoord().toString();
 }
 
 
 int Training::getSearchedPoints(int num) const
 {
-    ASSERT(0 <= num && num < m_results.size(), "Wrong result number");
     return m_results.get(num).getPoints();
 }
 
 
 int Training::getSearchedBonus(int num) const
 {
-    ASSERT(0 <= num && num < m_results.size(), "Wrong result number");
     return m_results.get(num).getBonus();
 }
 
 
 void Training::testPlay(int num)
 {
-    ASSERT(0 <= num && num < m_results.size(), "Wrong result number");
     m_board.testRound(m_results.get(num));
 }
 

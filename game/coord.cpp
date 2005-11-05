@@ -27,6 +27,7 @@
 #include <string>
 #include "coord.h"
 #include "board.h" // for BOARD_MIN and BOARD_MAX (TODO: remove this include)
+#include "debug.h"
 
 
 Coord::Coord(int iRow, int iCol, Direction iDir)
@@ -86,19 +87,20 @@ void Coord::setFromString(const string &iStr)
 
 string Coord::toString() const
 {
-    string rs;
+    ASSERT(isValid(), "Invalid coordinates");
 
+    string res;
     char s[5];
     sprintf(s, "%d", m_col);
     if (getDir() == HORIZONTAL)
     {
-        rs = string(1, m_row + 'A' - 1) + s;
+        res = string(1, m_row + 'A' - 1) + s;
     }
     else
     {
-        rs = s + string(1, m_row + 'A' - 1);
+        res = s + string(1, m_row + 'A' - 1);
     }
-    return rs;
+    return res;
 }
 
 

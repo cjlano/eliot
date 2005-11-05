@@ -22,6 +22,7 @@
 #define _PLAYEDRACK_H_
 
 #include <vector>
+#include <string>
 #include "tile.h"
 
 class Rack;
@@ -64,7 +65,7 @@ public:
     bool checkRack(int iMin) const;
 
     void operator=(const PlayedRack &iOther);
-    void toString(string&) const;
+    string toString(bool iShowExtraSigns = true) const;
 
 private:
     vector<Tile> m_oldTiles;
