@@ -27,7 +27,7 @@ class Round;
 
 
 /**
- * This class is the parent classes for all the players involved in a game.
+ * This class is the parent class for all the players involved in a game.
  * It defines the common metohds to update the rack, score, etc...
  */
 class Player

@@ -108,7 +108,7 @@ int Duplicate::start()
         return 1;
     }
 
-    PlayedRack pld = m_players[m_currPlayer]->getCurrentRack();
+    const PlayedRack& pld = m_players[m_currPlayer]->getCurrentRack();
     /* All the players have the same rack */
     for (int i = 0; i < getNPlayers(); i++)
     {
