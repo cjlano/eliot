@@ -30,9 +30,9 @@
 #include "turn.h"
 
 
-Turn::Turn(int iNum, int iPlayer,
+Turn::Turn(int iNum, int iPlayerId,
            const PlayedRack& iPldRack, const Round& iRound)
-    : m_num(iNum), m_player(iPlayer), m_pldrack(iPldRack), m_round(iRound)
+    : m_num(iNum), m_playerId(iPlayerId), m_pldrack(iPldRack), m_round(iRound)
 {
 }
 
@@ -44,12 +44,10 @@ void Turn::operator=(const Turn &iOther)
     pldrack = iOther.pldrack;
     round   = iOther.round;
 }
-#endif
 
 
 string Turn::toString(bool iShowExtraSigns) const
 {
-#if 0
     string rs = "";
     if (iShowExtraSigns)
     {
@@ -57,8 +55,8 @@ string Turn::toString(bool iShowExtraSigns) const
     }
     rs = rs + m_pldrack.toString() + " " + m_round.toString();
     return rs;
-#endif
 }
+#endif
 
 
 /// Local Variables:

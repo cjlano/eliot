@@ -33,7 +33,7 @@ class Turn;
 class Player
 {
 public:
-    Player();
+    Player(int iId);
     virtual ~Player();
 
     // Pseudo RTTI
@@ -64,6 +64,9 @@ public:
     void endTurn(const Round &iRound, int iTurn);
 
 private:
+    /// ID of the player
+    int m_id;
+
     /// Score of the player
     int m_score;
 
@@ -84,7 +87,7 @@ private:
 class HumanPlayer: public Player
 {
 public:
-    HumanPlayer() {}
+    HumanPlayer(int iId): Player(iId) {}
     virtual ~HumanPlayer() {}
 
     // Pseudo RTTI

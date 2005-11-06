@@ -781,13 +781,14 @@ int Game::getNHumanPlayers() const
 
 void Game::addHumanPlayer()
 {
-    m_players.push_back(new HumanPlayer());
+    // The ID of the player is its position in the m_players vector
+    m_players.push_back(new HumanPlayer(getNPlayers()));
 }
 
 
 void Game::addAIPlayer()
 {
-    m_players.push_back(new AIPercent(0));
+    m_players.push_back(new AIPercent(getNPlayers(), 0));
 }
 
 

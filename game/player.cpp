@@ -29,8 +29,9 @@
 #include "debug.h"
 
 
-Player::Player()
+Player::Player(int iId)
 {
+    m_id = iId;
     m_score = 0;
 }
 
@@ -73,8 +74,7 @@ const Round & Player::getLastRound() const
  */
 void Player::endTurn(const Round &iRound, int iTurn)
 {
-    // FIXME: the number of the player is wrong here!
-    m_history.push_back(new Turn(iTurn, iTurn, m_pldrack, iRound));
+    m_history.push_back(new Turn(iTurn, m_id, m_pldrack, iRound));
 
     Rack rack;
     m_pldrack.getRack(rack);

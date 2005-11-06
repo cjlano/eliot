@@ -38,7 +38,7 @@ class AIPercent: public AIPlayer
 {
 public:
     /// Constructor, taking the percentage (0.0 <= iPercent <= 1.0)
-    AIPercent(float iPercent);
+    AIPercent(int iId, float iPercent);
     virtual ~AIPercent() {}
 
     /**

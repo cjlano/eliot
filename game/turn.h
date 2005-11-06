@@ -30,29 +30,30 @@
 class Turn
 {
 public:
-//     Turn();
-    Turn(int iNum, int iPlayer,
+    Turn(int iNum, int iPlayerId,
          const PlayedRack& iPldRack, const Round& iRound);
     virtual ~Turn() {};
 
 #if 0
     void setNum(int iNum)                          { m_num = iNum; }
-    void setPlayer(int iPldRack)                   { m_player = iPldRack; }
+    void setPlayer(int iPlayerId)                  { m_playerId = iPlayerId; }
     void setPlayedRack(const PlayedRack& iPldRack) { m_pldrack = iPldRack; }
     void setRound(const Round& iRound)             { m_round = iRound; }
 #endif
 
     int               getNum()        const { return m_num; }
-    int               getPlayer()     const { return m_player; }
+    int               getPlayer()     const { return m_playerId; }
     const PlayedRack& getPlayedRack() const { return m_pldrack; }
     const Round&      getRound()      const { return m_round; }
 
-//     void operator=(const Turn &iOther);
+#if 0
+    void operator=(const Turn &iOther);
     string toString(bool iShowExtraSigns = false) const;
+#endif
 
 private:
     int        m_num;
-    int        m_player;
+    int        m_playerId;
     PlayedRack m_pldrack;
     Round      m_round;
 
