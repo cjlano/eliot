@@ -87,7 +87,8 @@ public:
 
     const Board&  getBoard() const { return m_board; }
     const Bag&    getBag()   const { return m_bag; }
-    const Player& getPlayer(int iIndex) const;
+    const Player& getPlayer(int iNum) const;
+    const Turn&   getTurn(int iNum) const;
 
     /**
      * Saved games handling.
@@ -122,7 +123,7 @@ public:
      *    3 : the rack cannot be completed (Game_*_setrackrandom only)
      *************************/
     static const int RACK_SIZE;
-    typedef enum {RACK_ALL, RACK_NEW} set_rack_mode;
+    enum set_rack_mode {RACK_ALL, RACK_NEW};
 
     /**
      * Methods to access already played words.

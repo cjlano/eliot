@@ -220,7 +220,7 @@ int Duplicate::endTurnForReal()
         return 1;
     }
 
-    PlayedRack pld = m_players[imax]->getCurrentRack();
+    const PlayedRack& pld = m_players[imax]->getCurrentRack();
     /* All the players have the same rack */
     for (i = 0; i < getNPlayers(); i++)
     {

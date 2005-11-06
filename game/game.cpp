@@ -60,10 +60,17 @@ Game::~Game()
 }
 
 
-const Player& Game::getPlayer(int num) const
+const Player& Game::getPlayer(int iNum) const
 {
-    ASSERT(0 <= num && num < (int)m_players.size(), "Wrong player number");
-    return *(m_players[num]);
+    ASSERT(0 <= iNum && iNum < (int)m_players.size(), "Wrong player number");
+    return *(m_players[iNum]);
+}
+
+
+const Turn& Game::getTurn(int iNum) const
+{
+    ASSERT(0 <= iNum && iNum < (int)m_history.size(), "Wrong turn number");
+    return *(m_history[iNum]);
 }
 
 
@@ -272,7 +279,7 @@ Game * Game::load(FILE *fin, const Dictionary &iDic)
         // the game was saved while a human was to play.
         for (int i = 0; i < pGame->getNPlayers(); i++)
         {
-            if (pGame->m_players[i]->isHuman())
+            if (pGame->getPlayer(i).isHuman())
             {
                 pGame->m_currPlayer = i;
                 break;
@@ -292,7 +299,7 @@ void Game::save(ostream &out) const
     for (int i = 0; i < getNPlayers(); i++)
     {
         out << "Player " << i << ": ";
-        if (m_players[i]->isHuman())
+        if (getPlayer(i).isHuman())
             out << "Human" << endl;
         else
             out << "Computer" << endl;
@@ -323,7 +330,7 @@ void Game::save(ostream &out) const
     out << endl;
     for (int i = 0; i < getNPlayers(); i++)
     {
-        string rack = m_players[i]->getCurrentRack().toString();
+        string rack = getPlayer(i).getCurrentRack().toString();
         out << "Rack " << i << ": " << rack << endl;
     }
 }
@@ -341,7 +348,7 @@ int Game::helperPlayRound(const Round &iRound)
 
     // History of the game
     m_history.push_back(new Turn(m_history.size(), m_currPlayer,
-                                 m_players[m_currPlayer]->getLastRack(),
+                                 getPlayer(m_currPlayer).getLastRack(),
                                  iRound));
 
     m_points += iRound.getPoints();
@@ -373,12 +380,12 @@ int Game::helperPlayRound(const Round &iRound)
                 // There is a big design problem here, but i am unsure what is
                 // the best way to fix it.
                 vector<Tile> tiles;
-                m_players[m_currPlayer]->getCurrentRack().getAllTiles(tiles);
+                getPlayer(m_currPlayer).getCurrentRack().getAllTiles(tiles);
                 for (unsigned int j = 0; j < tiles.size(); j++)
                 {
                     bag.replaceTile(tiles[j]);
                 }
-                m_players[m_currPlayer]->getLastRack().getAllTiles(tiles);
+                getPlayer(m_currPlayer).getLastRack().getAllTiles(tiles);
                 for (unsigned int j = 0; j < tiles.size(); j++)
                 {
                     bag.takeTile(tiles[j]);
@@ -473,7 +480,7 @@ void Game::realBag(Bag &ioBag) const
         /* In freegame mode, replace the letters from all the racks */
         for (int i = 0; i < getNPlayers(); i++)
         {
-            m_players[i]->getCurrentRack().getAllTiles(tiles);
+            getPlayer(i).getCurrentRack().getAllTiles(tiles);
             for (unsigned int j = 0; j < tiles.size(); j++)
             {
                 ioBag.takeTile(tiles[j]);
@@ -484,7 +491,7 @@ void Game::realBag(Bag &ioBag) const
     {
         /* In training or duplicate mode, replace the rack of the current
          * player only */
-        m_players[m_currPlayer]->getCurrentRack().getAllTiles(tiles);
+        getPlayer(m_currPlayer).getCurrentRack().getAllTiles(tiles);
         for (unsigned int j = 0; j < tiles.size(); j++)
         {
             ioBag.takeTile(tiles[j]);
@@ -513,7 +520,7 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
     int nold, min;
 
     // Make a copy of the player's rack
-    PlayedRack pld = m_players[p]->getCurrentRack();
+    PlayedRack pld = getPlayer(p).getCurrentRack();
     nold = pld.nOld();
 
     // Create a copy of the bag in which we can do everything we want,
@@ -651,7 +658,7 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
     unsigned int i;
     int min;
 
-    PlayedRack pld = m_players[p]->getCurrentRack();
+    PlayedRack pld = getPlayer(p).getCurrentRack();
     pld.reset();
 
     if (iLetters.size() == 0)
@@ -711,17 +718,15 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
 
 string Game::getPlayedRack(int num) const
 {
-    ASSERT(0 <= num && num < getNTurns(), "Wrong turn number");
-    return m_history[num]->getPlayedRack().toString();
+    return getTurn(num).getPlayedRack().toString();
 }
 
 
 string Game::getPlayedWord(int num) const
 {
-    ASSERT(0 <= num && num < getNTurns(), "Wrong turn number");
     char c;
     string s;
-    const Round &r = m_history[num]->getRound();
+    const Round &r = getTurn(num).getRound();
     for (int i = 0; i < r.getWordLen(); i++)
     {
         c = r.getTile(i).toChar();
@@ -735,29 +740,25 @@ string Game::getPlayedWord(int num) const
 
 string Game::getPlayedCoords(int num) const
 {
-    ASSERT(0 <= num && num < getNTurns(), "Wrong turn number");
-    return m_history[num]->getRound().getCoord().toString();
+    return getTurn(num).getRound().getCoord().toString();
 }
 
 
 int Game::getPlayedPoints(int num) const
 {
-    ASSERT(0 <= num && num < getNTurns(), "Wrong turn number");
-    return m_history[num]->getRound().getPoints();
+    return getTurn(num).getRound().getPoints();
 }
 
 
 int Game::getPlayedBonus(int num) const
 {
-    ASSERT(0 <= num && num < getNTurns(), "Wrong turn number");
-    return m_history[num]->getRound().getBonus();
+    return getTurn(num).getRound().getBonus();
 }
 
 
 int Game::getPlayedPlayer(int num) const
 {
-    ASSERT(0 <= num && num < getNTurns(), "Wrong turn number");
-    return m_history[num]->getPlayer();
+    return getTurn(num).getPlayer();
 }
 
 /*********************************************************
@@ -773,7 +774,7 @@ int Game::getNHumanPlayers() const
 {
     int count = 0;
     for (int i = 0; i < getNPlayers(); i++)
-        count += (m_players[i]->isHuman() ? 1 : 0);
+        count += (getPlayer(i).isHuman() ? 1 : 0);
     return count;
 }
 
