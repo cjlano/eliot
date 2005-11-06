@@ -24,6 +24,7 @@
 #include "results.h"
 #include "board.h"
 #include "player.h"
+#include "turn.h"
 
 #include "debug.h"
 
@@ -36,10 +37,8 @@ Player::Player()
 
 Player::~Player()
 {
-    for (unsigned int i = 0; i < m_playedRacks.size(); i++)
-        delete m_playedRacks[i];
-    for (unsigned int i = 0; i < m_rounds.size(); i++)
-        delete m_rounds[i];
+    for (unsigned int i = 0; i < m_history.size(); i++)
+        delete m_history[i];
 }
 
 
@@ -57,13 +56,13 @@ void Player::setCurrentRack(const PlayedRack &iPld)
 
 const PlayedRack & Player::getLastRack() const
 {
-    return *m_playedRacks.back();
+    return m_history.back()->getPlayedRack();
 }
 
 
 const Round & Player::getLastRound() const
 {
-    return *m_rounds.back();
+    return m_history.back()->getRound();
 }
 
 
@@ -74,9 +73,8 @@ const Round & Player::getLastRound() const
  */
 void Player::endTurn(const Round &iRound, int iTurn)
 {
-    m_turns.push_back(iTurn);
-    m_rounds.push_back(new Round(iRound));
-    m_playedRacks.push_back(new PlayedRack(m_pldrack));
+    // FIXME: the number of the player is wrong here!
+    m_history.push_back(new Turn(iTurn, iTurn, m_pldrack, iRound));
 
     Rack rack;
     m_pldrack.getRack(rack);

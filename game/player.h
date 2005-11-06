@@ -23,7 +23,7 @@
 #include <vector>
 #include "pldrack.h"
 
-class Round;
+class Turn;
 
 
 /**
@@ -71,9 +71,10 @@ private:
     PlayedRack m_pldrack;
 
     /// History of the racks and rounds for the player
-    vector<PlayedRack *> m_playedRacks;
-    vector<Round *> m_rounds;
-    vector<int> m_turns;
+//     vector<PlayedRack *> m_playedRacks;
+//     vector<Round *> m_rounds;
+//     vector<int> m_turns;
+    vector<Turn*> m_history;
 };
 
 
