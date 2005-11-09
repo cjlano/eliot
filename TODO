@@ -1,0 +1,11 @@
+ - new wxWidgets interface
+   - support of the different modes
+   - ability to choose the number and type of the players
+   - ability to display the history and score of all the players
+ - detection of blocked positions?
+ - getopt support for all the interfaces (only ncurses is done)
+
+
+ - network support
+ - add timers
+ - support new alphabets and dictionaries
