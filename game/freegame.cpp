@@ -155,7 +155,7 @@ void FreeGame::end()
 {
     vector<Tile> tiles;
 
-    // TODO: According to te rules of the game in the ODS, a game can end in 3
+    // TODO: According to the rules of the game in the ODS, a game can end in 3
     // cases:
     // 1) no more letter in the bag, and one player has no letter in his rack
     // 2) the game is "blocked", no one can play
