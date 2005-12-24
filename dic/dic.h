@@ -58,9 +58,9 @@ int    Dic_load   (Dictionary* dic,const char* path);
 int    Dic_destroy(Dictionary dic);
 
     /**
-     * Dic_chr returns the character code associated with an element,
-     * codes may range from 0 to 31. 0 is the null character.
-     * @returns code for the encoded character
+     * Dic_chr returns the character associated with an element
+     * (in the range ['A'-'Z']), or the null character ('\0').
+     * @returns ASCII code for the character
      */
 char   Dic_chr (Dictionary dic, dic_elt_t elt);
 
@@ -104,8 +104,8 @@ dic_elt_t Dic_succ(Dictionary dic, dic_elt_t elt);
      * from the given root node by walking the dictionary tree
      * @params dic : valid dictionary
      * @params root : starting dictionary node for the search
-     * @params pattern : string encoded according to the dictionary codes,
-     * the pattern must be null ('\0') terminated
+     * @params pattern : string made of uppercase characters in the range
+     * ['A'-'Z']. The pattern must be null ('\0') terminated
      * @returns 0 if the string cannot be matched otherwise returns the
      * element that results from walking the dictionary according to the
      * pattern

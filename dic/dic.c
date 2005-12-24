@@ -120,7 +120,11 @@ Dic_root(Dictionary d)
 char
 Dic_chr(Dictionary d, dic_elt_t e)
 {
-  return (d->dawg[e]).chr;
+    char c = (d->dawg[e]).chr;
+    if (c)
+        return c + 'A' - 1;
+    else
+        return 0;
 }
 
 

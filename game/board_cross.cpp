@@ -50,7 +50,7 @@ static void Board_checkout_tile(const Dictionary &iDic,
     // FIXME: create a temporary string until the dictionary uses Tile objects
     char leftTiles[BOARD_DIM + 1];
     for (j = i; j < index; j++)
-        leftTiles[j - i] = toupper(iTiles[j].toChar()) - 'A' + 1;
+        leftTiles[j - i] = toupper(iTiles[j].toChar());
     leftTiles[index - i] = 0;
     node = Dic_lookup(iDic, Dic_root(iDic), leftTiles);
     if (node == 0)
@@ -62,12 +62,12 @@ static void Board_checkout_tile(const Dictionary &iDic,
     // FIXME: same thing for the right part
     char rightTiles[BOARD_DIM + 1];
     for (j = index + 1; !iTiles[j].isEmpty(); j++)
-        rightTiles[j - index - 1] = toupper(iTiles[j].toChar()) - 'A' + 1;
+        rightTiles[j - index - 1] = toupper(iTiles[j].toChar());
     rightTiles[j - index - 1] = 0;
     for (succ = Dic_succ(iDic, node); succ; succ = Dic_next(iDic, succ))
     {
         if (Dic_word(iDic, Dic_lookup(iDic, succ, rightTiles)))
-            oCross.insert(Tile(Dic_chr(iDic, succ) + 'A' - 1));
+            oCross.insert(Tile(Dic_chr(iDic, succ)));
         if (Dic_last(iDic, succ))
             break;
     }
