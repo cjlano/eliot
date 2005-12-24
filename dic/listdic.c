@@ -197,7 +197,7 @@ main(int argc, char *argv[])
   int option_print_dic_hex  = 0;
   int option_print_dic_list = 0;
 
-  if (argc < 2)
+  if (argc < 3)
     {
       usage(argv[0]);
       exit(1);
