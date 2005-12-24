@@ -1,13 +1,18 @@
 [?] pour l'aide
-commande> mode duplicate
+commande> d 0 2
+mode duplicate
 [?] pour l'aide
-commande> Joueur 0:  884
+commande> a S
+Joueur 0:  884
 Joueur 1:  884
-commande> Joueur 0: ENOT
+commande> a T
+Joueur 0: ENOT
 Joueur 1: ENOT
-commande>  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
+commande> a l
+ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
  0 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0 0 1 0 0 0 0 0 0 0
-commande> Eliot
+commande> a p
+Eliot
 
 Game type: Duplicate
 Player 0: Computer
@@ -41,5 +46,6 @@ Player 1: Computer
 
 Rack 0: ENOT
 Rack 1: ENOT
-commande> fin du mode duplicate
-commande> 
+commande> q
+fin du mode duplicate
+commande> q

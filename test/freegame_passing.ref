@@ -1,9 +1,34 @@
 [?] pour l'aide
-commande> mode partie libre
+commande> l 1 1
+mode partie libre
 [?] pour l'aide
-commande> Joueur 0:    0
+commande> a S
+Joueur 0:    0
 Joueur 1:    0
-commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> commande> Eliot
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> a p
+Eliot
 
 Game type: Free game
 Player 0: Human
@@ -33,5 +58,6 @@ Player 1: Computer
 
 Rack 0: EGISSTU
 Rack 1: INT+ESDO
-commande> fin du mode partie libre
-commande> 
+commande> q
+fin du mode partie libre
+commande> q

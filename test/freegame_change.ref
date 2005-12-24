@@ -1,17 +1,30 @@
 [?] pour l'aide
-commande> mode partie libre
+commande> l 2 0
+mode partie libre
 [?] pour l'aide
-commande> Joueur 0: NEIJEDN
+commande> a T
+Joueur 0: NEIJEDN
 Joueur 1: UUEALEO
-commande> commande> Joueur 0: EENNWTA
+commande> p JID
+commande> a T
+Joueur 0: EENNWTA
 Joueur 1: UUEALEO
-commande> commande> Joueur 0: EENNWTA
+commande> p auouel
+commande> a T
+Joueur 0: EENNWTA
 Joueur 1: EEAKEIA
-commande> commande> Joueur 0: EENNWTA
+commande> p WX
+commande> a T
+Joueur 0: EENNWTA
 Joueur 1: EEAKEIA
-commande> commande> Joueur 0: EENNTOD
+commande> p WA
+commande> a T
+Joueur 0: EENNTOD
 Joueur 1: EEAKEIA
-commande> commande> Joueur 0: EENNTOD
+commande> p KEEEAAI
+commande> a T
+Joueur 0: EENNTOD
 Joueur 1: UNLEUSS
-commande> fin du mode partie libre
-commande> 
+commande> q
+fin du mode partie libre
+commande> q

@@ -1,20 +1,45 @@
 [?] pour l'aide
-commande> mode entraînement
+commande> e
+mode entraînement
 [?] pour l'aide
-commande> commande> UDEEEIJ
-commande> Mot incorrect ou mal placé (2)
-commande> Mot incorrect ou mal placé (3)
-commande> Mot incorrect ou mal placé (4)
-commande> Mot incorrect ou mal placé (10)
-commande> Mot incorrect ou mal placé (11)
-commande> commande> commande> commande> DEEI
-commande> commande> DEEIPEG
-commande> Mot incorrect ou mal placé (6)
-commande> Mot incorrect ou mal placé (9)
-commande> commande> DE
-commande> commande> Mot incorrect ou mal placé (5)
-commande> Mot incorrect ou mal placé (7)
-commande> Mot incorrect ou mal placé (8)
-commande> commande> EEEGIP
-commande> fin du mode entraînement
-commande> 
+commande> *
+commande> a t
+UDEEEIJ
+commande> j INVALID XX
+Mot incorrect ou mal placé (2)
+commande> j INVALID H5
+Mot incorrect ou mal placé (3)
+commande> j MAUVAIS H5
+Mot incorrect ou mal placé (4)
+commande> j JEUDI 8E
+Mot incorrect ou mal placé (10)
+commande> j JEUDI A6
+Mot incorrect ou mal placé (11)
+commande> r
+commande> n 0
+commande> n 6
+commande> a t
+DEEI
+commande> +
+commande> a t
+DEEIPEG
+commande> j PIEGEE H4
+Mot incorrect ou mal placé (6)
+commande> j PIEGEE A1
+Mot incorrect ou mal placé (9)
+commande> j PIEGEE 7C
+commande> a t
+DE
+commande> t EEEGIPS
+commande> j SE H7
+Mot incorrect ou mal placé (5)
+commande> j SE G6
+Mot incorrect ou mal placé (7)
+commande> j PIEGEE 7C
+Mot incorrect ou mal placé (8)
+commande> j PIEGEES 7C
+commande> a t
+EEEGIP
+commande> q
+fin du mode entraînement
+commande> q

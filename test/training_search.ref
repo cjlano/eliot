@@ -1,8 +1,13 @@
 [?] pour l'aide
-commande> mode entraînement
+commande> e
+mode entraînement
 [?] pour l'aide
-commande> commande> QPINZ?S
-commande> commande>   1: SPItZ              50 H8
+commande> t QpiNZ?s
+commande> a t
+QPINZ?S
+commande> r
+commande> a r 1000
+  1: SPItZ              50 H8
   2: ZINcS              46 H4
   3: ZaINS              46 H4
   4: ZaNIS              46 H4
@@ -790,7 +795,11 @@ commande> commande>   1: SPItZ              50 H8
 786: Su                  2 H8
 787: sI                  2 H8
 788: uS                  2 H7
-commande> commande> commande> commande>   1: ZEn                12 9H
+commande> j QuIZ H6
+commande> t E?
+commande> r
+commande> a r 50
+  1: ZEn                12 9H
   2: ZEf                12 9H
   3: ZEe                12 9H
   4: ZEc                12 9H
@@ -838,5 +847,6 @@ commande> commande> commande> commande>   1: ZEn                12 9H
  46: In                  1 8H
  47: If                  1 8H
  48: Il                  1 8H
-commande> fin du mode entraînement
-commande> 
+commande> q
+fin du mode entraînement
+commande> q

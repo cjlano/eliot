@@ -1,10 +1,17 @@
 [?] pour l'aide
-commande> mode entraînement
+commande> e
+mode entraînement
 [?] pour l'aide
-commande> le mot -MAISON- existe
-commande> le mot -WXE- n'existe pas
-commande> le mot -GenTiLLeSse- existe
-commande> le mot -JOKE- n'existe pas
-commande> le mot -P- n'existe pas
-commande> fin du mode entraînement
-commande> 
+commande> d MAISON
+le mot -MAISON- existe
+commande> d WXE
+le mot -WXE- n'existe pas
+commande> d GenTiLLeSse
+le mot -GenTiLLeSse- existe
+commande> d JOKE?
+le mot -JOKE- n'existe pas
+commande> d P0U3T
+le mot -P- n'existe pas
+commande> q
+fin du mode entraînement
+commande> q

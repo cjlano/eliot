@@ -1,13 +1,17 @@
 [?] pour l'aide
-commande> mode partie libre
+commande> l 0 3
+mode partie libre
 [?] pour l'aide
-commande> Joueur 0: 
+commande> a T
+Joueur 0: 
 Joueur 1: DEPKAS
 Joueur 2: DILMQ
-commande> Joueur 0:  392
+commande> a S
+Joueur 0:  392
 Joueur 1:  258
 Joueur 2:  205
-commande> Eliot
+commande> a p
+Eliot
 
 Game type: Free game
 Player 0: Computer
@@ -41,5 +45,6 @@ Player 2: Computer
 Rack 0: 
 Rack 1: DEP+KAS
 Rack 2: DILMQ
-commande> fin du mode partie libre
-commande> 
+commande> q
+fin du mode partie libre
+commande> q
