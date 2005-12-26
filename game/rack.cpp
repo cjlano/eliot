@@ -38,3 +38,13 @@ void Rack::getTiles(list<Tile> &oTiles) const
     }
 }
 
+string Rack::toString()
+{
+  string rs("");
+  multiset<Tile>::const_iterator it;
+  for (it = m_tiles.begin(); it != m_tiles.end(); it++)
+    {
+      rs += it->toChar();
+    }
+  return rs;
+}

@@ -24,6 +24,7 @@
 #include "tile.h"
 #include <set>
 #include <list>
+#include <string>
 
 using namespace std;
 
@@ -46,6 +47,8 @@ public:
     void remove(const Tile &t);
     void clear()                { m_tiles.clear(); }
     void getTiles(list<Tile> &oTiles) const;
+
+    string toString();
 
 private:
     multiset<Tile> m_tiles;
