@@ -1,13 +1,14 @@
 /* Eliot                                                                     */
 /* Copyright (C) 1999  Antoine Fraboulet                                     */
-/* Antoine.Fraboulet@free.fr                                                 */
 /*                                                                           */
-/* This program is free software; you can redistribute it and/or modify      */
+/* This file is part of Eliot.                                               */
+/*                                                                           */
+/* Eliot is free software; you can redistribute it and/or modify             */
 /* it under the terms of the GNU General Public License as published by      */
 /* the Free Software Foundation; either version 2 of the License, or         */
 /* (at your option) any later version.                                       */
 /*                                                                           */
-/* This program is distributed in the hope that it will be useful,           */
+/* Eliot is distributed in the hope that it will be useful,                  */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
@@ -16,7 +17,12 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-// -*-C++-*-
+/**
+ *  \file   configdb.h
+ *  \brief  Access to Eliot persistant configuration data
+ *  \author Antoine Fraboulet
+ *  \date   2002
+ */
 
 #ifndef _CONFIGDB_H
 #define _CONFIGDB_H
@@ -30,19 +36,23 @@
 
 #define BUTTON_FONT wxFont(8,wxDEFAULT,wxNORMAL,wxNORMAL)
 
-#define BOARD             "Board"
-#define BCOLOURLINES      wxT(BOARD"/Lines")
-#define BCOLOURWX2        wxT(BOARD"/Wx2")
-#define BCOLOURWX3        wxT(BOARD"/Wx3")
-#define BCOLOURLX2        wxT(BOARD"/Lx2")
-#define BCOLOURLX3        wxT(BOARD"/Lx3")
-#define BCOLOURBACKGROUND wxT(BOARD"/Background")
-#define BCOLOURLETTERS    wxT(BOARD"/Letters")
-#define BCOLOURTSTLETTERS wxT(BOARD"/TstLetters")
-#define BOARDFONT         wxT(BOARD"/Font")
+#define BOARD              "Board"
+#define BCOLOURLINES       wxT(BOARD"/Lines")
+#define BCOLOURWX2         wxT(BOARD"/Wx2")
+#define BCOLOURWX3         wxT(BOARD"/Wx3")
+#define BCOLOURLX2         wxT(BOARD"/Lx2")
+#define BCOLOURLX3         wxT(BOARD"/Lx3")
+#define BCOLOURBACKGROUND  wxT(BOARD"/Background")
+#define BCOLOURLETTERS     wxT(BOARD"/Letters")
+#define BCOLOURTSTLETTERS  wxT(BOARD"/TstLetters")
+#define BOARDFONT          wxT(BOARD"/Font")
 
-#define LIST              "List"
-#define LISTFONT          wxT(LIST"/Font")
+#define BDRAWBACKGROUND    wxT(BOARD"/DrawTile")
+#define BTILEBACKGROUND    wxT(BOARD"/TileBG")
+#define BTSTTILEBACKGROUND wxT(BOARD"/TstTileBG")
+
+#define LIST               "List"
+#define LISTFONT           wxT(LIST"/Font")
 
 #define PRINT             "Print"
 #define PHEADER           PRINT"/Header"
@@ -58,6 +68,8 @@
 #define FRAMERACC         wxT(FRAME"Racc")
 #define FRAMEBENJ         wxT(FRAME"Benj")
 #define FRAMEBAG          wxT(FRAME"Bag")
+#define FRAMEGAME         wxT(FRAME"Game")
+#define FRAMERESULT       wxT(FRAME"Result")
 
 enum Justif { LEFT, CENTER, RIGHT };
 
@@ -160,10 +172,14 @@ public:
   void setFrameShow(wxString,int);
   void setFrameDefault();
 
-  void setJokerPlus1(bool);
   void setRackChecking(bool);
-  bool getJokerPlus1();
   bool getRackChecking();
+
+  void setJokerPlus1(bool);
+  bool getJokerPlus1();
+
+  void setDrawTile(bool);
+  bool getDrawTile();
 
   float getPrintLineScale();
   void setPrintLineScale(float);

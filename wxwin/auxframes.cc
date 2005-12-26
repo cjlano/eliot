@@ -122,9 +122,9 @@ void
 BoardFrame::Refresh(refresh_t force)
 {
     if (force == REFRESH)
-        board->Refresh(BOARD_REFRESH);
+        board->Refresh(GfxBoard::BOARD_REFRESH);
     else
-        board->Refresh(BOARD_FORCE_REFRESH);
+        board->Refresh(GfxBoard::BOARD_FORCE_REFRESH);
 }
 
 /****************************************************************/

@@ -1,13 +1,14 @@
 /* Eliot                                                                     */
 /* Copyright (C) 1999  Antoine Fraboulet                                     */
-/* Antoine.Fraboulet@free.fr                                                 */
 /*                                                                           */
-/* This program is free software; you can redistribute it and/or modify      */
+/* This file is part of Eliot.                                               */
+/*                                                                           */
+/* Eliot is free software; you can redistribute it and/or modify             */
 /* it under the terms of the GNU General Public License as published by      */
 /* the Free Software Foundation; either version 2 of the License, or         */
 /* (at your option) any later version.                                       */
 /*                                                                           */
-/* This program is distributed in the hope that it will be useful,           */
+/* Eliot is distributed in the hope that it will be useful,                  */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
@@ -15,6 +16,13 @@
 /* You should have received a copy of the GNU General Public License         */
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
+
+/**
+ *  \file   configdb.cc
+ *  \brief  Access to Eliot persistant configuration data
+ *  \author Antoine Fraboulet
+ *  \date   2002
+ */
 
 #include <iostream>
 #include "ewx.h"
@@ -456,7 +464,12 @@ wxFont ConfigDB::ChooseFont(wxFrame* frame,wxFont initfont)
 void ConfigDB::setFontDefault()
 {
   wxFont fsys;
+
+#ifdef WXWIN24
   fsys = wxSystemSettings::GetSystemFont(wxSYS_DEFAULT_GUI_FONT);
+#else
+  fsys = wxSystemSettingsNative::GetFont(wxSYS_DEFAULT_GUI_FONT);
+#endif
 
   setFont(BOARDFONT ,fsys);
   setFont(LISTFONT  ,fsys);
@@ -502,6 +515,10 @@ wxColour ConfigDB::ChooseColour(wxFrame* frame,wxColour initcolour)
 #define BACKDEF    wxColour(255,255,255)
 #define LETTDEF    wxColour(  0,  0,  0)
 #define TSTLETTDEF wxColour(  0,  0,  0)
+#define TILEDEF    wxColour(0xff,0xeb,0xcd)
+//#define TSTTILEDEF wxColour(0xff,0xe4,0xb5)
+//#define TSTTILEDEF wxColour(0x46,0x82,0xb4)
+#define TSTTILEDEF wxColour(0xbd,0xb7,0x7b)
 
 void ConfigDB::setColourDefault()
 {
@@ -512,6 +529,8 @@ void ConfigDB::setColourDefault()
   setColour(wxString(BCOLOURLX3),LX3DEF);
   setColour(wxString(BCOLOURBACKGROUND),BACKDEF);
   setColour(wxString(BCOLOURLETTERS),LETTDEF);
+  setColour(wxString(BTILEBACKGROUND),TILEDEF);
+  setColour(wxString(BTSTTILEBACKGROUND),TSTTILEDEF);
 }
 
 void
@@ -767,6 +786,20 @@ bool ConfigDB::getRackChecking()
   return Read(key,(bool)FALSE);
 }
 
+void ConfigDB::setDrawTile(bool val)
+{
+  wxString key;
+  key = wxString(BDRAWBACKGROUND);
+  Write(key,val);
+}
+
+bool ConfigDB::getDrawTile()
+{
+  wxString key;
+  key = wxString(BDRAWBACKGROUND);
+  return Read(key,(bool)TRUE);
+}
+
 ////////////////////////////////////////////////////////
 //
 //
@@ -787,4 +820,3 @@ ConfigDB::setFirstDefault()
 
   Write(wxString(INIT),1L);
 }
-
