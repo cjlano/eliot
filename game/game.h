@@ -89,6 +89,7 @@ public:
     const Bag&    getBag()   const { return m_bag; }
     const Player& getPlayer(int iNum) const;
     const Turn&   getTurn(int iNum) const;
+    const Player& getCurrentPlayer() const { return getPlayer(currPlayer()); };
 
     /**
      * Saved games handling.
