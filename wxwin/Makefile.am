@@ -27,6 +27,7 @@ AM_CPPFLAGS = @WX_CPPFLAGS@
 eliot_SOURCES = \
     configdb.cc configdb.h \
     gfxboard.cc gfxboard.h \
+    gfxresult.cc gfxresult.h \
     printout.cc printout.h \
     confdimdlg.cc confdimdlg.h \
     confsearch.cc confsearch.h \

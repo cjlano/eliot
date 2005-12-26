@@ -1,13 +1,14 @@
 /* Eliot                                                                     */
 /* Copyright (C) 1999  Antoine Fraboulet                                     */
-/* Antoine.Fraboulet@free.fr                                                 */
 /*                                                                           */
-/* This program is free software; you can redistribute it and/or modify      */
+/* This file is part of Eliot.                                               */
+/*                                                                           */
+/* Eliot is free software; you can redistribute it and/or modify             */
 /* it under the terms of the GNU General Public License as published by      */
 /* the Free Software Foundation; either version 2 of the License, or         */
 /* (at your option) any later version.                                       */
 /*                                                                           */
-/* This program is distributed in the hope that it will be useful,           */
+/* Eliot is distributed in the hope that it will be useful,                  */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
@@ -16,8 +17,15 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
+/**
+ *  \file   auxframes.cc
+ *  \brief  Window Frames used in Eliot
+ *  \author Antoine Fraboulet
+ *  \date   2005
+ */
+
 #include <iostream>
-using namespace std;
+#include <sstream>
 
 #include "wx/sizer.h"
 #include "wx/button.h"
@@ -31,6 +39,7 @@ using namespace std;
 #include "dic.h"
 #include "dic_search.h"
 #include "training.h"
+#include "player.h"
 #include "game.h"
 
 #include "configdb.h"
@@ -69,6 +78,7 @@ AuxFrame::SwitchDisplay()
         Show(TRUE);
         Raise();
         show = 1;
+	Reload();
     }
     else
     {
@@ -84,6 +94,8 @@ AuxFrame::Reload()
 #define MINH 50
 
     wxSize size;
+    //debug("  %s::Reload() - %s\n",(const char*)classname.mb_str(),(const char*)name.mb_str());
+
     Move(config.getFramePos(classname));
     size = config.getFrameSize(classname);
 
@@ -109,7 +121,6 @@ BoardFrame::BoardFrame(wxFrame* parent, Game& iGame):
     AuxFrame(parent, ID_Frame_Board, wxT("Grille"), FRAMEBOARD)
 {
     board = new GfxBoard(this, iGame);
-
     wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
     sizer->Add(board, 1, wxEXPAND, 0);
     SetAutoLayout(TRUE);
@@ -121,6 +132,7 @@ BoardFrame::BoardFrame(wxFrame* parent, Game& iGame):
 void
 BoardFrame::Refresh(refresh_t force)
 {
+    //debug("    BoardFrame::Refresh\n");
     if (force == REFRESH)
         board->Refresh(GfxBoard::BOARD_REFRESH);
     else
@@ -137,9 +149,9 @@ BagFrame::BagFrame(wxFrame* parent, Game& iGame):
 {
     tiles = new wxListCtrl(this, -1);
     tiles->SetSingleStyle(wxLC_LIST);
-    tiles->SetColumnWidth(0, wxLIST_AUTOSIZE);
-    tiles->SetFont(config.getFont(LISTFONT));
-    tiles->SetToolTip(wxT("Lettre, nombre restant"));
+    //tiles->SetColumnWidth(0, wxLIST_AUTOSIZE);
+    //tiles->SetFont(config.getFont(LISTFONT));
+    //tiles->SetToolTip(wxT("Lettre, nombre restant"));
 
     wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
     sizer->Add(tiles, 1, wxEXPAND | wxALL, 1);
@@ -150,18 +162,28 @@ BagFrame::BagFrame(wxFrame* parent, Game& iGame):
 
 void
 BagFrame::Refresh(refresh_t force)
-{
-    int index;
+{ 
+    //debug("    BagFrame::Refresh\n");
+    int n,index;
     wxString buf;
+#ifdef DEBUG
+    wxChar format[] = wxT("%c:%2d[%2d]");
+#else
     wxChar format[] = wxT("%c:%2d");
+#endif
 
     tiles->ClearAll();
 
-    const list<Tile>& allTiles = Tile::getAllTiles();
-    list<Tile>::const_iterator it;
+    std::list<Tile>::const_iterator it;
+    const std::list<Tile>& allTiles = Tile::getAllTiles();
     for (index = 0, it = allTiles.begin(); it != allTiles.end(); index++, it++)
     {
-        buf.Printf(format, it->toChar(), m_game.getBag().in(*it));
+	n = m_game.getBag().in(*it);
+#ifdef DEBUG
+        buf.Printf(format, it->toChar(), n, n - it->maxNumber());
+#else
+        buf.Printf(format, it->toChar(), n);
+#endif
         tiles->InsertItem(index,buf);
     }
 }
@@ -184,6 +206,7 @@ SearchFrame::SearchFrame(wxFrame *parent, Dictionary _dic):
 void
 SearchFrame::Refresh(refresh_t force)
 {
+    //debug("    SearchFrame::Refresh\n");
 }
 
 /****************************************************************/
@@ -244,15 +267,8 @@ VerifFrame::OnText(wxCommandEvent&)
 void
 VerifFrame::Refresh(refresh_t force)
 {
+    //debug("    VerifFrame::Refresh\n");
 }
-
-/** *******************************************************************
- **
- **
- **
- **
- **
- ** ********************************************************************/
 
 /****************************************************************/
 /* AUXFRAMELIST */
@@ -267,10 +283,13 @@ BEGIN_EVENT_TABLE(AuxFrameList, AuxFrame)
   EVT_BUTTON        (ButtonCopyID , AuxFrameList::OnCopy)
 END_EVENT_TABLE()
 
-AuxFrameList::AuxFrameList(wxFrame* parent, int _id, wxString _name, wxString _classname):
+AuxFrameList::AuxFrameList(wxFrame* parent, int _id, wxString _name, wxString _classname, Game *g):
   AuxFrame(parent, _id, _name, _classname)
 
 {
+    game = g;
+    savedword = "";
+
     wxBoxSizer *sizer_v = new wxBoxSizer(wxVERTICAL);
     listbox = new wxListBox(this, ListBoxID);
     listbox->SetFont(config.getFont(LISTFONT));
@@ -314,82 +333,116 @@ AuxFrameList::Waiting()
     listbox->Show(TRUE);
 }
 
+void
+AuxFrameList::Refresh(refresh_t force)
+{
+    //debug("    %s : Refresh start\n",(const char*)name.mb_str());
+    if (game == NULL)
+	{
+	    listbox->Clear();
+	    listbox->Append(wxT("Pas de partie en cours"));
+	    //debug("  %s : Refresh end - no game\n",(const char*)name.mb_str());
+	    return;
+	}
+    if (game->getDic() == NULL)
+	{
+	    listbox->Clear();
+	    listbox->Append(wxT("Pas de dictionnaire"));
+	    //debug("  %s : Refresh end - no dictionnary\n",(const char*)name.mb_str());
+	    return;
+	}
+    if (show == 0)
+	{
+	    //debug("  %s : Refresh end - no window\n",(const char*)name.mb_str());
+	    return;
+	}
+    noresult = true;
+    refresh();
+    if (noresult == true)
+	{
+	    //debug("      %s : noresult == true\n",(const char*)name.mb_str());
+	    listbox->Clear();
+	    listbox->Append(wxT("Aucun resultat"));
+	}
+    //debug("  %s : Refresh end\n",(const char*)name.mb_str());
+}
+
 /****************************************************************/
 /* PLUS1 FRAME */
 /****************************************************************/
 
-Plus1Frame::Plus1Frame(wxFrame* parent, Game& iGame):
-    AuxFrameList(parent, ID_Frame_Plus1, wxT("Tirage + 1"), FRAMEPLUS1),
-    m_game(iGame)
-{
-    m_rack[0] = '\0';
-}
-
 void
-Plus1Frame::Refresh(refresh_t force)
+Plus1Frame::refresh()
 {
-    int  i, j;
-    string rack2;
+    std::string rack;
+    //debug("      Plus1Frame::refresh start\n");
+    rack = game->getCurrentPlayer().getCurrentRack().toString();
+    assert(0);
+    //debug("         CurrentPlayer -> rack : %s\n",rack.c_str());
+
+    if (savedword == rack)
+	{
+	    noresult = false; // keep old results
+	    //debug("      Plus1Frame::refresh end, no change\n");
+	    return;
+	}
+    savedword = rack;
+
     char buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
+    Dic_search_7pl1(game->getDic(), rack.c_str(), buff, config.getJokerPlus1());
 
-    rack2 = m_game.getPlayerRack(0);
-
-    if (m_rack == rack2)
-        return;
-
-    m_rack = rack2;
-
-    Waiting();
-    Dic_search_7pl1(m_game.getDic(), m_rack.c_str(), buff, config.getJokerPlus1());
-
-    int resnum = 0;
+    listbox->Clear();
     wxString res[DIC_LETTERS*(RES_7PL1_MAX+1)];
-    // wxString(wxT) added for clean compile with wx2.4
-    res[resnum++] = wxString(wxT("Tirage: ")) + wxString(wxU(m_rack.c_str()));
-    for (i = 0; i < DIC_LETTERS; i++)
+    int resnum = 0;
+    res[resnum++] = wxString(wxT("Tirage: ")) + wxString(wxU(rack.c_str()));
+    for (int i = 0; i < DIC_LETTERS; i++)
     {
         if (i && buff[i][0][0])
-            res[resnum++] = wxString(wxT("+")) + (wxChar)(i + 'A' - 1);
-        for (j = 0; j < RES_7PL1_MAX && buff[i][j][0]; j++)
-            res[resnum++] = wxString(wxT("  ")) + wxU(buff[i][j]);
+	    {
+		res[resnum++] = wxString(wxT("+")) + (wxChar)(i + 'A' - 1);
+		noresult = false;
+	    }
+	for (int j = 0; j < RES_7PL1_MAX && buff[i][j][0]; j++)
+	    {
+		res[resnum++] = wxString(wxT("  ")) + wxU(buff[i][j]);
+		noresult = false;
+	    }
     }
     listbox->Set(resnum, res);
+    //debug("      Plus1Frame::refresh end\n");
 }
 
 /****************************************************************/
 /*  BENJAMINS */
 /****************************************************************/
 
-BenjFrame::BenjFrame(wxFrame* parent, Game& iGame, wxListCtrl* _results):
-    AuxFrameList(parent, ID_Frame_Benj, wxT("benjamins"), FRAMEBENJ),
-    m_game(iGame)
-{
-    results = _results;
-}
-
 void
-BenjFrame::Refresh(refresh_t force)
+BenjFrame::refresh()
 {
-    int i;
+    std::string word;
+
+    if (game->getMode() != Game::kTRAINING)
+	return;
+
+    word = ((Training*)game)->getTestPlayWord();
+    if (savedword == word)
+	{
+	    noresult = false; // keep old results
+	    return;
+	}
+    savedword = word;
+    //debug("   BenjFrame::refresh : %s\n",word.c_str());
     char wordlist[RES_BENJ_MAX][DIC_WORD_MAX];
-    long item = -1;
-    item = results->GetNextItem(item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-    // item can be -1
+    Dic_search_Benj(game->getDic(), word.c_str(), wordlist);
 
-    if (item < 0)
-    {
-        listbox->Clear();
-        return;
-    }
-
-    Waiting();
-    Dic_search_Benj(m_game.getDic(),
-		    ((Training&)m_game).getSearchedWord(item).c_str(), wordlist);
-
-    int resnum = 0;
     wxString res[RES_BENJ_MAX];
-    for (i = 0; (i < RES_BENJ_MAX) && (wordlist[i][0]); i++)
-        res[resnum++] = wxU(wordlist[i]);
+    int resnum = 0;
+    for (int i = 0; (i < RES_BENJ_MAX) && (wordlist[i][0]); i++)
+	{
+	    res[resnum++] = wxU(wordlist[i]);
+	    //debug("      BenjFrame : %s (%d)\n",wordlist[i],resnum);
+	    noresult = false;
+	}
     listbox->Set(resnum, res);
 }
 
@@ -398,41 +451,160 @@ BenjFrame::Refresh(refresh_t force)
 /* RACC FRAME */
 /****************************************************************/
 
-RaccFrame::RaccFrame(wxFrame* parent, Game& iGame, wxListCtrl* _results):
-    AuxFrameList(parent, ID_Frame_Racc, wxT("raccords"), FRAMERACC),
-    m_game(iGame)
-{
-    results = _results;
-}
-
 void
-RaccFrame::Refresh(refresh_t force)
+RaccFrame::refresh()
 {
-    int i;
+    std::string word;
+
+    if (game->getMode() != Game::kTRAINING)
+	return;
+
+    word = ((Training*)game)->getTestPlayWord();
+    if (savedword == word)
+	{
+	    noresult = false; // keep old results
+	    return;
+	}
+    savedword = word;
+    //debug("   RaccFrame::refresh : %s\n",word.c_str());
     char wordlist[RES_RACC_MAX][DIC_WORD_MAX];
-    long item = -1;
-    item = results->GetNextItem(item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-    // item can be -1
+    Dic_search_Racc(game->getDic(), word.c_str(), wordlist);
 
-    if (item < 0)
-    {
-        listbox->Clear();
-        return;
-    }
-
-    Waiting();
-    Dic_search_Racc(m_game.getDic(),
-		    ((Training&)m_game).getSearchedWord(item).c_str(), wordlist);
-
-    int resnum = 0;
     wxString res[RES_RACC_MAX];
-    for (i = 0; (i < RES_RACC_MAX) && (wordlist[i][0]); i++)
-    {
-        res[resnum++] = wxU(wordlist[i]);
-    }
+    int resnum = 0;
+    for (int i = 0; (i < RES_RACC_MAX) && (wordlist[i][0]); i++)
+	{
+	    res[resnum++] = wxU(wordlist[i]);
+	    //debug("      RaccFrame : %s (%d)\n",wordlist[i],resnum);
+	    noresult = false;
+	}
     listbox->Set(resnum, res);
 }
 
+/****************************************************************/
+/* AUXFRAMETEXT */
+/****************************************************************/
+
+AuxFrameText::AuxFrameText(wxFrame* parent, int _id, wxString _name, wxString _classname, int _style):
+  AuxFrame(parent, _id, _name, _classname)
+
+{
+    wxBoxSizer *sizer_v = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
+
+    wxFont font(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
+		wxFONTWEIGHT_NORMAL, false, wxString(wxT("Courier New")), wxFONTENCODING_SYSTEM);
+
+    textbox = new wxTextCtrl(this, -1, wxT(""), wxDefaultPosition, wxDefaultSize, _style);
+    textbox->SetFont(font);
+
+    sizer_v->Add(textbox, 1, wxEXPAND | wxALL, 1);
+    sizer->Add(sizer_v, 1, wxEXPAND, 0);
+
+    SetAutoLayout(TRUE);
+    SetSizer(sizer);
+    sizer->Fit(this);
+    sizer->SetSizeHints(this);
+}
+
+/****************************************************************/
+/* GAME FRAME */
+/****************************************************************/
+
+GameFrame::GameFrame(wxFrame* parent, Game& iGame):
+    AuxFrameText(parent, ID_Frame_Game, wxT("partie"), FRAMEGAME, wxTE_MULTILINE | wxTE_READONLY | wxTE_DONTWRAP),
+    m_game(iGame)
+{
+    textbox->Clear();
+    textbox->AppendText(wxT(""));
+}
+
+void
+GameFrame::Refresh(refresh_t force)
+{
+    std::ostringstream mos;
+    m_game.save(mos);
+#ifdef DEBUG
+    mos << std::string(30,'-') << std::endl;
+    mos << "Player History\n";
+    //FIXME1    mos << m_game.getPlayer(0).getHistory().toString();
+    mos << std::string(30,'-') << std::endl;
+    mos << "Game History\n";
+    //FIXME1    mos << m_game.getHistory().toString();
+#endif
+    textbox->Clear();
+    textbox->AppendText( wxU( mos.str().c_str() ) );
+}
+
+/****************************************************************/
+/* RESULT FRAME */
+/****************************************************************/
+
+BEGIN_EVENT_TABLE(ResultFrame, AuxFrame)
+END_EVENT_TABLE()
+
+ResultFrame::ResultFrame(wxFrame* parent, Game* iGame):
+    AuxFrame(parent, ID_Frame_Result, wxT("recherche"), FRAMERESULT)
+{
+    reslist = new GfxResult(this, (MainFrame*)parent, iGame);
+
+    wxBoxSizer *sizer_v = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer *sizer   = new wxBoxSizer(wxHORIZONTAL);
+
+    sizer_v->Add(reslist, 1, wxEXPAND, 0);
+    sizer->Add  (sizer_v, 1, wxEXPAND | wxALL, 2);
+
+    SetAutoLayout(TRUE);
+    SetSizer(sizer);
+    sizer->Fit(this);
+    sizer->SetSizeHints(this);
+    //debug("ResultFrame created\n");
+}
+
+void
+ResultFrame::Refresh(refresh_t WXUNUSED(force))
+{
+    if (reslist != NULL)
+	{
+	    reslist->Show(false);
+	    //debug("ResultFrame refresh\n");
+	    reslist->Refresh();
+	    reslist->Show(true);
+	}
+}
+
+void
+ResultFrame::Search()
+{
+    if (reslist != NULL)
+	{
+	    reslist->Search();
+	}
+}
+
+int
+ResultFrame::GetSelected()
+{
+    if (reslist != NULL)
+	{
+	    return reslist->GetSelected();
+	}
+    return -1;
+}
+
+void
+ResultFrame::OnSize(wxSizeEvent& e)
+{
+    int w,h;
+    GetClientSize(&w,&h);
+    //debug("ResultFrame::OnSize (%d,%d)\n",w,h);
+}
 
 /****************************************************************/
 /****************************************************************/
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// End:
