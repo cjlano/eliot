@@ -44,6 +44,7 @@ void Turn::operator=(const Turn &iOther)
     pldrack = iOther.pldrack;
     round   = iOther.round;
 }
+#endif
 
 
 string Turn::toString(bool iShowExtraSigns) const
@@ -56,7 +57,6 @@ string Turn::toString(bool iShowExtraSigns) const
     rs = rs + m_pldrack.toString() + " " + m_round.toString();
     return rs;
 }
-#endif
 
 
 /// Local Variables:
