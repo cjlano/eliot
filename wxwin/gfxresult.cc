@@ -112,20 +112,20 @@ GfxResult::Refresh()
     if (game == NULL)
 	return;
 
-    //debug("   GfxResult::Refresh : ");
+    debug("   GfxResult::Refresh : ");
     std::string rack = game->getCurrentPlayer().getCurrentRack().toString();
 
     if (savedrack != rack)
 	{
-	    //debug("changed (%s -> %s)",savedrack.c_str(),rack.c_str());
+	    debug("changed (%s -> %s)",savedrack.c_str(),rack.c_str());
 	    savedrack = rack;
 	    results->DeleteAllItems();
 	}
     else
 	{
-	    //debug("unchanged");
+	    debug("unchanged");
 	}
-    //debug("\n");
+    debug("\n");
 }
 
 /* ************************************************** */
@@ -134,7 +134,7 @@ GfxResult::Refresh()
 void
 GfxResult::Search()
 {
-    //debug("GfxResult::Search()\n");
+    debug("GfxResult::Search()\n");
     if (game == NULL)
 	return;
 
@@ -144,7 +144,7 @@ GfxResult::Search()
     results->SetFont(config.getFont(LISTFONT));
 
     const Results &res = ((Training*)game)->getResults();
-    //debug("   GfxResult::Search size = %d\n",res.size());
+    debug("   GfxResult::Search size = %d\n",res.size());
     for (int i = 0; i < res.size(); i++)
 	{
 	    Round r = res.get(i);
@@ -165,7 +165,7 @@ GfxResult::Search()
     for (int i = 0; i < 4; i++)
         results->SetColumnWidth(i, wxLIST_AUTOSIZE);
 
-    // results->Show();
+    //results->Show();
 
     if (res.size() > 0)
 	{

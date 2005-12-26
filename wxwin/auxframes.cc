@@ -377,7 +377,6 @@ Plus1Frame::refresh()
     std::string rack;
     //debug("      Plus1Frame::refresh start\n");
     rack = game->getCurrentPlayer().getCurrentRack().toString();
-    assert(0);
     //debug("         CurrentPlayer -> rack : %s\n",rack.c_str());
 
     if (savedword == rack)
@@ -527,10 +526,10 @@ GameFrame::Refresh(refresh_t force)
 #ifdef DEBUG
     mos << std::string(30,'-') << std::endl;
     mos << "Player History\n";
-    //FIXME1    mos << m_game.getPlayer(0).getHistory().toString();
+    mos << m_game.getPlayer(0).toString();
     mos << std::string(30,'-') << std::endl;
     mos << "Game History\n";
-    //FIXME1    mos << m_game.getHistory().toString();
+    mos << m_game.getHistory().toString();
 #endif
     textbox->Clear();
     textbox->AppendText( wxU( mos.str().c_str() ) );

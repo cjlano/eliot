@@ -1,13 +1,14 @@
 /* Eliot                                                                     */
 /* Copyright (C) 1999  Antoine Fraboulet                                     */
-/* Antoine.Fraboulet@free.fr                                                 */
 /*                                                                           */
-/* This program is free software; you can redistribute it and/or modify      */
+/* This file is part of Eliot.                                               */
+/*                                                                           */
+/* Eliot is free software; you can redistribute it and/or modify             */
 /* it under the terms of the GNU General Public License as published by      */
 /* the Free Software Foundation; either version 2 of the License, or         */
 /* (at your option) any later version.                                       */
 /*                                                                           */
-/* This program is distributed in the hope that it will be useful,           */
+/* Eliot is distributed in the hope that it will be useful,                  */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
@@ -23,8 +24,12 @@
 #include "ewx.h"
 
 #include "dic.h"
-#include "game.h"
+#include "pldrack.h"
+#include "round.h"
+#include "turn.h"
 #include "player.h"
+#include "turn.h"
+#include "game.h"
 
 #include "configdb.h"
 #include "printout.h"
@@ -150,43 +155,49 @@ GamePrintout::DrawTextLine(wxDC *dc, int numline, long basey, long heightT, floa
         + numline * (config.getDyT1() + heightT + config.getDyT2());
     w = config.getDxText(0);
     str = wxT("");
+
+    int NRounds = m_game.getHistory().getSize();
+
     // num
-    if (numline < m_game.getNTurns())
+    if (numline < NRounds)
     {
+        str = wxT("");
         str << (numline + 1);
         DRW(0);
     }
     // rack
     DIM(1);
-    if (numline < m_game.getNTurns())
+    if (numline < NRounds)
     {
-        str = wxU(m_game.getPlayedRack(numline).c_str());
+        str = wxU(m_game.getHistory().getTurn(numline).getPlayedRack().toString().c_str());
         DRW(1);
     }
     // word
     DIM(2);
-    if ((numline > 0) && (numline <= m_game.getNTurns()))
+    if ((numline > 0) && (numline <= NRounds))
     {
-        str = wxU(m_game.getPlayedWord(numline - 1).c_str());
+        str = wxU(m_game.getHistory().getTurn(numline - 1).getRound().getWord().c_str());
         DRW(2);
     }
     // pos
     DIM(3);
-    if ((numline > 0) && (numline <= m_game.getNTurns()))
+    if ((numline > 0) && (numline <= NRounds))
     {
-        str = wxU(m_game.getPlayedCoords(numline - 1).c_str());
+        str = wxU(m_game.getHistory().getTurn(numline - 1).getRound().getCoord().toString().c_str());
         DRW(3);
     }
     // pts
     DIM(4);
-    if ((numline > 0) && (numline <= m_game.getNTurns()))
+    if ((numline > 0) && (numline <= NRounds))
     {
-        str << m_game.getPlayedPoints(numline - 1);
+        str = wxT("");
+        str << m_game.getHistory().getTurn(numline - 1).getRound().getPoints();
         DRW(4);
     }
     // total points
-    if (numline == m_game.getNTurns() + 1)
+    if (numline == NRounds + 1)
     {
+        str = wxT("");
         str << m_game.getPlayer(0).getPoints();
         DRW(4);
     }
@@ -253,7 +264,8 @@ GamePrintout::DrawPage(wxDC *dc)
      basey = config.getMarginY() + config.getDyH1() + heightH + config.getDyH2();
      dc->SetFont(Tfont);
      heightT = (long) (dc->GetCharHeight() / mmToLogical);
-     for(i=0; i < (m_game.getNTurns()+3);i++)
+     int NRounds = m_game.getHistory().getSize();
+     for(i=0; i < (NRounds+3);i++)
      {
          DrawTextLine(dc,i,basey,heightT,mmToLogical);
      }
@@ -274,7 +286,8 @@ GamePrintout::DrawGameLines(wxDC *dc, long heightH, long heightT,
     float SCALE = config.getPrintLineScale();
     dc->SetUserScale(SCALE,SCALE);
 
-    nTextLines = m_game.getNTurns() + 2;
+    int NRounds = m_game.getHistory().getSize();
+    nTextLines = NRounds + 2;
     StartX = config.getMarginX();
     StartY = config.getMarginY();
 
@@ -313,3 +326,13 @@ GamePrintout::DrawGameLines(wxDC *dc, long heightH, long heightT,
         lin = StartY + HeadHeight + i * LineHeight;
     }
 }
+
+
+/****************************************************************/
+/****************************************************************/
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// End:

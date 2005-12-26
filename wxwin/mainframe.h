@@ -34,26 +34,36 @@ private:
     AuxFrame    *auxframes_ptr[MAX_FRAME_ID];
 
     wxTextCtrl  *rack;
-    wxListCtrl  *results;
+#ifdef ENABLE_RESLIST_IN_MAIN
+    GfxResult   *reslist;
+#endif
+
     wxButton    *b_play;
     wxButton    *b_rackrandomset;
     wxButton    *b_rackrandomnew;
     wxButton    *b_search;
     wxButton    *b_back;
-    wxStatusBar *statusbar;
 
-    void Play(int);
-    void Search();
+    wxStatusBar *statusbar;
 
     void InitFrames();
     void InitMenu();
     void UpdateStatusBar();
-    void UpdateFrames(refresh_t force = REFRESH);
 
 public:
     MainFrame(wxPoint,wxSize);
     virtual ~MainFrame();
+    
+    // *******
+    // Actions
+    // *******
+    void SetRack(Game::set_rack_mode, wxString = wxT(""));
+    void Search();
+    void Play(int);
+    void TestPlay(int);
 
+    void UpdateFrames(AuxFrame::refresh_t force = AuxFrame::REFRESH);
+    
     // *****
     // Menus
     // *****
@@ -84,7 +94,7 @@ public:
     void OnSetRack  (wxCommandEvent& event);
     void OnSearch   (wxCommandEvent& event);
     void OnPlayBack (wxCommandEvent& event);
-
+    void OnTextEnter(wxCommandEvent& event);
 
     // *******
     // Objects
