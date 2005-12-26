@@ -32,10 +32,10 @@
 
 Turn::Turn()
 {
-    m_num     = 0;
-    m_player  = 0;
-    m_pldrack = PlayedRack();
-    m_round   = Round();
+    m_num      = 0;
+    m_playerId = 0;
+    m_pldrack  = PlayedRack();
+    m_round    = Round();
 }
 
 Turn::Turn(int iNum, int iPlayerId,
