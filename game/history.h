@@ -28,42 +28,49 @@
 #define _HISTORY_H
 
 #include <vector>
-#include "turn.h"
+
+class Turn;
+class PlayedRack;
+class Round;
 
 class History
 {
  public:
     History();
-    ~History();
+    virtual ~History();
 
     /// get the size of the history
-    int              getSize() const;
+    int               getSize() const;
 
     /// Get the (possibly incomplete) rack
-    const PlayedRack getCurrentRack() const;
+    const PlayedRack& getCurrentRack() const;
 
     /// Set the current rack
-    void             setCurrentRack(const PlayedRack &iPld);
+    void              setCurrentRack(const PlayedRack &iPld);
 
     /// Get the previous turn
-    const Turn       getPreviousTurn() const;
+    const Turn&       getPreviousTurn() const;
 
-    /// Update the "history" with the given round and, complete the turn.
-    /// a new turn is created with the remaining letters in the rack
+    /// Get turn 'n'
+    const Turn&       getTurn(unsigned int) const;
+
+    /// Update the "history" with the given round and complete the turn.
+    /// A new turn is created with the remaining letters in the rack
     void playRound(int player, int turn, const Round& round);
 
     /// Remove last turn
     void removeLastTurn();
 
+    /// String handling
     std::string toString() const;
 
  private:
-    vector < Turn* > history;
+    std::vector < Turn* > m_history;
 };
 
 #endif
 
-
+
 /// Local Variables:
 /// mode: hs-minor
 /// c-basic-offset: 4

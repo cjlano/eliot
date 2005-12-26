@@ -27,6 +27,7 @@
 #include <string>
 #include "rack.h"
 #include "history.h"
+#include "turn.h"
 #include "debug.h"
 
 /* ******************************************************** */
@@ -37,51 +38,53 @@
 History::History()
 {
     Turn* t = new Turn ();
-    history.push_back(t);
+    m_history.push_back(t);
 }
 
 
 History::~History()
 {
-    for (unsigned int i = 0; i < history.size(); i++)
-	{
-	    if (history[i] != NULL)
-		{
-		    delete history[i];
-		    history[i] = NULL;
-		}
-	}
+    for (unsigned int i = 0; i < m_history.size(); i++)
+    {
+        if (m_history[i] != NULL)
+        {
+            delete m_history[i];
+            m_history[i] = NULL;
+        }
+    }
 }
 
 
 int History::getSize() const
 {
-    return history.size();
+    return m_history.size();
 }
 
 
-const PlayedRack History::getCurrentRack() const
+const PlayedRack& History::getCurrentRack() const
 {
-    return history.back()->getPlayedRack();
+    return m_history.back()->getPlayedRack();
 }
 
 
 void History::setCurrentRack(const PlayedRack &iPld)
 {
-    history.back()->setPlayedRack(iPld);
+    m_history.back()->setPlayedRack(iPld);
 }
 
-// vector
-// size : number of elements
-// back : last element
-// pop_back : remove at the end
-// push_back : add at the end
 
-const Turn History::getPreviousTurn() const
+const Turn& History::getPreviousTurn() const
 {
-    int idx = history.size() - 2;
+    int idx = m_history.size() - 2;
     ASSERT(0 <= idx , "Wrong turn number");
-    return *(history[ idx ]);
+    return *(m_history[idx]);
+}
+
+
+const Turn& History::getTurn(unsigned int n) const
+{
+    ASSERT(0 <= n && n < m_history.size(), "Wrong turn number");
+    return *(m_history[n]);
 }
 
 
@@ -89,9 +92,8 @@ void History::playRound(int player, int turn, const Round& round)
 {
     Rack rack;
     Turn * current_turn;
-    Turn * next_turn;
 
-    current_turn = history.back();
+    current_turn = m_history.back();
 
     /* set the number and the round */
     current_turn->setNum(turn);
@@ -114,26 +116,28 @@ void History::playRound(int player, int turn, const Round& round)
     }
 
     /* create a new turn */
-    next_turn = new Turn();
-    next_turn->getPlayedRack().setOld(rack);
-    history.push_back ( next_turn );
+    Turn * next_turn = new Turn();
+    PlayedRack pldrack;
+    pldrack.setOld(rack);
+    next_turn->setPlayedRack(pldrack);
+    m_history.push_back(next_turn);
 }
 
 
 void History::removeLastTurn()
 {
-    int idx = history.size();
+    int idx = m_history.size();
     ASSERT(0 < idx , "Wrong turn number");
 
     if (idx > 1)
-	{
-	    Turn *t = history.back();
-	    history.pop_back();
-	    delete t;
-	}
+    {
+        Turn *t = m_history.back();
+        m_history.pop_back();
+        delete t;
+    }
 
     // now we have the previous played round in back()
-    Turn* t = history.back();
+    Turn* t = m_history.back();
     t->setNum(0);
     t->setPlayer(0);
     t->setRound(Round());
@@ -143,18 +147,20 @@ void History::removeLastTurn()
 }
 
 
-std::string
-History::toString() const
+std::string History::toString() const
 {
-    std::string rs = "";
     unsigned int i;
-    for ( i = 0; i < history.size(); i++)
-	{
-	    string pr,ro;
-	    pr = history[i]->getPlayedRack().toString();
-	    ro = history[i]->getRound().toString();
-	    rs += string(" ") + pr + string(" ") + ro + string("\n");
-	}
+    std::string rs = "";
+#ifdef DEBUG
+    char buff[20];
+    sprintf(buff,"%d",m_history.size());
+    rs = "history size = " + std::string(buff) + "\n\n";
+#endif
+    for (i = 0; i < m_history.size(); i++)
+    {
+        Turn *t = m_history[i];
+        rs += t->toString() + std::string("\n");
+    }
     return rs;
 }
 
@@ -162,7 +168,7 @@ History::toString() const
 /* ******************************************************** */
 /* ******************************************************** */
 
-
+
 /// Local Variables:
 /// mode: hs-minor
 /// c-basic-offset: 4
