@@ -180,19 +180,22 @@ void GameIO::printAllRacks(ostream &out, const Game &iGame)
 
 static void searchResultLine(ostream &out, const Training &iGame, int num)
 {
-    string word = iGame.getSearchedWord(num);
+    const Results &res = iGame.getResults();
+    Round r = res.get(num);
+    string word = r.getWord();
     if (word.size() == 0)
         return;
     out << word << string(16 - word.size(), ' ')
-        << (iGame.getSearchedBonus(num) ? '*' : ' ')
-        << setw(4) << iGame.getSearchedPoints(num)
-        << ' ' << iGame.getSearchedCoords(num);
+        << (r.getBonus() ? '*' : ' ')
+        << setw(4) << r.getPoints()
+        << ' ' << r.getCoord().toString();
 }
 
 
 void GameIO::printSearchResults(ostream &out, const Training &iGame, int num)
 {
-    for (int i = 0; i < num && i < iGame.getNResults(); i++)
+    int size = (int) iGame.getResults().size();
+    for (int i = 0; i < num && i < size; i++)
     {
         out << setw(3) << i + 1 << ": ";
         searchResultLine(out, iGame, i);

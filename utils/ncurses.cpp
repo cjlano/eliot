@@ -209,7 +209,7 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
 
     // Display a message when the search is complete
     if (m_game->getMode() == Game::kTRAINING &&
-        static_cast<Training*>(m_game)->getNResults())
+        static_cast<Training*>(m_game)->getHistory().getSize())
     {
         mvwprintw(win, y + 2*yOff - 1, x + 2, _("Search complete"));
     }
@@ -228,17 +228,19 @@ void CursesIntf::drawResults(WINDOW *win, int y, int x)
     drawBox(win, y, x, h, 25, _(" Search results "));
     m_boxY = y + 1;
     m_boxLines = h - 2;
-    m_boxLinesData = tr_game->getNResults();
+    m_boxLinesData = tr_game->getHistory().getSize();
 
     int i;
-    for (i = m_boxStart; i < tr_game->getNResults() &&
+    const Results& res = tr_game->getResults();
+    for (i = m_boxStart; i < res.size() &&
                          i < m_boxStart + m_boxLines; i++)
     {
-        string coord = tr_game->getSearchedCoords(i);
+        const Round &r = res.get(i);
+        string coord = r.getCoord().toString();
         boxPrint(win, i, x + 1, "%3d %s%s %3s",
-                 tr_game->getSearchedPoints(i),
-                 tr_game->getSearchedWord(i).c_str(),
-                 string(h - 3 - tr_game->getSearchedWord(i).size(), ' ').c_str(),
+                 r.getPoints(),
+                 r.getWord().c_str(),
+                 string(h - 3 - r.getWordLen(), ' ').c_str(),
                  coord.c_str());
     }
     // Complete the list with empty lines, to avoid trails
@@ -257,7 +259,7 @@ void CursesIntf::drawHistory(WINDOW *win, int y, int x)
     drawBox(win, y, x, LINES - y, COLS - x, _(" History of the game "));
     m_boxY = y + 1;
     m_boxLines = LINES - y - 2;
-    m_boxLinesData = m_game->getNTurns();
+    m_boxLinesData = m_game->getHistory().getSize();
 
     // Heading
     boxPrint(win, m_boxStart, x + 2,
@@ -265,18 +267,19 @@ void CursesIntf::drawHistory(WINDOW *win, int y, int x)
     mvwhline(win, y + 2, x + 2, ACS_HLINE, 55);
 
     int i;
-    for (i = m_boxStart + 0; i < m_game->getNTurns() &&
+    for (i = m_boxStart + 0; i < m_game->getHistory().getSize() &&
                          i < m_boxStart + m_boxLines; i++)
     {
-        string word = m_game->getPlayedWord(i);
-        string coord = m_game->getPlayedCoords(i);
+        const Turn& t = m_game->getHistory().getTurn(i);
+	const Round& r = t.getRound();
+        string word = r.getWord();
+        string coord = r.getCoord().toString();
         boxPrint(win, i + 2, x + 2,
                  "%2d   %8s   %s%s   %3s   %3d   %1d   %c",
-                 i + 1, m_game->getPlayedRack(i).c_str(), word.c_str(),
+                 i + 1, t.getPlayedRack().toString().c_str(), word.c_str(),
                  string(15 - word.size(), ' ').c_str(),
-                 coord.c_str(), m_game->getPlayedPoints(i),
-                 m_game->getPlayedPlayer(i),
-                 m_game->getPlayedBonus(i) ? '*' : ' ');
+                 coord.c_str(), r.getPoints(),
+		 t.getPlayer(), r.getBonus() ? '*' : ' ');
     }
     mvwvline(win, y + 1, x + 5,  ACS_VLINE, min(i + 2 - m_boxStart, m_boxLines));
     mvwvline(win, y + 1, x + 16, ACS_VLINE, min(i + 2 - m_boxStart, m_boxLines));

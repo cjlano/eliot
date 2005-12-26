@@ -320,7 +320,7 @@ display_data(const Game &iGame, const char *delim)
             GameIO::printAllPoints(cout, iGame);
             break;
         case 't':
-            GameIO::printPlayedRack(cout, iGame, iGame.getNTurns());
+            GameIO::printPlayedRack(cout, iGame, iGame.getHistory().getSize());
             break;
         case 'T':
             GameIO::printAllRacks(cout, iGame);
