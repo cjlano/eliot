@@ -30,16 +30,15 @@
 class Turn
 {
 public:
+    Turn();
     Turn(int iNum, int iPlayerId,
          const PlayedRack& iPldRack, const Round& iRound);
     virtual ~Turn() {};
 
-#if 0
     void setNum(int iNum)                          { m_num = iNum; }
     void setPlayer(int iPlayerId)                  { m_playerId = iPlayerId; }
     void setPlayedRack(const PlayedRack& iPldRack) { m_pldrack = iPldRack; }
     void setRound(const Round& iRound)             { m_round = iRound; }
-#endif
 
     int               getNum()        const { return m_num; }
     int               getPlayer()     const { return m_playerId; }
