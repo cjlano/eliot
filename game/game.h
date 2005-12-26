@@ -26,6 +26,7 @@
 #include <iostream>
 #include "bag.h"
 #include "board.h"
+#include "history.h"
 
 class Player;
 class PlayedRack;
@@ -124,19 +125,15 @@ public:
      *    3 : the rack cannot be completed (Game_*_setrackrandom only)
      *************************/
     static const int RACK_SIZE;
-    enum set_rack_mode {RACK_ALL, RACK_NEW};
+    enum set_rack_mode {RACK_ALL, RACK_NEW, RACK_MANUAL};
+    int setRack(int player, set_rack_mode mode, bool check, const string& str);
+    string getPlayerRack(int, bool = false) const;
 
     /**
      * Methods to access already played words.
      * The int parameter should be 0 <= int < getNTurns()
      */
-    int getNTurns() const     { return m_history.size(); }
-    string getPlayedRack(int) const;
-    string getPlayedWord(int) const;
-    string getPlayedCoords(int num) const;
-    int getPlayedPoints(int) const;
-    int getPlayedBonus(int) const;
-    int getPlayedPlayer(int) const;
+    const History& getHistory() { return m_history; }
 
     /**
      * Methods to access players.
@@ -147,15 +144,12 @@ public:
     virtual void addHumanPlayer();
     // TODO: Ability to specify which kind of AI player is wanted
     virtual void addAIPlayer();
-    string getPlayerRack(int, bool = false) const;
-
     int  currPlayer() const     { return m_currPlayer; }
 
     /**
      * Game handling
      */
     virtual int start() = 0;
-    virtual int setRackRandom(int, bool, set_rack_mode) = 0;
     virtual int play(const string &iCoord, const string &iWord) = 0;
     virtual int endTurn() = 0;
 
@@ -184,7 +178,7 @@ protected:
      * History of the game.
      * The vector is indexed by the number of turns in the game
      */
-    vector<Turn*> m_history;
+    History m_history;
 
     int m_points;
 
