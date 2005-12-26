@@ -18,6 +18,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <string>
 #include "tile.h"
 #include "round.h"
 
@@ -140,3 +141,40 @@ void Round::removeRightToRack(Tile c, bool iJoker)
     m_tileOrigin.pop_back();
 }
 
+string Round::getWord() const
+{
+  char c;
+  std::string s;
+
+  for (int i = 0; i < getWordLen(); i++)
+    {
+      c = getTile(i).toChar();
+      if (isJoker(i))
+        c = tolower(c);
+      s += c;
+    }
+  return s;
+}
+
+string Round::toString() const
+{
+    char buff[5];
+    string rs(" ");
+
+    if (getWord().size() > 0)
+    {
+        rs  = getWord();
+        rs += string(16 - getWord().size(), ' ');
+        rs += getBonus() ? '*' : ' ';
+        sprintf(buff,"%4d",getPoints());
+        rs += buff;
+        rs += " " + getCoord().toString();
+    }
+
+    return rs;
+}
+
+/// Local Variables:
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// End:
