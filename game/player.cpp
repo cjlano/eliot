@@ -25,6 +25,7 @@
 #include "board.h"
 #include "player.h"
 #include "turn.h"
+#include "history.h"
 
 #include "debug.h"
 
@@ -38,61 +39,43 @@ Player::Player(int iId)
 
 Player::~Player()
 {
-    for (unsigned int i = 0; i < m_history.size(); i++)
-        delete m_history[i];
 }
 
 
 const PlayedRack & Player::getCurrentRack() const
 {
-    return m_pldrack;
+    return m_history.getCurrentRack();
 }
 
 
 void Player::setCurrentRack(const PlayedRack &iPld)
 {
-    m_pldrack = iPld;
+    m_history.setCurrentRack(iPld);
 }
 
 
 const PlayedRack & Player::getLastRack() const
 {
-    return m_history.back()->getPlayedRack();
+    return m_history.getPreviousTurn().getPlayedRack();
 }
 
 
 const Round & Player::getLastRound() const
 {
-    return m_history.back()->getRound();
+    return m_history.getPreviousTurn().getRound();
 }
 
 
-/*
- * This function increments the number of racks, and fills the new rack
- * with the unplayed tiles from the previous one.
- * 03 sept 2000 : We have to sort the tiles according to the new rules
- */
 void Player::endTurn(const Round &iRound, int iTurn)
 {
-    m_history.push_back(new Turn(iTurn, m_id, m_pldrack, iRound));
-
-    Rack rack;
-    m_pldrack.getRack(rack);
-
-    // We remove the played tiles from the rack
-    for (int i = 0; i < iRound.getWordLen(); i++)
-    {
-        if (iRound.isPlayedFromRack(i))
-        {
-            if (iRound.isJoker(i))
-                rack.remove(Tile::Joker());
-            else
-                rack.remove(iRound.getTile(i));
-        }
-    }
-
-    // Now reinitialize the current rack with the remaining tiles
-    m_pldrack = PlayedRack();
-    m_pldrack.setOld(rack);
+    m_history.playRound(m_id,iTurn,iRound);
 }
 
+/****************************************************************/
+/****************************************************************/
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// End:

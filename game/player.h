@@ -22,6 +22,7 @@
 
 #include <vector>
 #include "pldrack.h"
+#include "history.h"
 
 class Turn;
 
@@ -51,6 +52,8 @@ public:
 
     void setCurrentRack(const PlayedRack &iPld);
 
+    const History& getHistory() const { return m_history; }
+
     /**************************
      * Acessors for the score of the player
      **************************/
@@ -70,14 +73,8 @@ private:
     /// Score of the player
     int m_score;
 
-    /// Current played rack of the player
-    PlayedRack m_pldrack;
-
     /// History of the racks and rounds for the player
-//     vector<PlayedRack *> m_playedRacks;
-//     vector<Round *> m_rounds;
-//     vector<int> m_turns;
-    vector<Turn*> m_history;
+    History m_history;
 };
 
 
