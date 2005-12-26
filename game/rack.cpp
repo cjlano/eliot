@@ -38,6 +38,7 @@ void Rack::getTiles(list<Tile> &oTiles) const
     }
 }
 
+
 string Rack::toString()
 {
   string rs("");
