@@ -18,6 +18,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+/**
+ *  \file   results.h
+ *  \brief  Search result storage class
+ *  \author Olivier Teulière & Antoine Fraboulet
+ *  \date   2005
+ */
+
 #ifndef _RESULTS_H_
 #define _RESULTS_H_
 
@@ -53,11 +60,20 @@ public:
 
     // FIXME: These methods are used to fill the container with the rounds,
     // but they should not be part of the public interface
-    void sort();
     void add(const Round &iRound)   { m_rounds.push_back(iRound); }
 
+    void sort_by_points();
 private:
     vector<Round> m_rounds;
 };
 
 #endif
+
+/****************************************************************/
+/****************************************************************/
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// End:

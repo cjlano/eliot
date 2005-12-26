@@ -269,7 +269,6 @@ void Board::search(const Dictionary &iDic,
     BoardSearchAux(*this, iDic, m_tilesCol, m_crossCol,
                    m_pointCol, m_jokerCol,
                    copyRack, oResults, Coord::VERTICAL);
-    oResults.sort();
 }
 
 
@@ -290,5 +289,4 @@ void Board::searchFirst(const Dictionary &iDic,
              m_pointRow, m_jokerRow,
              copyRack, partialword, oResults, Dic_root(iDic), row, col,
              copyRack.nTiles() - 1);
-    oResults.sort();
 }

@@ -18,6 +18,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+/**
+ *  \file   results.cc
+ *  \brief  Search result storage class
+ *  \author Olivier Teulière & Antoine Fraboulet
+ *  \date   2005
+ */
+
 #include <algorithm>
 #include <functional>
 
@@ -51,17 +58,31 @@ void Results::search(const Dictionary &iDic, Board &iBoard,
 {
     clear();
 
-    if (iTurn == 0)
+    /* we start at round 1 */
+    if (iTurn == 1)
+    {
         iBoard.searchFirst(iDic, iRack, *this);
+    }
     else
+    {
         iBoard.search(iDic, iRack, *this);
+    }
+
+    sort_by_points();
 }
 
 
-void Results::sort()
+void Results::sort_by_points()
 {
     less_points lp;
     std::sort(m_rounds.begin(), m_rounds.end(), lp);
 }
 
+/****************************************************************/
+/****************************************************************/
 
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// End:
