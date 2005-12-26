@@ -47,12 +47,14 @@ public:
      * Game handling
      *************************/
     virtual int start();
-    virtual int setRackRandom(int, bool, set_rack_mode);
     virtual int play(const string &iCoord, const string &iWord);
     virtual int endTurn();
     void search();
     int playResult(int);
+
+    virtual int setRackRandom(int, bool, set_rack_mode);
     int setRackManual(bool iCheck, const string &iLetters);
+    int setRack(set_rack_mode iMode, bool iCheck, const string &iLetters);
 
     /*************************
      * Override the default behaviour of these methods, because in training

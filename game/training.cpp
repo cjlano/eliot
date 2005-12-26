@@ -38,32 +38,6 @@ Training::~Training()
 {
 }
 
-
-int Training::play(const string &iCoord, const string &iWord)
-{
-    /* Perform all the validity checks, and fill a round */
-    Round round;
-    int res = checkPlayedWord(iCoord, iWord, round);
-    if (res != 0)
-    {
-        return res;
-    }
-
-    /* Update the rack and the score of the current player */
-    m_players[m_currPlayer]->addPoints(round.getPoints());
-    m_players[m_currPlayer]->endTurn(round, getNTurns());
-
-    /* Everything is OK, we can play the word */
-    helperPlayRound(round);
-
-    /* Next turn */
-    // XXX: Should it be done by the interface instead?
-    endTurn();
-
-    return 0;
-}
-
-
 int Training::setRackRandom(int p, bool iCheck, set_rack_mode mode)
 {
     int res;
@@ -77,7 +51,6 @@ int Training::setRackRandom(int p, bool iCheck, set_rack_mode mode)
     // 2 : check failed (number of voyels before round 15)
     return res;
 }
-
 
 int Training::setRackManual(bool iCheck, const string &iLetters)
 {
@@ -101,6 +74,48 @@ int Training::setRackManual(bool iCheck, const string &iLetters)
     return res;
 }
 
+int Training::setRack(set_rack_mode iMode, bool iCheck, const string &iLetters)
+{
+    int res = 0;
+    switch(iMode)
+	{
+	case RACK_MANUAL:
+	    res = setRackManual(iCheck, iLetters);
+	    break;
+	case RACK_ALL:
+	    res = setRackRandom(m_currPlayer, iCheck, iMode);
+	    break;
+	case RACK_NEW:
+	    res = setRackRandom(m_currPlayer, iCheck, iMode);
+	    break;
+	}
+    return res;
+}
+
+int Training::play(const string &iCoord, const string &iWord)
+{
+    /* Perform all the validity checks, and fill a round */
+    Round round;
+    int res = checkPlayedWord(iCoord, iWord, round);
+    if (res != 0)
+    {
+        return res;
+    }
+
+    /* Update the rack and the score of the current player */
+    m_players[m_currPlayer]->addPoints(round.getPoints());
+    m_players[m_currPlayer]->endTurn(round, m_history.getSize());
+
+    /* Everything is OK, we can play the word */
+    helperPlayRound(round);
+
+    /* Next turn */
+    // XXX: Should it be done by the interface instead?
+    endTurn();
+
+    return 0;
+}
+
 
 int Training::start()
 {
@@ -112,7 +127,6 @@ int Training::start()
     m_currPlayer = 0;
     return 0;
 }
-
 
 int Training::endTurn()
 {
@@ -126,7 +140,8 @@ void Training::search()
     // Search for the current player
     Rack r;
     m_players[m_currPlayer]->getCurrentRack().getRack(r);
-    m_results.search(*m_dic, m_board, r, getNTurns());
+    debug("Training::search for %s\n",r.toString().c_str());
+    m_results.search(*m_dic, m_board, r, m_history.getSize());
 }
 
 
@@ -139,7 +154,7 @@ int Training::playResult(int n)
 
     /* Update the rack and the score of the current player */
     player->addPoints(round.getPoints());
-    player->endTurn(round, getNTurns());
+    player->endTurn(round, m_history.getSize());
 
     int res = helperPlayRound(round);
 
@@ -187,3 +202,11 @@ std::string Training::getTestPlayWord() const
     return m_testRound.getWord();
 }
 
+/****************************************************************/
+/****************************************************************/
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// End:
