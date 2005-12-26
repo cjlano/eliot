@@ -71,6 +71,21 @@ void Player::endTurn(const Round &iRound, int iTurn)
     m_history.playRound(m_id,iTurn,iRound);
 }
 
+
+const string Player::toString() const
+{
+    char buff[20];
+    string res;
+
+    sprintf(buff,"Player %d\n",m_id);
+    res = string(buff);
+    res += m_history.toString();
+    res += "\n";
+    sprintf(buff,"score %d\n",m_score);
+    res += string(buff);
+    return res;
+}
+
 /****************************************************************/
 /****************************************************************/
 

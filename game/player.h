@@ -21,6 +21,7 @@
 #define _PLAYER_H_
 
 #include <vector>
+#include <string>
 #include "pldrack.h"
 #include "history.h"
 
@@ -65,6 +66,8 @@ public:
     // Update the player "history", with the given round.
     // A new rack is created with the remaining letters
     void endTurn(const Round &iRound, int iTurn);
+
+    const std::string toString() const;
 
 private:
     /// ID of the player
