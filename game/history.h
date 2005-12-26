@@ -40,7 +40,9 @@ class Round;
  *  - one for each of the players
  *
  * A History is never empty (getSize() can be used as the is the current turn
- * number for the complete game history). The top of the history is an empty
+ * number for the complete game history). 
+ *
+ * The top of the history is an empty
  * Turn until it has been filled and game is up to a new round.
  * 
  * getCurrentRack() can/should be used to store the current played rack. 

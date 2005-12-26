@@ -90,7 +90,11 @@ const Turn& History::getTurn(unsigned int n) const
     return *(m_history[n]);
 }
 
-
+/*
+ * This function increments the number of racks, and fills the new rack
+ * with the unplayed tiles from the previous one.
+ * 03 sept 2000 : We have to sort the tiles according to the new rules
+ */
 void History::playRound(int player, int turn, const Round& round)
 {
     Rack rack;
