@@ -26,9 +26,11 @@
 
 #include <string>
 #include "rack.h"
-#include "history.h"
+#include "pldrack.h"
+#include "round.h"
 #include "turn.h"
 #include "debug.h"
+#include "history.h"
 
 /* ******************************************************** */
 /* ******************************************************** */
@@ -38,6 +40,7 @@
 History::History()
 {
     Turn* t = new Turn ();
+    m_history.clear();
     m_history.push_back(t);
 }
 

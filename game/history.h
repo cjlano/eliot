@@ -33,6 +33,23 @@ class Turn;
 class PlayedRack;
 class Round;
 
+/**
+ * History stores all the turns that have been played
+ * This class is used many times in the game
+ *  - one for the complete game
+ *  - one for each of the players
+ *
+ * A History is never empty (getSize() can be used as the is the current turn
+ * number for the complete game history). The top of the history is an empty
+ * Turn until it has been filled and game is up to a new round.
+ * 
+ * getCurrentRack() can/should be used to store the current played rack. 
+ * setCurrentRack must be called whenever the current played rack is
+ * modified.
+ * 
+ * History owns the turns that it stores. Do not delete a turn referenced by History
+ */
+
 class History
 {
  public:
@@ -72,6 +89,7 @@ class History
 
 
 /// Local Variables:
+/// mode: c++
 /// mode: hs-minor
 /// c-basic-offset: 4
 /// End:
