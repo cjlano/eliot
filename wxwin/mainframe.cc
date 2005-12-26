@@ -1,13 +1,14 @@
 /* Eliot                                                                     */
 /* Copyright (C) 1999  Antoine Fraboulet                                     */
-/* Antoine.Fraboulet@free.fr                                                 */
 /*                                                                           */
-/* This program is free software; you can redistribute it and/or modify      */
+/* This file is part of Eliot.                                               */
+/*                                                                           */
+/* Eliot is free software; you can redistribute it and/or modify             */
 /* it under the terms of the GNU General Public License as published by      */
 /* the Free Software Foundation; either version 2 of the License, or         */
 /* (at your option) any later version.                                       */
 /*                                                                           */
-/* This program is distributed in the hope that it will be useful,           */
+/* Eliot is distributed in the hope that it will be useful,                  */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
@@ -15,6 +16,13 @@
 /* You should have received a copy of the GNU General Public License         */
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
+
+/**
+ *  \file   mainframe.cc
+ *  \brief  Main frame for the Eliot GUI
+ *  \author Antoine Fraboulet
+ *  \date   2005
+ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -62,6 +70,8 @@ enum
     Menu_Conf_Game_Search,
     Menu_Conf_Print,
     Menu_Conf_Aspect                          = 2100,
+    Menu_Conf_Tile,
+    Menu_Conf_Aspect_BoardColour_DrawTiles,
     Menu_Conf_Aspect_Font,
     Menu_Conf_Aspect_Font_Search              = 2110,
     Menu_Conf_Aspect_Font_Board               = 2111,
@@ -75,10 +85,11 @@ enum
     Menu_Conf_Aspect_BoardColour_Background   = 2206,
     Menu_Conf_Aspect_BoardColour_Letters      = 2207,
     Menu_Conf_Aspect_BoardColour_TestLetters  = 2208,
-    Menu_Conf_Aspect_BoardColour_Default      = 2209,
+    Menu_Conf_Aspect_BoardColour_TileBack     = 2209,
+    Menu_Conf_Aspect_BoardColour_TestTileBack = 2210,
+    Menu_Conf_Aspect_BoardColour_Default      = 2211,
 
 #define IDBASE 3300
-
     Menu_ShowBoard                            = (IDBASE + ID_Frame_Board),
     Menu_ShowVerif                            = (IDBASE + ID_Frame_Verif),
     Menu_ShowSearch                           = (IDBASE + ID_Frame_Search),
@@ -177,22 +188,17 @@ MainFrame::MainFrame(wxPoint pos_, wxSize size_)
     statusbar->SetStatusWidths(2, ww);
     UpdateStatusBar();
 
-    b_rackrandomset = new wxButton(this, Button_SetRack, wxT(" Tirage "));
-// XXX:    b_rackrandomset->SetToolTip(wxT("Tirage aléatoire"));
+    b_rackrandomset = new wxButton(this, Button_SetRack,  wxT(" Tirage "));
+    b_rackrandomnew = new wxButton(this, Button_SetNew,   wxT(" Complement "));
+    b_search        = new wxButton(this, Button_Search,   wxT(" Rechercher "));
+    b_back          = new wxButton(this, Button_PlayBack, wxT(" Arriere "));
+    b_play          = new wxButton(this, Button_Play,     wxT(" Jouer "));
+
     b_rackrandomset->SetToolTip(wxT("Tirage aleatoire"));
-// XXX:    b_rackrandomnew = new wxButton(this, Button_SetNew, wxT(" Complément "));
-    b_rackrandomnew = new wxButton(this, Button_SetNew, wxT(" Complement "));
-// XXX:    b_rackrandomnew->SetToolTip(wxT("Complément aléatoire du tirage"));
     b_rackrandomnew->SetToolTip(wxT("Complement aleatoire du tirage"));
-    b_search = new wxButton(this, Button_Search, wxT(" Rechercher "));
-    b_search->SetToolTip(wxT("Recherche sur le tirage courant"));
-// XXX:    b_back = new wxButton(this, Button_PlayBack, wxT(" Arrière "));
-    b_back = new wxButton(this, Button_PlayBack, wxT(" Arriere "));
-// XXX:    b_back->SetToolTip(wxT("Revenir un coup en arrière"));
-    b_back->SetToolTip(wxT("Revenir un coup en arriere"));
-    b_play = new wxButton(this, Button_Play, wxT(" Jouer "));
-// XXX:    b_play->SetToolTip(wxT("Jouer le mot sélectionné"));
-    b_play->SetToolTip(wxT("Jouer le mot selectionne"));
+    b_search->SetToolTip(       wxT("Recherche sur le tirage courant"));
+    b_back->SetToolTip(         wxT("Revenir un coup en arriere"));
+    b_play->SetToolTip(         wxT("Jouer le mot selectionne"));
 
     wxBoxSizer *buttonsizer = new wxBoxSizer(wxHORIZONTAL);
     buttonsizer->Add(b_rackrandomset, 1, wxEXPAND | wxTOP | wxBOTTOM | wxLEFT , 1);
@@ -283,9 +289,18 @@ MainFrame::InitMenu()
     menu_conf_game->Append(Menu_Conf_Game_Dic, wxT("Dictionnaire"), wxT("Choix du dictionnaire"));
     menu_conf_game->Append(Menu_Conf_Game_Search, wxT("Recherche"), wxT("Options de recherche"));
     //
+    wxMenu *menu_tileback = new wxMenu;
+    menu_tileback->Append(Menu_Conf_Aspect_BoardColour_Letters     , wxT("Lettres jouees"), wxT("Lettres jouees sur la grille"));
+    menu_tileback->Append(Menu_Conf_Aspect_BoardColour_TestLetters , wxT("Lettres provisoires"), wxT("Lettres du mot a jouer"));
+    menu_tileback->AppendSeparator();
+    //menu_tileback->Append(Menu_Conf_Aspect_BoardColour_DrawTiles    , wxT("Dessiner les pions"), wxT("Dessiner les pions sur la grille"));
+    menu_tileback->Append(Menu_Conf_Aspect_BoardColour_TileBack    , wxT("Fonds lettres jouees"), wxT("Fonds des pions sur la grille"));
+    menu_tileback->Append(Menu_Conf_Aspect_BoardColour_TestTileBack, wxT("Fonds lettres provisoires"), wxT("Fonds des pions sur la grille"));
+    //
     wxMenu *menu_conf_board_colour = new wxMenu;
     menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Background, wxT("Fond"), wxT("Couleur du fond"));
     menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Lines, wxT("Lignes"), wxT("Couleur des lignes"));
+    menu_conf_board_colour->Append(Menu_Conf_Tile, wxT("Pions et lettres"), menu_tileback, wxT("Pions et lettres"));
     menu_conf_board_colour->AppendSeparator();
 // XXX:    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Letters, wxT("Lettres jouées"), wxT("Lettres jouées sur la grille"));
     menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Letters, wxT("Lettres jouees"), wxT("Lettres jouees sur la grille"));
@@ -717,15 +732,17 @@ MainFrame::OnMenuConfAspectBoardColour(wxCommandEvent& event)
 
     switch (id)
     {
-        case Menu_Conf_Aspect_BoardColour_Lines: attr = wxString(BCOLOURLINES); break;
-        case Menu_Conf_Aspect_BoardColour_Wx2: attr = wxString(BCOLOURWX2); break;
-        case Menu_Conf_Aspect_BoardColour_Wx3: attr = wxString(BCOLOURWX3); break;
-        case Menu_Conf_Aspect_BoardColour_Lx2: attr = wxString(BCOLOURLX2); break;
-        case Menu_Conf_Aspect_BoardColour_Lx3: attr = wxString(BCOLOURLX3); break;
-        case Menu_Conf_Aspect_BoardColour_Background: attr = wxString(BCOLOURBACKGROUND); break;
-        case Menu_Conf_Aspect_BoardColour_Letters: attr = wxString(BCOLOURLETTERS); break;
-        case Menu_Conf_Aspect_BoardColour_TestLetters: attr = wxString(BCOLOURTSTLETTERS); break;
-        case Menu_Conf_Aspect_BoardColour_Default: attr = wxU("Default"); break;
+        case Menu_Conf_Aspect_BoardColour_Lines:        attr = wxString(BCOLOURLINES); break;
+        case Menu_Conf_Aspect_BoardColour_Wx2:          attr = wxString(BCOLOURWX2); break;
+        case Menu_Conf_Aspect_BoardColour_Wx3:          attr = wxString(BCOLOURWX3); break;
+        case Menu_Conf_Aspect_BoardColour_Lx2:          attr = wxString(BCOLOURLX2); break;
+        case Menu_Conf_Aspect_BoardColour_Lx3:          attr = wxString(BCOLOURLX3); break;
+        case Menu_Conf_Aspect_BoardColour_Background:   attr = wxString(BCOLOURBACKGROUND); break;
+        case Menu_Conf_Aspect_BoardColour_Letters:      attr = wxString(BCOLOURLETTERS); break;
+        case Menu_Conf_Aspect_BoardColour_TestLetters:  attr = wxString(BCOLOURTSTLETTERS); break;
+	case Menu_Conf_Aspect_BoardColour_TileBack:     attr = wxString(BTILEBACKGROUND); break;
+	case Menu_Conf_Aspect_BoardColour_TestTileBack: attr = wxString(BTSTTILEBACKGROUND); break;
+        case Menu_Conf_Aspect_BoardColour_Default:      attr = wxU("Default"); break;
         default: INCOMPLETE; break;
     }
 
@@ -745,15 +762,13 @@ void
 MainFrame::OnMenuQuitApropos(wxCommandEvent& WXUNUSED(event))
 {
     wxString msg;
-
-// XXX:    msg << wxT("Eliot\n© Antoine Fraboulet 1999-2004\n\n");
+    // XXX:    msg << wxT("Eliot\n© Antoine Fraboulet 1999-2004\n\n");
     msg << wxT("Eliot\nCopyright Antoine Fraboulet 1999-2004\n\n");
     msg << wxT("This program is free software; you can redistribute it and/or modify\n");
     msg << wxT("it under the terms of the GNU General Public License as published by\n");
     msg << wxT("the Free Software Foundation; either version 2 of the License, or\n");
     msg << wxT("(at your option) any later version.\n\n");
     msg << wxT("Version ") << wxT(VERSION) << wxT("\n");
-
     wxMessageBox(msg, wxT("A propos d'Eliot"), wxICON_INFORMATION | wxOK);
 }
 
