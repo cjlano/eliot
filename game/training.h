@@ -65,16 +65,14 @@ public:
      * Functions to access the current search results
      * The int parameter should be 0 <= int < getNResults
      *************************/
-    int getNResults() const;
-    string getSearchedWord(int) const;
-    string getSearchedCoords(int) const;
-    int getSearchedPoints(int) const;
-    int getSearchedBonus (int) const;
+    const Results& getResults() const { return m_results; };
 
     /// Place a temporary word on the board for preview purpose
     void testPlay(int);
     /// Remove the temporary word(s)
     void removeTestPlay();
+    /// Get the temporary word
+    string getTestPlayWord() const;
 
 private:
     // Private constructor and destructor to force using the GameFactory class
@@ -82,6 +80,7 @@ private:
     virtual ~Training();
 
     // Search results, with all the possible rounds
+    Round   m_testRound;
     Results m_results;
 };
 

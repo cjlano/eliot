@@ -168,49 +168,10 @@ void Training::addAIPlayer()
 }
 
 
-int Training::getNResults() const
-{
-    return m_results.size();
-}
-
-
-string Training::getSearchedWord(int num) const
-{
-    ASSERT(0 <= num && num < m_results.size(), "Wrong result number");
-    char c;
-    string s;
-    const Round &r = m_results.get(num);
-    for (int i = 0; i < r.getWordLen(); i++)
-    {
-        c = r.getTile(i).toChar();
-        if (r.isJoker(i))
-            c = tolower(c);
-        s += c;
-    }
-    return s;
-}
-
-
-string Training::getSearchedCoords(int num) const
-{
-    return m_results.get(num).getCoord().toString();
-}
-
-
-int Training::getSearchedPoints(int num) const
-{
-    return m_results.get(num).getPoints();
-}
-
-
-int Training::getSearchedBonus(int num) const
-{
-    return m_results.get(num).getBonus();
-}
-
-
 void Training::testPlay(int num)
 {
+    ASSERT(0 <= num && num < m_results.size(), "Wrong result number");
+    m_testRound = m_results.get(num);
     m_board.testRound(m_results.get(num));
 }
 
@@ -218,5 +179,11 @@ void Training::testPlay(int num)
 void Training::removeTestPlay()
 {
     m_board.removeTestRound();
+    m_testRound = Round();
+}
+
+std::string Training::getTestPlayWord() const
+{
+    return m_testRound.getWord();
 }
 
