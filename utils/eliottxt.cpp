@@ -192,7 +192,6 @@ help_training()
     printf("  n [] : jouer le résultat numéro []\n");
     printf("  r    : rechercher les meilleurs résultats\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
-    printf("  c [] : charger la partie du fichier []\n");
     printf("  q    : quitter le mode entraînement\n");
 }
 
