@@ -419,10 +419,10 @@ int Game::back(int n)
 
     if (n < 0)
     {
-	debug("Game::back negative argument\n");
-	n = -n;
+//         debug("Game::back negative argument\n");
+        n = -n;
     }
-    debug("Game::back %d\n",n);
+//     debug("Game::back %d\n",n);
     for (i = 0; i < n; i++)
     {
         if (m_history.getSize() > 0)
@@ -430,7 +430,7 @@ int Game::back(int n)
             prevPlayer();
             player = m_players[m_currPlayer];
             const Round &lastround = m_history.getPreviousTurn().getRound();
-	    debug("Game::back last round %s\n",lastround.toString().c_str());
+//             debug("Game::back last round %s\n",lastround.toString().c_str());
             /* Remove the word from the board, and put its letters back
              * into the bag */
             m_board.removeRound(*m_dic, lastround);
@@ -447,8 +447,8 @@ int Game::back(int n)
             /* Remove the points of this round */
             player->addPoints(- lastround.getPoints());
             m_points -= lastround.getPoints();
-	    /* Remove the turns */
-	    player->removeLastTurn();
+            /* Remove the turns */
+            player->removeLastTurn();
             m_history.removeLastTurn();
         }
         else

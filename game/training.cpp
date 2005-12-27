@@ -64,9 +64,9 @@ int Training::setRackManual(bool iCheck, const string &iLetters)
     m_results.clear();
     uLetters = iLetters;
     for(it = uLetters.begin(); it != uLetters.end(); it ++)
-      {
-	*it = toupper(*it);
-      }
+    {
+        *it = toupper(*it);
+    }
     res = helperSetRackManual(p, iCheck, uLetters);
     // 0 : ok
     // 1 : not enough tiles
@@ -78,17 +78,17 @@ int Training::setRack(set_rack_mode iMode, bool iCheck, const string &iLetters)
 {
     int res = 0;
     switch(iMode)
-	{
-	case RACK_MANUAL:
-	    res = setRackManual(iCheck, iLetters);
-	    break;
-	case RACK_ALL:
-	    res = setRackRandom(m_currPlayer, iCheck, iMode);
-	    break;
-	case RACK_NEW:
-	    res = setRackRandom(m_currPlayer, iCheck, iMode);
-	    break;
-	}
+    {
+        case RACK_MANUAL:
+            res = setRackManual(iCheck, iLetters);
+            break;
+        case RACK_ALL:
+            res = setRackRandom(m_currPlayer, iCheck, iMode);
+            break;
+        case RACK_NEW:
+            res = setRackRandom(m_currPlayer, iCheck, iMode);
+            break;
+    }
     return res;
 }
 
@@ -140,7 +140,7 @@ void Training::search()
     // Search for the current player
     Rack r;
     m_players[m_currPlayer]->getCurrentRack().getRack(r);
-    debug("Training::search for %s\n",r.toString().c_str());
+//     debug("Training::search for %s\n",r.toString().c_str());
     m_results.search(*m_dic, m_board, r, m_history.getSize());
 }
 
