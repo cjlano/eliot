@@ -36,6 +36,8 @@
 #include "duplicate.h"
 #include "freegame.h"
 #include "player.h"
+#include "history.h"
+#include "turn.h"
 
 using namespace std;
 
@@ -272,7 +274,7 @@ void CursesIntf::drawHistory(WINDOW *win, int y, int x)
                          i < m_boxStart + m_boxLines; i++)
     {
         const Turn& t = m_game->getHistory().getTurn(i);
-	const Round& r = t.getRound();
+        const Round& r = t.getRound();
         string word = r.getWord();
         string coord = r.getCoord().toString();
         boxPrint(win, i + 2, x + 2,
@@ -280,7 +282,7 @@ void CursesIntf::drawHistory(WINDOW *win, int y, int x)
                  i + 1, t.getPlayedRack().toString().c_str(), word.c_str(),
                  string(15 - word.size(), ' ').c_str(),
                  coord.c_str(), r.getPoints(),
-		 t.getPlayer(), r.getBonus() ? '*' : ' ');
+                 t.getPlayer(), r.getBonus() ? '*' : ' ');
     }
     mvwvline(win, y + 1, x + 5,  ACS_VLINE, min(i + 2 - m_boxStart, m_boxLines));
     mvwvline(win, y + 1, x + 16, ACS_VLINE, min(i + 2 - m_boxStart, m_boxLines));
