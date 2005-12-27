@@ -3,7 +3,7 @@
 * URGENT
 * ======
 
- - correct game handling : back() does not work
+ - correct game handling : back() does not work : done 27/12/05
  - correct game save/load functions
  - include old format game loading 
 
