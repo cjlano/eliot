@@ -153,6 +153,12 @@ BagFrame::BagFrame(wxFrame* parent, Game& iGame):
     //tiles->SetFont(config.getFont(LISTFONT));
     //tiles->SetToolTip(wxT("Lettre, nombre restant"));
 
+#ifdef DEBUG
+    wxFont font(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
+                wxFONTWEIGHT_NORMAL, false, wxString(wxT("Courier New")), wxFONTENCODING_SYSTEM);
+    tiles->SetFont(font);
+#endif
+
     wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
     sizer->Add(tiles, 1, wxEXPAND | wxALL, 1);
     SetAutoLayout(TRUE);
