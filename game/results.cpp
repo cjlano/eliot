@@ -58,8 +58,7 @@ void Results::search(const Dictionary &iDic, Board &iBoard,
 {
     clear();
 
-    /* we start at round 1 */
-    if (iTurn == 1)
+    if (iTurn == 0)
     {
         iBoard.searchFirst(iDic, iRack, *this);
     }

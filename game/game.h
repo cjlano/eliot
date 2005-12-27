@@ -133,7 +133,7 @@ public:
      * Methods to access already played words.
      * The int parameter should be 0 <= int < getNTurns()
      */
-    const History& getHistory() { return m_history; }
+    const History& getHistory() const { return m_history; }
 
     /**
      * Methods to access players.

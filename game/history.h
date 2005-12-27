@@ -28,10 +28,9 @@
 #define _HISTORY_H
 
 #include <vector>
-
-class Turn;
-class PlayedRack;
-class Round;
+#include "pldrack.h"
+#include "round.h"
+#include "turn.h"
 
 /**
  * History stores all the turns that have been played
@@ -39,8 +38,10 @@ class Round;
  *  - one for the complete game
  *  - one for each of the players
  *
- * A History is never empty (getSize() can be used as the is the current turn
+ * A History is never void (getSize() can be used as the is the current turn
  * number for the complete game history). 
+ *
+ * History starts at zero.
  *
  * The top of the history is an empty
  * Turn until it has been filled and game is up to a new round.

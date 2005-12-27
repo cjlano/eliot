@@ -60,7 +60,7 @@ History::~History()
 
 int History::getSize() const
 {
-    return m_history.size();
+    return m_history.size() - 1;
 }
 
 
@@ -79,7 +79,7 @@ void History::setCurrentRack(const PlayedRack &iPld)
 const Turn& History::getPreviousTurn() const
 {
     int idx = m_history.size() - 2;
-    ASSERT(0 <= idx , "Wrong turn number");
+    ASSERT(0 <= idx , "No previous turn");
     return *(m_history[idx]);
 }
 
