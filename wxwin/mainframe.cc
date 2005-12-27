@@ -944,7 +944,7 @@ MainFrame::UpdateStatusBar()
 	if (m_game)
 	{
 	    text = wxT("");
-	    text << wxT("coup:") << (m_game->getHistory().getSize()) << wxT(" ");
+	    text << wxT("coup:") << (m_game->getHistory().getSize() + 1) << wxT(" ");
 	    text << wxT("points:") << (m_game->getCurrentPlayer().getPoints());
 	    statusbar->SetStatusText(text, 1);
 	}
@@ -1029,7 +1029,7 @@ MainFrame::Play(int n)
 	}
     else
 	{
-	    int n;
+	    int n=0;
 	    debug("MainFrame::Play +%d\n",n);
 #ifdef ENABLE_RESLIST_IN_MAIN
 	    n = reslist->GetSelected();
