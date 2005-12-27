@@ -197,14 +197,15 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
     drawBox(win, y + yOff, x, m_game->getNPlayers() + 2, 25, _(" Racks "));
     for (int i = 0; i < m_game->getNPlayers(); i++)
     {
+        string rack = m_game->getPlayer(i).getCurrentRack().toString(false);
         if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
             attron(A_BOLD);
         mvwprintw(win, y + yOff + i + 1, x + 2,
-                  _("Player %d: %s"), i, m_game->getPlayerRack(i).c_str());
+                  _("Player %d: %s"), i, rack.c_str());
         if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
             attroff(A_BOLD);
         // Force to refresh the whole rack
-        whline(win, ' ', 7 - m_game->getPlayerRack(i).size());
+        whline(win, ' ', 7 - rack.size());
     }
 
     // Display a message when the search is complete

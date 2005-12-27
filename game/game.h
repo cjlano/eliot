@@ -127,12 +127,8 @@ public:
     static const int RACK_SIZE;
     enum set_rack_mode {RACK_ALL, RACK_NEW, RACK_MANUAL};
     int setRack(int player, set_rack_mode mode, bool check, const string& str);
-    string getPlayerRack(int, bool = false) const;
 
-    /**
-     * Methods to access already played words.
-     * The int parameter should be 0 <= int < getNTurns()
-     */
+    /** Getter for the history of the game  */
     const History& getHistory() const { return m_history; }
 
     /**

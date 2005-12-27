@@ -713,12 +713,6 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
  *********************************************************/
 
 
-string Game::getPlayerRack(int num, bool iShowExtraSigns) const
-{
-    return getPlayer(num).getCurrentRack().toString(iShowExtraSigns);
-}
-
-
 int Game::getNHumanPlayers() const
 {
     int count = 0;
