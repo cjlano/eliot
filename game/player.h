@@ -54,6 +54,8 @@ public:
     void setCurrentRack(const PlayedRack &iPld);
 
     const History& getHistory() const { return m_history; }
+    /// Remove last turn
+    void removeLastTurn();
 
     /**************************
      * Acessors for the score of the player

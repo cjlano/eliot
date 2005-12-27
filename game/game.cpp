@@ -417,17 +417,20 @@ int Game::back(int n)
     int i, j;
     Player *player;
 
+    if (n < 0)
+    {
+	debug("Game::back negative argument\n");
+	n = -n;
+    }
+    debug("Game::back %d\n",n);
     for (i = 0; i < n; i++)
     {
-        if (m_history.getSize())
+        if (m_history.getSize() > 0)
         {
             prevPlayer();
             player = m_players[m_currPlayer];
             const Round &lastround = m_history.getPreviousTurn().getRound();
-
-            /* Remove the points of this round */
-            player->addPoints(- lastround.getPoints());
-            m_points -= lastround.getPoints();
+	    debug("Game::back last round %s\n",lastround.toString().c_str());
             /* Remove the word from the board, and put its letters back
              * into the bag */
             m_board.removeRound(*m_dic, lastround);
@@ -441,7 +444,11 @@ int Game::back(int n)
                         m_bag.replaceTile(lastround.getTile(j));
                 }
             }
-            delete &lastround;
+            /* Remove the points of this round */
+            player->addPoints(- lastround.getPoints());
+            m_points -= lastround.getPoints();
+	    /* Remove the turns */
+	    player->removeLastTurn();
             m_history.removeLastTurn();
         }
         else
@@ -841,3 +848,11 @@ int Game::checkPlayedWord(const string &iCoord,
     return 0;
 }
 
+/****************************************************************/
+/****************************************************************/
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// End:

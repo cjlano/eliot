@@ -71,6 +71,10 @@ void Player::endTurn(const Round &iRound, int iTurn)
     m_history.playRound(m_id,iTurn,iRound);
 }
 
+void Player::removeLastTurn()
+{
+    m_history.removeLastTurn();
+}
 
 const string Player::toString() const
 {
