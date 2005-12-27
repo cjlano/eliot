@@ -45,3 +45,7 @@ freegame_change     3
 # Three AI players
 freegame_3_ai       2
 
+#
+# Load / Save 
+#
+load_game           0
