@@ -190,6 +190,7 @@ help_training()
     printf("  t [] : changer le tirage\n");
     printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
     printf("  n [] : jouer le résultat numéro []\n");
+    printf("  r    : rechercher les meilleurs résultats\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
     printf("  c [] : charger la partie du fichier []\n");
     printf("  q    : quitter le mode entraînement\n");
