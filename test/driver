@@ -23,7 +23,8 @@ training_bag        0  # randseed unused
 training_search     0  # randseed unused
 # Several ways of getting a rack and playing a word
 training_play       4
-
+# Training rack+search+play+back 
+training_back       5
 
 #
 # Duplicate mode
