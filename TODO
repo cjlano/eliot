@@ -1,11 +1,39 @@
+
+* ======
+* URGENT
+* ======
+
+ - correct game handling : back() does not work
+ - correct game save/load functions
+ - include old format game loading 
+
+* ==================
+* Next Eliot version
+* ==================
+
+ - new dictionnary format that includes tiles 
+   - number
+   - points
+   - printable equivalent
+ - other languages support using the new dictionary
+ - full i18n interface and error messages
  - new wxWidgets interface
    - support of the different modes
    - ability to choose the number and type of the players
    - ability to display the history and score of all the players
+     -- partly done : history is now a separate class
  - detection of blocked positions?
  - getopt support for all the interfaces (only ncurses is done)
 
+* =============
+* Not so urgent
+* =============
 
  - network support
  - add timers
- - support new alphabets and dictionaries
+
+
+%%% Local Variables:
+%%% mode: outline
+%%% End:
+
