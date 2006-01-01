@@ -136,3 +136,10 @@ void Bag::dumpAll() const
     }
     fprintf(stderr, "\n");
 }
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:

@@ -39,7 +39,7 @@
 
 History::History()
 {
-    Turn* t = new Turn();
+    Turn* t = new Turn ();
     m_history.clear();
     m_history.push_back(t);
 }
@@ -143,7 +143,7 @@ void History::removeLastTurn()
         delete t;
     }
 
-    // Now we have the previous played round in back()
+    // now we have the previous played round in back()
     Turn* t = m_history.back();
     t->setNum(0);
     t->setPlayer(0);
@@ -160,13 +160,13 @@ string History::toString() const
     string rs = "";
 #ifdef DEBUG
     char buff[20];
-    sprintf(buff, "%ld", m_history.size());
+    sprintf(buff,"%d",m_history.size());
     rs = "history size = " + string(buff) + "\n\n";
 #endif
     for (i = 0; i < m_history.size(); i++)
     {
         Turn *t = m_history[i];
-        rs += t->toString() + "\n";
+        rs += t->toString() + string("\n");
     }
     return rs;
 }
@@ -177,6 +177,8 @@ string History::toString() const
 
 
 /// Local Variables:
+/// mode: c++
 /// mode: hs-minor
 /// c-basic-offset: 4
+/// indent-tabs-mode: nil
 /// End:

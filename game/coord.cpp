@@ -19,7 +19,7 @@
 
 /**
  *  \file   coord.cpp
- *  \brief  Eliot coordinate system
+ *  \brief  Board coordinate system
  *  \author Antoine Fraboulet
  *  \date   2005
  */
@@ -85,26 +85,39 @@ void Coord::setFromString(const string &iStr)
     setRow(row);
 }
 
-string Coord::toString() const
+string Coord::toString(coord_mode_t mode) const
 {
     ASSERT(isValid(), "Invalid coordinates");
 
-    string res;
-    char s[5];
-    sprintf(s, "%d", m_col);
-    if (getDir() == HORIZONTAL)
+    char res[7];
+    char srow[3];
+    char scol[3];
+
+    sprintf(scol, "%d", m_col);
+    sprintf(srow, "%c", m_row + 'A' - 1);
+
+    switch (mode)
     {
-        res = string(1, m_row + 'A' - 1) + s;
+    case COORD_MODE_COMPACT:
+	if (getDir() == HORIZONTAL)
+	    sprintf(res,"%s%s",srow,scol);
+	else
+	    sprintf(res,"%s%s",scol,srow);
+	break;
+    case COORD_MODE_LONG:
+	if (getDir() == HORIZONTAL)
+	    sprintf(res,"%2s %2s",srow,scol);
+	else
+	    sprintf(res,"%2s %2s",scol,srow);
+	break;
     }
-    else
-    {
-        res = s + string(1, m_row + 'A' - 1);
-    }
-    return res;
+
+    return string(res);
 }
 
-
 /// Local Variables:
+/// mode: c++
 /// mode: hs-minor
 /// c-basic-offset: 4
+/// indent-tabs-mode: nil
 /// End:

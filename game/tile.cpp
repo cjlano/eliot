@@ -209,3 +209,9 @@ bool Tile::operator !=(const Tile &iOther) const
     return !(*this == iOther);
 }
 
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:

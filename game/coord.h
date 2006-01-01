@@ -19,7 +19,7 @@
 
 /**
  *  \file   coord.h
- *  \brief  Game coordinates system
+ *  \brief  Board coordinates system
  *  \author Antoine Fraboulet
  *  \date   2005
  */
@@ -55,7 +55,12 @@ public:
     void swap();
 
     void setFromString(const string &iStr);
-    string toString() const;
+
+    typedef enum {
+	COORD_MODE_COMPACT,
+	COORD_MODE_LONG
+    } coord_mode_t;
+    string toString(coord_mode_t mode = COORD_MODE_COMPACT) const;
 
 private:
     Direction m_dir;
@@ -65,8 +70,9 @@ private:
 
 #endif
 
-
 /// Local Variables:
+/// mode: c++
 /// mode: hs-minor
 /// c-basic-offset: 4
+/// indent-tabs-mode: nil
 /// End:

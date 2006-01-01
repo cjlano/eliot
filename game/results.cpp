@@ -84,4 +84,5 @@ void Results::sort_by_points()
 /// mode: c++
 /// mode: hs-minor
 /// c-basic-offset: 4
+/// indent-tabs-mode: nil
 /// End:

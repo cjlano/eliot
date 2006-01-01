@@ -81,8 +81,8 @@ public:
      *************************/
     const Coord& getCoord() const { return m_coord; }
     Coord& accessCoord()          { return m_coord; }
-
-    std::string toString() const;
+    
+    string toString() const;
 
 private:
     vector<Tile> m_word;
@@ -93,3 +93,10 @@ private:
 };
 
 #endif
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:

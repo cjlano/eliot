@@ -52,7 +52,7 @@ public:
     void search();
     int playResult(int);
 
-    virtual int setRackRandom(int, bool, set_rack_mode);
+    int setRackRandom(bool, set_rack_mode);
     int setRackManual(bool iCheck, const string &iLetters);
     int setRack(set_rack_mode iMode, bool iCheck, const string &iLetters);
 
@@ -87,3 +87,10 @@ private:
 };
 
 #endif /* _TRAINING_H_ */
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:

@@ -90,31 +90,27 @@ public:
     void removeRound(const Dictionary &iDic, const Round &iRound);
     int checkRound(Round &iRound, bool iFirstTurn);
 
-    /*************************
+    /**
      *
-     *
-     *************************/
+     */
     void testRound(const Round &iRound);
     void removeTestRound();
     char getTestChar(int iRow, int iCol) const;
 
-    /*************************
-     *
+    /**
      * board_search.c
-     *************************/
+     */
     void search(const Dictionary &iDic, const Rack &iRack, Results &oResults);
     void searchFirst(const Dictionary &iDic, const Rack &iRack, Results &oResults);
 
-    /*************************
-     *
+    /**
      * board_cross.c
-     *************************/
+     */
     void buildCross(const Dictionary &iDic);
 
-    /*************************
+    /**
      *
-     *
-     *************************/
+     */
     int getWordMultiplier(int iRow, int iCol) const;
     int getLetterMultiplier(int iRow, int iCol) const;
 
@@ -150,3 +146,10 @@ private:
 };
 
 #endif
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:

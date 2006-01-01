@@ -69,7 +69,7 @@ public:
     // A new rack is created with the remaining letters
     void endTurn(const Round &iRound, int iTurn);
 
-    const std::string toString() const;
+    const string toString() const;
 
 private:
     /// ID of the player
@@ -89,6 +89,8 @@ private:
 class HumanPlayer: public Player
 {
 public:
+    string name;
+
     HumanPlayer(int iId): Player(iId) {}
     virtual ~HumanPlayer() {}
 
@@ -98,3 +100,9 @@ public:
 
 #endif
 
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:

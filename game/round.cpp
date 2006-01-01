@@ -144,7 +144,7 @@ void Round::removeRightToRack(Tile c, bool iJoker)
 string Round::getWord() const
 {
   char c;
-  std::string s;
+  string s;
 
   for (int i = 0; i < getWordLen(); i++)
     {
@@ -175,6 +175,8 @@ string Round::toString() const
 }
 
 /// Local Variables:
+/// mode: c++
 /// mode: hs-minor
 /// c-basic-offset: 4
+/// indent-tabs-mode: nil
 /// End:

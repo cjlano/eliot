@@ -65,3 +65,9 @@ vector<Tile> AIPercent::getChangedLetters() const
     return vector<Tile>();
 }
 
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:

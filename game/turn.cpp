@@ -47,9 +47,10 @@ Turn::Turn(int iNum, int iPlayerId,
 #if 0
 void Turn::operator=(const Turn &iOther)
 {
-    m_num     = iOther.m_num;
-    m_pldrack = iOther.m_pldrack;
-    m_round   = iOther.m_round;
+    m_num      = iOther.m_num;
+    m_playerId = iOther.m_playerId;
+    m_pldrack  = iOther.m_pldrack;
+    m_round    = iOther.m_round;
 }
 #endif
 
@@ -64,8 +65,9 @@ string Turn::toString(bool iShowExtraSigns) const
     return rs;
 }
 
-
 /// Local Variables:
+/// mode: c++
 /// mode: hs-minor
 /// c-basic-offset: 4
+/// indent-tabs-mode: nil
 /// End:

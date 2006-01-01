@@ -284,3 +284,9 @@ void Duplicate::nextHumanPlayer()
              m_hasPlayed[m_currPlayer]);
 }
 
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:
