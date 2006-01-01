@@ -34,6 +34,7 @@ libgame_a_SOURCES=           \
 	freegame.cpp freegame.h         \
 	game.cpp game.h                 \
 	game_factory.cpp game_factory.h \
+	game_io.cpp                     \
 	player.cpp player.h             \
 	pldrack.cpp pldrack.h           \
 	rack.cpp rack.h                 \
