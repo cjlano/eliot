@@ -8,7 +8,7 @@
 /* the Free Software Foundation; either version 2 of the License, or         */
 /* (at your option) any later version.                                       */
 /*                                                                           */
-/* Elit is distributed in the hope that it will be useful,                   */
+/* Eliot is distributed in the hope that it will be useful,                  */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
@@ -19,7 +19,7 @@
 
 /**
  *  \file   regexp.h
- *  \brief  Regular Expression fonctions
+ *  \brief  Regular Expression functions
  *  \author Antoine Fraboulet
  *  \date   2005
  */
@@ -151,3 +151,10 @@ void  regexp_print_tree(NODE* n, char* name, int detail);
   }
 #endif
 #endif /* _TREE_H_ */
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:

@@ -8,7 +8,7 @@
 /* the Free Software Foundation; either version 2 of the License, or         */
 /* (at your option) any later version.                                       */
 /*                                                                           */
-/* Elit is distributed in the hope that it will be useful,                   */
+/* Eliot is distributed in the hope that it will be useful,                  */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
@@ -43,6 +43,7 @@ extern "C"
 
 typedef struct _Dictionary* Dictionary;
 typedef unsigned int dic_elt_t;
+typedef unsigned char dic_code_t;
 
     /**
      * Dictionary creation and loading from a file
@@ -58,11 +59,11 @@ int    Dic_load   (Dictionary* dic,const char* path);
 int    Dic_destroy(Dictionary dic);
 
     /**
-     * Dic_chr returns the character associated with an element
-     * (in the range ['A'-'Z']), or the null character ('\0').
-     * @returns ASCII code for the character
+     * Dic_chr returns the character code associated with an element,
+     * codes may range from 0 to 31. 0 is the null character.
+     * @returns code for the encoded character
      */
-char   Dic_chr (Dictionary dic, dic_elt_t elt);
+dic_code_t Dic_chr (Dictionary dic, dic_elt_t elt);
 
     /**
      * Returns a boolean to show if there is another available
@@ -104,15 +105,42 @@ dic_elt_t Dic_succ(Dictionary dic, dic_elt_t elt);
      * from the given root node by walking the dictionary tree
      * @params dic : valid dictionary
      * @params root : starting dictionary node for the search
+     * @params pattern : string encoded according to the dictionary codes,
+     * the pattern must be null ('\0') terminated
+     * @returns 0 if the string cannot be matched otherwise returns the
+     * element that results from walking the dictionary according to the
+     * pattern
+     */
+unsigned int Dic_lookup(Dictionary dic, dic_elt_t root, dic_code_t* pattern);
+
+    /**
+     * Dic_char returns the character associated with an element
+     * (in the range ['A'-'Z']), or the null character ('\0').
+     * @returns ASCII code for the character
+     */
+char   Dic_char (Dictionary dic, dic_elt_t elt);
+
+    /**
+     * Find the dictionary element matching the pattern starting
+     * from the given root node by walking the dictionary tree
+     * @params dic : valid dictionary
+     * @params root : starting dictionary node for the search
      * @params pattern : string made of uppercase characters in the range
      * ['A'-'Z']. The pattern must be null ('\0') terminated
      * @returns 0 if the string cannot be matched otherwise returns the
      * element that results from walking the dictionary according to the
      * pattern
      */
-unsigned int Dic_lookup(Dictionary dic, dic_elt_t root, char* pattern);
+unsigned int Dic_char_lookup(Dictionary dic, dic_elt_t root, char* pattern);
 
 #if defined(__cplusplus)
   }
 #endif
 #endif /* _DIC_H_ */
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:

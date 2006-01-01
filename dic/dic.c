@@ -8,7 +8,7 @@
 /* the Free Software Foundation; either version 2 of the License, or         */
 /* (at your option) any later version.                                       */
 /*                                                                           */
-/* Elit is distributed in the hope that it will be useful,                   */
+/* Eliot is distributed in the hope that it will be useful,                  */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
@@ -16,6 +16,13 @@
 /* You should have received a copy of the GNU General Public License         */
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
+
+/**
+ *  \file   dic.c
+ *  \brief  Dawg dictionary
+ *  \author Antoine Fraboulet
+ *  \date   2002
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -117,14 +124,10 @@ Dic_root(Dictionary d)
 }
 
 
-char
+dic_code_t
 Dic_chr(Dictionary d, dic_elt_t e)
 {
-    char c = (d->dawg[e]).chr;
-    if (c)
-        return c + 'A' - 1;
-    else
-        return 0;
+  return (dic_code_t)(d->dawg[e]).chr;
 }
 
 
@@ -141,9 +144,8 @@ Dic_word(Dictionary d, dic_elt_t e)
   return (d->dawg[e]).term;
 }
 
-
 unsigned int
-Dic_lookup(Dictionary d, dic_elt_t root, char* s)
+Dic_lookup(Dictionary d, dic_elt_t root, dic_code_t* s)
 {
     unsigned int p;
 begin:
@@ -170,3 +172,45 @@ begin:
     return 0;
 }
 
+/* **************************************************************************** */
+/* **************************************************************************** */
+/* **************************************************************************** */
+/* **************************************************************************** */
+
+char
+Dic_char(Dictionary d, dic_elt_t e)
+{
+  char c = (d->dawg[e]).chr;
+  if (c)
+    return c + 'A' - 1;
+  else
+    return 0;
+}
+
+unsigned int
+Dic_char_lookup(Dictionary d, dic_elt_t root, char* s)
+{
+    unsigned int p;
+begin:
+    if (! *s)
+        return root;
+    if (! Dic_succ(d, root))
+        return 0;
+    p = Dic_succ(d, root);
+    do
+    {
+        if (Dic_char(d, p) == *s)
+        {
+            root = p;
+            s++;
+            goto begin;
+        }
+        else if (Dic_last(d, p))
+        {
+            return 0;
+        }
+        p = Dic_next(d, p);
+    } while (1);
+
+    return 0;
+}
