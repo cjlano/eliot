@@ -18,6 +18,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+/**
+ *  \file   rack.cpp
+ *  \brief  Rack class : multiset of tiles
+ *  \author Antoine Fraboulet & Olivier Teuliere
+ *  \date   2002 - 2005
+ */
+
 #include "rack.h"
 
 
@@ -49,3 +56,10 @@ string Rack::toString()
     }
   return rs;
 }
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:
