@@ -1,0 +1,44 @@
+e
+*
+a t
+r
+n 1
++
+a t
+r
+a r
+n 2
+a g
+
+n -1
+
+r
+n 1
+
++
+a t
+r
+a r
+n 1
+a g
+
++
+a t
+r
+a r
+n 3
+
+a g
+a p
+a l
+
+s load_saved_game.elt
+q
+c load_saved_game.elt
+
+a g
+a p
+a l
+
+q
+q

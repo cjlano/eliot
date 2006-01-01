@@ -10,10 +10,9 @@
 #
 # Everything after a # is ignored.
 
-
-#
+################
 # Training mode
-#
+################
 
 # Check various words in the dictionary
 training_dict       0  # randseed unused
@@ -25,18 +24,19 @@ training_search     0  # randseed unused
 training_play       4
 # Training rack+search+play+back 
 training_back       5
+# Board cross off by one score problem
+training_cross      0
 
-#
+#################
 # Duplicate mode
-#
+#################
 
 # 2 AI players
 duplicate_2_ai      5
 
-
-#
+#################
 # Free game mode
-#
+#################
 
 # The human player always passes, letting the AI player do what it wants
 freegame_passing    1
@@ -45,7 +45,22 @@ freegame_change     3
 # Three AI players
 freegame_3_ai       2
 
-#
+##############
 # Load / Save 
-#
+##############
+
+# load a standard training game (fumee)
 load_game           0
+# save and reload a training game, standard format
+load_saved_game     5
+# load a training game with advanced format (test.elt)
+# load_test_adv       0 # We need to specifie a much more complete file format
+                        # before we can handle load/save on duplicate and
+			# freegame games
+
+#####################
+# Regular Expression
+#####################
+
+# test some patterns
+regexp              0

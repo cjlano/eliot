@@ -810,10 +810,10 @@ commande> a r 50
   9: ZoE                11 9H
  10: ZeE                11 9H
  11: QuE                11 6H
- 12: Eh                  4 G7
- 13: En                  4 G7
- 14: Es                  4 G7
- 15: Ex                  4 G7
+ 12: Eh                  5 G7
+ 13: En                  5 G7
+ 14: Es                  5 G7
+ 15: Ex                  5 G7
  16: aIE                 2 8G
  17: fIE                 2 8G
  18: IxE                 2 8H

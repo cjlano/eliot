@@ -28,7 +28,7 @@ commande> p
 commande> p
 commande> p
 commande> a p
-Eliot
+Eliot 1.5
 
 Game type: Free game
 Player 0: Human
@@ -46,7 +46,7 @@ Player 1: Computer
     8 | TW+LAEPU | PAVE            | A12 |  36 | 1 |  
     9 | LTUW+FAA | FATWA           |  N2 |  42 | 1 |  
    10 | LU+JAEYU | LAYE            |  O1 |  61 | 1 |  
-   11 | JUU+SENI | JEUNE           | H11 |  45 | 1 |  
+   11 | JUU+SENI | JEUNE           | H11 |  47 | 1 |  
    12 | ISU+RMPN | SPRAY           |  3K |  32 | 1 |  
    13 | IMNU+AIV | VLAN            |  8L |  33 | 1 |  
    14 | IIMU+UQE | QUI             | B10 |  30 | 1 |  
@@ -54,7 +54,7 @@ Player 1: Computer
    16 |  ODITREE | ETOURDIE        |  1B |  80 | 1 | *
    17 |  TEN?IKR | jERKE           |  8A |  69 | 1 |  
 
-   Total: 848
+   Total: 850
 
 Rack 0: EGISSTU
 Rack 1: INT+ESDO

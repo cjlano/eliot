@@ -7,11 +7,11 @@ Joueur 0:
 Joueur 1: DEPKAS
 Joueur 2: DILMQ
 commande> a S
-Joueur 0:  392
-Joueur 1:  258
+Joueur 0:  398
+Joueur 1:  266
 Joueur 2:  205
 commande> a p
-Eliot
+Eliot 1.5
 
 Game type: Free game
 Player 0: Computer
@@ -32,15 +32,15 @@ Player 2: Computer
    10 | EE+ONLAS | ENOLATES        |  E4 |  82 | 0 | *
    11 | AIMOU+NN | NOMINAUX        |  L5 |  69 | 1 | *
    12 | MQR+LIHJ | HI              |  F6 |  28 | 2 |  
-   13 |  PLCYEFE | CAPEYE          |  3I |  48 | 0 |  
-   14 |  EVLETDE | VOLETE          |  D8 |  36 | 1 |  
+   13 |  PLCYEFE | CAPEYE          |  3I |  52 | 0 |  
+   14 |  EVLETDE | VOLETE          |  D8 |  39 | 1 |  
    15 | JLMQR+OB | ROB             |  O3 |  25 | 2 |  
-   16 | FL+UUSML | FULL            |  D1 |  24 | 0 |  
-   17 | DE+ICPEV | VICE            |  C2 |  27 | 1 |  
+   16 | FL+UUSML | FULL            |  D1 |  26 | 0 |  
+   17 | DE+ICPEV | VICE            |  C2 |  32 | 1 |  
    18 | JLMQ+DSI | JANS            |  5G |  24 | 2 |  
    19 | MSU+SAAI | ASSUMAI         | 15A |  85 | 0 | *
 
-   Total: 855
+   Total: 869
 
 Rack 0: 
 Rack 1: DEP+KAS

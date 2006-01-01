@@ -15,11 +15,11 @@ commande> a r
   1: YEBLE              38 6F
   2: BAYLE              36 6H
   3: AMYLE              35 10D
-  4: ELYME              35 10H
-  5: BAYE               35 6H
-  6: ELYME              35 10D
-  7: LAYEE              34 10D
-  8: BEY                34 6H
+  4: ELYME              35 10D
+  5: ELYME              35 10H
+  6: BAYE               35 6H
+  7: BEY                34 6H
+  8: LAYEE              34 10D
   9: YUE                32 10F
  10: AMYLE              30 5H
 commande> n 2
@@ -59,7 +59,7 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 commande> a p
-Eliot
+Eliot 1.5
 
 Game type: Training
 Player 0: Human
@@ -73,7 +73,7 @@ Player 0: Human
 Rack 0: LMUAEYE
 commande> n -1
 commande> a p
-Eliot
+Eliot 1.5
 
 Game type: Training
 Player 0: Human
@@ -110,20 +110,20 @@ commande> r
 commande> n 1
 commande> a l
  A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
- 9 2 2 3 13 1 2 2 7 1 1 4 3 6 6 2 1 6 6 6 6 2 1 1 1 1 2
+ 9 2 2 3 13 1 2 2 7 1 1 5 3 6 6 2 1 6 6 6 6 2 1 1 1 1 2
 commande> a p
-Eliot
+Eliot 1.5
 
 Game type: Training
 Player 0: Human
 
     N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
    ===|==========|=================|=====|=====|===|======
-    1 |  JEIFLEH | FILEE           |  H4 |  24 | 0 |  
+    1 |  IEIEIEF | FIEE            |  H8 |  14 | 0 |  
 
-   Total: 24
+   Total: 14
 
-Rack 0: HJ
+Rack 0: EII
 commande> q
 fin du mode entraînement
 commande> q

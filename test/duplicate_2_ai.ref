@@ -3,16 +3,16 @@ commande> d 0 2
 mode duplicate
 [?] pour l'aide
 commande> a S
-Joueur 0:  884
-Joueur 1:  884
+Joueur 0:  866
+Joueur 1:  866
 commande> a T
-Joueur 0: ENOT
-Joueur 1: ENOT
+Joueur 0: RTTUW
+Joueur 1: RTTUW
 commande> a l
  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
- 0 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0 0 1 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 2 1 0 1 0 0 0 0
 commande> a p
-Eliot
+Eliot 1.5
 
 Game type: Duplicate
 Player 0: Computer
@@ -23,29 +23,27 @@ Player 1: Computer
     1 |  EA?AEBF | FABAcEE         |  H4 |  80 | 0 | *
     2 |  LMUAEYE | YEBLE           |  6F |  38 | 0 |  
     3 | AMU+JEIG | MEJUGEAI        |  9G |  78 | 0 | *
-    4 |  LEHNMGA | HALE            |  8L |  43 | 0 |  
+    4 |  LEHNMGA | HALE            |  8L |  46 | 0 |  
     5 | GMN+NSEO | MENSONGE        |  O1 |  83 | 0 | *
-    6 |  ARAURIU | FURIA           |  4H |  16 | 0 |  
-    7 | ARU+TSDE | DATEURS         | 11B |  78 | 0 | *
-    8 |  AONIAVP | PAVANE          |  2J |  34 | 0 |  
-    9 | IO+DSONE | NODOSITE        |  D5 |  70 | 0 | *
-   10 |  OXTOLNS | LUXONS          |  J8 |  35 | 0 |  
-   11 | OT+ZMIAI | MAZOT           |  8A |  45 | 0 |  
-   12 | IIO+WIFT | WU              | F10 |  31 | 0 |  
-   13 | FIIIOT+C | CHETIF          |  L7 |  28 | 0 |  
-   14 | IIO+LBEV | BALIVE          | C10 |  26 | 0 |  
-   15 | IO+PL?KC | ChEIK           | 15A |  48 | 0 |  
-   16 | LOP+EERR | OPERERA         |  B2 |  22 | 0 |  
-   17 | L+IERDTU | DUIT            |  C1 |  22 | 0 |  
-   18 | ELR+RNUE | DELURER         |  1C |  27 | 0 |  
-   19 | N+SUOSHT | MEJUGEAIS       |  9G |  29 | 0 |  
-   20 | HNOSTU+I | SUSHI           | 13J |  31 | 0 |  
-   21 |  NOT+EQT | QAT             |  M1 |  20 | 0 |  
+    6 |  ARAURIU | RAIRA           |  5B |  21 | 0 |  
+    7 | UU+TSDEA | RUSTAUDE        |  B5 |  63 | 0 | *
+    8 |  ONIAVPD | VIDA            | A12 |  45 | 0 |  
+    9 | NOP+SONE | PENONS          |  K1 |  33 | 0 |  
+   10 | O+OXTOLN | LUX             |  J8 |  32 | 0 |  
+   11 | NOOOT+SZ | ZOOS            | 11E |  38 | 0 |  
+   12 | NOT+MIAI | DOMINAIT        | 14A |  74 | 0 | *
+   13 |  CERPFEO | FEROCE          | 15G |  47 | 0 |  
+   14 | P+BSVQIU | PIQUAS          |  C1 |  32 | 0 |  
+   15 | BV+ETLIE | LEVITE          |  A1 |  39 | 0 |  
+   16 | B+RLD?UC | PUBLiC          |  1C |  36 | 0 |  
+   17 | DR+NTERR | DENREE          |  2J |  22 | 0 |  
+   18 | RRT+TUKE | TREK            | 13F |  36 | 0 |  
+   19 | RTU+THWI | HAI             |  7G |  23 | 0 |  
 
-   Total: 884
+   Total: 866
 
-Rack 0: ENOT
-Rack 1: ENOT
+Rack 0: RTTUW
+Rack 1: RTTUW
 commande> q
 fin du mode duplicate
 commande> q

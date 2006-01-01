@@ -1,3 +1,60 @@
 [?] pour l'aide
-commande> c test.elt
-chargement de -test.elt-
+commande> c fumee
+mode entraînement
+[?] pour l'aide
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  -
+ C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  -
+ D   C  I  E  L  -  -  -  O  -  U  -  M  A  T  H
+ E   E  -  -  -  -  -  -  R  -  -  -  -  I  -  -
+ F   R  -  -  -  -  K  -  A  -  -  -  -  N  -  -
+ G   c  -  -  -  -  I  -  G  -  -  -  -  C  -  -
+ H   L  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
+ I   A  -  F  A  N  O  N  -  -  A  -  -  E  T  -
+ J   G  -  -  -  -  N  -  -  -  V  -  -  -  -  T
+ K   E  -  -  -  J  O  U  R  N  A  L  -  -  -  O
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
+ M   -  -  D  U  T  -  -  -  -  S  -  -  -  -  A
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+commande> a l
+ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
+commande> a p
+Eliot 1.5
+
+Game type: Training
+Player 0: Human
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  EUOFMIE | FUMEE           |  H4 |  26 | 0 |  
+    2 | IO+EOKAN | KIMONO          |  6F |  38 | 0 |  
+    3 | AE+EWTIS | WESTIE          |  L4 |  49 | 0 |  
+    4 | A+EAVSLS | LAVASSE         | 10H |  86 | 0 | *
+    5 |  BTUOMEQ | LOQUET          | H10 |  63 | 0 |  
+    6 | BM+UNOSI | OMNIBUS         |  O4 |  94 | 0 | *
+    7 |  IOZXEGP | EXPIEZ          | N10 |  52 | 0 |  
+    8 | GO+AETPI | TOPAZE          | 15J |  60 | 0 |  
+    9 | GI+AVNCO | VAINCU          | 13C |  28 | 0 |  
+   10 | GO+ESRAS | ESSORAGE        |  8A |  80 | 0 | *
+   11 |  JEUDIDR | JOUR            |  K5 |  44 | 0 |  
+   12 | DDEI+ALY | DIALYSE         |  C3 |  56 | 0 |  
+   13 | D+IHUEEB | HEU             | 10B |  32 | 0 |  
+   14 | BDEI+CIL | CIEL            |  D1 |  25 | 0 |  
+   15 | BDI+RRA? | BRADeRIE        |  A1 |  86 | 0 | *
+   16 |  EUGTDEA | DUT             |  M3 |  29 | 0 |  
+   17 | AEEG+LR? | CERcLAGE        |  1D |  80 | 0 | *
+   18 |  TFLATNN | JOURNAL         |  K5 |  30 | 0 |  
+   19 | AFNTT+HM | MATH            | D12 |  24 | 0 |  
+   20 | AFNT+NRE | FANON           |  I3 |  23 | 0 |  
+   21 |      ERT | ET              | I13 |  18 | 0 |  
+
+   Total: 1023
+
+Rack 0: R
+commande> q
+fin du mode entraînement
+commande> q
