@@ -1,11 +1,31 @@
 
-* ======
-* URGENT
-* ======
+* ====================
+* TODO Current version
+* ====================
 
- - correct game handling : back() does not work : done 27/12/05
- - correct game save/load functions
- - include old format game loading 
+ - Correct game handling : back() does not work                done 27/12/2005
+ - Correct game save/load functions : Standard format          done 29/12/2005
+ - Correc bag handling on setRackRandom                        done 30/12/2005
+ - add a profile/performance test for Dic_search and Regexp    done 30/12/2005
+
+ - The dictionary must use codes for performance reasons, 
+   the board must also be made to use codes instead of tiles. 
+   Using class Tiles during search results in a HUGE 
+   performance penalty. Class cross is a performance killer. 
+   Will return back to using code bitmaps in board for cross 
+   search. Files cross.h and cross.cpp are to be removed or
+   replaced by a 64 bits code bitmap.
+
+ - Correct game save/load functions : Advanced format 
+   file saving for freegames and duplicate need a serious
+   rewrite. We need to specifie a file format that can handle
+   all the information contained in a multiplayer game.
+
+ - Add "joker" type games in wxwin version of Eliot, Freegame
+   and Duplicate will follow
+
+ - full French i18n interface and error messages for wxwin. 
+
 
 * ==================
 * Next Eliot version
@@ -16,7 +36,6 @@
    - points
    - printable equivalent
  - other languages support using the new dictionary
- - full i18n interface and error messages
  - new wxWidgets interface
    - support of the different modes
    - ability to choose the number and type of the players
