@@ -18,11 +18,23 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+/**
+ *  \file   pldrack.cpp
+ *  \brief  Improved Rack class with old and new tiles
+ *  \author Antoine Fraboulet & Olivier Teuliere
+ *  \date   2002 - 2005
+ */
+
 #include "rack.h"
 #include "pldrack.h"
 
 #include "debug.h"
 
+
+PlayedRack::PlayedRack()
+{
+  reject = false;
+}
 
 void PlayedRack::addOld(const Tile &t)
 {
@@ -135,8 +147,43 @@ void PlayedRack::setNew(const Rack &iRack)
     }
 }
 
+int PlayedRack::setManual(const string& iLetters)
+{
+    unsigned int i;
+    reset();
 
-bool PlayedRack::checkRack(int iMin) const
+    if (iLetters.size() == 0)
+    {
+        return 0; /* empty is ok */
+    }
+
+    for (i = 0; i < iLetters.size() && iLetters[i] != '+'; i++)
+    {
+        Tile tile(iLetters[i]);
+        if (tile.isEmpty())
+        {
+            return 1; /* */ 
+        }
+        addOld(tile);
+    }
+
+    if (i < iLetters.size() && iLetters[i] == '+')
+    {
+        for (i++; i < iLetters.size(); i++)
+        {
+            Tile tile(iLetters[i]);
+            if (tile.isEmpty())
+            {
+                return 1; /* */
+            }
+            addNew(tile);
+        }
+    }
+
+    return 0;
+}
+
+bool PlayedRack::checkRack(int cMin, int vMin) const
 {
     vector<Tile>::const_iterator it;
     int v = 0;
@@ -152,7 +199,7 @@ bool PlayedRack::checkRack(int iMin) const
         if (it->isVowel()) v++;
         if (it->isConsonant()) c++;
     }
-    return (v >= iMin) && (c >= iMin);
+    return (v >= vMin) && (c >= cMin);
 }
 
 
@@ -163,19 +210,41 @@ void PlayedRack::operator=(const PlayedRack &iOther)
 }
 
 
-string PlayedRack::toString(bool iShowExtraSigns) const
+string PlayedRack::toString(display_mode mode) const
 {
+    string s("");
     vector<Tile>::const_iterator it;
-    string s;
+  
+    if (nOld() > 0)
+    {
+	for (it = m_oldTiles.begin(); it != m_oldTiles.end(); it++)
+	    s += it->toChar();
+    }
 
-    for (it = m_oldTiles.begin(); it != m_oldTiles.end(); it++)
-        s += it->toChar();
+    if (mode > RACK_SIMPLE && nOld() > 0 && nNew() > 0)
+    {
+	s += "+";
+    }
 
-    if (iShowExtraSigns && nOld() > 0 && nNew() > 0)
-        s += "+";
+    if (mode > RACK_EXTRA  && reject)
+    {
+	s += "-";
+	// nouveau tirage : rejet
+	// pas après un scrabble
+    }
 
-    for (it = m_newTiles.begin(); it != m_newTiles.end(); it++)
-        s += it->toChar();
+    if (nNew() > 0)
+    {
+	for (it = m_newTiles.begin(); it != m_newTiles.end(); it++)
+	    s += it->toChar();
+    }
 
     return s;
 }
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:

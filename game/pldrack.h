@@ -18,6 +18,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+/**
+ *  \file   pldrack.h
+ *  \brief  Improved Rack class with old and new tiles
+ *  \author Antoine Fraboulet & Olivier Teuliere
+ *  \date   2002 - 2005
+ */
+
 #ifndef _PLAYEDRACK_H_
 #define _PLAYEDRACK_H_
 
@@ -39,7 +46,7 @@ using namespace std;
 class PlayedRack
 {
 public:
-    PlayedRack() {}
+    PlayedRack();
     virtual ~PlayedRack() {}
 
     void reset();
@@ -51,6 +58,7 @@ public:
 
     void setOld(const Rack &iRack);
     void setNew(const Rack &iRack);
+    int  setManual(const string& iLetters);
 
     int nTiles() const  { return nNew() + nOld(); }
     int nNew() const    { return m_newTiles.size(); }
@@ -62,14 +70,28 @@ public:
     void getOldTiles(vector<Tile> &oTiles) const;
     void getAllTiles(vector<Tile> &oTiles) const;
 
-    bool checkRack(int iMin) const;
+    bool checkRack(int cMin, int vMin) const;
 
     void operator=(const PlayedRack &iOther);
-    string toString(bool iShowExtraSigns = true) const;
+
+    typedef enum {
+      RACK_SIMPLE,
+      RACK_EXTRA,
+      RACK_DEBUG
+    } display_mode;
+    string toString(display_mode iShowExtraSigns = RACK_EXTRA) const;
 
 private:
+    bool reject;
     vector<Tile> m_oldTiles;
     vector<Tile> m_newTiles;
 };
 
 #endif
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:
