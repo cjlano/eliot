@@ -164,7 +164,7 @@ void GameIO::printNonPlayed(ostream &out, const Game &iGame)
 
 void GameIO::printPlayedRack(ostream &out, const Game &iGame, int n)
 {
-    out << iGame.getCurrentPlayer().getCurrentRack().toString(false) << endl;
+    out << iGame.getCurrentPlayer().getCurrentRack().toString(PlayedRack::RACK_SIMPLE) << endl;
 }
 
 
@@ -173,7 +173,7 @@ void GameIO::printAllRacks(ostream &out, const Game &iGame)
     for (int j = 0; j < iGame.getNPlayers(); j++)
     {
         out << "Joueur " << j << ": ";
-        out << iGame.getPlayer(j).getCurrentRack().toString(false) << endl;
+        out << iGame.getPlayer(j).getCurrentRack().toString(PlayedRack::RACK_SIMPLE) << endl;
     }
 }
 

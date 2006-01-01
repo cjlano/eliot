@@ -29,6 +29,7 @@
 
 #include "dic.h"
 #include "dic_search.h"
+#include "regexp.h"
 #include "game_io.h"
 #include "game_factory.h"
 #include "training.h"
@@ -180,6 +181,7 @@ help_training()
     printf("            gn -- grille + valeur des cases (variante)\n");
     printf("            l -- lettres non jouées\n");
     printf("            p -- partie\n");
+    printf("            P -- partie (format standard)\n");
     printf("            r -- recherche\n");
     printf("            s -- score\n");
     printf("            S -- score de tous les joueurs\n");
@@ -208,6 +210,7 @@ help_freegame()
     printf("            j -- joueur courant\n");
     printf("            l -- lettres non jouées\n");
     printf("            p -- partie\n");
+    printf("            P -- partie (format standard)\n");
     printf("            s -- score\n");
     printf("            S -- score de tous les joueurs\n");
     printf("            t -- tirage\n");
@@ -233,6 +236,7 @@ help_duplicate()
     printf("            j -- joueur courant\n");
     printf("            l -- lettres non jouées\n");
     printf("            p -- partie\n");
+    printf("            P -- partie (format standard)\n");
     printf("            s -- score\n");
     printf("            S -- score de tous les joueurs\n");
     printf("            t -- tirage\n");
@@ -256,6 +260,11 @@ help()
     printf("                [] joueurs humains et {} joueurs IA\n");
     printf("  D       : raccourci pour d 1 1\n");
     printf("  L       : raccourci pour l 1 1\n");
+    printf("  x [] {1} {2} {3} : expressions rationnelles\n");
+    printf("          [] expression à rechercher\n");
+    printf("          {1} nombre de résultats à afficher\n");
+    printf("          {2} longueur minimum d'un mot\n");
+    printf("          {3} longueur maximum d'un mot\n");
     printf("  q       : quitter\n");
 }
 
@@ -300,7 +309,10 @@ display_data(const Game &iGame, const char *delim)
             GameIO::printNonPlayed(cout, iGame);
             break;
         case 'p':
-            iGame.save(cout);
+            iGame.save(cout,Game::FILE_FORMAT_ADVANCED);
+            break;
+        case 'P':
+            iGame.save(cout,Game::FILE_FORMAT_STANDARD);
             break;
         case 'r':
             token = next_token_digit(NULL, delim);
@@ -424,10 +436,10 @@ loop_training(Training &iGame)
                         eliottxt_get_cross(iGame.getDic(), token);
                     break;
                 case '*':
-                    iGame.setRackRandom(0, false, Game::RACK_ALL);
+                    iGame.setRackRandom(false, Game::RACK_ALL);
                     break;
                 case '+':
-                    iGame.setRackRandom(0, false, Game::RACK_NEW);
+                    iGame.setRackRandom(false, Game::RACK_NEW);
                     break;
                 case 's':
                     token = next_token_filename(NULL, delim);
@@ -647,6 +659,112 @@ loop_duplicate(Duplicate &iGame)
 
 
 void
+eliot_regexp_build_default_llist(struct search_RegE_list_t &llist)
+{
+    memset (&llist,0,sizeof(llist));
+
+    llist.minlength = 1;
+    llist.maxlength = 15;
+    
+    llist.symbl[0] = RE_ALL_MATCH;
+    llist.symbl[1] = RE_VOWL_MATCH;
+    llist.symbl[2] = RE_CONS_MATCH;
+    llist.symbl[3] = RE_USR1_MATCH;
+    llist.symbl[5] = RE_USR2_MATCH;
+    
+    llist.valid[0] = 1; // all letters
+    llist.valid[1] = 1; // vowels
+    llist.valid[2] = 1; // consonants
+    llist.valid[3] = 0; // user defined list 1
+    llist.valid[4] = 0; // user defined list 2
+    
+    for(int i=0; i < DIC_SEARCH_REGE_LIST; i++)
+        {
+            memset(llist.letters[i],0,sizeof(llist.letters[i]));
+        }
+    
+    const list<Tile>& allTiles = Tile::getAllTiles();
+    list<Tile>::const_iterator it;
+    for (it = allTiles.begin(); it != allTiles.end(); it++)
+        {
+            if (! it->isJoker() && ! it->isEmpty())
+                {
+                    // all tiles
+                    llist.letters[0][it->toCode()] = 1;
+                    // vowels
+                    if (it->isVowel())
+                        {
+                            llist.letters[1][it->toCode()] = 1;
+                        }
+                    // consonants
+                    if (it->isConsonant())
+                        {
+                            llist.letters[2][it->toCode()] = 1;
+                        }
+                }
+        }
+}
+
+void
+eliot_regexp(const Dictionary iDic)
+{
+    /*
+    printf("  x [] {1} {2} {3} : expressions rationnelles\n");
+    printf("          [] expression à rechercher\n");
+    printf("          {1} nombre de résultats à afficher\n");
+    printf("          {2} longueur minimum d'un mot\n");
+    printf("          {3} longueur maximum d'un mot\n");
+    */
+
+#define DIC_RE_MAX (3*DIC_WORD_MAX) // yes, it's 3
+
+    char re[DIC_RE_MAX];
+    char buff[RES_REGE_MAX][DIC_WORD_MAX];
+    struct search_RegE_list_t llist;
+    eliot_regexp_build_default_llist(llist);
+
+    char *exp, *cnres, *clmin, *clmax;
+
+    char delim[] = " \t";
+    exp   = strtok(NULL,delim);
+    cnres = strtok(NULL,delim);
+    clmin = strtok(NULL,delim);
+    clmax = strtok(NULL,delim);
+    
+    if (exp == NULL)
+    {
+        return;
+    }
+    int nres = cnres ? atoi(cnres) : 50;
+    int lmin = clmin ? atoi(clmin) : 1;
+    int lmax = clmax ? atoi(clmax) : DIC_WORD_MAX - 1;
+
+    if (lmax <= (DIC_WORD_MAX - 1) && lmin >= 1 && lmin <= lmax)
+    {
+        llist.minlength = lmin;
+        llist.maxlength = lmax;
+    }
+    else
+    {
+        printf("bad length -%s,%s-\n",(const char*)clmin,(const char*)clmax);
+        return;
+    }
+    
+    strncpy(re,exp,DIC_RE_MAX);
+
+    printf("search for %s (%d,%d,%d)\n",re,nres,lmin,lmax);
+    Dic_search_RegE(iDic,re,buff,&llist);
+    
+    int nresult = 0;
+    for(int i=0; i < RES_REGE_MAX && i < nres && buff[i][0]; i++)
+    {
+        printf("%s\n",buff[i]);
+        nresult++;
+    }
+    printf("%d printed results\n",nresult);
+}
+
+void
 main_loop(const Dictionary &iDic)
 {
     char *token;
@@ -673,7 +791,6 @@ main_loop(const Dictionary &iDic)
                     else
                     {
                         FILE* fin;
-                        fprintf(stderr, "chargement de -%s-\n", token);
                         if ((fin = fopen(token, "r")) == NULL)
                         {
                             printf("impossible d'ouvrir %s\n", token);
@@ -683,7 +800,7 @@ main_loop(const Dictionary &iDic)
                         fclose(fin);
                         if (game == NULL)
                         {
-                            fprintf(stderr, "erreur pendant le chargement\n");
+                            printf("erreur pendant le chargement\n");
                         }
                         else
                         {
@@ -779,6 +896,10 @@ main_loop(const Dictionary &iDic)
                     GameFactory::Instance()->releaseGame(*game);
                     break;
                 }
+                case 'x':
+                    // Regular expression tests 
+                    eliot_regexp(iDic);
+                    break;
                 case 'q':
                     quit = 1;
                     break;
@@ -853,3 +974,10 @@ main(int argc, char *argv[])
 
     return 0;
 }
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:
