@@ -142,10 +142,11 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
     EVT_BUTTON(Button_Search,   MainFrame::OnSearch)
     EVT_BUTTON(Button_PlayBack, MainFrame::OnPlay)
     //
-    EVT_TEXT_ENTER(Rack_ID, MainFrame::OnSearch)
+    EVT_TEXT_ENTER(Rack_ID,    MainFrame::OnTextEnter)
     //
     EVT_CLOSE(MainFrame::OnCloseWindow)
     //
+    //EVT_MENU(Menu_Help,              MainFrame::OnMenuHelp)
 END_EVENT_TABLE()
 
 // ******************************
@@ -413,7 +414,7 @@ MainFrame::OnMenuGameOpen(wxCommandEvent&)
 
     FILE* fin;
 
-    if ((fin = fopen(dialog.GetPath().mb_str(), "r")) == NULL)
+    if ((fin = fopen(dialog.GetPath().mb_str(), "rb")) == NULL)
         {
             txt << wxT("Impossible d'ouvrir") << dialog.GetPath();
             wxMessageDialog msg(this, txt, wxT("Ouverture d'une partie"));
@@ -433,8 +434,6 @@ MainFrame::OnMenuGameOpen(wxCommandEvent&)
             return;
         }
 
-#if 0
-    // FIXME
     if (m_game->getHistory().getSize() == 0)
 	{
             wxMessageDialog msg(this,
@@ -443,16 +442,13 @@ MainFrame::OnMenuGameOpen(wxCommandEvent&)
             msg.ShowModal();
             return;
 	}
-#endif
 
     std::string r = "";
-#if 0
-    // FIXME
+
     if (m_game->getHistory().getSize() >= 0)
 	{
 	    r = m_game->getCurrentPlayer().getCurrentRack().toString();
 	}
-#endif
 
     rack->SetValue(wxU(r.c_str()));
     // update gfxboard and all frames
@@ -750,7 +746,7 @@ MainFrame::OnMenuQuitApropos(wxCommandEvent& WXUNUSED(event))
 {
     wxString msg;
     // XXX:    msg << wxT("Eliot\n© Antoine Fraboulet 1999-2004\n\n");
-    msg << wxT("Eliot\nCopyright Antoine Fraboulet 1999-2004\n\n");
+    msg << wxT("Eliot\nCopyright Antoine Fraboulet 1999-2006\n\n");
     msg << wxT("This program is free software; you can redistribute it and/or modify\n");
     msg << wxT("it under the terms of the GNU General Public License as published by\n");
     msg << wxT("the Free Software Foundation; either version 2 of the License, or\n");
@@ -774,7 +770,7 @@ void
 MainFrame::OnSetRack(wxCommandEvent& event)
 {
     int id;
-    // TODO Game::set_rack_mode -> PlayedRack::set_rack_mode
+
     Game::set_rack_mode mode = Game::RACK_NEW;
     debug("OnSetRack ");
     switch ((id = event.GetId()))
@@ -800,6 +796,7 @@ MainFrame::OnSetRack(wxCommandEvent& event)
 void
 MainFrame::OnSearch(wxCommandEvent& WXUNUSED(event))
 {
+    debug("MainFrame::OnSearch\n");
     Search();
 }
 
@@ -969,6 +966,7 @@ MainFrame::SetRack(Game::set_rack_mode mode, wxString srack)
     wxString msg;
     bool check = config.getRackChecking();
 
+    ((Training*)m_game)->removeTestPlay();
     str = (const char*)srack.mb_str();
     res = ((Training*)m_game)->setRack(mode, check, str);
 
@@ -1063,4 +1061,5 @@ MainFrame::TestPlay(int n)
 /// mode: c++
 /// mode: hs-minor
 /// c-basic-offset: 4
+/// indent-tabs-mode: nil
 /// End:
