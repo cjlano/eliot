@@ -114,7 +114,7 @@ static void ExtendRight(const Board &iBoard,
 
         for (succ = Dic_succ(iDic, iNode); succ; succ = Dic_next(iDic, succ))
         {
-            l = Tile(Dic_chr(iDic, succ));
+            l = Tile(Dic_char(iDic, succ));
             if (iCrossMx[iRow][iCol].check(l))
             {
                 if (iRack.in(l))
@@ -145,7 +145,7 @@ static void ExtendRight(const Board &iBoard,
         l = iTilesMx[iRow][iCol];
         for (succ = Dic_succ(iDic, iNode); succ ; succ = Dic_next(iDic, succ))
         {
-            if (Tile(Dic_chr(iDic, succ)) == l)
+            if (Tile(Dic_char(iDic, succ)) == l)
             {
                 ioPartialWord.addRightFromBoard(l);
                 ExtendRight(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
@@ -178,7 +178,7 @@ static void LeftPart(const Board &iBoard,
     {
         for (succ = Dic_succ(iDic, n); succ; succ = Dic_next(iDic, succ))
         {
-            l = Tile(Dic_chr(iDic, succ));
+            l = Tile(Dic_char(iDic, succ));
             if (iRack.in(l))
             {
                 iRack.remove(l);
@@ -290,3 +290,10 @@ void Board::searchFirst(const Dictionary &iDic,
              copyRack, partialword, oResults, Dic_root(iDic), row, col,
              copyRack.nTiles() - 1);
 }
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:
