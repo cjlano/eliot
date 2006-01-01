@@ -18,12 +18,17 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+/**
+ *  \file   board_cross.cpp
+ *  \brief  Build cross information used to speed up search
+ *  \author Antoine Fraboulet & Olivier Teulière
+ *  \date   2005
+ */
+
 #include <dic.h>
 #include "tile.h"
 #include "board.h"
-
 #include "debug.h"
-
 
 static void Board_checkout_tile(const Dictionary &iDic,
                                 vector<Tile>& iTiles,
@@ -52,7 +57,7 @@ static void Board_checkout_tile(const Dictionary &iDic,
     for (j = i; j < index; j++)
         leftTiles[j - i] = toupper(iTiles[j].toChar());
     leftTiles[index - i] = 0;
-    node = Dic_lookup(iDic, Dic_root(iDic), leftTiles);
+    node = Dic_char_lookup(iDic, Dic_root(iDic), leftTiles);
     if (node == 0)
     {
         oCross.clear();
@@ -66,19 +71,20 @@ static void Board_checkout_tile(const Dictionary &iDic,
     rightTiles[j - index - 1] = 0;
     for (succ = Dic_succ(iDic, node); succ; succ = Dic_next(iDic, succ))
     {
-        if (Dic_word(iDic, Dic_lookup(iDic, succ, rightTiles)))
-            oCross.insert(Tile(Dic_chr(iDic, succ)));
+        if (Dic_word(iDic, Dic_char_lookup(iDic, succ, rightTiles)))
+            oCross.insert(Tile(Dic_char(iDic, succ)));
         if (Dic_last(iDic, succ))
             break;
     }
 
-     /* Points on the right part */
-     while (!iTiles[index].isEmpty())
-     {
-         index++;
-         if (!iJoker[index])
-             oPoints += iTiles[index].getPoints();
-     }
+    /* Points on the right part */
+    /* yes, it is REALLY [index+1] */
+    while (!iTiles[index+1].isEmpty())
+    {
+	index++;
+	if (!iJoker[index])
+	    oPoints += iTiles[index].getPoints();
+    }
 }
 
 
@@ -94,7 +100,9 @@ static void Board_check(const Dictionary &iDic,
         {
             iPointMx[j][i] = -1;
             if (!iTilesMx[i][j].isEmpty())
+            {
                 iCrossMx[j][i].clear();
+	    }
             else if (!iTilesMx[i][j - 1].isEmpty() ||
                      !iTilesMx[i][j + 1].isEmpty())
             {
@@ -107,7 +115,9 @@ static void Board_check(const Dictionary &iDic,
                                     j);
             }
             else
+            {
                 iCrossMx[j][i].setAny();
+	    }
         }
     }
 }
@@ -118,3 +128,14 @@ void Board::buildCross(const Dictionary &iDic)
     Board_check(iDic, m_tilesRow, m_jokerRow, m_crossCol, m_pointCol);
     Board_check(iDic, m_tilesCol, m_jokerCol, m_crossRow, m_pointRow);
 }
+
+
+/****************************************************************/
+/****************************************************************/
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:
