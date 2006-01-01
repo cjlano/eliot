@@ -16,9 +16,15 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-// -*- C++ -*-
-#ifndef _MAINFRAME_H
-#define _MAINFRAME_H
+/**
+ *  \file   mainframe.h
+ *  \brief  Main frame for the Eliot GUI
+ *  \author Antoine Fraboulet
+ *  \date   2005
+ */
+
+#ifndef _MAINFRAME_H_
+#define _MAINFRAME_H_
 
 #include "dic.h"
 #include "game.h"
@@ -99,12 +105,15 @@ public:
     // *******
     // Objects
     // *******
-    void OnListCtrlSelected  (wxListEvent& event);
-    void OnListCtrlActivated (wxListEvent& event);
-
     void OnCloseWindow       (wxCloseEvent& event);
 
     DECLARE_EVENT_TABLE()
 };
 
 #endif
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// End:

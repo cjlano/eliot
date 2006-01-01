@@ -1,6 +1,5 @@
 /* Eliot                                                                     */
 /* Copyright (C) 1999  Antoine Fraboulet                                     */
-
 /*                                                                           */
 /* This file is part of Eliot.                                               */
 /*                                                                           */
@@ -20,7 +19,7 @@
 
 /**
  *  \file   ewx.h
- *  \brief  Eliot wxwidgets defines
+ *  \brief  Eliot wxwidgets switch and defines
  *  \author Antoine Fraboulet
  *  \date   2002
  */
@@ -74,3 +73,10 @@
 #endif // ENABLE_NLS && ENABLE_UTF8
 
 #endif // __EWX__
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:

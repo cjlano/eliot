@@ -16,6 +16,13 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
+/**
+ *  \file   main.cc
+ *  \brief  Eliot main entry point
+ *  \author Antoine Fraboulet
+ *  \date   2005
+ */
+
 #ifdef WIN32 // mingw32 hack
 #   undef Yield
 #   undef CreateDialog
@@ -82,3 +89,9 @@ EliotApp::OnExit()
 }
 
 
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:
