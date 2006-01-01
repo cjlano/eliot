@@ -3,11 +3,6 @@
 * TODO Current version
 * ====================
 
- - Correct game handling : back() does not work                done 27/12/2005
- - Correct game save/load functions : Standard format          done 29/12/2005
- - Correc bag handling on setRackRandom                        done 30/12/2005
- - add a profile/performance test for Dic_search and Regexp    done 30/12/2005
-
  - The dictionary must use codes for performance reasons, 
    the board must also be made to use codes instead of tiles. 
    Using class Tiles during search results in a HUGE 
