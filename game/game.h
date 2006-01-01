@@ -93,6 +93,14 @@ public:
     const Player& getCurrentPlayer() const { return getPlayer(currPlayer()); };
 
     /**
+     * Eliot file formats
+     */
+    typedef enum {
+      FILE_FORMAT_STANDARD,
+      FILE_FORMAT_ADVANCED
+    } game_file_format;
+
+    /**
      * Saved games handling.
      *
      * load() returns the loaded game, or NULL if there was a problem
@@ -100,7 +108,16 @@ public:
      * handle "hand written" files
      */
     static Game * load(FILE *fin, const Dictionary &iDic);
-    void save(ostream &out) const;
+
+    /**
+     * Save a game to a File
+     * Standard format is used for training games so that it is compatible
+     * with previous versions of Eliot.
+     *
+     * Saving can be forced to advanced format for training games by 
+     * setting the last parameter to FILE_FORMAT_ADVANCED
+     */
+    void save(ostream &out, game_file_format format=FILE_FORMAT_STANDARD) const;
 
     /*************************
      * Playing the game
@@ -128,7 +145,10 @@ public:
     enum set_rack_mode {RACK_ALL, RACK_NEW, RACK_MANUAL};
     int setRack(int player, set_rack_mode mode, bool check, const string& str);
 
-    /** Getter for the history of the game  */
+    /**
+     * Methods to access already played words.
+     * The int parameter should be 0 <= int < getNTurns()
+     */
     const History& getHistory() const { return m_history; }
 
     /**
@@ -194,6 +214,36 @@ protected:
     void realBag(Bag &iBag) const;
     int  checkPlayedWord(const string &iCoord,
                          const string &iWord, Round &oRound);
+
+    /**
+     * load games from File using the first format.
+     * This format is used for Training games
+     */
+    static Game* gameLoadFormat_14(FILE *fin, const Dictionary& iDic);
+
+    /**
+     * load games from File using advanced format (since Eliot 1.5)
+     * This format is used for Duplicate, Freegame, ...
+     */
+    static Game* gameLoadFormat_15(FILE *fin, const Dictionary& iDic);
+
+    /**
+     * Training games ares saved using the initial Eliot format
+     */
+    void Game::gameSaveFormat_14(ostream &out) const;
+
+    /**
+     * Advanced game file format output
+     */
+    void Game::gameSaveFormat_15(ostream &out) const;
+
 };
 
 #endif /* _GAME_H_ */
+
+/// Local Variables:
+/// mode: c++
+/// mode: hs-minor
+/// c-basic-offset: 4
+/// indent-tabs-mode: nil
+/// End:

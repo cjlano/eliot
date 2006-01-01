@@ -63,269 +63,6 @@ const Player& Game::getPlayer(int iNum) const
 }
 
 
-Game * Game::load(FILE *fin, const Dictionary &iDic)
-{
-    char buff[4096];
-    char delim[] = " \t\n|";
-    char *token;
-
-    // Check characteristic string
-    if (fgets(buff, sizeof(buff), fin) == NULL)
-        return NULL;
-    if ((token = strtok(buff, delim)) == NULL)
-        return NULL;
-    if (string(token) != IDENT_STRING)
-        return NULL;
-
-    int num;
-    char rack[20];
-    char word[20];
-    char ref[4];
-    int pts;
-    int player;
-    char *pos;
-    Tile tile;
-    Game *pGame = NULL;
-
-    while (fgets(buff, sizeof(buff), fin))
-    {
-        // Indication of game type
-        pos = strstr(buff, "Game type: ");
-        if (pos != NULL)
-        {
-            // No Game object should have been created yet
-            if (pGame != NULL)
-            {
-                delete pGame;
-                return NULL;
-            }
-            // Create the correct Game object
-            if (strstr(buff, "Training"))
-                pGame = GameFactory::Instance()->createTraining(iDic);
-            else if (strstr(buff, "Free game"))
-                pGame = GameFactory::Instance()->createFreeGame(iDic);
-            else if (strstr(buff, "Duplicate"))
-                pGame = GameFactory::Instance()->createDuplicate(iDic);
-            else
-                return NULL;
-            // Read next line
-            continue;
-        }
-
-        // Players type
-        pos = strstr(buff, "Player ");
-        if (pos != NULL && pGame != NULL)
-        {
-            int nb = 0;
-            char type[20];
-            if (sscanf(pos, "Player %d: %19s", &nb, type) > 1)
-            {
-                if (string(type) == "Human")
-                    pGame->addHumanPlayer();
-                else if (string(type) == "Computer")
-                    pGame->addAIPlayer();
-                else
-                    ;
-            }
-            // Read next line
-            continue;
-        }
-
-        // Last racks
-        pos = strstr(buff, "Rack ");
-        if (pos != NULL && pGame != NULL)
-        {
-            int nb = 0;
-            char letters[20];
-            if (sscanf(pos, "Rack %d: %19s", &nb, letters) > 1)
-            {
-                // Create the played rack
-                PlayedRack pldrack;
-                char *r = letters;
-                if (strchr(r, '+'))
-                {
-                    while (*r != '+')
-                    {
-                        pldrack.addOld(Tile(*r));
-                        r++;
-                    }
-                    r++;
-                }
-                while (*r)
-                {
-                    pldrack.addNew(Tile(*r));
-                    r++;
-                }
-
-                // Give the rack to the player
-                pGame->m_players[nb]->setCurrentRack(pldrack);
-            }
-            // Read next line
-            continue;
-        }
-
-        // Skip columns title
-        if (strstr(buff, "==") != NULL ||
-            strstr(buff, "| PTS | P |") != NULL)
-        {
-            continue;
-        }
-
-        if (string(buff) != "\n" && pGame != NULL)
-        {
-            char bonus = 0;
-            int res = sscanf(buff, "   %2d | %8s | %s | %3s | %3d | %1d | %c",
-                             &num, rack, word, ref, &pts, &player, &bonus);
-            if (res < 6)
-                continue;
-
-            // Integrity checks
-            // TODO: add more checks
-            if (pts < 0)
-                continue;
-            if (player < 0 || player > pGame->getNPlayers())
-                continue;
-            if (bonus && bonus != '*')
-                continue;
-
-            // Build a rack for the correct player
-            PlayedRack pldrack;
-            char *r = rack;
-            if (strchr(r, '+'))
-            {
-                while (*r != '+')
-                {
-                    pldrack.addOld(Tile(*r));
-                    r++;
-                }
-                r++;
-            }
-
-            while (*r)
-            {
-                pldrack.addNew(Tile(*r));
-                r++;
-            }
-
-            // Build a round
-            Round round;
-            round.accessCoord().setFromString(ref);
-            if (!round.getCoord().isValid())
-                continue;
-
-            round.setPoints(pts);
-            if (bonus == '*')
-                round.setBonus(1);
-
-            for (unsigned int i = 0; i < strlen(word); i++)
-            {
-                tile = Tile(word[i]);
-
-                if (round.getCoord().getDir() == Coord::HORIZONTAL)
-                {
-                    if (!pGame->m_board.getTile(round.getCoord().getRow(),
-                                                round.getCoord().getCol() + i).isEmpty())
-                    {
-                        round.addRightFromBoard(tile);
-                    }
-                    else
-                    {
-                        round.addRightFromRack(tile, islower(word[i]));
-                        pGame->m_bag.takeTile((islower(word[i])) ? Tile::Joker() : tile);
-                    }
-                }
-                else
-                {
-                    if (!pGame->m_board.getTile(round.getCoord().getRow() + i,
-                                                round.getCoord().getCol()).isEmpty())
-                    {
-                        round.addRightFromBoard(tile);
-                    }
-                    else
-                    {
-                        round.addRightFromRack(tile, islower(word[i]));
-                        pGame->m_bag.takeTile((islower(word[i])) ? Tile::Joker() : tile);
-                    }
-                }
-            }
-
-            pGame->m_currPlayer = player;
-            // Update the rack for the player
-            pGame->m_players[player]->setCurrentRack(pldrack);
-            // End the turn for the current player (this creates a new rack)
-            pGame->m_players[player]->endTurn(round, num - 1);
-            // Add the points
-            pGame->m_players[player]->addPoints(pts);
-            // Play the round
-            pGame->helperPlayRound(round);
-        }
-    }
-
-    // Finalize the game
-    if (pGame)
-    {
-        // We don't really know whose turn it is, but at least we know that
-        // the game was saved while a human was to play.
-        for (int i = 0; i < pGame->getNPlayers(); i++)
-        {
-            if (pGame->getPlayer(i).isHuman())
-            {
-                pGame->m_currPlayer = i;
-                break;
-            }
-        }
-    }
-    return pGame;
-}
-
-
-void Game::save(ostream &out) const
-{
-    const string decal = "   ";
-    // "Header" of the game
-    out << IDENT_STRING << endl << endl;
-    out << "Game type: " << getModeAsString() << endl;
-    for (int i = 0; i < getNPlayers(); i++)
-    {
-        out << "Player " << i << ": ";
-        if (getPlayer(i).isHuman())
-            out << "Human" << endl;
-        else
-            out << "Computer" << endl;
-    }
-    out << endl;
-
-    // Title of the columns
-    char line[100];
-    out << decal << " N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS" << endl;
-    out << decal << "===|==========|=================|=====|=====|===|======" << endl;
-
-    // Print the game itself
-    for (int i = 0; i < m_history.getSize(); i++)
-    {
-        const Turn& t = m_history.getTurn(i);
-        string word = t.getRound().getWord();
-        string coord = t.getRound().getCoord().toString();
-        sprintf(line, "%2d | %8s | %s%s | %3s | %3d | %1d | %c",
-                i + 1, t.getPlayedRack().toString().c_str(), word.c_str(),
-                string(15 - word.size(), ' ').c_str(),
-                coord.c_str(), t.getRound().getPoints(),
-                t.getPlayer(), t.getRound().getBonus() ? '*' : ' ');
-
-        out << decal << line << endl;
-    }
-    out << endl << decal << "Total: " << m_points << endl;
-
-    // Print current rack for all the players
-    out << endl;
-    for (int i = 0; i < getNPlayers(); i++)
-    {
-        string rack = getPlayer(i).getCurrentRack().toString();
-        out << "Rack " << i << ": " << rack << endl;
-    }
-}
-
-
 /* This function plays a round on the board */
 int Game::helperPlayRound(const Round &iRound)
 {
@@ -419,10 +156,10 @@ int Game::back(int n)
 
     if (n < 0)
     {
-//         debug("Game::back negative argument\n");
-        n = -n;
+	debug("Game::back negative argument\n");
+	n = -n;
     }
-//     debug("Game::back %d\n",n);
+    debug("Game::back %d\n",n);
     for (i = 0; i < n; i++)
     {
         if (m_history.getSize() > 0)
@@ -430,7 +167,7 @@ int Game::back(int n)
             prevPlayer();
             player = m_players[m_currPlayer];
             const Round &lastround = m_history.getPreviousTurn().getRound();
-//             debug("Game::back last round %s\n",lastround.toString().c_str());
+	    debug("Game::back last round %s\n",lastround.toString().c_str());
             /* Remove the word from the board, and put its letters back
              * into the bag */
             m_board.removeRound(*m_dic, lastround);
@@ -447,8 +184,8 @@ int Game::back(int n)
             /* Remove the points of this round */
             player->addPoints(- lastround.getPoints());
             m_points -= lastround.getPoints();
-            /* Remove the turns */
-            player->removeLastTurn();
+	    /* Remove the turns */
+	    player->removeLastTurn();
             m_history.removeLastTurn();
         }
         else
@@ -459,10 +196,11 @@ int Game::back(int n)
     return 0;
 }
 
-
-/*********************************************************
- *********************************************************/
-
+/**
+ * The realBag is the current bag minus all the racks
+ * present in the game. It represents the actual 
+ * letters that are left in the bag.
+ */
 void Game::realBag(Bag &ioBag) const
 {
     vector<Tile> tiles;
@@ -473,7 +211,7 @@ void Game::realBag(Bag &ioBag) const
     /* The real content of the bag depends on the game mode */
     if (getMode() == kFREEGAME)
     {
-        /* In freegame mode, replace the letters from all the racks */
+        /* In freegame mode, take the letters from all the racks */
         for (int i = 0; i < getNPlayers(); i++)
         {
             getPlayer(i).getCurrentRack().getAllTiles(tiles);
@@ -485,7 +223,7 @@ void Game::realBag(Bag &ioBag) const
     }
     else
     {
-        /* In training or duplicate mode, replace the rack of the current
+        /* In training or duplicate mode, take the rack of the current
          * player only */
         getPlayer(m_currPlayer).getCurrentRack().getAllTiles(tiles);
         for (unsigned int j = 0; j < tiles.size(); j++)
@@ -496,38 +234,26 @@ void Game::realBag(Bag &ioBag) const
 }
 
 
-bool Game::rackInBag(const Rack &iRack, const Bag &iBag) const
-{
-    const list<Tile>& allTiles = Tile::getAllTiles();
-    list<Tile>::const_iterator it;
-    for (it = allTiles.begin(); it != allTiles.end(); it++)
-    {
-        if (iRack.in(*it) > iBag.in(*it))
-            return false;
-    }
-    return true;
-}
-
-
 int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
 {
     ASSERT(0 <= p && p < getNPlayers(), "Wrong player number");
 
     int nold, min;
 
-    // Make a copy of the player's rack
+    // Make a copy of the current player's rack
     PlayedRack pld = getPlayer(p).getCurrentRack();
     nold = pld.nOld();
 
     // Create a copy of the bag in which we can do everything we want,
-    // and remove from it the tiles of the racks
+    // and take from it the tiles of the players rack so that "bag"
+    // contains the right number of tiles.
     Bag bag;
     realBag(bag);
 
-    // We may have removed too many letters from the bag (i.e. the 'new'
-    // letters of the player)
     if (mode == RACK_NEW && nold != 0)
     {
+        // We may have removed too many letters from the bag (i.e. the 'new'
+        // letters of the player)
         vector<Tile> tiles;
         pld.getNewTiles(tiles);
         for (unsigned int i = 0; i < tiles.size(); i++)
@@ -536,12 +262,23 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
         }
         pld.resetNew();
     }
-    else
+    else if (mode == RACK_NEW && nold == 0 || mode == RACK_ALL)
     {
+        // Replace all the tiles in the bag before choosing random ones
+        vector<Tile> tiles;
+        pld.getAllTiles(tiles);
+        for (unsigned int i = 0; i < tiles.size(); i++)
+        {
+            bag.replaceTile(tiles[i]);
+        }
         // RACK_NEW with an empty rack is equivalent to RACK_ALL
         pld.reset();
         // Do not forget to update nold, for the RACK_ALL case
         nold = 0;
+    }
+    else
+    {
+        debug("Game::helperSetRackRandom not a random mode\n");
     }
 
     // Nothing in the rack, nothing in the bag --> end of the game
@@ -640,7 +377,7 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
         }
     }
 
-    if (iCheck && !pld.checkRack(min))
+    if (iCheck && !pld.checkRack(min,min))
         return 2;
 
     m_players[p]->setCurrentRack(pld);
@@ -649,40 +386,41 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
 }
 
 
+/**
+ * Check if the players rack can be obtained from the bag.
+ * Since letters are removed from the bag only when the
+ * round is played we need to check that ALL the racks 
+ * are in the bag simultaneously.
+ *
+ * FIXME: since we do not check for all racks it works
+ * for training and duplicate but it won't work for
+ * freegames.
+ */
+bool Game::rackInBag(const Rack &iRack, const Bag &iBag) const
+{
+    const list<Tile>& allTiles = Tile::getAllTiles();
+    list<Tile>::const_iterator it;
+    for (it = allTiles.begin(); it != allTiles.end(); it++)
+    {
+        if (iRack.in(*it) > iBag.in(*it))
+            return false;
+    }
+    return true;
+}
+
+/**
+ * Set the rack of the player p manually.
+ */
 int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
 {
-    unsigned int i;
-    int min;
+    int min, ret;
 
     PlayedRack pld = getPlayer(p).getCurrentRack();
     pld.reset();
 
-    if (iLetters.size() == 0)
+    if ((ret = pld.setManual(iLetters)) > 0)
     {
-        return 0;
-    }
-
-    for (i = 0; i < iLetters.size() && iLetters[i] != '+'; i++)
-    {
-        Tile tile(iLetters[i]);
-        if (tile.isEmpty())
-        {
-            return 1;
-        }
-        pld.addOld(tile);
-    }
-
-    if (i < iLetters.size() && iLetters[i] == '+')
-    {
-        for (i++; i < iLetters.size(); i++)
-        {
-            Tile tile(iLetters[i]);
-            if (tile.isEmpty())
-            {
-                return 1;
-            }
-            pld.addNew(tile);
-        }
+        return 1; /* add new tests */
     }
 
     Rack rack;
@@ -700,7 +438,7 @@ int Game::helperSetRackManual(int p, bool iCheck, const string &iLetters)
             min = 2;
         else
             min = 1;
-        if (!pld.checkRack(min))
+        if (!pld.checkRack(min,min))
             return 2;
     }
 
@@ -849,4 +587,5 @@ int Game::checkPlayedWord(const string &iCoord,
 /// mode: c++
 /// mode: hs-minor
 /// c-basic-offset: 4
+/// indent-tabs-mode: nil
 /// End:
