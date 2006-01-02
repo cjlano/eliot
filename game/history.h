@@ -27,10 +27,16 @@
 #ifndef _HISTORY_H
 #define _HISTORY_H
 
+#include <string>
 #include <vector>
-#include "pldrack.h"
-#include "round.h"
-#include "turn.h"
+
+using std::string;
+using std::vector;
+
+class Round;
+class Turn;
+class PlayedRack;
+
 
 /**
  * History stores all the turns that have been played
@@ -39,18 +45,19 @@
  *  - one for each of the players
  *
  * A History is never void (getSize() can be used as the is the current turn
- * number for the complete game history). 
+ * number for the complete game history).
  *
  * History starts at zero.
  *
  * The top of the history is an empty
  * Turn until it has been filled and game is up to a new round.
- * 
- * getCurrentRack() can/should be used to store the current played rack. 
+ *
+ * getCurrentRack() can/should be used to store the current played rack.
  * setCurrentRack must be called whenever the current played rack is
  * modified.
- * 
- * History owns the turns that it stores. Do not delete a turn referenced by History
+ *
+ * History owns the turns that it stores. Do not delete a turn referenced
+ * by History
  */
 
 class History
@@ -85,7 +92,7 @@ class History
     string toString() const;
 
  private:
-    vector < Turn* > m_history;
+    vector<Turn*> m_history;
 };
 
 #endif
