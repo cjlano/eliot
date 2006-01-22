@@ -75,8 +75,8 @@ int Game::helperPlayRound(const Round &iRound)
      */
 
     // History of the game
-  m_history.setCurrentRack(getCurrentPlayer().getLastRack());
-  m_history.playRound(m_currPlayer, m_history.getSize(),  iRound);
+    m_history.setCurrentRack(getCurrentPlayer().getLastRack());
+    m_history.playRound(m_currPlayer, m_history.getSize(),  iRound);
 
     m_points += iRound.getPoints();
 
