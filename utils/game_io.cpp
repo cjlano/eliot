@@ -20,11 +20,13 @@
 
 #include <iomanip>
 #include <string>
+#include "stdlib.h"
 
 #include "game_io.h"
 #include "game.h"
 #include "training.h"
 #include "player.h"
+#include "encoding.h"
 
 using namespace std;
 
@@ -124,7 +126,7 @@ void GameIO::printBoardMultipliers2(ostream &out, const Game &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            char l = iGame.getBoard().getChar(row, col);
+            wchar_t l = iGame.getBoard().getChar(row, col);
             int wm = iGame.getBoard().getWordMultiplier(row, col);
             int tm = iGame.getBoard().getLetterMultiplier(row, col);
 
@@ -134,7 +136,7 @@ void GameIO::printBoardMultipliers2(ostream &out, const Game &iGame)
                 out << " " << ((tm == 3) ? '*' : '+');
             else
                 out << " -";
-            out << (l ? l : '-');
+            out << (l ? convertToMb(l) : "-");
         }
         out << endl;
     }
@@ -150,7 +152,7 @@ void GameIO::printNonPlayed(ostream &out, const Game &iGame)
     {
         if (iGame.getBag().in(it->toChar()) > 9)
             out << " ";
-        out << setw(2) << it->toChar();
+        out << setw(2) << convertToMb(it->toChar());
     }
     out << endl;
 
@@ -164,7 +166,7 @@ void GameIO::printNonPlayed(ostream &out, const Game &iGame)
 
 void GameIO::printPlayedRack(ostream &out, const Game &iGame, int n)
 {
-    out << iGame.getCurrentPlayer().getCurrentRack().toString(PlayedRack::RACK_SIMPLE) << endl;
+    out << convertToMb(iGame.getCurrentPlayer().getCurrentRack().toString(PlayedRack::RACK_SIMPLE)) << endl;
 }
 
 
@@ -173,7 +175,7 @@ void GameIO::printAllRacks(ostream &out, const Game &iGame)
     for (int j = 0; j < iGame.getNPlayers(); j++)
     {
         out << "Joueur " << j << ": ";
-        out << iGame.getPlayer(j).getCurrentRack().toString(PlayedRack::RACK_SIMPLE) << endl;
+        out << convertToMb(iGame.getPlayer(j).getCurrentRack().toString(PlayedRack::RACK_SIMPLE)) << endl;
     }
 }
 
@@ -182,13 +184,13 @@ static void searchResultLine(ostream &out, const Training &iGame, int num)
 {
     const Results &res = iGame.getResults();
     Round r = res.get(num);
-    string word = r.getWord();
+    wstring word = r.getWord();
     if (word.size() == 0)
         return;
-    out << word << string(16 - word.size(), ' ')
+    out << convertToMb(word) << string(16 - word.size(), ' ')
         << (r.getBonus() ? '*' : ' ')
         << setw(4) << r.getPoints()
-        << ' ' << r.getCoord().toString();
+        << ' ' << convertToMb(r.getCoord().toString());
 }
 
 

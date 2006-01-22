@@ -48,7 +48,7 @@ public:
 #if 0
     void operator=(const Turn &iOther);
 #endif
-    string toString(bool iShowExtraSigns = false) const;
+    wstring toString(bool iShowExtraSigns = false) const;
 
 private:
     int        m_num;

@@ -58,7 +58,7 @@ public:
 
     void setOld(const Rack &iRack);
     void setNew(const Rack &iRack);
-    int  setManual(const string& iLetters);
+    int  setManual(const wstring& iLetters);
 
     int nTiles() const  { return nNew() + nOld(); }
     int nNew() const    { return m_newTiles.size(); }
@@ -74,12 +74,13 @@ public:
 
     void operator=(const PlayedRack &iOther);
 
-    typedef enum {
-      RACK_SIMPLE,
-      RACK_EXTRA,
-      RACK_DEBUG
-    } display_mode;
-    string toString(display_mode iShowExtraSigns = RACK_EXTRA) const;
+    enum display_mode
+    {
+        RACK_SIMPLE,
+        RACK_EXTRA,
+        RACK_DEBUG
+    };
+    wstring toString(display_mode iShowExtraSigns = RACK_EXTRA) const;
 
 private:
     bool reject;

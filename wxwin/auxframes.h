@@ -78,12 +78,12 @@ protected:
     ConfigDB    config;
 
 public:
-    AuxFrame (wxFrame*, int, wxString, wxString);
+    AuxFrame(wxFrame*, int, wxString, wxString);
     ~AuxFrame();
 
     typedef enum {
-	REFRESH,
-	FORCE_REFRESH
+        REFRESH,
+        FORCE_REFRESH
     } refresh_t;
 
     void SwitchDisplay();
@@ -99,7 +99,7 @@ class AuxFrameList: public AuxFrame
 {
 protected:
     bool      noresult;
-    string    savedword;
+    wstring   savedword;
     Game      *game;
     wxButton  *button;
     wxListBox *listbox;

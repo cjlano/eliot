@@ -62,7 +62,8 @@ extern "C"
      * @param path : lookup word
      * @return 1 present, 0 error
      */
-int  Dic_search_word(Dictionary dic, const char* path);
+int  Dic_search_word(Dictionary dic,
+                     const wchar_t* path);
 
     /**
      * Search for all feasible word with "rack" plus one letter
@@ -70,7 +71,10 @@ int  Dic_search_word(Dictionary dic, const char* path);
      * @param rack : letters
      * @param wordlist : results
      */
-void Dic_search_7pl1(Dictionary dic, const char* rack, char wordlist[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX], int joker);
+void Dic_search_7pl1(Dictionary dic,
+                     const wchar_t* rack,
+                     wchar_t wordlist[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX],
+                     int joker);
 
     /**
      * Search for all feasible word adding a letter in front or at the end
@@ -78,7 +82,9 @@ void Dic_search_7pl1(Dictionary dic, const char* rack, char wordlist[DIC_LETTERS
      * @param word : word
      * @param wordlist : results
      */
-void Dic_search_Racc(Dictionary dic, const char* word, char wordlist[RES_RACC_MAX][DIC_WORD_MAX]);
+void Dic_search_Racc(Dictionary dic,
+                     const wchar_t* word,
+                     wchar_t wordlist[RES_RACC_MAX][DIC_WORD_MAX]);
 
     /**
      * Search for benjamins
@@ -86,7 +92,9 @@ void Dic_search_Racc(Dictionary dic, const char* word, char wordlist[RES_RACC_MA
      * @param rack : letters
      * @param wordlist : results
      */
-void Dic_search_Benj(Dictionary dic, const char* word, char wordlist[RES_BENJ_MAX][DIC_WORD_MAX]);
+void Dic_search_Benj(Dictionary dic,
+                     const wchar_t* word,
+                     wchar_t wordlist[RES_BENJ_MAX][DIC_WORD_MAX]);
 
     /**
      * Search for crosswords
@@ -94,7 +102,9 @@ void Dic_search_Benj(Dictionary dic, const char* word, char wordlist[RES_BENJ_MA
      * @param rack : letters
      * @param wordlist : results
      */
-void Dic_search_Cros(Dictionary dic, const char* mask, char wordlist[RES_CROS_MAX][DIC_WORD_MAX]);
+void Dic_search_Cros(Dictionary dic,
+                     const wchar_t* mask,
+                     wchar_t wordlist[RES_CROS_MAX][DIC_WORD_MAX]);
 
     /**
      * Search for words matching a regular expression
@@ -102,7 +112,18 @@ void Dic_search_Cros(Dictionary dic, const char* mask, char wordlist[RES_CROS_MA
      * @param re : regular expression
      * @param wordlist : results
      */
-void Dic_search_RegE(Dictionary dic, const char* re, char wordlist[RES_REGE_MAX][DIC_WORD_MAX], struct search_RegE_list_t *list);
+void Dic_search_RegE(Dictionary dic,
+                     const wchar_t* re,
+                     wchar_t wordlist[RES_REGE_MAX][DIC_WORD_MAX],
+                     struct search_RegE_list_t *list);
+
+    /**
+     * Internal version of Dic_search_RegE, used inside the dictionary.
+     * Please use Dic_search_RegE instead from outside the dic library.
+     */
+void Dic_search_RegE_inner(const Dictionary dic, const char* re,
+                           char wordlist[RES_REGE_MAX][DIC_WORD_MAX],
+                           struct search_RegE_list_t *list);
 
 #if defined(__cplusplus)
   }

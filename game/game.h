@@ -143,7 +143,7 @@ public:
      *************************/
     static const int RACK_SIZE;
     enum set_rack_mode {RACK_ALL, RACK_NEW, RACK_MANUAL};
-    int setRack(int player, set_rack_mode mode, bool check, const string& str);
+    int setRack(int player, set_rack_mode mode, bool check, const wstring& str);
 
     /**
      * Methods to access already played words.
@@ -166,7 +166,7 @@ public:
      * Game handling
      */
     virtual int start() = 0;
-    virtual int play(const string &iCoord, const string &iWord) = 0;
+    virtual int play(const wstring &iCoord, const wstring &iWord) = 0;
     virtual int endTurn() = 0;
 
 protected:
@@ -206,14 +206,14 @@ protected:
 
     int helperPlayRound(const Round &iRound);
     int helperSetRackRandom(int p, bool iCheck, set_rack_mode mode);
-    int helperSetRackManual(int p, bool iCheck, const string &iLetters);
+    int helperSetRackManual(int p, bool iCheck, const wstring &iLetters);
 
     void prevPlayer();
     void nextPlayer();
     bool rackInBag(const Rack &iRack, const Bag &iBag) const;
     void realBag(Bag &iBag) const;
-    int  checkPlayedWord(const string &iCoord,
-                         const string &iWord, Round &oRound);
+    int  checkPlayedWord(const wstring &iCoord,
+                         const wstring &iWord, Round &oRound);
 
     /**
      * load games from File using the first format.

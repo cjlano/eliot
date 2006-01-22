@@ -3,15 +3,7 @@
 * TODO Current version
 * ====================
 
- - The dictionary must use codes for performance reasons, 
-   the board must also be made to use codes instead of tiles. 
-   Using class Tiles during search results in a HUGE 
-   performance penalty. Class cross is a performance killer. 
-   Will return back to using code bitmaps in board for cross 
-   search. Files cross.h and cross.cpp are to be removed or
-   replaced by a 64 bits code bitmap.
-
- - Correct game save/load functions : Advanced format 
+ - Correct game save/load functions : Advanced format
    file saving for freegames and duplicate need a serious
    rewrite. We need to specifie a file format that can handle
    all the information contained in a multiplayer game.
@@ -19,14 +11,14 @@
  - Add "joker" type games in wxwin version of Eliot, Freegame
    and Duplicate will follow
 
- - full French i18n interface and error messages for wxwin. 
+ - full French i18n interface and error messages for wxwin.
 
 
 * ==================
 * Next Eliot version
 * ==================
 
- - new dictionnary format that includes tiles 
+ - new dictionnary format that includes tiles
    - number
    - points
    - printable equivalent
@@ -45,6 +37,8 @@
 
  - network support
  - add timers
+ - implement the dictionary as a GADDAG:
+   http://www.cs.ubc.ca/local/reading/proceedings/spe91-95/spe/vol24/issue2/spe880.pdf
 
 
 %%% Local Variables:

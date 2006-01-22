@@ -22,45 +22,33 @@
 
 Cross::Cross()
 {
-    // the default behaviour is to match everything
+    // The default behaviour is to match everything
     m_any = true;
+    m_mask = 0xFFFFFFFF;
 }
 
 
 void Cross::clear()
 {
-    m_tilesSet.clear();
     m_any = false;
+    m_mask = 0;
 }
 
 
 bool Cross::check(const Tile& iTile) const
 {
-    if (m_any || (iTile.isJoker() && !m_tilesSet.empty()))
+    if (m_any || (iTile.isJoker() && m_mask != 0))
         return true;
-    set<Tile>::const_iterator it = m_tilesSet.find(iTile);
-    return it != m_tilesSet.end();
+    return m_mask & (1 << iTile.toCode());
 }
 
 
 bool Cross::operator==(const Cross &iOther) const
 {
-    if (isAny() && iOther.isAny())
-        return true;
-    // Two sets are equal if they have the same size and one of them contains
-    // the other one
-    if (m_tilesSet.size() == iOther.m_tilesSet.size())
-    {
-        set<Tile>::const_iterator it;
-        for (it = m_tilesSet.begin(); it != m_tilesSet.end(); it++)
-        {
-            if (!iOther.check(*it))
-                return false;
-        }
-        return true;
-    }
-    else
-        return false;
+    if (isAny() || iOther.isAny())
+        return isAny() && iOther.isAny();
+
+    return m_mask == iOther.m_mask;
 }
 
 /// Local Variables:

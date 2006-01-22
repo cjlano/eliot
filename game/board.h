@@ -79,8 +79,8 @@ public:
 #define ATTR_JOKER  1
 #define ATTR_TEST   2
 
-    char getChar    (int iRow, int iCol) const;
-    int  getCharAttr(int iRow, int iCol) const;
+    wchar_t getChar    (int iRow, int iCol) const;
+    int     getCharAttr(int iRow, int iCol) const;
 
     Tile getTile(int iRow, int iCol) const;
     bool isJoker(int iRow, int iCol) const;

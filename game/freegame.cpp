@@ -18,6 +18,7 @@
  *****************************************************************************/
 
 #include <iomanip>
+#include <wctype.h>
 #include "dic.h"
 #include "tile.h"
 #include "rack.h"
@@ -52,7 +53,7 @@ int FreeGame::setRackRandom(int p, bool iCheck, set_rack_mode mode)
 }
 
 
-int FreeGame::play(const string &iCoord, const string &iWord)
+int FreeGame::play(const wstring &iCoord, const wstring &iWord)
 {
     /* Perform all the validity checks, and fill a round */
     Round round;
@@ -188,7 +189,7 @@ void FreeGame::end()
 }
 
 
-int FreeGame::pass(const string &iToChange, int n)
+int FreeGame::pass(const wstring &iToChange, int n)
 {
     if (m_finished)
         return 3;
@@ -204,7 +205,7 @@ int FreeGame::pass(const string &iToChange, int n)
     vector<Tile> tilesVect;
     for (unsigned int i = 0; i < iToChange.size(); i++)
     {
-        Tile tile(toupper(iToChange[i]));
+        Tile tile(towupper(iToChange[i]));
         tilesVect.push_back(tile);
     }
 

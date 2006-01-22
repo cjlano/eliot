@@ -41,6 +41,7 @@
 #include "training.h"
 #include "player.h"
 #include "game.h"
+#include "encoding.h"
 
 #include "configdb.h"
 #include "auxframes.h"
@@ -258,7 +259,7 @@ VerifFrame::verif()
         result->SetLabel(wxT("pas de dictionnaire"));
         return;
     }
-    if (Dic_search_word(dic, word->GetValue().mb_str()))
+    if (Dic_search_word(dic, word->GetValue().wc_str()))
         result->SetLabel(wxT("existe"));
     else
         result->SetLabel(wxT("n'existe pas"));
@@ -294,7 +295,7 @@ AuxFrameList::AuxFrameList(wxFrame* parent, int _id, wxString _name, wxString _c
 
 {
     game = g;
-    savedword = "";
+    savedword = L"";
 
     wxBoxSizer *sizer_v = new wxBoxSizer(wxVERTICAL);
     listbox = new wxListBox(this, ListBoxID);
@@ -380,20 +381,19 @@ AuxFrameList::Refresh(refresh_t force)
 void
 Plus1Frame::refresh()
 {
-    std::string rack;
     //debug("      Plus1Frame::refresh start\n");
-    rack = game->getCurrentPlayer().getCurrentRack().toString();
+    std::wstring rack = game->getCurrentPlayer().getCurrentRack().toString();
     //debug("         CurrentPlayer -> rack : %s\n",rack.c_str());
 
     if (savedword == rack)
-	{
-	    noresult = false; // keep old results
-	    //debug("      Plus1Frame::refresh end, no change\n");
-	    return;
-	}
+    {
+        noresult = false; // keep old results
+        //debug("      Plus1Frame::refresh end, no change\n");
+        return;
+    }
     savedword = rack;
 
-    char buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
+    wchar_t buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
     Dic_search_7pl1(game->getDic(), rack.c_str(), buff, config.getJokerPlus1());
 
     listbox->Clear();
@@ -403,15 +403,15 @@ Plus1Frame::refresh()
     for (int i = 0; i < DIC_LETTERS; i++)
     {
         if (i && buff[i][0][0])
-	    {
-		res[resnum++] = wxString(wxT("+")) + (wxChar)(i + 'A' - 1);
-		noresult = false;
-	    }
-	for (int j = 0; j < RES_7PL1_MAX && buff[i][j][0]; j++)
-	    {
-		res[resnum++] = wxString(wxT("  ")) + wxU(buff[i][j]);
-		noresult = false;
-	    }
+        {
+            res[resnum++] = wxString(wxT("+")) + (wxChar)(i + 'A' - 1);
+            noresult = false;
+        }
+        for (int j = 0; j < RES_7PL1_MAX && buff[i][j][0]; j++)
+        {
+            res[resnum++] = wxString(wxT("  ")) + wxU(buff[i][j]);
+            noresult = false;
+        }
     }
     listbox->Set(resnum, res);
     //debug("      Plus1Frame::refresh end\n");
@@ -424,30 +424,28 @@ Plus1Frame::refresh()
 void
 BenjFrame::refresh()
 {
-    std::string word;
-
     if (game->getMode() != Game::kTRAINING)
-	return;
+        return;
 
-    word = ((Training*)game)->getTestPlayWord();
+    std::wstring word = static_cast<Training*>(game)->getTestPlayWord();
     if (savedword == word)
-	{
-	    noresult = false; // keep old results
-	    return;
-	}
+    {
+        noresult = false; // keep old results
+        return;
+    }
     savedword = word;
     //debug("   BenjFrame::refresh : %s\n",word.c_str());
-    char wordlist[RES_BENJ_MAX][DIC_WORD_MAX];
+    wchar_t wordlist[RES_BENJ_MAX][DIC_WORD_MAX];
     Dic_search_Benj(game->getDic(), word.c_str(), wordlist);
 
     wxString res[RES_BENJ_MAX];
     int resnum = 0;
     for (int i = 0; (i < RES_BENJ_MAX) && (wordlist[i][0]); i++)
-	{
-	    res[resnum++] = wxU(wordlist[i]);
-	    //debug("      BenjFrame : %s (%d)\n",wordlist[i],resnum);
-	    noresult = false;
-	}
+    {
+        res[resnum++] = wxU(wordlist[i]);
+        //debug("      BenjFrame : %s (%d)\n",wordlist[i],resnum);
+        noresult = false;
+    }
     listbox->Set(resnum, res);
 }
 
@@ -459,30 +457,28 @@ BenjFrame::refresh()
 void
 RaccFrame::refresh()
 {
-    std::string word;
-
     if (game->getMode() != Game::kTRAINING)
-	return;
+        return;
 
-    word = ((Training*)game)->getTestPlayWord();
+    std::wstring word = static_cast<Training*>(game)->getTestPlayWord();
     if (savedword == word)
-	{
-	    noresult = false; // keep old results
-	    return;
-	}
+    {
+        noresult = false; // keep old results
+        return;
+    }
     savedword = word;
     //debug("   RaccFrame::refresh : %s\n",word.c_str());
-    char wordlist[RES_RACC_MAX][DIC_WORD_MAX];
+    wchar_t wordlist[RES_RACC_MAX][DIC_WORD_MAX];
     Dic_search_Racc(game->getDic(), word.c_str(), wordlist);
 
     wxString res[RES_RACC_MAX];
     int resnum = 0;
     for (int i = 0; (i < RES_RACC_MAX) && (wordlist[i][0]); i++)
-	{
-	    res[resnum++] = wxU(wordlist[i]);
-	    //debug("      RaccFrame : %s (%d)\n",wordlist[i],resnum);
-	    noresult = false;
-	}
+    {
+        res[resnum++] = wxU(wordlist[i]);
+        //debug("      RaccFrame : %s (%d)\n",wordlist[i],resnum);
+        noresult = false;
+    }
     listbox->Set(resnum, res);
 }
 
@@ -532,10 +528,10 @@ GameFrame::Refresh(refresh_t force)
 #ifdef DEBUG
     mos << std::string(30,'-') << std::endl;
     mos << "Player History\n";
-    mos << m_game.getPlayer(0).toString();
+    mos << convertToMb(m_game.getPlayer(0).toString());
     mos << std::string(30,'-') << std::endl;
     mos << "Game History\n";
-    mos << m_game.getHistory().toString();
+    mos << convertToMb(m_game.getHistory().toString());
 #endif
     textbox->Clear();
     textbox->AppendText( wxU( mos.str().c_str() ) );
@@ -570,30 +566,30 @@ void
 ResultFrame::Refresh(refresh_t WXUNUSED(force))
 {
     if (reslist != NULL)
-	{
-	    reslist->Show(false);
-	    //debug("ResultFrame refresh\n");
-	    reslist->Refresh();
-	    reslist->Show(true);
-	}
+    {
+        reslist->Show(false);
+        //debug("ResultFrame refresh\n");
+        reslist->Refresh();
+        reslist->Show(true);
+    }
 }
 
 void
 ResultFrame::Search()
 {
     if (reslist != NULL)
-	{
-	    reslist->Search();
-	}
+    {
+        reslist->Search();
+    }
 }
 
 int
 ResultFrame::GetSelected()
 {
     if (reslist != NULL)
-	{
-	    return reslist->GetSelected();
-	}
+    {
+        return reslist->GetSelected();
+    }
     return -1;
 }
 

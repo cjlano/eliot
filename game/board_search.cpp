@@ -219,6 +219,12 @@ static void BoardSearchAux(const Board &iBoard,
 {
     int row, col, lastanchor;
     Round partialword;
+
+    list<Tile> rackTiles;
+    iRack.getTiles(rackTiles);
+    list<Tile>::const_iterator it;
+    bool match;
+
     for (row = 1; row <= BOARD_DIM; row++)
     {
         partialword.init();
@@ -233,20 +239,35 @@ static void BoardSearchAux(const Board &iBoard,
                  !iTilesMx[row - 1][col].isEmpty() ||
                  !iTilesMx[row + 1][col].isEmpty()))
             {
-                if (!iTilesMx[row][col - 1].isEmpty())
+                // Optimization compared to the original Appel & Jacobson
+                // algorithm: skip Leftpart if none of the tiles of the rack
+                // matches the cross mask for the current anchor
+                match = false;
+                for (it = rackTiles.begin();
+                     !match && it != rackTiles.end(); it++)
                 {
-                    partialword.accessCoord().setCol(lastanchor + 1);
-                    ExtendRight(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
-                                iJokerMx, iRack, partialword, iResults,
-                                Dic_root(iDic), row, lastanchor + 1, col);
+                    if (iCrossMx[row][col].check(*it))
+                    {
+                        match = true;
+                    }
                 }
-                else
+                if (match)
                 {
-                    partialword.accessCoord().setCol(col);
-                    LeftPart(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
-                             iJokerMx, iRack, partialword, iResults,
-                             Dic_root(iDic), row, col, col -
-                             lastanchor - 1);
+                    if (!iTilesMx[row][col - 1].isEmpty())
+                    {
+                        partialword.accessCoord().setCol(lastanchor + 1);
+                        ExtendRight(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
+                                    iJokerMx, iRack, partialword, iResults,
+                                    Dic_root(iDic), row, lastanchor + 1, col);
+                    }
+                    else
+                    {
+                        partialword.accessCoord().setCol(col);
+                        LeftPart(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
+                                 iJokerMx, iRack, partialword, iResults,
+                                 Dic_root(iDic), row, col, col -
+                                 lastanchor - 1);
+                    }
                 }
                 lastanchor = col;
             }

@@ -26,35 +26,61 @@
  */
 
 #include "rack.h"
+#include "encoding.h"
+#include "debug.h"
 
+// FIXME: should not be here (duplicated from tile.cpp)
+#define TILES_NUMBER 28
+#define MIN_CODE 1
+
+
+Rack::Rack()
+    : m_tiles(TILES_NUMBER, 0), m_ntiles(0)
+{
+}
 
 void Rack::remove(const Tile &t)
 {
-    multiset<Tile>::const_iterator it = m_tiles.find(t);
-    if (it != m_tiles.end())
-        m_tiles.erase(it);
+    ASSERT(in(t),
+           "The rack does not contain the letter " + convertToMb(t.toChar()));
+    m_tiles[t.toCode()]--;
+    m_ntiles--;
+}
+
+
+void Rack::clear()
+{
+    for (unsigned int i = 0; i < m_tiles.size(); i++)
+    {
+        m_tiles[i] = 0;
+    }
+    m_ntiles = 0;
 }
 
 
 void Rack::getTiles(list<Tile> &oTiles) const
 {
-    multiset<Tile>::const_iterator it;
-    for (it = m_tiles.begin(); it != m_tiles.end(); it++)
+    for (unsigned int i = MIN_CODE; i < m_tiles.size(); i++)
     {
-        oTiles.push_back(*it);
+        for (unsigned int j = 0; j < m_tiles[i]; j++)
+        {
+            oTiles.push_back(Tile::GetTileFromCode(i));
+        }
     }
 }
 
 
-string Rack::toString()
+wstring Rack::toString()
 {
-  string rs("");
-  multiset<Tile>::const_iterator it;
-  for (it = m_tiles.begin(); it != m_tiles.end(); it++)
+    wstring rs;
+    for (unsigned int i = MIN_CODE; i < m_tiles.size(); i++)
     {
-      rs += it->toChar();
+        for (unsigned int j = 0; j < m_tiles[i]; j++)
+        {
+            rs += Tile::GetTileFromCode(i).toChar();
+        }
     }
-  return rs;
+    return rs;
 }
 
 /// Local Variables:

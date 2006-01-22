@@ -30,13 +30,12 @@
 #include <string>
 #include <vector>
 
-using std::string;
+using std::wstring;
 using std::vector;
 
 class Round;
 class Turn;
 class PlayedRack;
-
 
 /**
  * History stores all the turns that have been played
@@ -89,7 +88,7 @@ class History
     void removeLastTurn();
 
     /// String handling
-    string toString() const;
+    wstring toString() const;
 
  private:
     vector<Turn*> m_history;

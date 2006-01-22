@@ -23,6 +23,7 @@
 #include "game.h"
 
 using std::string;
+using std::wstring;
 
 
 /**
@@ -58,7 +59,7 @@ public:
      *************************/
     virtual int start();
     virtual int setRackRandom(int, bool, set_rack_mode);
-    virtual int play(const string &iCoord, const string &iWord);
+    virtual int play(const wstring &iCoord, const wstring &iWord);
     virtual int endTurn();
 
     int setPlayer(int);

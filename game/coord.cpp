@@ -25,9 +25,11 @@
  */
 
 #include <string>
+#include <wchar.h>
 #include "coord.h"
 #include "board.h" // for BOARD_MIN and BOARD_MAX (TODO: remove this include)
 #include "debug.h"
+#include "encoding.h"
 
 
 Coord::Coord(int iRow, int iCol, Direction iDir)
@@ -37,7 +39,7 @@ Coord::Coord(int iRow, int iCol, Direction iDir)
     m_dir = iDir;
 }
 
-Coord::Coord(const string &iStr)
+Coord::Coord(const wstring &iStr)
 {
     setFromString(iStr);
 }
@@ -62,8 +64,13 @@ void Coord::swap()
     m_row = tmp;
 }
 
-void Coord::setFromString(const string &iStr)
+
+void Coord::setFromString(const wstring &iWStr)
 {
+    // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+    // Temporary implementation: convert the wchar_t* string into a char* one
+    string iStr = convertToMb(iWStr);
+
     char l[4];
     int col;
 
@@ -85,34 +92,35 @@ void Coord::setFromString(const string &iStr)
     setRow(row);
 }
 
-string Coord::toString(coord_mode_t mode) const
+wstring Coord::toString(coord_mode_t mode) const
 {
     ASSERT(isValid(), "Invalid coordinates");
 
-    char res[7];
-    char srow[3];
-    char scol[3];
+    wchar_t res[7];
+    wchar_t srow[3];
+    wchar_t scol[3];
 
-    sprintf(scol, "%d", m_col);
-    sprintf(srow, "%c", m_row + 'A' - 1);
+    _swprintf(scol, 3, L"%d", m_col);
+    _swprintf(srow, 3, L"%c", m_row + 'A' - 1);
 
     switch (mode)
     {
     case COORD_MODE_COMPACT:
-	if (getDir() == HORIZONTAL)
-	    sprintf(res,"%s%s",srow,scol);
-	else
-	    sprintf(res,"%s%s",scol,srow);
-	break;
+        if (getDir() == HORIZONTAL)
+            _swprintf(res, 7, L"%ls%ls", srow, scol);
+        else
+            _swprintf(res, 7, L"%ls%ls", scol, srow);
+        break;
     case COORD_MODE_LONG:
-	if (getDir() == HORIZONTAL)
-	    sprintf(res,"%2s %2s",srow,scol);
-	else
-	    sprintf(res,"%2s %2s",scol,srow);
-	break;
+        if (getDir() == HORIZONTAL)
+            _swprintf(res, 7, L"%2ls %2ls", srow, scol);
+        else
+            _swprintf(res, 7, L"%2ls %2ls", scol, srow);
+        break;
     }
 
-    return string(res);
+
+    return res;
 }
 
 /// Local Variables:

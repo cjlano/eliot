@@ -28,6 +28,7 @@
 #define _COORD_H
 
 using std::string;
+using std::wstring;
 
 class Coord
 {
@@ -37,7 +38,7 @@ public:
 
     // Construction, destruction
     Coord(int iRow = -1, int iCol = -1, Direction iDir = HORIZONTAL);
-    Coord(const string &iStr);
+    Coord(const wstring &iStr);
     virtual ~Coord() {}
 
     // Accessors
@@ -54,13 +55,14 @@ public:
     // Swap the coordinates (without changing the direction)
     void swap();
 
-    void setFromString(const string &iStr);
 
-    typedef enum {
-	COORD_MODE_COMPACT,
-	COORD_MODE_LONG
-    } coord_mode_t;
-    string toString(coord_mode_t mode = COORD_MODE_COMPACT) const;
+    enum coord_mode_t
+    {
+        COORD_MODE_COMPACT,
+        COORD_MODE_LONG
+    };
+    void setFromString(const wstring &iStr);
+    wstring toString(coord_mode_t mode = COORD_MODE_COMPACT) const;
 
 private:
     Direction m_dir;

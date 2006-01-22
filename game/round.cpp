@@ -19,8 +19,10 @@
  *****************************************************************************/
 
 #include <string>
+#include <wctype.h>
 #include "tile.h"
 #include "round.h"
+#include "encoding.h"
 
 
 #define FROMBOARD 0x1
@@ -141,34 +143,34 @@ void Round::removeRightToRack(Tile c, bool iJoker)
     m_tileOrigin.pop_back();
 }
 
-string Round::getWord() const
+wstring Round::getWord() const
 {
-  char c;
-  string s;
+    wchar_t c;
+    wstring s;
 
-  for (int i = 0; i < getWordLen(); i++)
+    for (int i = 0; i < getWordLen(); i++)
     {
-      c = getTile(i).toChar();
-      if (isJoker(i))
-        c = tolower(c);
-      s += c;
+        c = getTile(i).toChar();
+        if (isJoker(i))
+            c = towlower(c);
+        s += c;
     }
-  return s;
+    return s;
 }
 
-string Round::toString() const
+wstring Round::toString() const
 {
-    char buff[5];
-    string rs(" ");
+    wstring rs = L" ";
 
     if (getWord().size() > 0)
     {
         rs  = getWord();
-        rs += string(16 - getWord().size(), ' ');
-        rs += getBonus() ? '*' : ' ';
-        sprintf(buff,"%4d",getPoints());
+        rs += wstring(16 - getWord().size(), ' ');
+        rs += getBonus() ? L'*' : L' ';
+        wchar_t buff[5];
+        _swprintf(buff, 4, L"%d", getPoints());
         rs += buff;
-        rs += " " + getCoord().toString();
+        rs += L" " + getCoord().toString();
     }
 
     return rs;

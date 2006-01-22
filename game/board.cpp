@@ -18,6 +18,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <wctype.h>
 #include "dic.h"
 #include "tile.h"
 #include "round.h"
@@ -104,15 +105,15 @@ Board::Board():
 }
 
 
-char Board::getChar(int iRow, int iCol) const
+wchar_t Board::getChar(int iRow, int iCol) const
 {
-    char letter = 0;
+    wchar_t letter = 0;
     Tile tile = getTile(iRow, iCol);
     if (!tile.isEmpty())
     {
         letter = tile.toChar();
         if (isJoker(iRow, iCol))
-            letter = tolower(letter);
+            letter = towlower(letter);
     }
     return letter;
 }

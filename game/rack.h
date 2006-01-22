@@ -43,22 +43,24 @@ using namespace std;
 class Rack
 {
 public:
-    Rack() {}
+    Rack();
     virtual ~Rack() {}
 
-    int nTiles() const          { return m_tiles.size(); }
+    int nTiles() const          { return m_ntiles; }
     bool isEmpty() const        { return nTiles() == 0; }
 
-    unsigned int in(const Tile &t) const { return m_tiles.count(t); }
-    void add(const Tile &t)     { m_tiles.insert(t); }
+    unsigned int in(const Tile &t) const { return m_tiles[t.toCode()]; }
+    void add(const Tile &t)     { m_tiles[t.toCode()]++; m_ntiles++; }
     void remove(const Tile &t);
-    void clear()                { m_tiles.clear(); }
+    void clear();
     void getTiles(list<Tile> &oTiles) const;
 
-    string toString();
+    wstring toString();
 
 private:
-    multiset<Tile> m_tiles;
+    /// Vector indexed by tile codes, containing the number of tiles
+    vector<unsigned int> m_tiles;
+    int m_ntiles;
 };
 
 #endif

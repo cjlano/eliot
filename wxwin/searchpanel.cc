@@ -139,8 +139,8 @@ void
 PCross::compute_enter(wxCommandEvent&)
 {
   int  i;
-  char rack[DIC_WORD_MAX];
-  char buff[RES_CROS_MAX][DIC_WORD_MAX];
+  wchar_t rack[DIC_WORD_MAX];
+  wchar_t buff[RES_CROS_MAX][DIC_WORD_MAX];
 
   if (!check_dic())
     return;
@@ -154,7 +154,7 @@ PCross::compute_enter(wxCommandEvent&)
       return;
     }
 
-  strncpy(rack, t->GetValue().mb_str(), DIC_WORD_MAX);
+  wcsncpy(rack, t->GetValue().wc_str(), DIC_WORD_MAX);
   Dic_search_Cros(dic,rack,buff);
 
   int resnum = 0;
@@ -183,8 +183,8 @@ void
 PPlus1::compute_enter(wxCommandEvent&)
 {
   int  i,j;
-  char rack[DIC_WORD_MAX];
-  char buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
+  wchar_t rack[DIC_WORD_MAX];
+  wchar_t buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
 
   if (!check_dic())
     return;
@@ -198,7 +198,7 @@ PPlus1::compute_enter(wxCommandEvent&)
       return;
     }
 
-  strncpy(rack, t->GetValue().mb_str(), DIC_WORD_MAX);
+  wcsncpy(rack, t->GetValue().wc_str(), DIC_WORD_MAX);
   Dic_search_7pl1(dic,rack,buff,TRUE);
 
   int resnum = 0;
@@ -308,15 +308,15 @@ PRegExp::panel_options()
 void
 PRegExp::compute_enter(wxCommandEvent&)
 {
-  char re[DIC_RE_MAX];
-  char buff[RES_REGE_MAX][DIC_WORD_MAX];
+  wchar_t re[DIC_RE_MAX];
+  wchar_t buff[RES_REGE_MAX][DIC_WORD_MAX];
 
   if (!check_dic())
     return;
 
   build_letter_lists();
-  strncpy(re, t->GetValue().mb_str(),DIC_RE_MAX);
-  debug("PRegExp::compute_enter for %s",re);
+  wcsncpy(re, t->GetValue().wc_str(),DIC_RE_MAX);
+  debug("PRegExp::compute_enter for %ls",re);
 
   int lmin = atoi((const char*)omin->GetValue().mb_str());
   int lmax = atoi((const char*)omax->GetValue().mb_str());

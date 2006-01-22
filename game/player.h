@@ -69,7 +69,7 @@ public:
     // A new rack is created with the remaining letters
     void endTurn(const Round &iRound, int iTurn);
 
-    const string toString() const;
+    wstring toString() const;
 
 private:
     /// ID of the player

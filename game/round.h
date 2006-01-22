@@ -70,19 +70,20 @@ public:
     bool isJoker         (int iIndex) const;
     bool isPlayedFromRack(int iIndex) const;
     const Tile& getTile  (int iIndex) const;
-    
-    string getWord() const;
-    int getWordLen() const;
-    int getPoints()  const        { return m_points; }
-    int getBonus()   const        { return m_bonus; }
+
+    wstring getWord() const;
+    int getWordLen()  const;
+    int getPoints()   const       { return m_points; }
+    int getBonus()    const       { return m_bonus; }
 
     /*************************
      * Coordinates
      *************************/
     const Coord& getCoord() const { return m_coord; }
     Coord& accessCoord()          { return m_coord; }
-    
-    string toString() const;
+
+
+    wstring toString() const;
 
 private:
     vector<Tile> m_word;

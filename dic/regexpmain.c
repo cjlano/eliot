@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
 
       /* automaton */
       init_letter_lists(&list);
-      Dic_search_RegE(dic,er,wordlist,&list);
+      Dic_search_RegE_inner(dic,er,wordlist,&list);
 
       fprintf(stdout,"résultat:\n");
       for(i=0; i<RES_REGE_MAX && wordlist[i][0]; i++)

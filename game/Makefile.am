@@ -31,6 +31,7 @@ libgame_a_SOURCES=           \
 	board_cross.cpp                 \
 	board_search.cpp                \
 	duplicate.cpp duplicate.h       \
+	encoding.cpp encoding.h         \
 	freegame.cpp freegame.h         \
 	game.cpp game.h                 \
 	game_factory.cpp game_factory.h \

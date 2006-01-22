@@ -27,6 +27,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 
 #include "dic_internals.h"
 #include "dic.h"
@@ -70,18 +71,35 @@ Dic_seek_edgeptr(const Dictionary dic, const char* s, Dawg_edge *eptr)
 
 
 /**
- * Dic_search_word : direct application of Dic_seek_edgeptr
+ * Dic_search_word_inner : direct application of Dic_seek_edgeptr
  * @param dic : dictionary
  * @param word : word to lookup
  * @result 0 not a valid word, 1 ok
  */
-
-int
-Dic_search_word(const Dictionary dic, const char* word)
+static int Dic_search_word_inner(const Dictionary dic, const char* word)
 {
-  Dawg_edge *e;
-  e = Dic_seek_edgeptr(dic,word,dic->dawg + dic->root);
-  return e->term;
+    Dawg_edge *e;
+    e = Dic_seek_edgeptr(dic, word, dic->dawg + dic->root);
+    return e->term;
+}
+
+
+/**
+ * Wrapper around Dic_search_word_inner, until we have multibyte support in
+ * the dictionary
+ */
+int Dic_search_word(const Dictionary dic, const wchar_t* word)
+{
+    int res;
+    char *tmp_word = malloc(wcslen(word) + 1);
+    sprintf(tmp_word, "%ls", word);
+
+    // Do the actual work
+    res = Dic_search_word_inner(dic, tmp_word);
+
+    // Release memory
+    free(tmp_word);
+    return res;
 }
 
 
@@ -159,10 +177,10 @@ Dic_search_word_by_len(struct params_7plus1_t *params, int i, Dawg_edge *edgeptr
   } while (! (*edgeptr++).last);
 }
 
-void
-Dic_search_7pl1(const Dictionary dic, const char* rack,
-                char buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX],
-                int joker)
+static void
+Dic_search_7pl1_inner(const Dictionary dic, const char* rack,
+                      char buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX],
+                      int joker)
 {
   int i,j,wordlen;
   const char* r = rack;
@@ -235,12 +253,41 @@ Dic_search_7pl1(const Dictionary dic, const char* rack,
     }
 }
 
+
+/**
+ * Wrapper around Dic_search_7pl1_inner, until we have multibyte support in
+ * the dictionary
+ */
+void
+Dic_search_7pl1(const Dictionary dic, const wchar_t* rack,
+                wchar_t buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX],
+                int joker)
+{
+    int i, j, k;
+    char tmp_buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
+    char *tmp_rack = malloc(wcslen(rack) + 1);
+    sprintf(tmp_rack, "%ls", rack);
+    // Do the actual work
+    Dic_search_7pl1_inner(dic, tmp_rack, tmp_buff, joker);
+
+    for (i = 0; i < DIC_LETTERS; i++)
+    {
+        for (j = 0; j < RES_7PL1_MAX; j++)
+        {
+            for (k = 0; k < DIC_WORD_MAX; k++)
+            {
+                buff[i][j][k] = tmp_buff[i][j][k];
+            }
+        }
+    }
+}
+
 /****************************************/
 /****************************************/
 
-void
-Dic_search_Racc(const Dictionary dic, const char* word,
-                char wordlist[RES_RACC_MAX][DIC_WORD_MAX])
+static void
+Dic_search_Racc_inner(const Dictionary dic, const char* word,
+                      char wordlist[RES_RACC_MAX][DIC_WORD_MAX])
 {
   /* search_racc will try to add a letter in front and at the end of a word */
 
@@ -260,7 +307,7 @@ Dic_search_Racc(const Dictionary dic, const char* word,
   for(i='a'; i <= 'z'; i++)
     {
       wordtst[0] = i;
-      if (Dic_search_word(dic,wordtst) && wordlistlen < RES_RACC_MAX)
+      if (Dic_search_word_inner(dic,wordtst) && wordlistlen < RES_RACC_MAX)
 	strcpy(wordlist[wordlistlen++],wordtst);
     }
 
@@ -288,13 +335,37 @@ Dic_search_Racc(const Dictionary dic, const char* word,
     }
 }
 
-/****************************************/
-/****************************************/
-
-
+/**
+ * Wrapper around Dic_search_Racc_inner, until we have multibyte support in
+ * the dictionary
+ */
 void
-Dic_search_Benj(const Dictionary dic, const char* word,
-                char wordlist[RES_BENJ_MAX][DIC_WORD_MAX])
+Dic_search_Racc(const Dictionary dic, const wchar_t* word,
+                wchar_t wordlist[RES_RACC_MAX][DIC_WORD_MAX])
+{
+    int i, j;
+    char tmp_buff[RES_RACC_MAX][DIC_WORD_MAX];
+    char *tmp_word = malloc(wcslen(word) + 1);
+    sprintf(tmp_word, "%ls", word);
+    // Do the actual work
+    Dic_search_Racc_inner(dic, tmp_word, tmp_buff);
+
+    for (i = 0; i < RES_RACC_MAX; i++)
+    {
+        for (j = 0; j < DIC_WORD_MAX; j++)
+        {
+            wordlist[i][j] = tmp_buff[i][j];
+        }
+    }
+}
+
+/****************************************/
+/****************************************/
+
+
+static void
+Dic_search_Benj_inner(const Dictionary dic, const char* word,
+                      char wordlist[RES_BENJ_MAX][DIC_WORD_MAX])
 {
   int i,wordlistlen;
   char wordtst[DIC_WORD_MAX];
@@ -326,6 +397,30 @@ Dic_search_Benj(const Dictionary dic, const char* word,
   } while (!(*edge0++).last);
 }
 
+/**
+ * Wrapper around Dic_search_Benj_inner, until we have multibyte support in
+ * the dictionary
+ */
+void
+Dic_search_Benj(const Dictionary dic, const wchar_t* word,
+                wchar_t wordlist[RES_BENJ_MAX][DIC_WORD_MAX])
+{
+    int i, j;
+    char tmp_buff[RES_BENJ_MAX][DIC_WORD_MAX];
+    char *tmp_word = malloc(wcslen(word) + 1);
+    sprintf(tmp_word, "%ls", word);
+    // Do the actual work
+    Dic_search_Benj_inner(dic, tmp_word, tmp_buff);
+
+    for (i = 0; i < RES_BENJ_MAX; i++)
+    {
+        for (j = 0; j < DIC_WORD_MAX; j++)
+        {
+            wordlist[i][j] = tmp_buff[i][j];
+        }
+    }
+}
+
 
 /****************************************/
 /****************************************/
@@ -341,8 +436,8 @@ struct params_cross_t {
 
 void
 Dic_search_cross_rec(struct params_cross_t *params,
-		     char wordlist[RES_CROS_MAX][DIC_WORD_MAX],
-		     Dawg_edge *edgeptr)
+                     char wordlist[RES_CROS_MAX][DIC_WORD_MAX],
+                     Dawg_edge *edgeptr)
 {
   Dawg_edge *current = params->dic->dawg + edgeptr->ptr;
 
@@ -380,10 +475,9 @@ Dic_search_cross_rec(struct params_cross_t *params,
 }
 
 
-
-void
-Dic_search_Cros(const Dictionary dic, const char* mask,
-                char wordlist[RES_CROS_MAX][DIC_WORD_MAX])
+static void
+Dic_search_Cros_inner(const Dictionary dic, const char* mask,
+                      char wordlist[RES_CROS_MAX][DIC_WORD_MAX])
 {
   int  i;
   struct params_cross_t params;
@@ -408,6 +502,31 @@ Dic_search_Cros(const Dictionary dic, const char* mask,
   params.wordlistlen    = 0;
   params.wordlistlenmax = RES_CROS_MAX;
   Dic_search_cross_rec(&params, wordlist, dic->dawg + dic->root);
+}
+
+
+/**
+ * Wrapper around Dic_search_Cros_inner, until we have multibyte support in
+ * the dictionary
+ */
+void
+Dic_search_Cros(const Dictionary dic, const wchar_t* mask,
+                wchar_t wordlist[RES_CROS_MAX][DIC_WORD_MAX])
+{
+    int i, j;
+    char tmp_buff[RES_CROS_MAX][DIC_WORD_MAX];
+    char *tmp_mask = malloc(wcslen(mask) + 1);
+    sprintf(tmp_mask, "%ls", mask);
+    // Do the actual work
+    Dic_search_Cros_inner(dic, tmp_mask, tmp_buff);
+
+    for (i = 0; i < RES_CROS_MAX; i++)
+    {
+        for (j = 0; j < DIC_WORD_MAX; j++)
+        {
+            wordlist[i][j] = tmp_buff[i][j];
+        }
+    }
 }
 
 /****************************************/
@@ -466,13 +585,13 @@ Dic_search_regexp_rec(struct params_regexp_t *params,
      * function prototype for parser generated by bison
      */
 int  regexpparse(yyscan_t scanner, NODE** root,
-		 struct search_RegE_list_t *list,
-		 struct regexp_error_report_t *err);
+                 struct search_RegE_list_t *list,
+                 struct regexp_error_report_t *err);
 
 void
-Dic_search_RegE(const Dictionary dic, const char* re,
-                char wordlist[RES_REGE_MAX][DIC_WORD_MAX],
-		struct search_RegE_list_t *list)
+Dic_search_RegE_inner(const Dictionary dic, const char* re,
+                      char wordlist[RES_REGE_MAX][DIC_WORD_MAX],
+                      struct search_RegE_list_t *list)
 {
   int i,p,n,value;
   int ptl[REGEXP_MAX+1];
@@ -546,6 +665,31 @@ Dic_search_RegE(const Dictionary dic, const char* re,
       automaton_delete(a);
     }
   regexp_delete_tree(root);
+}
+
+/**
+ * Wrapper around Dic_search_RegE_inner, until we have multibyte support in
+ * the dictionary
+ */
+void
+Dic_search_RegE(const Dictionary dic, const wchar_t* re,
+                wchar_t wordlist[RES_REGE_MAX][DIC_WORD_MAX],
+                struct search_RegE_list_t *list)
+{
+    int i, j;
+    char tmp_buff[RES_REGE_MAX][DIC_WORD_MAX];
+    char *tmp_re = malloc(wcslen(re) + 1);
+    sprintf(tmp_re, "%ls", re);
+    // Do the actual work
+    Dic_search_RegE_inner(dic, tmp_re, tmp_buff, list);
+
+    for (i = 0; i < RES_REGE_MAX; i++)
+    {
+        for (j = 0; j < DIC_WORD_MAX; j++)
+        {
+            wordlist[i][j] = tmp_buff[i][j];
+        }
+    }
 }
 
 /****************************************/

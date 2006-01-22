@@ -57,7 +57,7 @@ GfxResult::GfxResult(wxFrame *parent, MainFrame* _mf, Game* _game) :
 {
     mf = _mf;
     game = _game;
-    savedrack = std::string("");
+    savedrack = L"";
     results = new wxListCtrl(this, ListCtrl_ID);
 #if defined(ENABLE_LC_NO_HEADER)
     results->SetSingleStyle(wxLC_REPORT | wxLC_NO_HEADER | wxLC_SINGLE_SEL);
@@ -99,7 +99,7 @@ void
 GfxResult::SetGame(Game* g)
 {
     game = g;
-    savedrack = std::string("");
+    savedrack = L"";
     results->DeleteAllItems();
 }
 
@@ -110,21 +110,21 @@ void
 GfxResult::Refresh()
 {
     if (game == NULL)
-	return;
+        return;
 
     debug("   GfxResult::Refresh : ");
-    std::string rack = game->getCurrentPlayer().getCurrentRack().toString();
+    std::wstring rack = game->getCurrentPlayer().getCurrentRack().toString();
 
     if (savedrack != rack)
-	{
-	    debug("changed (%s -> %s)",savedrack.c_str(),rack.c_str());
-	    savedrack = rack;
-	    results->DeleteAllItems();
-	}
+    {
+        debug("changed (%ls -> %ls)",savedrack.c_str(),rack.c_str());
+        savedrack = rack;
+        results->DeleteAllItems();
+    }
     else
-	{
-	    debug("unchanged");
-	}
+    {
+        debug("unchanged");
+    }
     debug("\n");
 }
 
@@ -136,7 +136,7 @@ GfxResult::Search()
 {
     debug("GfxResult::Search()\n");
     if (game == NULL)
-	return;
+        return;
 
     ((Training*)game)->search();
 
@@ -146,21 +146,21 @@ GfxResult::Search()
     const Results &res = ((Training*)game)->getResults();
     debug("   GfxResult::Search size = %d\n",res.size());
     for (int i = 0; i < res.size(); i++)
-	{
-	    Round r = res.get(i);
-	    //debug("    adding %s\n",r.toString().c_str());
-	    wxString pts;
-	    wxString word   = wxU(r.getWord().c_str());
-	    wxString coords = wxU(r.getCoord().toString().c_str());
-	    wxChar   bonus  = r.getBonus() ?  wxT('*') : wxT(' ');
-	    pts << r.getPoints();
+    {
+        Round r = res.get(i);
+        //debug("    adding %s\n",r.toString().c_str());
+        wxString pts;
+        wxString word   = wxU(r.getWord().c_str());
+        wxString coords = wxU(r.getCoord().toString().c_str());
+        wxChar   bonus  = r.getBonus() ?  wxT('*') : wxT(' ');
+        pts << r.getPoints();
 
-	    long tmp = results->InsertItem(i, word);
-	    results->SetItemData(tmp, i);
-	    tmp = results->SetItem(i, 1, bonus);
-	    tmp = results->SetItem(i, 2, coords);
-	    tmp = results->SetItem(i, 3, pts);
-	}
+        long tmp = results->InsertItem(i, word);
+        results->SetItemData(tmp, i);
+        tmp = results->SetItem(i, 1, bonus);
+        tmp = results->SetItem(i, 2, coords);
+        tmp = results->SetItem(i, 3, pts);
+    }
 
     for (int i = 0; i < 4; i++)
         results->SetColumnWidth(i, wxLIST_AUTOSIZE);
@@ -168,10 +168,10 @@ GfxResult::Search()
     //results->Show();
 
     if (res.size() > 0)
-	{
-	    results->SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED | wxLIST_MASK_STATE);
-	    ((Training*)game)->testPlay(0);
-	}
+    {
+        results->SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED | wxLIST_MASK_STATE);
+        ((Training*)game)->testPlay(0);
+    }
 }
 
 /* ************************************************** */
@@ -194,9 +194,9 @@ GfxResult::OnListCtrlSelected(wxListEvent& event)
 {
     //debug("   GfxResult::OnListCtrlSelected\n");
     if (event.m_itemIndex > -1)
-	{
-	    mf->TestPlay(event.m_itemIndex); 
-	}
+    {
+        mf->TestPlay(event.m_itemIndex);
+    }
 }
 
 /* ************************************************** */
@@ -207,10 +207,10 @@ GfxResult::OnListCtrlActivated(wxListEvent& event)
 {
     //debug("   GfxResult::OnListCtrlActivated");
     if (event.m_itemIndex > -1)
-	{
-	    mf->Play(1);
-	    results->DeleteAllItems();
-	}
+    {
+        mf->Play(1);
+        results->DeleteAllItems();
+    }
 }
 
 /* ************************************************** */

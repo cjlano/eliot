@@ -1,5 +1,5 @@
 /* Eliot                                                                     */
-/* Copyright (C) 2005  Antoine Fraboulet                                     */
+/* Copyright (C) 1999  Antoine Fraboulet                                     */
 /*                                                                           */
 /* This file is part of Eliot.                                               */
 /*                                                                           */
@@ -18,52 +18,35 @@
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
 /**
- *  \file   reslist.h
- *  \brief  Search results list view
- *  \author Antoine Fraboulet
+ *  \file   encoding.h
+ *  \brief  Utility functions to ease manipulation of wide-character strings
+ *  \author Olivier Teuliere
  *  \date   2005
  */
 
-#ifndef _RESLIST_H
-#define _RESLIST_H
+#ifndef _ENCODING_H_
+#define _ENCODING_H_
 
 #include <string>
-#include <wx/listctrl.h>
 
-class MainFrame;
+using std::string;
+using std::wstring;
 
 
-class GfxResult : public wxControl
-{
- private:
-    MainFrame    *mf;
-    std::wstring  savedrack;
-    Game         *game;
-    wxListCtrl   *results;
-    ConfigDB     config;
+/// Equivalent of atoi for wide-caracter strings
+int _wtoi(const wchar_t *iWStr);
 
- public:
-    GfxResult(wxFrame*, MainFrame*, Game*);
-    ~GfxResult();
+/// Equivalent of swprintf, but working also with mingw32
+int _swprintf(wchar_t *wcs, size_t maxlen, const wchar_t *format, ...);
 
-    void SetGame(Game*);
-    void Search();
-    int  GetSelected();
-    void Refresh();
+/// Convert a multi-byte string into a wide-character string
+wstring convertToWc(const string& iStr);
 
-    void OnSize(wxSizeEvent& e);
-    void OnListCtrlSelected(wxListEvent& event);
-    void OnListCtrlActivated(wxListEvent& event);
+/// Convert a wide-character string into a multi-byte string
+string convertToMb(const wstring& iWStr);
 
-    DECLARE_EVENT_TABLE()
-};
-
+/// Convert a wide character into a multi-byte string
+string convertToMb(wchar_t iWChar);
 
 #endif
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

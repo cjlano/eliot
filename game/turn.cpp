@@ -54,14 +54,14 @@ void Turn::operator=(const Turn &iOther)
 }
 #endif
 
-string Turn::toString(bool iShowExtraSigns) const
+wstring Turn::toString(bool iShowExtraSigns) const
 {
-    string rs = "";
+    wstring rs = L"";
     if (iShowExtraSigns)
     {
-        rs = ""; // TODO
+        // TODO
     }
-    rs = rs + m_pldrack.toString() + " " + m_round.toString();
+    rs = rs + m_pldrack.toString() + L" " + m_round.toString();
     return rs;
 }
 

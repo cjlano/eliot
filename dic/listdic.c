@@ -156,7 +156,7 @@ print_header(char* filename)
   printf("0x%s nodes saved : %6d %s\n",offset(&header,&header.nodessaved),header.nodessaved,hexl(header.nodessaved));
   printf("0x%s edges saved : %6d %s\n",offset(&header,&header.edgessaved),header.edgessaved,hexl(header.edgessaved));
   printf("\n");
-  printf("sizeof(header) = 0x%s (%d)\n",hexb(sizeof(header)),sizeof(header));
+  printf("sizeof(header) = 0x%s (%lu)\n", hexb(sizeof(header)), sizeof(header));
 }
 
 void

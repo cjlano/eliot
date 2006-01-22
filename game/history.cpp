@@ -29,8 +29,10 @@
 #include "pldrack.h"
 #include "round.h"
 #include "turn.h"
-#include "debug.h"
 #include "history.h"
+#include "encoding.h"
+#include "debug.h"
+
 
 /* ******************************************************** */
 /* ******************************************************** */
@@ -154,19 +156,18 @@ void History::removeLastTurn()
 }
 
 
-string History::toString() const
+wstring History::toString() const
 {
-    unsigned int i;
-    string rs = "";
+    wstring rs;
 #ifdef DEBUG
-    char buff[20];
-    sprintf(buff,"%d",m_history.size());
-    rs = "history size = " + string(buff) + "\n\n";
+    wchar_t buff[5];
+    _swprintf(buff, 4, L"%ld", m_history.size());
+    rs = L"history size = " + wstring(buff) + L"\n\n";
 #endif
-    for (i = 0; i < m_history.size(); i++)
+    for (unsigned int i = 0; i < m_history.size(); i++)
     {
         Turn *t = m_history[i];
-        rs += t->toString() + string("\n");
+        rs += t->toString() + L"\n";
     }
     return rs;
 }

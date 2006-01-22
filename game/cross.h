@@ -20,8 +20,8 @@
 #ifndef _CROSS_H_
 #define _CROSS_H_
 
-#include "tile.h"
 #include <set>
+#include "tile.h"
 
 using namespace std;
 
@@ -44,15 +44,14 @@ public:
     bool operator!=(const Cross &iOther) const { return !(*this == iOther); }
 
     // Standard set methods (almost)
-    unsigned int size() const       { return m_tilesSet.size(); }
-    void insert(const Tile& iTile)  { m_tilesSet.insert(iTile); }
+    void insert(const Tile& iTile)  { m_mask |= (1 << iTile.toCode()); }
     void clear();
 
 private:
-    // Set of the tiles accepted for the cross check
-    set<Tile> m_tilesSet;
+    /// Mask indicating which tiles are accepted for the cross check
+    unsigned int m_mask;
 
-    // When this value is true, any letter matches the cross check
+    /// When this value is true, any letter matches the cross check
     bool m_any;
 };
 

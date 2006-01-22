@@ -25,6 +25,7 @@
 #include "pldrack.h"
 #include "player.h"
 #include "training.h"
+#include "encoding.h"
 
 #include "debug.h"
 
@@ -58,21 +59,21 @@ int Training::setRackRandom(bool iCheck, set_rack_mode mode)
     return res;
 }
 
-int Training::setRackManual(bool iCheck, const string &iLetters)
+int Training::setRackManual(bool iCheck, const wstring &iLetters)
 {
     int res;
     int p = m_currPlayer;
-    string::iterator it;
-    string uLetters; // uppercase letters
+    wstring::iterator it;
+    wstring uLetters; // uppercase letters
     // letters can be lowercase or uppercase as they are
     // coming from user input. We do not consider a lowercase
     // letter to be a joker which has been assigned to a letter.
     m_results.clear();
     uLetters = iLetters;
-    for(it = uLetters.begin(); it != uLetters.end(); it ++)
-      {
-	*it = toupper(*it);
-      }
+    for (it = uLetters.begin(); it != uLetters.end(); it ++)
+    {
+        *it = towupper(*it);
+    }
     res = helperSetRackManual(p, iCheck, uLetters);
     // 0 : ok
     // 1 : not enough tiles
@@ -80,25 +81,25 @@ int Training::setRackManual(bool iCheck, const string &iLetters)
     return res;
 }
 
-int Training::setRack(set_rack_mode iMode, bool iCheck, const string &iLetters)
+int Training::setRack(set_rack_mode iMode, bool iCheck, const wstring &iLetters)
 {
     int res = 0;
     switch(iMode)
-	{
-	case RACK_MANUAL:
-	    res = setRackManual(iCheck, iLetters);
-	    break;
-	case RACK_ALL:
-	    res = setRackRandom(iCheck, iMode);
-	    break;
-	case RACK_NEW:
-	    res = setRackRandom(iCheck, iMode);
-	    break;
-	}
+    {
+        case RACK_MANUAL:
+            res = setRackManual(iCheck, iLetters);
+            break;
+        case RACK_ALL:
+            res = setRackRandom(iCheck, iMode);
+            break;
+        case RACK_NEW:
+            res = setRackRandom(iCheck, iMode);
+            break;
+    }
     return res;
 }
 
-int Training::play(const string &iCoord, const string &iWord)
+int Training::play(const wstring &iCoord, const wstring &iWord)
 {
     /* Perform all the validity checks, and fill a round */
     Round round;
@@ -147,7 +148,7 @@ void Training::search()
     // Search for the current player
     Rack r;
     m_players[m_currPlayer]->getCurrentRack().getRack(r);
-    debug("Training::search for %s\n",r.toString().c_str());
+    debug("Training::search for %s\n", convertToMb(r.toString()).c_str());
     m_results.search(*m_dic, m_board, r, m_history.getSize());
 }
 
@@ -204,7 +205,7 @@ void Training::removeTestPlay()
     m_testRound = Round();
 }
 
-std::string Training::getTestPlayWord() const
+wstring Training::getTestPlayWord() const
 {
     return m_testRound.getWord();
 }

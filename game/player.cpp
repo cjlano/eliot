@@ -26,6 +26,7 @@
 #include "player.h"
 #include "turn.h"
 #include "history.h"
+#include "encoding.h"
 
 #include "debug.h"
 
@@ -76,17 +77,16 @@ void Player::removeLastTurn()
     m_history.removeLastTurn();
 }
 
-const string Player::toString() const
+wstring Player::toString() const
 {
-    char buff[20];
-    string res;
+    wstring res;
 
-    sprintf(buff,"Player %d\n",m_id);
-    res = string(buff);
-    res += m_history.toString();
-    res += "\n";
-    sprintf(buff,"score %d\n",m_score);
-    res += string(buff);
+    wchar_t buff[6];
+    _swprintf(buff, 5, L"Player %d\n", m_id);
+    res = wstring(buff);
+    res += m_history.toString() + L"\n";
+    _swprintf(buff, 5, L"score %d\n", m_score);
+    res += wstring(buff);
     return res;
 }
 

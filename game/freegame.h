@@ -24,6 +24,7 @@
 #include "tile.h"
 
 using std::string;
+using std::wstring;
 using std::vector;
 
 
@@ -49,9 +50,9 @@ public:
      *************************/
     virtual int start();
     virtual int setRackRandom(int, bool, set_rack_mode);
-    virtual int play(const string &iCoord, const string &iWord);
+    virtual int play(const wstring &iCoord, const wstring &iWord);
     virtual int endTurn();
-    int pass(const string &iToChange, int n);
+    int pass(const wstring &iToChange, int n);
 
 private:
     // Private constructor and destructor to force using the GameFactory class

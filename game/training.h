@@ -27,6 +27,7 @@
 #include "results.h"
 
 using std::string;
+using std::wstring;
 
 
 /**
@@ -47,14 +48,14 @@ public:
      * Game handling
      *************************/
     virtual int start();
-    virtual int play(const string &iCoord, const string &iWord);
+    virtual int play(const wstring &iCoord, const wstring &iWord);
     virtual int endTurn();
     void search();
     int playResult(int);
 
     int setRackRandom(bool, set_rack_mode);
-    int setRackManual(bool iCheck, const string &iLetters);
-    int setRack(set_rack_mode iMode, bool iCheck, const string &iLetters);
+    int setRackManual(bool iCheck, const wstring &iLetters);
+    int setRack(set_rack_mode iMode, bool iCheck, const wstring &iLetters);
 
     /*************************
      * Override the default behaviour of these methods, because in training
@@ -74,7 +75,7 @@ public:
     /// Remove the temporary word(s)
     void removeTestPlay();
     /// Get the temporary word
-    string getTestPlayWord() const;
+    wstring getTestPlayWord() const;
 
 private:
     // Private constructor and destructor to force using the GameFactory class

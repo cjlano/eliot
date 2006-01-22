@@ -21,8 +21,10 @@
 #define _TILE_H_
 
 #include <list>
+#include <vector>
 
 using namespace std;
+
 
 /*************************
  * A Tile is the internal representation
@@ -39,7 +41,7 @@ public:
   // - we need to pay attention when inserting character taken
   //   from user input
 
-    Tile(char c = 0);
+    Tile(wchar_t c = 0);
     virtual ~Tile() {}
 
     bool isEmpty() const        { return m_dummy; }
@@ -48,28 +50,39 @@ public:
     bool isConsonant() const;
     unsigned int maxNumber() const;
     unsigned int getPoints() const;
-    char toChar() const;
-    int toCode() const;
+    wchar_t toChar() const;
+    unsigned int toCode() const;
 
     static const Tile &dummy()  { return m_TheDummy; }
     static const Tile &Joker()  { return m_TheJoker; }
     static const list<Tile>& getAllTiles();
+    static const Tile &GetTileFromCode(unsigned int iCode);
 
     bool operator <(const Tile &iOther) const;
     bool operator ==(const Tile &iOther) const;
     bool operator !=(const Tile &iOther) const;
 
 private:
-    char m_char;
+    wchar_t m_char;
     bool m_joker;
     bool m_dummy;
+
+    /**
+     * Internal code, used in the dictionary to represent the letter.
+     * It is mainly used by the Cross class.
+     */
+    int m_code;
 
     // Special tiles are declared static
     static const Tile m_TheJoker;
     static const Tile m_TheDummy;
 
-    // List of available tiles
+    /// List of available tiles
     static list<Tile> m_tilesList;
+    /// Vector of tiles indexed by their code, for fast look-up
+    static vector<Tile> m_tilesVect;
+    /// True when m_tilesVect is correctly initialized
+    static bool m_vectInitialized;
 };
 
 #endif

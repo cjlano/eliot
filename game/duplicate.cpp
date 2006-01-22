@@ -50,7 +50,7 @@ int Duplicate::setRackRandom(int p, bool iCheck, set_rack_mode mode)
 }
 
 
-int Duplicate::play(const string &iCoord, const string &iWord)
+int Duplicate::play(const wstring &iCoord, const wstring &iWord)
 {
     /* Perform all the validity checks, and fill a round */
     Round round;

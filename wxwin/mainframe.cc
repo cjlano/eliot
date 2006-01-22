@@ -443,12 +443,12 @@ MainFrame::OnMenuGameOpen(wxCommandEvent&)
             return;
 	}
 
-    std::string r = "";
+    std::wstring r;
 
     if (m_game->getHistory().getSize() >= 0)
-	{
-	    r = m_game->getCurrentPlayer().getCurrentRack().toString();
-	}
+    {
+        r = m_game->getCurrentPlayer().getCurrentRack().toString();
+    }
 
     rack->SetValue(wxU(r.c_str()));
     // update gfxboard and all frames
@@ -962,13 +962,12 @@ void
 MainFrame::SetRack(Game::set_rack_mode mode, wxString srack)
 {
     int res = 0;
-    std::string str;
     wxString msg;
     bool check = config.getRackChecking();
 
-    ((Training*)m_game)->removeTestPlay();
-    str = (const char*)srack.mb_str();
-    res = ((Training*)m_game)->setRack(mode, check, str);
+    static_cast<Training*>(m_game)->removeTestPlay();
+    std::wstring str = srack.c_str();
+    res = static_cast<Training*>(m_game)->setRack(mode, check, str);
 
     switch (res)
 	{
@@ -993,8 +992,8 @@ MainFrame::SetRack(Game::set_rack_mode mode, wxString srack)
 	    break;
 	}
 
-    std::string r = m_game->getCurrentPlayer().getCurrentRack().toString();
-    debug("MainFrame::SetRack : setvalue %s\n",r.c_str());
+    std::wstring r = m_game->getCurrentPlayer().getCurrentRack().toString();
+    debug("MainFrame::SetRack : setvalue %ls\n",r.c_str());
     rack->SetValue(wxU(r.c_str()));
     UpdateFrames();
     UpdateStatusBar();

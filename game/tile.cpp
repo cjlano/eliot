@@ -18,7 +18,8 @@
  *****************************************************************************/
 
 #include "tile.h"
-#include <ctype.h>
+#include <wctype.h>
+
 
 /*************************
  * French tiles
@@ -66,30 +67,35 @@ const unsigned int Tiles_points[TILES_NUMBER] =
 /***************************
  ***************************/
 
-list<Tile> Tile::m_tilesList;
 const Tile Tile::m_TheJoker(TILE_JOKER);
 const Tile Tile::m_TheDummy(0);
+list<Tile> Tile::m_tilesList;
+vector<Tile> Tile::m_tilesVect(TILES_NUMBER, Tile::dummy());
+bool Tile::m_vectInitialized(false);
 
 
-Tile::Tile(char c)
+Tile::Tile(wchar_t c)
 {
     if (c == TILE_JOKER)
     {
         m_joker = true;
         m_dummy = false;
         m_char = TILE_JOKER;
+        m_code = 27;
     }
     else if (isalpha(c))
     {
         m_joker = islower(c);
         m_dummy = false;
-        m_char = toupper(c);
+        m_char = towupper(c);
+        m_code = m_char - 'A' + 1;
     }
     else
     {
         m_joker = false;
         m_dummy = true;
         m_char = 0;
+        m_code = 0;
     }
 }
 
@@ -147,27 +153,37 @@ const list<Tile>& Tile::getAllTiles()
 }
 
 
-char Tile::toChar() const
+const Tile& Tile::GetTileFromCode(unsigned int iCode)
+{
+    if (!m_vectInitialized)
+    {
+        // XXX: this should be filled from a "language file" instead
+        for (char i = TILE_IDX_START; i <= TILE_IDX_END; i++)
+            Tile::m_tilesVect[i] = Tile(i + 'A' - TILE_IDX_START);
+        m_tilesVect[TILE_IDX_JOKER] = Tile::Joker();
+        m_vectInitialized = true;
+    }
+    return Tile::m_tilesVect[iCode];
+}
+
+
+wchar_t Tile::toChar() const
 {
     if (m_dummy)
         return TILE_DUMMY;
     if (m_joker)
     {
-        if (isalpha(m_char))
-            return tolower(m_char);
+        if (iswalpha(m_char))
+            return towlower(m_char);
         else
             return TILE_JOKER;
     }
     return m_char;
 }
 
-int Tile::toCode() const
+unsigned int Tile::toCode() const
 {
-    if (m_dummy)
-        return TILE_IDX_DUMMY;
-    if (m_joker)
-        return TILE_IDX_DUMMY;
-    return (TILE_IDX_START + m_char - TILE_START);
+    return m_code;
 }
 
 bool Tile::operator <(const Tile &iOther) const

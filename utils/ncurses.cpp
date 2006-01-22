@@ -38,6 +38,7 @@
 #include "player.h"
 #include "history.h"
 #include "turn.h"
+#include "encoding.h"
 
 using namespace std;
 
@@ -199,9 +200,9 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
     drawBox(win, y + yOff, x, m_game->getNPlayers() + 2, 25, _(" Racks "));
     for (int i = 0; i < m_game->getNPlayers(); i++)
     {
-        string rack = m_game->getPlayer(i).getCurrentRack().toString(PlayedRack::RACK_SIMPLE);
         if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
             attron(A_BOLD);
+        string rack = convertToMb(m_game->getPlayer(i).getCurrentRack().toString(PlayedRack::RACK_SIMPLE));
         mvwprintw(win, y + yOff + i + 1, x + 2,
                   _("Player %d: %s"), i, rack.c_str());
         if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
@@ -212,7 +213,7 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
 
     // Display a message when the search is complete
     if (m_game->getMode() == Game::kTRAINING &&
-        static_cast<Training*>(m_game)->getHistory().getSize())
+        static_cast<Training*>(m_game)->getResults().size())
     {
         mvwprintw(win, y + 2*yOff - 1, x + 2, _("Search complete"));
     }
@@ -231,7 +232,7 @@ void CursesIntf::drawResults(WINDOW *win, int y, int x)
     drawBox(win, y, x, h, 25, _(" Search results "));
     m_boxY = y + 1;
     m_boxLines = h - 2;
-    m_boxLinesData = tr_game->getHistory().getSize();
+    m_boxLinesData = tr_game->getResults().size();
 
     int i;
     const Results& res = tr_game->getResults();
@@ -239,12 +240,12 @@ void CursesIntf::drawResults(WINDOW *win, int y, int x)
                          i < m_boxStart + m_boxLines; i++)
     {
         const Round &r = res.get(i);
-        string coord = r.getCoord().toString();
+        wstring coord = r.getCoord().toString();
         boxPrint(win, i, x + 1, "%3d %s%s %3s",
                  r.getPoints(),
-                 r.getWord().c_str(),
+                 convertToMb(r.getWord()).c_str(),
                  string(h - 3 - r.getWordLen(), ' ').c_str(),
-                 coord.c_str());
+                 convertToMb(coord).c_str());
     }
     // Complete the list with empty lines, to avoid trails
     for (; i < m_boxStart + m_boxLines; i++)
@@ -275,12 +276,12 @@ void CursesIntf::drawHistory(WINDOW *win, int y, int x)
     {
         const Turn& t = m_game->getHistory().getTurn(i);
         const Round& r = t.getRound();
-        string word = r.getWord();
-        string coord = r.getCoord().toString();
+        string word = convertToMb(r.getWord());
+        string coord = convertToMb(r.getCoord().toString());
         boxPrint(win, i + 2, x + 2,
                  "%2d   %8s   %s%s   %3s   %3d   %1d   %c",
-                 i + 1, t.getPlayedRack().toString().c_str(), word.c_str(),
-                 string(15 - word.size(), ' ').c_str(),
+                 i + 1, convertToMb(t.getPlayedRack().toString()).c_str(),
+                 word.c_str(), string(15 - word.size(), ' ').c_str(),
                  coord.c_str(), r.getPoints(),
                  t.getPlayer(), r.getBonus() ? '*' : ' ');
     }
@@ -362,7 +363,7 @@ void CursesIntf::playWord(WINDOW *win, int y, int x)
     if (readString(win, y + 1, x + xOff, 15, word) &&
         readString(win, y + 2, x + xOff, 3, coord))
     {
-        int res = m_game->play(coord, word);
+        int res = m_game->play(convertToWc(coord), convertToWc(word));
         if (res)
         {
             drawStatus(win, LINES - 1, 0, _("Incorrect or misplaced word"));
@@ -382,7 +383,7 @@ void CursesIntf::checkWord(WINDOW *win, int y, int x)
     string word;
     if (readString(win, y + 2, x + 2, 15, word))
     {
-        int res = Dic_search_word(m_game->getDic(), word.c_str());
+        int res = Dic_search_word(m_game->getDic(), convertToWc(word).c_str());
         char s[100];
         if (res)
             snprintf(s, 100, _("The word '%s' exists"), word.c_str());
@@ -471,7 +472,7 @@ void CursesIntf::passTurn(WINDOW *win, int y, int x, FreeGame &iGame)
     string letters;
     if (readString(win, y + 2, x + 2, 7, letters))
     {
-        int res = iGame.pass(letters, m_game->currPlayer());
+        int res = iGame.pass(convertToWc(letters), m_game->currPlayer());
         if (res)
         {
             drawStatus(win, LINES - 1, 0, _("Cannot pass the turn"));
@@ -491,7 +492,7 @@ void CursesIntf::setRack(WINDOW *win, int y, int x, Training &iGame)
     string letters;
     if (readString(win, y + 2, x + 2, 7, letters, kJOKER))
     {
-        iGame.setRackManual(false, letters);
+        iGame.setRackManual(false, convertToWc(letters));
     }
     m_state = DEFAULT;
     clearRect(win, y, x, 4, 32);
@@ -718,7 +719,7 @@ int CursesIntf::handleKey(int iKey)
             else
                 m_state = RESULTS;
             m_boxStart = 0;
-            clear();
+            clearRect(m_win, 3, 54, 30, 25);
             return 1;
 
         // Toggle dots display

@@ -147,7 +147,7 @@ void PlayedRack::setNew(const Rack &iRack)
     }
 }
 
-int PlayedRack::setManual(const string& iLetters)
+int PlayedRack::setManual(const wstring& iLetters)
 {
     unsigned int i;
     reset();
@@ -157,17 +157,17 @@ int PlayedRack::setManual(const string& iLetters)
         return 0; /* empty is ok */
     }
 
-    for (i = 0; i < iLetters.size() && iLetters[i] != '+'; i++)
+    for (i = 0; i < iLetters.size() && iLetters[i] != L'+'; i++)
     {
         Tile tile(iLetters[i]);
         if (tile.isEmpty())
         {
-            return 1; /* */ 
+            return 1; /* */
         }
         addOld(tile);
     }
 
-    if (i < iLetters.size() && iLetters[i] == '+')
+    if (i < iLetters.size() && iLetters[i] == L'+')
     {
         for (i++; i < iLetters.size(); i++)
         {
@@ -210,33 +210,33 @@ void PlayedRack::operator=(const PlayedRack &iOther)
 }
 
 
-string PlayedRack::toString(display_mode mode) const
+wstring PlayedRack::toString(display_mode mode) const
 {
-    string s("");
+    wstring s;
     vector<Tile>::const_iterator it;
-  
+
     if (nOld() > 0)
     {
-	for (it = m_oldTiles.begin(); it != m_oldTiles.end(); it++)
-	    s += it->toChar();
+        for (it = m_oldTiles.begin(); it != m_oldTiles.end(); it++)
+            s += it->toChar();
     }
 
     if (mode > RACK_SIMPLE && nOld() > 0 && nNew() > 0)
     {
-	s += "+";
+        s += L"+";
     }
 
     if (mode > RACK_EXTRA  && reject)
     {
-	s += "-";
-	// nouveau tirage : rejet
-	// pas après un scrabble
+        s += L"-";
+        // new rack: reject
+        // not after a scrabble
     }
 
     if (nNew() > 0)
     {
-	for (it = m_newTiles.begin(); it != m_newTiles.end(); it++)
-	    s += it->toChar();
+        for (it = m_newTiles.begin(); it != m_newTiles.end(); it++)
+            s += it->toChar();
     }
 
     return s;
