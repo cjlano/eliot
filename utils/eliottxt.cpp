@@ -60,7 +60,7 @@ wchar_t *rl_gets()
     }
     if (wline_read)
     {
-        free(wline_read);
+        delete[] wline_read;
         wline_read = NULL;
     }
 
@@ -1005,7 +1005,7 @@ int main(int argc, char *argv[])
     if (line_read)
         free(line_read);
     if (wline_read)
-        free(wline_read);
+        delete[] wline_read;
 
     return 0;
 }

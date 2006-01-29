@@ -54,6 +54,7 @@ CursesIntf::CursesIntf(WINDOW *win, Game& iGame)
 CursesIntf::~CursesIntf()
 {
     GameFactory::Instance()->releaseGame(*m_game);
+    GameFactory::Destroy();
 }
 
 
@@ -835,7 +836,10 @@ int main(int argc, char ** argv)
 
     Game *game = GameFactory::Instance()->createFromCmdLine(argc, argv);
     if (game == NULL)
+    {
+        GameFactory::Destroy();
         return 1;
+    }
 
     game->start();
 
