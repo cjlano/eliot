@@ -18,6 +18,9 @@ AC_PROG_CXX
 AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 
+AC_PROG_YACC
+AM_PROG_LEX
+
 dnl --------------------------------------------------------------
 dnl Checks for compilation flags
 dnl --------------------------------------------------------------
@@ -64,7 +67,7 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 dnl --------------------------------------------------------------
 AC_C_CONST
 AC_TYPE_SIZE_T
-dnl AC_C_BIGENDIAN
+AC_C_BIGENDIAN
 AC_C_INLINE
 AC_CHECK_SIZEOF(char, 1)
 AC_CHECK_SIZEOF(short, 2)
