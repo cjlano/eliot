@@ -31,6 +31,9 @@ extern "C"
   {
 #endif
 
+#include <stdint.h>
+#include "config.h"
+
 /**
  * bit masking for ascii characters \n
  * ('a' & CHAR) == ('A' & CHAR) == 1
@@ -57,15 +60,30 @@ extern "C"
  *  ----------------
  */
 
-typedef struct _Dawg_edge {
-   unsigned int ptr  : 24;
-   unsigned int term : 1;
-   unsigned int last : 1;
-   unsigned int fill : 1;
-   unsigned int chr  : 5;
-} Dawg_edge;
+#if defined(WORDS_BIGENDIAN)
+struct __attribute__ ((packed)) _Dawg_edge {
+  uint32_t
+    chr  :  5,
+    fill :  1,
+    last :  1,
+    term :  1,
+    ptr  : 24;
+};
+#else
+struct __attribute__ ((packed)) _Dawg_edge {
+  uint32_t
+    ptr  : 24,
+    term :  1,
+    last :  1,
+    fill :  1,
+    chr  :  5;
+};
+#endif
 
-typedef struct _Dict_header {
+typedef struct _Dawg_edge Dawg_edge;
+
+
+struct _Dict_header {
   char ident[sizeof(_COMPIL_KEYWORD_)];
   char unused_1;
   char unused_2;
@@ -75,7 +93,8 @@ typedef struct _Dict_header {
   unsigned int nodesused;
   unsigned int nodessaved;
   unsigned int edgessaved;
-} Dict_header;
+};
+
 
 struct _Dictionary
 {

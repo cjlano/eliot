@@ -27,6 +27,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stddef.h>
 #include "dic_internals.h"
 #include "dic.h"
 
@@ -50,6 +51,7 @@ print_dic_rec(FILE* out, Dictionary dic, char *buf, char* s, Dawg_edge i)
     }
 }
 
+
 void
 dic_load(Dictionary* dic, char* filename)
 {
@@ -67,6 +69,7 @@ dic_load(Dictionary* dic, char* filename)
       exit(res);
     }
 }
+
 
 void
 print_dic_list(char* filename, char* out)
@@ -91,84 +94,46 @@ print_dic_list(char* filename, char* out)
   Dic_destroy(dic);
 }
 
-char
-b2h(int i)
-{
-  if (i < 10)
-    return i+'0';
-  return i-10+'a';
-}
-
-char*
-hexb(unsigned char h)
-{
-  static char buf[3];
-  buf[0] = b2h((h & 0xf0) >> 4);
-  buf[1] = b2h((h & 0x0f));
-  buf[2] = 0;
-  return buf;
-}
-
-char*
-hexl(unsigned int h)
-{
-  static char buf[9];
-  int i;
-  for(i=0; i<4; i++)
-    {
-      int l = h >> (24 - i*8);
-      buf[i*2+0] = b2h((l & 0xf0) >> 4);
-      buf[i*2+1] = b2h((l & 0x0f));
-    }
-  buf[8] = 0;
-  return buf;
-}
-
-char*
-offset(void* base, void* off)
-{
-  static char buf[20];
-  int o = (char*)off - (char*)base;
-  sprintf(buf,"%s",hexb(o));
-  return buf;
-}
 
 void
 print_header(char* filename)
 {
-  FILE* file;
   Dict_header header;
 
-  if ((file = fopen(filename,"rb")) == NULL)
-    return;
-  if (fread(&header,sizeof(Dict_header),1,file) != 1)
-    return;
-  fclose(file);
+  Dic_check_header(&header,filename);
+
+#define OO(IDENT) offsetof(Dict_header,IDENT)
 
   printf("Dictionary header information\n");
-  printf("0x%s ident       : %s\n",offset(&header,&header.ident),header.ident);
-  printf("0x%s unused 1    : %6d %s\n",offset(&header,&header.unused_1)  ,header.unused_1  ,hexl(header.unused_1));
-  printf("0x%s unused 2    : %6d %s\n",offset(&header,&header.unused_2)  ,header.unused_2  ,hexl(header.unused_2));
-  printf("0x%s root        : %6d %s\n",offset(&header,&header.root)      ,header.root      ,hexl(header.root));
-  printf("0x%s words       : %6d %s\n",offset(&header,&header.nwords)    ,header.nwords    ,hexl(header.nwords));
-  printf("0x%s edges used  : %6d %s\n",offset(&header,&header.edgesused) ,header.edgesused ,hexl(header.edgesused));
-  printf("0x%s nodes used  : %6d %s\n",offset(&header,&header.nodesused) ,header.nodesused ,hexl(header.nodesused));
-  printf("0x%s nodes saved : %6d %s\n",offset(&header,&header.nodessaved),header.nodessaved,hexl(header.nodessaved));
-  printf("0x%s edges saved : %6d %s\n",offset(&header,&header.edgessaved),header.edgessaved,hexl(header.edgessaved));
+  printf("0x%02x ident       : %s\n",      OO(ident)     ,header.ident);
+  printf("0x%02x unused 1    : %6d %06x\n",OO(unused_1)  ,header.unused_1  ,header.unused_1);
+  printf("0x%02x unused 2    : %6d %06x\n",OO(unused_2)  ,header.unused_2  ,header.unused_2);
+  printf("0x%02x root        : %6d %06x\n",OO(root)      ,header.root      ,header.root);
+  printf("0x%02x words       : %6d %06x\n",OO(nwords)    ,header.nwords    ,header.nwords);
+  printf("0x%02x edges used  : %6d %06x\n",OO(edgesused) ,header.edgesused ,header.edgesused);
+  printf("0x%02x nodes used  : %6d %06x\n",OO(nodesused) ,header.nodesused ,header.nodesused);
+  printf("0x%02x nodes saved : %6d %06x\n",OO(nodessaved),header.nodessaved,header.nodessaved);
+  printf("0x%02x edges saved : %6d %06x\n",OO(edgessaved),header.edgessaved,header.edgessaved);
   printf("\n");
-  printf("sizeof(header) = 0x%s (%lu)\n", hexb(sizeof(header)), sizeof(header));
+  printf("sizeof(header) = 0x%x (%u)\n", sizeof(header), sizeof(header));
 }
 
-void
-print_node_hex(int i, Dictionary dic)
+
+static void
+print_node_hex(Dictionary dic, int i)
 {
-  unsigned int* pe;
-  Dawg_edge e = dic->dawg[i];
-  pe = (unsigned int*)&e;
-  printf("0x%s %s |%2d ptr=%2d t=%d l=%d f=%d chr=%d (%c)\n",
-	 offset(&(dic->dawg[0]),&(dic->dawg[i])),hexl(*pe),i,
-	 e.ptr, e.term, e.last, e.fill, e.chr, e.chr +'a' -1);
+  union edge_t {
+    Dawg_edge e;
+    uint32_t  s;
+  } ee;
+
+  ee.e = dic->dawg[i];
+
+  printf("0x%04x %08x |%4d ptr=%8d t=%d l=%d f=%d chr=%2d (%c)\n",
+	 i*sizeof(ee), (unsigned int)(ee.s), 
+	 i, ee.e.ptr, ee.e.term, ee.e.last, ee.e.fill, ee.e.chr, ee.e.chr +'a' -1);
 }
+
 
 void
 print_dic_hex(char* filename)
@@ -180,9 +145,10 @@ print_dic_hex(char* filename)
   printf("offs binary       structure         \n");
   printf("---- -------- |   ------------------\n");
   for(i=0; i < (dic->nedges + 1); i++)
-    print_node_hex(i,dic);
+    print_node_hex(dic,i);
   Dic_destroy(dic);
 }
+
 
 void
 usage(char* name)

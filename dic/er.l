@@ -18,6 +18,7 @@
 /* along with this program; if not, write to the Free Software               */
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
+#include "dic_internals.h"
 #include "dic.h"
 #include "regexp.h"
 #include "libdic_a-er.h"

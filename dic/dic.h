@@ -41,9 +41,19 @@ extern "C"
  */
 #define DIC_WORD_MAX 16
 
-typedef struct _Dictionary* Dictionary;
+typedef struct _Dict_header  Dict_header;
+typedef struct _Dictionary  *Dictionary;
 typedef unsigned int dic_elt_t;
 typedef unsigned char dic_code_t;
+
+
+    /**
+     * Dictionary header loading from a file
+     * @param dic : pointer to a header
+     * @param path : compressed dictionary path
+     * @return 0 ok, otherwise error
+     */
+int    Dic_check_header(Dict_header *header, const char* path);
 
     /**
      * Dictionary creation and loading from a file

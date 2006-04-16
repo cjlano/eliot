@@ -33,8 +33,10 @@
 #include <string.h>
 #include <ctype.h>
 #include <assert.h>
+
 #include "hashtable.h"
 #include "dic_internals.h"
+#include "dic.h"
 
 //#define DEBUG_LIST
 //#define DEBUG_OUTPUT
@@ -103,7 +105,13 @@ fix_header(FILE* outfile, Dict_header* header)
   strcpy(header->ident,_COMPIL_KEYWORD_);
   header->root = header->edgesused;
   rewind (outfile);
+#if defined(WORDS_BIGENDIAN)
+  #warning "**********************************************"
+  #warning "compdic does not run yet on bigendian machines"
+  #warning "**********************************************"
+#else
   fwrite (header, sizeof(Dict_header), 1, outfile);
+#endif
 }
 
 
@@ -111,14 +119,14 @@ void
 print_header_info(Dict_header *header)
 {
   printf("============================\n");
-  printf("keyword length %lu bytes\n", strlen(_COMPIL_KEYWORD_));
-  printf("keyword size   %lu bytes\n", sizeof(_COMPIL_KEYWORD_));
-  printf("header size    %lu bytes\n", sizeof(Dict_header));
+  printf("keyword length %u bytes\n", strlen(_COMPIL_KEYWORD_));
+  printf("keyword size   %u bytes\n", sizeof(_COMPIL_KEYWORD_));
+  printf("header size    %u bytes\n", sizeof(Dict_header));
   printf("\n");
   printf("%d words\n",header->nwords);
   printf("\n");
   printf("root : %7d (edge)\n",header->root);
-  printf("root : %7lu (byte)\n",header->root * sizeof(Dawg_edge));
+  printf("root : %7u (byte)\n",header->root * sizeof(Dawg_edge));
   printf("\n");
   printf("nodes : %d+%d\n",header->nodesused, header->nodessaved);
   printf("edges : %d+%d\n",header->edgesused, header->edgessaved);
