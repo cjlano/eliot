@@ -26,6 +26,7 @@
 #include "rack.h"
 #include "results.h"
 #include "board.h"
+#include "debug.h"
 
 #define oo 0
 #define __ 1
@@ -266,7 +267,22 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
         {
             /* There is already a letter on the board */
             if (iTilesMx[row][col + i] != t)
-                return 2;
+            {
+                /* check if it is only a joker */
+                if ((iTilesMx[row][col+i].toCode() == t.toCode()) && iTilesMx[row][col+i].isJoker())
+                {
+                    // do nothing, we don't need to change the tile in the round
+                    // iRound.setJoker(i,true);
+                    debug("load: play on joker for letter %d (%c)\n",i,iRound.getTile(i).toChar());
+                }
+                else
+                {
+                    debug("load: overwriting tile %c with %c\n",
+                          iTilesMx[row][col+i].toChar(),
+                          t.toChar());
+                    return 2;
+                }
+            }
 
             isolated = false;
             iRound.setFromBoard(i);
