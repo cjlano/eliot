@@ -227,7 +227,6 @@ void help_freegame()
     printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
     printf("  p [] : passer son tour en changeant les lettres []\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
-    printf("  c [] : charger la partie du fichier []\n");
     printf("  q    : quitter le mode partie libre\n");
 }
 
@@ -251,7 +250,6 @@ void help_duplicate()
     printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
     printf("  n [] : passer au joueur n°[]\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
-    printf("  c [] : charger la partie du fichier []\n");
     printf("  q    : quitter le mode duplicate\n");
 }
 
@@ -260,6 +258,7 @@ void help()
 {
     printf("  ?       : aide -- cette page\n");
     printf("  e       : démarrer le mode entraînement\n");
+    printf("  c []    : charger la partie du fichier []\n");
     printf("  d [] {} : démarrer une partie duplicate avec\n");
     printf("                [] joueurs humains et {} joueurs IA\n");
     printf("  l [] {} : démarrer une partie libre avec\n");
@@ -406,7 +405,7 @@ void loop_training(Training &iGame)
                         }
                         if ((res = iGame.play(coord, token)) != 0)
                         {
-                            fprintf(stderr, "Mot incorrect ou mal placé (%i)\n",
+                            fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
                                     res);
                             break;
                         }
@@ -538,7 +537,7 @@ void loop_freegame(FreeGame &iGame)
                         }
                         if ((res = iGame.play(coord, token)) != 0)
                         {
-                            fprintf(stderr, "Mot incorrect ou mal placé (%i)\n",
+                            fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
                                     res);
                             break;
                         }
@@ -639,7 +638,7 @@ void loop_duplicate(Duplicate &iGame)
                         }
                         if ((res = iGame.play(coord, token)) != 0)
                         {
-                            fprintf(stderr, "Mot incorrect ou mal placé (%i)\n",
+                            fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
                                     res);
                             break;
                         }
@@ -820,28 +819,27 @@ void main_loop(const Dictionary &iDic)
                     else
                     {
                         string filename = convertToMb(token);
-                        FILE* fin;
-                        if ((fin = fopen(filename.c_str(), "r")) == NULL)
-                        {
-                            printf("impossible d'ouvrir %s\n",
-                                   filename.c_str());
-                            break;
-                        }
-                        Game *game = Game::load(fin, iDic);
-                        fclose(fin);
+                        Game *game = GameFactory::Instance()->load(filename, iDic);
                         if (game == NULL)
                         {
-                            printf("erreur pendant le chargement\n");
+                            printf("erreur pendant le chargement de la partie\n");
                         }
                         else
                         {
-                            if (game->getMode() == Game::kTRAINING)
-                                loop_training((Training&)*game);
-                            else if (game->getMode() == Game::kFREEGAME)
-                                loop_freegame((FreeGame&)*game);
-                            else
-                                loop_duplicate((Duplicate&)*game);
+                            switch (game->getMode())
+                                {
+                                case Game::kTRAINING:
+                                    loop_training((Training&)*game);
+                                    break;
+                                case Game::kFREEGAME:
+                                    loop_freegame((FreeGame&)*game);
+                                    break;
+                                case Game::kDUPLICATE:
+                                    loop_duplicate((Duplicate&)*game);
+                                    break;
+                                }
                         }
+                        GameFactory::Instance()->releaseGame(*game);
                     }
                     break;
                 case L'e':
@@ -958,7 +956,9 @@ int main(int argc, char *argv[])
         exit(1);
     }
     else
+    {
         strcpy(dic_path, argv[1]);
+    }
 
     switch (Dic_load(&dic, dic_path))
     {
