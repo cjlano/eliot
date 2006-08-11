@@ -78,6 +78,7 @@ int Game::helperPlayRound(const Round &iRound)
     m_history.setCurrentRack(getCurrentPlayer().getLastRack());
     m_history.playRound(m_currPlayer, m_history.getSize(),  iRound);
 
+    debug("    helper: %d points\n",iRound.getPoints());
     m_points += iRound.getPoints();
 
     // Before updating the bag and the board, if we are playing a "joker game",
@@ -141,7 +142,9 @@ int Game::helperPlayRound(const Round &iRound)
                 m_bag.takeTile(Tile::Joker());
             }
             else
+            {
                 m_bag.takeTile(iRound.getTile(i));
+            }
         }
     }
     m_board.addRound(*m_dic, iRound);
@@ -528,11 +531,16 @@ int Game::checkPlayedWord(const wstring &iCoord,
     oRound.init();
     oRound.accessCoord().setFromString(iCoord);
     if (!oRound.getCoord().isValid())
+    {
+        debug("game: incorrect coordinates\n");
         return 2;
-
+    }
+    
     /* Check the existence of the word */
     if (Dic_search_word(*m_dic, iWord.c_str()) == 0)
+    {
         return 3;
+    }
 
     /* Set the word */
     // TODO: make this a Round_ function (Round_setwordfromchar for example)

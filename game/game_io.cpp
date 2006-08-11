@@ -97,82 +97,93 @@ Game * Game::load(FILE *fin, const Dictionary& iDic)
 
 Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
 {
-     Tile tile;
-     char buff[4096];
-     char rack[20];
-     char word[20];
-     char pos [5];
-     char delim[]=" \t\n\012\015";
-     char *token;
-     Game *pGame = NULL;
+    int ret = 0;
+    int line = 0;
+    Tile tile;
+    char buff[4096];
+    char rack[20];
+    char word[20];
+    char pos [5];
+    char delim[]=" \t\n\012\015";
+    char *token;
+    Game *pGame = NULL;
+    
+    debug("Game::gameLoadFormat_14\n");
+    pGame = GameFactory::Instance()->createTraining(iDic);
+    pGame->start();
+    
+    /*    rack        word          ?bonus    pts  coord    */
+    /*    EUOFMIE     FUMEE          *        26   H  4     */
+    
+    /* read all turns until total */
+    while (fgets(buff, sizeof(buff), fin))
+    {
+        line++;
+        token = strtok(buff, delim);
+        if (token != NULL)
+        {
+            debug("======== \n");
+            if (strcmp(token, "total") == 0)
+            {
+                break;
+            }
 
-     debug("Game::gameLoadFormat_14\n");
+            /* rack */
+            strncpy(rack, token, sizeof(rack));
+            static_cast<Training*>(pGame)->setRack(RACK_MANUAL, false,
+                                                   convertToWc(rack));
+            debug("load: %8s ", rack);
+            
+            /* word */
+            token = strtok(NULL, delim);
+            if (!token || strcmp(token, "total") == 0)
+            {
+                break;
+            }
 
-     pGame = GameFactory::Instance()->createTraining(iDic);
-     pGame->start();
+            strncpy(word, token, sizeof(word));
+            debug(" %12s ", word);
+            
+            /* bonus */
+            if ((token = strtok(NULL, delim)) == NULL)
+                break;
+            
+            /* points */
+            if (token[0] == '*')
+            {
+                debug("%s\t", token);
+                if ((token = strtok(NULL, delim)) == NULL)
+                    break;
+            }
+            else
+            {
+                debug(" \t");
+            }
 
-     /*    rack        word          ?bonus    pts  coord    */
-     /*    EUOFMIE     FUMEE          *        26   H  4     */
+            /* pos 1 */
+            if ((token = strtok(NULL, delim)) == NULL)
+                break;
 
-     /* read all turns until total */
-     while (fgets(buff, sizeof(buff), fin))
-     {
-         token = strtok(buff, delim);
-         if (token != NULL)
-         {
-             if (strcmp(token, "total") == 0)
-             {
-                 break;
-             }
+            //debug("(%s ", token);
+            strncpy(pos, token, sizeof(pos));
 
-             /* rack */
-             strncpy(rack, token, sizeof(rack));
-             static_cast<Training*>(pGame)->setRack(RACK_MANUAL, false,
-                                                    convertToWc(rack));
-             debug("%s ", rack);
+            /* pos 2 */
+            if ((token = strtok(NULL, delim)) == NULL)
+                break;
 
-             /* word */
-             token = strtok(NULL, delim);
-             if (!token || strcmp(token, "total") == 0)
-             {
-                 break;
-             }
+            //debug("%s)", token);
+            strncat(pos, token, sizeof(pos));
+            debug("%s\n", pos);
 
-             strncpy(word, token, sizeof(word));
-             debug("\t%s ", word);
-
-             /* bonus */
-             if ((token = strtok(NULL, delim)) == NULL)
-                 break;
-
-             /* points */
-             if (token[0] == '*')
-             {
-                 debug("%s\t", token);
-                 if ((token = strtok(NULL, delim)) == NULL)
-                     break;
-             }
-
-             /* pos 1 */
-             if ((token = strtok(NULL, delim)) == NULL)
-                 break;
-
-             debug("(%s ", token);
-             strncpy(pos, token, sizeof(pos));
-
-             /* pos 2 */
-             if ((token = strtok(NULL, delim)) == NULL)
-                 break;
-
-             debug("%s)", token);
-             strncat(pos, token, sizeof(pos));
-             debug("%s\n", pos);
-
-             debug("   play %s %s\n", pos, word);
-             pGame->play(convertToWc(pos), convertToWc(word));
-         }
-     }
-     return pGame;
+            if ((ret = pGame->play(convertToWc(pos), convertToWc(word))))
+            {
+                debug("loading error %d on line %d\n",ret,line);
+                GameFactory::Instance()->releaseGame(*pGame);
+                return NULL;
+            }
+        }
+    }
+    return pGame;
 }
 
 

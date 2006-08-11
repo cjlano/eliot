@@ -103,21 +103,31 @@ int Training::play(const wstring &iCoord, const wstring &iWord)
 {
     /* Perform all the validity checks, and fill a round */
     Round round;
+
     int res = checkPlayedWord(iCoord, iWord, round);
     if (res != 0)
     {
+        debug("check returned with an error %d\n",res);
         return res;
     }
 
     /* Update the rack and the score of the current player */
+    debug("play: %s %s %d\n",
+          convertToMb(round.getWord()).c_str(),
+          convertToMb(round.getCoord().toString()).c_str(),
+          round.getPoints());
+
     m_players[m_currPlayer]->addPoints(round.getPoints());
+    // see game.cpp::helperPlayRound():99 comment
     m_players[m_currPlayer]->endTurn(round, m_history.getSize());
 
     /* Everything is OK, we can play the word */
-    helperPlayRound(round);
+    if (helperPlayRound(round))
+    {
+        debug("play: error during play\n");
+    }
 
     /* Next turn */
-    // XXX: Should it be done by the interface instead?
     endTurn();
 
     return 0;
