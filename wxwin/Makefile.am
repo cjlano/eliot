@@ -39,7 +39,8 @@ eliot_SOURCES = \
 eliot_LDADD = @WX_LIBS@ ../dic/libdic.a ../game/libgame.a
 
 EXTRA_DIST = \
-    eliot.xpm
+    eliot.xpm \
+    eliot.ico
 
 endif
 
