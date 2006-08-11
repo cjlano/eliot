@@ -46,7 +46,13 @@ public:
     Training *createTraining(const Dictionary &iDic);
     FreeGame *createFreeGame(const Dictionary &iDic);
     Duplicate *createDuplicate(const Dictionary &iDic);
-    //Game *loadGame(FILE *fin, const Dictionary &iDic);
+
+    /**
+     * load() returns the loaded game, or NULL if there was a problem
+     * load() might need some more work to be robust enough to
+     * handle "hand written" files
+     */
+    Game *load(string filename, const Dictionary &iDic);
 
     Game *createFromCmdLine(int argc, char **argv);
 

@@ -18,6 +18,7 @@
  *****************************************************************************/
 
 #include <getopt.h>
+#include <string>
 
 #include "config.h"
 #include "dic.h"
@@ -184,6 +185,20 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
     return game;
 }
 
+Game* GameFactory::load(string filename, const Dictionary &iDic)
+{
+    Game* game;
+    FILE* fin;
+    if ((fin = fopen(filename.c_str(), "r")) == NULL)
+        {
+            printf("impossible d'ouvrir %s\n",
+                   filename.c_str());
+            return NULL;
+        }
+    game = Game::load(fin,iDic);
+    fclose(fin);
+    return game;
+}
 
 void GameFactory::releaseGame(Game &iGame)
 {
