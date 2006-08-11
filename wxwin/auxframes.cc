@@ -53,7 +53,7 @@
 /****************************************************************/
 
 AuxFrame::AuxFrame(wxFrame* parent, int _id, wxString _name, wxString _classname):
-    wxFrame(parent, -1, wxU("Eliot: ") + _name, wxPoint(-1, -1), wxSize(-1, -1),
+    wxFrame(parent, -1, wxT("Eliot: ") + _name, wxPoint(-1, -1), wxSize(-1, -1),
             wxRESIZE_BORDER | wxCAPTION | wxFRAME_FLOAT_ON_PARENT, _classname)
 {
   frameid   = (frames_id_t)_id;
@@ -95,7 +95,7 @@ AuxFrame::Reload()
 #define MINH 50
 
     wxSize size;
-    //debug("  %s::Reload() - %s\n",(const char*)classname.mb_str(),(const char*)name.mb_str());
+    /* debug("  %s::Reload() - %s\n",(const char*)classname.mb_str(),(const char*)name.mb_str()); */
 
     Move(config.getFramePos(classname));
     size = config.getFrameSize(classname);
@@ -119,7 +119,7 @@ AuxFrame::Reload()
 /****************************************************************/
 
 BoardFrame::BoardFrame(wxFrame* parent, Game& iGame):
-    AuxFrame(parent, ID_Frame_Board, wxT("Grille"), FRAMEBOARD)
+    AuxFrame(parent, ID_Frame_Board, _("Grille"), FRAMEBOARD)
 {
     board = new GfxBoard(this, iGame);
     wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
@@ -133,7 +133,6 @@ BoardFrame::BoardFrame(wxFrame* parent, Game& iGame):
 void
 BoardFrame::Refresh(refresh_t force)
 {
-    //debug("    BoardFrame::Refresh\n");
     if (force == REFRESH)
         board->Refresh(GfxBoard::BOARD_REFRESH);
     else
@@ -145,7 +144,7 @@ BoardFrame::Refresh(refresh_t force)
 /****************************************************************/
 
 BagFrame::BagFrame(wxFrame* parent, Game& iGame):
-    AuxFrame(parent, ID_Frame_Bag, wxT("sac"), FRAMEBAG),
+    AuxFrame(parent, ID_Frame_Bag, _("sac"), FRAMEBAG),
     m_game(iGame)
 {
     tiles = new wxListCtrl(this, -1);
@@ -200,7 +199,7 @@ BagFrame::Refresh(refresh_t force)
 /****************************************************************/
 
 SearchFrame::SearchFrame(wxFrame *parent, Dictionary _dic):
-    AuxFrame(parent, ID_Frame_Search, wxT("recherche"), FRAMESEARCH)
+    AuxFrame(parent, ID_Frame_Search, _("recherche"), FRAMESEARCH)
 {
     panel = new SearchPanel(this, _dic);
     wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
@@ -231,14 +230,12 @@ BEGIN_EVENT_TABLE(VerifFrame, AuxFrame)
 END_EVENT_TABLE()
 
 VerifFrame::VerifFrame(wxFrame* parent, Dictionary _dic):
-// XXX:  AuxFrame(parent, ID_Frame_Verif, wxT("vérification"), FRAMEVERIF)
-  AuxFrame(parent, ID_Frame_Verif, wxT("verification"), FRAMEVERIF)
+  AuxFrame(parent, ID_Frame_Verif, _("verification"), FRAMEVERIF)
 {
     dic = _dic;
     word = new wxTextCtrl(this, Word_Id, wxT(""));
     word->SetFont(config.getFont(LISTFONT));
-// XXX:    word->SetToolTip(wxT("Mot à vérifier"));
-    word->SetToolTip(wxT("Mot a verifier"));
+    word->SetToolTip(_("Mot a verifier"));
     result = new wxStaticText(this, Result_Id, wxT(""));
     result->SetFont(config.getFont(LISTFONT));
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
@@ -256,13 +253,13 @@ VerifFrame::verif()
 {
     if (dic == NULL)
     {
-        result->SetLabel(wxT("pas de dictionnaire"));
+        result->SetLabel(_("pas de dictionnaire"));
         return;
     }
     if (Dic_search_word(dic, word->GetValue().wc_str()))
-        result->SetLabel(wxT("existe"));
+        result->SetLabel(_("existe"));
     else
-        result->SetLabel(wxT("n'existe pas"));
+        result->SetLabel(_("n'existe pas"));
 }
 
 void
@@ -303,7 +300,7 @@ AuxFrameList::AuxFrameList(wxFrame* parent, int _id, wxString _name, wxString _c
     listbox->SetToolTip(name);
     sizer_v->Add(listbox, 1, wxEXPAND | wxALL, 1);
 
-    button = new wxButton(this, ButtonCopyID, wxT("Copier"), wxPoint(0, 0), wxSize(-1, -1));
+    button = new wxButton(this, ButtonCopyID, _("Copier"), wxPoint(0, 0), wxSize(-1, -1));
     sizer_v->Add(button, 0, wxEXPAND | wxALL, 1);
 
     wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
@@ -347,14 +344,14 @@ AuxFrameList::Refresh(refresh_t force)
     if (game == NULL)
 	{
 	    listbox->Clear();
-	    listbox->Append(wxT("Pas de partie en cours"));
+	    listbox->Append(_("Pas de partie en cours"));
 	    //debug("  %s : Refresh end - no game\n",(const char*)name.mb_str());
 	    return;
 	}
     if (game->getDic() == NULL)
 	{
 	    listbox->Clear();
-	    listbox->Append(wxT("Pas de dictionnaire"));
+	    listbox->Append(_("Pas de dictionnaire"));
 	    //debug("  %s : Refresh end - no dictionnary\n",(const char*)name.mb_str());
 	    return;
 	}
@@ -369,7 +366,7 @@ AuxFrameList::Refresh(refresh_t force)
 	{
 	    //debug("      %s : noresult == true\n",(const char*)name.mb_str());
 	    listbox->Clear();
-	    listbox->Append(wxT("Aucun resultat"));
+	    listbox->Append(_("Aucun resultat"));
 	}
     //debug("  %s : Refresh end\n",(const char*)name.mb_str());
 }
@@ -399,7 +396,7 @@ Plus1Frame::refresh()
     listbox->Clear();
     wxString res[DIC_LETTERS*(RES_7PL1_MAX+1)];
     int resnum = 0;
-    res[resnum++] = wxString(wxT("Tirage: ")) + wxString(wxU(rack.c_str()));
+    res[resnum++] = wxString(_("Tirage: ")) + wxString(wxU(rack.c_str()));
     for (int i = 0; i < DIC_LETTERS; i++)
     {
         if (i && buff[i][0][0])
@@ -513,7 +510,7 @@ AuxFrameText::AuxFrameText(wxFrame* parent, int _id, wxString _name, wxString _c
 /****************************************************************/
 
 GameFrame::GameFrame(wxFrame* parent, Game& iGame):
-    AuxFrameText(parent, ID_Frame_Game, wxT("partie"), FRAMEGAME, wxTE_MULTILINE | wxTE_READONLY | wxTE_DONTWRAP),
+    AuxFrameText(parent, ID_Frame_Game, _("partie"), FRAMEGAME, wxTE_MULTILINE | wxTE_READONLY | wxTE_DONTWRAP),
     m_game(iGame)
 {
     textbox->Clear();
@@ -545,7 +542,7 @@ BEGIN_EVENT_TABLE(ResultFrame, AuxFrame)
 END_EVENT_TABLE()
 
 ResultFrame::ResultFrame(wxFrame* parent, Game* iGame):
-    AuxFrame(parent, ID_Frame_Result, wxT("recherche"), FRAMERESULT)
+    AuxFrame(parent, ID_Frame_Result, _("results"), FRAMERESULT)
 {
     reslist = new GfxResult(this, (MainFrame*)parent, iGame);
 

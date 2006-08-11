@@ -69,6 +69,16 @@ EliotApp::OnInit()
 #ifdef ENABLE_LOCALE
     locale.Init(wxLocale::GetSystemLanguage(),
                 wxLOCALE_LOAD_DEFAULT | wxLOCALE_CONV_ENCODING);
+
+    wxLocale::AddCatalogLookupPathPrefix(wxT("."));
+    wxLocale::AddCatalogLookupPathPrefix(wxT(".."));
+    locale.AddCatalog(wxT("eliot"));
+#ifdef __LINUX__
+    {
+        wxLogNull noLog;
+        locale.AddCatalog(_T("fileutils"));
+    }
+#endif
 #endif
     ConfigDB configdb;
     configdb.setFirstDefault();
