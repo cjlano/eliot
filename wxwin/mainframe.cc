@@ -154,11 +154,13 @@ END_EVENT_TABLE()
 // ******************************
     
 MainFrame::MainFrame(wxPoint pos_, wxSize size_)
-    : wxFrame((wxFrame *) NULL, -1, wxT("Eliot"), wxPoint(-1, -1),
-              size_, wxDEFAULT_FRAME_STYLE, wxT("Eliot")),
+    : wxFrame((wxFrame *) NULL, -1, wxT(APPNAME), wxPoint(-1, -1),
+              size_, wxDEFAULT_FRAME_STYLE, wxT(APPNAME)),
     m_dic(NULL), m_game(NULL)
 {
+#if defined(ENABLE_RESLIST_IN_MAIN)
     reslist = NULL;
+#endif
     statusbar = NULL;
     for(int i=0 ; i < MAX_FRAME_ID; i++)
       auxframes_ptr[i] = NULL;
@@ -179,7 +181,7 @@ MainFrame::MainFrame(wxPoint pos_, wxSize size_)
     wxBoxSizer *listsizer = new wxBoxSizer(wxVERTICAL);
     rack = new wxTextCtrl(this, Rack_ID, wxU(""), wxPoint(-1, -1), wxSize(-1, -1), wxTE_PROCESS_ENTER);
     listsizer->Add(rack    , 0 , wxEXPAND | wxALL, 1);
-    rack->SetToolTip(wxT("Tirage"));
+    rack->SetToolTip(_("Tirage"));
 #ifdef ENABLE_RESLIST_IN_MAIN
     reslist = new GfxResult(this,(MainFrame*)this,m_game);
     listsizer->Add(reslist, 1, wxEXPAND | wxLEFT | wxRIGHT, 1);
@@ -192,17 +194,17 @@ MainFrame::MainFrame(wxPoint pos_, wxSize size_)
     statusbar->SetStatusWidths(2, ww);
     UpdateStatusBar();
 
-    b_rackrandomset = new wxButton(this, Button_SetRack,  wxT(" Tirage "));
-    b_rackrandomnew = new wxButton(this, Button_SetNew,   wxT(" Complement "));
-    b_search        = new wxButton(this, Button_Search,   wxT(" Rechercher "));
-    b_back          = new wxButton(this, Button_PlayBack, wxT(" Arriere "));
-    b_play          = new wxButton(this, Button_Play,     wxT(" Jouer "));
+    b_rackrandomset = new wxButton(this, Button_SetRack,  _(" Tirage "));
+    b_rackrandomnew = new wxButton(this, Button_SetNew,   _(" Complement "));
+    b_search        = new wxButton(this, Button_Search,   _(" Rechercher "));
+    b_back          = new wxButton(this, Button_PlayBack, _(" Arriere "));
+    b_play          = new wxButton(this, Button_Play,     _(" Jouer "));
 
-    b_rackrandomset->SetToolTip(wxT("Tirage aleatoire"));
-    b_rackrandomnew->SetToolTip(wxT("Complement aleatoire du tirage"));
-    b_search->SetToolTip(       wxT("Recherche sur le tirage courant"));
-    b_back->SetToolTip(         wxT("Revenir un coup en arriere"));
-    b_play->SetToolTip(         wxT("Jouer le mot selectionne"));
+    b_rackrandomset->SetToolTip(_("Tirage aleatoire"));
+    b_rackrandomnew->SetToolTip(_("Complement aleatoire du tirage"));
+    b_search->SetToolTip(       _("Recherche sur le tirage courant"));
+    b_back->SetToolTip(         _("Revenir un coup en arriere"));
+    b_play->SetToolTip(         _("Jouer le mot selectionne"));
 
     wxBoxSizer *buttonsizer = new wxBoxSizer(wxHORIZONTAL);
     buttonsizer->Add(b_rackrandomset, 1, wxEXPAND | wxTOP | wxBOTTOM | wxLEFT , 1);
@@ -256,87 +258,82 @@ MainFrame::InitMenu()
 {
     // menus
     wxMenu *menu_game = new wxMenu;
-// XXX:    menu_game->Append(Menu_Game_New, wxT("Nouvelle"), wxT("Démarrer une nouvelle partie"));
-    menu_game->Append(Menu_Game_New, wxT("Nouvelle"), wxT("Demarrer une nouvelle partie"));
-    menu_game->Append(Menu_Game_Open, wxT("Charger..."), wxT("Charger une partie"));
-    menu_game->Append(Menu_Game_Save, wxT("Sauver..."), wxT("Sauver cette partie"));
+    menu_game->Append(Menu_Game_New, _("Nouvelle"), _("Demarrer une nouvelle partie"));
+    menu_game->Append(Menu_Game_Open, _("Charger..."), _("Charger une partie"));
+    menu_game->Append(Menu_Game_Save, _("Sauver..."), _("Sauver cette partie"));
     menu_game->AppendSeparator();
-    menu_game->Append(Menu_Game_Print, wxT("Imprimer..."), wxT("Imprimer cette partie"));
-// XXX:    menu_game->Append(Menu_Game_PrintPreview, wxT("Préimpression"), wxT("Préimpression de la partie"));
-    menu_game->Append(Menu_Game_PrintPreview, wxT("Preimpression"), wxT("Preimpression de la partie"));
+    menu_game->Append(Menu_Game_Print, _("Imprimer..."), _("Imprimer cette partie"));
+    menu_game->Append(Menu_Game_PrintPreview, _("Preimpression"), _("Preimpression de la partie"));
 #ifdef ENABLE_SAVE_POSTSCRIPT
     menu_game->AppendSeparator();
-    menu_game->Append(Menu_Game_PrintPS, wxT("Imprimer du PostScript"), wxT("Imprimer dans un fichier PostScript"));
+    menu_game->Append(Menu_Game_PrintPS, _("Imprimer du PostScript"), _("Imprimer dans un fichier PostScript"));
 #endif
     //
     wxMenu *menu_conf_game = new wxMenu;
-    menu_conf_game->Append(Menu_Conf_Game_Dic, wxT("Dictionnaire"), wxT("Choix du dictionnaire"));
-    menu_conf_game->Append(Menu_Conf_Game_Search, wxT("Recherche"), wxT("Options de recherche"));
+    menu_conf_game->Append(Menu_Conf_Game_Dic, _("Dictionnaire"), _("Choix du dictionnaire"));
+    menu_conf_game->Append(Menu_Conf_Game_Search, _("Recherche"), _("Options de recherche"));
     //
     wxMenu *menu_tileback = new wxMenu;
-    menu_tileback->Append(Menu_Conf_Aspect_BoardColour_Letters     , wxT("Lettres jouees"), wxT("Lettres jouees sur la grille"));
-    menu_tileback->Append(Menu_Conf_Aspect_BoardColour_TestLetters , wxT("Lettres provisoires"), wxT("Lettres du mot a jouer"));
+    menu_tileback->Append(Menu_Conf_Aspect_BoardColour_Letters     , _("Lettres jouees"), _("Lettres jouees sur la grille"));
+    menu_tileback->Append(Menu_Conf_Aspect_BoardColour_TestLetters , _("Lettres provisoires"), _("Lettres du mot a jouer"));
     menu_tileback->AppendSeparator();
-    //menu_tileback->Append(Menu_Conf_Aspect_BoardColour_DrawTiles    , wxT("Dessiner les pions"), wxT("Dessiner les pions sur la grille"));
-    menu_tileback->Append(Menu_Conf_Aspect_BoardColour_TileBack    , wxT("Fonds lettres jouees"), wxT("Fonds des pions sur la grille"));
-    menu_tileback->Append(Menu_Conf_Aspect_BoardColour_TestTileBack, wxT("Fonds lettres provisoires"), wxT("Fonds des pions sur la grille"));
+    menu_tileback->Append(Menu_Conf_Aspect_BoardColour_TileBack    , _("Fonds lettres jouees"), _("Fonds des pions sur la grille"));
+    menu_tileback->Append(Menu_Conf_Aspect_BoardColour_TestTileBack, _("Fonds lettres provisoires"), _("Fonds des pions sur la grille"));
     //
     wxMenu *menu_conf_board_colour = new wxMenu;
-    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Background, wxT("Fond"), wxT("Couleur du fond"));
-    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Lines, wxT("Lignes"), wxT("Couleur des lignes"));
-    menu_conf_board_colour->Append(Menu_Conf_Tile, wxT("Pions et lettres"), menu_tileback, wxT("Pions et lettres"));
+    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Background, _("Fond"), _("Couleur du fond"));
+    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Lines, _("Lignes"), _("Couleur des lignes"));
+    menu_conf_board_colour->Append(Menu_Conf_Tile, _("Pions et lettres"), menu_tileback, _("Pions et lettres"));
     menu_conf_board_colour->AppendSeparator();
-// XXX:    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Letters, wxT("Lettres jouées"), wxT("Lettres jouées sur la grille"));
-    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Letters, wxT("Lettres jouees"), wxT("Lettres jouees sur la grille"));
-// XXX:    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_TestLetters, wxT("Lettres provisoires"), wxT("Lettres du mot à jouer"));
-    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_TestLetters, wxT("Lettres provisoires"), wxT("Lettres du mot a jouer"));
+    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Letters, _("Lettres jouees"), _("Lettres jouees sur la grille"));
+    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_TestLetters, _("Lettres provisoires"), _("Lettres du mot a jouer"));
     menu_conf_board_colour->AppendSeparator();
-    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Wx2, wxT("Mot compte double"), wxT("Mot compte double"));
-    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Wx3, wxT("Mot compte triple"), wxT("Mot compte triple"));
-    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Lx2, wxT("Lettre compte double"), wxT("Lettre compte double"));
-    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Lx3, wxT("Lettre compte triple"), wxT("Lettre compte triple"));
+    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Wx2, _("Mot compte double"), _("Mot compte double"));
+    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Wx3, _("Mot compte triple"), _("Mot compte triple"));
+    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Lx2, _("Lettre compte double"), _("Lettre compte double"));
+    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Lx3, _("Lettre compte triple"), _("Lettre compte triple"));
     menu_conf_board_colour->AppendSeparator();
-    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Default, wxT("Couleurs d'origine"), wxT("Retrouver les couleurs d'origine"));
+    menu_conf_board_colour->Append(Menu_Conf_Aspect_BoardColour_Default, _("Couleurs d'origine"), _("Retrouver les couleurs d'origine"));
     //
     wxMenu *menu_conf_board_font = new wxMenu;
-// XXX:    menu_conf_board_font->Append(Menu_Conf_Aspect_Font_Search, wxT("Lettres de recherche"), wxT("Police de caractères pour les recherches"));
-    menu_conf_board_font->Append(Menu_Conf_Aspect_Font_Search, wxT("Lettres de recherche"), wxT("Police de caracteres pour les recherches"));
-// XXX:    menu_conf_board_font->Append(Menu_Conf_Aspect_Font_Board, wxT("Lettres de la grille"), wxT("Police de caractères de la grille"));
-    menu_conf_board_font->Append(Menu_Conf_Aspect_Font_Board, wxT("Lettres de la grille"), wxT("Police de caracteres de la grille"));
+// XXX:    menu_conf_board_font->Append(Menu_Conf_Aspect_Font_Search, _("Lettres de recherche"), _("Police de caractères pour les recherches"));
+    menu_conf_board_font->Append(Menu_Conf_Aspect_Font_Search, _("Lettres de recherche"), _("Police de caracteres pour les recherches"));
+// XXX:    menu_conf_board_font->Append(Menu_Conf_Aspect_Font_Board, _("Lettres de la grille"), _("Police de caractères de la grille"));
+    menu_conf_board_font->Append(Menu_Conf_Aspect_Font_Board, _("Lettres de la grille"), _("Police de caracteres de la grille"));
     //
     wxMenu *menu_conf = new wxMenu;
-    menu_conf->Append(Menu_Conf_Game, wxT("Jeu"), menu_conf_game, wxT("Configuration du jeu"));
-    menu_conf->Append(Menu_Conf_Aspect_Font, wxT("Fonte des lettres"), menu_conf_board_font, wxT("Modification des fontes"));
-    menu_conf->Append(Menu_Conf_Aspect_BoardColour, wxT("Couleurs de la grille"), menu_conf_board_colour, wxT("Modification des couleurs"));
-    menu_conf->Append(Menu_Conf_Print, wxT("Impression"), wxT("Dimensions de la partie"));
+    menu_conf->Append(Menu_Conf_Game, _("Jeu"), menu_conf_game, _("Configuration du jeu"));
+    menu_conf->Append(Menu_Conf_Aspect_Font, _("Fonte des lettres"), menu_conf_board_font, _("Modification des fontes"));
+    menu_conf->Append(Menu_Conf_Aspect_BoardColour, _("Couleurs de la grille"), menu_conf_board_colour, _("Modification des couleurs"));
+    menu_conf->Append(Menu_Conf_Print, _("Impression"), _("Dimensions de la partie"));
     //
     wxMenu *menu_frame = new wxMenu;
-    menu_frame->Append(Menu_ShowBoard, wxT("Grille"), wxT("Grille de jeu"));
-// XXX:    menu_frame->Append(Menu_ShowVerif, wxT("Vérification"), wxT("Vérification d'un mot dans le dictionnaire"));
-    menu_frame->Append(Menu_ShowVerif, wxT("Verification"), wxT("Verification d'un mot dans le dictionnaire"));
-    menu_frame->Append(Menu_ShowSearch, wxT("Recherche"), wxT("Recherche dans le dictionnaire"));
+    menu_frame->Append(Menu_ShowBoard, _("Grille"), _("Grille de jeu"));
+// XXX:    menu_frame->Append(Menu_ShowVerif, _("Vérification"), _("Vérification d'un mot dans le dictionnaire"));
+    menu_frame->Append(Menu_ShowVerif, _("Verification"), _("Verification d'un mot dans le dictionnaire"));
+    menu_frame->Append(Menu_ShowSearch, _("Recherche"), _("Recherche dans le dictionnaire"));
     menu_frame->AppendSeparator();
-    menu_frame->Append(Menu_ShowPlus1, wxT("Tirage + 1"), wxT("Lettres du tirage plus une"));
-    menu_frame->Append(Menu_ShowRacc, wxT("Raccords"), wxT("Raccords sur un mot de la recherche"));
-    menu_frame->Append(Menu_ShowBenj, wxT("Benjamins"), wxT("Benjamins sur un mot de la recherche"));
+    menu_frame->Append(Menu_ShowPlus1, _("Tirage + 1"), _("Lettres du tirage plus une"));
+    menu_frame->Append(Menu_ShowRacc, _("Raccords"), _("Raccords sur un mot de la recherche"));
+    menu_frame->Append(Menu_ShowBenj, _("Benjamins"), _("Benjamins sur un mot de la recherche"));
     menu_frame->AppendSeparator();
-    menu_frame->Append(Menu_ShowBag, wxT("Sac"), wxT("Lettres restantes dans le sac"));
+    menu_frame->Append(Menu_ShowBag, _("Sac"), _("Lettres restantes dans le sac"));
     menu_frame->AppendSeparator();
-    menu_frame->Append(Menu_ShowGame, wxT("Partie"), wxT("Partie"));
+    menu_frame->Append(Menu_ShowGame, _("Partie"), _("Partie"));
 #ifndef ENABLE_RESLIST_IN_MAIN
-    menu_frame->Append(Menu_ShowResult, wxT("Resultats"), wxT("Resultats"));
+    menu_frame->Append(Menu_ShowResult, _("Resultats"), _("Resultats"));
 #endif
     //
     wxMenu *menu_quit = new wxMenu;
-    menu_quit->Append(Menu_Quit_Apropos, wxT("A propos..."), wxT("A propos d'Eliot"));
-    menu_quit->Append(Menu_Quit_Confirm, wxT("Quitter"), wxT("Quitter"));
+    menu_quit->Append(Menu_Quit_Apropos, _("A propos..."), _("A propos d'Eliot"));
+    menu_quit->Append(Menu_Quit_Confirm, _("Quitter"), _("Quitter"));
     //
     wxMenuBar *menu_bar = new wxMenuBar;
-    menu_bar->Append(menu_game, wxT("Partie"));
-    menu_bar->Append(menu_conf, wxT("Configuration"));
-// XXX:    menu_bar->Append(menu_frame, wxT("Fenêtres"));
-    menu_bar->Append(menu_frame, wxT("Fenetres"));
-    menu_bar->Append(menu_quit, wxT("Quitter"));
+    menu_bar->Append(menu_game, _("Partie"));
+    menu_bar->Append(menu_conf, _("Configuration"));
+// XXX:    menu_bar->Append(menu_frame, _("Fenêtres"));
+    menu_bar->Append(menu_frame, _("Fenetres"));
+    menu_bar->Append(menu_quit, _("Quitter"));
 
     SetMenuBar(menu_bar);
 }
@@ -360,13 +357,12 @@ MainFrame::OnMenuGameNew(wxCommandEvent&)
 {
     if (m_dic == NULL)
       {
-// XXX:        wxMessageBox(wxT("Il n'y a pas de dictionnaire sélectionné"), wxT("Eliot: erreur"),
-        wxMessageBox(wxT("Il n'y a pas de dictionnaire selectionne"), wxT("Eliot: erreur"),
+        wxMessageBox(_("Il n'y a pas de dictionnaire selectionne"), _("Eliot: erreur"),
                      wxICON_INFORMATION | wxOK);
         return;
       }
 
-    TODO("selection du type de partie dans OnMenuGameNew\n");
+    //    TODO("selection du type de partie dans OnMenuGameNew\n");
 
     if (m_game != NULL)
       {
@@ -393,11 +389,10 @@ void
 MainFrame::OnMenuGameOpen(wxCommandEvent&)
 {
     wxString txt;
-    wxFileDialog dialog(this, wxT("Ouvrir une partie"), wxT(""), wxT(""), wxT("*"), wxOPEN);
+    wxFileDialog dialog(this, _("Ouvrir une partie"), wxT(""), wxT(""), wxT("*"), wxOPEN);
     if (m_dic == NULL)
     {
-// XXX:        wxMessageBox(wxT("Il n'y a pas de dictionnaire sélectionné"), wxT("Eliot: erreur"),
-        wxMessageBox(wxT("Il n'y a pas de dictionnaire selectionne"), wxT("Eliot: erreur"),
+        wxMessageBox(_("Il n'y a pas de dictionnaire selectionne"), _("Eliot: erreur"),
                      wxICON_INFORMATION | wxOK);
         return;
     }
@@ -416,8 +411,8 @@ MainFrame::OnMenuGameOpen(wxCommandEvent&)
 
     if ((fin = fopen(dialog.GetPath().mb_str(), "rb")) == NULL)
         {
-            txt << wxT("Impossible d'ouvrir") << dialog.GetPath();
-            wxMessageDialog msg(this, txt, wxT("Ouverture d'une partie"));
+            txt << _("Impossible d'ouvrir") << dialog.GetPath();
+            wxMessageDialog msg(this, txt, _("Ouverture d'une partie"));
             msg.ShowModal();
             return ;
         }
@@ -428,8 +423,8 @@ MainFrame::OnMenuGameOpen(wxCommandEvent&)
     if (m_game == NULL)
         {
             wxMessageDialog msg(this,
-				wxT("Erreur pendant la lecture de la partie"),
-				wxT("chargement de partie"));
+				_("Erreur pendant la lecture de la partie"),
+				_("chargement de partie"));
             msg.ShowModal();
             return;
         }
@@ -437,8 +432,8 @@ MainFrame::OnMenuGameOpen(wxCommandEvent&)
     if (m_game->getHistory().getSize() == 0)
 	{
             wxMessageDialog msg(this,
-				wxT("Erreur pendant la lecture de la partie"),
-				wxT("La partie est vide"));
+				_("Erreur pendant la lecture de la partie"),
+				_("La partie est vide"));
             msg.ShowModal();
             return;
 	}
@@ -468,16 +463,16 @@ MainFrame::OnMenuGameOpen(wxCommandEvent&)
 void
 MainFrame::OnMenuGameSave(wxCommandEvent& WXUNUSED(event))
 {
-    wxFileDialog dialog(this, wxT("Sauver une partie"), wxT(""), wxT(""), wxT("*"), wxSAVE|wxOVERWRITE_PROMPT);
+    wxFileDialog dialog(this, _("Sauver une partie"), wxT(""), wxT(""), wxT("*"), wxSAVE|wxOVERWRITE_PROMPT);
     if (dialog.ShowModal() == wxID_OK)
     {
         ofstream fout(dialog.GetPath().mb_str());
         if (fout.rdstate() == ios::failbit)
         {
             wxString txt;
-// XXX:            txt << wxT("Impossible de créer ") << dialog.GetPath();
-            txt << wxT("Impossible de creer ") << dialog.GetPath();
-            wxMessageDialog msg(this, txt, wxT("Sauvegarde de la partie"));
+// XXX:            txt << _("Impossible de créer ") << dialog.GetPath();
+            txt << _("Impossible de creer ") << dialog.GetPath();
+            wxMessageDialog msg(this, txt, _("Sauvegarde de la partie"));
             msg.ShowModal();
             return ;
         }
@@ -496,7 +491,7 @@ MainFrame::OnMenuGamePrint(wxCommandEvent& WXUNUSED(event))
     // TODO: gray out the menu instead...
     if (m_game == NULL)
     {
-        wxMessageBox(wxT("Pas de partie en cours"), wxT("Eliot: erreur"),
+        wxMessageBox(_("Pas de partie en cours"), _("Eliot: erreur"),
                      wxICON_INFORMATION | wxOK);
         return;
     }
@@ -505,7 +500,7 @@ MainFrame::OnMenuGamePrint(wxCommandEvent& WXUNUSED(event))
     GamePrintout printout(*m_game);
     if (!printer.Print(this, &printout, TRUE))
 // XXX:        wxMessageBox(wxT("Impression non effectuée."));
-        wxMessageBox(wxT("Impression non effectuee."));
+        wxMessageBox(_("Impression non effectuee."));
 }
 
 void
@@ -514,7 +509,7 @@ MainFrame::OnMenuGamePrintPreview(wxCommandEvent& WXUNUSED(event))
     // TODO: gray out the menu instead...
     if (m_game == NULL)
     {
-        wxMessageBox(wxT("Pas de partie en cours"), wxT("Eliot: erreur"),
+        wxMessageBox(_("Pas de partie en cours"), _("Eliot: erreur"),
                      wxICON_INFORMATION | wxOK);
         return;
     }
@@ -526,15 +521,15 @@ MainFrame::OnMenuGamePrintPreview(wxCommandEvent& WXUNUSED(event))
     if (!preview->Ok())
     {
         delete preview;
-// XXX:        msg << wxT("Problème de prévisualisation.\n")
-        msg << wxT("Probleme de previsualisation.\n")
-// XXX:            << wxT("Il se peut que l'imprimante par défaut soit mal initialisée");
-            << wxT("Il se peut que l'imprimante par defaut soit mal initialisee");
-// XXX:        wxMessageBox(msg, wxT("Impression (prévisualisation)"), wxOK);
-        wxMessageBox(msg, wxT("Impression (previsualisation)"), wxOK);
+// XXX:        msg << _("Problème de prévisualisation.\n")
+        msg << _("Probleme de previsualisation.\n")
+// XXX:            << _("Il se peut que l'imprimante par défaut soit mal initialisée");
+            << _("Il se peut que l'imprimante par defaut soit mal initialisee");
+// XXX:        wxMessageBox(msg, _("Impression (prévisualisation)"), wxOK);
+        wxMessageBox(msg, _("Impression (previsualisation)"), wxOK);
         return;
     }
-    wxPreviewFrame *frame = new wxPreviewFrame(preview, this, wxT("Impression"),
+    wxPreviewFrame *frame = new wxPreviewFrame(preview, this, _("Impression"),
                                                wxPoint(-1, -1), wxSize(600, 550));
     frame->Centre(wxBOTH);
     frame->Initialize();
@@ -548,12 +543,12 @@ MainFrame::OnMenuGamePrintPS(wxCommandEvent& WXUNUSED(event))
     // TODO: gray out the menu instead...
     if (m_game == NULL)
     {
-        wxMessageBox(wxT("Pas de partie en cours"), wxT("Eliot: erreur"),
+        wxMessageBox(_("Pas de partie en cours"), _("Eliot: erreur"),
                      wxICON_INFORMATION | wxOK);
         return;
     }
     wxString txt;
-    wxFileDialog dialog(this, wxT("Imprimer dans un fichier PostScript"), wxT(""), wxT(""), wxT("*.ps"), wxSAVE|wxOVERWRITE_PROMPT);
+    wxFileDialog dialog(this, _("Imprimer dans un fichier PostScript"), wxT(""), wxT(""), wxT("*.ps"), wxSAVE|wxOVERWRITE_PROMPT);
     if (dialog.ShowModal() == wxID_OK)
     {
         wxPrintData printdataPS;
@@ -571,22 +566,22 @@ MainFrame::OnMenuGamePrintPS(wxCommandEvent& WXUNUSED(event))
             GamePrintout printout(*m_game);
             if (!printer.Print(this, &printout, FALSE))
             {
-// XXX:                wxMessageBox(wxT("Impression non effectuée."));
-                wxMessageBox(wxT("Impression non effectuee."));
+// XXX:                wxMessageBox(_("Impression non effectuée."));
+                wxMessageBox(_("Impression non effectuee."));
             }
             else
             {
                 wxString msg;
-// XXX:                msg << wxT("Dessin effectué dans ") << dialog.GetPath() << wxT("\n");
-                msg << wxT("Dessin effectue dans ") << dialog.GetPath() << wxT("\n");
-                wxMessageBox(msg, wxT("Sauvegarde PostScript"), wxOK);
+// XXX:                msg << _("Dessin effectué dans ") << dialog.GetPath() << _("\n");
+                msg << _("Dessin effectue dans ") << dialog.GetPath() << _("\n");
+                wxMessageBox(msg, _("Sauvegarde PostScript"), wxOK);
             }
         }
         else
         {
             wxString msg;
-            msg << wxT("impossible d'initialiser le traitement PostScript.\n");
-            wxMessageBox(msg, wxT("Sauvegarde PostScript"), wxOK);
+            msg << _("impossible d'initialiser le traitement PostScript.\n");
+            wxMessageBox(msg, _("Sauvegarde PostScript"), wxOK);
         }
     }
 #endif
@@ -601,7 +596,7 @@ void
 MainFrame::OnMenuConfGameDic(wxCommandEvent& WXUNUSED(event))
 {
     wxString txt, msg, dicpath;
-    wxFileDialog dialog(this, wxT("Choisir un dictionnaire"), wxT(""), wxT("*.dawg"), wxT("*.dawg"), wxOPEN);
+    wxFileDialog dialog(this, _("Choisir un dictionnaire"), wxT(""), wxT("*.dawg"), wxT("*.dawg"), wxOPEN);
     if (dialog.ShowModal() == wxID_OK)
     {
         wxString dicpath = dialog.GetPath();
@@ -622,18 +617,18 @@ MainFrame::OnMenuConfGameDic(wxCommandEvent& WXUNUSED(event))
             switch (res)
             {
                 case 0: /* cas normal */ break;
-// XXX:                case 1: msg << wxT("chargement: problème d'ouverture de ") << dicpath << wxT("\n"); break;
-                case 1: msg << wxT("chargement: probleme d'ouverture de ") << dicpath << wxT("\n"); break;
-// XXX:                case 2: msg << wxT("chargement: mauvais en-tête de dictionnaire\n"); break;
-                case 2: msg << wxT("chargement: mauvais en-tete de dictionnaire\n"); break;
-// XXX:                case 3: msg << wxT("chargement: problème 3 d'allocation mémoire\n"); break;
-                case 3: msg << wxT("chargement: probleme 3 d'allocation memoire\n"); break;
-// XXX:                case 4: msg << wxT("chargement: problème 4 d'allocation mémoire\n"); break;
-                case 4: msg << wxT("chargement: probleme 4 d'allocation memoire\n"); break;
-// XXX:                case 5: msg << wxT("chargement: problème de lecture des arcs du dictionnaire\n"); break;
-                case 5: msg << wxT("chargement: probleme de lecture des arcs du dictionnaire\n"); break;
-// XXX:                default: msg << wxT("chargement: problème non-répertorié\n"); break;
-                default: msg << wxT("chargement: probleme non-repertorie\n"); break;
+// XXX:                case 1: msg << _("chargement: problème d'ouverture de ") << dicpath << _("\n"); break;
+                case 1: msg << _("chargement: probleme d'ouverture de ") << dicpath << _("\n"); break;
+// XXX:                case 2: msg << _("chargement: mauvais en-tête de dictionnaire\n"); break;
+                case 2: msg << _("chargement: mauvais en-tete de dictionnaire\n"); break;
+// XXX:                case 3: msg << _("chargement: problème 3 d'allocation mémoire\n"); break;
+                case 3: msg << _("chargement: probleme 3 d'allocation memoire\n"); break;
+// XXX:                case 4: msg << _("chargement: problème 4 d'allocation mémoire\n"); break;
+                case 4: msg << _("chargement: probleme 4 d'allocation memoire\n"); break;
+// XXX:                case 5: msg << _("chargement: problème de lecture des arcs du dictionnaire\n"); break;
+                case 5: msg << _("chargement: probleme de lecture des arcs du dictionnaire\n"); break;
+// XXX:                default: msg << _("chargement: problème non-répertorié\n"); break;
+                default: msg << _("chargement: probleme non-repertorie\n"); break;
             }
             wxMessageDialog dlg(NULL, msg, wxT(APPNAME));
             dlg.ShowModal();
@@ -752,7 +747,7 @@ MainFrame::OnMenuQuitApropos(wxCommandEvent& WXUNUSED(event))
     msg << wxT("the Free Software Foundation; either version 2 of the License, or\n");
     msg << wxT("(at your option) any later version.\n\n");
     msg << wxT("Version ") << wxT(VERSION) << wxT("\n");
-    wxMessageBox(msg, wxT("A propos d'Eliot"), wxICON_INFORMATION | wxOK);
+    wxMessageBox(msg, _("A propos d'Eliot"), wxICON_INFORMATION | wxOK);
 }
 
 void
@@ -797,6 +792,8 @@ void
 MainFrame::OnSearch(wxCommandEvent& WXUNUSED(event))
 {
     debug("MainFrame::OnSearch\n");
+    // check if rack has been set manually
+    SetRack(Game::RACK_MANUAL,rack->GetValue());
     Search();
 }
 
@@ -941,8 +938,8 @@ MainFrame::UpdateStatusBar()
 	if (m_game)
 	{
 	    text = wxT("");
-	    text << wxT("coup:") << (m_game->getHistory().getSize() + 1) << wxT(" ");
-	    text << wxT("points:") << (m_game->getCurrentPlayer().getPoints());
+	    text << _("coup:") << (m_game->getHistory().getSize() + 1) << wxT(" ");
+	    text << _("points:") << (m_game->getCurrentPlayer().getPoints());
 	    statusbar->SetStatusText(text, 1);
 	}
     }
@@ -975,20 +972,20 @@ MainFrame::SetRack(Game::set_rack_mode mode, wxString srack)
 	    debug("SetRack Ok :: ");
 	    break;
         case 0x01:
-            msg = wxT("Le sac ne contient pas assez de lettres\npour assurer le tirage.");
-            wxMessageBox(msg, wxT("Correction du tirage"), wxICON_INFORMATION | wxOK);
+            msg = _("Le sac ne contient pas assez de lettres\npour assurer le tirage.");
+            wxMessageBox(msg, _("Correction du tirage"), wxICON_INFORMATION | wxOK);
             return;
         case 0x02:
-            msg = wxT("Le tirage doit contenir au moins 2 consonnes et 2 voyelles.\n");
-            wxMessageBox(msg, wxT("Correction du tirage"), wxICON_INFORMATION | wxOK);
+            msg = _("Le tirage doit contenir au moins 2 consonnes et 2 voyelles.\n");
+            wxMessageBox(msg, _("Correction du tirage"), wxICON_INFORMATION | wxOK);
             return;
         case 0x03:
-	    msg  = wxT("Le tirage doit contenir au moins 2 consonnes et 2 voyelles\n");
-	    msg += wxT("mais le sac ne contient plus assez de lettres.\n\n");
-	    wxMessageBox(msg, wxT("Correction du tirage"), wxICON_INFORMATION | wxOK);
+	    msg  = _("Le tirage doit contenir au moins 2 consonnes et 2 voyelles\n");
+	    msg += _("mais le sac ne contient plus assez de lettres.\n\n");
+	    wxMessageBox(msg, _("Correction du tirage"), wxICON_INFORMATION | wxOK);
             break;
 	default:
-	    statusbar->SetStatusText(wxT("Le tirage a ete modifie manuellement"), 0);
+	    statusbar->SetStatusText(_("Le tirage a ete modifie manuellement"), 0);
 	    break;
 	}
 
@@ -1031,7 +1028,7 @@ MainFrame::Play(int n)
 #ifdef ENABLE_RESLIST_IN_MAIN
 	    n = reslist->GetSelected();
 #else
-	    n = auxframes_ptr[ ID_Frame_Result ]->GetSelected();
+	    n = ((ResultFrame*)auxframes_ptr[ ID_Frame_Result ])->GetSelected();
 #endif
 	    if (n > -1)
 		{
