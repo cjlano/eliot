@@ -26,6 +26,8 @@ training_play       4
 training_back       5
 # Board cross off by one score problem
 training_cross      0
+# Joker problem on search
+training_joker      0
 
 #################
 # Duplicate mode
