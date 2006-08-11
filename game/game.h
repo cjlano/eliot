@@ -230,12 +230,12 @@ protected:
     /**
      * Training games ares saved using the initial Eliot format
      */
-    void Game::gameSaveFormat_14(ostream &out) const;
+    void gameSaveFormat_14(ostream &out) const;
 
     /**
      * Advanced game file format output
      */
-    void Game::gameSaveFormat_15(ostream &out) const;
+    void gameSaveFormat_15(ostream &out) const;
 
 };
 
