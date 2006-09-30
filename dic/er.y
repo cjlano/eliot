@@ -25,7 +25,6 @@
 
 #include "dic.h"
 #include "regexp.h"
-#include "dic_search.h"
 #include "libdic_a-er.h"
 #include "scanner.h"
 
