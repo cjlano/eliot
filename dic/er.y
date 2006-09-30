@@ -23,9 +23,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "dic_internals.h"
-#include "dic.h"
-
 #include "dic.h"
 #include "regexp.h"
 #include "dic_search.h"
