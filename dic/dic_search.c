@@ -690,6 +690,7 @@ Dic_search_RegE(const Dictionary dic, const wchar_t* re,
             wordlist[i][j] = tmp_buff[i][j];
         }
     }
+    free(tmp_re);
 }
 
 /****************************************/
