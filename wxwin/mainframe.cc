@@ -999,7 +999,11 @@ MainFrame::SetRack(Game::set_rack_mode mode, wxString srack)
 void
 MainFrame::Search()
 {
-    ((Training*)m_game)->removeTestPlay();
+    if (m_game == NULL || m_game->getDic() == NULL)
+    {
+        return;
+    }
+    static_cast<Training*>(m_game)->removeTestPlay();
 #ifdef ENABLE_RESLIST_IN_MAIN
     reslist->Search();
 #else
@@ -1015,7 +1019,11 @@ MainFrame::Search()
 void
 MainFrame::Play(int n)
 {
-    ((Training*)m_game)->removeTestPlay();
+    if (m_game == NULL)
+    {
+        return;
+    }
+    static_cast<Training*>(m_game)->removeTestPlay();
     if (n < 0)
 	{
 	    debug("MainFrame::Play back %d\n",n);
@@ -1044,8 +1052,12 @@ MainFrame::Play(int n)
 void
 MainFrame::TestPlay(int n)
 {
-    ((Training*)m_game)->removeTestPlay();
-    ((Training*)m_game)->testPlay(n);
+    if (m_game == NULL)
+    {
+        return;
+    }
+    static_cast<Training*>(m_game)->removeTestPlay();
+    static_cast<Training*>(m_game)->testPlay(n);
     UpdateFrames();
     UpdateStatusBar();
 }
