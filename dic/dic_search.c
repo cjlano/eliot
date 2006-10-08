@@ -280,6 +280,7 @@ Dic_search_7pl1(const Dictionary dic, const wchar_t* rack,
             }
         }
     }
+    free(tmp_rack);
 }
 
 /****************************************/
@@ -357,6 +358,7 @@ Dic_search_Racc(const Dictionary dic, const wchar_t* word,
             wordlist[i][j] = tmp_buff[i][j];
         }
     }
+    free(tmp_word);
 }
 
 /****************************************/
@@ -419,6 +421,7 @@ Dic_search_Benj(const Dictionary dic, const wchar_t* word,
             wordlist[i][j] = tmp_buff[i][j];
         }
     }
+    free(tmp_word);
 }
 
 
@@ -527,6 +530,7 @@ Dic_search_Cros(const Dictionary dic, const wchar_t* mask,
             wordlist[i][j] = tmp_buff[i][j];
         }
     }
+    free(tmp_mask);
 }
 
 /****************************************/
