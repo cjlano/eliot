@@ -194,7 +194,7 @@ Dic_search_7pl1_inner(const Dictionary dic, const char* rack,
   for(i=0; i<DIC_LETTERS; i++)
     params.search_letters[i] = 0;
 
-  if (dic == NULL || rack == NULL)
+  if (dic == NULL || rack == NULL || *rack == '\0')
     return;
 
   /*
@@ -265,10 +265,6 @@ Dic_search_7pl1(const Dictionary dic, const wchar_t* rack,
 {
     int i, j, k;
     char tmp_buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
-
-    if (wcslen(rack) == 0)
-        return;
-
     char *tmp_rack = malloc(wcslen(rack) + 1);
     sprintf(tmp_rack, "%ls", rack);
     // Do the actual work
@@ -303,7 +299,7 @@ Dic_search_Racc_inner(const Dictionary dic, const char* word,
   for(i=0; i < RES_RACC_MAX; i++)
     wordlist[i][0] = 0;
 
-  if (dic == NULL || wordlist == NULL)
+  if (dic == NULL || wordlist == NULL || *wordlist == '\0')
     return;
 
   /* let's try for the front */
@@ -350,10 +346,6 @@ Dic_search_Racc(const Dictionary dic, const wchar_t* word,
 {
     int i, j;
     char tmp_buff[RES_RACC_MAX][DIC_WORD_MAX];
-
-    if (wcslen(word) == 0)
-        return;
-
     char *tmp_word = malloc(wcslen(word) + 1);
     sprintf(tmp_word, "%ls", word);
     // Do the actual work
@@ -384,7 +376,7 @@ Dic_search_Benj_inner(const Dictionary dic, const char* word,
   for(i=0; i < RES_BENJ_MAX; i++)
     wordlist[i][0] = 0;
 
-  if (dic == NULL || word == NULL)
+  if (dic == NULL || word == NULL || *word == '\0')
     return;
 
   wordlistlen = 0;
@@ -417,10 +409,6 @@ Dic_search_Benj(const Dictionary dic, const wchar_t* word,
 {
     int i, j;
     char tmp_buff[RES_BENJ_MAX][DIC_WORD_MAX];
-
-    if (wcslen(word) == 0)
-        return;
-
     char *tmp_word = malloc(wcslen(word) + 1);
     sprintf(tmp_word, "%ls", word);
     // Do the actual work
@@ -500,7 +488,7 @@ Dic_search_Cros_inner(const Dictionary dic, const char* mask,
   for(i=0; i < RES_CROS_MAX; i++)
     wordlist[i][0] = 0;
 
-  if (dic == NULL || mask == NULL)
+  if (dic == NULL || mask == NULL || *mask == '\0')
     return;
 
   for(i=0; i < DIC_WORD_MAX && mask[i]; i++)
@@ -530,10 +518,6 @@ Dic_search_Cros(const Dictionary dic, const wchar_t* mask,
 {
     int i, j;
     char tmp_buff[RES_CROS_MAX][DIC_WORD_MAX];
-
-    if (wcslen(mask) == 0)
-        return;
-
     char *tmp_mask = malloc(wcslen(mask) + 1);
     sprintf(tmp_mask, "%ls", mask);
     // Do the actual work
@@ -628,7 +612,7 @@ Dic_search_RegE_inner(const Dictionary dic, const char* re,
   for(i=0; i < RES_REGE_MAX; i++)
     wordlist[i][0] = 0;
 
-  if (dic == NULL || re == NULL)
+  if (dic == NULL || re == NULL || *re == '\0')
     return;
 
   /* (expr)# */
@@ -698,10 +682,6 @@ Dic_search_RegE(const Dictionary dic, const wchar_t* re,
 {
     int i, j;
     char tmp_buff[RES_REGE_MAX][DIC_WORD_MAX];
-
-    if (wcslen(re) == 0)
-        return;
-
     char *tmp_re = malloc(wcslen(re) + 1);
     sprintf(tmp_re, "%ls", re);
     // Do the actual work
@@ -709,10 +689,7 @@ Dic_search_RegE(const Dictionary dic, const wchar_t* re,
 
     for (i = 0; i < RES_REGE_MAX; i++)
     {
-        for (j = 0; j < DIC_WORD_MAX; j++)
-        {
-            wordlist[i][j] = tmp_buff[i][j];
-        }
+        mbstowcs(wordlist[i], tmp_buff[i], DIC_WORD_MAX);
     }
     free(tmp_re);
 }
