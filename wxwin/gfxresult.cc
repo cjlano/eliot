@@ -115,7 +115,7 @@ GfxResult::Refresh()
     debug("   GfxResult::Refresh : ");
     std::wstring rack = game->getCurrentPlayer().getCurrentRack().toString();
 
-    if (savedrack != rack)
+    if (savedrack != rack || static_cast<Training*>(game)->getResults().size() != results->GetItemCount())
     {
         debug("changed (%ls -> %ls)",savedrack.c_str(),rack.c_str());
         savedrack = rack;
