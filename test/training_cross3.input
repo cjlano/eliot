@@ -1,0 +1,35 @@
+e
+a gd         # c1
+
+t EUOFMIE
+r
+n 1
+a gd         # c2
+
+n -1
+a gd         # c3
+
+r
+n 1
+a gd         # c4
+
+t W+TSREIN
+r
+n 1
+a gd         # c5
+
+t I+RDTVI?
+r
+n 1
+a gd         # c6
+
+n -1
+a gd         # c7
+
+q
+q
+
+# c1 == ffffff:-1
+# c3 == c1
+# c4 == c2
+# c7 == c5

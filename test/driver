@@ -24,10 +24,22 @@ training_search     0  # randseed unused
 training_play       4
 # Training rack+search+play+back 
 training_back       5
-# Board cross off by one score problem
+# Joker problem on game search
+training_rosace     0
+
+# Board cross off by one score 
 training_cross      0
-# Joker problem on search
+# Board cross backward setAny 
+training_cross2     0
+# Board cross backward joker 
+training_cross3     0 
+
+# Joker problem on game load
 training_joker      0
+
+# Joker problem on game search
+# Eliot Rosace coup 10 nuageuse dans la recherche
+training_joker2     0
 
 #################
 # Duplicate mode
