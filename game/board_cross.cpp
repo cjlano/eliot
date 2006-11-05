@@ -37,38 +37,40 @@ static void Board_checkout_tile(const Dictionary &iDic,
                                 int& oPoints,
                                 int index)
 {
+    int i,left;
     unsigned int node, succ;
-    int j;
 
     oPoints = 0;
 
     /* Points on the left part */
-    int i = index;
-    while (!iTiles[i - 1].isEmpty())
+    left = index;
+    while (!iTiles[left - 1].isEmpty())
     {
-        i--;
-        if (!iJoker[i])
-            oPoints += iTiles[i].getPoints();
+        left--;
+        if (!iJoker[left])
+            oPoints += iTiles[left].getPoints();
     }
 
+    // FIXME: create temporary strings until the dictionary uses Tile objects
+    char leftTiles [BOARD_DIM + 1];
+    char rightTiles[BOARD_DIM + 1];
+
+    for (i = left; i < index; i++)
+        leftTiles[i - left] = toupper(iTiles[i].toChar());
+    leftTiles[index - left] = 0;
+
+    for (i = index + 1; !iTiles[i].isEmpty(); i++)
+        rightTiles[i - index - 1] = toupper(iTiles[i].toChar());
+    rightTiles[i - index - 1] = 0;
+
     /* Tiles that can be played */
-    // FIXME: create a temporary string until the dictionary uses Tile objects
-    char leftTiles[BOARD_DIM + 1];
-    for (j = i; j < index; j++)
-        leftTiles[j - i] = toupper(iTiles[j].toChar());
-    leftTiles[index - i] = 0;
     node = Dic_char_lookup(iDic, Dic_root(iDic), leftTiles);
-    if (node == 0)
+    if (node == 0) 
     {
-        oCross.clear();
+        oCross.setNone();
         return;
     }
 
-    // FIXME: same thing for the right part
-    char rightTiles[BOARD_DIM + 1];
-    for (j = index + 1; !iTiles[j].isEmpty(); j++)
-        rightTiles[j - index - 1] = toupper(iTiles[j].toChar());
-    rightTiles[j - index - 1] = 0;
     for (succ = Dic_succ(iDic, node); succ; succ = Dic_next(iDic, succ))
     {
         if (Dic_word(iDic, Dic_char_lookup(iDic, succ, rightTiles)))
@@ -101,12 +103,12 @@ static void Board_check(const Dictionary &iDic,
             iPointMx[j][i] = -1;
             if (!iTilesMx[i][j].isEmpty())
             {
-                iCrossMx[j][i].clear();
+                iCrossMx[j][i].setNone();
 	    }
             else if (!iTilesMx[i][j - 1].isEmpty() ||
                      !iTilesMx[i][j + 1].isEmpty())
             {
-                iCrossMx[j][i].clear();
+                iCrossMx[j][i].setNone();
                 Board_checkout_tile(iDic,
                                     iTilesMx[i],
                                     iJokerMx[i],

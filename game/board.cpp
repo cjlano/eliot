@@ -94,14 +94,14 @@ Board::Board():
     // No cross check allowed around the board
     for (int i = 0; i < BOARD_REALDIM; i++)
     {
-        m_crossRow[0][i].clear();
-        m_crossCol[0][i].clear();
-        m_crossRow[i][0].clear();
-        m_crossCol[i][0].clear();
-        m_crossRow[BOARD_REALDIM - 1][i].clear();
-        m_crossCol[BOARD_REALDIM - 1][i].clear();
-        m_crossRow[i][BOARD_REALDIM - 1].clear();
-        m_crossCol[i][BOARD_REALDIM - 1].clear();
+        m_crossRow[0][i].setNone();
+        m_crossCol[0][i].setNone();
+        m_crossRow[i][0].setNone();
+        m_crossCol[i][0].setNone();
+        m_crossRow[BOARD_REALDIM - 1][i].setNone();
+        m_crossCol[BOARD_REALDIM - 1][i].setNone();
+        m_crossRow[i][BOARD_REALDIM - 1].setNone();
+        m_crossCol[i][BOARD_REALDIM - 1].setNone();
     }
 }
 
@@ -206,8 +206,10 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
             {
                 m_tilesRow[row][col + i] = Tile::dummy();
                 m_jokerRow[row][col + i] = false;
+                m_crossRow[row][col + i].setAny();
                 m_tilesCol[col + i][row] = Tile::dummy();
                 m_jokerCol[col + i][row] = false;
+                m_crossCol[col + i][row].setAny();
             }
         }
     }
@@ -219,8 +221,10 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
             {
                 m_tilesRow[row + i][col] = Tile::dummy();
                 m_jokerRow[row + i][col] = false;
+                m_crossRow[row + i][col].setAny();
                 m_tilesCol[col][row + i] = Tile::dummy();
                 m_jokerCol[col][row + i] = false;
+                m_crossCol[col][row + i].setAny();
             }
         }
     }
@@ -458,6 +462,29 @@ int Board::getLetterMultiplier(int iRow, int iCol) const
         iCol < BOARD_MIN || iCol > BOARD_MAX)
         return 0;
     return m_tileMultipliers[iRow][iCol];
+}
+
+
+#define CELL_STRING_FORMAT "[%s:%2d]"
+
+string Board::getCellContent_row(int row, int col) const
+{
+    char buff[1024];  /* [ joker, mask, point, tiles ] */
+    sprintf(buff,CELL_STRING_FORMAT,
+            // m_jokerRow[row][col] ? 'j':'.',
+            m_crossRow[row][col].getHexContent().c_str(),
+            m_pointRow[row][col]);
+    return string(buff);
+}
+
+string Board::getCellContent_col(int row, int col) const
+{
+    char buff[1024];
+    sprintf(buff,CELL_STRING_FORMAT,
+            // m_jokerCol[col][row] ? 'j':'.',
+            m_crossCol[col][row].getHexContent().c_str(),
+            m_pointCol[col][row]);
+    return string(buff);
 }
 
 

@@ -24,7 +24,7 @@
 #include "round.h"
 #include "results.h"
 #include "board.h"
-
+#include "encoding.h"
 #include "debug.h"
 
 /*
@@ -78,7 +78,6 @@ static void BoardSearchEvalMove(const Board &iBoard,
     iWord.setBonus(fromrack == 7);
     iWord.setPoints(pts);
 
-    // XXX: ugly!
     if (iWord.getCoord().getDir() == Coord::VERTICAL)
     {
         // Exchange the coordinates temporarily
@@ -90,6 +89,8 @@ static void BoardSearchEvalMove(const Board &iBoard,
         // Restore the coordinates
         iWord.accessCoord().swap();
     }
+
+    /* fprintf(stdout,"eval: %s\n",convertToMb(iWord.toString()).c_str()); */
 }
 
 
@@ -236,9 +237,27 @@ static void BoardSearchAux(const Board &iBoard,
             if (iTilesMx[row][col].isEmpty() &&
                 (!iTilesMx[row][col - 1].isEmpty() ||
                  !iTilesMx[row][col + 1].isEmpty() ||
-                 !iTilesMx[row - 1][col].isEmpty() ||
+                 !iTilesMx[row - 1][col].isEmpty() || 
                  !iTilesMx[row + 1][col].isEmpty()))
             {
+#if defined(DONT_USE_SEARCH_OPTIMIZATION)
+                if (!iTilesMx[row][col - 1].isEmpty())
+                {
+                    partialword.accessCoord().setCol(lastanchor + 1);
+                    ExtendRight(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
+                                iJokerMx, iRack, partialword, iResults,
+                                Dic_root(iDic), row, lastanchor + 1, col);
+                }
+                else
+                {
+                    partialword.accessCoord().setCol(col);
+                    LeftPart(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
+                             iJokerMx, iRack, partialword, iResults,
+                             Dic_root(iDic), row, col, col -
+                             lastanchor - 1);
+                }
+                lastanchor = col;
+#else
                 // Optimization compared to the original Appel & Jacobson
                 // algorithm: skip Leftpart if none of the tiles of the rack
                 // matches the cross mask for the current anchor
@@ -270,6 +289,7 @@ static void BoardSearchAux(const Board &iBoard,
                     }
                 }
                 lastanchor = col;
+#endif
             }
         }
     }

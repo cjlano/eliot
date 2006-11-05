@@ -36,23 +36,24 @@ public:
     Cross();
     virtual ~Cross() {}
 
-    void setAny()                   { m_any = true; }
-    bool isAny() const              { return m_any; }
+    void setAny();     
+    void setNone();
+
+    bool isAny() const;
+    bool isNone() const;
+
     bool check(const Tile& iTile) const;
 
     bool operator==(const Cross &iOther) const;
     bool operator!=(const Cross &iOther) const { return !(*this == iOther); }
 
     // Standard set methods (almost)
-    void insert(const Tile& iTile)  { m_mask |= (1 << iTile.toCode()); }
-    void clear();
+    void insert(const Tile& iTile);
 
+    string getHexContent() const;
 private:
     /// Mask indicating which tiles are accepted for the cross check
     unsigned int m_mask;
-
-    /// When this value is true, any letter matches the cross check
-    bool m_any;
 };
 
 #endif

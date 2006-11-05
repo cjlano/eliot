@@ -17,37 +17,56 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <string>
 #include "cross.h"
 
+#define CROSS_MASK 0xFFFFFFFF
 
 Cross::Cross()
 {
     // The default behaviour is to match everything
-    m_any = true;
-    m_mask = 0xFFFFFFFF;
+    setAny();
 }
 
+void Cross::setAny()                   
+{ 
+    m_mask = CROSS_MASK;
+}
 
-void Cross::clear()
+bool Cross::isAny() const
+{ 
+    return m_mask == CROSS_MASK; 
+}
+
+void Cross::setNone()
 {
-    m_any = false;
     m_mask = 0;
 }
 
+string Cross::getHexContent() const
+{
+    char buff[10];
+    sprintf(buff,"%08x",m_mask);
+    string s(buff);
+    return s;
+}
 
 bool Cross::check(const Tile& iTile) const
 {
-    if (m_any || (iTile.isJoker() && m_mask != 0))
-        return true;
-    return m_mask & (1 << iTile.toCode());
+    return (iTile.isJoker() && m_mask != 0) || (m_mask & (1 << iTile.toCode()));
 }
 
+void Cross::insert(const Tile& iTile)
+{ 
+    m_mask |= (1 << iTile.toCode());
+}
 
 bool Cross::operator==(const Cross &iOther) const
 {
-    if (isAny() || iOther.isAny())
-        return isAny() && iOther.isAny();
-
+    /* 
+     *  if (isAny() || iOther.isAny())
+     *    return isAny() && iOther.isAny();
+     */
     return m_mask == iOther.m_mask;
 }
 

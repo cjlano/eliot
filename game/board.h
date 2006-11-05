@@ -88,7 +88,7 @@ public:
 
     void addRound(const Dictionary &iDic, const Round &iRound);
     void removeRound(const Dictionary &iDic, const Round &iRound);
-    int checkRound(Round &iRound, bool iFirstTurn);
+    int  checkRound(Round &iRound, bool iFirstTurn);
 
     /**
      *
@@ -113,6 +113,12 @@ public:
      */
     int getWordMultiplier(int iRow, int iCol) const;
     int getLetterMultiplier(int iRow, int iCol) const;
+
+    /**
+     * 
+     */
+    string getCellContent_row(int row, int col) const;
+    string getCellContent_col(int row, int col) const;
 
 private:
 
