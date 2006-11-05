@@ -146,7 +146,7 @@ static void ExtendRight(const Board &iBoard,
         l = iTilesMx[iRow][iCol];
         for (succ = Dic_succ(iDic, iNode); succ ; succ = Dic_next(iDic, succ))
         {
-            if (Tile(Dic_char(iDic, succ)) == l)
+            if (Dic_char(iDic, succ) == toupper(l.toChar()))
             {
                 ioPartialWord.addRightFromBoard(l);
                 ExtendRight(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,

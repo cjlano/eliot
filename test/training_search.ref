@@ -814,39 +814,41 @@ commande> a r 50
  13: En                  5 G7
  14: Es                  5 G7
  15: Ex                  5 G7
- 16: aIE                 2 8G
- 17: fIE                 2 8G
- 18: IxE                 2 8H
- 19: IvE                 2 8H
- 20: IrE                 2 8H
- 21: IpE                 2 8H
- 22: IlE                 2 8H
- 23: IdE                 2 8H
- 24: lEI                 2 8F
- 25: EpI                 2 8F
- 26: hIE                 2 8G
- 27: lIE                 2 8G
- 28: mIE                 2 8G
- 29: nIE                 2 8G
- 30: oIE                 2 8G
- 31: pIE                 2 8G
- 32: vIE                 2 8G
- 33: rIE                 2 8G
- 34: hI                  1 8G
- 35: lI                  1 8G
- 36: xI                  1 8G
- 37: aI                  1 8G
- 38: mI                  1 8G
- 39: bI                  1 8G
- 40: cI                  1 8G
- 41: fI                  1 8G
- 42: sI                  1 8G
- 43: nI                  1 8G
- 44: rI                  1 8G
- 45: pI                  1 8G
- 46: In                  1 8H
- 47: If                  1 8H
- 48: Il                  1 8H
+ 16: pIE                 2 8G
+ 17: oIE                 2 8G
+ 18: nIE                 2 8G
+ 19: mIE                 2 8G
+ 20: lIE                 2 8G
+ 21: hIE                 2 8G
+ 22: fIE                 2 8G
+ 23: aIE                 2 8G
+ 24: pEu                 2 7F
+ 25: lEu                 2 7F
+ 26: jEu                 2 7F
+ 27: hEu                 2 7F
+ 28: fEu                 2 7F
+ 29: rIE                 2 8G
+ 30: vIE                 2 8G
+ 31: EpI                 2 8F
+ 32: lEI                 2 8F
+ 33: IdE                 2 8H
+ 34: IlE                 2 8H
+ 35: IpE                 2 8H
+ 36: IrE                 2 8H
+ 37: IvE                 2 8H
+ 38: IxE                 2 8H
+ 39: Eu                  2 7G
+ 40: duE                 2 7G
+ 41: buE                 2 7G
+ 42: Eue                 2 7G
+ 43: Euh                 2 7G
+ 44: Eus                 2 7G
+ 45: Eut                 2 7G
+ 46: Eux                 2 7G
+ 47: euE                 2 7G
+ 48: guE                 2 7G
+ 49: huE                 2 7G
+ 50: luE                 2 7G
 commande> q
 fin du mode entraînement
 commande> q
