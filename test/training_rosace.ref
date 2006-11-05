@@ -3,55 +3,55 @@ commande> e
 mode entraînement
 [?] pour l'aide
 commande> 
-commande> t  WAEROSC
-commande> 
-commande> r 
-commande> 
-commande> n 1
-commande> 
-commande> t  W+TSREIN
-commande> 
-commande> r 
-commande> 
-commande> n 1
-commande> 
-commande> t  I+RDTVI?
-commande> 
-commande> r 
-commande> 
-commande> n 1
-commande> 
-commande> t  ELMOEAH
-commande> 
-commande> r 
-commande> 
-commande> n 1
-commande> 
-commande> t  EELMO+PI
+commande> t WAEROSC
 commande> 
 commande> r
 commande> 
 commande> n 1
 commande> 
-commande> t  OHUMJUI
+commande> t W+TSREIN
 commande> 
 commande> r
 commande> 
 commande> n 1
 commande> 
-commande> t  HMU+EAUA
-commande> 
-commande> r
-commande> 
-commande> n 1 
-commande> 
-commande> t  AAMU+UBS
+commande> t I+RDTVI?
 commande> 
 commande> r
 commande> 
 commande> n 1
 commande> 
-commande> t  UU+NYTEP
+commande> t ELMOEAH
+commande> 
+commande> r
+commande> 
+commande> n 1
+commande> 
+commande> t EELMO+PI
+commande> 
+commande> r
+commande> 
+commande> n 1
+commande> 
+commande> t OHUMJUI
+commande> 
+commande> r
+commande> 
+commande> n 1
+commande> 
+commande> t HMU+EAUA
+commande> 
+commande> r
+commande> 
+commande> n 1
+commande> 
+commande> t AAMU+UBS
+commande> 
+commande> r
+commande> 
+commande> n 1
+commande> 
+commande> t UU+NYTEP
 commande> 
 commande> r
 commande> 
@@ -90,7 +90,7 @@ commande> a gd # r1
  Nc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][010d714e: 1][00000000:-1][00005040: 1][ffffffff:-1][ffffffff:-1]
  Oc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:15][00000000:-1][00000000:-1][00000000:-1][00000000:-1]
 commande> 
-commande> t  NUU+S?GE
+commande> t NUU+S?GE
 commande> 
 commande> a P
 Eliot
