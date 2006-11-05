@@ -165,10 +165,10 @@ wstring Round::toString() const
     if (getWord().size() > 0)
     {
         rs  = getWord();
-        rs += wstring(16 - getWord().size(), ' ');
+        rs += wstring(17 - getWord().size(), ' ');
         rs += getBonus() ? L'*' : L' ';
         wchar_t buff[5];
-        _swprintf(buff, 4, L"%d", getPoints());
+        _swprintf(buff, 4, L"%3d", getPoints());
         rs += buff;
         rs += L" " + getCoord().toString();
     }
