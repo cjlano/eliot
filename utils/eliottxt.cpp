@@ -188,8 +188,10 @@ void help_training()
     printf("            gj -- grille + jokers\n");
     printf("            gm -- grille + valeur des cases\n");
     printf("            gn -- grille + valeur des cases (variante)\n");
+    printf("            gd -- grille + debug cross (debug only)\n");
     printf("            l -- lettres non jouées\n");
     printf("            p -- partie\n");
+    printf("            pd -- partie (debug)\n");
     printf("            P -- partie (format standard)\n");
     printf("            r -- recherche\n");
     printf("            s -- score\n");
@@ -292,6 +294,9 @@ void display_data(const Game &iGame, const wchar_t *delim, wchar_t **state)
                 case L'\0':
                     GameIO::printBoard(cout, iGame);
                     break;
+                case L'd':
+                    GameIO::printBoardDebug(cout, iGame);
+                    break;
                 case L'j':
                     GameIO::printBoardJoker(cout, iGame);
                     break;
@@ -313,7 +318,17 @@ void display_data(const Game &iGame, const wchar_t *delim, wchar_t **state)
             GameIO::printNonPlayed(cout, iGame);
             break;
         case L'p':
-            iGame.save(cout,Game::FILE_FORMAT_ADVANCED);
+            switch (token[1])
+                {
+                case '\0':
+                    iGame.save(cout,Game::FILE_FORMAT_ADVANCED);
+                    break;
+                case 'd':
+                    GameIO::printGameDebug(cout, iGame);
+                    break;
+                default:
+                    printf("commande inconnue\n");
+                }
             break;
         case L'P':
             iGame.save(cout,Game::FILE_FORMAT_STANDARD);
@@ -419,7 +434,9 @@ void loop_training(Training &iGame)
                     {
                         int n = _wtoi(token);
                         if (n <= 0)
+                        {
                             iGame.back(n == 0 ? 1 : -n);
+                        }
                         else
                         {
                             if (iGame.playResult(--n))

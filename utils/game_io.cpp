@@ -51,6 +51,32 @@ void GameIO::printBoard(ostream &out, const Game &iGame)
     }
 }
 
+/* this mode is used for regression tests */
+void GameIO::printBoardDebug(ostream &out, const Game &iGame)
+{
+    int row, col;
+
+    /* first printf row cell contents */
+    for (row = BOARD_MIN; row <= BOARD_MAX; row++)
+    {
+        out << " " << (char)(row - BOARD_MIN + 'A') << "r ";
+        for (col = BOARD_MIN; col <= BOARD_MAX; col++)
+        {
+	    out << iGame.getBoard().getCellContent_row(row, col);
+        }
+        out << endl;
+    }
+    out << " -" << endl;
+    for (row = BOARD_MIN; row <= BOARD_MAX; row++)
+    {
+        out << " " << (char)(row - BOARD_MIN + 'A') << "c ";
+        for (col = BOARD_MIN; col <= BOARD_MAX; col++)
+        {
+  	    out << iGame.getBoard().getCellContent_col(row, col);
+        }
+        out << endl;
+    }
+}
 
 void GameIO::printBoardJoker(ostream &out, const Game &iGame)
 {
@@ -221,3 +247,27 @@ void GameIO::printAllPoints(ostream &out, const Game &iGame)
     }
 }
 
+
+void GameIO::printGameDebug(ostream &out, const Game &iGame)
+{
+  out << "Game:: joueur en cours " << iGame.currPlayer() << " sur " << iGame.getNPlayers() << endl;
+  out << "Game:: mode " << iGame.getModeAsString() << endl;
+  out << "Game:: variante ";
+  switch (iGame.getVariant())
+    {
+    case Game::kNONE:
+      out << "aucune" << endl;
+      break;
+    case Game::kJOKER:
+      out << "joker" << endl;
+      break;
+    default:
+      out << "inconnu" << endl;
+      break;
+    }
+  out << "Game:: rack size " << iGame.RACK_SIZE << endl;
+  out << "Game:: history --" << endl;
+  out << convertToMb(iGame.getHistory().toString());
+  out << "--" << endl;
+  out << "" << endl;
+}
