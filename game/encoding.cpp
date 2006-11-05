@@ -33,13 +33,7 @@
 
 int _wtoi(const wchar_t *iWStr)
 {
-    int res = 0;
-    while (iswdigit(iWStr[0]))
-    {
-        res = 10 * res + (iWStr[0] - '0');
-        iWStr++;
-    }
-    return res;
+    return wcstol(iWStr,NULL,10);
 }
 
 
