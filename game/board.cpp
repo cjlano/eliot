@@ -272,16 +272,16 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
             /* There is already a letter on the board */
             if (iTilesMx[row][col + i] != t)
             {
-                /* check if it is only a joker */
+                /* Check if it is only a joker */
                 if ((iTilesMx[row][col+i].toCode() == t.toCode()) && iTilesMx[row][col+i].isJoker())
                 {
-                    // do nothing, we don't need to change the tile in the round
+                    // Do nothing, we don't need to change the tile in the round
                     // iRound.setJoker(i,true);
-                    debug("load: play on joker for letter %d (%c)\n",i,iRound.getTile(i).toChar());
+                    debug("load: play on joker for letter %d (%lc)\n", i, iRound.getTile(i).toChar());
                 }
                 else
                 {
-                    debug("load: overwriting tile %c with %c\n",
+                    debug("load: overwriting tile %lc with %lc\n",
                           iTilesMx[row][col+i].toChar(),
                           t.toChar());
                     return 2;

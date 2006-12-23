@@ -65,7 +65,7 @@ static void Board_checkout_tile(const Dictionary &iDic,
 
     /* Tiles that can be played */
     node = Dic_char_lookup(iDic, Dic_root(iDic), leftTiles);
-    if (node == 0) 
+    if (node == 0)
     {
         oCross.setNone();
         return;
@@ -83,9 +83,9 @@ static void Board_checkout_tile(const Dictionary &iDic,
     /* yes, it is REALLY [index+1] */
     while (!iTiles[index+1].isEmpty())
     {
-	index++;
-	if (!iJoker[index])
-	    oPoints += iTiles[index].getPoints();
+        index++;
+        if (!iJoker[index])
+            oPoints += iTiles[index].getPoints();
     }
 }
 

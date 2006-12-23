@@ -92,7 +92,7 @@ int Game::helperPlayRound(const Round &iRound)
             {
                 // Is the represented letter still available in the bag?
                 // FIXME: this way to get the represented letter sucks...
-                Tile t(toupper(iRound.getTile(i).toChar()));
+                Tile t(towupper(iRound.getTile(i).toChar()));
                 Bag bag;
                 realBag(bag);
                 // FIXME: realBag() does not give us a real bag in this

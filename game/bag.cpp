@@ -132,7 +132,7 @@ void Bag::dumpAll() const
     for (it = m_tilesMap.begin(); it != m_tilesMap.end(); it++)
     {
         if (it->second)
-            fprintf(stderr, "%c[%i] ", it->first.toChar(), it->second);
+            fprintf(stderr, "%lc[%i] ", it->first.toChar(), it->second);
     }
     fprintf(stderr, "\n");
 }
