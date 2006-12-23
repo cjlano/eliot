@@ -486,12 +486,11 @@ void Game::save(ostream &out, game_file_format format) const
 
 void Game::gameSaveFormat_14(ostream &out) const
 {
-    int i;
     char line[100];
-    const char decal[]="   ";
+    const string decal = "   ";
     out << IDENT_STRING << endl << endl;
 
-    for(i = 0; i < m_history.getSize(); i++)
+    for (int i = 0; i < m_history.getSize(); i++)
     {
         const Turn& turn = m_history.getTurn(i);
         string rack = convertToMb(turn.getPlayedRack().toString(PlayedRack::RACK_EXTRA));

@@ -38,11 +38,6 @@ typedef struct _Dictionary * Dictionary;
 using namespace std;
 
 
-/*************************
- * Ident string used to identify saved Eliot games
- *************************/
-#define IDENT_STRING "Eliot"
-
 /**
  * Parent class of all the Game types.
  * It offers the common attributes (Board, Bag, etc...) as well as useful

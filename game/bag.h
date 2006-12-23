@@ -47,7 +47,7 @@ public:
 
     /**
      * Return how many tiles/vowels/consonants are available
-     * Warning: nVowels(b) + nConsonants(b) != nTiles(b),
+     * Warning: b.nVowels() + b.nConsonants() != b.nTiles(),
      * because of the jokers and the 'Y'.
      */
     unsigned int nTiles() const  { return m_ntiles; }
