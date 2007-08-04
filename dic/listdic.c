@@ -102,20 +102,20 @@ print_header(char* filename)
 
   Dic_check_header(&header,filename);
 
-#define OO(IDENT) offsetof(Dict_header,IDENT)
+#define OO(IDENT) (unsigned long)offsetof(Dict_header,IDENT)
 
   printf("Dictionary header information\n");
-  printf("0x%02x ident       : %s\n",      OO(ident)     ,header.ident);
-  printf("0x%02x unused 1    : %6d %06x\n",OO(unused_1)  ,header.unused_1  ,header.unused_1);
-  printf("0x%02x unused 2    : %6d %06x\n",OO(unused_2)  ,header.unused_2  ,header.unused_2);
-  printf("0x%02x root        : %6d %06x\n",OO(root)      ,header.root      ,header.root);
-  printf("0x%02x words       : %6d %06x\n",OO(nwords)    ,header.nwords    ,header.nwords);
-  printf("0x%02x edges used  : %6d %06x\n",OO(edgesused) ,header.edgesused ,header.edgesused);
-  printf("0x%02x nodes used  : %6d %06x\n",OO(nodesused) ,header.nodesused ,header.nodesused);
-  printf("0x%02x nodes saved : %6d %06x\n",OO(nodessaved),header.nodessaved,header.nodessaved);
-  printf("0x%02x edges saved : %6d %06x\n",OO(edgessaved),header.edgessaved,header.edgessaved);
+  printf("0x%02lx ident       : %s\n",      OO(ident)     ,header.ident);
+  printf("0x%02lx unused 1    : %6d %06x\n",OO(unused_1)  ,header.unused_1  ,header.unused_1);
+  printf("0x%02lx unused 2    : %6d %06x\n",OO(unused_2)  ,header.unused_2  ,header.unused_2);
+  printf("0x%02lx root        : %6d %06x\n",OO(root)      ,header.root      ,header.root);
+  printf("0x%02lx words       : %6d %06x\n",OO(nwords)    ,header.nwords    ,header.nwords);
+  printf("0x%02lx edges used  : %6d %06x\n",OO(edgesused) ,header.edgesused ,header.edgesused);
+  printf("0x%02lx nodes used  : %6d %06x\n",OO(nodesused) ,header.nodesused ,header.nodesused);
+  printf("0x%02lx nodes saved : %6d %06x\n",OO(nodessaved),header.nodessaved,header.nodessaved);
+  printf("0x%02lx edges saved : %6d %06x\n",OO(edgessaved),header.edgessaved,header.edgessaved);
   printf("\n");
-  printf("sizeof(header) = 0x%x (%u)\n", sizeof(header), sizeof(header));
+  printf("sizeof(header) = 0x%lx (%lu)\n", (unsigned long)sizeof(header), (unsigned long)sizeof(header));
 }
 
 
@@ -129,8 +129,8 @@ print_node_hex(Dictionary dic, int i)
 
   ee.e = dic->dawg[i];
 
-  printf("0x%04x %08x |%4d ptr=%8d t=%d l=%d f=%d chr=%2d (%c)\n",
-	 i*sizeof(ee), (unsigned int)(ee.s), 
+  printf("0x%04lx %08x |%4d ptr=%8d t=%d l=%d f=%d chr=%2d (%c)\n",
+	 (unsigned long)i*sizeof(ee), (unsigned int)(ee.s), 
 	 i, ee.e.ptr, ee.e.term, ee.e.last, ee.e.fill, ee.e.chr, ee.e.chr +'a' -1);
 }
 

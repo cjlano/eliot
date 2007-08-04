@@ -627,7 +627,7 @@ float ConfigDB::getPrintLineScale()
   return 0.2;
 }
 
-void ConfigDB::setPrintLineScale(float s)
+void ConfigDB::setPrintLineScale(float)
 {
 }
 

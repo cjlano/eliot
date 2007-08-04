@@ -35,8 +35,8 @@
 #include "debug.h"
 
 
-const int Game::RACK_SIZE = 7;
-
+const int Game::RACK_SIZE    =  7;
+const int Game::BONUS_POINTS = 50;
 
 Game::Game(const Dictionary &iDic):
     m_dic(&iDic)

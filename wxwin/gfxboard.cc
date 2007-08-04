@@ -92,7 +92,7 @@ GfxBoard::~GfxBoard(void)
  */
 
 void
-GfxBoard::OnSize(wxSizeEvent& e)
+GfxBoard::OnSize(wxSizeEvent __UNUSED__ &e)
 {
     GFXDEBUG(std::cerr << "On size : ");
 

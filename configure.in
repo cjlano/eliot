@@ -19,11 +19,12 @@ AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 
 AC_PROG_YACC
-if test "$YACC" = yacc; then
+if test "$YACC" = yacc ; then
     AC_MSG_ERROR([Could not find the 'bison' program on your system])
 fi
+
 AM_PROG_LEX
-if test "$LEX" != flex; then
+if test "$LEX" != "flex" ; then
     AC_MSG_ERROR([Could not find the 'flex' program on your system])
 fi
 
@@ -32,28 +33,39 @@ dnl Checks for compilation flags
 dnl --------------------------------------------------------------
 CFLAGS_save="${CFLAGS}"
 AC_CACHE_CHECK([if \$CC accepts -Wall],
-    [ac_cv_c_Wall],
-    [CFLAGS="-Wall ${CFLAGS_save}"
-     AC_TRY_COMPILE([],,ac_cv_c_Wall=yes, ac_cv_c_Wall=no)])
+       [ac_cv_c_Wall],
+       [CFLAGS="-Wall ${CFLAGS_save}"
+       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],[ac_cv_c_Wall=yes],[ac_cv_c_Wall=no])])
 CFLAGS="${CFLAGS_save}"
 if test "${ac_cv_c_Wall}" != "no"; then
-    CFLAGS="-Wall ${CFLAGS}"
-    CXXFLAGS="-Wall ${CXXFLAGS}"
+    CFLAGS+=" -Wall"
+    CXXFLAGS+=" -Wall"
+fi
+
+CFLAGS_save="${CFLAGS}"
+AC_CACHE_CHECK([if \$CC accepts -Wextra],
+       [ac_cv_c_Wextra],
+       [CFLAGS="-Wextra ${CFLAGS_save}"
+       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],[ac_cv_c_Wextra=yes],[ac_cv_c_Wextra=no])])
+CFLAGS="${CFLAGS_save}"
+if test "${ac_cv_c_Wextra}" != "no"; then
+    CFLAGS+=" -Wextra"
+    CXXFLAGS+=" -Wextra"
 fi
 
 dnl Debug mode
 AC_ARG_ENABLE([debug],AC_HELP_STRING([--enable-debug],[debug mode (default disabled)]))
 if test "${enable_debug}" = "yes"; then
-    CFLAGS="${CFLAGS} -g -DDEBUG"
-    CPPFLAGS="${CPPFLAGS} -g -DDEBUG"
+    CFLAGS+=" -g -DDEBUG"
+    CXXFLAGS+=" -g -DDEBUG"
 fi
 
 dnl Profile mode
 AC_ARG_ENABLE([profile],AC_HELP_STRING([--enable-profile],[profile mode (default disabled)]))
 if test "${enable_profile}" = "yes"; then
-    CFLAGS="${CFLAGS} -pg -DPROFILE"
-    CPPFLAGS="${CPPFLAGS} -pg -DPROFILE"
-    LDFLAGS="${LDFLAGS} -pg"
+    CFLAGS+=" -pg -DPROFILE"
+    CXXFLAGS+=" -pg -DPROFILE"
+    LDFLAGS+=" -pg"
 fi
 
 dnl Regexp / Listdic / Compdic build enable

@@ -119,14 +119,14 @@ void
 print_header_info(Dict_header *header)
 {
   printf("============================\n");
-  printf("keyword length %u bytes\n", strlen(_COMPIL_KEYWORD_));
-  printf("keyword size   %u bytes\n", sizeof(_COMPIL_KEYWORD_));
-  printf("header size    %u bytes\n", sizeof(Dict_header));
+  printf("keyword length %lu bytes\n", (unsigned long)strlen(_COMPIL_KEYWORD_));
+  printf("keyword size   %lu bytes\n", (unsigned long)sizeof(_COMPIL_KEYWORD_));
+  printf("header size    %lu bytes\n", (unsigned long)sizeof(Dict_header));
   printf("\n");
   printf("%d words\n",header->nwords);
   printf("\n");
   printf("root : %7d (edge)\n",header->root);
-  printf("root : %7u (byte)\n",header->root * sizeof(Dawg_edge));
+  printf("root : %7lu (byte)\n",(unsigned long) header->root * sizeof(Dawg_edge));
   printf("\n");
   printf("nodes : %d+%d\n",header->nodesused, header->nodessaved);
   printf("edges : %d+%d\n",header->edgesused, header->edgessaved);
@@ -280,6 +280,7 @@ main(int argc, char* argv[])
   Dawg_edge rootnode = {0,0,0,0,0};
   Dawg_edge specialnode = {0,0,0,0,0};
 
+  int size;
   char* outfilename;
   char outfilenamedefault[] = "dict.daw";
   clock_t starttime, endtime;
@@ -290,13 +291,14 @@ main(int argc, char* argv[])
       exit(1);
     }
 
-  dicsize = file_length (argv[1]);
-  if (dicsize < 0)
+  size = file_length (argv[1]);
+  if (size < 0)
     {
       fprintf(stderr,"Cannot stat uncompressed dictionary %s\n",argv[1]);
       exit(1);
     }
 
+  dicsize = size;
   outfilename = (argc == 3) ? argv[2] : outfilenamedefault;
 
   if ((global_outfile = fopen (outfilename,"wb")) == NULL)

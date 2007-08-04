@@ -412,7 +412,7 @@ ConfDimDlg::writeconf()
 }
 
 void
-ConfDimDlg::OnCloseWindow(wxCloseEvent& event)
+ConfDimDlg::OnCloseWindow(wxCloseEvent __UNUSED__ &event)
 {
   if (IsModal() == TRUE)
     EndModal(1);
@@ -421,7 +421,7 @@ ConfDimDlg::OnCloseWindow(wxCloseEvent& event)
 }
 
 void
-ConfDimDlg::OnButtonOk(wxCommandEvent& event)
+ConfDimDlg::OnButtonOk(wxCommandEvent __UNUSED__ &event)
 {
   writeconf();
   if (IsModal() == TRUE)
@@ -431,7 +431,7 @@ ConfDimDlg::OnButtonOk(wxCommandEvent& event)
 }
 
 void
-ConfDimDlg::OnButtonCancel(wxCommandEvent &event)
+ConfDimDlg::OnButtonCancel(wxCommandEvent __UNUSED__ &event)
 {
   if (IsModal() == TRUE)
     EndModal(1);
@@ -440,13 +440,13 @@ ConfDimDlg::OnButtonCancel(wxCommandEvent &event)
 }
 
 void
-ConfDimDlg::OnButtonSave(wxCommandEvent& event)
+ConfDimDlg::OnButtonSave(wxCommandEvent __UNUSED__ &event)
 {
   writeconf();
 }
 
 void
-ConfDimDlg::OnConfPage(wxCommandEvent& event)
+ConfDimDlg::OnConfPage(wxCommandEvent __UNUSED__ &event)
 {
   //#if defined(__WXGTK__)
   pagesetupdata = printdata;
@@ -462,7 +462,7 @@ ConfDimDlg::OnConfPage(wxCommandEvent& event)
 }
 
 void
-ConfDimDlg::OnConfPrinter(wxCommandEvent& event)
+ConfDimDlg::OnConfPrinter(wxCommandEvent __UNUSED__ &event)
 {
   //#if defined(__WXGTK__)
   wxPrintDialogData printDialogData(printdata);
@@ -479,13 +479,13 @@ ConfDimDlg::OnConfPrinter(wxCommandEvent& event)
 }
 
 void
-ConfDimDlg::OnConfFontHead(wxCommandEvent& event)
+ConfDimDlg::OnConfFontHead(wxCommandEvent __UNUSED__ &event)
 {
   headfont = config.ChooseFont((wxFrame*)this,headfont);
 }
 
 void
-ConfDimDlg::OnConfFontText(wxCommandEvent& event)
+ConfDimDlg::OnConfFontText(wxCommandEvent __UNUSED__ &event)
 {
   textfont = config.ChooseFont((wxFrame*)this,textfont);
 }

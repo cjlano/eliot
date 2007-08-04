@@ -88,7 +88,8 @@ const Turn& History::getPreviousTurn() const
 
 const Turn& History::getTurn(unsigned int n) const
 {
-    ASSERT(0 <= n && n < m_history.size(), "Wrong turn number");
+    // ASSERT(0 <= n && n < m_history.size(), "Wrong turn number");
+    ASSERT(n < m_history.size(), "Wrong turn number");
     return *(m_history[n]);
 }
 

@@ -153,10 +153,9 @@ END_EVENT_TABLE()
 //
 // ******************************
     
-MainFrame::MainFrame(wxPoint pos_, wxSize size_)
-    : wxFrame((wxFrame *) NULL, -1, wxT(APPNAME), wxPoint(-1, -1),
-              size_, wxDEFAULT_FRAME_STYLE, wxT(APPNAME)),
-    m_dic(NULL), m_game(NULL)
+MainFrame::MainFrame(wxPoint __UNUSED__ pos_, wxSize size_) : 
+           wxFrame((wxFrame *) NULL, -1, wxT(APPNAME), wxPoint(-1, -1),
+                   size_, wxDEFAULT_FRAME_STYLE, wxT(APPNAME)), m_dic(NULL), m_game(NULL)
 {
 #if defined(ENABLE_RESLIST_IN_MAIN)
     reslist = NULL;

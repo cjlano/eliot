@@ -87,12 +87,12 @@ struct _Dict_header {
   char ident[sizeof(_COMPIL_KEYWORD_)];
   char unused_1;
   char unused_2;
-  int root;
-  int nwords;
-  unsigned int edgesused;
-  unsigned int nodesused;
-  unsigned int nodessaved;
-  unsigned int edgessaved;
+  int32_t root;
+  int32_t nwords;
+  uint32_t edgesused;
+  uint32_t nodesused;
+  uint32_t nodessaved;
+  uint32_t edgessaved;
 };
 
 

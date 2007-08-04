@@ -34,6 +34,8 @@
 #include "dic_internals.h"
 #include "dic.h"
 
+#define __UNUSED__ __attribute__((unused))
+
 #if defined(WORDS_BIGENDIAN)
 static uint32_t swap4(uint32_t v)
 {
@@ -87,7 +89,7 @@ Dic_check_header(Dict_header *header, const char *path)
 }
 
 static void
-Dic_convert_data_to_arch(Dictionary dic)
+Dic_convert_data_to_arch(Dictionary __UNUSED__ dic)
 {
 #if defined(WORDS_BIGENDIAN)
   int i;

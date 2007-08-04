@@ -4,18 +4,23 @@ Installation sous Linux (Un*x) (bien/facile)
 
   ./bootstrap
 
-  ./configure --prefix=/usr/local/eliot
+  ./configure
   make
   make install
 
 * Pour installer à partir de l'archive tar.gz
 
-  ./configure --prefix=/usr/local/eliot
+  ./configure
   make
   make install
 
-Il suffit de rajouter le chemin pour trouver eliot
-sur sa ligne de commande et le tour est joué.
+
+il existe en fait 3 versions d'eliot, une en mode texte, une avec une
+interface curses et une avec wxwidgets. Les modes peuvent être
+sélectionnés à l'aide de la commande configure lors de la compilation
+du programme.
+
+./configure --enable-text --enable-ncurses --enable-wxwidgets
 
 
 

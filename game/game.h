@@ -46,6 +46,11 @@ using namespace std;
 class Game
 {
 public:
+    /// Game specs.
+    static const int RACK_SIZE;
+    static const int BONUS_POINTS;
+
+
     Game(const Dictionary &iDic);
     virtual ~Game();
 
@@ -136,7 +141,6 @@ public:
      *    2 : the rack check was set on and failed
      *    3 : the rack cannot be completed (Game_*_setrackrandom only)
      *************************/
-    static const int RACK_SIZE;
     enum set_rack_mode {RACK_ALL, RACK_NEW, RACK_MANUAL};
     int setRack(int player, set_rack_mode mode, bool check, const wstring& str);
 

@@ -33,6 +33,8 @@
 #include "regexp.h"
 #include "dic_search.h"
 
+#define __UNUSED__ __attribute__((unused))
+
 /********************************************************/
 /********************************************************/
 /********************************************************/
@@ -85,7 +87,7 @@ void init_letter_lists(struct search_RegE_list_t *list)
 /********************************************************/
 /********************************************************/
 void
-usage(int argc, char* argv[])
+usage(int __UNUSED__ argc, char* argv[])
 {
   fprintf(stderr,"usage: %s dictionary\n",argv[0]);
   fprintf(stderr,"   dictionary : path to dawg eliot dictionary\n");

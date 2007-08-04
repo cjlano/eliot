@@ -217,7 +217,7 @@ GfxResult::OnListCtrlActivated(wxListEvent& event)
 /* ************************************************** */
 
 void
-GfxResult::OnSize(wxSizeEvent& e)
+GfxResult::OnSize(wxSizeEvent __UNUSED__ &e)
 {
     int w,h;
     GetClientSize(&w,&h);

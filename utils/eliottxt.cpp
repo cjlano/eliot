@@ -749,7 +749,7 @@ void eliot_regexp_build_default_llist(struct search_RegE_list_t &llist)
     }
 }
 
-void eliot_regexp(const Dictionary& iDic, wchar_t *cmd,
+void eliot_regexp(const Dictionary& iDic, wchar_t __attribute__((unused)) *cmd,
                   const wchar_t *delim, wchar_t **state)
 {
     /*

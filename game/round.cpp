@@ -29,6 +29,8 @@
 #define FROMRACK  0x2
 #define JOKER     0x4
 
+#define __UNUSED__ __attribute__((unused))
+
 
 Round::Round()
 {
@@ -116,7 +118,7 @@ void Round::addRightFromBoard(Tile c)
 }
 
 
-void Round::removeRightToBoard(Tile c)
+void Round::removeRightToBoard(Tile __UNUSED__ c)
 {
     // c is unused.
     m_word.pop_back();
@@ -136,7 +138,7 @@ void Round::addRightFromRack(Tile c, bool iJoker)
 }
 
 
-void Round::removeRightToRack(Tile c, bool iJoker)
+void Round::removeRightToRack(Tile __UNUSED__ c, bool __UNUSED__ iJoker)
 {
     // c is unused.
     m_word.pop_back();

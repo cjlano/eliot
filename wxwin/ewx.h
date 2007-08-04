@@ -42,6 +42,8 @@
 #  define TODO(x...)
 #endif
 
+#define __UNUSED__ __attribute__((unused))
+
 #if defined(__WIN32__) || defined(__WIN95__) || defined(__WXMSW__)
 #  define ENABLE_LC_NO_HEADER
 #  define ENABLE_RESLIST_IN_MAIN

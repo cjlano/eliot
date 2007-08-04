@@ -112,7 +112,7 @@ GamePrintout::DrawStringJustif(wxDC *dc, wxString *str, long x, long y, long w,
 }
 
 void
-GamePrintout::DrawHeadingLine(wxDC *dc, long heightH, float mmToLogical)
+GamePrintout::DrawHeadingLine(wxDC *dc, long __UNUSED__ heightH, float mmToLogical)
 {
     long i,x,w,y;
     wxString str;

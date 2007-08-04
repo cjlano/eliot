@@ -88,7 +88,7 @@ public:
 
     void SwitchDisplay();
     void Reload();
-    virtual void Refresh(refresh_t force = REFRESH) {};
+    virtual void Refresh(refresh_t __UNUSED__ force = REFRESH) {};
 };
 
 /**

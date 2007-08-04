@@ -27,6 +27,7 @@
 #include "results.h"
 #include "board.h"
 #include "debug.h"
+#include "game.h"
 
 #define oo 0
 #define __ 1
@@ -345,9 +346,9 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
     }
 
     /* Set the iPointsMx and bonus */
-    pts = ptscross + pts * wordmul + 50 * (fromrack == 7);
+    pts = ptscross + pts * wordmul + Game::BONUS_POINTS * (fromrack == Game::RACK_SIZE);
     iRound.setPoints(pts);
-    iRound.setBonus(fromrack == 7);
+    iRound.setBonus(fromrack == Game::RACK_SIZE);
 
     return 0;
 }
@@ -465,6 +466,7 @@ int Board::getLetterMultiplier(int iRow, int iCol) const
 }
 
 
+// #define CELL_STRING_FORMAT "[%c:%s:%2d]"
 #define CELL_STRING_FORMAT "[%s:%2d]"
 
 string Board::getCellContent_row(int row, int col) const

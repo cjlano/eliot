@@ -22,7 +22,7 @@ bin_PROGRAMS = eliot
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/dic -I$(top_srcdir)/game
 
-AM_CPPFLAGS = @WX_CPPFLAGS@
+AM_CPPFLAGS = @WX_CPPFLAGS@ ## -Wno-strict-aliasing
 
 eliot_SOURCES = \
     configdb.cc configdb.h \
@@ -36,6 +36,7 @@ eliot_SOURCES = \
     mainframe.cc mainframe.h  \
     main.cc ewx.h
 
+## eliot_CPPFLAGS=
 eliot_LDADD = @WX_LIBS@ ../dic/libdic.a ../game/libgame.a
 
 EXTRA_DIST = \

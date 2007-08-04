@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include "alist.h"
 
+#define __UNUSED__ __attribute__((unused))
 
 struct alist_elt_t {
   void* info;
@@ -166,7 +167,7 @@ alist_get_first(alist l)
 }
 
 alist_elt
-alist_get_next(alist l, alist_elt e)
+alist_get_next(alist __UNUSED__ l, alist_elt e)
 {
   return e->next;
 }

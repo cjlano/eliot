@@ -26,6 +26,7 @@
 #include "board.h"
 #include "encoding.h"
 #include "debug.h"
+#include "game.h"
 
 /*
  * computes the score of a word, coordinates may be changed to reflect
@@ -74,8 +75,9 @@ static void BoardSearchEvalMove(const Board &iBoard,
             fromrack++;
         }
     }
-    pts = ptscross + pts * wordmul + 50 * (fromrack == 7);
-    iWord.setBonus(fromrack == 7);
+
+    pts = ptscross + pts * wordmul + Game::BONUS_POINTS * (fromrack == Game::RACK_SIZE);
+    iWord.setBonus(fromrack == Game::RACK_SIZE);
     iWord.setPoints(pts);
 
     if (iWord.getCoord().getDir() == Coord::VERTICAL)
@@ -89,8 +91,6 @@ static void BoardSearchEvalMove(const Board &iBoard,
         // Restore the coordinates
         iWord.accessCoord().swap();
     }
-
-    /* fprintf(stdout,"eval: %s\n",convertToMb(iWord.toString()).c_str()); */
 }
 
 

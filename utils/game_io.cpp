@@ -30,6 +30,7 @@
 
 using namespace std;
 
+#define __UNUSED__ __attribute__((unused))
 
 void GameIO::printBoard(ostream &out, const Game &iGame)
 {
@@ -190,7 +191,7 @@ void GameIO::printNonPlayed(ostream &out, const Game &iGame)
 }
 
 
-void GameIO::printPlayedRack(ostream &out, const Game &iGame, int n)
+void GameIO::printPlayedRack(ostream &out, const Game &iGame, int __UNUSED__ n)
 {
     out << convertToMb(iGame.getCurrentPlayer().getCurrentRack().toString(PlayedRack::RACK_SIMPLE)) << endl;
 }

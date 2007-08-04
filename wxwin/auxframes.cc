@@ -167,7 +167,7 @@ BagFrame::BagFrame(wxFrame* parent, Game& iGame):
 }
 
 void
-BagFrame::Refresh(refresh_t force)
+BagFrame::Refresh(refresh_t __UNUSED__ force)
 { 
     //debug("    BagFrame::Refresh\n");
     int n,index;
@@ -210,7 +210,7 @@ SearchFrame::SearchFrame(wxFrame *parent, Dictionary _dic):
 }
 
 void
-SearchFrame::Refresh(refresh_t force)
+SearchFrame::Refresh(refresh_t __UNUSED__ force)
 {
     //debug("    SearchFrame::Refresh\n");
 }
@@ -269,7 +269,7 @@ VerifFrame::OnText(wxCommandEvent&)
 }
 
 void
-VerifFrame::Refresh(refresh_t force)
+VerifFrame::Refresh(refresh_t __UNUSED__ force)
 {
     //debug("    VerifFrame::Refresh\n");
 }
@@ -313,7 +313,7 @@ AuxFrameList::AuxFrameList(wxFrame* parent, int _id, wxString _name, wxString _c
 }
 
 void
-AuxFrameList::OnCopy(wxCommandEvent& event)
+AuxFrameList::OnCopy(wxCommandEvent __UNUSED__ &event)
 {
     wxString textdata;
 
@@ -338,7 +338,7 @@ AuxFrameList::Waiting()
 }
 
 void
-AuxFrameList::Refresh(refresh_t force)
+AuxFrameList::Refresh(refresh_t __UNUSED__ force)
 {
     //debug("    %s : Refresh start\n",(const char*)name.mb_str());
     if (game == NULL)
@@ -518,7 +518,7 @@ GameFrame::GameFrame(wxFrame* parent, Game& iGame):
 }
 
 void
-GameFrame::Refresh(refresh_t force)
+GameFrame::Refresh(refresh_t __UNUSED__ force)
 {
     std::ostringstream mos;
     m_game.save(mos);
@@ -591,7 +591,7 @@ ResultFrame::GetSelected()
 }
 
 void
-ResultFrame::OnSize(wxSizeEvent& e)
+ResultFrame::OnSize(wxSizeEvent __UNUSED__ &e)
 {
     int w,h;
     GetClientSize(&w,&h);
