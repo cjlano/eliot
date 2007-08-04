@@ -20,14 +20,14 @@
 
 #include "dic.h"
 #include "regexp.h"
-#include "libdic_a-er.h"
+#include "libdic_a-ery.h"
 
 #define MASK_TO_REMOVE    0x1F
 
 %}
 %option prefix="regexp"
 %option outfile="lex.yy.c"
-%option header-file="scanner.h"
+%option header-file="libdic_a-erl.h"
 %option reentrant bison-bridge
 %option bison-locations
 %option noyywrap nounput

@@ -21,10 +21,11 @@ noinst_LIBRARIES = libdic.a
 INCLUDES = -I$(top_srcdir)
 
 libdic_a_CFLAGS=$(DEBUGFLAGS)
-libdic_a_YFLAGS=-d
-libdic_a_SOURCES = 		  \
-	er.y			  \
-	er.l			  \
+libdic_a_YFLAGS=
+libdic_a_LFLAGS=
+libdic_a_SOURCES= 		  \
+	ery.y			  \
+	erl.l			  \
 	dic_internals.h		  \
 	dic_search.c dic_search.h \
 	dic.c dic.h		  \
@@ -33,21 +34,30 @@ libdic_a_SOURCES = 		  \
 	regexp.c regexp.h	  \
 	alist.h alist.c
 
+BUILT_SOURCES=			\
+	libdic_a-erl.c 		\
+	libdic_a-erl.h 		\
+	libdic_a-ery.c 		\
+	libdic_a-ery.h
+
 nodist_libdic_a_SOURCES=	\
-	er.c			\
-	scanner.h		\
-	libdic_a-er.c 		\
-	libdic_a-er.h
+	libdic_a-erl.c 		\
+	libdic_a-erl.h 		\
+	libdic_a-ery.c 		\
+	libdic_a-ery.h
 
-BUILT_SOURCES=er.c 	\
-	scanner.h 	\
-	libdic_a-er.c 	\
-	libdic_a-er.h
+CLEANFILES=			\
+	libdic_a-erl.c 		\
+	libdic_a-erl.h 		\
+	libdic_a-ery.c 		\
+	libdic_a-ery.h
 
-CLEANFILES=er.c		\
-	scanner.h 	\
-	libdic_a-er.c	\
-	libdic_a-er.h
+
+## automake workaround to generate .h file 
+libdic_a-erl.h: erl.l
+	${LEX} ${srcdir}/erl.l 
+
+#####################################
 
 #####################################
 if BUILD_DICTOOLS
@@ -67,8 +77,8 @@ listdic_SOURCES=		\
 	dic.c dic.h		\
 	listdic.c
 
-regexp_SOURCES=	regexpmain.c
 #regexp_CFLAGS=-DDEBUG_RE
+regexp_SOURCES=regexpmain.c
 regexp_LDADD=libdic.a
 
 endif
