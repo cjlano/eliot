@@ -3,5 +3,5 @@
 autopoint -f
 aclocal -I m4
 autoheader
-automake --add-missing --foreign --copy
+automake --add-missing --foreign --copy -Wall
 autoconf

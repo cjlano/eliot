@@ -20,9 +20,7 @@
 noinst_LIBRARIES = libdic.a
 
 localedir = $(datadir)/locale
-AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\"
-
-INCLUDES = -I$(top_srcdir) -I../intl -I$(top_srcdir)/intl $(INCICONV)
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir) -I../intl -I$(top_srcdir)/intl $(INCICONV)
 
 libdic_a_CFLAGS=
 libdic_a_YFLAGS=-d

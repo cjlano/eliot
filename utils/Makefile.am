@@ -17,9 +17,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 localedir = $(datadir)/locale
-AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\"
-
-INCLUDES = -I$(top_srcdir)/dic -I$(top_srcdir)/game -I../intl -I$(top_srcdir)/intl
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/dic -I$(top_srcdir)/game -I../intl -I$(top_srcdir)/intl
 
 noinst_PROGRAMS =
 bin_PROGRAMS =

@@ -22,9 +22,7 @@ if BUILD_WXWIDGETS
 
 bin_PROGRAMS = eliot
 
-AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" @WX_CPPFLAGS@ ## -Wno-strict-aliasing
-
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/dic -I$(top_srcdir)/game
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" @WX_CPPFLAGS@ -I$(top_srcdir) -I$(top_srcdir)/dic -I$(top_srcdir)/game
 
 eliot_SOURCES = \
     configdb.cc configdb.h \

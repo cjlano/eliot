@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-23 23:08+0100\n"
+"POT-Creation-Date: 2008-01-08 16:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,247 +16,247 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: dic/header.cpp:317 dic/header.cpp:318
+#: dic/header.cpp:318 dic/header.cpp:319
 msgid "Unknown (old format)"
 msgstr ""
 
-#: dic/header.cpp:492
+#: dic/header.cpp:493
 #, c-format
 msgid "dictionary name: %s\n"
 msgstr ""
 
-#: dic/header.cpp:497
+#: dic/header.cpp:498
 #, c-format
 msgid "compressed on: %s\n"
 msgstr ""
 
-#: dic/header.cpp:501
+#: dic/header.cpp:502
 #, c-format
 msgid "compressed on: Unknown date (old format)\n"
 msgstr ""
 
-#: dic/header.cpp:503
+#: dic/header.cpp:504
 #, c-format
 msgid "compressed using a binary compiled by: %s\n"
 msgstr ""
 
-#: dic/header.cpp:504
+#: dic/header.cpp:505
 #, c-format
 msgid "dictionary type: %s\n"
 msgstr ""
 
-#: dic/header.cpp:505
+#: dic/header.cpp:506
 #, c-format
 msgid "letters: %s\n"
 msgstr ""
 
-#: dic/header.cpp:506
-#, c-format
-msgid "number of letters: %d\n"
-msgstr ""
-
 #: dic/header.cpp:507
 #, c-format
-msgid "number of words: %d\n"
+msgid "number of letters: %lu\n"
 msgstr ""
 
 #: dic/header.cpp:508
 #, c-format
-msgid "header size: %u bytes\n"
-msgstr ""
-
-#: dic/header.cpp:510
-#, c-format
-msgid "root: %d (edge)\n"
+msgid "number of words: %d\n"
 msgstr ""
 
 #: dic/header.cpp:511
 #, c-format
-msgid "nodes: %d used + %d saved\n"
+msgid "header size: %lu bytes\n"
 msgstr ""
 
 #: dic/header.cpp:512
 #, c-format
-msgid "edges: %d used + %d saved\n"
+msgid "root: %d (edge)\n"
+msgstr ""
+
+#: dic/header.cpp:513
+#, c-format
+msgid "nodes: %d used + %d saved\n"
 msgstr ""
 
 #: dic/header.cpp:514
 #, c-format
+msgid "edges: %d used + %d saved\n"
+msgstr ""
+
+#: dic/header.cpp:516
+#, c-format
 msgid "letter | points | frequency | vowel | consonant\n"
 msgstr ""
 
-#: dic/compdic.cpp:392
+#: dic/compdic.cpp:393
 msgid "Mandatory options:"
 msgstr ""
 
-#: dic/compdic.cpp:393
+#: dic/compdic.cpp:394
 msgid "  -d, --dicname <string>  Set the dictionary name and version"
 msgstr ""
 
-#: dic/compdic.cpp:394
+#: dic/compdic.cpp:395
 msgid ""
 "  -l, --letters <string>  Path to the file containing the letters (see below)"
 msgstr ""
 
-#: dic/compdic.cpp:395
+#: dic/compdic.cpp:396
 msgid ""
 "  -i, --input <string>    Path to the uncompressed dictionary file (encoded "
 "in UTF-8)"
 msgstr ""
 
-#: dic/compdic.cpp:396
+#: dic/compdic.cpp:397
 msgid ""
 "  -o, --output <string    Path to the generated compressed dictionary file"
 msgstr ""
 
-#: dic/compdic.cpp:397
+#: dic/compdic.cpp:398
 msgid "Other options:"
 msgstr ""
 
-#: dic/compdic.cpp:398
+#: dic/compdic.cpp:399
 msgid "  -h, --help              Print this help and exit"
 msgstr ""
 
-#: dic/compdic.cpp:399
+#: dic/compdic.cpp:400
 msgid "Example:"
 msgstr ""
 
-#: dic/compdic.cpp:400
+#: dic/compdic.cpp:401
 msgid " -d 'ODS 5.0' -l letters.txt -i ods5.txt -o ods5.dawg"
 msgstr ""
 
-#: dic/compdic.cpp:402
+#: dic/compdic.cpp:403
 msgid ""
 "The file containing the letters (--letters switch) must be UTF-8 encoded."
 msgstr ""
 
-#: dic/compdic.cpp:403
+#: dic/compdic.cpp:404
 msgid ""
 "Each line corresponds to one letter, and must contain 5 fields separated "
 "with "
 msgstr ""
 
-#: dic/compdic.cpp:404
+#: dic/compdic.cpp:405
 msgid "one or more space(s)."
 msgstr ""
 
-#: dic/compdic.cpp:405
+#: dic/compdic.cpp:406
 msgid " - 1st field: the letter itself"
 msgstr ""
 
-#: dic/compdic.cpp:406
+#: dic/compdic.cpp:407
 msgid " - 2nd field: the points of the letter"
 msgstr ""
 
-#: dic/compdic.cpp:407
+#: dic/compdic.cpp:408
 msgid ""
 " - 3rd field: the frequency of the letter (how many letters of this kind in "
 "the game)"
 msgstr ""
 
-#: dic/compdic.cpp:408
+#: dic/compdic.cpp:409
 msgid ""
 " - 4th field: 1 if the letter is considered as a vowel in Scrabble game, 0 "
 "otherwise"
 msgstr ""
 
-#: dic/compdic.cpp:409
+#: dic/compdic.cpp:410
 msgid ""
 " - 5th field: 1 if the letter is considered as a consonant in Scrabble game, "
 "0 otherwise"
 msgstr ""
 
-#: dic/compdic.cpp:410
+#: dic/compdic.cpp:411
 msgid "Example for french:"
 msgstr ""
 
-#: dic/compdic.cpp:411
+#: dic/compdic.cpp:412
 msgid "A 1 9 1 0"
 msgstr ""
 
-#: dic/compdic.cpp:412
+#: dic/compdic.cpp:413
 msgid "[...]"
 msgstr ""
 
-#: dic/compdic.cpp:413
+#: dic/compdic.cpp:414
 msgid "Z 10 1 0 1"
 msgstr ""
 
-#: dic/compdic.cpp:414
+#: dic/compdic.cpp:415
 msgid "? 0 2 1 1"
 msgstr ""
 
-#: dic/compdic.cpp:484
+#: dic/compdic.cpp:485
 msgid "A mandatory option is missing"
 msgstr ""
 
-#: dic/compdic.cpp:492
+#: dic/compdic.cpp:493
 msgid "Cannot stat uncompressed dictionary "
 msgstr ""
 
-#: dic/compdic.cpp:500
+#: dic/compdic.cpp:501
 msgid "Cannot open output file "
-msgstr ""
-
-#: dic/compdic.cpp:548
-#, c-format
-msgid " Load time: %.3f s\n"
 msgstr ""
 
 #: dic/compdic.cpp:549
 #, c-format
+msgid " Load time: %.3f s\n"
+msgstr ""
+
+#: dic/compdic.cpp:550
+#, c-format
 msgid " Compression time: %.3f s\n"
 msgstr ""
 
-#: dic/compdic.cpp:551
+#: dic/compdic.cpp:552
 #, c-format
 msgid " Maximum recursion level reached: %d\n"
 msgstr ""
 
-#: dic/listdic.cpp:100
+#: dic/listdic.cpp:102
 #, c-format
 msgid "offset binary   | structure\n"
 msgstr ""
 
-#: dic/listdic.cpp:109
+#: dic/listdic.cpp:111
 #, c-format
 msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
 msgstr ""
 
-#: dic/listdic.cpp:110
+#: dic/listdic.cpp:112
 #, c-format
 msgid "  -a: print all\n"
 msgstr ""
 
-#: dic/listdic.cpp:111
+#: dic/listdic.cpp:113
 #, c-format
 msgid "  -h: print header\n"
 msgstr ""
 
-#: dic/listdic.cpp:112
+#: dic/listdic.cpp:114
 #, c-format
 msgid "  -l: print dictionary word list\n"
 msgstr ""
 
-#: dic/listdic.cpp:113
+#: dic/listdic.cpp:115
 #, c-format
 msgid "  -x: print dictionary in hex\n"
 msgstr ""
 
-#: dic/regexpmain.cpp:100
+#: dic/regexpmain.cpp:101
 #, c-format
 msgid "usage: %s dictionary"
 msgstr ""
 
-#: dic/regexpmain.cpp:101
+#: dic/regexpmain.cpp:102
 msgid "   dictionary: path to eliot dawg dictionary"
 msgstr ""
 
-#: dic/regexpmain.cpp:136
+#: dic/regexpmain.cpp:137
 msgid "enter a regular expression:"
 msgstr ""
 
-#: dic/regexpmain.cpp:148
+#: dic/regexpmain.cpp:149
 msgid "result:"
 msgstr ""
 
@@ -446,7 +446,7 @@ msgstr ""
 msgid "The word '%ls' does not exist"
 msgstr ""
 
-#: utils/ncurses.cpp:578 wxwin/mainframe.cc:460 wxwin/mainframe.cc:468
+#: utils/ncurses.cpp:578 wxwin/mainframe.cc:475 wxwin/mainframe.cc:483
 msgid "Save the game"
 msgstr ""
 
@@ -464,8 +464,8 @@ msgstr ""
 msgid "Game saved in '%ls'"
 msgstr ""
 
-#: utils/ncurses.cpp:608 wxwin/mainframe.cc:269 wxwin/mainframe.cc:390
-#: wxwin/mainframe.cc:414
+#: utils/ncurses.cpp:608 wxwin/mainframe.cc:275 wxwin/mainframe.cc:405
+#: wxwin/mainframe.cc:429
 msgid "Load a game"
 msgstr ""
 
@@ -560,8 +560,8 @@ msgstr ""
 msgid "Copy"
 msgstr ""
 
-#: wxwin/auxframes.cc:348 wxwin/mainframe.cc:487 wxwin/mainframe.cc:507
-#: wxwin/mainframe.cc:538
+#: wxwin/auxframes.cc:348 wxwin/mainframe.cc:502 wxwin/mainframe.cc:522
+#: wxwin/mainframe.cc:553
 msgid "No on going game"
 msgstr ""
 
@@ -573,11 +573,11 @@ msgstr ""
 msgid "Rack: "
 msgstr ""
 
-#: wxwin/auxframes.cc:525 wxwin/mainframe.cc:319
+#: wxwin/auxframes.cc:525 wxwin/mainframe.cc:325
 msgid "Game history"
 msgstr ""
 
-#: wxwin/auxframes.cc:557 wxwin/mainframe.cc:321
+#: wxwin/auxframes.cc:557 wxwin/mainframe.cc:327
 msgid "Results"
 msgstr ""
 
@@ -725,396 +725,396 @@ msgstr ""
 msgid "Results of the search"
 msgstr ""
 
-#: wxwin/mainframe.cc:205
+#: wxwin/mainframe.cc:206
 msgid " Rack "
 msgstr ""
 
-#: wxwin/mainframe.cc:206
+#: wxwin/mainframe.cc:207
 msgid " Complement "
 msgstr ""
 
-#: wxwin/mainframe.cc:207
+#: wxwin/mainframe.cc:208
 msgid " Search "
 msgstr ""
 
-#: wxwin/mainframe.cc:208
+#: wxwin/mainframe.cc:209
 msgid " Back "
 msgstr ""
 
-#: wxwin/mainframe.cc:209
+#: wxwin/mainframe.cc:210
 msgid " Play "
 msgstr ""
 
-#: wxwin/mainframe.cc:211
+#: wxwin/mainframe.cc:212
 msgid "Random rack"
 msgstr ""
 
-#: wxwin/mainframe.cc:212
+#: wxwin/mainframe.cc:214
 msgid "Random complement of the rack"
 msgstr ""
 
-#: wxwin/mainframe.cc:213
+#: wxwin/mainframe.cc:216
 msgid "Search with the current rack"
 msgstr ""
 
-#: wxwin/mainframe.cc:214
+#: wxwin/mainframe.cc:218
 msgid "Go back one turn"
 msgstr ""
 
-#: wxwin/mainframe.cc:215
+#: wxwin/mainframe.cc:220
 msgid "Play the selected word"
 msgstr ""
 
-#: wxwin/mainframe.cc:266
+#: wxwin/mainframe.cc:272
 msgid "&New game\tctrl+n"
 msgstr ""
 
-#: wxwin/mainframe.cc:266
+#: wxwin/mainframe.cc:272
 msgid "Start a new game"
 msgstr ""
 
-#: wxwin/mainframe.cc:267
+#: wxwin/mainframe.cc:273
 msgid "New &joker game\tctrl+j"
 msgstr ""
 
-#: wxwin/mainframe.cc:267
+#: wxwin/mainframe.cc:273
 msgid "Start a new joker game"
 msgstr ""
 
-#: wxwin/mainframe.cc:269
+#: wxwin/mainframe.cc:275
 msgid "&Load...\tctrl+l"
 msgstr ""
 
-#: wxwin/mainframe.cc:270
+#: wxwin/mainframe.cc:276
 msgid "&Save as...\tctrl+s"
 msgstr ""
 
-#: wxwin/mainframe.cc:270
+#: wxwin/mainframe.cc:276
 msgid "Save the current game"
 msgstr ""
 
-#: wxwin/mainframe.cc:272
+#: wxwin/mainframe.cc:278
 msgid "&Print...\tctrl+p"
 msgstr ""
 
-#: wxwin/mainframe.cc:272
+#: wxwin/mainframe.cc:278
 msgid "Print this game"
 msgstr ""
 
-#: wxwin/mainframe.cc:273
+#: wxwin/mainframe.cc:279
 msgid "Print pre&view..."
 msgstr ""
 
-#: wxwin/mainframe.cc:273
+#: wxwin/mainframe.cc:279
 msgid "Print preview of the game"
 msgstr ""
 
-#: wxwin/mainframe.cc:275
+#: wxwin/mainframe.cc:281
 msgid "Print in PostS&cript..."
 msgstr ""
 
-#: wxwin/mainframe.cc:275
+#: wxwin/mainframe.cc:281
 msgid "Print in a PostScript file"
 msgstr ""
 
-#: wxwin/mainframe.cc:278
+#: wxwin/mainframe.cc:284
 msgid "&Quit"
 msgstr ""
 
-#: wxwin/mainframe.cc:278
+#: wxwin/mainframe.cc:284
 msgid "Quit Eliot"
 msgstr ""
 
-#: wxwin/mainframe.cc:281
+#: wxwin/mainframe.cc:287
 msgid "&Dictionary..."
 msgstr ""
 
-#: wxwin/mainframe.cc:281 wxwin/mainframe.cc:589
+#: wxwin/mainframe.cc:287 wxwin/mainframe.cc:604
 msgid "Choose a dictionary"
 msgstr ""
 
-#: wxwin/mainframe.cc:282
+#: wxwin/mainframe.cc:288
 msgid "&Search..."
 msgstr ""
 
-#: wxwin/mainframe.cc:282
+#: wxwin/mainframe.cc:288
 msgid "Search options"
 msgstr ""
 
-#: wxwin/mainframe.cc:285
+#: wxwin/mainframe.cc:291
 msgid "&Background..."
 msgstr ""
 
-#: wxwin/mainframe.cc:285
+#: wxwin/mainframe.cc:291
 msgid "Background color"
 msgstr ""
 
-#: wxwin/mainframe.cc:286
+#: wxwin/mainframe.cc:292
 msgid "L&ines..."
 msgstr ""
 
-#: wxwin/mainframe.cc:286
+#: wxwin/mainframe.cc:292
 msgid "Color of the lines"
 msgstr ""
 
-#: wxwin/mainframe.cc:288
+#: wxwin/mainframe.cc:294
 msgid "&Played letters..."
 msgstr ""
 
-#: wxwin/mainframe.cc:288
+#: wxwin/mainframe.cc:294
 msgid "Color of the letters played on the board"
 msgstr ""
 
-#: wxwin/mainframe.cc:289
+#: wxwin/mainframe.cc:295
 msgid "&Temporary letters..."
 msgstr ""
 
-#: wxwin/mainframe.cc:289
+#: wxwin/mainframe.cc:295
 msgid "Color of the letters of the temporary word"
 msgstr ""
 
-#: wxwin/mainframe.cc:290
+#: wxwin/mainframe.cc:296
 msgid "B&ackground of played letters..."
 msgstr ""
 
-#: wxwin/mainframe.cc:290
+#: wxwin/mainframe.cc:296
 msgid "Background color of the letters played on the board"
 msgstr ""
 
-#: wxwin/mainframe.cc:291
+#: wxwin/mainframe.cc:297
 msgid "Ba&ckground of temporary letters..."
 msgstr ""
 
-#: wxwin/mainframe.cc:291
+#: wxwin/mainframe.cc:297
 msgid "Background color of the temporary letters on the board"
 msgstr ""
 
-#: wxwin/mainframe.cc:293
+#: wxwin/mainframe.cc:299
 msgid "Double &letter..."
 msgstr ""
 
-#: wxwin/mainframe.cc:293
+#: wxwin/mainframe.cc:299
 msgid "Color of the \"double letter\" squares"
 msgstr ""
 
-#: wxwin/mainframe.cc:294
+#: wxwin/mainframe.cc:300
 msgid "Triple l&etter..."
 msgstr ""
 
-#: wxwin/mainframe.cc:294
+#: wxwin/mainframe.cc:300
 msgid "Color of the \"triple letter\" squares"
 msgstr ""
 
-#: wxwin/mainframe.cc:295
+#: wxwin/mainframe.cc:301
 msgid "Double &word..."
 msgstr ""
 
-#: wxwin/mainframe.cc:295
+#: wxwin/mainframe.cc:301
 msgid "Color of the \"double word\" squares"
 msgstr ""
 
-#: wxwin/mainframe.cc:296
+#: wxwin/mainframe.cc:302
 msgid "Triple w&ord..."
 msgstr ""
 
-#: wxwin/mainframe.cc:296
+#: wxwin/mainframe.cc:302
 msgid "Color of the \"triple word\" squares"
 msgstr ""
 
-#: wxwin/mainframe.cc:298
+#: wxwin/mainframe.cc:304
 msgid "&Default colors"
 msgstr ""
 
-#: wxwin/mainframe.cc:298
+#: wxwin/mainframe.cc:304
 msgid "Restore the default colors"
 msgstr ""
 
-#: wxwin/mainframe.cc:301
+#: wxwin/mainframe.cc:307
 msgid "&Search letters..."
 msgstr ""
 
-#: wxwin/mainframe.cc:301
+#: wxwin/mainframe.cc:307
 msgid "Font for the search"
 msgstr ""
 
-#: wxwin/mainframe.cc:304 wxwin/mainframe.cc:328
+#: wxwin/mainframe.cc:310 wxwin/mainframe.cc:334
 msgid "&Game"
 msgstr ""
 
-#: wxwin/mainframe.cc:304
+#: wxwin/mainframe.cc:310
 msgid "Configuration of the game"
 msgstr ""
 
-#: wxwin/mainframe.cc:305
+#: wxwin/mainframe.cc:311
 msgid "&Fonts"
 msgstr ""
 
-#: wxwin/mainframe.cc:305
+#: wxwin/mainframe.cc:311
 msgid "Configuration of the fonts"
 msgstr ""
 
-#: wxwin/mainframe.cc:306
+#: wxwin/mainframe.cc:312
 msgid "&Colors"
 msgstr ""
 
-#: wxwin/mainframe.cc:306
+#: wxwin/mainframe.cc:312
 msgid "Configuration of the colors"
 msgstr ""
 
-#: wxwin/mainframe.cc:307
+#: wxwin/mainframe.cc:313
 msgid "&Printing..."
 msgstr ""
 
-#: wxwin/mainframe.cc:307
+#: wxwin/mainframe.cc:313
 msgid "Configuration of the printing parameters"
 msgstr ""
 
-#: wxwin/mainframe.cc:310
+#: wxwin/mainframe.cc:316
 msgid "&Board"
 msgstr ""
 
-#: wxwin/mainframe.cc:310
+#: wxwin/mainframe.cc:316
 msgid "Game board"
 msgstr ""
 
-#: wxwin/mainframe.cc:311
+#: wxwin/mainframe.cc:317
 msgid "Ba&g"
 msgstr ""
 
-#: wxwin/mainframe.cc:311
+#: wxwin/mainframe.cc:317
 msgid "Remaining letters in the bag"
 msgstr ""
 
-#: wxwin/mainframe.cc:312
+#: wxwin/mainframe.cc:318
 msgid "&Check"
 msgstr ""
 
-#: wxwin/mainframe.cc:312
+#: wxwin/mainframe.cc:318
 msgid "Check a word in the dictionary"
 msgstr ""
 
-#: wxwin/mainframe.cc:313
+#: wxwin/mainframe.cc:319
 msgid "&Search"
 msgstr ""
 
-#: wxwin/mainframe.cc:313
+#: wxwin/mainframe.cc:319
 msgid "Search in the dictionary"
 msgstr ""
 
-#: wxwin/mainframe.cc:315
+#: wxwin/mainframe.cc:321
 msgid "&Rack + 1"
 msgstr ""
 
-#: wxwin/mainframe.cc:315
+#: wxwin/mainframe.cc:321
 msgid "Letters of the rack plus one"
 msgstr ""
 
-#: wxwin/mainframe.cc:316
+#: wxwin/mainframe.cc:322
 msgid "R&accords"
 msgstr ""
 
-#: wxwin/mainframe.cc:316
+#: wxwin/mainframe.cc:322
 msgid "Raccords on a word of the search"
 msgstr ""
 
-#: wxwin/mainframe.cc:317
+#: wxwin/mainframe.cc:323
 msgid "&Benjamins"
 msgstr ""
 
-#: wxwin/mainframe.cc:317
+#: wxwin/mainframe.cc:323
 msgid "Benjamins on a word of the search"
 msgstr ""
 
-#: wxwin/mainframe.cc:319
+#: wxwin/mainframe.cc:325
 msgid "Game &history"
 msgstr ""
 
-#: wxwin/mainframe.cc:321
+#: wxwin/mainframe.cc:327
 msgid "R&esults"
 msgstr ""
 
-#: wxwin/mainframe.cc:325
+#: wxwin/mainframe.cc:331
 msgid "&About..."
 msgstr ""
 
-#: wxwin/mainframe.cc:325 wxwin/mainframe.cc:718
+#: wxwin/mainframe.cc:331 wxwin/mainframe.cc:733
 msgid "About Eliot"
 msgstr ""
 
-#: wxwin/mainframe.cc:329
+#: wxwin/mainframe.cc:335
 msgid "&Settings"
 msgstr ""
 
-#: wxwin/mainframe.cc:330
+#: wxwin/mainframe.cc:336
 msgid "&Windows"
 msgstr ""
 
-#: wxwin/mainframe.cc:331
+#: wxwin/mainframe.cc:337
 msgid "&Help"
 msgstr ""
 
-#: wxwin/mainframe.cc:355 wxwin/mainframe.cc:393
+#: wxwin/mainframe.cc:361 wxwin/mainframe.cc:408
 msgid "No dictionary selected"
 msgstr ""
 
-#: wxwin/mainframe.cc:355 wxwin/mainframe.cc:393 wxwin/mainframe.cc:487
-#: wxwin/mainframe.cc:507 wxwin/mainframe.cc:538
+#: wxwin/mainframe.cc:361 wxwin/mainframe.cc:408 wxwin/mainframe.cc:502
+#: wxwin/mainframe.cc:522 wxwin/mainframe.cc:553
 msgid "Eliot: error"
 msgstr ""
 
-#: wxwin/mainframe.cc:413
+#: wxwin/mainframe.cc:428
 msgid "Cannot open "
 msgstr ""
 
-#: wxwin/mainframe.cc:425 wxwin/mainframe.cc:434
+#: wxwin/mainframe.cc:440 wxwin/mainframe.cc:449
 msgid "Error while loading the game"
 msgstr ""
 
-#: wxwin/mainframe.cc:426
+#: wxwin/mainframe.cc:441
 msgid "Invalid game"
 msgstr ""
 
-#: wxwin/mainframe.cc:435
+#: wxwin/mainframe.cc:450
 msgid "The game is empty"
 msgstr ""
 
-#: wxwin/mainframe.cc:467
+#: wxwin/mainframe.cc:482
 msgid "Cannot create "
 msgstr ""
 
-#: wxwin/mainframe.cc:496 wxwin/mainframe.cc:560
+#: wxwin/mainframe.cc:511 wxwin/mainframe.cc:575
 msgid "Printing not done"
 msgstr ""
 
-#: wxwin/mainframe.cc:496 wxwin/mainframe.cc:524
+#: wxwin/mainframe.cc:511 wxwin/mainframe.cc:539
 msgid "Printing"
 msgstr ""
 
-#: wxwin/mainframe.cc:519
+#: wxwin/mainframe.cc:534
 msgid "Print preview problem.\n"
 msgstr ""
 
-#: wxwin/mainframe.cc:520
+#: wxwin/mainframe.cc:535
 msgid "The printer may not be correctly initialized"
 msgstr ""
 
-#: wxwin/mainframe.cc:521
+#: wxwin/mainframe.cc:536
 msgid "Print preview"
 msgstr ""
 
-#: wxwin/mainframe.cc:542
+#: wxwin/mainframe.cc:557
 msgid "Print to a PostScript file"
 msgstr ""
 
-#: wxwin/mainframe.cc:561 wxwin/mainframe.cc:567
+#: wxwin/mainframe.cc:576 wxwin/mainframe.cc:582
 msgid "PostScript printing"
 msgstr ""
 
-#: wxwin/mainframe.cc:566
+#: wxwin/mainframe.cc:581
 msgid "Cannot initialize PostScript printer"
 msgstr ""
 
-#: wxwin/mainframe.cc:714
+#: wxwin/mainframe.cc:729
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
 "under the terms of the GNU General Public License as published by the Free "
@@ -1122,33 +1122,33 @@ msgid ""
 "any later version."
 msgstr ""
 
-#: wxwin/mainframe.cc:912
+#: wxwin/mainframe.cc:927
 msgid "turn:"
 msgstr ""
 
-#: wxwin/mainframe.cc:913
+#: wxwin/mainframe.cc:928
 msgid "points:"
 msgstr ""
 
-#: wxwin/mainframe.cc:948
+#: wxwin/mainframe.cc:963
 msgid ""
 "The bag doesn't contain enough letters\n"
 "for a new rack."
 msgstr ""
 
-#: wxwin/mainframe.cc:949 wxwin/mainframe.cc:953 wxwin/mainframe.cc:957
+#: wxwin/mainframe.cc:964 wxwin/mainframe.cc:968 wxwin/mainframe.cc:972
 msgid "Rack validation"
 msgstr ""
 
-#: wxwin/mainframe.cc:952
+#: wxwin/mainframe.cc:967
 msgid "The rack must contain at least 2 consonants and 2 vowels."
 msgstr ""
 
-#: wxwin/mainframe.cc:956
+#: wxwin/mainframe.cc:971
 msgid "The rack contains invalid letters for the current dictionary"
 msgstr ""
 
-#: wxwin/mainframe.cc:960
+#: wxwin/mainframe.cc:975
 msgid "The rack has been modified manually"
 msgstr ""
 
