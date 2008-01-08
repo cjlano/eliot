@@ -46,20 +46,20 @@ commande> a gd # j1
  Dr [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
  Er [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000008: 6][ffffffff:-1]
  Fr [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:16][00000000:-1][ffffffff:-1]
- Gr [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][00000000: 5][00608022: 1][005c795a: 1][00008000: 3][00000000:-1][00000000:-1][00000000: 8]
+ Gr [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][00000000: 5][00608022: 1][005c795e: 1][00008000: 3][00000000:-1][00000000:-1][00000000: 8]
  Hr [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1]
  Ir [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][00000000:-1][00200222: 1][02284302: 1][00000222: 3][00000000:-1][040c0020: 6][00000000:-1]
  Jr [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00080200:12][00002020: 5][ffffffff:-1][ffffffff:-1][00000000:12][00000000:-1][ffffffff:-1][00000000:-1]
  Kr [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][00000000:-1][ffffffff:-1][00000000:-1]
  Lr [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][00000000:-1][ffffffff:-1][00000000:-1]
  Mr [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][00000000:-1][ffffffff:-1][00080000: 8]
- Nr [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][00000000:26][00000000: 3][005c7518: 1]
+ Nr [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][00000000:26][00000000: 3][005c751c: 1]
  Or [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1]
  -
  Ac [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:12][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1]
  Bc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][010d714e: 1][00000000:-1][00005040: 1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
  Cc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000: 4][00000000:-1][00280022: 4][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
- Dc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][005c7518: 0][00000000:-1][01384100: 0][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
+ Dc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][005c751c: 0][00000000:-1][01384100: 0][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
  Ec [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00008000: 1][00000000:-1][00200222: 1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
  Fc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00200020: 1][00000000:-1][00200022: 1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00008022: 4][00000000:-1][00008222: 4]
  Gc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][010d714e: 1][00000000:-1][00005040: 1][ffffffff:-1][ffffffff:-1][00000000:11][00000000:-1][00000000:-1][00080000:11]
@@ -67,20 +67,20 @@ commande> a gd # j1
  Ic [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000004: 5][00000000:-1][00000000:-1][00000000: 5][ffffffff:-1][00608022: 1][00000000:-1][00210800: 2][00000000:-1]
  Jc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00200020: 1][00000000:-1][00008000: 3][00000000:-1]
  Kc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000: 9][00000000:-1][00000000:-1][00000000:12][00000000:-1]
- Lc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000048: 2][00000000:-1][00000000:-1][00004000: 3][00000000:-1]
+ Lc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00002048: 2][00000000:-1][00000000:-1][00004000: 3][00000000:-1]
  Mc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000144: 2][00000000:-1][00000000:-1][00080220: 2][ffffffff:-1]
  Nc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][010d714e: 1][00000000:-1][00005040: 1][ffffffff:-1][ffffffff:-1]
  Oc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:15][00000000:-1][00000000:-1][00000000:-1][00000000:-1]
 commande> r
 commande> a r
   1: SaUGRENU        *  82 E4
-  2: eNjUGUES        *  66 D8
-  3: NUaGEUSe        *  66 D1
+  2: NUaGEUSe        *  66 D1
+  3: eNjUGUES        *  66 D8
   4: GUEUSANt        *  66 11C
   5: GUeUSENt        *  64 D6
-  6: NUaGeUSE        *  64 D4
+  6: ENjUGUeS        *  64 D2
   7: GUEUSeNt        *  64 D3
-  8: ENjUGUeS        *  64 D2
+  8: NUaGeUSE        *  64 D4
   9: GUeUSENT        *  62 F1
  10: GUEUSeNT        *  60 F1
 commande> q

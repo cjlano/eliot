@@ -1,6 +1,7 @@
 Makefile
 Makefile.in
 Makefile.in.in
+Makevars.template
 POTFILES
 *.mo
 *.gmo
@@ -8,3 +9,9 @@ POTFILES
 *.sin
 *.header
 Rules-quot
+stamp-po
+en@boldquot.insert-header
+en@boldquot.po
+en@quot.insert-header
+en@quot.po
+

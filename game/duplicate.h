@@ -1,6 +1,7 @@
 /*****************************************************************************
- * Copyright (C) 2005 Eliot
- * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2005-2007 Olivier Teulière
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +35,7 @@ using std::wstring;
  *     and rack are updated. He cannot change his word afterwards.
  *   - if there is still a human player who has not played for the current
  *     turn, we wait for him
- *   - if all the human players have played, it's the turn to the AI players
+ *   - if all the human players have played, it's the turn of the AI players
  *     (currently handled in a loop, but we could imagine that they are running
  *     in their own thread).
  *   - once all the players have played, we can really end the turn:
@@ -57,26 +58,73 @@ public:
     /*************************
      * Game handling
      *************************/
+    /**
+     * In Duplicate mode, the start() method starts a new turn, and is
+     * automatically called when the previous turn is finished.
+     *
+     * Pre-requisite: all the players must have the same rack when this
+     * method is called
+     */
     virtual int start();
-    virtual int setRackRandom(int, bool, set_rack_mode);
-    virtual int play(const wstring &iCoord, const wstring &iWord);
-    virtual int endTurn();
 
-    int setPlayer(int);
-    // Switch to the previous human player who has not played yet
+    /**
+     * See description of Game::play() for the possible return values.
+     * Note that if the "duplicate-reject-invalid" setting is set to false
+     * the method always returns 0 (the player will have 0 for this turn)
+     */
+    virtual int play(const wstring &iCoord, const wstring &iWord);
+
+    /**
+     * Set the current player, given its ID.
+     * The given player ID must correspond to a human player, which did not
+     * play yet for this turn.
+     * Possible return values:
+     *  0: everything went fine
+     *  1: the player is not human
+     */
+    int setPlayer(unsigned int p);
+
+    /// Switch to the previous human player who has not played yet
     void prevHumanPlayer();
-    // Switch to the next human player who has not played yet
+
+    /// Switch to the next human player who has not played yet
     void nextHumanPlayer();
 
 private:
-    // Private constructor and destructor to force using the GameFactory class
+    // Private constructor to force using the GameFactory class
     Duplicate(const Dictionary &iDic);
-    virtual ~Duplicate();
 
-    void playRound(const Round &iRound, int n);
-    int  endTurnForReal();
-    void end();
-    void duplicateAI(int n);
+    void playMove(const Move &iMove, unsigned int p);
+
+    /// Make the AI player whose ID is p play its turn
+    void playAI(unsigned int p);
+
+    /**
+     * This function does not terminate the turn itself, but performs some
+     * checks to know whether or not it should be terminated (with a call to
+     * endTurn()).
+     *
+     * For the turn to be terminated, all the players must have played.
+     * Since the AI players play after the human players, we check whether
+     * one of the human players has not played yet:
+     *   - if so, we have nothing to do (we are waiting for him/her)
+     *   - if not (all human players have played), the AI players can play,
+     *     and we finish the turn.
+     */
+    void tryEndTurn();
+
+    /**
+     * This function really changes the turn, i.e. the best word is played,
+     * the game history is updated, a "solo" bonus is given if needed, and
+     * all racks are made equal to the one of the player who played the
+     * best move.
+     * We suppose here that all the players have finished to play for this
+     * turn (this should have been checked by tryEndturn())
+     */
+    void endTurn();
+
+    /// Finish the game
+    void endGame();
 
     // m_hasPlayed[p] is true iff player p has played for this turn
     map<int, bool> m_hasPlayed;

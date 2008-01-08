@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,10 +26,13 @@
  *  \date   2005
  */
 
+#include <wctype.h>
+
 #include <dic.h>
 #include "tile.h"
 #include "board.h"
 #include "debug.h"
+
 
 static void Board_checkout_tile(const Dictionary &iDic,
                                 vector<Tile>& iTiles,
@@ -37,7 +41,7 @@ static void Board_checkout_tile(const Dictionary &iDic,
                                 int& oPoints,
                                 int index)
 {
-    int i,left;
+    int i, left;
     unsigned int node, succ;
 
     oPoints = 0;
@@ -52,36 +56,36 @@ static void Board_checkout_tile(const Dictionary &iDic,
     }
 
     // FIXME: create temporary strings until the dictionary uses Tile objects
-    char leftTiles [BOARD_DIM + 1];
-    char rightTiles[BOARD_DIM + 1];
+    wchar_t leftTiles [BOARD_DIM + 1];
+    wchar_t rightTiles[BOARD_DIM + 1];
 
     for (i = left; i < index; i++)
-        leftTiles[i - left] = toupper(iTiles[i].toChar());
+        leftTiles[i - left] = towupper(iTiles[i].toChar());
     leftTiles[index - left] = 0;
 
     for (i = index + 1; !iTiles[i].isEmpty(); i++)
-        rightTiles[i - index - 1] = toupper(iTiles[i].toChar());
+        rightTiles[i - index - 1] = towupper(iTiles[i].toChar());
     rightTiles[i - index - 1] = 0;
 
     /* Tiles that can be played */
-    node = Dic_char_lookup(iDic, Dic_root(iDic), leftTiles);
+    node = iDic.charLookup(iDic.getRoot(), leftTiles);
     if (node == 0)
     {
         oCross.setNone();
         return;
     }
 
-    for (succ = Dic_succ(iDic, node); succ; succ = Dic_next(iDic, succ))
+    for (succ = iDic.getSucc(node); succ; succ = iDic.getNext(succ))
     {
-        if (Dic_word(iDic, Dic_char_lookup(iDic, succ, rightTiles)))
-            oCross.insert(Tile(Dic_char(iDic, succ)));
-        if (Dic_last(iDic, succ))
+        if (iDic.isEndOfWord(iDic.charLookup(succ, rightTiles)))
+            oCross.insert(Tile(iDic.getChar(succ)));
+        if (iDic.isLast(succ))
             break;
     }
 
     /* Points on the right part */
-    /* yes, it is REALLY [index+1] */
-    while (!iTiles[index+1].isEmpty())
+    /* yes, it is REALLY [index + 1] */
+    while (!iTiles[index + 1].isEmpty())
     {
         index++;
         if (!iJoker[index])
@@ -104,7 +108,7 @@ static void Board_check(const Dictionary &iDic,
             if (!iTilesMx[i][j].isEmpty())
             {
                 iCrossMx[j][i].setNone();
-	    }
+            }
             else if (!iTilesMx[i][j - 1].isEmpty() ||
                      !iTilesMx[i][j + 1].isEmpty())
             {
@@ -119,7 +123,7 @@ static void Board_check(const Dictionary &iDic,
             else
             {
                 iCrossMx[j][i].setAny();
-	    }
+            }
         }
     }
 }

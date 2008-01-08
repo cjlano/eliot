@@ -20,19 +20,25 @@ training_dict       0  # randseed unused
 training_bag        0  # randseed unused
 # Enter a rack, then display all the possibilities
 training_search     0  # randseed unused
+# Display the benjamins for several words
+training_benj       0  # randseed unused
+# Display the "raccords" for several words
+training_racc       0  # randseed unused
+# Test the 7 + 1 feature
+training_7pl1       0  # randseed unused
 # Several ways of getting a rack and playing a word
 training_play       4
-# Training rack+search+play+back 
+# Training rack+search+play+back
 training_back       5
 # Joker problem on game search
 training_rosace     0
 
-# Board cross off by one score 
+# Board cross off by one score
 training_cross      0
-# Board cross backward setAny 
+# Board cross backward setAny
 training_cross2     0
-# Board cross backward joker 
-training_cross3     0 
+# Board cross backward joker
+training_cross3     0
 
 # Joker problem on game load
 training_joker      0
@@ -47,6 +53,8 @@ training_joker2     0
 
 # 2 AI players
 duplicate_2_ai      5
+# 2 human players, one IA, with manual change of human player
+duplicate_humans_ai 6
 
 #################
 # Free game mode
@@ -60,7 +68,7 @@ freegame_change     3
 freegame_3_ai       2
 
 ##############
-# Load / Save 
+# Load / Save
 ##############
 
 # load a standard training game (fumee)

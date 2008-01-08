@@ -1,6 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
+ * Eliot
+ * Copyright (C) 2004-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _CONST_H_
-#define _CONST_H_
+#ifndef _DEBUG_H_
+#define _DEBUG_H_
 
 /**********
  * General

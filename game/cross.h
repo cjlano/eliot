@@ -1,6 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 2005 Eliot
- * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2005-2007 Olivier Teulière & Antoine Fraboulet
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
+ *          Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,13 +36,12 @@ class Cross
 {
 public:
     Cross();
-    virtual ~Cross() {}
 
-    void setAny();     
-    void setNone();
+    void setAny();
+    void setNone() { m_mask = 0; }
 
     bool isAny() const;
-    bool isNone() const;
+    bool isNone() const { return m_mask == 0; }
 
     bool check(const Tile& iTile) const;
 

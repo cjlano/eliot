@@ -7,6 +7,11 @@ Joueur 0:    0
 Joueur 1:    0
 commande> p
 commande> p
+commande> a t
+EGISSTU
+commande> p UIET
+commande> a t
+GSSTAUV
 commande> p
 commande> p
 commande> p
@@ -27,6 +32,13 @@ commande> p
 commande> p
 commande> p
 commande> p
+commande> p
+commande> a S
+Joueur 0:  -11
+Joueur 1:  777
+commande> a T
+Joueur 0: AGSSTUV
+Joueur 1: 
 commande> a p
 Eliot 1.5
 
@@ -36,28 +48,59 @@ Player 1: Computer
 
     N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
    ===|==========|=================|=====|=====|===|======
-    1 |  RENLOHL | HERON           |  H4 |  24 | 1 |  
-    2 | LL+XUORC | OCREUX          |  5E |  34 | 1 |  
-    3 | LL+NAECT | CALLENT         |  I7 |  73 | 1 | *
-    4 |  DIBB?EM | BIBENDuM        | 12E |  78 | 1 | *
-    5 |  TOEOMLZ | TOMIEZ          |  F9 |  38 | 1 |  
-    6 | LO+ESLSI | SOLEILS         |  M6 |  73 | 1 | *
-    7 |  UEGTVAW | VAGUEZ          | 14A |  38 | 1 |  
-    8 | TW+LAEPU | PAVE            | A12 |  36 | 1 |  
-    9 | LTUW+FAA | FATWA           |  N2 |  42 | 1 |  
-   10 | LU+JAEYU | LAYE            |  O1 |  61 | 1 |  
-   11 | JUU+SENI | JEUNE           | H11 |  47 | 1 |  
-   12 | ISU+RMPN | SPRAY           |  3K |  32 | 1 |  
-   13 | IMNU+AIV | VLAN            |  8L |  33 | 1 |  
-   14 | IIMU+UQE | QUI             | B10 |  30 | 1 |  
-   15 | EIMU+RNF | UNIFORME        |  E1 |  62 | 1 | *
-   16 |  ODITREE | ETOURDIE        |  1B |  80 | 1 | *
-   17 |  TEN?IKR | jERKE           |  8A |  69 | 1 |  
+    1 |  SEUTISG | (PASS)          |  -  |   0 | 0 |
+    2 |  LXCORNU | ROUX            |  H8 |  26 | 1 |  
+    3 |  EGISSTU | (PASS)          |  -  |   0 | 0 |
+    4 | CLN+?BEC | CiNECLUB        | 10B |  75 | 1 | *
+    5 |  EGISSTU | (-UIET)         |  -  |   0 | 0 |
+    6 |  LLESYEO | YOLES           |  J6 |  52 | 1 |  
+    7 | GSS+TAUV | (PASS)          |  -  |   0 | 0 |
+    8 | EL+AAOGT | GALETA          | 11A |  29 | 1 |  
+    9 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   10 | O+RTEUMI | MORUTIER        |  8A |  80 | 1 | *
+   11 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   12 |  EUNPFUP | PFUT            |  E5 |  18 | 1 |  
+   13 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   14 | ENPU+FTE | FETE            | 12B |  33 | 1 |  
+   15 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   16 | NPU+NSIM | LUPINS          |  8J |  33 | 1 |  
+   17 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   18 | MN+UEWOI | WON             |  N6 |  32 | 1 |  
+   19 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   20 | EIMNU+MI | IMMUNS          |  O3 |  23 | 1 |  
+   21 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   22 | EI+IDRED | BIRDIE          | I10 |  22 | 1 |  
+   23 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   24 | DE+RJAAT | DEJETA          | 15H |  45 | 1 |  
+   25 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   26 | AR+ENQEE | CAFRE           | B10 |  20 | 1 |  
+   27 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   28 | AEENQ+BR | BADERNE         | 13G |  26 | 1 |  
+   29 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   30 | Q+EAZAEL | ZEN             | L11 |  24 | 1 |  
+   31 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   32 | AAELQ+RA | ALEA            |  I3 |  16 | 1 |  
+   33 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   34 | AQR+LDEH | ADHERAI         |  3I |  22 | 1 |  
+   35 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   36 | LQ+SI?AI | QuASI           | N10 |  65 | 1 |  
+   37 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   38 | IL+TVHEO | OHE             |  4K |  29 | 1 |  
+   39 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   40 | ILTV+ONK | KOHOL           |  K1 |  34 | 1 |  
+   41 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   42 | INTV+SIN | NAYS            |  6H |  31 | 1 |  
+   43 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   44 |    IINTV | TIKI            |  1I |  14 | 1 |  
+   45 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   46 |       NV | VU              |  D7 |  10 | 1 |  
+   47 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
+   48 |        N | NI              |  M7 |   7 | 1 |  
 
-   Total: 850
+   Total: 766
 
-Rack 0: EGISSTU
-Rack 1: INT+ESDO
+Rack 0: AGSSTUV
+Rack 1: 
 commande> q
 fin du mode partie libre
 commande> q

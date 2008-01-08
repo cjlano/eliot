@@ -1,6 +1,7 @@
 /*****************************************************************************
- * Copyright (C) 2005 Eliot
- * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2005-2007 Olivier Teulière
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,20 +49,54 @@ public:
     /*************************
      * Game handling
      *************************/
+    /**
+     * Start the game.
+     * Possible return values:
+     *  0: everything went fine
+     */
     virtual int start();
-    virtual int setRackRandom(int, bool, set_rack_mode);
+
+    /**
+     * See description of Game::play() for the possible return values.
+     * Note that if the "freegame-reject-invalid" setting is set to false
+     * the method always returns 0 (the player will have 0 for this turn)
+     */
     virtual int play(const wstring &iCoord, const wstring &iWord);
-    virtual int endTurn();
-    int pass(const wstring &iToChange, int n);
+
+    /**
+     * Pass the turn, changing the letters listed in iToChange.
+     * If you simply want to pass the turn without changing any letter,
+     * provide an empty string.
+     *
+     * Possible return values:
+     *  0: everything went fine
+     *  1: changing letters is not allowed if there are less than 7 tiles
+     *     left in the bag
+     *  2: the rack of the current player does not contain all the
+     *     listed letters
+     *  3: the game is already finished
+     *  4: some letters are invalid for the current dictionary
+     */
+    int pass(const wstring &iToChange);
 
 private:
-    // Private constructor and destructor to force using the GameFactory class
+    // Private constructor to force using the GameFactory class
     FreeGame(const Dictionary &iDic);
-    virtual ~FreeGame();
 
-    void freegameAI(int n);
-    void end();
-    int helperPass(const vector<Tile> &iToChange, int n);
+    /// Make the AI player whose ID is p play its turn
+    void playAI(unsigned int p);
+
+    /// Finish the current turn
+    int endTurn();
+
+    /// Finish the game
+    void endGame();
+
+    /**
+     * Check whether it is legal to change the letters of iToChange.
+     * The return codes are the same as the ones on the pass() method
+     */
+    int checkPass(const wstring &iToChange, unsigned int p) const;
 };
 
 #endif /* _FREEGAME_H_ */

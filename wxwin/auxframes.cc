@@ -26,6 +26,8 @@
 
 #include <iostream>
 #include <sstream>
+#include <list>
+#include <string>
 
 #include "wx/sizer.h"
 #include "wx/button.h"
@@ -37,7 +39,6 @@
 #include "ewx.h"
 
 #include "dic.h"
-#include "dic_search.h"
 #include "training.h"
 #include "player.h"
 #include "game.h"
@@ -79,7 +80,7 @@ AuxFrame::SwitchDisplay()
         Show(TRUE);
         Raise();
         show = 1;
-	Reload();
+        Reload();
     }
     else
     {
@@ -119,7 +120,7 @@ AuxFrame::Reload()
 /****************************************************************/
 
 BoardFrame::BoardFrame(wxFrame* parent, Game& iGame):
-    AuxFrame(parent, ID_Frame_Board, _("Grille"), FRAMEBOARD)
+    AuxFrame(parent, ID_Frame_Board, _("Grid"), FRAMEBOARD)
 {
     board = new GfxBoard(this, iGame);
     wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
@@ -144,7 +145,7 @@ BoardFrame::Refresh(refresh_t force)
 /****************************************************************/
 
 BagFrame::BagFrame(wxFrame* parent, Game& iGame):
-    AuxFrame(parent, ID_Frame_Bag, _("sac"), FRAMEBAG),
+    AuxFrame(parent, ID_Frame_Bag, _("Bag"), FRAMEBAG),
     m_game(iGame)
 {
     tiles = new wxListCtrl(this, -1);
@@ -180,11 +181,11 @@ BagFrame::Refresh(refresh_t __UNUSED__ force)
 
     tiles->ClearAll();
 
-    std::list<Tile>::const_iterator it;
-    const std::list<Tile>& allTiles = Tile::getAllTiles();
+    std::vector<Tile>::const_iterator it;
+    const std::vector<Tile>& allTiles = m_game.getDic().getAllTiles();
     for (index = 0, it = allTiles.begin(); it != allTiles.end(); index++, it++)
     {
-	n = m_game.getBag().in(*it);
+        n = m_game.getBag().in(*it);
 #ifdef DEBUG
         buf.Printf(format, it->toChar(), n, n - it->maxNumber());
 #else
@@ -198,8 +199,8 @@ BagFrame::Refresh(refresh_t __UNUSED__ force)
 /* RECHERCHE */
 /****************************************************************/
 
-SearchFrame::SearchFrame(wxFrame *parent, Dictionary _dic):
-    AuxFrame(parent, ID_Frame_Search, _("recherche"), FRAMESEARCH)
+SearchFrame::SearchFrame(wxFrame *parent, const Dictionary &_dic):
+    AuxFrame(parent, ID_Frame_Search, _("Search"), FRAMESEARCH)
 {
     panel = new SearchPanel(this, _dic);
     wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
@@ -222,20 +223,20 @@ SearchFrame::Refresh(refresh_t __UNUSED__ force)
 enum
 {
     Word_Id,
-    Result_Id,
+    Result_Id
 };
 
 BEGIN_EVENT_TABLE(VerifFrame, AuxFrame)
   EVT_TEXT(Word_Id, VerifFrame::OnText)
 END_EVENT_TABLE()
 
-VerifFrame::VerifFrame(wxFrame* parent, Dictionary _dic):
-  AuxFrame(parent, ID_Frame_Verif, _("verification"), FRAMEVERIF)
+VerifFrame::VerifFrame(wxFrame* parent, const Dictionary &_dic):
+  AuxFrame(parent, ID_Frame_Verif, _("Check"), FRAMEVERIF)
 {
-    dic = _dic;
+    dic = &_dic;
     word = new wxTextCtrl(this, Word_Id, wxT(""));
     word->SetFont(config.getFont(LISTFONT));
-    word->SetToolTip(_("Mot a verifier"));
+    word->SetToolTip(_("Word to check"));
     result = new wxStaticText(this, Result_Id, wxT(""));
     result->SetFont(config.getFont(LISTFONT));
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
@@ -253,13 +254,13 @@ VerifFrame::verif()
 {
     if (dic == NULL)
     {
-        result->SetLabel(_("pas de dictionnaire"));
+        result->SetLabel(_("No dictionary"));
         return;
     }
-    if (Dic_search_word(dic, word->GetValue().wc_str()))
-        result->SetLabel(_("existe"));
+    if (dic->searchWord(word->GetValue().wc_str()))
+        result->SetLabel(_("exists"));
     else
-        result->SetLabel(_("n'existe pas"));
+        result->SetLabel(_("doesn't exist"));
 }
 
 void
@@ -300,7 +301,7 @@ AuxFrameList::AuxFrameList(wxFrame* parent, int _id, wxString _name, wxString _c
     listbox->SetToolTip(name);
     sizer_v->Add(listbox, 1, wxEXPAND | wxALL, 1);
 
-    button = new wxButton(this, ButtonCopyID, _("Copier"), wxPoint(0, 0), wxSize(-1, -1));
+    button = new wxButton(this, ButtonCopyID, _("Copy"), wxPoint(0, 0), wxSize(-1, -1));
     sizer_v->Add(button, 0, wxEXPAND | wxALL, 1);
 
     wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
@@ -342,32 +343,25 @@ AuxFrameList::Refresh(refresh_t __UNUSED__ force)
 {
     //debug("    %s : Refresh start\n",(const char*)name.mb_str());
     if (game == NULL)
-	{
-	    listbox->Clear();
-	    listbox->Append(_("Pas de partie en cours"));
-	    //debug("  %s : Refresh end - no game\n",(const char*)name.mb_str());
-	    return;
-	}
-    if (game->getDic() == NULL)
-	{
-	    listbox->Clear();
-	    listbox->Append(_("Pas de dictionnaire"));
-	    //debug("  %s : Refresh end - no dictionnary\n",(const char*)name.mb_str());
-	    return;
-	}
+    {
+        listbox->Clear();
+        listbox->Append(_("No on going game"));
+        //debug("  %s : Refresh end - no game\n",(const char*)name.mb_str());
+        return;
+    }
     if (show == 0)
-	{
-	    //debug("  %s : Refresh end - no window\n",(const char*)name.mb_str());
-	    return;
-	}
+    {
+        //debug("  %s : Refresh end - no window\n",(const char*)name.mb_str());
+        return;
+    }
     noresult = true;
     refresh();
     if (noresult == true)
-	{
-	    //debug("      %s : noresult == true\n",(const char*)name.mb_str());
-	    listbox->Clear();
-	    listbox->Append(_("Aucun resultat"));
-	}
+    {
+        //debug("      %s : noresult == true\n",(const char*)name.mb_str());
+        listbox->Clear();
+        listbox->Append(_("No result"));
+    }
     //debug("  %s : Refresh end\n",(const char*)name.mb_str());
 }
 
@@ -390,27 +384,41 @@ Plus1Frame::refresh()
     }
     savedword = rack;
 
-    wchar_t buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
-    Dic_search_7pl1(game->getDic(), rack.c_str(), buff, config.getJokerPlus1());
+    map<wchar_t, list<wstring> > wordList;
+    game->getDic().search7pl1(rack, wordList, config.getJokerPlus1());
 
-    listbox->Clear();
-    wxString res[DIC_LETTERS*(RES_7PL1_MAX+1)];
-    int resnum = 0;
-    res[resnum++] = wxString(_("Tirage: ")) + wxString(wxU(rack.c_str()));
-    for (int i = 0; i < DIC_LETTERS; i++)
+    // Count the results
+    int sum = 0;
+    map<wchar_t, list<wstring> >::const_iterator it;
+    for (it = wordList.begin(); it != wordList.end(); it++)
     {
-        if (i && buff[i][0][0])
+        if (it->first)
+            sum += 1;
+        sum += it->second.size();
+    }
+    // For the line containing the rack
+    sum += 1;
+
+    noresult = (sum == 0);
+    listbox->Clear();
+    if (noresult)
+        return;
+
+    wxString *res = new wxString[sum];
+    int resnum = 0;
+    res[resnum++] = wxString(_("Rack: ")) + wxString(wxU(rack.c_str()));
+    for (it = wordList.begin(); it != wordList.end(); it++)
+    {
+        if (it->first)
+            res[resnum++] = wxString(wxT("+")) + wxU((wxString)it->first);
+        list<wstring>::const_iterator itWord;
+        for (itWord = it->second.begin(); itWord != it->second.end(); itWord++)
         {
-            res[resnum++] = wxString(wxT("+")) + (wxChar)(i + 'A' - 1);
-            noresult = false;
-        }
-        for (int j = 0; j < RES_7PL1_MAX && buff[i][j][0]; j++)
-        {
-            res[resnum++] = wxString(wxT("  ")) + wxU(buff[i][j]);
-            noresult = false;
+            res[resnum++] = wxString(wxT("  ")) + wxU(itWord->c_str());
         }
     }
     listbox->Set(resnum, res);
+    delete[] res;
     //debug("      Plus1Frame::refresh end\n");
 }
 
@@ -424,7 +432,7 @@ BenjFrame::refresh()
     if (game->getMode() != Game::kTRAINING)
         return;
 
-    std::wstring word = static_cast<Training*>(game)->getTestPlayWord();
+    wstring word = static_cast<Training*>(game)->getTestPlayWord();
     if (savedword == word)
     {
         noresult = false; // keep old results
@@ -432,18 +440,20 @@ BenjFrame::refresh()
     }
     savedword = word;
     //debug("   BenjFrame::refresh : %s\n",word.c_str());
-    wchar_t wordlist[RES_BENJ_MAX][DIC_WORD_MAX];
-    Dic_search_Benj(game->getDic(), word.c_str(), wordlist);
+    list<wstring> wordList;
+    game->getDic().searchBenj(word, wordList);
 
-    wxString res[RES_BENJ_MAX];
+    wxString *res = new wxString[wordList.size()];
     int resnum = 0;
-    for (int i = 0; (i < RES_BENJ_MAX) && (wordlist[i][0]); i++)
+    list<wstring>::const_iterator it;
+    for (it = wordList.begin(); it != wordList.end(); it++)
     {
-        res[resnum++] = wxU(wordlist[i]);
+        res[resnum++] = wxU(it->c_str());
         //debug("      BenjFrame : %s (%d)\n",wordlist[i],resnum);
         noresult = false;
     }
     listbox->Set(resnum, res);
+    delete[] res;
 }
 
 
@@ -457,7 +467,7 @@ RaccFrame::refresh()
     if (game->getMode() != Game::kTRAINING)
         return;
 
-    std::wstring word = static_cast<Training*>(game)->getTestPlayWord();
+    wstring word = static_cast<Training*>(game)->getTestPlayWord();
     if (savedword == word)
     {
         noresult = false; // keep old results
@@ -465,18 +475,20 @@ RaccFrame::refresh()
     }
     savedword = word;
     //debug("   RaccFrame::refresh : %s\n",word.c_str());
-    wchar_t wordlist[RES_RACC_MAX][DIC_WORD_MAX];
-    Dic_search_Racc(game->getDic(), word.c_str(), wordlist);
+    list<wstring> wordList;
+    game->getDic().searchRacc(word, wordList);
 
-    wxString res[RES_RACC_MAX];
+    wxString *res = new wxString[wordList.size()];
     int resnum = 0;
-    for (int i = 0; (i < RES_RACC_MAX) && (wordlist[i][0]); i++)
+    list<wstring>::const_iterator it;
+    for (it = wordList.begin(); it != wordList.end(); it++)
     {
-        res[resnum++] = wxU(wordlist[i]);
+        res[resnum++] = wxU(it->c_str());
         //debug("      RaccFrame : %s (%d)\n",wordlist[i],resnum);
         noresult = false;
     }
     listbox->Set(resnum, res);
+    delete[] res;
 }
 
 /****************************************************************/
@@ -491,7 +503,7 @@ AuxFrameText::AuxFrameText(wxFrame* parent, int _id, wxString _name, wxString _c
     wxBoxSizer *sizer = new wxBoxSizer( wxHORIZONTAL );
 
     wxFont font(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
-		wxFONTWEIGHT_NORMAL, false, wxString(wxT("Courier New")), wxFONTENCODING_SYSTEM);
+                wxFONTWEIGHT_NORMAL, false, wxString(wxT("Courier New")), wxFONTENCODING_SYSTEM);
 
     textbox = new wxTextCtrl(this, -1, wxT(""), wxDefaultPosition, wxDefaultSize, _style);
     textbox->SetFont(font);
@@ -510,7 +522,7 @@ AuxFrameText::AuxFrameText(wxFrame* parent, int _id, wxString _name, wxString _c
 /****************************************************************/
 
 GameFrame::GameFrame(wxFrame* parent, Game& iGame):
-    AuxFrameText(parent, ID_Frame_Game, _("partie"), FRAMEGAME, wxTE_MULTILINE | wxTE_READONLY | wxTE_DONTWRAP),
+    AuxFrameText(parent, ID_Frame_Game, _("Game history"), FRAMEGAME, wxTE_MULTILINE | wxTE_READONLY | wxTE_DONTWRAP),
     m_game(iGame)
 {
     textbox->Clear();
@@ -542,7 +554,7 @@ BEGIN_EVENT_TABLE(ResultFrame, AuxFrame)
 END_EVENT_TABLE()
 
 ResultFrame::ResultFrame(wxFrame* parent, Game* iGame):
-    AuxFrame(parent, ID_Frame_Result, _("results"), FRAMERESULT)
+    AuxFrame(parent, ID_Frame_Result, _("Results"), FRAMERESULT)
 {
     reslist = new GfxResult(this, (MainFrame*)parent, iGame);
 

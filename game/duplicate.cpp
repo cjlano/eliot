@@ -1,6 +1,7 @@
 /*****************************************************************************
- * Copyright (C) 2005 Eliot
- * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2005-2007 Olivier Teulière
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,78 +18,74 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include "duplicate.h"
 #include "dic.h"
 #include "tile.h"
 #include "rack.h"
 #include "round.h"
+#include "move.h"
 #include "pldrack.h"
 #include "results.h"
 #include "player.h"
 #include "ai_player.h"
-#include "duplicate.h"
+#include "settings.h"
 #include "debug.h"
 
 
-Duplicate::Duplicate(const Dictionary &iDic): Game(iDic)
+Duplicate::Duplicate(const Dictionary &iDic)
+    : Game(iDic)
 {
-}
-
-
-Duplicate::~Duplicate()
-{
-}
-
-
-int Duplicate::setRackRandom(int p, bool iCheck, set_rack_mode mode)
-{
-    int res;
-    do
-    {
-        res = helperSetRackRandom(p, iCheck, mode);
-    } while (res == 2);
-    return res;
 }
 
 
 int Duplicate::play(const wstring &iCoord, const wstring &iWord)
 {
-    /* Perform all the validity checks, and fill a round */
+    // Perform all the validity checks, and try to fill a round
     Round round;
     int res = checkPlayedWord(iCoord, iWord, round);
-    if (res != 0)
+    if (res != 0 && Settings::Instance().getBool("duplicate-reject-invalid"))
     {
         return res;
     }
 
-    /* Everything is OK, we can play the word */
-    playRound(round, m_currPlayer);
+    // If we reach this point, either the move is valid and we can use the
+    // "round" variable, or it is invalid but played nevertheless
+    if (res == 0)
+    {
+        // Everything is OK, we can play the word
+        playMove(Move(round), m_currPlayer);
+    }
+    else
+    {
+        // Record the invalid move of the player
+        playMove(Move(iWord, iCoord), m_currPlayer);
+    }
 
-    /* Next turn */
-    // XXX: Should it be done by the interface instead?
-    endTurn();
+    // Little hack to handle duplicate games with only AI players.
+    // This will have no effect when there is at least one human player
+    tryEndTurn();
 
     return 0;
 }
 
 
-void Duplicate::duplicateAI(int n)
+void Duplicate::playAI(unsigned int p)
 {
-    ASSERT(0 <= n && n < getNPlayers(), "Wrong player number");
-    ASSERT(!m_players[n]->isHuman(), "AI requested for a human player");
+    ASSERT(p < getNPlayers(), "Wrong player number");
 
-    AIPlayer *player = static_cast<AIPlayer*>(m_players[n]);
-    player->compute(*m_dic, m_board, m_history.getSize());
+    AIPlayer *player = dynamic_cast<AIPlayer*>(m_players[p]);
+    ASSERT(player != NULL, "AI requested for a human player");
 
-    if (player->changesLetters())
+    player->compute(m_dic, m_board, m_history.beforeFirstRound());
+    const Move move = player->getMove();
+    if (move.getType() == Move::CHANGE_LETTERS ||
+        move.getType() == Move::PASS)
     {
-        // The AI player has nothing to play. This should not happen in
-        // duplicate mode, otherwise the implementation of the AI is buggy...
-        ASSERT(false, "AI player has nothing to play!");
+        // The AI player must be buggy...
+        ASSERT(false, "AI tried to cheat!");
     }
-    else
-    {
-        playRound(player->getChosenRound(), n);
-    }
+
+    playMove(move, p);
 }
 
 
@@ -96,165 +93,155 @@ int Duplicate::start()
 {
     ASSERT(getNPlayers(), "Cannot start a game without any player");
 
+    // Arbitrary player, since they should all have the same rack
     m_currPlayer = 0;
 
-    /* XXX: code similar with endTurnForReal() */
-    /* Complete the rack for the player that just played */
-    int res = setRackRandom(m_currPlayer, true, RACK_NEW);
-    /* End of the game? */
+    // Complete the rack for the player that just played
+    int res = helperSetRackRandom(m_currPlayer, true, RACK_NEW);
+    // End of the game?
     if (res == 1)
     {
-        end();
+        endGame();
         return 1;
     }
 
     const PlayedRack& pld = m_players[m_currPlayer]->getCurrentRack();
-    /* All the players have the same rack */
-    for (int i = 0; i < getNPlayers(); i++)
+    // All the players have the same rack
+    for (unsigned int i = 0; i < getNPlayers(); i++)
     {
         if (i != m_currPlayer)
         {
             m_players[i]->setCurrentRack(pld);
         }
-        /* Nobody has played yet in this round */
+        // Nobody has played yet in this round
         m_hasPlayed[i] = false;
     }
 
-    /* Next turn */
-    // XXX: Should it be done by the interface instead?
-    endTurn();
+    // Little hack to handle duplicate games with only AI players.
+    // This will have no effect when there is at least one human player
+    tryEndTurn();
 
     return 0;
 }
 
 
-/*
- * This function does not terminate the turn itself, but performs some
- * checks to know whether or not it should be terminated (with a call to
- * endTurnForReal()).
- *
- * For the turn to be terminated, all the players must have played.
- * Since the AI players play after the human players, we check whether
- * one of the human players has not played yet:
- *   - if so, we have nothing to do (we are waiting for him)
- *   - if not (all human players have played), the AI players can play,
- *     and we finish the turn.
- */
-int Duplicate::endTurn()
+void Duplicate::tryEndTurn()
 {
-    int i;
-    for (i = 0; i < getNPlayers(); i++)
+    for (unsigned int i = 0; i < getNPlayers(); i++)
     {
         if (m_players[i]->isHuman() && !m_hasPlayed[i])
         {
-            /* A human player has not played... */
+            // A human player has not played...
             m_currPlayer = i;
-            // XXX: check return code meaning
-            return 1;
+            // So we don't finish the turn
+            return;
         }
     }
 
-    /* If all the human players have played */
-    if (i == getNPlayers())
+    // Now that all the human players have played,
+    // make AI players play their turn
+    for (unsigned int i = 0; i < getNPlayers(); i++)
     {
-        /* Make AI players play their turn */
-        for (i = 0; i < getNPlayers(); i++)
+        if (!m_players[i]->isHuman())
         {
-            if (!m_players[i]->isHuman())
-            {
-                duplicateAI(i);
-            }
+            playAI(i);
         }
-
-        /* Next turn */
-        endTurnForReal();
     }
 
-    // XXX: check return code meaning
-    return 0;
+    // Next turn
+    endTurn();
 }
 
 
-void Duplicate::playRound(const Round &iRound, int n)
+void Duplicate::playMove(const Move &iMove, unsigned int p)
 {
-    ASSERT(0 <= n && n < getNPlayers(), "Wrong player number");
-    Player *player = m_players[n];
+    ASSERT(p < getNPlayers(), "Wrong player number");
 
-    /* Update the rack and the score of the current player */
-    player->addPoints(iRound.getPoints());
-    player->endTurn(iRound, m_history.getSize());
+    // Update the rack and the score of the playing player
+    m_players[p]->endTurn(iMove, m_history.getSize());
 
-    m_hasPlayed[n] = true;
+    m_hasPlayed[p] = true;
 }
 
 
-/*
- * This function really changes the turn, i.e. the best word is played and
- * a new rack is given to the players.
- * We suppose that all the players have finished to play for this turn (this
- * should have been checked by endturn())
- */
-int Duplicate::endTurnForReal()
+void Duplicate::endTurn()
 {
-    int res, i, imax;
-
-    /* Play the best word on the board */
-    imax = 0;
-    for (i = 1; i < getNPlayers(); i++)
+    // Find the player with the best score
+    unsigned int imax = 0;
+    for (unsigned int i = 1; i < getNPlayers(); i++)
     {
-        if (m_players[i]->getLastRound().getPoints() >
-            m_players[imax]->getLastRound().getPoints())
+        if (m_players[i]->getLastMove().getScore() >
+            m_players[imax]->getLastMove().getScore())
         {
             imax = i;
         }
     }
-    m_currPlayer = imax;
-    helperPlayRound(m_players[imax]->getLastRound());
 
-    /* Complete the rack for the player that just played */
-    res = setRackRandom(imax, true, RACK_NEW);
-    /* End of the game? */
-    if (res == 1)
+    // TODO: do something if nobody played a valid round!
+
+    // Handle solo bonus
+    // First check whether there are enough players in the game for the
+    // bonus to apply
+    int minNbPlayers = Settings::Instance().getInt("duplicate-solo-players");
+    if (getNPlayers() >= (unsigned int)minNbPlayers &&
+        m_players[imax]->getLastMove().getType() == Move::VALID_ROUND)
     {
-        end();
-        return 1;
+        int maxScore = m_players[imax]->getLastMove().getScore();
+        // Find whether other players than imax have the same score
+        bool otherWithSameScore = false;
+        for (unsigned int i = imax + 1; i < getNPlayers(); i++)
+        {
+            if (m_players[i]->getLastMove().getScore() >= maxScore)
+            {
+                otherWithSameScore = true;
+                break;
+            }
+        }
+        if (!otherWithSameScore)
+        {
+            // Give the bonus to player imax
+            int bonus = Settings::Instance().getInt("duplicate-solo-value");
+            m_players[imax]->addPoints(bonus);
+            // TODO: keep a trace of the solo, so the interface
+            // can be aware of it...
+        }
     }
 
+    // Play the best word on the board
+    helperPlayMove(imax, m_players[imax]->getLastMove());
+
+    // Leave the same reliquate to all players
+    // This is required by the start() method which will be called to
+    // start the next turn
     const PlayedRack& pld = m_players[imax]->getCurrentRack();
-    /* All the players have the same rack */
-    for (i = 0; i < getNPlayers(); i++)
+    for (unsigned int i = 0; i < getNPlayers(); i++)
     {
         if (i != imax)
         {
             m_players[i]->setCurrentRack(pld);
         }
-        /* Nobody has played yet in this round */
-        m_hasPlayed[i] = false;
     }
 
-    /* XXX: Little hack to handle the games with only AI players.
-     * This will have no effect when there is at least one human player */
-    endTurn();
-
-    return 0;
+    // Start next turn...
+    start();
 }
 
 
-void Duplicate::end()
+void Duplicate::endGame()
 {
     m_finished = true;
 }
 
 
-int Duplicate::setPlayer(int n)
+int Duplicate::setPlayer(unsigned int p)
 {
-    ASSERT(0 <= n && n < getNPlayers(), "Wrong player number");
+    ASSERT(p < getNPlayers(), "Wrong player number");
 
-    /* Forbid switching to an AI player */
-    if (!m_players[n]->isHuman())
+    // Forbid switching to an AI player
+    if (!m_players[p]->isHuman())
         return 1;
 
-    m_currPlayer = n;
+    m_currPlayer = p;
     return 0;
 }
 

@@ -20,8 +20,9 @@
 
 #include <iomanip>
 #include <string>
-#include "stdlib.h"
+#include <stdlib.h>
 
+#include <dic.h>
 #include "game_io.h"
 #include "game.h"
 #include "training.h"
@@ -45,8 +46,11 @@ void GameIO::printBoard(ostream &out, const Game &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            char l = iGame.getBoard().getChar(row, col);
-            out << setw(3) << (l ? l : '-');
+            wchar_t l = iGame.getBoard().getChar(row, col);
+            if (l == 0)
+                out << "  -";
+            else
+                out << padAndConvert(wstring(1, l), 3);
         }
         out << endl;
     }
@@ -63,7 +67,7 @@ void GameIO::printBoardDebug(ostream &out, const Game &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << "r ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-	    out << iGame.getBoard().getCellContent_row(row, col);
+            out << iGame.getBoard().getCellContent_row(row, col);
         }
         out << endl;
     }
@@ -73,7 +77,7 @@ void GameIO::printBoardDebug(ostream &out, const Game &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << "c ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-  	    out << iGame.getBoard().getCellContent_col(row, col);
+            out << iGame.getBoard().getCellContent_col(row, col);
         }
         out << endl;
     }
@@ -93,11 +97,13 @@ void GameIO::printBoardJoker(ostream &out, const Game &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            char l = iGame.getBoard().getChar(row, col);
+            wchar_t l = iGame.getBoard().getChar(row, col);
             bool j = (iGame.getBoard().getCharAttr(row, col) & ATTR_JOKER);
 
-            out << " " << (j ? '.' : (l ? ' ' : '-'));
-            out << (l ? l : '-');
+            if (l == 0)
+                out << " " << (j ? "." : "--");
+            else
+                out << " " << (j ? "." : " ") << convertToMb(l);
         }
         out << endl;
     }
@@ -118,9 +124,9 @@ void GameIO::printBoardMultipliers(ostream &out, const Game &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            char l = iGame.getBoard().getChar(row, col);
+            wchar_t l = iGame.getBoard().getChar(row, col);
             if (l != 0)
-                out << "  " << l;
+                out << padAndConvert(wstring(1, l), 3);
             else
             {
                 int wm = iGame.getBoard().getWordMultiplier(row, col);
@@ -172,12 +178,12 @@ void GameIO::printBoardMultipliers2(ostream &out, const Game &iGame)
 
 void GameIO::printNonPlayed(ostream &out, const Game &iGame)
 {
-    const list<Tile>& allTiles = Tile::getAllTiles();
-    list<Tile>::const_iterator it;
+    const vector<Tile>& allTiles = iGame.getDic().getAllTiles();
+    vector<Tile>::const_iterator it;
 
     for (it = allTiles.begin(); it != allTiles.end(); it++)
     {
-        if (iGame.getBag().in(it->toChar()) > 9)
+        if (iGame.getBag().in(*it) > 9)
             out << " ";
         out << setw(2) << convertToMb(it->toChar());
     }
@@ -185,7 +191,7 @@ void GameIO::printNonPlayed(ostream &out, const Game &iGame)
 
     for (it = allTiles.begin(); it != allTiles.end(); it++)
     {
-        out << " " << iGame.getBag().in(it->toChar());
+        out << " " << iGame.getBag().in(*it);
     }
     out << endl;
 }
@@ -199,7 +205,7 @@ void GameIO::printPlayedRack(ostream &out, const Game &iGame, int __UNUSED__ n)
 
 void GameIO::printAllRacks(ostream &out, const Game &iGame)
 {
-    for (int j = 0; j < iGame.getNPlayers(); j++)
+    for (unsigned int j = 0; j < iGame.getNPlayers(); j++)
     {
         out << "Joueur " << j << ": ";
         out << convertToMb(iGame.getPlayer(j).getCurrentRack().toString(PlayedRack::RACK_SIMPLE)) << endl;
@@ -241,7 +247,7 @@ void GameIO::printPoints(ostream &out, const Game &iGame)
 
 void GameIO::printAllPoints(ostream &out, const Game &iGame)
 {
-    for (int i = 0; i < iGame.getNPlayers(); i++)
+    for (unsigned int i = 0; i < iGame.getNPlayers(); i++)
     {
         out << "Joueur " << i << ": "
             << setw(4) << iGame.getPlayer(i).getPoints() << endl;
@@ -251,24 +257,24 @@ void GameIO::printAllPoints(ostream &out, const Game &iGame)
 
 void GameIO::printGameDebug(ostream &out, const Game &iGame)
 {
-  out << "Game:: joueur en cours " << iGame.currPlayer() << " sur " << iGame.getNPlayers() << endl;
-  out << "Game:: mode " << iGame.getModeAsString() << endl;
-  out << "Game:: variante ";
-  switch (iGame.getVariant())
+    out << "Game:: joueur en cours " << iGame.currPlayer() << " sur " << iGame.getNPlayers() << endl;
+    out << "Game:: mode " << iGame.getModeAsString() << endl;
+    out << "Game:: variante ";
+    switch (iGame.getVariant())
     {
-    case Game::kNONE:
-      out << "aucune" << endl;
-      break;
-    case Game::kJOKER:
-      out << "joker" << endl;
-      break;
-    default:
-      out << "inconnu" << endl;
-      break;
+        case Game::kNONE:
+            out << "aucune" << endl;
+            break;
+        case Game::kJOKER:
+            out << "joker" << endl;
+            break;
+        default:
+            out << "inconnu" << endl;
+            break;
     }
-  out << "Game:: rack size " << iGame.RACK_SIZE << endl;
-  out << "Game:: history --" << endl;
-  out << convertToMb(iGame.getHistory().toString());
-  out << "--" << endl;
-  out << "" << endl;
+    out << "Game:: rack size " << iGame.RACK_SIZE << endl;
+    out << "Game:: history --" << endl;
+    out << convertToMb(iGame.getHistory().toString());
+    out << "--" << endl;
+    out << "" << endl;
 }

@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,22 +21,18 @@
 
 #include <string>
 
-#include "tile.h"
+#include <dic.h>
 #include "bag.h"
 #include "debug.h"
+#include "encoding.h"
 
 
-Bag::Bag()
-{
-    init();
-}
-
-
-void Bag::init()
+Bag::Bag(const Dictionary &iDic)
+    : m_dic(iDic)
 {
     m_ntiles = 0;
-    const list<Tile>& allTiles = Tile::getAllTiles();
-    list<Tile>::const_iterator it;
+    const vector<Tile>& allTiles = m_dic.getAllTiles();
+    vector<Tile>::const_iterator it;
     for (it = allTiles.begin(); it != allTiles.end(); it++)
     {
         m_tilesMap[*it] = it->maxNumber();
@@ -53,7 +50,7 @@ unsigned int Bag::in(const Tile &iTile) const
 }
 
 
-unsigned int Bag::nVowels() const
+unsigned int Bag::getNbVowels() const
 {
     map<Tile, int>::const_iterator it;
     int v = 0;
@@ -67,7 +64,7 @@ unsigned int Bag::nVowels() const
 }
 
 
-unsigned int Bag::nConsonants() const
+unsigned int Bag::getNbConsonants() const
 {
     map<Tile, int>::const_iterator it;
     int c = 0;
@@ -84,7 +81,7 @@ unsigned int Bag::nConsonants() const
 void Bag::takeTile(const Tile &iTile)
 {
     ASSERT(in(iTile),
-           (wstring(L"The bag does not contain the letter ") + iTile.toChar()).c_str());
+           "The bag does not contain the letter " + convertToMb(iTile.toChar()));
 
     m_tilesMap[iTile]--;
     m_ntiles--;
@@ -94,20 +91,21 @@ void Bag::takeTile(const Tile &iTile)
 void Bag::replaceTile(const Tile &iTile)
 {
     ASSERT(in(iTile) < iTile.maxNumber(),
-           (wstring(L"Cannot replace tile: ") + iTile.toChar()).c_str());
+           "Cannot replace tile: " + convertToMb(iTile.toChar()));
 
     m_tilesMap[iTile]++;
     m_ntiles++;
 }
 
 
-Tile Bag::selectRandom()
+Tile Bag::selectRandom() const
 {
-    map<Tile, int>::const_iterator it;
-    int n;
     double max = m_ntiles;
+    ASSERT(max > 0, "The bag is empty");
 
-    n = (int)(max * rand() / (RAND_MAX + 1.0));
+    int n = (int)(max * rand() / (RAND_MAX + 1.0));
+
+    map<Tile, int>::const_iterator it;
     for (it = m_tilesMap.begin(); it != m_tilesMap.end(); it++)
     {
         if (n < it->second)
@@ -115,7 +113,49 @@ Tile Bag::selectRandom()
         n -= it->second;
     }
     ASSERT(false, "We should not come here");
-    return Tile::dummy();
+    return Tile();
+}
+
+
+Tile Bag::selectRandomVowel() const
+{
+    double max = getNbVowels();
+    ASSERT(max > 0, "Not enough vowels in the bag");
+
+    int n = (int)(max * rand() / (RAND_MAX + 1.0));
+
+    map<Tile, int>::const_iterator it;
+    for (it = m_tilesMap.begin(); it != m_tilesMap.end(); it++)
+    {
+        if (!it->first.isVowel())
+            continue;
+        if (n < it->second)
+            return it->first;
+        n -= it->second;
+    }
+    ASSERT(false, "We should not come here");
+    return Tile();
+}
+
+
+Tile Bag::selectRandomConsonant() const
+{
+    double max = getNbConsonants();
+    ASSERT(max > 0, "Not enough consonants in the bag");
+
+    int n = (int)(max * rand() / (RAND_MAX + 1.0));
+
+    map<Tile, int>::const_iterator it;
+    for (it = m_tilesMap.begin(); it != m_tilesMap.end(); it++)
+    {
+        if (!it->first.isConsonant())
+            continue;
+        if (n < it->second)
+            return it->first;
+        n -= it->second;
+    }
+    ASSERT(false, "We should not come here");
+    return Tile();
 }
 
 

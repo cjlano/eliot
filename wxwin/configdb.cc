@@ -25,6 +25,7 @@
  */
 
 #include <iostream>
+#include "wx/wx.h"
 #include "ewx.h"
 #include "configdb.h"
 #include "wx/colordlg.h"
@@ -199,7 +200,7 @@ wxString ConfigDB::getDicPath()
 
 wxString ConfigDB::getDicName()
 {
-  return ReadStr(DICNAME,wxT("Aucun Dictionnaire"));
+  return ReadStr(DICNAME,_("No dictionary"));
 }
 
 wxString ConfigDB::getTilePath()
@@ -318,11 +319,11 @@ wxString ConfigDB::getNameH(int i)
   wxString res;
   switch (i)
     {
-    case 0: res = ReadStr(wxString(HNAME) + wxT("1"), wxT("Num")); break;
-    case 1: res = ReadStr(wxString(HNAME) + wxT("2"), wxT("Tirage")); break;
-    case 2: res = ReadStr(wxString(HNAME) + wxT("3"), wxT("Solution")); break;
-    case 3: res = ReadStr(wxString(HNAME) + wxT("4"), wxT("Pos")); break;
-    case 4: res = ReadStr(wxString(HNAME) + wxT("5"), wxT("Pts")); break;
+    case 0: res = ReadStr(wxString(HNAME) + wxT("1"), _("Nb")); break;
+    case 1: res = ReadStr(wxString(HNAME) + wxT("2"), _("Rack")); break;
+    case 2: res = ReadStr(wxString(HNAME) + wxT("3"), _("Solution")); break;
+    case 3: res = ReadStr(wxString(HNAME) + wxT("4"), _("Pos")); break;
+    case 4: res = ReadStr(wxString(HNAME) + wxT("5"), _("Pts")); break;
     default: res = wxT(""); break;
   }
   return res;

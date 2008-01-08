@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,10 +19,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <algorithm>
+
 #include "dic.h"
 #include "tile.h"
 #include "rack.h"
 #include "round.h"
+#include "move.h"
 #include "pldrack.h"
 #include "player.h"
 #include "training.h"
@@ -30,12 +34,8 @@
 #include "debug.h"
 
 
-Training::Training(const Dictionary &iDic): Game(iDic)
-{
-}
-
-
-Training::~Training()
+Training::Training(const Dictionary &iDic)
+    : Game(iDic)
 {
 }
 
@@ -46,11 +46,10 @@ int Training::setRackRandom(bool iCheck, set_rack_mode mode)
 
     int res;
     int try_number = 0;
-    int p = m_currPlayer;
     m_results.clear();
     do
     {
-        res = helperSetRackRandom(p, iCheck, mode);
+        res = helperSetRackRandomOld(m_currPlayer, iCheck, mode);
         try_number ++;
     } while (res == 2 && try_number < MAX_RANDOM_TRY);
     // 0 : ok
@@ -59,27 +58,26 @@ int Training::setRackRandom(bool iCheck, set_rack_mode mode)
     return res;
 }
 
+
 int Training::setRackManual(bool iCheck, const wstring &iLetters)
 {
-    int res;
-    int p = m_currPlayer;
-    wstring::iterator it;
-    wstring uLetters; // uppercase letters
-    // letters can be lowercase or uppercase as they are
+    // Letters can be lowercase or uppercase as they are
     // coming from user input. We do not consider a lowercase
     // letter to be a joker which has been assigned to a letter.
-    m_results.clear();
-    uLetters = iLetters;
-    for (it = uLetters.begin(); it != uLetters.end(); it ++)
-    {
-        *it = towupper(*it);
-    }
-    res = helperSetRackManual(p, iCheck, uLetters);
-    // 0 : ok
-    // 1 : not enough tiles
-    // 2 : check failed (number of voyels before round 15)
+    // As a result, we simply make all the letters uppercase
+    wstring upperLetters = iLetters;
+    std::transform(upperLetters.begin(), upperLetters.end(),
+                   upperLetters.begin(), towupper);
+    int res = helperSetRackManual(m_currPlayer, iCheck, upperLetters);
+    // 0: ok
+    // 1: not enough tiles
+    // 2: check failed (number of vowels before round 15)
+    // 3: letters not in the dictionary
+    if (res == 0)
+        m_results.clear();
     return res;
 }
+
 
 int Training::setRack(set_rack_mode iMode, bool iCheck, const wstring &iLetters)
 {
@@ -99,9 +97,10 @@ int Training::setRack(set_rack_mode iMode, bool iCheck, const wstring &iLetters)
     return res;
 }
 
+
 int Training::play(const wstring &iCoord, const wstring &iWord)
 {
-    /* Perform all the validity checks, and fill a round */
+    // Perform all the validity checks, and fill a round
     Round round;
 
     int res = checkPlayedWord(iCoord, iWord, round);
@@ -111,23 +110,21 @@ int Training::play(const wstring &iCoord, const wstring &iWord)
         return res;
     }
 
-    /* Update the rack and the score of the current player */
     debug("play: %s %s %d\n",
           convertToMb(round.getWord()).c_str(),
           convertToMb(round.getCoord().toString()).c_str(),
           round.getPoints());
 
-    m_players[m_currPlayer]->addPoints(round.getPoints());
-    // see game.cpp::helperPlayRound():99 comment
-    m_players[m_currPlayer]->endTurn(round, m_history.getSize());
+    Move move(round);
+    // Update the rack and the score of the current player
+    // Player::endTurn() must be called before Game::helperPlayMove().
+    // See the big comment in game.cpp, line 96
+    m_players[m_currPlayer]->endTurn(move, m_history.getSize());
 
-    /* Everything is OK, we can play the word */
-    if (helperPlayRound(round))
-    {
-        debug("play: error during play\n");
-    }
+    // Everything is OK, we can play the word
+    helperPlayMove(m_currPlayer, move);
 
-    /* Next turn */
+    // Next turn
     endTurn();
 
     return 0;
@@ -146,10 +143,9 @@ int Training::start()
 }
 
 
-int Training::endTurn()
+void Training::endTurn()
 {
-    // Nothing to do?
-    return 0;
+    // Nothing to do, but this method is kept for consistency with other modes
 }
 
 
@@ -159,31 +155,27 @@ void Training::search()
     Rack r;
     m_players[m_currPlayer]->getCurrentRack().getRack(r);
     debug("Training::search for %s\n", convertToMb(r.toString()).c_str());
-    m_results.search(*m_dic, m_board, r, m_history.getSize());
+    m_results.search(m_dic, m_board, r, m_history.beforeFirstRound());
 }
 
 
-int Training::playResult(int n)
+int Training::playResult(unsigned int n)
 {
-    Player *player = m_players[m_currPlayer];
     if (n >= m_results.size())
         return 2;
-    const Round &round = m_results.get(n);
 
-    /* Update the rack and the score of the current player */
-    player->addPoints(round.getPoints());
-    player->endTurn(round, m_history.getSize());
+    Move move(m_results.get(n));
+    // Update the rack and the score of the current player
+    m_players[m_currPlayer]->endTurn(move, m_history.getSize());
 
-    int res = helperPlayRound(round);
+    // Update the game
+    helperPlayMove(m_currPlayer, move);
+    m_results.clear();
 
-    if (res == 0)
-        m_results.clear();
-
-    /* Next turn */
-    // XXX: Should it be done by the interface instead?
+    // Next turn
     endTurn();
 
-    return res;
+    return 0;
 }
 
 
@@ -201,9 +193,9 @@ void Training::addAIPlayer()
 }
 
 
-void Training::testPlay(int num)
+void Training::testPlay(unsigned int num)
 {
-    ASSERT(0 <= num && num < m_results.size(), "Wrong result number");
+    ASSERT(num < m_results.size(), "Wrong result number");
     m_testRound = m_results.get(num);
     m_board.testRound(m_results.get(num));
 }
@@ -214,6 +206,7 @@ void Training::removeTestPlay()
     m_board.removeTestRound();
     m_testRound = Round();
 }
+
 
 wstring Training::getTestPlayWord() const
 {

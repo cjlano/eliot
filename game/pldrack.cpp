@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2002-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,16 +26,16 @@
  *  \date   2002 - 2005
  */
 
-#include "rack.h"
+#include <algorithm>
 #include "pldrack.h"
-
-#include "debug.h"
+#include "rack.h"
 
 
 PlayedRack::PlayedRack()
+    : m_reject(false)
 {
-  reject = false;
 }
+
 
 void PlayedRack::addOld(const Tile &t)
 {
@@ -51,26 +52,22 @@ void PlayedRack::addNew(const Tile &t)
 void PlayedRack::getOldTiles(vector<Tile> &oTiles) const
 {
     oTiles.clear();
-    for (int i = 0; i < nOld(); i++)
-        oTiles.push_back(m_oldTiles[i]);
+    oTiles = m_oldTiles;
 }
 
 
 void PlayedRack::getNewTiles(vector<Tile> &oTiles) const
 {
     oTiles.clear();
-    for (int i = 0; i < nNew(); i++)
-        oTiles.push_back(m_newTiles[i]);
+    oTiles = m_newTiles;
 }
 
 
 void PlayedRack::getAllTiles(vector<Tile> &oTiles) const
 {
     oTiles.clear();
-    for (int i = 0; i < nOld(); i++)
-        oTiles.push_back(m_oldTiles[i]);
-    for (int j = 0; j < nNew(); j++)
-        oTiles.push_back(m_newTiles[j]);
+    oTiles = m_oldTiles;
+    oTiles.insert(oTiles.end(), m_newTiles.begin(), m_newTiles.end());
 }
 
 
@@ -78,6 +75,7 @@ void PlayedRack::reset()
 {
     m_oldTiles.clear();
     m_newTiles.clear();
+    m_reject = false;
 }
 
 
@@ -122,72 +120,47 @@ void PlayedRack::getRack(Rack &oRack) const
 
 void PlayedRack::setOld(const Rack &iRack)
 {
-    list<Tile> l;
-    iRack.getTiles(l);
-
     m_oldTiles.clear();
-    list<Tile>::const_iterator it;
-    for (it = l.begin(); it != l.end(); it++)
-    {
-        addOld(*it);
-    }
+    iRack.getTiles(m_oldTiles);
 }
 
 
 void PlayedRack::setNew(const Rack &iRack)
 {
-    list<Tile> l;
-    iRack.getTiles(l);
-
     m_newTiles.clear();
-    list<Tile>::const_iterator it;
-    for (it = l.begin(); it != l.end(); it++)
-    {
-        addNew(*it);
-    }
+    iRack.getTiles(m_newTiles);
 }
 
-int PlayedRack::setManual(const wstring& iLetters)
+
+void PlayedRack::setManual(const wstring& iLetters)
 {
-    unsigned int i;
     reset();
 
-    if (iLetters.size() == 0)
-    {
-        return 0; /* empty is ok */
-    }
+    // An empty rack is OK
+    if (iLetters.empty())
+        return;
 
+    unsigned int i;
     for (i = 0; i < iLetters.size() && iLetters[i] != L'+'; i++)
     {
-        Tile tile(iLetters[i]);
-        if (tile.isEmpty())
-        {
-            return 1; /* */
-        }
-        addOld(tile);
+        addOld(Tile(iLetters[i]));
     }
 
     if (i < iLetters.size() && iLetters[i] == L'+')
     {
         for (i++; i < iLetters.size(); i++)
         {
-            Tile tile(iLetters[i]);
-            if (tile.isEmpty())
-            {
-                return 1; /* */
-            }
-            addNew(tile);
+            addNew(Tile(iLetters[i]));
         }
     }
-
-    return 0;
 }
 
-bool PlayedRack::checkRack(int cMin, int vMin) const
+
+bool PlayedRack::checkRack(unsigned int cMin, unsigned int vMin) const
 {
     vector<Tile>::const_iterator it;
-    int v = 0;
-    int c = 0;
+    unsigned int v = 0;
+    unsigned int c = 0;
 
     for (it = m_oldTiles.begin(); it != m_oldTiles.end(); it++)
     {
@@ -203,10 +176,9 @@ bool PlayedRack::checkRack(int cMin, int vMin) const
 }
 
 
-void PlayedRack::operator=(const PlayedRack &iOther)
+void PlayedRack::shuffleNew()
 {
-    m_oldTiles = iOther.m_oldTiles;
-    m_newTiles = iOther.m_newTiles;
+    std::random_shuffle(m_newTiles.begin(), m_newTiles.end());
 }
 
 
@@ -215,25 +187,23 @@ wstring PlayedRack::toString(display_mode mode) const
     wstring s;
     vector<Tile>::const_iterator it;
 
-    if (nOld() > 0)
+    if (mode >= RACK_EXTRA && m_reject)
+    {
+        s += L"-";
+    }
+
+    if (getNbOld() > 0)
     {
         for (it = m_oldTiles.begin(); it != m_oldTiles.end(); it++)
             s += it->toChar();
     }
 
-    if (mode > RACK_SIMPLE && nOld() > 0 && nNew() > 0)
+    if (mode > RACK_SIMPLE && getNbOld() > 0 && getNbNew() > 0)
     {
         s += L"+";
     }
 
-    if (mode > RACK_EXTRA  && reject)
-    {
-        s += L"-";
-        // new rack: reject
-        // not after a scrabble
-    }
-
-    if (nNew() > 0)
+    if (getNbNew() > 0)
     {
         for (it = m_newTiles.begin(); it != m_newTiles.end(); it++)
             s += it->toChar();

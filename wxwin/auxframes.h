@@ -160,7 +160,7 @@ class SearchFrame: public AuxFrame
 private:
     SearchPanel *panel;
 public:
-    SearchFrame(wxFrame*, Dictionary);
+    SearchFrame(wxFrame*, const Dictionary &);
     void Refresh(refresh_t force = REFRESH);
 };
 
@@ -171,12 +171,12 @@ public:
 class VerifFrame: public AuxFrame
 {
 protected:
-    Dictionary dic;
+    const Dictionary *dic;
     wxTextCtrl *word;
     wxStaticText *result;
     void verif();
 public:
-    VerifFrame(wxFrame*, Dictionary);
+    VerifFrame(wxFrame*, const Dictionary&);
     void OnText(wxCommandEvent& event);
     void Refresh(refresh_t force = REFRESH);
     DECLARE_EVENT_TABLE()

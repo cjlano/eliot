@@ -1,6 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 2004-2005 Eliot
- * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2004-2007 Olivier Teulière & Antoine Fraboulet
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
+ *          Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,8 +37,8 @@ class Turn;
 class Player
 {
 public:
-    Player(int iId);
-    virtual ~Player();
+    explicit Player(unsigned int iId);
+    virtual ~Player() {}
 
     // Pseudo RTTI
     virtual bool isHuman() const = 0;
@@ -48,8 +50,8 @@ public:
     const PlayedRack & getCurrentRack() const;
     // Get the previous rack
     const PlayedRack & getLastRack() const;
-    // Get the previous round (corresponding to the previous rack...)
-    const Round & getLastRound() const;
+    /// Get the previous move (corresponding to the previous rack...)
+    const Move & getLastMove() const;
 
     void setCurrentRack(const PlayedRack &iPld);
 
@@ -65,15 +67,19 @@ public:
     void addPoints(int iPoints) { m_score += iPoints; }
     int  getPoints() const      { return m_score; }
 
-    // Update the player "history", with the given round.
-    // A new rack is created with the remaining letters
-    void endTurn(const Round &iRound, int iTurn);
+    /**
+     * Update the player "history", with the given move.
+     * A new rack is created with the remaining letters.
+     * The score of the player is updated with the one of the move, if it is
+     * meaningful.
+     */
+    void endTurn(const Move &iMove, unsigned int iTurn);
 
     wstring toString() const;
 
 private:
     /// ID of the player
-    int m_id;
+    unsigned int m_id;
 
     /// Score of the player
     int m_score;
@@ -89,8 +95,6 @@ private:
 class HumanPlayer: public Player
 {
 public:
-    string name;
-
     HumanPlayer(int iId): Player(iId) {}
     virtual ~HumanPlayer() {}
 

@@ -12,16 +12,16 @@ commande> a t
 LMUAEYE
 commande> r
 commande> a r
-  1: YEBLE              38 6F
-  2: BAYLE              36 6H
-  3: AMYLE              35 10D
-  4: ELYME              35 10D
-  5: ELYME              35 10H
+  1: AY                 46 I6
+  2: YEBLE              38 6F
+  3: MAYE               36 I3
+  4: BAYLE              36 6H
+  5: AMYLE              35 10D
   6: BAYE               35 6H
-  7: BEY                34 6H
-  8: LAYEE              34 10D
-  9: YUE                32 10F
- 10: AMYLE              30 5H
+  7: ELYME              35 10D
+  8: ELYME              35 10H
+  9: LAYE               34 I3
+ 10: LAYEE              34 10D
 commande> n 2
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -30,13 +30,13 @@ commande> a g
  C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  Y  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  E  -  -  -  -  -  -  -  -  -
  H   -  -  -  F  A  B  A  c  E  E  -  -  -  -  -
- I   -  -  -  -  -  A  -  -  -  -  -  -  -  -  -
- J   -  -  -  -  -  Y  -  -  -  -  -  -  -  -  -
- K   -  -  -  -  -  L  -  -  -  -  -  -  -  -  -
- L   -  -  -  -  -  E  -  -  -  -  -  -  -  -  -
+ I   -  -  -  -  -  L  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  E  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
@@ -48,19 +48,19 @@ commande> n 1
 commande> 
 commande> +
 commande> a t
-AMUJEIG
+EELMUJE
 commande> r
 commande> a r
-  1: MEJUGEAI        *  78 9G
-  2: MEJUGEAI        *  72 9C
-  3: MEJUGEAI        *  71 10G
-  4: MEJUGEAI        *  71 10C
-  5: MEJUGEAI        *  69 J5
-  6: MEJUGEAI        *  69 J1
-  7: JUGEA              37 5B
-  8: JUGEAI             37 5J
-  9: JAUGE              35 5J
- 10: JUGEA              35 5J
+  1: JUMEL              38 J2
+  2: JUMELEE            33 10B
+  3: JUMELA             28 5C
+  4: JUMELEE            25 9C
+  5: JUMELE             24 G10
+  6: JUMEL              23 G10
+  7: JUMELE             23 9C
+  8: JEU                19 9G
+  9: JEU                19 G10
+ 10: JUMELEE            19 10E
 commande> n 1
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -69,50 +69,50 @@ commande> a g
  C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  -  Y  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  -  E  -  -  M  -  -  -  -  -  -
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  H   -  -  -  F  A  B  A  c  E  E  -  -  -  -  -
- I   -  -  -  -  -  L  -  -  J  -  -  -  -  -  -
- J   -  -  -  -  -  E  -  -  U  -  -  -  -  -  -
- K   -  -  -  -  -  -  -  -  G  -  -  -  -  -  -
- L   -  -  -  -  -  -  -  -  E  -  -  -  -  -  -
- M   -  -  -  -  -  -  -  -  A  -  -  -  -  -  -
- N   -  -  -  -  -  -  -  -  I  -  -  -  -  -  -
+ I   -  -  -  -  -  A  Y  -  -  -  -  -  -  -  -
+ J   -  J  U  M  E  L  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 commande> 
 commande> +
 commande> a t
-LEHNMGA
+EEIGLEH
 commande> r
 commande> a r
-  1: HALE               46 8L
-  2: MALE               30 8L
-  3: ENGAMA             30 5C
-  4: HALA               27 5E
-  5: LAME               26 8L
-  6: HAN                25 8M
-  7: HELA               25 5C
-  8: GLANA              25 5D
-  9: EMANA              25 5D
- 10: EGALA              25 5D
+  1: HELIEE             34 K5
+  2: HELEE              32 K5
+  3: EGAYEE             32 7F
+  4: EGAYE              31 7F
+  5: HELE               30 K5
+  6: LAYEE              29 7G
+  7: LAYE               28 7G
+  8: HUILEE             26 3I
+  9: HE                 26 K5
+ 10: HUILE              24 3I
 commande> n 3
 commande> 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- C   -  -  -  -  E  -  -  -  -  -  -  -  -  -  -
- D   -  -  -  -  N  -  -  -  -  -  -  -  -  -  -
- E   -  -  -  -  G  -  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  A  Y  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  M  E  -  -  M  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  -  E  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  -  G  -  -  -  -  -  -  -  -
  H   -  -  -  F  A  B  A  c  E  E  -  -  -  -  -
- I   -  -  -  -  -  L  -  -  J  -  -  -  -  -  -
- J   -  -  -  -  -  E  -  -  U  -  -  -  -  -  -
- K   -  -  -  -  -  -  -  -  G  -  -  -  -  -  -
- L   -  -  -  -  -  -  -  -  E  -  -  -  -  -  -
- M   -  -  -  -  -  -  -  -  A  -  -  -  -  -  -
- N   -  -  -  -  -  -  -  -  I  -  -  -  -  -  -
+ I   -  -  -  -  -  A  Y  -  -  -  -  -  -  -  -
+ J   -  J  U  M  E  L  E  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  E  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 commande> a p
 Eliot 1.5
@@ -123,16 +123,16 @@ Player 0: Human
     N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
    ===|==========|=================|=====|=====|===|======
     1 |  EA?AEBF | FABAcEE         |  H4 |  80 | 0 | *
-    2 |  LMUAEYE | YEBLE           |  6F |  38 | 0 |  
-    3 | AMU+JEIG | MEJUGEAI        |  9G |  78 | 0 | *
-    4 |  LEHNMGA | ENGAMA          |  5C |  30 | 0 |  
+    2 |  LMUAEYE | AY              |  I6 |  46 | 0 |  
+    3 | EELMU+JE | JUMEL           |  J2 |  38 | 0 |  
+    4 | EE+IGLEH | EGAYEE          |  7F |  32 | 0 |  
 
-   Total: 226
+   Total: 196
 
-Rack 0: HL
+Rack 0: HIL
 commande> a l
  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
- 5 1 2 3 9 1 0 2 7 0 1 4 1 5 6 2 1 6 6 6 5 2 1 1 0 1 1
+ 6 1 2 3 9 1 1 2 8 0 1 4 2 6 6 2 1 6 6 6 5 2 1 1 0 1 1
 commande> 
 commande> s load_saved_game.elt
 commande> q
@@ -145,18 +145,18 @@ commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- C   -  -  -  -  E  -  -  -  -  -  -  -  -  -  -
- D   -  -  -  -  N  -  -  -  -  -  -  -  -  -  -
- E   -  -  -  -  G  -  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  A  Y  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  M  E  -  -  M  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  -  E  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  -  G  -  -  -  -  -  -  -  -
  H   -  -  -  F  A  B  A  c  E  E  -  -  -  -  -
- I   -  -  -  -  -  L  -  -  J  -  -  -  -  -  -
- J   -  -  -  -  -  E  -  -  U  -  -  -  -  -  -
- K   -  -  -  -  -  -  -  -  G  -  -  -  -  -  -
- L   -  -  -  -  -  -  -  -  E  -  -  -  -  -  -
- M   -  -  -  -  -  -  -  -  A  -  -  -  -  -  -
- N   -  -  -  -  -  -  -  -  I  -  -  -  -  -  -
+ I   -  -  -  -  -  A  Y  -  -  -  -  -  -  -  -
+ J   -  J  U  M  E  L  E  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  E  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 commande> a p
 Eliot 1.5
@@ -167,16 +167,16 @@ Player 0: Human
     N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
    ===|==========|=================|=====|=====|===|======
     1 |  EA?AEBF | FABAcEE         |  H4 |  80 | 0 | *
-    2 |  LMUAEYE | YEBLE           |  6F |  38 | 0 |  
-    3 | AMU+JEIG | MEJUGEAI        |  9G |  78 | 0 | *
-    4 |  LEHNMGA | ENGAMA          |  5C |  30 | 0 |  
+    2 |  LMUAEYE | AY              |  I6 |  46 | 0 |  
+    3 | EELMU+JE | JUMEL           |  J2 |  38 | 0 |  
+    4 | EE+IGLEH | EGAYEE          |  7F |  32 | 0 |  
 
-   Total: 226
+   Total: 196
 
-Rack 0: HL
+Rack 0: HIL
 commande> a l
  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
- 5 1 2 3 9 1 0 2 7 0 1 4 1 5 6 2 1 6 6 6 5 2 1 1 0 1 1
+ 6 1 2 3 9 1 1 2 8 0 1 4 2 6 6 2 1 6 6 6 5 2 1 1 0 1 1
 commande> 
 commande> q
 fin du mode entraînement

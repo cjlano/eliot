@@ -1,16 +1,16 @@
 
  The dictionary is a directed tree. Compression is achieved by
- sharing word prefix and suffix. Search is NOT case sensitive. 
- 
+ sharing word prefix and suffix. Search is NOT case sensitive.
+
  considering this 3 words dictionary:
- 
+
  ABC
  ADA
  EDAA
 
  The tree will look like this:
 
- root 
+ root
   |
   A----------E!
   |          |
@@ -24,41 +24,56 @@
   ------------------- 0!* (sink)
 
  The tree is saved using an array of 32 bits words.
- A cell is a binary structure 
+ A cell is a binary structure
 
     ptr  : index in the array of the first child
     term : is it the last letter of a word (*)
     last : is it the last child of its local root (!)
-    fill : currently unused.
     chr  : guess what !
 
  There is no pointer from a cell to its brother, it is simply the
  next cell in the array (you know you are on the last brother when
  the flag "last" is set).
 
- The way it is stored in a file is  different thing! The tree is
+ The way it is stored in a file is a different thing! The tree is
  stored bottom-up. The sink (offset 0) is the first cell of
  the array.
 
- Using compdict (which you can found in the eliot/dic directory),
+ Using compdic (which you can find in the eliot/dic directory),
  the compiled dictionary will look like this:
 
-compdict's console output:
-============================
-keyword length 21 bytes
-keyword size   22 bytes
-header size    48 bytes
+compdic console output (cut in the middle):
+===================================================================
+dictionary name: ODS 4.0
+compressed on: mer 12 déc 2007 07:29:50 GMT
+compressed using a binary compiled by: ipkiss@ulukai
+dictionary type: DAWG
+letters: ABCDEFGHIJKLMNOPQRSTUVWXYZ?
+number of letters: 27
+number of words: 369085
+header size: 360 bytes
+root: 100950 (edge)
+nodes: 40377 used + 418387 saved
+edges: 100950 used + 601922 saved
+===============================================
+letter | points | frequency | vowel | consonant
+-------+--------+-----------+-------+----------
+   A   |    1   |     9     |   1   |    0
+   B   |    3   |     2     |   0   |    1
+   C   |    3   |     2     |   0   |    1
+   D   |    2   |     3     |   0   |    1
+[... output cut here ...]
+   X   |   10   |     1     |   0   |    1
+   Y   |   10   |     1     |   1   |    1
+   Z   |   10   |     1     |   0   |    1
+   ?   |    0   |     2     |   1   |    1
+===============================================
+ Load time: 0,060 s
+ Compression time: 0,170 s
+ Maximum recursion level reached: 16
+===================================================================
 
-3 words
-
-root :       9 (edge)
-root :      36 (byte)
-
-nodes : 7+1
-edges : 9+1
-============================
-
-binary view of the dictionary:
+binary view of the dictionary (FIXME: not up to date):
 ===================================================================
           0001 0203 0405 0607 0809 0a0b 0c0d 0e0f
 00000000: 5f43 4f4d 5049 4c45 445f 4449 4354 494f  _COMPILED_DICTIO
@@ -69,27 +84,85 @@ binary view of the dictionary:
 00000050: 0600 002a 0700 0000                      ...*....
 ===================================================================
 
-The header structure is the following:
-
+The header is made of 2 structures (for backwards compatibility
+with older headers) like this:
+===================================================================
 #define _COMPIL_KEYWORD_ "_COMPILED_DICTIONARY_"
 
-typedef struct _Dict_header {              // offset
+struct Dict_header_old                     // offset
+{
   char ident[sizeof(_COMPIL_KEYWORD_)];    // 0x00
-  char unused_1;                           // 0x16
-  char unused_2;                           // 0x17
-  int root;                                // 0x18
-  int nwords;                              // 0x1c
-  unsigned int edgesused;                  // 0x20
-  unsigned int nodesused;                  // 0x24
-  unsigned int nodessaved;                 // 0x2c
-  unsigned int edgessaved;                 // 0x30
-} Dict_header;
+  uint8_t version;                         // 0x16
+  char unused;                             // 0x17
+  uint32_t root;                           // 0x18
+  uint32_t nwords;                         // 0x1c
+  uint32_t edgesused;                      // 0x20
+  uint32_t nodesused;                      // 0x24
+  uint32_t nodessaved;                     // 0x28
+  uint32_t edgessaved;                     // 0x2c
+};
 
-binary output of the header:
+#define _MAX_USER_HOST_ 32
+#define _MAX_DIC_NAME_SIZE_ 30
+#define _MAX_LETTERS_NB_ 63
+#define _MAX_LETTERS_SIZE_ 80
+
+struct Dict_header
+{
+    uint64_t compressDate;
+    // Build information
+    char userHost[_MAX_USER_HOST_];
+    // Size taken by the build information
+    uint32_t userHostSize;
+
+    // Compression algorithm (1 = DAWG, 2 = GADDAG)
+    uint8_t algorithm;
+    // Variant used in the rules (XXX: currently unused)
+    uint8_t variant;
+
+    // Dictionary official name and version (e.g.: ODS 5.0)
+    char dicName[_MAX_DIC_NAME_SIZE_];
+    // Size taken by the dictionary name
+    uint32_t dicNameSize;
+
+    // Letters used in the dictionary
+    // We should have: nbLetters <= lettersSize <= _MAX_LETTERS_SIZE_
+    // and:            nbLetters <= _MAX_LETTERS_NB_
+    // The letters themselves, in UTF-8
+    char letters[_MAX_LETTERS_SIZE_];
+    // Size taken by the letters
+    uint32_t lettersSize;
+    // Number of letters (XXX: in theory useless, but allows a sanity check)
+    uint32_t nbLetters;
+
+    // Points of the letters (indexed by their code)
+    // The "+ 1" is there for struct alignment
+    uint8_t points[_MAX_LETTERS_NB_ + 1];
+    // Frequency of the letters (indexedy their code)
+    // The "+ 1" is there for struct alignment
+    uint8_t frequency[_MAX_LETTERS_NB_ + 1];
+    // Bitfield indicating whether letters are vowels
+    uint64_t vowels;
+    // Bitfield indicating whether letters are consonants
+    uint64_t consonants;
+}
+===================================================================
+
+In the old version of the dictionary, only the first structure was used
+(with version = 0). The current format (version = 1) has the 2 structs
+next to each other.
+The dictionary name, the letters, and the user/host information are
+stored in UTF-8. All the numbers are big endian (i.e. the output of
+the htonl() function).
+To avoid alignment issues, the extended header has been designed to
+have multiples of 64 bits regularly.
+
+
+binary output of the header (FIXME: not up to date):
 ===================================================================
 0x00 ident       : _COMPILED_DICTIONARY_
-0x16 unused 1    :      0 00000000
-0x17 unused 2    :      0 00000000
+0x16 version     :      0 00000001
+0x17 unused      :      0 00000000
 0x18 root        :      9 00000009
 0x1c words       :      3 00000003
 0x20 edges used  :      9 00000009
@@ -98,40 +171,37 @@ binary output of the header:
 0x2c edges saved :      1 00000001
 ===================================================================
 
-The real array of data begins at offset 0x34. Integer are stored in a
-machine dependent way. This dictionary was compiled on a i386 and is
-not readable on a machine with a different endianess (unless swapping
-all necessary information).  The array is stored 'as is' right after 
-the header. Each array cell is a bit-structure on 4 bytes :
+The real array of data begins at offset 0x168. The array is stored
+'as is' right after the header. Each array cell is a bit-structure
+on 4 bytes:
 
-typedef struct _Dawg_edge { 
-   unsigned int ptr  : 24; 
-   unsigned int term : 1;  
-   unsigned int last : 1;  
-   unsigned int fill : 1;  // reserved (currently unused)
-   unsigned int chr  : 5;  
-} Dawg_edge;    
+struct DicEdge
+{
+   unsigned int ptr  : 24;
+   unsigned int term : 1;
+   unsigned int last : 1;
+   unsigned int chr  : 6;
+};
 
-Characters are not stored in ASCII. The order is preserved but
-we changed the values: A=1, B=2, ... This is very easy to do 
-with the ASCII table as ('A' & 0x1f) == ('a' & 0x1f) == 1.
-This may not work on machines that are not using ASCII. The dictionary
-can thus handle up to 32 different letters but not more.
+Characters are not stored in ASCII. The order of the letters given
+to the compdic binary is preserved, but we changed the values: the
+first letter is 1, the second one is 2, etc...
+The dictionary can thus handle up to 64 different letters but not more.
+The letter 0 is special (used for the sink node in particular), so
+in practice there are only 63 distinct letters.
 
-offs binary       structure         
+offs binary       structure
 ---- -------- |   ------------------
-0x00 02000000 | 0 ptr= 0 t=0 l=1 f=0 chr=0 (`)
-0x04 1b000000 | 1 ptr= 0 t=1 l=1 f=0 chr=3 (c)
-0x08 0b000000 | 2 ptr= 0 t=1 l=1 f=0 chr=1 (a)
-0x0c 10000001 | 3 ptr= 1 t=0 l=0 f=0 chr=2 (b)
-0x10 22000002 | 4 ptr= 2 t=0 l=1 f=0 chr=4 (d)
-0x14 0a000002 | 5 ptr= 2 t=0 l=1 f=0 chr=1 (a)
-0x18 22000005 | 6 ptr= 5 t=0 l=1 f=0 chr=4 (d)
-0x1c 08000003 | 7 ptr= 3 t=0 l=0 f=0 chr=1 (a)
-0x20 2a000006 | 8 ptr= 6 t=0 l=1 f=0 chr=5 (e)
-0x24 00000007 | 9 ptr= 7 t=0 l=0 f=0 chr=0 (`)
+0x00 02000000 | 0 ptr= 0 t=0 l=1 chr=0 (`)
+0x04 1b000000 | 1 ptr= 0 t=1 l=1 chr=3 (c)
+0x08 0b000000 | 2 ptr= 0 t=1 l=1 chr=1 (a)
+0x0c 10000001 | 3 ptr= 1 t=0 l=0 chr=2 (b)
+0x10 22000002 | 4 ptr= 2 t=0 l=1 chr=4 (d)
+0x14 0a000002 | 5 ptr= 2 t=0 l=1 chr=1 (a)
+0x18 22000005 | 6 ptr= 5 t=0 l=1 chr=4 (d)
+0x1c 08000003 | 7 ptr= 3 t=0 l=0 chr=1 (a)
+0x20 2a000006 | 8 ptr= 6 t=0 l=1 chr=5 (e)
+0x24 00000007 | 9 ptr= 7 t=0 l=0 chr=0 (`)
 
-Strictly speaking, there is no node in the graph, only labelled edges. 
-
-
+Strictly speaking, there is no node in the graph, only labelled edges.
 

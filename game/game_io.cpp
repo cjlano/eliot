@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2002-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,12 +26,16 @@
  *  \date   2002 - 2005
  */
 
+#include "dic.h"
 #include "pldrack.h"
 #include "round.h"
 #include "turn.h"
 #include "player.h"
 #include "game.h"
 #include "game_factory.h"
+#include "training.h"
+#include "freegame.h"
+#include "duplicate.h"
 #include "encoding.h"
 #include "debug.h"
 
@@ -107,14 +112,14 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
     char delim[]=" \t\n\012\015";
     char *token;
     Game *pGame = NULL;
-    
+
     debug("Game::gameLoadFormat_14\n");
     pGame = GameFactory::Instance()->createTraining(iDic);
     pGame->start();
-    
+
     /*    rack        word          ?bonus    pts  coord    */
     /*    EUOFMIE     FUMEE          *        26   H  4     */
-    
+
     /* read all turns until total */
     while (fgets(buff, sizeof(buff), fin))
     {
@@ -192,14 +197,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
     Game *pGame = NULL;
 
     char buff[4096];
-    int num;
-    char rack[20];
-    char word[20];
-    char ref[4];
-    int pts;
-    int player;
     char *pos;
-    Tile tile;
 
     /*************/
     /* Game type */
@@ -322,9 +320,15 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
         }
 
 
+        int num;
+        char rack[20];
+        char tmpWord[20];
+        char ref[4];
+        int pts;
+        unsigned int player;
         char bonus = 0;
         int res = sscanf(buff, "   %2d | %8s | %s | %3s | %3d | %1d | %c",
-                         &num, rack, word, ref, &pts, &player, &bonus);
+                         &num, rack, tmpWord, ref, &pts, &player, &bonus);
 
         debug("   -- line %s",buff);
 
@@ -335,7 +339,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
         }
 
         debug("              %2d | %8s | %s | %3s | %3d | %1d | %c \n",
-              num, rack, word, ref, pts, player, bonus);
+              num, rack, tmpWord, ref, pts, player, bonus);
 
         // Integrity checks
         // TODO: add more checks
@@ -344,7 +348,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
             debug("   Game::load15 line -%s- points < 0  ?\n",buff);
             continue;
         }
-        if (player < 0 || player > pGame->getNPlayers())
+        if (player > pGame->getNPlayers())
         {
             debug("   Game::load15 line -%s- too much player (%d>%d)",buff,player,pGame->getNPlayers());
             continue;
@@ -357,10 +361,11 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
 
         // Build a rack for the correct player
         PlayedRack pldrack;
-        if ((res = pldrack.setManual(convertToWc(rack))) > 0)
+        if (!iDic.validateLetters(convertToWc(rack)))
         {
-            debug("   Game::load15 set rack manual returned with error %d\n",res);
+            debug("   Game::load15 rack invalid for the current dictionary\n");
         }
+        pldrack.setManual(convertToWc(rack));
         debug("    history rack %s\n", convertToMb(pldrack.toString()).c_str());
 
         // Build a round
@@ -369,6 +374,8 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
         if (bonus == '*')
             round.setBonus(1);
 
+        wstring word = convertToWc(tmpWord);
+        Tile tile;
         if (isalpha(ref[0]))
         {
             // Horizontal word
@@ -376,7 +383,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
             round.accessCoord().setRow(ref[0] - 'A' + 1);
             round.accessCoord().setCol(atoi(ref + 1));
 
-            for (unsigned int i = 0; i < strlen(word); i++)
+            for (unsigned int i = 0; i < word.size(); i++)
             {
                 tile = Tile(word[i]);
 
@@ -386,8 +393,8 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
                 }
                 else
                 {
-                    round.addRightFromRack(tile, islower(word[i]));
-                    pGame->m_bag.takeTile((islower(word[i])) ? Tile::Joker() : tile);
+                    round.addRightFromRack(tile, iswlower(word[i]));
+                    pGame->m_bag.takeTile((iswlower(word[i])) ? Tile::Joker() : tile);
                 }
             }
         }
@@ -398,7 +405,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
             round.accessCoord().setRow(ref[strlen(ref) - 1] - 'A' + 1);
             round.accessCoord().setCol(atoi(ref));
 
-            for (unsigned int i = 0; i < strlen(word); i++)
+            for (unsigned int i = 0; i < word.size(); i++)
             {
                 tile = Tile(word[i]);
 
@@ -408,20 +415,20 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
                 }
                 else
                 {
-                    round.addRightFromRack(tile, islower(word[i]));
-                    pGame->m_bag.takeTile((islower(word[i])) ? Tile::Joker() : tile);
+                    round.addRightFromRack(tile, iswlower(word[i]));
+                    pGame->m_bag.takeTile((iswlower(word[i])) ? Tile::Joker() : tile);
                 }
             }
         }
 
-        //             pGame->m_currPlayer = player;
-        //             // Update the rack for the player
-        //             pGame->m_players[player]->setCurrentRack(pldrack);
-        //             // End the turn for the current player (this creates a new rack)
-        //             pGame->m_players[player]->endTurn(round,num - 1);
+//                     pGame->m_currPlayer = player;
+//                     // Update the rack for the player
+//                     pGame->m_players[player]->setCurrentRack(pldrack);
+//                     // End the turn for the current player (this creates a new rack)
+//                     pGame->m_players[player]->endTurn(round,num - 1);
 
         // Play the round
-        pGame->helperPlayRound(round);
+        pGame->helperPlayRound(pGame->m_currPlayer, round);
     }
 
     /**************************************/
@@ -452,7 +459,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
     {
         // We don't really know whose turn it is, but at least we know that
         // the game was saved while a human was to play.
-        for (int i = 0; i < pGame->getNPlayers(); i++)
+        for (unsigned int i = 0; i < pGame->getNPlayers(); i++)
         {
             if (pGame->m_players[i]->isHuman())
             {
@@ -490,21 +497,21 @@ void Game::gameSaveFormat_14(ostream &out) const
     const string decal = "   ";
     out << IDENT_STRING << endl << endl;
 
-    for (int i = 0; i < m_history.getSize(); i++)
+    for (unsigned int i = 0; i < m_history.getSize(); i++)
     {
         const Turn& turn = m_history.getTurn(i);
-        string rack = convertToMb(turn.getPlayedRack().toString(PlayedRack::RACK_EXTRA));
-        string word = convertToMb(turn.getRound().getWord());
-        string coord = convertToMb(turn.getRound().getCoord().toString(Coord::COORD_MODE_LONG));
+        wstring rack = turn.getPlayedRack().toString(PlayedRack::RACK_EXTRA);
+        // FIXME: this will not work if the move does not correspond to a played round!
+        const Round &round = turn.getMove().getRound();
+        wstring word = round.getWord();
+        string coord = convertToMb(round.getCoord().toString(Coord::COORD_MODE_LONG));
 
         // rack [space] word [space] bonus points coord
-        sprintf(line,"%s%s%s%s%c%4d %s",
-                rack.c_str(),
-                string(12 - rack.size(), ' ').c_str(),
-                word.c_str(),
-                string(16 - word.size(), ' ').c_str(),
-                turn.getRound().getBonus() ? '*' : ' ',
-                turn.getRound().getPoints(),
+        sprintf(line,"%s%s%c%4d %s",
+                padAndConvert(rack, 12, false).c_str(),
+                padAndConvert(word, 16, false).c_str(),
+                round.getBonus() ? '*' : ' ',
+                round.getPoints(),
                 coord.c_str()
                );
 
@@ -513,7 +520,7 @@ void Game::gameSaveFormat_14(ostream &out) const
 
     out << endl;
     out << decal << "total" << string(24,' ');
-    sprintf(line,"%4d", getCurrentPlayer().getPoints());
+    sprintf(line, "%4d", getCurrentPlayer().getPoints());
     out << line << endl;
 }
 
@@ -526,7 +533,7 @@ void Game::gameSaveFormat_15(ostream &out) const
     // Game type
     out << "Game type: " << getModeAsString() << endl;
     // Player list
-    for (int i = 0; i < getNPlayers(); i++)
+    for (unsigned int i = 0; i < getNPlayers(); i++)
     {
         out << "Player " << i << ": ";
         if (m_players[i]->isHuman())
@@ -542,21 +549,69 @@ void Game::gameSaveFormat_15(ostream &out) const
     out << decal << "===|==========|=================|=====|=====|===|======" << endl;
 
     // Print the game itself
-    for (int i = 0; i < m_history.getSize(); i++)
+    for (unsigned int i = 0; i < m_history.getSize(); i++)
     {
         const Turn& turn = m_history.getTurn(i);
-        string rack = convertToMb(turn.getPlayedRack().toString(PlayedRack::RACK_EXTRA));
-        string word = convertToMb(turn.getRound().getWord());
-        string coord = convertToMb(turn.getRound().getCoord().toString());
-        sprintf(line, "%2d | %8s | %s%s | %3s | %3d | %1d | %c",
-                i + 1,
-                rack.c_str(),                               /* pldrack     */
-                word.c_str(),                               /* word        */
-                string(15 - word.size(), ' ').c_str(),      /* fill spaces */
-                coord.c_str(),                              /* coord       */
-                turn.getRound().getPoints(),
-                turn.getPlayer(),
-                turn.getRound().getBonus() ? '*' : ' ');
+        wstring rack = turn.getPlayedRack().toString(PlayedRack::RACK_EXTRA);
+        const Move &move = turn.getMove();
+        switch (move.getType())
+        {
+            case Move::VALID_ROUND:
+            {
+                const Round &round = move.getRound();
+                wstring word = round.getWord();
+                string coord = convertToMb(round.getCoord().toString());
+                sprintf(line, "%2d | %s | %s | %3s | %3d | %1d | %c",
+                        i + 1,
+                        padAndConvert(rack, 8).c_str(),             /* pldrack     */
+                        padAndConvert(word, 15, false).c_str(),     /* word        */
+                        coord.c_str(),                              /* coord       */
+                        move.getScore(),
+                        turn.getPlayer(),
+                        round.getBonus() ? '*' : ' ');
+                break;
+            }
+            case Move::INVALID_WORD:
+            {
+                wstring word = move.getBadWord();
+                string coord = convertToMb(move.getBadCoord());
+                sprintf(line, "%2d | %s | %s | %3s | %3d | %1d |",
+                        i + 1,
+                        padAndConvert(rack, 8).c_str(),             /* pldrack     */
+                        padAndConvert(word, 15, false).c_str(),     /* word        */
+                        coord.c_str(),                              /* coord       */
+                        move.getScore(),
+                        turn.getPlayer());
+                break;
+            }
+            case Move::PASS:
+            {
+                string action = "(PASS)";
+                string coord = " - ";
+                sprintf(line, "%2d | %s | %s | %3s | %3d | %1d |",
+                        i + 1,
+                        padAndConvert(rack, 8).c_str(),             /* pldrack     */
+                        truncOrPad(action, 15, ' ').c_str(),        /* word        */
+                        coord.c_str(),                              /* coord       */
+                        move.getScore(),
+                        turn.getPlayer());
+                break;
+            }
+            case Move::CHANGE_LETTERS:
+            {
+                wstring action = L"(-" + move.getChangedLetters() + L")";
+                string coord = " - ";
+                sprintf(line, "%2d | %s | %s | %3s | %3d | %1d |",
+                        i + 1,
+                        padAndConvert(rack, 8).c_str(),             /* pldrack     */
+                        padAndConvert(action, 15, false).c_str(),   /* word        */
+                        coord.c_str(),                              /* coord       */
+                        move.getScore(),
+                        turn.getPlayer());
+                break;
+            }
+
+        }
 
         out << decal << line << endl;
     }
@@ -577,7 +632,7 @@ void Game::gameSaveFormat_15(ostream &out) const
 
     // Print current rack for all the players
     out << endl;
-    for (int i = 0; i < getNPlayers(); i++)
+    for (unsigned int i = 0; i < getNPlayers(); i++)
     {
         wstring rack = m_players[i]->getCurrentRack().toString();
         out << "Rack " << i << ": " << convertToMb(rack) << endl;

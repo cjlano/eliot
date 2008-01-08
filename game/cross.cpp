@@ -1,6 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 2005 Eliot
- * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2005-2007 Olivier Teulière & Antoine Fraboulet
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
+ *          Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,26 +24,25 @@
 
 #define CROSS_MASK 0xFFFFFFFF
 
+
 Cross::Cross()
 {
     // The default behaviour is to match everything
     setAny();
 }
 
-void Cross::setAny()                   
-{ 
+
+void Cross::setAny()
+{
     m_mask = CROSS_MASK;
 }
 
+
 bool Cross::isAny() const
-{ 
-    return m_mask == CROSS_MASK; 
+{
+    return m_mask == CROSS_MASK;
 }
 
-void Cross::setNone()
-{
-    m_mask = 0;
-}
 
 string Cross::getHexContent() const
 {
@@ -51,22 +52,21 @@ string Cross::getHexContent() const
     return s;
 }
 
+
 bool Cross::check(const Tile& iTile) const
 {
     return (iTile.isJoker() && m_mask != 0) || (m_mask & (1 << iTile.toCode()));
 }
 
+
 void Cross::insert(const Tile& iTile)
-{ 
+{
     m_mask |= (1 << iTile.toCode());
 }
 
+
 bool Cross::operator==(const Cross &iOther) const
 {
-    /* 
-     *  if (isAny() || iOther.isAny())
-     *    return isAny() && iOther.isAny();
-     */
     return m_mask == iOther.m_mask;
 }
 

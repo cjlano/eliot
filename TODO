@@ -1,33 +1,19 @@
 
-* ====================
-* TODO Current version
-* ====================
-
- - Correct game save/load functions : Advanced format
-   file saving for freegames and duplicate need a serious
-   rewrite. We need to specifie a file format that can handle
-   all the information contained in a multiplayer game.
-
- - Add "joker" type games in wxwin version of Eliot, Freegame
-   and Duplicate will follow
-
- - full French i18n interface and error messages for wxwin.
-
-
 * ==================
 * Next Eliot version
 * ==================
 
- - new dictionnary format that includes tiles
-   - number
-   - points
-   - printable equivalent
- - other languages support using the new dictionary
- - new wxWidgets interface
+ - Improve error handling (use exceptions more)
+ - Correct game save/load functions: Advanced format
+   file saving for freegames and duplicate need a serious
+   rewrite. We need to specify a file format that can handle
+   all the information contained in a multiplayer game.
+ - rack shuffling
+ - new wxWidgets or QT interface
    - support of the different modes
    - ability to choose the number and type of the players
    - ability to display the history and score of all the players
-     -- partly done : history is now a separate class
+     -- partly done: history is now a separate class
  - detection of blocked positions?
  - getopt support for all the interfaces (only ncurses is done)
 

@@ -64,11 +64,11 @@ GfxResult::GfxResult(wxFrame *parent, MainFrame* _mf, Game* _game) :
 #else
     results->SetSingleStyle(wxLC_REPORT | wxLC_SINGLE_SEL);
 #endif
-    results->InsertColumn(0, wxT("Sol"));
+    results->InsertColumn(0, _("Word"));
     results->InsertColumn(1, wxT("*"));
-    results->InsertColumn(2, wxT("Pos"));
-    results->InsertColumn(3, wxT("Pts"));
-    results->SetToolTip(wxT("Resultats de la recherche"));
+    results->InsertColumn(2, _("Pos"));
+    results->InsertColumn(3, _("Pts"));
+    results->SetToolTip(_("Results of the search"));
 
     wxBoxSizer *sizer_v = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer *sizer_h = new wxBoxSizer(wxHORIZONTAL);
@@ -115,7 +115,7 @@ GfxResult::Refresh()
     debug("   GfxResult::Refresh : ");
     std::wstring rack = game->getCurrentPlayer().getCurrentRack().toString();
 
-    if (savedrack != rack || static_cast<Training*>(game)->getResults().size() != results->GetItemCount())
+    if (savedrack != rack || (int)static_cast<Training*>(game)->getResults().size() != results->GetItemCount())
     {
         debug("changed (%ls -> %ls)",savedrack.c_str(),rack.c_str());
         savedrack = rack;
@@ -138,16 +138,16 @@ GfxResult::Search()
     if (game == NULL)
         return;
 
-    ((Training*)game)->search();
+    static_cast<Training*>(game)->search();
 
     results->DeleteAllItems();
     results->SetFont(config.getFont(LISTFONT));
 
-    const Results &res = ((Training*)game)->getResults();
+    const Results &res = static_cast<Training*>(game)->getResults();
     debug("   GfxResult::Search size = %d\n",res.size());
-    for (int i = 0; i < res.size(); i++)
+    for (unsigned int i = 0; i < res.size(); i++)
     {
-        Round r = res.get(i);
+        const Round &r = res.get(i);
         //debug("    adding %s\n",r.toString().c_str());
         wxString pts;
         wxString word   = wxU(r.getWord().c_str());
@@ -170,7 +170,7 @@ GfxResult::Search()
     if (res.size() > 0)
     {
         results->SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED | wxLIST_MASK_STATE);
-        ((Training*)game)->testPlay(0);
+        static_cast<Training*>(game)->testPlay(0);
     }
 }
 

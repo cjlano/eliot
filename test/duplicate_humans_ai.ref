@@ -1,0 +1,78 @@
+[?] pour l'aide
+commande> d 2 1
+mode duplicate
+[?] pour l'aide
+commande> a T
+Joueur 0: ATOYDSI
+Joueur 1: ATOYDSI
+Joueur 2: ATOYDSI
+commande> j DOSAIT H4
+commande> j DOSAIT h5
+commande> a S
+Joueur 0:   18
+Joueur 1:   14
+Joueur 2:   30
+commande> a T
+Joueur 0: DIAEINS
+Joueur 1: DIAEINS
+Joueur 2: DIAEINS
+commande> n 1
+commande> j DISAIENT 11A
+commande> a S
+Joueur 0:   18
+Joueur 1:   82
+Joueur 2:   30
+commande> j DESTINAI 11E
+commande> a S
+Joueur 0:  104
+Joueur 1:   82
+Joueur 2:  116
+commande> a t
+P?RBFEG
+commande> j FRiPE 10K
+commande> j sERF M11
+commande> a S
+Joueur 0:  126
+Joueur 1:  103
+Joueur 2:  145
+commande> a t
+BGEEMTB
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  F  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  R  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  i  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  P  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  D  E  -  -  -
+ F   -  -  -  -  -  -  -  -  -  -  E  -  -  -  -
+ G   -  -  -  -  -  -  -  -  -  -  S  -  -  -  -
+ H   -  -  -  -  -  -  -  O  Y  A  T  S  -  -  -
+ I   -  -  -  -  -  -  -  -  -  -  I  -  -  -  -
+ J   -  -  -  -  -  -  -  -  -  -  N  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  A  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  I  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Duplicate
+Player 0: Human
+Player 1: Human
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  ATOYDSI | OYATS           |  H8 |  30 | 2 |  
+    2 | DI+AEINS | DESTINAI        | 11E |  86 | 0 | *
+    3 |  P?RBFEG | FRiPE           | 12A |  29 | 2 |  
+
+   Total: 145
+
+Rack 0: BG+EEMTB
+Rack 1: BG+EEMTB
+Rack 2: BG+EEMTB
+commande> q
+fin du mode duplicate
+commande> q

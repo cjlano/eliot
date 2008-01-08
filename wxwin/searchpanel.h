@@ -33,7 +33,7 @@
 class SearchPanel : public wxNotebook
 {
  public:
-  SearchPanel(wxFrame*, Dictionary);
+  SearchPanel(wxFrame*, const Dictionary&);
   ~SearchPanel();
 };
 

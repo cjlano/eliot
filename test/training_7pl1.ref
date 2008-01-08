@@ -1,0 +1,84 @@
+[?] pour l'aide
+commande> e
+mode entraînement
+[?] pour l'aide
+commande> b p maison
+  AIMONS
+  AMNIOS
+  MAISON
++A
+  OMANAIS
++B
+  ABIMONS
++C
+  CAMIONS
+  MANIOCS
++D
+  AMIDONS
+  DAMIONS
+  DOMINAS
+  MADISON
+  MONDAIS
++E
+  ANOMIES
+  ANOSMIE
++G
+  GOMINAS
++I
+  AIMIONS
++L
+  LAMIONS
+  OSMANLI
++M
+  NOMMAIS
++N
+  ANIMONS
+  MANIONS
+  MANNOIS
+  MANSION
+  NOMINAS
++P
+  PAMIONS
++R
+  ARMIONS
+  MANOIRS
+  MARIONS
+  MINORAS
+  NORMAIS
+  RAMIONS
+  ROMAINS
+  ROMANIS
++S
+  MAISONS
++T
+  MATIONS
+  MOISANT
+  MONTAIS
++Z
+  MAZIONS
+commande> b p noword
+commande> b p zeuer
++A
+  AZUREE
++C
+  ECUREZ
++H
+  HUEREZ
++M
+  MUEREZ
+  REMUEZ
++N
+  NUEREZ
++P
+  EPUREZ
+  PUEREZ
++R
+  RUEREZ
++S
+  SUEREZ
+  USEREZ
++T
+  TUEREZ
+commande> q
+fin du mode entraînement
+commande> q

@@ -1,21 +1,22 @@
-/* Eliot                                                                     */
-/* Copyright (C) 2005  Antoine Fraboulet                                     */
-/*                                                                           */
-/* This file is part of Eliot.                                               */
-/*                                                                           */
-/* Eliot is free software; you can redistribute it and/or modify             */
-/* it under the terms of the GNU General Public License as published by      */
-/* the Free Software Foundation; either version 2 of the License, or         */
-/* (at your option) any later version.                                       */
-/*                                                                           */
-/* Eliot is distributed in the hope that it will be useful,                  */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
-/* GNU General Public License for more details.                              */
-/*                                                                           */
-/* You should have received a copy of the GNU General Public License         */
-/* along with this program; if not, write to the Free Software               */
-/* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
+/*****************************************************************************
+ * Eliot
+ * Copyright (C) 2005-2007 Antoine Fraboulet
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *****************************************************************************/
 
 /**
  *  \file   automaton.h
@@ -26,51 +27,68 @@
 
 #ifndef _DIC_AUTOMATON_H_
 #define _DIC_AUTOMATON_H_
-#if defined(__cplusplus)
-extern "C"
-  {
-#endif
 
-typedef struct automaton_t       *automaton;
+class AutomatonHelper;
 
+class Automaton
+{
+public:
+    /// Constructor
     /**
-     * build a static deterministic finite automaton from
+     * Build a static deterministic finite automaton from
      * "init_state", "ptl" and "PS" given by the parser
      */
-automaton automaton_build(int init_state, int *ptl, int *PS, struct search_RegE_list_t *list);
+    Automaton(int init_state, int *ptl, int *PS, struct search_RegE_list_t *iList);
+
+    /// Destructor
+    ~Automaton();
 
     /**
-     * automaton delete function
-     */
-void      automaton_delete         (automaton a);
-
-    /**
-     * get the number of states in the automaton
+     * Get the number of states in the automaton.
      * @returns number of states
      */
-int       automaton_get_nstate     (automaton a);
+    int getNbStates() const { return m_nbStates; }
 
     /**
-     * query the id of the init state
+     * Query the id of the init state.
      * @returns init state id
      */
-int       automaton_get_init       (automaton a);
+    int getInitId() const { return m_init; }
 
     /**
-     * ask for the acceptor flag for the state
-     * @returns boolean flag 0 or 1
+     * Query the acceptor flag for the given state
+     * @return true/false
      */
-int       automaton_get_accept     (automaton a, int state);
+    bool accept(int state) const { return m_acceptors[state]; }
 
     /**
-     * returns the next state when the transition is taken
+     * Return the next state when the transition is taken
      * @returns next state id (1 <= id <= nstate, 0 = invalid id)
      */
-int       automaton_get_next_state (automaton a, int start, char l);
+    int getNextState(int start, char l) const
+    {
+        return m_transitions[start][(int)l];
+    }
 
-void      automaton_dump           (automaton a, char* filename);
+    /**
+     * Dump the automaton into a file (for debugging purposes)
+     */
+    void dump(const string &iFileName) const;
 
-#if defined(__cplusplus)
-  }
-#endif
+private:
+    /// Number of states
+    int m_nbStates;
+
+    /// ID of the init state
+    int m_init;
+
+    /// Array of booleans, one for each state
+    bool *m_acceptors;
+
+    /// Matrix of transitions
+    int **m_transitions;
+
+    void finalize(const AutomatonHelper &a);
+};
+
 #endif /* _DIC_AUTOMATON_H_ */

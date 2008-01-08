@@ -18,19 +18,23 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include "config.h"
+
+#include <wchar.h>
+#include <fstream>
+#include <iostream>
 #include <stdlib.h>
-#include <stdio.h>
 #include <time.h>
 #include <string.h>
 #include <locale.h>
 #include <wctype.h>
-#include <wchar.h>
-#include <fstream>
-#include <readline/readline.h>
-#include <readline/history.h>
+#if HAVE_READLINE_READLINE_H
+#   include <stdio.h>
+#   include <readline/readline.h>
+#   include <readline/history.h>
+#endif
 
 #include "dic.h"
-#include "dic_search.h"
 #include "regexp.h"
 #include "game_io.h"
 #include "game_factory.h"
@@ -41,8 +45,6 @@
 
 
 /* A static variable for holding the line. */
-static char *line_read = NULL;
-/* Wide version of the line */
 static wchar_t *wline_read = NULL;
 
 /**
@@ -51,20 +53,16 @@ static wchar_t *wline_read = NULL;
  */
 wchar_t *rl_gets()
 {
+#if HAVE_READLINE_READLINE_H
     // If the buffer has already been allocated, return the memory to the free
     // pool
-    if (line_read)
-    {
-        free(line_read);
-        line_read = NULL;
-    }
     if (wline_read)
     {
         delete[] wline_read;
-        wline_read = NULL;
     }
 
     // Get a line from the user
+    static char *line_read;
     line_read = readline("commande> ");
 
     // If the line has any text in it, save it on the history
@@ -78,7 +76,28 @@ wchar_t *rl_gets()
         return NULL;
 
     wline_read = new wchar_t[len + 1];
-    len = mbstowcs(wline_read, line_read, len + 1);
+    mbstowcs(wline_read, line_read, len + 1);
+
+    if (line_read)
+    {
+        free(line_read);
+    }
+#else
+    if (!cin.good())
+        return NULL;
+
+    cout << "commande> ";
+    string line;
+    std::getline(cin, line);
+
+    // Get the needed length (we _can't_ use string::size())
+    size_t len = mbstowcs(NULL, line.c_str(), 0);
+    if (len == (size_t)-1)
+        return NULL;
+
+    wline_read = new wchar_t[len + 1];
+    mbstowcs(wline_read, line.c_str(), len + 1);
+#endif
 
     return wline_read;
 }
@@ -86,7 +105,7 @@ wchar_t *rl_gets()
 
 wchar_t * next_token_alpha(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
 {
-    wchar_t *token = wcstok(cmd, delim, state);
+    wchar_t *token = _wcstok(cmd, delim, state);
     if (token == NULL)
         return NULL;
     int i;
@@ -99,7 +118,7 @@ wchar_t * next_token_alpha(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
 
 wchar_t * next_token_alphanum(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
 {
-    wchar_t *token = wcstok(cmd, delim, state);
+    wchar_t *token = _wcstok(cmd, delim, state);
     if (token == NULL)
         return NULL;
     int i;
@@ -112,7 +131,7 @@ wchar_t * next_token_alphanum(wchar_t *cmd, const wchar_t *delim, wchar_t **stat
 
 wchar_t * next_token_alphaplusjoker(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
 {
-    wchar_t *token = wcstok(cmd, delim, state);
+    wchar_t *token = _wcstok(cmd, delim, state);
     if (token == NULL)
         return NULL;
     int i;
@@ -128,7 +147,7 @@ wchar_t * next_token_alphaplusjoker(wchar_t *cmd, const wchar_t *delim, wchar_t 
 
 wchar_t * next_token_digit(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
 {
-    wchar_t *token = wcstok(cmd, delim, state);
+    wchar_t *token = _wcstok(cmd, delim, state);
     if (token == NULL)
         return NULL;
     int i;
@@ -141,7 +160,7 @@ wchar_t * next_token_digit(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
 
 wchar_t * next_token_cross(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
 {
-    wchar_t *token = wcstok(cmd, delim, state);
+    wchar_t *token = _wcstok(cmd, delim, state);
     if (token == NULL)
         return NULL;
     int i;
@@ -156,7 +175,7 @@ wchar_t * next_token_cross(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
 
 wchar_t * next_token_filename(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
 {
-    wchar_t *token = wcstok(cmd, delim, state);
+    wchar_t *token = _wcstok(cmd, delim, state);
     if (token == NULL)
         return NULL;
     int i;
@@ -169,13 +188,15 @@ wchar_t * next_token_filename(wchar_t *cmd, const wchar_t *delim, wchar_t **stat
 }
 
 
-void eliottxt_get_cross(const Dictionary &iDic, wchar_t *cros)
+void eliottxt_get_cross(const Dictionary &iDic, const wstring &iCros)
 {
-    wchar_t wordlist[RES_CROS_MAX][DIC_WORD_MAX];
-    Dic_search_Cros(iDic, cros, wordlist);
-    for (int i = 0; i < RES_CROS_MAX && wordlist[i][0]; i++)
+    list<wstring> wordList;
+    iDic.searchCross(iCros, wordList);
+
+    list<wstring>::const_iterator it;
+    for (it = wordList.begin(); it != wordList.end(); it++)
     {
-        printf("  %s\n", convertToMb(wordlist[i]).c_str());
+        printf("  %s\n", convertToMb(*it).c_str());
     }
 }
 
@@ -198,6 +219,10 @@ void help_training()
     printf("            S -- score de tous les joueurs\n");
     printf("            t -- tirage\n");
     printf("  d [] : vérifier le mot []\n");
+    printf("  b [b|p|r] [] : effectuer une recherche speciale à partir de []\n");
+    printf("            b -- benjamins\n");
+    printf("            p -- 7 + 1\n");
+    printf("            r -- raccords\n");
     printf("  *    : tirage aléatoire\n");
     printf("  +    : tirage aléatoire ajouts\n");
     printf("  t [] : changer le tirage\n");
@@ -278,7 +303,7 @@ void help()
 
 void display_data(const Game &iGame, const wchar_t *delim, wchar_t **state)
 {
-    wchar_t *token;
+    const wchar_t *token;
 
     token = next_token_alpha(NULL, delim, state);
     if (token == NULL)
@@ -365,7 +390,7 @@ void display_data(const Game &iGame, const wchar_t *delim, wchar_t **state)
 
 void loop_training(Training &iGame)
 {
-    wchar_t *token;
+    const wchar_t *token;
     wchar_t *state;
     wchar_t *commande = NULL;
     wchar_t delim[] = L" \t";
@@ -376,7 +401,7 @@ void loop_training(Training &iGame)
     while (quit == 0)
     {
         commande = rl_gets();
-        token = wcstok(commande, delim, &state);
+        token = _wcstok(commande, delim, &state);
         if (token)
         {
             switch (token[0])
@@ -387,13 +412,65 @@ void loop_training(Training &iGame)
                 case L'a':
                     display_data(iGame, delim, &state);
                     break;
+                case L'b':
+                    token = next_token_alpha(NULL, delim, &state);
+                    if (token == NULL)
+                        help_training();
+                    else
+                    {
+                        const wchar_t *word = next_token_alpha(NULL, delim, &state);
+                        if (word == NULL)
+                            help_training();
+                        else
+                        {
+                            switch (token[0])
+                            {
+                                case L'b':
+                                {
+                                    list<wstring> wordList;
+                                    iGame.getDic().searchBenj(word, wordList);
+                                    list<wstring>::const_iterator it;
+                                    for (it = wordList.begin(); it != wordList.end(); ++it)
+                                        cout << convertToMb(*it) << endl;
+                                    break;
+                                }
+                                case L'p':
+                                {
+                                    map<wchar_t, list<wstring> > wordMap;
+                                    iGame.getDic().search7pl1(word, wordMap, false);
+                                    map<wchar_t, list<wstring> >::const_iterator it;
+                                    for (it = wordMap.begin(); it != wordMap.end(); ++it)
+                                    {
+                                        if (it->first)
+                                            cout << "+" << convertToMb(it->first) << endl;
+                                        list<wstring>::const_iterator itWord;;
+                                        for (itWord = it->second.begin(); itWord != it->second.end(); itWord++)
+                                        {
+                                            cout << "  " << convertToMb(*itWord) << endl;
+                                        }
+                                    }
+                                    break;
+                                }
+                                case L'r':
+                                {
+                                    list<wstring> wordList;
+                                    iGame.getDic().searchRacc(word, wordList);
+                                    list<wstring>::const_iterator it;
+                                    for (it = wordList.begin(); it != wordList.end(); ++it)
+                                        cout << convertToMb(*it) << endl;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    break;
                 case L'd':
                     token = next_token_alpha(NULL, delim, &state);
                     if (token == NULL)
                         help_training();
                     else
                     {
-                        if (Dic_search_word(iGame.getDic(), token))
+                        if (iGame.getDic().searchWord(token))
                         {
                             printf("le mot -%s- existe\n",
                                    convertToMb(token).c_str());
@@ -405,7 +482,7 @@ void loop_training(Training &iGame)
                         }
                     }
                     break;
-               case L'j':
+                case L'j':
                     token = next_token_alpha(NULL, delim, &state);
                     if (token == NULL)
                         help_training();
@@ -499,7 +576,7 @@ void loop_training(Training &iGame)
 
 void loop_freegame(FreeGame &iGame)
 {
-    wchar_t *token;
+    const wchar_t *token;
     wchar_t *state;
     wchar_t *commande = NULL;
     wchar_t delim[] = L" \t";
@@ -510,7 +587,7 @@ void loop_freegame(FreeGame &iGame)
     while (quit == 0)
     {
         commande = rl_gets();
-        token = wcstok(commande, delim, &state);
+        token = _wcstok(commande, delim, &state);
         if (token)
         {
             switch (token[0])
@@ -527,7 +604,7 @@ void loop_freegame(FreeGame &iGame)
                         help_freegame();
                     else
                     {
-                        if (Dic_search_word(iGame.getDic(), token))
+                        if (iGame.getDic().searchWord(token))
                         {
                             printf("le mot -%s- existe\n",
                                    convertToMb(token).c_str());
@@ -539,7 +616,7 @@ void loop_freegame(FreeGame &iGame)
                         }
                     }
                     break;
-               case L'j':
+                case L'j':
                     token = next_token_alpha(NULL, delim, &state);
                     if (token == NULL)
                         help_freegame();
@@ -566,7 +643,7 @@ void loop_freegame(FreeGame &iGame)
                     if (token == NULL)
                         token = L"";
 
-                    if (iGame.pass(token, iGame.currPlayer()) != 0)
+                    if (iGame.pass(token) != 0)
                         break;
                     break;
                 case L's':
@@ -600,7 +677,7 @@ void loop_freegame(FreeGame &iGame)
 
 void loop_duplicate(Duplicate &iGame)
 {
-    wchar_t *token;
+    const wchar_t *token;
     wchar_t *state;
     wchar_t *commande = NULL;
     wchar_t delim[] = L" \t";
@@ -611,7 +688,7 @@ void loop_duplicate(Duplicate &iGame)
     while (quit == 0)
     {
         commande = rl_gets();
-        token = wcstok(commande, delim, &state);
+        token = _wcstok(commande, delim, &state);
         if (token)
         {
             switch (token[0])
@@ -628,7 +705,7 @@ void loop_duplicate(Duplicate &iGame)
                         help_duplicate();
                     else
                     {
-                        if (Dic_search_word(iGame.getDic(), token))
+                        if (iGame.getDic().searchWord(token))
                         {
                             printf("le mot -%s- existe\n",
                                    convertToMb(token).c_str());
@@ -667,10 +744,14 @@ void loop_duplicate(Duplicate &iGame)
                         help_duplicate();
                     else
                     {
+                        int n = _wtoi(token);
+                        if (n < 0 || n >= (int)iGame.getNPlayers())
+                        {
+                            fprintf(stderr, "Numéro de joueur invalide\n");
+                            break;
+                        }
                         int res = iGame.setPlayer(_wtoi(token));
                         if (res == 1)
-                            fprintf(stderr, "Numéro de joueur invalide\n");
-                        else if (res == 2)
                             fprintf(stderr, "Impossible de choisir un joueur non humain\n");
                     }
                     break;
@@ -703,7 +784,8 @@ void loop_duplicate(Duplicate &iGame)
 }
 
 
-void eliot_regexp_build_default_llist(struct search_RegE_list_t &llist)
+void eliot_regexp_build_default_llist(const Dictionary &iDic,
+                                      struct search_RegE_list_t &llist)
 {
     memset(&llist, 0, sizeof(llist));
 
@@ -727,8 +809,8 @@ void eliot_regexp_build_default_llist(struct search_RegE_list_t &llist)
         memset(llist.letters[i], 0, sizeof(llist.letters[i]));
     }
 
-    const list<Tile>& allTiles = Tile::getAllTiles();
-    list<Tile>::const_iterator it;
+    const vector<Tile>& allTiles = iDic.getAllTiles();
+    vector<Tile>::const_iterator it;
     for (it = allTiles.begin(); it != allTiles.end(); it++)
     {
         if (! it->isJoker() && ! it->isEmpty())
@@ -763,16 +845,14 @@ void eliot_regexp(const Dictionary& iDic, wchar_t __attribute__((unused)) *cmd,
 #define DIC_RE_MAX (3*DIC_WORD_MAX) // yes, it's 3
 
     struct search_RegE_list_t llist;
-    eliot_regexp_build_default_llist(llist);
+    eliot_regexp_build_default_llist(iDic, llist);
 
-    wchar_t *exp, *cnres, *clmin, *clmax;
+    wchar_t *regexp = _wcstok(NULL, delim, state);
+    wchar_t *cnres = _wcstok(NULL, delim, state);
+    wchar_t *clmin = _wcstok(NULL, delim, state);
+    wchar_t *clmax = _wcstok(NULL, delim, state);
 
-    exp   = wcstok(NULL, delim, state);
-    cnres = wcstok(NULL, delim, state);
-    clmin = wcstok(NULL, delim, state);
-    clmax = wcstok(NULL, delim, state);
-
-    if (exp == NULL)
+    if (regexp == NULL)
     {
         return;
     }
@@ -791,18 +871,17 @@ void eliot_regexp(const Dictionary& iDic, wchar_t __attribute__((unused)) *cmd,
         return;
     }
 
-    wchar_t re[DIC_RE_MAX];
-    wcsncpy(re, exp, DIC_RE_MAX);
-    wchar_t buff[RES_REGE_MAX][DIC_WORD_MAX];
-
-    printf("search for %s (%d,%d,%d)\n", convertToMb(exp).c_str(),
+    printf("search for %s (%d,%d,%d)\n", convertToMb(regexp).c_str(),
            nres, lmin, lmax);
-    Dic_search_RegE(iDic, re, buff, &llist);
+
+    list<wstring> wordList;
+    iDic.searchRegExp(regexp, wordList, &llist);
 
     int nresult = 0;
-    for (int i = 0; i < RES_REGE_MAX && i < nres && buff[i][0]; i++)
+    list<wstring>::const_iterator it;
+    for (it = wordList.begin(); it != wordList.end() && nresult < nres; it++)
     {
-        printf("%s\n", convertToMb(buff[i]).c_str());
+        printf("%s\n", convertToMb(*it).c_str());
         nresult++;
     }
     printf("%d printed results\n", nresult);
@@ -811,7 +890,7 @@ void eliot_regexp(const Dictionary& iDic, wchar_t __attribute__((unused)) *cmd,
 
 void main_loop(const Dictionary &iDic)
 {
-    wchar_t *token;
+    const wchar_t *token;
     wchar_t *state;
     wchar_t *commande = NULL;
     wchar_t delim[] = L" \t";
@@ -821,7 +900,7 @@ void main_loop(const Dictionary &iDic)
     while (quit == 0)
     {
         commande = rl_gets();
-        token = wcstok(commande, delim, &state);
+        token = _wcstok(commande, delim, &state);
         if (token)
         {
             switch (token[0])
@@ -960,12 +1039,10 @@ void main_loop(const Dictionary &iDic)
 
 int main(int argc, char *argv[])
 {
-    char dic_path[100];
+    string dicPath;
 
     // Let the user choose the locale
     setlocale(LC_ALL, "");
-
-    Dictionary dic = NULL;
 
     if (argc != 2 && argc != 3)
     {
@@ -974,55 +1051,29 @@ int main(int argc, char *argv[])
     }
     else
     {
-        strcpy(dic_path, argv[1]);
+        dicPath = argv[1];
     }
 
-    switch (Dic_load(&dic, dic_path))
+    try
     {
-        case 0:
-            /* Normal case */
-            break;
-        case 1:
-            printf("chargement: problème d'ouverture de %s\n", argv[1]);
-            exit(1);
-            break;
-        case 2:
-            printf("chargement: mauvais en-tete de dictionnaire\n");
-            exit(2);
-            break;
-        case 3:
-            printf("chargement: problème 3 d'allocation mémoire\n");
-            exit(3);
-            break;
-        case 4:
-            printf("chargement: problème 4 d'alocation mémoire\n");
-            exit(4);
-            break;
-        case 5:
-            printf("chargement: problème de lecture des arcs du dictionnaire\n");
-            exit(5);
-            break;
-        default:
-            printf("chargement: problème non-repertorié\n");
-            exit(6);
-            break;
+        Dictionary dic(dicPath);
+
+        if (argc == 3)
+            srand(atoi(argv[2]));
+        else
+            srand(time(NULL));
+
+        main_loop(dic);
+        GameFactory::Destroy();
+
+        // Free the readline static variable
+        if (wline_read)
+            delete[] wline_read;
     }
-
-    if (argc == 3)
-        srand(atoi(argv[2]));
-    else
-        srand(time(NULL));
-
-    main_loop(dic);
-    GameFactory::Destroy();
-
-    Dic_destroy(dic);
-
-    // Free the readline static variable and its wide equivalent
-    if (line_read)
-        free(line_read);
-    if (wline_read)
-        delete[] wline_read;
+    catch (std::exception &e)
+    {
+        cerr << e.what() << endl;
+    }
 
     return 0;
 }

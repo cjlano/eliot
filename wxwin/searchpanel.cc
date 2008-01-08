@@ -29,7 +29,6 @@
 
 #include "ewx.h"
 #include "dic.h"
-#include "dic_search.h"
 #include "regexp.h"
 #include "searchpanel.h"
 #include "tile.h"
@@ -55,7 +54,7 @@ class SimpleSearchPanel : public wxPanel
 {
 protected:
   ConfigDB   config;
-  Dictionary dic;
+  const Dictionary *dic;
   wxTextCtrl *t;
   wxListBox  *l;
   wxBoxSizer *sizer;
@@ -65,9 +64,9 @@ protected:
   void panel_build();
   virtual void panel_options() = 0;
 public:
-  SimpleSearchPanel(wxWindow* parent, int id, Dictionary d) : wxPanel(parent,id) { dic = d; };
-  virtual void compute_char(wxCommandEvent&) {};
-  virtual void compute_enter(wxCommandEvent&) {};
+  SimpleSearchPanel(wxWindow* parent, int id, const Dictionary &d) : wxPanel(parent,id) { dic = &d; }
+  virtual void compute_char(wxCommandEvent&) {}
+  virtual void compute_enter(wxCommandEvent&) {}
   DECLARE_EVENT_TABLE()
 };
 
@@ -105,7 +104,7 @@ SimpleSearchPanel::check_dic()
   if (dic == NULL)
     {
       l->Clear();
-      msg << wxT("Pas de dictionnaire");
+      msg << _("No dictionary");
       l->Append(msg);
       return 0;
     }
@@ -117,7 +116,7 @@ SimpleSearchPanel::check_end()
 {
   if (l->GetCount() == 0)
     {
-      l->Append(wxT("Aucun resultat"));
+      l->Append(_("No result"));
     }
 }
 
@@ -128,41 +127,41 @@ SimpleSearchPanel::check_end()
 class PCross : public SimpleSearchPanel
 {
 protected:
-  virtual void panel_options() {};
+  virtual void panel_options() {}
 public:
-  void compute_char(wxCommandEvent&) { };
+  void compute_char(wxCommandEvent&) {}
   void compute_enter(wxCommandEvent&);
-  PCross(wxWindow* parent, int id, Dictionary d) : SimpleSearchPanel(parent,id,d) { panel_build(); };
+  PCross(wxWindow* parent, int id, const Dictionary &d) : SimpleSearchPanel(parent,id,d) { panel_build(); }
 };
 
 void
 PCross::compute_enter(wxCommandEvent&)
 {
-  int  i;
-  wchar_t rack[DIC_WORD_MAX];
-  wchar_t buff[RES_CROS_MAX][DIC_WORD_MAX];
+    if (!check_dic())
+        return;
 
-  if (!check_dic())
-    return;
-
-  if (t->GetValue().Len() >= DIC_WORD_MAX)
+    if (t->GetValue().Len() >= DIC_WORD_MAX)
     {
-      wxString msg = wxT("");
-// XXX:      msg << wxT("La recherche est limitée à ") << DIC_WORD_MAX - 1 << wxT(" lettres");
-      msg << wxT("La recherche est limitee a ") << DIC_WORD_MAX - 1 << wxT(" lettres");
-      l->Append(msg);
-      return;
+        wxString msg;
+        msg.Printf(_("The search is limited to %d letters"), DIC_WORD_MAX - 1);
+        l->Append(msg);
+        return;
     }
 
-  wcsncpy(rack, t->GetValue().wc_str(), DIC_WORD_MAX);
-  Dic_search_Cros(dic,rack,buff);
+    wchar_t rack[DIC_WORD_MAX];
+    wcsncpy(rack, t->GetValue().wc_str(), DIC_WORD_MAX);
 
-  int resnum = 0;
-  wxString res[RES_CROS_MAX];
-  for(i=0; i < RES_CROS_MAX && buff[i][0]; i++)
-    res[resnum++] =  wxU(buff[i]);
-  l->Set(resnum,res);
-  check_end();
+    list<wstring> wordList;
+    dic->searchCross(rack, wordList);
+
+    int resnum = 0;
+    wxString *res = new wxString[wordList.size()];
+    list<wstring>::const_iterator it;
+    for (it = wordList.begin(); it != wordList.end(); it++)
+        res[resnum++] =  wxU(it->c_str());
+    l->Set(resnum,res);
+    delete[] res;
+    check_end();
 }
 
 // ************************************************************
@@ -172,46 +171,56 @@ PCross::compute_enter(wxCommandEvent&)
 class PPlus1 : public SimpleSearchPanel
 {
 protected:
-  virtual void panel_options() {};
+  virtual void panel_options() {}
 public:
-  void compute_char(wxCommandEvent&) { };
+  void compute_char(wxCommandEvent&) {}
   void compute_enter(wxCommandEvent&);
-  PPlus1(wxWindow* parent, int id, Dictionary dic) : SimpleSearchPanel(parent,id,dic) { panel_build(); };
+  PPlus1(wxWindow* parent, int id, const Dictionary &dic) : SimpleSearchPanel(parent,id,dic) { panel_build(); }
 };
 
 void
 PPlus1::compute_enter(wxCommandEvent&)
 {
-  int  i,j;
-  wchar_t rack[DIC_WORD_MAX];
-  wchar_t buff[DIC_LETTERS][RES_7PL1_MAX][DIC_WORD_MAX];
+    if (!check_dic())
+        return;
 
-  if (!check_dic())
-    return;
-
-  if (t->GetValue().Len() >= DIC_WORD_MAX)
+    if (t->GetValue().Len() >= DIC_WORD_MAX)
     {
-      wxString msg = wxT("");
-// XXX:      msg << wxT("La recherche est limitée à ") << DIC_WORD_MAX - 1 << wxT(" lettres");
-      msg << wxT("La recherche est limitee a ") << DIC_WORD_MAX - 1 << wxT(" lettres");
-      l->Append(msg);
-      return;
+        wxString msg;
+        msg.Printf(_("The search is limited to %d letters"), DIC_WORD_MAX - 1);
+        l->Append(msg);
+        return;
     }
 
-  wcsncpy(rack, t->GetValue().wc_str(), DIC_WORD_MAX);
-  Dic_search_7pl1(dic,rack,buff,TRUE);
+    wstring rack = t->GetValue().wc_str();
+    map<wchar_t, list<wstring> > wordList;
+    dic->search7pl1(rack, wordList, true);
 
-  int resnum = 0;
-  wxString res[DIC_LETTERS*(RES_7PL1_MAX+1)];
-  for(i=0; i < DIC_LETTERS; i++)
+    // Count the results
+    int sum = 0;
+    map<wchar_t, list<wstring> >::const_iterator it;
+    for (it = wordList.begin(); it != wordList.end(); it++)
     {
-      if (i && buff[i][0][0])
-          res[resnum++] = wxString(wxT("+")) + (wxChar)(i+'A'-1);
-      for(j=0; j < RES_7PL1_MAX && buff[i][j][0]; j++)
-          res[resnum++] = wxString(wxT("  ")) + wxU(buff[i][j]);
+        if (it->first)
+            sum += 1;
+        sum += it->second.size();
     }
-  l->Set(resnum,res);
-  check_end();
+
+    wxString *res = new wxString[sum];
+    int resnum = 0;
+    for (it = wordList.begin(); it != wordList.end(); it++)
+    {
+        if (it->first)
+            res[resnum++] = wxString(wxT("+")) + wxU((wxString)it->first);
+        list<wstring>::const_iterator itWord;
+        for (itWord = it->second.begin(); itWord != it->second.end(); itWord++)
+        {
+            res[resnum++] = wxString(wxT("  ")) + wxU(itWord->c_str());
+        }
+    }
+    l->Set(resnum, res);
+    delete[] res;
+    check_end();
 }
 
 // ************************************************************
@@ -228,9 +237,9 @@ protected:
   virtual void build_letter_lists();
   virtual void panel_options();
 public:
-  void compute_char(wxCommandEvent&) { };
+  void compute_char(wxCommandEvent&) {}
   void compute_enter(wxCommandEvent&);
-  PRegExp(wxWindow* parent, int id, Dictionary d) : SimpleSearchPanel(parent,id,d) { panel_build(); };
+  PRegExp(wxWindow* parent, int id, const Dictionary &d) : SimpleSearchPanel(parent,id,d) { panel_build(); }
 };
 
 void
@@ -261,8 +270,8 @@ PRegExp::build_letter_lists()
       memset(llist.letters[i],0,sizeof(llist.letters[i]));
     }
 
-  const std::list<Tile>& allTiles = Tile::getAllTiles();
-  std::list<Tile>::const_iterator it;
+  const std::vector<Tile>& allTiles = dic->getAllTiles();
+  std::vector<Tile>::const_iterator it;
   for (it = allTiles.begin(); it != allTiles.end(); it++)
     {
       if (! it->isJoker() && ! it->isEmpty())
@@ -289,9 +298,9 @@ PRegExp::panel_options()
   wxStaticText *otmin;
   wxStaticText *otmax;
 
-  otmin = new wxStaticText(this,wxID_ANY,wxT("Longueur min."));
-  omin  = new wxTextCtrl(this,ID_OPTION1,wxT( "1"),wxDefaultPosition,wxDefaultSize,wxTE_PROCESS_ENTER);
-  otmax = new wxStaticText(this,wxID_ANY,wxT("max."));
+  otmin = new wxStaticText(this,wxID_ANY,_("Minimum length"));
+  omin  = new wxTextCtrl(this,ID_OPTION1,wxT("1"),wxDefaultPosition,wxDefaultSize,wxTE_PROCESS_ENTER);
+  otmax = new wxStaticText(this,wxID_ANY,_("Maximum length"));
   omax  = new wxTextCtrl(this,ID_OPTION2,wxT("15"),wxDefaultPosition,wxDefaultSize,wxTE_PROCESS_ENTER);
 
   wxBoxSizer *s = new wxBoxSizer( wxHORIZONTAL );
@@ -308,53 +317,55 @@ PRegExp::panel_options()
 void
 PRegExp::compute_enter(wxCommandEvent&)
 {
-  wchar_t re[DIC_RE_MAX];
-  wchar_t buff[RES_REGE_MAX][DIC_WORD_MAX];
+    if (!check_dic())
+        return;
 
-  if (!check_dic())
-    return;
+    build_letter_lists();
 
-  build_letter_lists();
-  wcsncpy(re, t->GetValue().wc_str(),DIC_RE_MAX);
-  debug("PRegExp::compute_enter for %ls",re);
+    wstring regexp = t->GetValue().wc_str();
+    debug("PRegExp::compute_enter for %ls", regexp.c_str());
 
-  int lmin = atoi((const char*)omin->GetValue().mb_str());
-  int lmax = atoi((const char*)omax->GetValue().mb_str());
-  if (lmax <= (DIC_WORD_MAX - 1) && lmin >= 1 && lmin <= lmax)
+    int lmin = atoi((const char*)omin->GetValue().mb_str());
+    int lmax = atoi((const char*)omax->GetValue().mb_str());
+    if (lmax <= (DIC_WORD_MAX - 1) && lmin >= 1 && lmin <= lmax)
     {
-      llist.minlength = lmin;
-      llist.maxlength = lmax;
-      debug(" length %d,%d",lmin,lmax);
+        llist.minlength = lmin;
+        llist.maxlength = lmax;
+        debug(" length %d,%d",lmin,lmax);
     }
-  else
+    else
     {
-      debug(" bad length -%s,%s-",
-	    (const char*)omin->GetValue().mb_str(),
-	    (const char*)omax->GetValue().mb_str());
+        debug(" bad length -%s,%s-",
+              (const char*)omin->GetValue().mb_str(),
+              (const char*)omax->GetValue().mb_str());
     }
-  debug("\n");
+    debug("\n");
 
-  Dic_search_RegE(dic,re,buff,&llist);
+    list<wstring> wordList;
+    dic->searchRegExp(regexp, wordList, &llist);
 
-  int resnum = 0;
-  wxString res[RES_REGE_MAX];
-  for(int i=0; i < RES_REGE_MAX && buff[i][0]; i++)
-    res[resnum++] =  wxU(buff[i]);
-
-  l->Set(resnum,res);
-  check_end();
+    wxString *res = new wxString[wordList.size()];
+    int resnum = 0;
+    list<wstring>::const_iterator it;
+    for (it = wordList.begin(); it != wordList.end(); it++)
+    {
+        res[resnum++] =  wxU(it->c_str());
+    }
+    l->Set(resnum,res);
+    delete[] res;
+    check_end();
 }
 
 // ************************************************************
 // ************************************************************
 // ************************************************************
 
-SearchPanel::SearchPanel(wxFrame *parent, Dictionary dic) :
+SearchPanel::SearchPanel(wxFrame *parent, const Dictionary &dic) :
   wxNotebook(parent, -1)
 {
-  AddPage(new PCross (this,ID_PANEL_CROSS ,dic),wxT("Mots croises"));
-  AddPage(new PPlus1 (this,ID_PANEL_PLUS1 ,dic),wxT("Plus 1"));
-  AddPage(new PRegExp(this,ID_PANEL_REGEXP,dic),wxT("Exp. Rationnelle"));
+  AddPage(new PCross (this,ID_PANEL_CROSS ,dic), _("Cross words"));
+  AddPage(new PPlus1 (this,ID_PANEL_PLUS1 ,dic), _("Plus 1"));
+  AddPage(new PRegExp(this,ID_PANEL_REGEXP,dic), _("Regular expressions"));
   SetSelection(2);
 }
 
@@ -366,7 +377,7 @@ SearchPanel::~SearchPanel()
 // ************************************************************
 // ************************************************************
 
-
+
 /// Local Variables:
 /// mode: hs-minor
 /// c-basic-offset: 4

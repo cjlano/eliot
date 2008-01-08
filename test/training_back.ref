@@ -12,16 +12,16 @@ commande> a t
 LMUAEYE
 commande> r
 commande> a r
-  1: YEBLE              38 6F
-  2: BAYLE              36 6H
-  3: AMYLE              35 10D
-  4: ELYME              35 10D
-  5: ELYME              35 10H
+  1: AY                 46 I6
+  2: YEBLE              38 6F
+  3: MAYE               36 I3
+  4: BAYLE              36 6H
+  5: AMYLE              35 10D
   6: BAYE               35 6H
-  7: BEY                34 6H
-  8: LAYEE              34 10D
-  9: YUE                32 10F
- 10: AMYLE              30 5H
+  7: ELYME              35 10D
+  8: ELYME              35 10H
+  9: LAYE               34 I3
+ 10: LAYEE              34 10D
 commande> n 2
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -30,17 +30,21 @@ commande> a g
  C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  Y  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  E  -  -  -  -  -  -  -  -  -
  H   -  -  -  F  A  B  A  c  E  E  -  -  -  -  -
- I   -  -  -  -  -  A  -  -  -  -  -  -  -  -  -
- J   -  -  -  -  -  Y  -  -  -  -  -  -  -  -  -
- K   -  -  -  -  -  L  -  -  -  -  -  -  -  -  -
- L   -  -  -  -  -  E  -  -  -  -  -  -  -  -  -
+ I   -  -  -  -  -  L  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  E  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a s
+118
 commande> n -1
+commande> a s
+80
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
@@ -72,6 +76,8 @@ Player 0: Human
 
 Rack 0: LMUAEYE
 commande> n -1
+commande> a s
+0
 commande> a p
 Eliot 1.5
 
@@ -105,9 +111,13 @@ commande> a l
  A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
  9 2 2 3 15 2 2 2 8 1 1 5 3 6 6 2 1 6 6 6 6 2 1 1 1 1 2
 commande> n -1
+commande> a s
+0
 commande> *
 commande> r
 commande> n 1
+commande> a s
+14
 commande> a l
  A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
  9 2 2 3 13 1 2 2 7 1 1 5 3 6 6 2 1 6 6 6 6 2 1 1 1 1 2

@@ -3,14 +3,14 @@ commande> d 0 2
 mode duplicate
 [?] pour l'aide
 commande> a S
-Joueur 0:  866
-Joueur 1:  866
+Joueur 0:  918
+Joueur 1:  918
 commande> a T
-Joueur 0: RTTUW
-Joueur 1: RTTUW
+Joueur 0: DQRU
+Joueur 1: DQRU
 commande> a l
  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
- 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 2 1 0 1 0 0 0 0
+ 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 1 0 0 0 0 0 0
 commande> a p
 Eliot 1.5
 
@@ -20,30 +20,50 @@ Player 1: Computer
 
     N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
    ===|==========|=================|=====|=====|===|======
-    1 |  EA?AEBF | FABAcEE         |  H4 |  80 | 0 | *
-    2 |  LMUAEYE | YEBLE           |  6F |  38 | 0 |  
-    3 | AMU+JEIG | MEJUGEAI        |  9G |  78 | 0 | *
-    4 |  LEHNMGA | HALE            |  8L |  46 | 0 |  
-    5 | GMN+NSEO | MENSONGE        |  O1 |  83 | 0 | *
-    6 |  ARAURIU | RAIRA           |  5B |  21 | 0 |  
-    7 | UU+TSDEA | RUSTAUDE        |  B5 |  63 | 0 | *
-    8 |  ONIAVPD | VIDA            | A12 |  45 | 0 |  
-    9 | NOP+SONE | PENONS          |  K1 |  33 | 0 |  
-   10 | O+OXTOLN | LUX             |  J8 |  32 | 0 |  
-   11 | NOOOT+SZ | ZOOS            | 11E |  38 | 0 |  
-   12 | NOT+MIAI | DOMINAIT        | 14A |  74 | 0 | *
-   13 |  CERPFEO | FEROCE          | 15G |  47 | 0 |  
-   14 | P+BSVQIU | PIQUAS          |  C1 |  32 | 0 |  
-   15 | BV+ETLIE | LEVITE          |  A1 |  39 | 0 |  
-   16 | B+RLD?UC | PUBLiC          |  1C |  36 | 0 |  
-   17 | DR+NTERR | DENREE          |  2J |  22 | 0 |  
-   18 | RRT+TUKE | TREK            | 13F |  36 | 0 |  
-   19 | RTU+THWI | HAI             |  7G |  23 | 0 |  
+    1 |  ?EBAAEF | FABAcEE         |  H4 |  80 | 0 | *
+    2 |  KEELIFE | KIEF            | 10F |  36 | 0 |  
+    3 | EEEL+IJX | FIXEE           |  4H |  34 | 0 |  
+    4 | EJL+RANS | JEANS           | 11D |  49 | 0 |  
+    5 | LR+OAHPU | LOPE            |  9E |  29 | 0 |  
+    6 | AHRU+OAE | HOUE            | 12A |  40 | 0 |  
+    7 | AAR+AVOC | HAVA            | A12 |  30 | 0 |  
+    8 | ACOR+WDN | WAX             |  J2 |  41 | 0 |  
+    9 | -VNIALZO | OZONAI          | B10 |  48 | 0 |  
+   10 | LV+NDULU | VIN             |  I3 |  21 | 0 |  
+   11 | DLLUU+NO | DUNE            |  K1 |  22 | 0 |  
+   12 | LLOU+DAM | DOUMA           |  1K |  24 | 0 |  
+   13 | DLL+TOBI | MOLLIT          |  N1 |  18 | 0 |  
+   14 | -ELTCUBE | CUBEBE          |  6F |  31 | 0 |  
+   15 | -PE?STIE | SEPTImE         |  L6 |  85 | 0 | *
+   16 |  LNRSISE | SERINS          | J10 |  29 | 0 |  
+   17 | L+RGYAET | STYLER          | 15J |  75 | 0 |  
+   18 | AG+CURGI | CARGUE          | N10 |  30 | 0 |  
+   19 | GI+EDRSS | DEGRISAS        |  7B |  79 | 0 | *
+   20 |  TOEHLRT | PHOT            |  8L |  27 | 0 |  
+   21 | ELRT+NME | REMELENT        |  C2 |  70 | 0 | *
+   22 |  QDRMUTI | MITAN           |  5E |  20 | 0 |  
 
-   Total: 866
+   Total: 918
 
-Rack 0: RTTUW
-Rack 1: RTTUW
+Rack 0: DQRU
+Rack 1: DQRU
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  H  A  V  A
+ B   -  -  -  -  -  -  D  -  -  O  Z  O  N  A  I
+ C   -  R  E  M  E  L  E  N  T  -  -  U  -  -  -
+ D   -  -  -  -  -  -  G  -  -  -  J  E  -  -  -
+ E   -  -  -  -  M  -  R  -  L  -  E  -  -  -  -
+ F   -  -  -  -  I  C  I  -  O  K  A  -  -  -  -
+ G   -  -  -  -  T  U  S  -  P  I  N  -  -  -  -
+ H   -  -  -  F  A  B  A  c  E  E  S  -  -  -  -
+ I   -  -  V  I  N  E  S  -  -  F  -  -  -  -  -
+ J   -  W  A  X  -  B  -  -  -  S  E  R  I  N  S
+ K   D  U  N  E  -  E  -  -  -  -  -  -  -  -  T
+ L   O  -  -  E  -  S  E  P  T  I  m  E  -  -  Y
+ M   U  -  -  -  -  -  -  H  -  -  -  -  -  -  L
+ N   M  O  L  L  I  T  -  O  -  C  A  R  G  U  E
+ O   A  -  -  -  -  -  -  T  -  -  -  -  -  -  R
 commande> q
 fin du mode duplicate
 commande> q

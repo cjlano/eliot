@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2002-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,16 +23,16 @@
  *  \file   rack.h
  *  \brief  Rack class : multiset of tiles
  *  \author Antoine Fraboulet & Olivier Teuliere
- *  \date   2002 - 2005
+ *  \date   2002 - 2007
  */
 
 #ifndef _RACK_H_
 #define _RACK_H_
 
-#include "tile.h"
-#include <set>
-#include <list>
+#include <vector>
 #include <string>
+
+#include "tile.h"
 
 using namespace std;
 
@@ -44,23 +45,22 @@ class Rack
 {
 public:
     Rack();
-    virtual ~Rack() {}
 
-    int nTiles() const          { return m_ntiles; }
-    bool isEmpty() const        { return nTiles() == 0; }
+    unsigned int getNbTiles() const      { return m_ntiles; }
+    bool isEmpty() const        { return getNbTiles() == 0; }
 
     unsigned int in(const Tile &t) const { return m_tiles[t.toCode()]; }
     void add(const Tile &t)     { m_tiles[t.toCode()]++; m_ntiles++; }
     void remove(const Tile &t);
     void clear();
-    void getTiles(list<Tile> &oTiles) const;
+    void getTiles(vector<Tile> &oTiles) const;
 
     wstring toString();
 
 private:
     /// Vector indexed by tile codes, containing the number of tiles
     vector<unsigned int> m_tiles;
-    int m_ntiles;
+    unsigned int m_ntiles;
 };
 
 #endif

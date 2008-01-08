@@ -1,21 +1,23 @@
-/* Eliot                                                                     */
-/* Copyright (C) 1999  Antoine Fraboulet                                     */
-/*                                                                           */
-/* This file is part of Eliot.                                               */
-/*                                                                           */
-/* Eliot is free software; you can redistribute it and/or modify             */
-/* it under the terms of the GNU General Public License as published by      */
-/* the Free Software Foundation; either version 2 of the License, or         */
-/* (at your option) any later version.                                       */
-/*                                                                           */
-/* Eliot is distributed in the hope that it will be useful,                  */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
-/* GNU General Public License for more details.                              */
-/*                                                                           */
-/* You should have received a copy of the GNU General Public License         */
-/* along with this program; if not, write to the Free Software               */
-/* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
+/*****************************************************************************
+ * Eliot
+ * Copyright (C) 2005-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *****************************************************************************/
 
 /**
  *  \file   history.cpp
@@ -27,7 +29,7 @@
 #include <string>
 #include "rack.h"
 #include "pldrack.h"
-#include "round.h"
+#include "move.h"
 #include "turn.h"
 #include "history.h"
 #include "encoding.h"
@@ -41,7 +43,7 @@
 
 History::History()
 {
-    Turn* t = new Turn ();
+    Turn* t = new Turn();
     m_history.clear();
     m_history.push_back(t);
 }
@@ -51,17 +53,14 @@ History::~History()
 {
     for (unsigned int i = 0; i < m_history.size(); i++)
     {
-        if (m_history[i] != NULL)
-        {
-            delete m_history[i];
-            m_history[i] = NULL;
-        }
+        delete m_history[i];
     }
 }
 
 
-int History::getSize() const
+unsigned int History::getSize() const
 {
+    ASSERT(!m_history.empty(), "Invalid history size");
     return m_history.size() - 1;
 }
 
@@ -88,44 +87,61 @@ const Turn& History::getPreviousTurn() const
 
 const Turn& History::getTurn(unsigned int n) const
 {
-    // ASSERT(0 <= n && n < m_history.size(), "Wrong turn number");
     ASSERT(n < m_history.size(), "Wrong turn number");
     return *(m_history[n]);
 }
 
-/*
- * This function increments the number of racks, and fills the new rack
- * with the unplayed tiles from the previous one.
- * 03 sept 2000 : We have to sort the tiles according to the new rules
- */
-void History::playRound(int player, int turn, const Round& round)
+
+bool History::beforeFirstRound() const
 {
+    for (unsigned int i = 0; i < m_history.size() - 1; i++)
+    {
+        if (m_history[i]->getMove().getType() == Move::VALID_ROUND)
+            return false;
+    }
+    return true;
+}
+
+
+void History::playMove(unsigned int iPlayer, unsigned int iTurn, const Move &iMove)
+{
+    Turn * current_turn = m_history.back();
+
+    // Set the number and the round
+    current_turn->setNum(iTurn);
+    current_turn->setPlayer(iPlayer);
+    current_turn->setMove(iMove);
+
+    // Get what was the rack for the current turn
     Rack rack;
-    Turn * current_turn;
-
-    current_turn = m_history.back();
-
-    /* set the number and the round */
-    current_turn->setNum(turn);
-    current_turn->setPlayer(player);
-    current_turn->setRound(round);
-
-    /* get what was the rack for the current turn */
     current_turn->getPlayedRack().getRack(rack);
 
-    /* remove the played tiles from the rack */
-    for (int i = 0; i < round.getWordLen(); i++)
+    if (iMove.getType() == Move::VALID_ROUND)
     {
-        if (round.isPlayedFromRack(i))
+        // Remove the played tiles from the rack
+        const Round &round = iMove.getRound();
+        for (unsigned int i = 0; i < round.getWordLen(); i++)
         {
-            if (round.isJoker(i))
-                rack.remove(Tile::Joker());
-            else
-                rack.remove(round.getTile(i));
+            if (round.isPlayedFromRack(i))
+            {
+                if (round.isJoker(i))
+                    rack.remove(Tile::Joker());
+                else
+                    rack.remove(round.getTile(i));
+            }
+        }
+    }
+    else if (iMove.getType() == Move::CHANGE_LETTERS)
+    {
+        // Remove the changed tiles from the rack
+        const wstring & changed = iMove.getChangedLetters();
+        for (unsigned int i = 0; i < changed.size(); ++i)
+        {
+            rack.remove(Tile(changed[i]));
         }
     }
 
-    /* create a new turn */
+    // Create a new turn
     Turn * next_turn = new Turn();
     PlayedRack pldrack;
     pldrack.setOld(rack);
@@ -146,11 +162,11 @@ void History::removeLastTurn()
         delete t;
     }
 
-    // now we have the previous played round in back()
-    Turn* t = m_history.back();
+    // Now we have the previous played round in back()
+    Turn *t = m_history.back();
     t->setNum(0);
     t->setPlayer(0);
-    t->setRound(Round());
+    //t->setRound(Round());
 #ifdef BACK_REMOVE_RACK_NEW_PART
     t->getPlayedRound().setNew(Rack());
 #endif

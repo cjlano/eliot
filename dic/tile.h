@@ -1,6 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 2005 Eliot
- * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2005-2007 Olivier Teulière & Antoine Fraboulet
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
+ *          Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +27,8 @@
 
 using namespace std;
 
+class Header;
+
 
 /*************************
  * A Tile is the internal representation
@@ -34,17 +38,17 @@ using namespace std;
 
 class Tile
 {
+    friend class Dictionary;
 public:
 
-  // a lowercase character always a joker
-  // - this permits to detect joker in already played games
-  // - we need to pay attention when inserting character taken
-  //   from user input
+    // a lowercase character is always a joker
+    // - this permits to detect joker in already played games
+    // - we need to pay attention when inserting characters taken
+    //   from user input
 
-    Tile(wchar_t c = 0);
-    virtual ~Tile() {}
+    Tile(wchar_t c = kTILE_DUMMY);
 
-    bool isEmpty() const        { return m_dummy; }
+    bool isEmpty() const        { return m_char == kTILE_DUMMY; }
     bool isJoker() const        { return m_joker; }
     bool isVowel() const;
     bool isConsonant() const;
@@ -53,10 +57,7 @@ public:
     wchar_t toChar() const;
     unsigned int toCode() const;
 
-    static const Tile &dummy()  { return m_TheDummy; }
     static const Tile &Joker()  { return m_TheJoker; }
-    static const list<Tile>& getAllTiles();
-    static const Tile &GetTileFromCode(unsigned int iCode);
 
     bool operator <(const Tile &iOther) const;
     bool operator ==(const Tile &iOther) const;
@@ -65,7 +66,6 @@ public:
 private:
     wchar_t m_char;
     bool m_joker;
-    bool m_dummy;
 
     /**
      * Internal code, used in the dictionary to represent the letter.
@@ -73,16 +73,17 @@ private:
      */
     int m_code;
 
-    // Special tiles are declared static
-    static const Tile m_TheJoker;
-    static const Tile m_TheDummy;
+    static const wchar_t kTILE_DUMMY = L'%';
+    static const wchar_t kTILE_JOKER = L'?';
 
-    /// List of available tiles
-    static list<Tile> m_tilesList;
-    /// Vector of tiles indexed by their code, for fast look-up
-    static vector<Tile> m_tilesVect;
-    /// True when m_tilesVect is correctly initialized
-    static bool m_vectInitialized;
+    // Special tiles are declared static
+    static Tile m_TheJoker;
+
+    /// Dictionary header
+    static const Header *m_header;
+
+    /// Update the dictionary header
+    static void SetHeader(const Header &iHeader) { m_header = &iHeader; }
 };
 
 #endif

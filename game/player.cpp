@@ -1,6 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 2004-2005 Eliot
- * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2004-2007 Olivier Teulière & Antoine Fraboulet
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
+ *          Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,14 +33,8 @@
 #include "debug.h"
 
 
-Player::Player(int iId)
-{
-    m_id = iId;
-    m_score = 0;
-}
-
-
-Player::~Player()
+Player::Player(unsigned int iId)
+    : m_id(iId), m_score(0)
 {
 }
 
@@ -61,19 +57,22 @@ const PlayedRack & Player::getLastRack() const
 }
 
 
-const Round & Player::getLastRound() const
+const Move & Player::getLastMove() const
 {
-    return m_history.getPreviousTurn().getRound();
+    return m_history.getPreviousTurn().getMove();
 }
 
 
-void Player::endTurn(const Round &iRound, int iTurn)
+void Player::endTurn(const Move &iMove, unsigned int iTurn)
 {
-    m_history.playRound(m_id,iTurn,iRound);
+    addPoints(iMove.getScore());
+    m_history.playMove(m_id, iTurn, iMove);
 }
 
 void Player::removeLastTurn()
 {
+    // Remove points of the last turn
+    addPoints(- m_history.getPreviousTurn().getMove().getScore());
     m_history.removeLastTurn();
 }
 

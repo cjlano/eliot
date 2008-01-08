@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,10 +22,12 @@
 #ifndef _BAG_H_
 #define _BAG_H_
 
-#include "tile.h"
 #include <map>
+#include "tile.h"
 
 using std::map;
+
+class Dictionary;
 
 
 /**
@@ -33,9 +36,7 @@ using std::map;
 class Bag
 {
 public:
-    Bag();
-    virtual ~Bag() {}
-    void init();
+    explicit Bag(const Dictionary &iDic);
 
     /// Take a tile in the bag
     void takeTile(const Tile &iTile);
@@ -47,18 +48,30 @@ public:
 
     /**
      * Return how many tiles/vowels/consonants are available
-     * Warning: b.nVowels() + b.nConsonants() != b.nTiles(),
+     * Warning: b.getNbVowels() + b.getNbConsonants() != b.getNbTiles(),
      * because of the jokers and the 'Y'.
      */
-    unsigned int nTiles() const  { return m_ntiles; }
-    unsigned int nVowels() const;
-    unsigned int nConsonants() const;
+    unsigned int getNbTiles() const  { return m_ntiles; }
+    unsigned int getNbVowels() const;
+    unsigned int getNbConsonants() const;
 
     /**
      * Return a random available tile
      * The tile is not taken out of the bag.
      */
-    Tile selectRandom();
+    Tile selectRandom() const;
+
+    /**
+     * Return a random available vowel.
+     * The tile is not taken out of the bag.
+     */
+    Tile selectRandomVowel() const;
+
+    /**
+     * Return a random available consonant.
+     * The tile is not taken out of the bag.
+     */
+    Tile selectRandomConsonant() const;
 
     void operator=(const Bag &iOther);
 
@@ -66,8 +79,12 @@ public:
     void dumpAll() const;
 
 private:
+    /// Dictionary
+    const Dictionary &m_dic;
+
     /// Associate to each tile its number of occurrences in the bag
     map<Tile, int> m_tilesMap;
+
     /// Total number of tiles in the bag
     int m_ntiles;
 };

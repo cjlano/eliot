@@ -1,6 +1,7 @@
 /*****************************************************************************
- * Copyright (C) 2005 Eliot
- * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2005-2007 Olivier Teulière
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +22,7 @@
 #include "rack.h"
 #include "pldrack.h"
 #include "round.h"
+#include "move.h"
 #include "results.h"
 #include "board.h"
 #include "ai_percent.h"
@@ -37,32 +39,46 @@ AIPercent::AIPercent(int iId, float iPercent)
 }
 
 
-void AIPercent::compute(const Dictionary &iDic, Board &iBoard, int turn)
+void AIPercent::compute(const Dictionary &iDic, Board &iBoard, bool iFirstWord)
 {
     m_results.clear();
 
     Rack rack;
     getCurrentRack().getRack(rack);
-    m_results.search(iDic, iBoard, rack, turn);
+    m_results.search(iDic, iBoard, rack, iFirstWord);
 }
 
 
-bool AIPercent::changesLetters() const
+Move AIPercent::getMove() const
 {
-    return (m_results.size() == 0);
-}
-
-
-const Round & AIPercent::getChosenRound() const
-{
-    int index = (int)(m_percent * (m_results.size() - 1));
-    return m_results.get(index);
-}
-
-
-vector<Tile> AIPercent::getChangedLetters() const
-{
-    return vector<Tile>();
+    if (m_results.size() == 0)
+    {
+        // If there is no result, simply pass the turn
+        // XXX: it is forbidden in duplicate mode, but well, what else to do?
+        return Move(L"");
+    }
+    else
+    {
+        // If there are results, apply the algorithm
+        double wantedScore = m_percent * m_results.get(0).getPoints();
+        // Look for the first round giving at least 'wantedScore' points
+        // Browse the results 10 by 10 (a dichotomy would be better, but this
+        // is not performance critical)
+        unsigned int index = 0;
+        while (index < m_results.size() &&
+               m_results.get(index).getPoints() > wantedScore)
+        {
+            index += 10;
+        }
+        // Now the wanted round is in the last 10 indices
+        if (index >= m_results.size())
+            index = m_results.size() - 1;
+        while (m_results.get(index).getPoints() < wantedScore)
+        {
+            --index;
+        }
+        return Move(m_results.get(index));
+    }
 }
 
 /// Local Variables:

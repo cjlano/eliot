@@ -20,7 +20,7 @@
 #ifndef _NCURSES_H_
 #define _NCURSES_H_
 
-#include <curses.h>
+#include <ncursesw/curses.h>
 #include <string>
 
 class Game;
@@ -29,6 +29,70 @@ class Duplicate;
 class FreeGame;
 
 using std::string;
+using std::wstring;
+
+
+class Box
+{
+    public:
+        // Create a titled box with the specified position and size,
+        // containing iHeadingLines non-scrolling lines.
+        // The number of data to display (with the printLine() method)
+        // can be set later using the setDataSize() method.
+        Box(WINDOW *win, int y, int x, int h, int w,
+            unsigned int iHeadingLines = 0);
+
+        // Simply draw the box (without any content)
+        void draw(const string& iTitle = "") const;
+
+        // Print data line number n (starting at 0), taking care of
+        // the current scrolling state
+        void printDataLine(int n, int x, const char *fmt, ...) const;
+
+        // Set the number of lines of the data to display
+        void setDataSize(unsigned int iNbLines) { m_dataSize = iNbLines; }
+
+        // Control scrolling
+        // Return true if redrawing is needed, false otherwise
+        bool scrollOneLineUp();
+        bool scrollOneLineDown();
+        bool scrollOnePageUp();
+        bool scrollOnePageDown();
+        bool scrollBeginning();
+        bool scrollEnd();
+
+        // Clear the box completely
+        void clear() const { clearRect(m_win, m_y, m_x, m_h, m_w); }
+        // Clear the scrolling zone of the box
+        void clearData() const { clearRect(m_win, m_topLine, m_x + 1,
+                                           m_nbLines, getWidth()); }
+        // Clear an arbitrary rectangular zone
+        static void clearRect(WINDOW *win, int y, int x, int h, int w);
+
+        // First line of data to display (included)
+        int getFirstLine() const { return m_dataStart; }
+        // Last line of data to display (excluded)
+        int getLastLine() const { return m_dataStart + m_nbLines; }
+
+        // First line inside the box
+        int getTop() const { return m_y + 1; }
+        // First column available for writing
+        int getLeft() const { return m_x + 1; }
+        // Client width
+        int getWidth() const { return m_w - 2; }
+
+    private:
+        WINDOW *m_win;
+        int m_x;
+        int m_y;
+        int m_w;
+        int m_h;
+        string m_title;
+        int m_topLine;
+        int m_nbLines;
+        int m_dataStart;
+        int m_dataSize;
+};
 
 
 /**
@@ -52,28 +116,27 @@ private:
         DEFAULT,    // Default state
         HELP,       // Help panel is shown
         HISTORY,    // Game history panel is shown
-        RESULTS     // Search results panel is shown
+        RESULTS,    // Search results panel is shown
+        BAG         // Bag contents panel is shown
     };
-    // Draw a titled box with the specified position and size
-    static void drawBox(WINDOW *win, int y, int x, int h, int w,
-                        const string& iTitle);
-    // Clear a rectangular zone
-    static void clearRect(WINDOW *win, int y, int x, int h, int w);
-    // Print a line in a box, taking care of the current offset
-    void boxPrint(WINDOW *win, int y, int x, const char *fmt, ...);
+
     // Write a message in the "status line"
-    void drawStatus(WINDOW *win, int y, int x,
-                    const string& iMessage, bool error = true);
+    void drawStatus(WINDOW *win, const string& iMessage, bool error = true);
     // Draw the board, with the coordinates
     void drawBoard(WINDOW *win, int y, int x) const;
     // Draw the boxes for scores and racks
     void drawScoresRacks(WINDOW *win, int y, int x) const;
     // Draw the results panel
-    void drawResults(WINDOW *win, int y, int x);
+    void drawResults(Box &ioBox) const;
     // Draw the history panel
-    void drawHistory(WINDOW *win, int y, int x);
+    void drawHistory(Box &ioBox) const;
     // Draw the help panel
-    void drawHelp(WINDOW *win, int y, int x);
+    void drawHelp(Box &ioBox) const;
+    // Draw the bag panel
+    void drawBag(Box &ioBox) const;
+
+    // Change the inner state, and initialize the corresponding box
+    void setState(State iState);
     // Draw the "Play word" box, and handle the played word
     void playWord(WINDOW *win, int y, int x);
     void checkWord(WINDOW *win, int y, int x);
@@ -81,17 +144,18 @@ private:
     void loadGame(WINDOW *win, int y, int x);
     void passTurn(WINDOW *win, int y, int x, FreeGame &iGame);
     void setRack(WINDOW *win, int y, int x, Training &iGame);
+
     // Get a string from the user, with a maximum length
     // The string is validated if the user presses Enter (return value: true)
     // and it is cancelled if the user presses Esc (return value: false)
-    bool readString(WINDOW *win, int y, int x, int n, string &oString,
+    bool readString(WINDOW *win, int y, int x, int n, wstring &oString,
                     unsigned int flag = 0);
     // Any combination of the following constants can be used as the "flag"
     // parameter of the readString() method.
     // Indicate that the '?' character is accepted
     static const unsigned int kJOKER = 1 << 0;
     // Accept characters for a file name
-    static const unsigned int kFILENAME = 1 << 0;
+    static const unsigned int kFILENAME = 1 << 1;
 
     // Handle the key in Training mode
     int handleKeyForGame(int iKey, Training &iGame);
@@ -109,14 +173,8 @@ private:
     State m_state;
     // True when the user requested to quit
     bool m_dying;
-    // Index of the first line of data to be displayed in the current box
-    int m_boxStart;
-    // Number of lines of the current box (border excluded)
-    int m_boxLines;
-    // Number of lines of the data to be displayed in the current box
-    int m_boxLinesData;
-    // Index of the first line of the box where to write
-    int m_boxY;
+    // Scrolling box for the current panel
+    Box m_box;
     // True if dots must be shown on empty squares
     bool m_showDots;
 };

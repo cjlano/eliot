@@ -176,14 +176,14 @@ GamePrintout::DrawTextLine(wxDC *dc, int numline, long basey, long heightT, floa
     DIM(2);
     if ((numline > 0) && (numline <= NRounds))
     {
-        str = wxU(m_game.getHistory().getTurn(numline - 1).getRound().getWord().c_str());
+        str = wxU(m_game.getHistory().getTurn(numline - 1).getMove().getRound().getWord().c_str());
         DRW(2);
     }
     // pos
     DIM(3);
     if ((numline > 0) && (numline <= NRounds))
     {
-        str = wxU(m_game.getHistory().getTurn(numline - 1).getRound().getCoord().toString().c_str());
+        str = wxU(m_game.getHistory().getTurn(numline - 1).getMove().getRound().getCoord().toString().c_str());
         DRW(3);
     }
     // pts
@@ -191,7 +191,7 @@ GamePrintout::DrawTextLine(wxDC *dc, int numline, long basey, long heightT, floa
     if ((numline > 0) && (numline <= NRounds))
     {
         str = wxT("");
-        str << m_game.getHistory().getTurn(numline - 1).getRound().getPoints();
+        str << m_game.getHistory().getTurn(numline - 1).getMove().getRound().getPoints();
         DRW(4);
     }
     // total points

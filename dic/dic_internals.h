@@ -1,21 +1,22 @@
-/* Eliot                                                                     */
-/* Copyright (C) 1999  Antoine Fraboulet                                     */
-/*                                                                           */
-/* This file is part of Eliot.                                               */
-/*                                                                           */
-/* Eliot is free software; you can redistribute it and/or modify             */
-/* it under the terms of the GNU General Public License as published by      */
-/* the Free Software Foundation; either version 2 of the License, or         */
-/* (at your option) any later version.                                       */
-/*                                                                           */
-/* Eliot is distributed in the hope that it will be useful,                  */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
-/* GNU General Public License for more details.                              */
-/*                                                                           */
-/* You should have received a copy of the GNU General Public License         */
-/* along with this program; if not, write to the Free Software               */
-/* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
+/*****************************************************************************
+ * Eliot
+ * Copyright (C) 2002-2007 Antoine Fraboulet
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *****************************************************************************/
 
 /**
  *  \file   dic_internals.h
@@ -26,25 +27,9 @@
 
 #ifndef _DIC_INTERNALS_H_
 #define _DIC_INTERNALS_H_
-#if defined(__cplusplus)
-extern "C"
-  {
-#endif
 
 #include <stdint.h>
 #include "config.h"
-
-/**
- * bit masking for ascii characters \n
- * ('a' & CHAR) == ('A' & CHAR) == 1
- */
-#define DIC_CHAR_MASK    0x1F
-
-/**
- * keyword included in dictionary headers
- * implies little endian storage on words
- */
-#define _COMPIL_KEYWORD_ "_COMPILED_DICTIONARY_"
 
 /**
  *  structure of a compressed dictionary \n
@@ -60,53 +45,36 @@ extern "C"
  *  ----------------
  */
 
-#if defined(WORDS_BIGENDIAN)
-struct __attribute__ ((packed)) _Dawg_edge {
-  uint32_t
-    chr  :  5,
-    fill :  1,
-    last :  1,
-    term :  1,
-    ptr  : 24;
-};
-#else
-struct __attribute__ ((packed)) _Dawg_edge {
-  uint32_t
-    ptr  : 24,
-    term :  1,
-    last :  1,
-    fill :  1,
-    chr  :  5;
-};
-#endif
-
-typedef struct _Dawg_edge Dawg_edge;
-
-
-struct _Dict_header {
-  char ident[sizeof(_COMPIL_KEYWORD_)];
-  char unused_1;
-  char unused_2;
-  int32_t root;
-  int32_t nwords;
-  uint32_t edgesused;
-  uint32_t nodesused;
-  uint32_t nodessaved;
-  uint32_t edgessaved;
-};
-
-
-struct _Dictionary
+struct __attribute__ ((packed)) DicEdgeOld
 {
-  Dawg_edge *dawg;
-  unsigned int root;
-  int nwords;
-  int nnodes;
-  int nedges;
+    public:
+      uint32_t
+        ptr : 24,
+        term:  1,
+        last:  1,
+        fill:  1,
+        chr :  5;
+      bool operator==(const DicEdgeOld &iOther) const
+      {
+          return memcmp(this, &iOther, sizeof(*this)) == 0;
+      }
 };
 
-#if defined(__cplusplus)
-  }
-#endif
+
+struct __attribute__ ((packed)) DicEdge
+{
+    public:
+      uint32_t
+        ptr : 24,
+        term:  1,
+        last:  1,
+        chr :  6;
+      bool operator==(const DicEdge &iOther) const
+      {
+          return memcmp(this, &iOther, sizeof(*this)) == 0;
+      }
+};
+
+
 #endif /* _DIC_INTERNALS_H */
 

@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2005-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,19 +47,19 @@ struct less_points : public binary_function<const Round&,
 };
 
 
-const Round & Results::get(int i) const
+const Round & Results::get(unsigned int i) const
 {
-    ASSERT(0 <= i && i < size(), "Results index out of bounds");
+    ASSERT(i < size(), "Results index out of bounds");
     return m_rounds[i];
 }
 
 
 void Results::search(const Dictionary &iDic, Board &iBoard,
-                     const Rack &iRack, int iTurn)
+                     const Rack &iRack, bool iFirstWord)
 {
     clear();
 
-    if (iTurn == 0)
+    if (iFirstWord)
     {
         iBoard.searchFirst(iDic, iRack, *this);
     }
@@ -67,11 +68,11 @@ void Results::search(const Dictionary &iDic, Board &iBoard,
         iBoard.search(iDic, iRack, *this);
     }
 
-    sort_by_points();
+    sortByPoints();
 }
 
 
-void Results::sort_by_points()
+void Results::sortByPoints()
 {
     less_points lp;
     std::sort(m_rounds.begin(), m_rounds.end(), lp);

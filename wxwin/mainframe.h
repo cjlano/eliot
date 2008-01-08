@@ -1,4 +1,4 @@
-/* Eliot                                                                     */
+// Joker game?* Eliot                                                                     */
 /* Copyright (C) 1999  Antoine Fraboulet                                     */
 /* Antoine.Fraboulet@free.fr                                                 */
 /*                                                                           */
@@ -34,7 +34,7 @@ class MainFrame: public wxFrame
 {
 private:
 
-    Dictionary  m_dic;
+    const Dictionary  *m_dic;
     Game        *m_game;
     ConfigDB    config;
     AuxFrame    *auxframes_ptr[MAX_FRAME_ID];
@@ -59,7 +59,7 @@ private:
 public:
     MainFrame(wxPoint,wxSize);
     virtual ~MainFrame();
-    
+
     // *******
     // Actions
     // *******
@@ -69,7 +69,7 @@ public:
     void TestPlay(int);
 
     void UpdateFrames(AuxFrame::refresh_t force = AuxFrame::REFRESH);
-    
+
     // *****
     // Menus
     // *****
@@ -79,6 +79,7 @@ public:
     void OnMenuGamePrint        (wxCommandEvent& event);
     void OnMenuGamePrintPreview (wxCommandEvent& event);
     void OnMenuGamePrintPS      (wxCommandEvent& event);
+    void OnMenuGameQuit         (wxCommandEvent& event);
 
     void OnMenuConfGameDic      (wxCommandEvent& event);
     void OnMenuConfGameSearch   (wxCommandEvent& event);
@@ -90,8 +91,7 @@ public:
 
     void OnMenuShowFrame        (wxCommandEvent& event);
 
-    void OnMenuQuitApropos      (wxCommandEvent& event);
-    void OnMenuQuitConfirm      (wxCommandEvent& event);
+    void OnMenuHelpAbout        (wxCommandEvent& event);
 
     // *******
     // Buttons

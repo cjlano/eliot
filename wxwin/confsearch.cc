@@ -17,91 +17,85 @@
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
 #include "ewx.h"
+#include "wx/wx.h"
 #include "wx/sizer.h"
 #include "confsearch.h"
 
-enum {
-	Button_Ok,
-	Button_Cancel,
-	CheckBox_Joker,
-	CheckBox_Rack
-};
 
-BEGIN_EVENT_TABLE(ConfSearchDlg,wxDialog)
+BEGIN_EVENT_TABLE(ConfSearchDlg, wxDialog)
   EVT_CLOSE    (ConfSearchDlg::OnCloseWindow)
-  EVT_BUTTON   (Button_Ok,      ConfSearchDlg::OnButtonOk)
-  EVT_BUTTON   (Button_Cancel,  ConfSearchDlg::OnButtonCancel)
+  EVT_BUTTON   (wxID_OK,      ConfSearchDlg::OnButtonOk)
+  EVT_BUTTON   (wxID_CANCEL,  ConfSearchDlg::OnButtonCancel)
 END_EVENT_TABLE()
 
 
 ConfSearchDlg::ConfSearchDlg(wxWindow* parent)
-   	: wxDialog(parent, -1, wxString(wxT("Configuration recherche")))
+    : wxDialog(parent, -1, wxString(wxT("Configuration recherche")))
 {
 
-  joker_searching = new wxCheckBox(this,CheckBox_Joker,wxT("Recherche sur joker dans 7+1"));
-// XXX:  rack_checking = new wxCheckBox(this,CheckBox_Rack,wxT("Vérification de la validité des tirages"));
-  rack_checking = new wxCheckBox(this,CheckBox_Rack,wxT("Verification de la validite des tirages"));
+    joker_searching = new wxCheckBox(this, wxID_ANY, _("Search on joker in 7+1 panel"));
+    rack_checking = new wxCheckBox(this, wxID_ANY, _("Check rack validity"));
 
-  bcancel = new wxButton(this,Button_Cancel,wxT("Annuler"),wxPoint(-1,-1));
-  bcancel->SetToolTip(wxT("Annuler les dernier changements et quitter"));
-  bok = new wxButton(this,Button_Ok,wxT("OK"),wxPoint(-1,-1));
-  bok->SetToolTip(wxT("Enregistrer les changements et quitter"));
+    bcancel = new wxButton(this, wxID_CANCEL);
+    bcancel->SetToolTip(_("Cancel last changes"));
+    bok = new wxButton(this, wxID_OK);
+    bok->SetToolTip(_("Save the changes"));
 
-  wxBoxSizer *bsizer = new wxBoxSizer( wxHORIZONTAL);
-  bsizer->Add(bok, 1, wxALL, 1);
-  bsizer->Add(bcancel, 1, wxALL, 1);
+    wxBoxSizer *bsizer = new wxBoxSizer( wxHORIZONTAL);
+    bsizer->Add(bok, 1, wxALL, 1);
+    bsizer->Add(bcancel, 1, wxALL, 1);
 
-  wxBoxSizer *sizer = new wxBoxSizer( wxVERTICAL );
-  sizer->Add(joker_searching, 1, wxEXPAND | wxALL, 2);
-  sizer->Add(rack_checking, 1, wxEXPAND | wxALL, 2);
-  sizer->Add(bsizer, 0, wxEXPAND, 0);
+    wxBoxSizer *sizer = new wxBoxSizer( wxVERTICAL );
+    sizer->Add(joker_searching, 1, wxEXPAND | wxALL, 2);
+    sizer->Add(rack_checking, 1, wxEXPAND | wxALL, 2);
+    sizer->Add(bsizer, 0, wxEXPAND, 0);
 
-  SetAutoLayout(TRUE);
-  SetSizer(sizer);
-  sizer->Fit(this);
-  sizer->SetSizeHints(this);
-  readconf();
+    SetAutoLayout(TRUE);
+    SetSizer(sizer);
+    sizer->Fit(this);
+    sizer->SetSizeHints(this);
+    readconf();
 }
 
-void
+    void
 ConfSearchDlg::readconf()
 {
-  joker_searching->SetValue(config.getJokerPlus1());
-  rack_checking->SetValue(config.getRackChecking());
+    joker_searching->SetValue(config.getJokerPlus1());
+    rack_checking->SetValue(config.getRackChecking());
 }
 
-void
+    void
 ConfSearchDlg::writeconf()
 {
-  config.setJokerPlus1(joker_searching->GetValue());
-  config.setRackChecking(rack_checking->GetValue());
+    config.setJokerPlus1(joker_searching->GetValue());
+    config.setRackChecking(rack_checking->GetValue());
 }
 
-void
+    void
 ConfSearchDlg::OnCloseWindow(wxCloseEvent&)
 {
-  if (IsModal() == TRUE)
-    EndModal(1);
-  else
-    this->Destroy();
+    if (IsModal() == TRUE)
+        EndModal(1);
+    else
+        this->Destroy();
 }
 
-void
+    void
 ConfSearchDlg::OnButtonOk(wxCommandEvent&)
 {
-  writeconf();
-  if (IsModal() == TRUE)
-    EndModal(1);
-  else
-    this->Destroy();
+    writeconf();
+    if (IsModal() == TRUE)
+        EndModal(1);
+    else
+        this->Destroy();
 }
 
-void
+    void
 ConfSearchDlg::OnButtonCancel(wxCommandEvent&)
 {
-  if (IsModal() == TRUE)
-    EndModal(1);
-  else
-    this->Destroy();
+    if (IsModal() == TRUE)
+        EndModal(1);
+    else
+        this->Destroy();
 }
 

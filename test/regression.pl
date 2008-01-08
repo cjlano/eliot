@@ -3,9 +3,19 @@
 use strict;
 use warnings;
 
+use Cwd 'abs_path';
+
+my $root_path = $0;
+$root_path =~ s/regression.pl/../;
+$root_path = abs_path($root_path);
+
+# Change to the test/ directory, because some scenarii expect
+# to find saved games in there
+chdir("$root_path/test");
+
 my $driver_file = "driver";
-# Look for ~/ods4.dawg
-my $ods = "$ENV{HOME}/ods4.dawg";
+# Look for ~/ods5.dawg
+my $ods = "$ENV{HOME}/ods5.dawg";
 
 # File extensions
 my $input_ext = ".input";
@@ -16,18 +26,18 @@ my $run_ext = ".run";
 # Find the dictionary
 if (not -f $ods)
 {
-    die "Cannot find dictionary: $!";
+    die "Cannot find dictionary $ods: $!";
 }
 
 # Find the text interface
 my $eliottxt;
-if (-x "../utils/eliottxt")
+if (-x "$root_path/utils/eliottxt")
 {
-    $eliottxt = "../utils/eliottxt";
+    $eliottxt = "$root_path/utils/eliottxt";
 }
-elsif (-x "../utils/eliottxt.exe")
+elsif (-x "$root_path/utils/eliottxt.exe")
 {
-    $eliottxt = "../utils/eliottxt.exe";
+    $eliottxt = "$root_path/utils/eliottxt.exe";
 }
 else
 {

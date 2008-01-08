@@ -2,6 +2,10 @@
 commande> x a.* 50
 search for a.* (50,1,15)
 aa
+aalenien
+aalenienne
+aaleniennes
+aaleniens
 aas
 abaca
 abacas
@@ -47,14 +51,14 @@ abaisserez
 abaisseriez
 abaisserions
 abaisserons
-abaisseront
-abaisses
-abaisseur
-abaisseurs
 50 printed results
 commande> x a.* 200
 search for a.* (200,1,15)
 aa
+aalenien
+aalenienne
+aaleniennes
+aaleniens
 aas
 abaca
 abacas
@@ -250,10 +254,6 @@ abattait
 abattant
 abattants
 abatte
-abattee
-abattees
-abattement
-abattements
 200 printed results
 commande> x .*a.*e.*i.*o.*u.* 50 10
 search for .*a.*e.*i.*o.*u.* (50,10,15)
@@ -329,13 +329,13 @@ anthophage
 anthophages
 bishop
 bishops
+bronchopathie
+bronchopathies
 cenesthopathie
 cenesthopathies
 chop
 chopa
 chopai
-chopaient
-chopais
 50 printed results
 commande> x a.*b 50
 search for a.*b (50,1,15)
@@ -352,13 +352,14 @@ baobab
 bob
 bulb
 cab
+cheb
 cineclub
 club
 cob
 coulomb
 crib
 cuproplomb
-13 printed results
+14 printed results
 commande> x [abc]*b
 search for [abc]*b (50,1,15)
 cab
@@ -378,6 +379,7 @@ baobab
 bob
 bulb
 cab
+cheb
 cineclub
 club
 cob
@@ -386,14 +388,17 @@ crib
 cuproplomb
 dab
 deb
+dub
 fob
 guib
 hidjab
+hijab
 hub
 jab
 job
 kebab
 kob
+lamb
 lob
 mahaleb
 mihrab
@@ -417,16 +422,14 @@ stilb
 surplomb
 toubab
 toubib
-tub
-videoclub
-web
-winstub
 50 printed results
 commande> x .*(cba)+b
 search for .*(cba)+b (50,1,15)
 0 printed results
 commande> x .*(nn)+.*
 search for .*(nn)+.* (50,1,15)
+aalenienne
+aaleniennes
 abandonna
 abandonnai
 abandonnaient
@@ -475,11 +478,10 @@ abandonnique
 abandonniques
 abandonnons
 abbevillienne
-abbevilliennes
-abelienne
 50 printed results
 commande> x .*(nn)+.*x 200
 search for .*(nn)+.*x (200,1,15)
+actionnariaux
 annaux
 anneaux
 baronniaux
@@ -515,6 +517,7 @@ moutonneux
 panneaux
 paonneaux
 pigeonneaux
+pitonneux
 poissonneux
 precautionneux
 processionnaux
@@ -535,5 +538,5 @@ tyranneaux
 vallonneux
 vanneaux
 vicennaux
-55 printed results
+57 printed results
 commande> q

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-03 00:04+0200\n"
+"POT-Creation-Date: 2007-12-23 23:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,247 +16,1163 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: utils/ncurses.cpp:184
-msgid " Scores "
+#: dic/header.cpp:317 dic/header.cpp:318
+msgid "Unknown (old format)"
 msgstr ""
 
-#: utils/ncurses.cpp:190
+#: dic/header.cpp:492
+#, c-format
+msgid "dictionary name: %s\n"
+msgstr ""
+
+#: dic/header.cpp:497
+#, c-format
+msgid "compressed on: %s\n"
+msgstr ""
+
+#: dic/header.cpp:501
+#, c-format
+msgid "compressed on: Unknown date (old format)\n"
+msgstr ""
+
+#: dic/header.cpp:503
+#, c-format
+msgid "compressed using a binary compiled by: %s\n"
+msgstr ""
+
+#: dic/header.cpp:504
+#, c-format
+msgid "dictionary type: %s\n"
+msgstr ""
+
+#: dic/header.cpp:505
+#, c-format
+msgid "letters: %s\n"
+msgstr ""
+
+#: dic/header.cpp:506
+#, c-format
+msgid "number of letters: %d\n"
+msgstr ""
+
+#: dic/header.cpp:507
+#, c-format
+msgid "number of words: %d\n"
+msgstr ""
+
+#: dic/header.cpp:508
+#, c-format
+msgid "header size: %u bytes\n"
+msgstr ""
+
+#: dic/header.cpp:510
+#, c-format
+msgid "root: %d (edge)\n"
+msgstr ""
+
+#: dic/header.cpp:511
+#, c-format
+msgid "nodes: %d used + %d saved\n"
+msgstr ""
+
+#: dic/header.cpp:512
+#, c-format
+msgid "edges: %d used + %d saved\n"
+msgstr ""
+
+#: dic/header.cpp:514
+#, c-format
+msgid "letter | points | frequency | vowel | consonant\n"
+msgstr ""
+
+#: dic/compdic.cpp:392
+msgid "Mandatory options:"
+msgstr ""
+
+#: dic/compdic.cpp:393
+msgid "  -d, --dicname <string>  Set the dictionary name and version"
+msgstr ""
+
+#: dic/compdic.cpp:394
+msgid ""
+"  -l, --letters <string>  Path to the file containing the letters (see below)"
+msgstr ""
+
+#: dic/compdic.cpp:395
+msgid ""
+"  -i, --input <string>    Path to the uncompressed dictionary file (encoded "
+"in UTF-8)"
+msgstr ""
+
+#: dic/compdic.cpp:396
+msgid ""
+"  -o, --output <string    Path to the generated compressed dictionary file"
+msgstr ""
+
+#: dic/compdic.cpp:397
+msgid "Other options:"
+msgstr ""
+
+#: dic/compdic.cpp:398
+msgid "  -h, --help              Print this help and exit"
+msgstr ""
+
+#: dic/compdic.cpp:399
+msgid "Example:"
+msgstr ""
+
+#: dic/compdic.cpp:400
+msgid " -d 'ODS 5.0' -l letters.txt -i ods5.txt -o ods5.dawg"
+msgstr ""
+
+#: dic/compdic.cpp:402
+msgid ""
+"The file containing the letters (--letters switch) must be UTF-8 encoded."
+msgstr ""
+
+#: dic/compdic.cpp:403
+msgid ""
+"Each line corresponds to one letter, and must contain 5 fields separated "
+"with "
+msgstr ""
+
+#: dic/compdic.cpp:404
+msgid "one or more space(s)."
+msgstr ""
+
+#: dic/compdic.cpp:405
+msgid " - 1st field: the letter itself"
+msgstr ""
+
+#: dic/compdic.cpp:406
+msgid " - 2nd field: the points of the letter"
+msgstr ""
+
+#: dic/compdic.cpp:407
+msgid ""
+" - 3rd field: the frequency of the letter (how many letters of this kind in "
+"the game)"
+msgstr ""
+
+#: dic/compdic.cpp:408
+msgid ""
+" - 4th field: 1 if the letter is considered as a vowel in Scrabble game, 0 "
+"otherwise"
+msgstr ""
+
+#: dic/compdic.cpp:409
+msgid ""
+" - 5th field: 1 if the letter is considered as a consonant in Scrabble game, "
+"0 otherwise"
+msgstr ""
+
+#: dic/compdic.cpp:410
+msgid "Example for french:"
+msgstr ""
+
+#: dic/compdic.cpp:411
+msgid "A 1 9 1 0"
+msgstr ""
+
+#: dic/compdic.cpp:412
+msgid "[...]"
+msgstr ""
+
+#: dic/compdic.cpp:413
+msgid "Z 10 1 0 1"
+msgstr ""
+
+#: dic/compdic.cpp:414
+msgid "? 0 2 1 1"
+msgstr ""
+
+#: dic/compdic.cpp:484
+msgid "A mandatory option is missing"
+msgstr ""
+
+#: dic/compdic.cpp:492
+msgid "Cannot stat uncompressed dictionary "
+msgstr ""
+
+#: dic/compdic.cpp:500
+msgid "Cannot open output file "
+msgstr ""
+
+#: dic/compdic.cpp:548
+#, c-format
+msgid " Load time: %.3f s\n"
+msgstr ""
+
+#: dic/compdic.cpp:549
+#, c-format
+msgid " Compression time: %.3f s\n"
+msgstr ""
+
+#: dic/compdic.cpp:551
+#, c-format
+msgid " Maximum recursion level reached: %d\n"
+msgstr ""
+
+#: dic/listdic.cpp:100
+#, c-format
+msgid "offset binary   | structure\n"
+msgstr ""
+
+#: dic/listdic.cpp:109
+#, c-format
+msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
+msgstr ""
+
+#: dic/listdic.cpp:110
+#, c-format
+msgid "  -a: print all\n"
+msgstr ""
+
+#: dic/listdic.cpp:111
+#, c-format
+msgid "  -h: print header\n"
+msgstr ""
+
+#: dic/listdic.cpp:112
+#, c-format
+msgid "  -l: print dictionary word list\n"
+msgstr ""
+
+#: dic/listdic.cpp:113
+#, c-format
+msgid "  -x: print dictionary in hex\n"
+msgstr ""
+
+#: dic/regexpmain.cpp:100
+#, c-format
+msgid "usage: %s dictionary"
+msgstr ""
+
+#: dic/regexpmain.cpp:101
+msgid "   dictionary: path to eliot dawg dictionary"
+msgstr ""
+
+#: dic/regexpmain.cpp:136
+msgid "enter a regular expression:"
+msgstr ""
+
+#: dic/regexpmain.cpp:148
+msgid "result:"
+msgstr ""
+
+#: utils/ncurses.cpp:270
+msgid "Scores"
+msgstr ""
+
+#: utils/ncurses.cpp:276
 #, c-format
 msgid "Player %d: %d"
 msgstr ""
 
-#: utils/ncurses.cpp:198
-msgid " Racks "
+#: utils/ncurses.cpp:285
+msgid "Racks"
 msgstr ""
 
-#: utils/ncurses.cpp:204
+#: utils/ncurses.cpp:292
 #, c-format
-msgid "Player %d: %s"
+msgid "Player %d: %ls"
 msgstr ""
 
-#: utils/ncurses.cpp:215 utils/ncurses.cpp:218
+#: utils/ncurses.cpp:303 utils/ncurses.cpp:306
 msgid "Search complete"
 msgstr ""
 
-#: utils/ncurses.cpp:229
-msgid " Search results "
+#: utils/ncurses.cpp:316
+msgid "Search results"
 msgstr ""
 
-#: utils/ncurses.cpp:258
-msgid " History of the game "
+#: utils/ncurses.cpp:345
+msgid "History of the game"
 msgstr ""
 
-#: utils/ncurses.cpp:265
+#: utils/ncurses.cpp:351
 msgid " N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS"
 msgstr ""
 
-#: utils/ncurses.cpp:296
-msgid " Help "
+#: utils/ncurses.cpp:390
+msgid "(PASS)"
 msgstr ""
 
-#: utils/ncurses.cpp:301
+#: utils/ncurses.cpp:416
+msgid "Help"
+msgstr ""
+
+#: utils/ncurses.cpp:420
 msgid "[Global]"
 msgstr ""
 
-#: utils/ncurses.cpp:302
+#: utils/ncurses.cpp:421
 msgid "   h, H, ?          Show/hide help box"
 msgstr ""
 
-#: utils/ncurses.cpp:303
+#: utils/ncurses.cpp:422
 msgid "   y, Y             Show/hide history of the game"
 msgstr ""
 
-#: utils/ncurses.cpp:304
+#: utils/ncurses.cpp:423
+msgid ""
+"   b, B             Show/hide contents of the bag (including letters of the "
+"racks)"
+msgstr ""
+
+#: utils/ncurses.cpp:424
 msgid "   e, E             Show/hide dots on empty squares of the board"
 msgstr ""
 
-#: utils/ncurses.cpp:305
+#: utils/ncurses.cpp:425
 msgid "   d, D             Check the existence of a word in the dictionary"
 msgstr ""
 
-#: utils/ncurses.cpp:306
+#: utils/ncurses.cpp:426
 msgid "   j, J             Play a word"
 msgstr ""
 
-#: utils/ncurses.cpp:307
+#: utils/ncurses.cpp:427
 msgid "   s, S             Save the game"
 msgstr ""
 
-#: utils/ncurses.cpp:308
+#: utils/ncurses.cpp:428
 msgid "   l, L             Load a game"
 msgstr ""
 
-#: utils/ncurses.cpp:309
+#: utils/ncurses.cpp:429
 msgid "   q, Q             Quit"
 msgstr ""
 
-#: utils/ncurses.cpp:312
+#: utils/ncurses.cpp:432
 msgid "[Training mode]"
 msgstr ""
 
-#: utils/ncurses.cpp:313
+#: utils/ncurses.cpp:433
 msgid "   *                Take a random rack"
 msgstr ""
 
-#: utils/ncurses.cpp:314
+#: utils/ncurses.cpp:434
 msgid "   +                Complete the current rack randomly"
 msgstr ""
 
-#: utils/ncurses.cpp:315
+#: utils/ncurses.cpp:435
 msgid "   t, T             Set the rack manually"
 msgstr ""
 
-#: utils/ncurses.cpp:316
+#: utils/ncurses.cpp:436
 msgid "   c, C             Compute all the possible words"
 msgstr ""
 
-#: utils/ncurses.cpp:317
+#: utils/ncurses.cpp:437
 msgid "   r, R             Show/hide search results"
 msgstr ""
 
-#: utils/ncurses.cpp:320
+#: utils/ncurses.cpp:440
 msgid "[Duplicate mode]"
 msgstr ""
 
-#: utils/ncurses.cpp:321
+#: utils/ncurses.cpp:441
 msgid "   n, N             Switch to the next human player"
 msgstr ""
 
-#: utils/ncurses.cpp:324
+#: utils/ncurses.cpp:444
 msgid "[Free game mode]"
 msgstr ""
 
-#: utils/ncurses.cpp:325
+#: utils/ncurses.cpp:445
 msgid "   p, P             Pass your turn (with or without changing letters)"
 msgstr ""
 
-#: utils/ncurses.cpp:328
+#: utils/ncurses.cpp:448
 msgid "[Miscellaneous]"
 msgstr ""
 
-#: utils/ncurses.cpp:329
+#: utils/ncurses.cpp:449
 msgid "   <up>, <down>     Navigate in a box line by line"
 msgstr ""
 
-#: utils/ncurses.cpp:330
+#: utils/ncurses.cpp:450
 msgid "   <pgup>, <pgdown> Navigate in a box page by page"
 msgstr ""
 
-#: utils/ncurses.cpp:331
+#: utils/ncurses.cpp:451
 msgid "   Ctrl-l           Refresh the screen"
 msgstr ""
 
-#: utils/ncurses.cpp:339
-msgid " Play a word "
+#: utils/ncurses.cpp:462 wxwin/auxframes.cc:148
+msgid "Bag"
+msgstr ""
+
+#: utils/ncurses.cpp:469
+msgid " LETTER | POINTS | FREQUENCY | REMAINING"
+msgstr ""
+
+#: utils/ncurses.cpp:522
+msgid "Play a word"
 msgstr ""
 
 #. TRANSLATORS: Align the : when translating "Played word:" and
 #. "Coordinates:". For example:
 #. Pl. word   :
 #. Coordinates:
-#: utils/ncurses.cpp:340 utils/ncurses.cpp:348
+#: utils/ncurses.cpp:523 utils/ncurses.cpp:531
 msgid "Played word:"
 msgstr ""
 
-#: utils/ncurses.cpp:341 utils/ncurses.cpp:349
+#: utils/ncurses.cpp:524 utils/ncurses.cpp:532
 msgid "Coordinates:"
 msgstr ""
 
-#: utils/ncurses.cpp:363
+#: utils/ncurses.cpp:546
 msgid "Incorrect or misplaced word"
 msgstr ""
 
-#: utils/ncurses.cpp:373
-msgid " Dictionary "
+#: utils/ncurses.cpp:556
+msgid "Dictionary"
 msgstr ""
 
-#: utils/ncurses.cpp:374
+#: utils/ncurses.cpp:557
 msgid "Enter the word to check:"
 msgstr ""
 
-#: utils/ncurses.cpp:383
+#: utils/ncurses.cpp:566
 #, c-format
-msgid "The word '%s' exists"
+msgid "The word '%ls' exists"
 msgstr ""
 
-#: utils/ncurses.cpp:385
+#: utils/ncurses.cpp:568
 #, c-format
-msgid "The word '%s' does not exist"
+msgid "The word '%ls' does not exist"
 msgstr ""
 
-#: utils/ncurses.cpp:395
-msgid " Save the game "
+#: utils/ncurses.cpp:578 wxwin/mainframe.cc:460 wxwin/mainframe.cc:468
+msgid "Save the game"
 msgstr ""
 
-#: utils/ncurses.cpp:396 utils/ncurses.cpp:425
+#: utils/ncurses.cpp:579 utils/ncurses.cpp:609
 msgid "Enter the file name:"
 msgstr ""
 
-#: utils/ncurses.cpp:406
+#: utils/ncurses.cpp:589
 #, c-format
-msgid "Cannot open file %s for writing"
+msgid "Cannot open file %ls for writing"
 msgstr ""
 
-#: utils/ncurses.cpp:413
+#: utils/ncurses.cpp:597
 #, c-format
-msgid "Game saved in %s"
+msgid "Game saved in '%ls'"
 msgstr ""
 
-#: utils/ncurses.cpp:424
-msgid " Load a game "
+#: utils/ncurses.cpp:608 wxwin/mainframe.cc:269 wxwin/mainframe.cc:390
+#: wxwin/mainframe.cc:414
+msgid "Load a game"
 msgstr ""
 
-#: utils/ncurses.cpp:435
+#: utils/ncurses.cpp:619
 #, c-format
-msgid "Cannot open file %s for reading"
+msgid "Cannot open file '%ls' for reading"
 msgstr ""
 
-#: utils/ncurses.cpp:443
+#: utils/ncurses.cpp:627
 #, c-format
 msgid "Invalid saved game"
 msgstr ""
 
-#: utils/ncurses.cpp:447
+#: utils/ncurses.cpp:632
 #, c-format
 msgid "Game loaded"
 msgstr ""
 
-#: utils/ncurses.cpp:462
-msgid " Pass your turn "
+#: utils/ncurses.cpp:647
+msgid "Pass your turn"
 msgstr ""
 
-#: utils/ncurses.cpp:463
+#: utils/ncurses.cpp:648
 msgid "Enter the letters to change:"
 msgstr ""
 
-#: utils/ncurses.cpp:472
+#: utils/ncurses.cpp:657
 msgid "Cannot pass the turn"
 msgstr ""
 
-#: utils/ncurses.cpp:482
-msgid " Set rack "
+#: utils/ncurses.cpp:667
+msgid "Set rack"
 msgstr ""
 
-#: utils/ncurses.cpp:483
+#: utils/ncurses.cpp:668
 msgid "Enter the new letters:"
 msgstr ""
 
-#: utils/ncurses.cpp:798
+#: utils/ncurses.cpp:677
+msgid "Cannot take these letters from the bag"
+msgstr ""
+
+#: utils/ncurses.cpp:1071
 msgid "Training mode"
 msgstr ""
 
-#: utils/ncurses.cpp:800
+#: utils/ncurses.cpp:1073
 msgid "Free game mode"
 msgstr ""
 
-#: utils/ncurses.cpp:802
+#: utils/ncurses.cpp:1075
 msgid "Duplicate mode"
 msgstr ""
 
-#: utils/ncurses.cpp:805
+#: utils/ncurses.cpp:1078
 msgid "Joker game"
 msgstr ""
 
-#: utils/ncurses.cpp:806
+#: utils/ncurses.cpp:1079
 msgid "[h for help]"
+msgstr ""
+
+#: wxwin/auxframes.cc:123
+msgid "Grid"
+msgstr ""
+
+#: wxwin/auxframes.cc:203
+msgid "Search"
+msgstr ""
+
+#: wxwin/auxframes.cc:234
+msgid "Check"
+msgstr ""
+
+#: wxwin/auxframes.cc:239
+msgid "Word to check"
+msgstr ""
+
+#: wxwin/auxframes.cc:257 wxwin/configdb.cc:203 wxwin/searchpanel.cc:107
+msgid "No dictionary"
+msgstr ""
+
+#: wxwin/auxframes.cc:261
+msgid "exists"
+msgstr ""
+
+#: wxwin/auxframes.cc:263
+msgid "doesn't exist"
+msgstr ""
+
+#: wxwin/auxframes.cc:304
+msgid "Copy"
+msgstr ""
+
+#: wxwin/auxframes.cc:348 wxwin/mainframe.cc:487 wxwin/mainframe.cc:507
+#: wxwin/mainframe.cc:538
+msgid "No on going game"
+msgstr ""
+
+#: wxwin/auxframes.cc:363 wxwin/searchpanel.cc:119
+msgid "No result"
+msgstr ""
+
+#: wxwin/auxframes.cc:409
+msgid "Rack: "
+msgstr ""
+
+#: wxwin/auxframes.cc:525 wxwin/mainframe.cc:319
+msgid "Game history"
+msgstr ""
+
+#: wxwin/auxframes.cc:557 wxwin/mainframe.cc:321
+msgid "Results"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:62
+msgid "left"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:63
+msgid "centered"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:64
+msgid "right"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:118
+msgid "Alignment"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:120
+msgid "Spacing"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:124 wxwin/confdimdlg.cc:135
+msgid "Font..."
+msgstr ""
+
+#: wxwin/confdimdlg.cc:129
+msgid "Title column "
+msgstr ""
+
+#: wxwin/confdimdlg.cc:140
+msgid "Text column "
+msgstr ""
+
+#: wxwin/confdimdlg.cc:150
+msgid "Column heading"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:154
+msgid "Alignment of the column heading"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:158
+msgid "Spacing of the heading characters"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:167
+msgid "Inner dimension of the column (in mm)"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:176
+msgid "Alignment of the column text"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:180
+msgid "Characters spacing"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:231
+msgid "Title spc. top"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:233
+msgid "Text spc. top"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:235
+msgid "Text spc. left"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:252
+msgid "Title spc. bot."
+msgstr ""
+
+#: wxwin/confdimdlg.cc:254
+msgid "Text spc. bot."
+msgstr ""
+
+#: wxwin/confdimdlg.cc:256
+msgid "Text spc. right"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:286
+msgid "Printer"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:288
+msgid "Configure the printer"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:290
+msgid "Page"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:292
+msgid "Configure the dimensions of the page"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:298
+msgid "Cancel the last changes"
+msgstr ""
+
+#: wxwin/confdimdlg.cc:304 wxwin/confsearch.cc:42
+msgid "Save the changes"
+msgstr ""
+
+#: wxwin/configdb.cc:322
+msgid "Nb"
+msgstr ""
+
+#: wxwin/configdb.cc:323 wxwin/mainframe.cc:174
+msgid "Rack"
+msgstr ""
+
+#: wxwin/configdb.cc:324
+msgid "Solution"
+msgstr ""
+
+#: wxwin/configdb.cc:325 wxwin/gfxresult.cc:69
+msgid "Pos"
+msgstr ""
+
+#: wxwin/configdb.cc:326 wxwin/gfxresult.cc:70
+msgid "Pts"
+msgstr ""
+
+#: wxwin/confsearch.cc:36
+msgid "Search on joker in 7+1 panel"
+msgstr ""
+
+#: wxwin/confsearch.cc:37
+msgid "Check rack validity"
+msgstr ""
+
+#: wxwin/confsearch.cc:40
+msgid "Cancel last changes"
+msgstr ""
+
+#: wxwin/gfxresult.cc:67
+msgid "Word"
+msgstr ""
+
+#: wxwin/gfxresult.cc:71
+msgid "Results of the search"
+msgstr ""
+
+#: wxwin/mainframe.cc:205
+msgid " Rack "
+msgstr ""
+
+#: wxwin/mainframe.cc:206
+msgid " Complement "
+msgstr ""
+
+#: wxwin/mainframe.cc:207
+msgid " Search "
+msgstr ""
+
+#: wxwin/mainframe.cc:208
+msgid " Back "
+msgstr ""
+
+#: wxwin/mainframe.cc:209
+msgid " Play "
+msgstr ""
+
+#: wxwin/mainframe.cc:211
+msgid "Random rack"
+msgstr ""
+
+#: wxwin/mainframe.cc:212
+msgid "Random complement of the rack"
+msgstr ""
+
+#: wxwin/mainframe.cc:213
+msgid "Search with the current rack"
+msgstr ""
+
+#: wxwin/mainframe.cc:214
+msgid "Go back one turn"
+msgstr ""
+
+#: wxwin/mainframe.cc:215
+msgid "Play the selected word"
+msgstr ""
+
+#: wxwin/mainframe.cc:266
+msgid "&New game\tctrl+n"
+msgstr ""
+
+#: wxwin/mainframe.cc:266
+msgid "Start a new game"
+msgstr ""
+
+#: wxwin/mainframe.cc:267
+msgid "New &joker game\tctrl+j"
+msgstr ""
+
+#: wxwin/mainframe.cc:267
+msgid "Start a new joker game"
+msgstr ""
+
+#: wxwin/mainframe.cc:269
+msgid "&Load...\tctrl+l"
+msgstr ""
+
+#: wxwin/mainframe.cc:270
+msgid "&Save as...\tctrl+s"
+msgstr ""
+
+#: wxwin/mainframe.cc:270
+msgid "Save the current game"
+msgstr ""
+
+#: wxwin/mainframe.cc:272
+msgid "&Print...\tctrl+p"
+msgstr ""
+
+#: wxwin/mainframe.cc:272
+msgid "Print this game"
+msgstr ""
+
+#: wxwin/mainframe.cc:273
+msgid "Print pre&view..."
+msgstr ""
+
+#: wxwin/mainframe.cc:273
+msgid "Print preview of the game"
+msgstr ""
+
+#: wxwin/mainframe.cc:275
+msgid "Print in PostS&cript..."
+msgstr ""
+
+#: wxwin/mainframe.cc:275
+msgid "Print in a PostScript file"
+msgstr ""
+
+#: wxwin/mainframe.cc:278
+msgid "&Quit"
+msgstr ""
+
+#: wxwin/mainframe.cc:278
+msgid "Quit Eliot"
+msgstr ""
+
+#: wxwin/mainframe.cc:281
+msgid "&Dictionary..."
+msgstr ""
+
+#: wxwin/mainframe.cc:281 wxwin/mainframe.cc:589
+msgid "Choose a dictionary"
+msgstr ""
+
+#: wxwin/mainframe.cc:282
+msgid "&Search..."
+msgstr ""
+
+#: wxwin/mainframe.cc:282
+msgid "Search options"
+msgstr ""
+
+#: wxwin/mainframe.cc:285
+msgid "&Background..."
+msgstr ""
+
+#: wxwin/mainframe.cc:285
+msgid "Background color"
+msgstr ""
+
+#: wxwin/mainframe.cc:286
+msgid "L&ines..."
+msgstr ""
+
+#: wxwin/mainframe.cc:286
+msgid "Color of the lines"
+msgstr ""
+
+#: wxwin/mainframe.cc:288
+msgid "&Played letters..."
+msgstr ""
+
+#: wxwin/mainframe.cc:288
+msgid "Color of the letters played on the board"
+msgstr ""
+
+#: wxwin/mainframe.cc:289
+msgid "&Temporary letters..."
+msgstr ""
+
+#: wxwin/mainframe.cc:289
+msgid "Color of the letters of the temporary word"
+msgstr ""
+
+#: wxwin/mainframe.cc:290
+msgid "B&ackground of played letters..."
+msgstr ""
+
+#: wxwin/mainframe.cc:290
+msgid "Background color of the letters played on the board"
+msgstr ""
+
+#: wxwin/mainframe.cc:291
+msgid "Ba&ckground of temporary letters..."
+msgstr ""
+
+#: wxwin/mainframe.cc:291
+msgid "Background color of the temporary letters on the board"
+msgstr ""
+
+#: wxwin/mainframe.cc:293
+msgid "Double &letter..."
+msgstr ""
+
+#: wxwin/mainframe.cc:293
+msgid "Color of the \"double letter\" squares"
+msgstr ""
+
+#: wxwin/mainframe.cc:294
+msgid "Triple l&etter..."
+msgstr ""
+
+#: wxwin/mainframe.cc:294
+msgid "Color of the \"triple letter\" squares"
+msgstr ""
+
+#: wxwin/mainframe.cc:295
+msgid "Double &word..."
+msgstr ""
+
+#: wxwin/mainframe.cc:295
+msgid "Color of the \"double word\" squares"
+msgstr ""
+
+#: wxwin/mainframe.cc:296
+msgid "Triple w&ord..."
+msgstr ""
+
+#: wxwin/mainframe.cc:296
+msgid "Color of the \"triple word\" squares"
+msgstr ""
+
+#: wxwin/mainframe.cc:298
+msgid "&Default colors"
+msgstr ""
+
+#: wxwin/mainframe.cc:298
+msgid "Restore the default colors"
+msgstr ""
+
+#: wxwin/mainframe.cc:301
+msgid "&Search letters..."
+msgstr ""
+
+#: wxwin/mainframe.cc:301
+msgid "Font for the search"
+msgstr ""
+
+#: wxwin/mainframe.cc:304 wxwin/mainframe.cc:328
+msgid "&Game"
+msgstr ""
+
+#: wxwin/mainframe.cc:304
+msgid "Configuration of the game"
+msgstr ""
+
+#: wxwin/mainframe.cc:305
+msgid "&Fonts"
+msgstr ""
+
+#: wxwin/mainframe.cc:305
+msgid "Configuration of the fonts"
+msgstr ""
+
+#: wxwin/mainframe.cc:306
+msgid "&Colors"
+msgstr ""
+
+#: wxwin/mainframe.cc:306
+msgid "Configuration of the colors"
+msgstr ""
+
+#: wxwin/mainframe.cc:307
+msgid "&Printing..."
+msgstr ""
+
+#: wxwin/mainframe.cc:307
+msgid "Configuration of the printing parameters"
+msgstr ""
+
+#: wxwin/mainframe.cc:310
+msgid "&Board"
+msgstr ""
+
+#: wxwin/mainframe.cc:310
+msgid "Game board"
+msgstr ""
+
+#: wxwin/mainframe.cc:311
+msgid "Ba&g"
+msgstr ""
+
+#: wxwin/mainframe.cc:311
+msgid "Remaining letters in the bag"
+msgstr ""
+
+#: wxwin/mainframe.cc:312
+msgid "&Check"
+msgstr ""
+
+#: wxwin/mainframe.cc:312
+msgid "Check a word in the dictionary"
+msgstr ""
+
+#: wxwin/mainframe.cc:313
+msgid "&Search"
+msgstr ""
+
+#: wxwin/mainframe.cc:313
+msgid "Search in the dictionary"
+msgstr ""
+
+#: wxwin/mainframe.cc:315
+msgid "&Rack + 1"
+msgstr ""
+
+#: wxwin/mainframe.cc:315
+msgid "Letters of the rack plus one"
+msgstr ""
+
+#: wxwin/mainframe.cc:316
+msgid "R&accords"
+msgstr ""
+
+#: wxwin/mainframe.cc:316
+msgid "Raccords on a word of the search"
+msgstr ""
+
+#: wxwin/mainframe.cc:317
+msgid "&Benjamins"
+msgstr ""
+
+#: wxwin/mainframe.cc:317
+msgid "Benjamins on a word of the search"
+msgstr ""
+
+#: wxwin/mainframe.cc:319
+msgid "Game &history"
+msgstr ""
+
+#: wxwin/mainframe.cc:321
+msgid "R&esults"
+msgstr ""
+
+#: wxwin/mainframe.cc:325
+msgid "&About..."
+msgstr ""
+
+#: wxwin/mainframe.cc:325 wxwin/mainframe.cc:718
+msgid "About Eliot"
+msgstr ""
+
+#: wxwin/mainframe.cc:329
+msgid "&Settings"
+msgstr ""
+
+#: wxwin/mainframe.cc:330
+msgid "&Windows"
+msgstr ""
+
+#: wxwin/mainframe.cc:331
+msgid "&Help"
+msgstr ""
+
+#: wxwin/mainframe.cc:355 wxwin/mainframe.cc:393
+msgid "No dictionary selected"
+msgstr ""
+
+#: wxwin/mainframe.cc:355 wxwin/mainframe.cc:393 wxwin/mainframe.cc:487
+#: wxwin/mainframe.cc:507 wxwin/mainframe.cc:538
+msgid "Eliot: error"
+msgstr ""
+
+#: wxwin/mainframe.cc:413
+msgid "Cannot open "
+msgstr ""
+
+#: wxwin/mainframe.cc:425 wxwin/mainframe.cc:434
+msgid "Error while loading the game"
+msgstr ""
+
+#: wxwin/mainframe.cc:426
+msgid "Invalid game"
+msgstr ""
+
+#: wxwin/mainframe.cc:435
+msgid "The game is empty"
+msgstr ""
+
+#: wxwin/mainframe.cc:467
+msgid "Cannot create "
+msgstr ""
+
+#: wxwin/mainframe.cc:496 wxwin/mainframe.cc:560
+msgid "Printing not done"
+msgstr ""
+
+#: wxwin/mainframe.cc:496 wxwin/mainframe.cc:524
+msgid "Printing"
+msgstr ""
+
+#: wxwin/mainframe.cc:519
+msgid "Print preview problem.\n"
+msgstr ""
+
+#: wxwin/mainframe.cc:520
+msgid "The printer may not be correctly initialized"
+msgstr ""
+
+#: wxwin/mainframe.cc:521
+msgid "Print preview"
+msgstr ""
+
+#: wxwin/mainframe.cc:542
+msgid "Print to a PostScript file"
+msgstr ""
+
+#: wxwin/mainframe.cc:561 wxwin/mainframe.cc:567
+msgid "PostScript printing"
+msgstr ""
+
+#: wxwin/mainframe.cc:566
+msgid "Cannot initialize PostScript printer"
+msgstr ""
+
+#: wxwin/mainframe.cc:714
+msgid ""
+"This program is free software; you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version."
+msgstr ""
+
+#: wxwin/mainframe.cc:912
+msgid "turn:"
+msgstr ""
+
+#: wxwin/mainframe.cc:913
+msgid "points:"
+msgstr ""
+
+#: wxwin/mainframe.cc:948
+msgid ""
+"The bag doesn't contain enough letters\n"
+"for a new rack."
+msgstr ""
+
+#: wxwin/mainframe.cc:949 wxwin/mainframe.cc:953 wxwin/mainframe.cc:957
+msgid "Rack validation"
+msgstr ""
+
+#: wxwin/mainframe.cc:952
+msgid "The rack must contain at least 2 consonants and 2 vowels."
+msgstr ""
+
+#: wxwin/mainframe.cc:956
+msgid "The rack contains invalid letters for the current dictionary"
+msgstr ""
+
+#: wxwin/mainframe.cc:960
+msgid "The rack has been modified manually"
+msgstr ""
+
+#: wxwin/searchpanel.cc:146 wxwin/searchpanel.cc:190
+#, c-format
+msgid "The search is limited to %d letters"
+msgstr ""
+
+#: wxwin/searchpanel.cc:301
+msgid "Minimum length"
+msgstr ""
+
+#: wxwin/searchpanel.cc:303
+msgid "Maximum length"
+msgstr ""
+
+#: wxwin/searchpanel.cc:366
+msgid "Cross words"
+msgstr ""
+
+#: wxwin/searchpanel.cc:367
+msgid "Plus 1"
+msgstr ""
+
+#: wxwin/searchpanel.cc:368
+msgid "Regular expressions"
 msgstr ""

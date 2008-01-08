@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,12 +22,13 @@
 #ifndef _BOARD_H_
 #define _BOARD_H_
 
-#include "tile.h"
-#include "cross.h"
 #include <string>
 #include <vector>
 
-typedef struct _Dictionary*Dictionary;
+#include "tile.h"
+#include "cross.h"
+
+class Dictionary;
 class Rack;
 class Round;
 class Results;
@@ -61,7 +63,6 @@ class Board
 {
 public:
     Board();
-    virtual ~Board() {}
 
     /*************************
      * Coordinates have to be BOARD_MIN <= int <= BOARD_MAX

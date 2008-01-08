@@ -1,6 +1,7 @@
+
 Installation sous Linux (Un*x) (bien/facile)
 ------------------------------
-* Pour installer ‡ partir de l'archive CVS :
+* Pour installer √† partir de l'archive CVS :
 
   ./bootstrap
 
@@ -8,16 +9,16 @@ Installation sous Linux (Un*x) (bien/facile)
   make
   make install
 
-* Pour installer ‡ partir de l'archive tar.gz
+* Pour installer √† partir de l'archive tar.gz
 
   ./configure
   make
   make install
 
 
-il existe en fait 3 versions d'eliot, une en mode texte, une avec une
-interface curses et une avec wxwidgets. Les modes peuvent Ítre
-sÈlectionnÈs ‡ l'aide de la commande configure lors de la compilation
+Il existe en fait 3 versions d'eliot, une en mode texte, une avec une
+interface curses et une avec wxwidgets. Les modes peuvent √™tre
+s√©lectionn√©s √† l'aide de la commande configure lors de la compilation
 du programme.
 
 ./configure --enable-text --enable-ncurses --enable-wxwidgets
@@ -27,39 +28,56 @@ du programme.
 Installation pour Windows (moins bien/facile)
 -------------------------
 
-Il y a 2 principales faÁons de procÈder :
+Il y a 2 principales fa√ßons de proc√©der :
 * directement depuis Windows, en utilisant Cygwin (http://www.cygwin.com/).
 * depuis GNU/Linux, en utilisant le cross-compilateur Mingw32.
 
 
-Dans les 2 cas, les Ètapes sont les mÍmes :
-* installation de l'environnement de compilation (cette Ètape n'est pas
-  dÈcrite ici, car elle ne rentre pas dans le cadre de ce document)
+Dans les 2 cas, les √©tapes sont les m√™mes :
+* installation de l'environnement de compilation (cette √©tape n'est pas
+  d√©crite ici, car elle ne rentre pas dans le cadre de ce document)
 
-* compilation et installation de wxWindows (http://www.wxwidgets.org/),
-  version 2.4.2 ou ultÈrieure (mÍme remarque)
+* compilation et installation des d√©pendances (m√™me remarque):
+
+    - wxWidgets (http://www.wxwidgets.org/), version 2.4.2 ou ult√©rieure, avec
+      support de l'unicode
+
+    - libiconv (http://www.gnu.org/software/libiconv/), de pr√©f√©rence compil√©e
+      en mode statique (--disable-shared --enable-static)
+
+    - boost (http://www.boost.org/). Eliot n'utilise pas de librairie de Boost
+      (uniquement des headers), donc il n'y a pas vraiment besoin de compiler
 
 * compilation d'Eliot :
 
-    - si vous utilisez l'archive CVS, il faut gÈnÈrer le script 'configure'
+    - si vous utilisez l'archive CVS, il faut g√©n√©rer le script 'configure'
       (aussi bien sous Cygwin que sous GNU/Linux) :
             ./bootstrap
 
+    - √† cause d'un bug de gettext, il faut appliquer un patch aux fichiers install√©s
+      dans intl/ :
+            - t√©l√©charger le patch ici (lien en haut √† gauche) :
+              http://www.koders.com/noncode/fid46DF595700FEB564B6EF45BFF55067F95DCF0420.aspx
+            - ex√©cuter la commande suivante :
+              patch -p2 < gettext-win32.patch
+
     - avec Cygwin, configurer avec la ligne de commande suivante :
+            CPPFLAGS=-I/path/to/installs/include LDFLAGS=-L/path/to/installs/lib \
             CC="gcc -mno-cygwin" CXX="g++ -mno-cygwin" \
-            ./configure --with-wx-config=/path/to/wx-config
-      en prenant soin d'indiquer le chemin correct vers le fichier
-      'wx-config' de l'installation de wxWindows.
+            ./configure --enable-wxwidgets --with-wx-config=/path/to/wx-config \
+            --with-boost=/path/to/boost/installs
+      en prenant soin de remplacer les diff√©rents chemins par les bonnes valeurs.
       Ensuite, un simple 'make' suffit pour terminer la compilation,
-      Èventuellement suivi de 'make install'.
+      √©ventuellement suivi de 'make install'.
 
     - pour la cross-compilation depuis GNU/Linux, configurer avec la ligne
       de commande suivante :
+            CPPFLAGS=-I/path/to/installs/include LDFLAGS=-L/path/to/installs/lib \
             CC=i586-mingw32msvc-gcc CXX=i586-mingw32msvc-g++ \
             ./configure --host=i586-mingw32msvc --build=i386-linux \
-            --with-wx-config=/path/to/wx-config
-      en prenant soin d'indiquer le chemin correct vers le fichier
-      'wx-config' de l'installation de wxWindows.
+            --enable-wxwidgets --with-wx-config=/path/to/wx-config \
+            --with-boost=/path/to/installs
+      en prenant soin de remplacer les diff√©rents chemins par les bonnes valeurs.
       Ensuite, un simple 'make' suffit pour terminer la compilation,
-      Èventuellement suivi de 'make install'.
+      √©ventuellement suivi de 'make install'.
 

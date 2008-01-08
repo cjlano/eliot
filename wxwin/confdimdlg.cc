@@ -28,8 +28,6 @@
 #include "confdimdlg.h"
 
 enum {
-  Button_Ok,
-  Button_Cancel,
   Button_Printer,
   Button_Page,
   Button_Save,
@@ -39,10 +37,9 @@ enum {
 
 BEGIN_EVENT_TABLE(ConfDimDlg,wxDialog)
   EVT_CLOSE (ConfDimDlg::OnCloseWindow)
-  EVT_BUTTON(Button_Ok,         ConfDimDlg::OnButtonOk)
+  EVT_BUTTON(wxID_OK,           ConfDimDlg::OnButtonOk)
+  EVT_BUTTON(wxID_CANCEL,       ConfDimDlg::OnButtonCancel)
   EVT_BUTTON(Button_Save,       ConfDimDlg::OnButtonSave)
-  EVT_BUTTON(Button_Ok,         ConfDimDlg::OnButtonOk)
-  EVT_BUTTON(Button_Cancel,     ConfDimDlg::OnButtonCancel)
   EVT_BUTTON(Button_Printer,    ConfDimDlg::OnConfPrinter)
   EVT_BUTTON(Button_Page,       ConfDimDlg::OnConfPage)
   EVT_BUTTON(Button_FontHeader, ConfDimDlg::OnConfFontHead)
@@ -58,14 +55,13 @@ max(int i,int j)
 
 
 ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
-  : wxDialog(parent, -1, wxString(wxT("Eliot : Impression")))
+  : wxDialog(parent, -1, wxString(wxT("Eliot: Printing")))
 {
   int i;
   wxString choices[3];
-  choices[0] = wxT("gauche");
-// XXX:  choices[1] = wxT("centré");
-  choices[1] = wxT("centre");
-  choices[2] = wxT("droite");
+  choices[0] = _("left");
+  choices[1] = _("centered");
+  choices[2] = _("right");
   wxStaticText* Hcomment[5];
   wxRect        Hcommentrect[5];
   wxRect        Htitlerect[5];
@@ -119,31 +115,29 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
 #define ESPSIZE      wxSize(spacerect.GetRight() - spacerect.GetLeft(),-1)
 
 
-  wxStaticText* justif = new wxStaticText(this,-1,wxT("Justification"),wxPoint(0,0));
+  wxStaticText* justif = new wxStaticText(this,-1,_("Alignment"),wxPoint(0,0));
   wxRect justifrect = justif->GetRect();
-  wxStaticText* space = new wxStaticText(this,-1,wxT("Espacement"),wxPoint(0,0));
+  wxStaticText* space = new wxStaticText(this,-1,_("Spacing"),wxPoint(0,0));
   wxRect spacerect = space->GetRect();
 
   // heading, first part
-// XXX:  bfontheader = new wxButton(this,Button_FontHeader,wxT("Caractères"),HFONT);
-  bfontheader = new wxButton(this,Button_FontHeader,wxT("Caracteres"),HFONT);
+  bfontheader = new wxButton(this,Button_FontHeader,_("Font..."),HFONT);
   wxRect bfontheadrect = bfontheader->GetRect();
   for(i=0; i<5; i++)
     {
       wxString txt;
-      txt << wxT("Titre colonne ") << (i+1);
+      txt << _("Title column ") << (i+1);
       Hcomment[i] = new wxStaticText(this,-1,txt,HCOMMENT(i));
       Hcommentrect[i] = Hcomment[i]->GetRect();
     }
 
   // text, first part
-// XXX:  bfonttext = new wxButton(this,Button_FontText,wxT("Caractères"),TFONT);
-  bfonttext = new wxButton(this,Button_FontText,wxT("Caracteres"),TFONT);
+  bfonttext = new wxButton(this,Button_FontText,_("Font..."),TFONT);
   wxRect bfonttextrect = bfonttext->GetRect();
   for(i=0; i<5; i++)
     {
       wxString txt;
-      txt << wxT("Texte colonne ") << (i+1);
+      txt << _("Text column ") << (i+1);
       Tcomment[i] = new wxStaticText(this,-1,txt,TCOMMENT(i),wxSize(-1,-1));
       Tcommentrect[i] = Tcomment[i]->GetRect();
     }
@@ -153,16 +147,15 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
     {
       Htitle[i] = new wxTextCtrl(this,-1,wxT(""),HTITLE(i),wxSize(100,-1));
       Htitlerect[i] = Htitle[i]->GetRect();
-      Htitle[i]->SetToolTip(wxT("Texte du titre de la colonne"));
+      Htitle[i]->SetToolTip(_("Column heading"));
 
       Hjust[i] = new wxChoice(this,-1,HJUST(i),wxSize(-1,-1),3,choices);
       Hjustrect[i] = Hjust[i]->GetRect();
-      Hjust[i]->SetToolTip(wxT("Justification du titre de la colonne"));
+      Hjust[i]->SetToolTip(_("Alignment of the column heading"));
 
       Hspaces[i] = new wxTextCtrl(this,-1,wxT("00"),HSPACES(i),ESPSIZE);
       Hspacesrect[i] = Hspaces[i]->GetRect();
-// XXX:      Hspaces[i]->SetToolTip(wxT("Espacement des caractères du titre"));
-      Hspaces[i]->SetToolTip(wxT("Espacement des caracteres du titre"));
+      Hspaces[i]->SetToolTip(_("Spacing of the heading characters"));
     }
 
 
@@ -171,22 +164,20 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
     {
       Tdim[i] = new wxTextCtrl(this,-1,wxT(""),TDIM(i),wxSize(50,-1));
       Tdimrect[i] = Tdim[i]->GetRect();
-// XXX:      Tdim[i]->SetToolTip(wxT("Dimension intérieure de la colonne (en mm)"));
-      Tdim[i]->SetToolTip(wxT("Dimension interieure de la colonne (en mm)"));
+      Tdim[i]->SetToolTip(_("Inner dimension of the column (in mm)"));
 
       Tunit[i] = new wxStaticText(this,-1,wxT("mm"),
-				  wxPoint(Tdimrect[i].GetRight()+
-					  HSPACE,TCOMMENTY(i)+2),
-				  wxSize(-1,-1));
+                                  wxPoint(Tdimrect[i].GetRight()+
+                                          HSPACE,TCOMMENTY(i)+2),
+                                  wxSize(-1,-1));
 
       Tjust[i] = new wxChoice(this,-1,TJUST(i),wxSize(-1,-1),3,choices);
       Tjustrect[i] = Tjust[i]->GetRect();
-      Tjust[i]->SetToolTip(wxT("Justification du texte de la colonne"));
+      Tjust[i]->SetToolTip(_("Alignment of the column text"));
 
       Tspaces[i] = new wxTextCtrl(this,-1,wxT(""),TSPACES(i),ESPSIZE);
       Tspacesrect[i] = Tspaces[i]->GetRect();
-// XXX:      Tspaces[i]->SetToolTip(wxT("Espacement des caractères"));
-      Tspaces[i]->SetToolTip(wxT("Espacement des caracteres"));
+      Tspaces[i]->SetToolTip(_("Characters spacing"));
     }
 
   justif->Move(wxPoint(Tjustrect[0].GetLeft(),bfontheadrect.GetBottom()
@@ -237,11 +228,11 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
 #define DIM wxSize(30,-1)
 
   // Left part
-  wxStaticText* dyh1text = new wxStaticText(this,-1,wxT("Titre esp. sup."),DYH1COMMENT,wxSize(-1,-1));
+  wxStaticText* dyh1text = new wxStaticText(this,-1,_("Title spc. top"),DYH1COMMENT,wxSize(-1,-1));
   wxRect dyh1textrect = dyh1text->GetRect();
-  wxStaticText* dyt1text = new wxStaticText(this,-1,wxT("Texte esp. sup."),DYT1COMMENT,wxSize(-1,-1));
+  wxStaticText* dyt1text = new wxStaticText(this,-1,_("Text spc. top"),DYT1COMMENT,wxSize(-1,-1));
   wxRect dyt1textrect = dyt1text->GetRect();
-  wxStaticText* dxbegintext = new wxStaticText(this,-1,wxT("Texte esp. gauche."),DXBEGINCOMMENT,wxSize(-1,-1));
+  wxStaticText* dxbegintext = new wxStaticText(this,-1,_("Text spc. left"),DXBEGINCOMMENT,wxSize(-1,-1));
   wxRect dxbegintextrect = dxbegintext->GetRect();
 
   dyh1 = new wxTextCtrl(this,-1,wxT("00"),DYH1TEXT,DIM);
@@ -258,11 +249,11 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
   wxRect dxbeginmmrect = dxbeginmm->GetRect();
 
   // Right part
-  wxStaticText* dyh2text = new wxStaticText(this,-1,wxT("Titre esp. inf."),DYH2COMMENT,wxSize(-1,-1));
+  wxStaticText* dyh2text = new wxStaticText(this,-1,_("Title spc. bot."),DYH2COMMENT,wxSize(-1,-1));
   wxRect dyh2textrect = dyh2text->GetRect();
-  wxStaticText* dyt2text = new wxStaticText(this,-1,wxT("Texte esp. inf."),DYT2COMMENT,wxSize(-1,-1));
+  wxStaticText* dyt2text = new wxStaticText(this,-1,_("Text spc. bot."),DYT2COMMENT,wxSize(-1,-1));
   wxRect dyt2textrect = dyt2text->GetRect();
-  wxStaticText* dxendtext = new wxStaticText(this,-1,wxT("Texte esp. droit."),DXENDCOMMENT,wxSize(-1,-1));
+  wxStaticText* dxendtext = new wxStaticText(this,-1,_("Text spc. right"),DXENDCOMMENT,wxSize(-1,-1));
   wxRect dxendtextrect = dxendtext->GetRect();
 
   dyh2 = new wxTextCtrl(this,-1,wxT("00"),DYH2TEXT,DIM);
@@ -292,25 +283,25 @@ ConfDimDlg::ConfDimDlg(wxWindow* parent, wxPrintData pd, wxPageSetupData psd)
 #define BCANCELPOINT wxPoint(Tspacesrect[0].GetRight() - CANCELWIDTH,BPOS)
   //#define BCANCELPOINT  wxPoint(dxendmmrect.GetRight() - CANCELWIDTH,BPOS)
 
-  bprinter = new wxButton(this,Button_Printer,wxT("Imprimante"),BPRINTERPOINT);
+  bprinter = new wxButton(this,Button_Printer,_("Printer"),BPRINTERPOINT);
   wxRect bprinterrect = bprinter->GetRect();
-  bprinter->SetToolTip(wxT("Configurer l'imprimante"));
+  bprinter->SetToolTip(_("Configure the printer"));
 
-  bpage = new wxButton(this,Button_Page,wxT("Page"),BPAGEPOINT);
+  bpage = new wxButton(this,Button_Page,_("Page"),BPAGEPOINT);
   //  wxRect bpagerect = bpage->GetRect();
-  bpage->SetToolTip(wxT("Configurer la taille de page"));
+  bpage->SetToolTip(_("Configure the dimensions of the page"));
 
-  bcancel = new wxButton(this,Button_Cancel,wxT("Annuler"));
+  bcancel = new wxButton(this,wxID_CANCEL);
   wxRect bcancelrect = bcancel->GetRect();
   bcancel->Move(BCANCELPOINT);
   bcancelrect = bcancel->GetRect();
-  bcancel->SetToolTip(wxT("Annuler les dernier changements et quitter"));
+  bcancel->SetToolTip(_("Cancel the last changes"));
 
-  bok = new wxButton(this,Button_Ok,wxT("OK"));
+  bok = new wxButton(this,wxID_OK);
   wxRect bokrect = bok->GetRect();
   bok->Move(BOKPOINT);
   bokrect = bok->GetRect();
-  bok->SetToolTip(wxT("Enregistrer les changements et quitter"));
+  bok->SetToolTip(_("Save the changes"));
 
 #define DLGWIDTH     (bcancelrect.GetRight() + HSPACE)
 #define DLGHEIGHT    (bokrect.GetBottom() + VSPACE)

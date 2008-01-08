@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2002-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,7 +48,6 @@ class PlayedRack
 {
 public:
     PlayedRack();
-    virtual ~PlayedRack() {}
 
     void reset();
     void resetNew();
@@ -58,11 +58,12 @@ public:
 
     void setOld(const Rack &iRack);
     void setNew(const Rack &iRack);
-    int  setManual(const wstring& iLetters);
+    void setManual(const wstring& iLetters);
+    void setReject(bool iReject = true) { m_reject = iReject; }
 
-    int nTiles() const  { return nNew() + nOld(); }
-    int nNew() const    { return m_newTiles.size(); }
-    int nOld() const    { return m_oldTiles.size(); }
+    unsigned int getNbTiles() const  { return getNbNew() + getNbOld(); }
+    unsigned int getNbNew() const    { return m_newTiles.size(); }
+    unsigned int getNbOld() const    { return m_oldTiles.size(); }
 
     void addNew(const Tile &t);
     void addOld(const Tile &t);
@@ -70,9 +71,10 @@ public:
     void getOldTiles(vector<Tile> &oTiles) const;
     void getAllTiles(vector<Tile> &oTiles) const;
 
-    bool checkRack(int cMin, int vMin) const;
+    bool checkRack(unsigned int cMin, unsigned int vMin) const;
 
-    void operator=(const PlayedRack &iOther);
+    /// Randomly change the order of the "new" tiles
+    void shuffleNew();
 
     enum display_mode
     {
@@ -83,7 +85,7 @@ public:
     wstring toString(display_mode iShowExtraSigns = RACK_EXTRA) const;
 
 private:
-    bool reject;
+    bool m_reject;
     vector<Tile> m_oldTiles;
     vector<Tile> m_newTiles;
 };

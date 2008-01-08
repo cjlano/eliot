@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2002-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,22 +23,20 @@
  *  \file   rack.cpp
  *  \brief  Rack class : multiset of tiles
  *  \author Antoine Fraboulet & Olivier Teuliere
- *  \date   2002 - 2005
+ *  \date   2002 - 2007
  */
 
 #include "rack.h"
+#include "dic.h"
 #include "encoding.h"
 #include "debug.h"
 
-// FIXME: should not be here (duplicated from tile.cpp)
-#define TILES_NUMBER 28
-#define MIN_CODE 1
-
 
 Rack::Rack()
-    : m_tiles(TILES_NUMBER, 0), m_ntiles(0)
+    : m_tiles(Dictionary::GetDic().getTileNumber() + 1, 0), m_ntiles(0)
 {
 }
+
 
 void Rack::remove(const Tile &t)
 {
@@ -58,14 +57,13 @@ void Rack::clear()
 }
 
 
-void Rack::getTiles(list<Tile> &oTiles) const
+void Rack::getTiles(vector<Tile> &oTiles) const
 {
-    for (unsigned int i = MIN_CODE; i < m_tiles.size(); i++)
+    oTiles.reserve(m_ntiles);
+    for (unsigned int i = 1; i < m_tiles.size(); i++)
     {
-        for (unsigned int j = 0; j < m_tiles[i]; j++)
-        {
-            oTiles.push_back(Tile::GetTileFromCode(i));
-        }
+        // Add m_tiles[i] copies of the tile at the end of the vector
+        oTiles.insert(oTiles.end(), m_tiles[i], Dictionary::GetDic().getTileFromCode(i));
     }
 }
 
@@ -73,12 +71,10 @@ void Rack::getTiles(list<Tile> &oTiles) const
 wstring Rack::toString()
 {
     wstring rs;
-    for (unsigned int i = MIN_CODE; i < m_tiles.size(); i++)
+    for (unsigned int i = 1; i < m_tiles.size(); i++)
     {
-        for (unsigned int j = 0; j < m_tiles[i]; j++)
-        {
-            rs += Tile::GetTileFromCode(i).toChar();
-        }
+        // Append m_tiles[i] copies of the char
+        rs.append(m_tiles[i], Dictionary::GetDic().getTileFromCode(i).toChar());
     }
     return rs;
 }

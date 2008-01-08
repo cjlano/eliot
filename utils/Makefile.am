@@ -16,24 +16,26 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-top_srcdir = @top_srcdir@
+localedir = $(datadir)/locale
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\"
 
-INCLUDES = -I$(top_srcdir)/dic -I$(top_srcdir)/game -I$(top_srcdir)/intl
+INCLUDES = -I$(top_srcdir)/dic -I$(top_srcdir)/game -I../intl -I$(top_srcdir)/intl
+
 noinst_PROGRAMS =
+bin_PROGRAMS =
 
 if BUILD_TEXT
 noinst_PROGRAMS += eliottxt
 eliottxt_SOURCES = game_io.h game_io.cpp eliottxt.cpp
-eliottxt_LDADD = ../game/libgame.a ../dic/libdic.a -lreadline
+eliottxt_LDADD = $(top_builddir)/game/libgame.a $(top_builddir)/dic/libdic.a @LIBINTL@
+if HAS_READLINE
+eliottxt_LDADD += -lreadline
+endif
 endif
 
 if BUILD_NCURSES
-noinst_PROGRAMS += eliotcurses
-eliotcurses_SOURCES = ncurses.cpp
-eliotcurses_LDADD = ../game/libgame.a ../dic/libdic.a -lncurses @LIBINTL@
+bin_PROGRAMS += eliotcurses
+eliotcurses_SOURCES = ncurses.cpp ncurses.h
+eliotcurses_LDADD = ../game/libgame.a ../dic/libdic.a -lncursesw @LIBINTL@
 endif
-
-datadir = @datadir@
-localedir = $(datadir)/locale
-DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 

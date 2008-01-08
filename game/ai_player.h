@@ -1,6 +1,7 @@
 /*****************************************************************************
- * Copyright (C) 2005 Eliot
- * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2005-2007 Olivier Teulière
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,10 +23,10 @@
 
 #include "player.h"
 
+class Dictionary;
 class Round;
 class Board;
 class Tile;
-typedef struct _Dictionary * Dictionary;
 
 /**
  * This class is a pure interface, that must be implemented by all the AI
@@ -69,22 +70,14 @@ public:
      * This method does the actual computation. It will be called before any
      * of the following methods, so it must prepare everything for them.
      */
-    virtual void compute(const Dictionary &iDic, Board &iBoard, int turn) = 0;
-    /**
-     * Return true when the AI wants to change letters instead of playing a
-     * word.
-     * Should return false in duplicate mode, as it is not allowed to change
-     * letters.
-     */
-    virtual bool changesLetters() const = 0;
-    /// Return the round played by the AI (if changesLetters() returns false)
-    virtual const Round & getChosenRound() const = 0;
-    /// Get the letters to change (if changesLetters() returns true)
-    virtual vector<Tile> getChangedLetters() const = 0;
+    virtual void compute(const Dictionary &iDic, Board &iBoard, bool iFirstWord) = 0;
+
+    /// Return the move played by the AI
+    virtual Move getMove() const = 0;
 
 protected:
     /// This class is a pure interface, forbid any direct instanciation
-    AIPlayer(int iId): Player(iId) {}
+    AIPlayer(unsigned int iId): Player(iId) {}
 };
 
 #endif

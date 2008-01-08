@@ -1,6 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 2005 Eliot
- * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2005-2007 Olivier Teulière & Antoine Fraboulet
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
+ *          Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,12 +19,19 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include "config.h"
+
 #include <getopt.h>
 #include <string>
+#include <fstream>
+#include <exception>
 
-#include "config.h"
-#include "dic.h"
 #include "game_factory.h"
+#include "game.h"
+#include "training.h"
+#include "freegame.h"
+#include "duplicate.h"
+#include "dic.h"
 
 
 GameFactory *GameFactory::m_factory = NULL;
@@ -35,8 +44,7 @@ GameFactory::GameFactory(): m_dic(NULL), m_human(0), m_ai(0), m_joker(false)
 
 GameFactory::~GameFactory()
 {
-    if (m_dic)
-        Dic_destroy(m_dic);
+    delete m_dic;
 }
 
 
@@ -50,8 +58,7 @@ GameFactory *GameFactory::Instance()
 
 void GameFactory::Destroy()
 {
-    if (m_factory)
-        delete m_factory;
+    delete m_factory;
     m_factory = NULL;
 }
 
@@ -139,16 +146,20 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
             cerr << "dict";
         else if (!found_m)
             cerr << "mode";
-        cerr << "\n";
+        cerr << endl;
 
         printUsage(argv[0]);
         return NULL;
     }
 
     // 3) Try to load the dictionary
-    if (Dic_load(&m_dic, m_dicStr.c_str()))
+    try
     {
-        cerr << "Could not load dictionary '" << m_dicStr << "'\n";
+        m_dic = new Dictionary(m_dicStr);
+    }
+    catch (std::exception &e)
+    {
+        cerr << e.what() << endl;
         return NULL;
     }
 
@@ -156,19 +167,19 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
     Game *game = NULL;
     if (m_modeStr == "training" || m_modeStr == "t")
     {
-        game = createTraining(m_dic);
+        game = createTraining(*m_dic);
     }
     else if (m_modeStr == "freegame" || m_modeStr == "f")
     {
-        game = createFreeGame(m_dic);
+        game = createFreeGame(*m_dic);
     }
     else if (m_modeStr == "duplicate" || m_modeStr == "d")
     {
-        game = createDuplicate(m_dic);
+        game = createDuplicate(*m_dic);
     }
     else
     {
-        cerr << "Invalid game mode '" << m_modeStr << "'\n";
+        cerr << "Invalid game mode '" << m_modeStr << "'" << endl;
         return NULL;
     }
 
@@ -185,20 +196,20 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
     return game;
 }
 
-Game* GameFactory::load(string filename, const Dictionary &iDic)
+
+Game* GameFactory::load(const string &iFileName, const Dictionary &iDic)
 {
-    Game* game;
-    FILE* fin;
-    if ((fin = fopen(filename.c_str(), "r")) == NULL)
-        {
-            printf("impossible d'ouvrir %s\n",
-                   filename.c_str());
-            return NULL;
-        }
-    game = Game::load(fin,iDic);
+    FILE* fin = fopen(iFileName.c_str(), "r");
+    if (fin == NULL)
+    {
+        printf("Cannot open %s\n", iFileName.c_str());
+        return NULL;
+    }
+    Game *game = Game::load(fin, iDic);
     fclose(fin);
     return game;
 }
+
 
 void GameFactory::releaseGame(Game &iGame)
 {
@@ -208,25 +219,26 @@ void GameFactory::releaseGame(Game &iGame)
 
 void GameFactory::printUsage(const string &iBinaryName) const
 {
-    cout << "Usage: " << iBinaryName << " [options]\n"
-         << "Options:\n"
-         << "  -h, --help               Print this help and exit\n"
-         << "  -v, --version            Print version information and exit\n"
-         << "  -m, --mode {duplicate,d,freegame,f,training,t}\n"
-         << "                           Choose game mode (mandatory)\n"
-         << "  -d, --dict <string>      Choose a dictionary (mandatory)\n"
-         << "      --human              Add a human player\n"
-         << "      --ai                 Add a AI (Artificial Intelligence) player\n"
-         << "      --joker              Play with the \"Joker game\" variant\n";
+    cout << "Usage: " << iBinaryName << " [options]" << endl
+         << "Options:" << endl
+         << "  -h, --help               Print this help and exit" << endl
+         << "  -v, --version            Print version information and exit" << endl
+         << "  -m, --mode {duplicate,d,freegame,f,training,t}" << endl
+         << "                           Choose game mode (mandatory)" << endl
+         << "  -d, --dict <string>      Choose a dictionary (mandatory)" << endl
+         << "      --human              Add a human player" << endl
+         << "      --ai                 Add a AI (Artificial Intelligence) player" << endl
+         << "      --joker              Play with the \"Joker game\" variant" << endl;
 }
 
 
 void GameFactory::printVersion() const
 {
-    cout << PACKAGE_STRING << "\n"
+    cout << PACKAGE_STRING << endl
          << "This program comes with NO WARRANTY, to the extent permitted by "
-         << "law.\nYou may redistribute it under the terms of the GNU General "
-         << "Public License;\nsee the file named COPYING for details.\n";
+         << "law." << endl << "You may redistribute it under the terms of the "
+         << "GNU General Public License;" << endl
+         << "see the file named COPYING for details." << endl;
 }
 
 

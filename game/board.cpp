@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -82,8 +83,8 @@ const int Board::m_wordMultipliers[BOARD_REALDIM][BOARD_REALDIM] =
 
 
 Board::Board():
-    m_tilesRow(BOARD_REALDIM, Tile::dummy()),
-    m_tilesCol(BOARD_REALDIM, Tile::dummy()),
+    m_tilesRow(BOARD_REALDIM, Tile()),
+    m_tilesCol(BOARD_REALDIM, Tile()),
     m_jokerRow(BOARD_REALDIM, false),
     m_jokerCol(BOARD_REALDIM, false),
     m_crossRow(BOARD_REALDIM, Cross()),
@@ -154,13 +155,12 @@ bool Board::isVacant(int iRow, int iCol) const
 void Board::addRound(const Dictionary &iDic, const Round &iRound)
 {
     Tile t;
-    int row, col;
 
-    row = iRound.getCoord().getRow();
-    col = iRound.getCoord().getCol();
+    int row = iRound.getCoord().getRow();
+    int col = iRound.getCoord().getCol();
     if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
     {
-        for (int i = 0; i < iRound.getWordLen(); i++)
+        for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
             if (m_tilesRow[row][col + i].isEmpty())
             {
@@ -174,7 +174,7 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
     }
     else
     {
-        for (int i = 0; i < iRound.getWordLen(); i++)
+        for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
             if (m_tilesRow[row + i][col].isEmpty())
             {
@@ -195,20 +195,18 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
 
 void Board::removeRound(const Dictionary &iDic, const Round &iRound)
 {
-    int row, col;
-
-    row = iRound.getCoord().getRow();
-    col = iRound.getCoord().getCol();
+    int row = iRound.getCoord().getRow();
+    int col = iRound.getCoord().getCol();
     if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
     {
-        for (int i = 0; i < iRound.getWordLen(); i++)
+        for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
             if (iRound.isPlayedFromRack(i))
             {
-                m_tilesRow[row][col + i] = Tile::dummy();
+                m_tilesRow[row][col + i] = Tile();
                 m_jokerRow[row][col + i] = false;
                 m_crossRow[row][col + i].setAny();
-                m_tilesCol[col + i][row] = Tile::dummy();
+                m_tilesCol[col + i][row] = Tile();
                 m_jokerCol[col + i][row] = false;
                 m_crossCol[col + i][row].setAny();
             }
@@ -216,14 +214,14 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
     }
     else
     {
-        for (int i = 0; i < iRound.getWordLen(); i++)
+        for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
             if (iRound.isPlayedFromRack(i))
             {
-                m_tilesRow[row + i][col] = Tile::dummy();
+                m_tilesRow[row + i][col] = Tile();
                 m_jokerRow[row + i][col] = false;
                 m_crossRow[row + i][col].setAny();
-                m_tilesCol[col][row + i] = Tile::dummy();
+                m_tilesCol[col][row + i] = Tile();
                 m_jokerCol[col][row + i] = false;
                 m_crossCol[col][row + i].setAny();
             }
@@ -246,17 +244,15 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
                          bool firstturn)
 {
     Tile t;
-    int row, col, i;
-    int l, p, fromrack;
-    int pts, ptscross, wordmul;
+    int l, p;
     bool isolated = true;
 
-    fromrack = 0;
-    pts = 0;
-    ptscross = 0;
-    wordmul = 1;
-    row = iRound.getCoord().getRow();
-    col = iRound.getCoord().getCol();
+    unsigned int fromrack = 0;
+    int pts = 0;
+    int ptscross = 0;
+    int wordmul = 1;
+    int row = iRound.getCoord().getRow();
+    int col = iRound.getCoord().getCol();
 
     /* Is the word an extension of another word? */
     if (!iTilesMx[row][col - 1].isEmpty() ||
@@ -265,7 +261,7 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
         return 1;
     }
 
-    for (i = 0; i < iRound.getWordLen(); i++)
+    for (unsigned int i = 0; i < iRound.getWordLen(); i++)
     {
         t = iRound.getTile(i);
         if (!iTilesMx[row][col + i].isEmpty())
@@ -383,13 +379,12 @@ int Board::checkRound(Round &iRound, bool firstturn)
 void Board::testRound(const Round &iRound)
 {
     Tile t;
-    int row, col;
 
-    row = iRound.getCoord().getRow();
-    col = iRound.getCoord().getCol();
+    int row = iRound.getCoord().getRow();
+    int col = iRound.getCoord().getCol();
     if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
     {
-        for (int i = 0; i < iRound.getWordLen(); i++)
+        for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
             if (m_tilesRow[row][col + i].isEmpty())
             {
@@ -405,7 +400,7 @@ void Board::testRound(const Round &iRound)
     }
     else
     {
-        for (int i = 0; i < iRound.getWordLen(); i++)
+        for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
             if (m_tilesRow[row + i][col].isEmpty())
             {
@@ -430,11 +425,11 @@ void Board::removeTestRound()
         {
             if (m_testsRow[row][col])
             {
-                m_tilesRow[row][col] = Tile::dummy();
+                m_tilesRow[row][col] = Tile();
                 m_testsRow[row][col] = 0;
                 m_jokerRow[row][col] = false;
 
-                m_tilesCol[col][row] = Tile::dummy();
+                m_tilesCol[col][row] = Tile();
                 m_jokerCol[col][row] = false;
             }
         }

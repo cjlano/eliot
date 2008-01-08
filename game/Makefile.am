@@ -1,6 +1,7 @@
 # Eliot
-# Copyright (C) 1999  Antoine Fraboulet
-# antoine.fraboulet@free.fr
+# Copyright (C) 1999-2007  Antoine Fraboulet & Olivier Teulière
+# Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
+#          Olivier Teulière <ipkiss @@ gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,7 +24,6 @@ INCLUDES = -I$(top_srcdir)/dic
 libgame_a_SOURCES=           \
 	ai_percent.cpp ai_percent.h     \
 	ai_player.h                     \
-	tile.cpp tile.h                 \
 	bag.cpp bag.h                   \
 	coord.cpp coord.h               \
 	cross.cpp cross.h               \
@@ -31,17 +31,19 @@ libgame_a_SOURCES=           \
 	board_cross.cpp                 \
 	board_search.cpp                \
 	duplicate.cpp duplicate.h       \
-	encoding.cpp encoding.h         \
 	freegame.cpp freegame.h         \
 	game.cpp game.h                 \
 	game_factory.cpp game_factory.h \
 	game_io.cpp                     \
+	move.cpp move.h                 \
 	player.cpp player.h             \
 	pldrack.cpp pldrack.h           \
 	rack.cpp rack.h                 \
 	results.cpp results.h           \
 	round.cpp round.h               \
+	settings.cpp settings.h         \
 	training.cpp training.h         \
 	turn.cpp turn.h                 \
-	history.cpp history.h
+	history.cpp history.h           \
+	debug.h
 

@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +20,6 @@
  *****************************************************************************/
 
 #include "dic.h"
-#include "dic_search.h"
 #include "tile.h"
 #include "rack.h"
 #include "round.h"
@@ -35,65 +35,70 @@
 #include "debug.h"
 
 
-const int Game::RACK_SIZE    =  7;
+const unsigned int Game::RACK_SIZE =  7;
 const int Game::BONUS_POINTS = 50;
 
 Game::Game(const Dictionary &iDic):
-    m_dic(&iDic)
+    m_dic(iDic), m_bag(iDic)
 {
     m_variant = kNONE;
     m_points = 0;
-    m_currPlayer = -1;
+    m_currPlayer = 0;
     m_finished = false;
 }
 
 
 Game::~Game()
 {
-    for (int i = 0; i < getNPlayers(); i++)
+    for (unsigned int i = 0; i < getNPlayers(); i++)
     {
         delete m_players[i];
     }
 }
 
 
-const Player& Game::getPlayer(int iNum) const
+const Player& Game::getPlayer(unsigned int iNum) const
 {
-    ASSERT(0 <= iNum && iNum < (int)m_players.size(), "Wrong player number");
+    ASSERT(iNum < m_players.size(), "Wrong player number");
     return *(m_players[iNum]);
 }
 
 
-/* This function plays a round on the board */
-int Game::helperPlayRound(const Round &iRound)
+void Game::helperPlayMove(unsigned int iPlayerId, const Move &iMove)
 {
-    /*
-     * We remove tiles from the bag only when they are played
-     * on the board. When going back in the game, we must only
-     * replace played tiles.
-     * We test a rack when it is set but tiles are left in the bag.
-     */
-
     // History of the game
-    m_history.setCurrentRack(getCurrentPlayer().getLastRack());
-    m_history.playRound(m_currPlayer, m_history.getSize(),  iRound);
+    m_history.setCurrentRack(getPlayer(iPlayerId).getLastRack());
+    m_history.playMove(iPlayerId, m_history.getSize(), iMove);
 
-    debug("    helper: %d points\n",iRound.getPoints());
-    m_points += iRound.getPoints();
+    // Points
+    debug("    helper: %d points\n", iMove.getScore());
+    m_points += iMove.getScore();
 
+    // For moves corresponding to a valid round, we have much more
+    // work to do...
+    if (iMove.getType() == Move::VALID_ROUND)
+    {
+        helperPlayRound(iPlayerId, iMove.getRound());
+    }
+}
+
+
+
+void Game::helperPlayRound(unsigned int iPlayerId, const Round &iRound)
+{
     // Before updating the bag and the board, if we are playing a "joker game",
     // we replace in the round the joker by the letter it represents
     // This is currently done by a succession of ugly hacks :-/
     if (m_variant == kJOKER)
     {
-        for (int i = 0; i < iRound.getWordLen(); i++)
+        for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
             if (iRound.isPlayedFromRack(i) && iRound.isJoker(i))
             {
                 // Is the represented letter still available in the bag?
-                // FIXME: this way to get the represented letter sucks...
+                // XXX: this way to get the represented letter sucks...
                 Tile t(towupper(iRound.getTile(i).toChar()));
-                Bag bag;
+                Bag bag(m_dic);
                 realBag(bag);
                 // FIXME: realBag() does not give us a real bag in this
                 // particular case! This is because Player::endTurn() is called
@@ -108,12 +113,12 @@ int Game::helperPlayRound(const Round &iRound)
                 // There is a big design problem here, but i am unsure what is
                 // the best way to fix it.
                 vector<Tile> tiles;
-                getPlayer(m_currPlayer).getCurrentRack().getAllTiles(tiles);
+                getPlayer(iPlayerId).getCurrentRack().getAllTiles(tiles);
                 for (unsigned int j = 0; j < tiles.size(); j++)
                 {
                     bag.replaceTile(tiles[j]);
                 }
-                getPlayer(m_currPlayer).getLastRack().getAllTiles(tiles);
+                getPlayer(iPlayerId).getLastRack().getAllTiles(tiles);
                 for (unsigned int j = 0; j < tiles.size(); j++)
                 {
                     bag.takeTile(tiles[j]);
@@ -128,12 +133,19 @@ int Game::helperPlayRound(const Round &iRound)
                     // rounds
                     const_cast<Round&>(iRound).setJoker(i, false);
                 }
+
+                // In a joker game we should have only 1 joker in the rack
+                break;
             }
         }
     }
 
-    // Update the bag and the board
-    for (int i = 0; i < iRound.getWordLen(); i++)
+    // Update the bag
+    // We remove tiles from the bag only when they are played
+    // on the board. When going back in the game, we must only
+    // replace played tiles.
+    // We test a rack when it is set but tiles are left in the bag.
+    for (unsigned int i = 0; i < iRound.getWordLen(); i++)
     {
         if (iRound.isPlayedFromRack(i))
         {
@@ -147,65 +159,53 @@ int Game::helperPlayRound(const Round &iRound)
             }
         }
     }
-    m_board.addRound(*m_dic, iRound);
 
-    return 0;
+    // Update the board
+    m_board.addRound(m_dic, iRound);
 }
 
 
-int Game::back(int n)
+int Game::back(unsigned int n)
 {
-    int i, j;
-    Player *player;
-
-    if (n < 0)
-    {
-        debug("Game::back negative argument\n");
-        n = -n;
-    }
     debug("Game::back %d\n",n);
-    for (i = 0; i < n; i++)
+    // TODO: throw an exception
+    if (m_history.getSize() < n)
+        return 1;
+
+    for (unsigned int i = 0; i < n; i++)
     {
-        if (m_history.getSize() > 0)
+        prevPlayer();
+        const Move &lastMove = m_history.getPreviousTurn().getMove();
+        // Nothing to cancel if the move was not a valid round
+        if (lastMove.getType() != Move::VALID_ROUND)
+            continue;
+
+        const Round &lastround = lastMove.getRound();
+        debug("Game::back last round %s\n",
+              convertToMb(lastround.toString()).c_str());
+        /* Remove the word from the board, and put its letters back
+         * into the bag */
+        m_board.removeRound(m_dic, lastround);
+        for (unsigned int j = 0; j < lastround.getWordLen(); j++)
         {
-            prevPlayer();
-            player = m_players[m_currPlayer];
-            const Round &lastround = m_history.getPreviousTurn().getRound();
-            debug("Game::back last round %s\n",
-                  convertToMb(lastround.toString()).c_str());
-            /* Remove the word from the board, and put its letters back
-             * into the bag */
-            m_board.removeRound(*m_dic, lastround);
-            for (j = 0; j < lastround.getWordLen(); j++)
+            if (lastround.isPlayedFromRack(j))
             {
-                if (lastround.isPlayedFromRack(j))
-                {
-                    if (lastround.isJoker(j))
-                        m_bag.replaceTile(Tile::Joker());
-                    else
-                        m_bag.replaceTile(lastround.getTile(j));
-                }
+                if (lastround.isJoker(j))
+                    m_bag.replaceTile(Tile::Joker());
+                else
+                    m_bag.replaceTile(lastround.getTile(j));
             }
-            /* Remove the points of this round */
-            player->addPoints(- lastround.getPoints());
-            m_points -= lastround.getPoints();
-            /* Remove the turns */
-            player->removeLastTurn();
-            m_history.removeLastTurn();
         }
-        else
-        {
-            return 1;
-        }
+        /* Remove the points of this round */
+        m_points -= lastround.getPoints();
+        /* Remove the turns */
+        m_players[m_currPlayer]->removeLastTurn();
+        m_history.removeLastTurn();
     }
     return 0;
 }
 
-/**
- * The realBag is the current bag minus all the racks
- * present in the game. It represents the actual 
- * letters that are left in the bag.
- */
+
 void Game::realBag(Bag &ioBag) const
 {
     vector<Tile> tiles;
@@ -217,7 +217,7 @@ void Game::realBag(Bag &ioBag) const
     if (getMode() == kFREEGAME)
     {
         /* In freegame mode, take the letters from all the racks */
-        for (int i = 0; i < getNPlayers(); i++)
+        for (unsigned int i = 0; i < getNPlayers(); i++)
         {
             getPlayer(i).getCurrentRack().getAllTiles(tiles);
             for (unsigned int j = 0; j < tiles.size(); j++)
@@ -239,22 +239,36 @@ void Game::realBag(Bag &ioBag) const
 }
 
 
-int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
+int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
 {
-    ASSERT(0 <= p && p < getNPlayers(), "Wrong player number");
+    ASSERT(p < getNPlayers(), "Wrong player number");
+    // FIXME: RACK_MANUAL shouldn't be in the enum
+    ASSERT(mode != RACK_MANUAL, "Invalid rack mode");
 
-    int nold, min;
+    // When iCheck is true, we must make sure that there are at least 2 vowels
+    // and 2 consonants in the rack up to the 15th turn, and at least one of
+    // each starting from the 16th turn.
+    // So before trying to fill the rack, we'd better make sure there is a way
+    // to complete the rack with these constraints...
+    unsigned int min = 0;
+    if (iCheck)
+    {
+        // 2 vowels and 2 consonants are needed up to the 15th turn
+        if (m_history.getSize() < 15)
+            min = 2;
+        else
+            min = 1;
+    }
 
     // Make a copy of the current player's rack
     PlayedRack pld = getPlayer(p).getCurrentRack();
-    nold = pld.nOld();
+    int nold = pld.getNbOld();
 
     // Create a copy of the bag in which we can do everything we want,
     // and take from it the tiles of the players rack so that "bag"
     // contains the right number of tiles.
-    Bag bag;
+    Bag bag(m_dic);
     realBag(bag);
-
     if (mode == RACK_NEW && nold != 0)
     {
         // We may have removed too many letters from the bag (i.e. the 'new'
@@ -286,8 +300,212 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
         debug("Game::helperSetRackRandom not a random mode\n");
     }
 
+    // Get the tiles remaining on the rack
+    vector<Tile> tiles;
+    pld.getOldTiles(tiles);
+    ASSERT(tiles.size() < RACK_SIZE,
+           "Cannot complete the rack, it is already complete");
+
+    bool jokerAdded = false;
+    // Are we dealing with a normal game or a joker game?
+    if (m_variant == kJOKER)
+    {
+        // 1) Is there already a joker in the remaining letters of the rack?
+        bool jokerFound = false;
+        for (unsigned int i = 0; i < tiles.size(); i++)
+        {
+            if (tiles[i].isJoker())
+            {
+                jokerFound = true;
+                break;
+            }
+        }
+
+        // 2) If there was no joker, we add one if possible
+        if (!jokerFound && bag.in(Tile::Joker()))
+        {
+            jokerAdded = true;
+            pld.addNew(Tile::Joker());
+            tiles.push_back(Tile::Joker());
+        }
+
+        // 3) Remove all the jokers from the bag, to avoid taking another one
+        for (unsigned int i = 0; i < bag.in(Tile::Joker()); ++i)
+        {
+            bag.takeTile(Tile::Joker());
+        }
+    }
+
+    // Nothing in the rack, nothing in the bag --> end of the (free)game
+    if (bag.getNbTiles() == 0 && pld.getNbTiles() == 0)
+    {
+        return 1;
+    }
+    // End of game condition
+    if (iCheck)
+    {
+        if (bag.getNbVowels() == 0 || bag.getNbConsonants() == 0 ||
+            bag.getNbTiles() == 1)
+        {
+            return 1;
+        }
+    }
+
+    // Handle reject:
+    // Now that the joker has been dealt with, we try to complete the rack
+    // with truly random tiles. If it meets the requirements (i.e. if there
+    // are at least "min" vowels and "min" consonants in the rack), fine.
+    // Otherwise, we reject the rack completely, and we try again
+    // to complete it, but this time we ensure by construction that the
+    // requirements will be met.
+    while (bag.getNbTiles() != 0 && pld.getNbTiles() < RACK_SIZE)
+    {
+        Tile l = bag.selectRandom();
+        bag.takeTile(l);
+        pld.addNew(l);
+    }
+
+    if (!pld.checkRack(min, min))
+    {
+        // Bad luck... we have to reject the rack
+        vector<Tile> rejectedTiles;
+        pld.getAllTiles(rejectedTiles);
+        for (unsigned int i = 0; i < rejectedTiles.size(); i++)
+        {
+            bag.replaceTile(rejectedTiles[i]);
+        }
+        pld.reset();
+        // Do not mark the rack as rejected if it was empty
+        if (nold > 0)
+            pld.setReject();
+
+        // Restore the joker if we are in a joker game
+        if (jokerAdded)
+            pld.addNew(Tile::Joker());
+
+        // Count the needed consonants and vowels in the rack
+        // (i.e. minimum required, minus what we already have in the rack)
+        unsigned int neededVowels = min;
+        unsigned int neededConsonants = min;
+        for (unsigned int i = 0; i < tiles.size(); ++i)
+        {
+            if (neededVowels > 0 && tiles[i].isVowel())
+                neededVowels--;
+            if (neededConsonants > 0 && tiles[i].isConsonant())
+                neededConsonants--;
+        }
+
+        // Check whether it is possible to complete the rack properly
+        if (bag.getNbVowels() < neededVowels ||
+            bag.getNbConsonants() < neededConsonants)
+        {
+            return 1;
+        }
+
+        // RACK_SIZE - tiles.size() is the number of letters to add to the rack
+        if (neededVowels > RACK_SIZE - tiles.size() ||
+            neededConsonants > RACK_SIZE - tiles.size())
+        {
+            // We cannot fill the rack with enough vowels or consonants!
+            // Actually this should never happen, but it doesn't hurt to check...
+            // FIXME: this test is not completely right, because it supposes no
+            // letter can be at the same time a vowel and a consonant
+            return 3;
+        }
+
+        // Get the required vowels and consonants first
+        for (unsigned int i = 0; i < neededVowels; ++i)
+        {
+            Tile l = bag.selectRandomVowel();
+            bag.takeTile(l);
+            pld.addNew(l);
+            // Handle the case where the vowel can also be considered
+            // as a consonant
+            if (l.isConsonant() && neededConsonants > 0)
+                neededConsonants--;
+        }
+        for (unsigned int i = 0; i < neededConsonants; ++i)
+        {
+            Tile l = bag.selectRandomConsonant();
+            bag.takeTile(l);
+            pld.addNew(l);
+        }
+
+        // The difficult part is done:
+        //  - we have handled joker games
+        //  - we have handled the checks
+        // Now complete the rack with truly random letters
+        while (bag.getNbTiles() != 0 && pld.getNbTiles() < RACK_SIZE)
+        {
+            Tile l = bag.selectRandom();
+            bag.takeTile(l);
+            pld.addNew(l);
+        }
+    }
+
+    // Shuffle the new tiles, to hide the order we imposed (joker first in a
+    // joker game, then needed vowels, then needed consonants, and rest of the
+    // rack)
+    pld.shuffleNew();
+
+    // Post-condition check. This should never fail, of course :)
+    ASSERT(pld.checkRack(min, min), "helperSetRackRandom() is buggy!")
+
+    // Until now we didn't modify anything except local variables.
+    // Let's "commit" the changes
+    m_players[p]->setCurrentRack(pld);
+
+    return 0;
+}
+
+
+int Game::helperSetRackRandomOld(unsigned int p, bool iCheck, set_rack_mode mode)
+{
+    ASSERT(p < getNPlayers(), "Wrong player number");
+
+    // Make a copy of the current player's rack
+    PlayedRack pld = getPlayer(p).getCurrentRack();
+    int nold = pld.getNbOld();
+
+    // Create a copy of the bag in which we can do everything we want,
+    // and take from it the tiles of the players rack so that "bag"
+    // contains the right number of tiles.
+    Bag bag(m_dic);
+    realBag(bag);
+
+    if (mode == RACK_NEW && nold != 0)
+    {
+        // We may have removed too many letters from the bag (i.e. the 'new'
+        // letters of the player)
+        vector<Tile> tiles;
+        pld.getNewTiles(tiles);
+        for (unsigned int i = 0; i < tiles.size(); i++)
+        {
+            bag.replaceTile(tiles[i]);
+        }
+        pld.resetNew();
+    }
+    else if (mode == RACK_NEW && nold == 0 || mode == RACK_ALL)
+    {
+        // Replace all the tiles in the bag before choosing random ones
+        vector<Tile> tiles;
+        pld.getAllTiles(tiles);
+        for (unsigned int i = 0; i < tiles.size(); i++)
+        {
+            bag.replaceTile(tiles[i]);
+        }
+        // RACK_NEW with an empty rack is equivalent to RACK_ALL
+        pld.reset();
+        // Do not forget to update nold, for the RACK_ALL case
+        nold = 0;
+    }
+    else
+    {
+        debug("Game::helperSetRackRandomOld not a random mode\n");
+    }
+
     // Nothing in the rack, nothing in the bag --> end of the game
-    if (bag.nTiles() == 0 && pld.nTiles() == 0)
+    if (bag.getNbTiles() == 0 && pld.getNbTiles() == 0)
     {
         return 1;
     }
@@ -297,17 +515,17 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
     // them from the 16th turn.
     // So before trying to fill the rack, we'd better make sure there is a way
     // to complete the rack with these constraints...
-    min = 0;
+    unsigned int min = 0;
     if (iCheck)
     {
-        int oldc, oldv;
+        unsigned int oldc, oldv;
 
-        if (bag.nVowels() == 0 || bag.nConsonants() == 0)
+        if (bag.getNbVowels() == 0 || bag.getNbConsonants() == 0)
         {
             return 1;
         }
         // 2 vowels and 2 consonants are needed up to the 15th turn
-        if (bag.nVowels() > 1 && bag.nConsonants() > 1
+        if (bag.getNbVowels() > 1 && bag.getNbConsonants() > 1
             && m_history.getSize() < 15)
             min = 2;
         else
@@ -360,7 +578,9 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
 
         // 3) Complete the rack normally... but without any joker!
         Tile l;
-        while (bag.nTiles() != 0 && pld.nTiles() != RACK_SIZE)
+        // FIXME: this can be an infinite loop if the only tile left in the
+        // bag is a joker!
+        while (bag.getNbTiles() != 0 && pld.getNbTiles() != RACK_SIZE)
         {
             l = bag.selectRandom();
             if (!l.isJoker())
@@ -374,7 +594,7 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
     {
         // Get new tiles from the bag
         Tile l;
-        while (bag.nTiles() != 0 && pld.nTiles() != RACK_SIZE)
+        while (bag.getNbTiles() != 0 && pld.getNbTiles() != RACK_SIZE)
         {
             l = bag.selectRandom();
             bag.takeTile(l);
@@ -382,7 +602,7 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
         }
     }
 
-    if (iCheck && !pld.checkRack(min,min))
+    if (iCheck && !pld.checkRack(min, min))
         return 2;
 
     m_players[p]->setCurrentRack(pld);
@@ -391,20 +611,10 @@ int Game::helperSetRackRandom(int p, bool iCheck, set_rack_mode mode)
 }
 
 
-/**
- * Check if the players rack can be obtained from the bag.
- * Since letters are removed from the bag only when the
- * round is played we need to check that ALL the racks 
- * are in the bag simultaneously.
- *
- * FIXME: since we do not check for all racks it works
- * for training and duplicate but it won't work for
- * freegames.
- */
 bool Game::rackInBag(const Rack &iRack, const Bag &iBag) const
 {
-    const list<Tile>& allTiles = Tile::getAllTiles();
-    list<Tile>::const_iterator it;
+    const vector<Tile>& allTiles = m_dic.getAllTiles();
+    vector<Tile>::const_iterator it;
     for (it = allTiles.begin(); it != allTiles.end(); it++)
     {
         if (iRack.in(*it) > iBag.in(*it))
@@ -413,20 +623,16 @@ bool Game::rackInBag(const Rack &iRack, const Bag &iBag) const
     return true;
 }
 
-/**
- * Set the rack of the player p manually.
- */
-int Game::helperSetRackManual(int p, bool iCheck, const wstring &iLetters)
+
+int Game::helperSetRackManual(unsigned int p, bool iCheck, const wstring &iLetters)
 {
-    int min, ret;
+    ASSERT(p < getNPlayers(), "Wrong player number");
 
-    PlayedRack pld = getPlayer(p).getCurrentRack();
-    pld.reset();
+    if (!m_dic.validateLetters(iLetters, L"+"))
+        return 3;
 
-    if ((ret = pld.setManual(iLetters)) > 0)
-    {
-        return 1; /* add new tests */
-    }
+    PlayedRack pld;
+    pld.setManual(iLetters);
 
     Rack rack;
     pld.getRack(rack);
@@ -438,12 +644,13 @@ int Game::helperSetRackManual(int p, bool iCheck, const wstring &iLetters)
 
     if (iCheck)
     {
-        if (m_bag.nVowels() > 1 && m_bag.nConsonants() > 1
+        int min;
+        if (m_bag.getNbVowels() > 1 && m_bag.getNbConsonants() > 1
             && m_history.getSize() < 15)
             min = 2;
         else
             min = 1;
-        if (!pld.checkRack(min,min))
+        if (!pld.checkRack(min, min))
             return 2;
     }
 
@@ -456,10 +663,10 @@ int Game::helperSetRackManual(int p, bool iCheck, const wstring &iLetters)
  *********************************************************/
 
 
-int Game::getNHumanPlayers() const
+unsigned int Game::getNHumanPlayers() const
 {
-    int count = 0;
-    for (int i = 0; i < getNPlayers(); i++)
+    unsigned int count = 0;
+    for (unsigned int i = 0; i < getNPlayers(); i++)
         count += (getPlayer(i).isHuman() ? 1 : 0);
     return count;
 }
@@ -474,7 +681,8 @@ void Game::addHumanPlayer()
 
 void Game::addAIPlayer()
 {
-    m_players.push_back(new AIPercent(getNPlayers(), 0));
+    // TODO: allow other percentages, and even other types of AI
+    m_players.push_back(new AIPercent(getNPlayers(), 1));
 }
 
 
@@ -500,34 +708,15 @@ void Game::nextPlayer()
 }
 
 
-/*
- * This function checks whether it is legal to play the given word at the
- * given coordinates. If so, the function fills a Round object, also given as
- * a parameter.
- * Possible return values:
- *  0: correct word, the Round can be used by the caller
- *  1: no dictionary set
- *  2: invalid coordinates (unreadable or out of the board)
- *  3: word not present in the dictionary
- *  4: not enough letters in the rack to play the word
- *  5: word is part of a longer one
- *  6: word overwriting an existing letter
- *  7: invalid crosscheck, or word going out of the board
- *  8: word already present on the board (no new letter from the rack)
- *  9: isolated word (not connected to the rest)
- * 10: first word not horizontal
- * 11: first word not covering the H8 square
- */
 int Game::checkPlayedWord(const wstring &iCoord,
                           const wstring &iWord, Round &oRound)
 {
     ASSERT(getNPlayers() != 0, "Expected at least one player");
 
-    int res;
-    vector<Tile> tiles;
-    Tile t;
+    if (!m_dic.validateLetters(iWord))
+        return 1;
 
-    /* Init the round with the given coordinates */
+    // Init the round with the given coordinates
     oRound.init();
     oRound.accessCoord().setFromString(iCoord);
     if (!oRound.getCoord().isValid())
@@ -535,17 +724,18 @@ int Game::checkPlayedWord(const wstring &iCoord,
         debug("game: incorrect coordinates\n");
         return 2;
     }
-    
-    /* Check the existence of the word */
-    if (Dic_search_word(*m_dic, iWord.c_str()) == 0)
+
+    // Check the existence of the word
+    if (!m_dic.searchWord(iWord))
     {
         return 3;
     }
 
-    /* Set the word */
+    // Set the word
     // TODO: make this a Round_ function (Round_setwordfromchar for example)
     // or a Tiles_ function (to transform a char* into a vector<Tile>)
     // Adding a getter on the word could help too...
+    vector<Tile> tiles;
     for (unsigned int i = 0; i < iWord.size(); i++)
     {
         tiles.push_back(Tile(iWord[i]));
@@ -557,20 +747,21 @@ int Game::checkPlayedWord(const wstring &iCoord,
             oRound.setJoker(i);
     }
 
-    /* Check the word position, compute its points,
-     * and specify the origin of each letter (board or rack) */
-    res = m_board.checkRound(oRound, m_history.getSize() == 0);
+    // Check the word position, compute its points,
+    // and specify the origin of each letter (board or rack)
+    int res = m_board.checkRound(oRound, m_history.getSize() == 0);
     if (res != 0)
         return res + 4;
 
-    /* Check that the word can be formed with the tiles in the rack:
-     * we first create a copy of the rack, then we remove the tiles
-     * one by one */
+    // Check that the word can be formed with the tiles in the rack:
+    // we first create a copy of the rack, then we remove the tiles
+    // one by one
     Rack rack;
     Player *player = m_players[m_currPlayer];
     player->getCurrentRack().getRack(rack);
 
-    for (int i = 0; i < oRound.getWordLen(); i++)
+    Tile t;
+    for (unsigned int i = 0; i < oRound.getWordLen(); i++)
     {
         if (oRound.isPlayedFromRack(i))
         {

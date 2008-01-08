@@ -1,10 +1,10 @@
 .deps
 Makefile
 Makefile.in
-scanner.h
-er.c
-libdic_a-er.c
-libdic_a-er.h
+libdic_a-erl.cpp
+libdic_a-erl.h
+libdic_a-ery.cpp
+libdic_a-ery.h
 compdic
 listdic
 regexp

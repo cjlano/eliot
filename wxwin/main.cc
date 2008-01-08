@@ -67,19 +67,21 @@ EliotApp::OnInit()
     wxConfigBase* config = wxConfigBase::Get();
     config = NULL;
 #ifdef ENABLE_LOCALE
-    locale.Init(wxLocale::GetSystemLanguage(),
-                wxLOCALE_LOAD_DEFAULT | wxLOCALE_CONV_ENCODING);
+    locale.Init();
 
-    wxLocale::AddCatalogLookupPathPrefix(wxT("."));
-    wxLocale::AddCatalogLookupPathPrefix(wxT(".."));
+    // No need to search in the current directory, it is already done by default
+    // wxLocale::AddCatalogLookupPathPrefix(wxT("."));
+    // Search for translations in the installation directory
+    wxLocale::AddCatalogLookupPathPrefix(wxT(LOCALEDIR));
     locale.AddCatalog(wxT("eliot"));
 #ifdef __LINUX__
     {
         wxLogNull noLog;
-        locale.AddCatalog(_T("fileutils"));
+        locale.AddCatalog(wxT("fileutils"));
     }
 #endif
 #endif
+
     ConfigDB configdb;
     configdb.setFirstDefault();
     MainFrame *mainframe = new MainFrame(configdb.getFramePos(wxT(APPNAME)),
@@ -94,7 +96,7 @@ int
 EliotApp::OnExit()
 {
     GameFactory::Destroy();
-    delete wxConfigBase::Set((wxConfigBase *) NULL);
+    delete wxConfigBase::Set(NULL);
     return 0;
 }
 

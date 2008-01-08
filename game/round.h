@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,7 +43,6 @@ public:
      *
      *************************/
     Round();
-    virtual ~Round() {}
     void init();
 
     /*************************
@@ -58,23 +58,23 @@ public:
      *************************/
     void setPoints(int iPoints)    { m_points = iPoints; }
     void setBonus(bool iBonus)     { m_bonus = iBonus; }
-    void setTile(int iIndex, const Tile &iTile) { m_word[iIndex] = iTile; }
+    void setTile(unsigned int iIndex, const Tile &iTile) { m_word[iIndex] = iTile; }
     void setWord(const vector<Tile> &iTiles);
-    void setFromRack(int iIndex);
-    void setFromBoard(int iIndex);
-    void setJoker(int iIndex, bool value = true);
+    void setFromRack(unsigned int iIndex);
+    void setFromBoard(unsigned int iIndex);
+    void setJoker(unsigned int iIndex, bool value = true);
 
     /*************************
      * General getters
      *************************/
-    bool isJoker         (int iIndex) const;
-    bool isPlayedFromRack(int iIndex) const;
-    const Tile& getTile  (int iIndex) const;
+    bool isJoker         (unsigned int iIndex) const;
+    bool isPlayedFromRack(unsigned int iIndex) const;
+    const Tile& getTile  (unsigned int iIndex) const;
 
     wstring getWord() const;
-    int getWordLen()  const;
-    int getPoints()   const       { return m_points; }
-    int getBonus()    const       { return m_bonus; }
+    unsigned int getWordLen() const { return m_word.size(); }
+    int getPoints() const           { return m_points; }
+    int getBonus()  const           { return m_bonus; }
 
     /*************************
      * Coordinates

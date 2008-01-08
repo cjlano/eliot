@@ -16,13 +16,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+localedir = $(datadir)/locale
+
 if BUILD_WXWIDGETS
 
 bin_PROGRAMS = eliot
 
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/dic -I$(top_srcdir)/game
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" @WX_CPPFLAGS@ ## -Wno-strict-aliasing
 
-AM_CPPFLAGS = @WX_CPPFLAGS@ ## -Wno-strict-aliasing
+INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/dic -I$(top_srcdir)/game
 
 eliot_SOURCES = \
     configdb.cc configdb.h \
@@ -36,8 +38,7 @@ eliot_SOURCES = \
     mainframe.cc mainframe.h  \
     main.cc ewx.h
 
-## eliot_CPPFLAGS=
-eliot_LDADD = @WX_LIBS@ ../dic/libdic.a ../game/libgame.a
+eliot_LDADD = @WX_LIBS@ ../game/libgame.a ../dic/libdic.a @LIBINTL@
 
 EXTRA_DIST = \
     eliot.xpm \

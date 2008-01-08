@@ -1,21 +1,22 @@
-/* Eliot                                                                     */
-/* Copyright (C) 1999  Antoine Fraboulet                                     */
-/*                                                                           */
-/* This file is part of Eliot.                                               */
-/*                                                                           */
-/* Eliot is free software; you can redistribute it and/or modify             */
-/* it under the terms of the GNU General Public License as published by      */
-/* the Free Software Foundation; either version 2 of the License, or         */
-/* (at your option) any later version.                                       */
-/*                                                                           */
-/* Eliot is distributed in the hope that it will be useful,                  */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of            */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
-/* GNU General Public License for more details.                              */
-/*                                                                           */
-/* You should have received a copy of the GNU General Public License         */
-/* along with this program; if not, write to the Free Software               */
-/* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
+/*****************************************************************************
+ * Eliot
+ * Copyright (C) 1999-2006 Antoine Fraboulet
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *****************************************************************************/
 
 /**
  *  \file   regexp.h
@@ -24,12 +25,8 @@
  *  \date   2005
  */
 
-#ifndef _TREE_H_
-#define _TREE_H_
-#if defined(__cplusplus)
-extern "C"
-  {
-#endif
+#ifndef _REGEXP_H_
+#define _REGEXP_H_
 
 #define NODE_TOP    0
 #define NODE_VAR    1
@@ -38,17 +35,24 @@ extern "C"
 #define NODE_STAR   4
 #define NODE_PLUS   5
 
-typedef struct node {
-  int              type;
-  char             var;
-  struct node      *fg;
-  struct node      *fd;
-  int numero;
-  int position;
-  int annulable;
-  int PP;
-  int DP;
+
+typedef struct node
+{
+    int              type;
+    char             var;
+    struct node      *fg;
+    struct node      *fd;
+    int number;
+    int position;
+    int annulable;
+    int PP;
+    int DP;
 } NODE;
+
+    /**
+     * different letters in the dictionary
+     */
+#define DIC_LETTERS  27
 
     /**
      * maximum number of accepted terminals in regular expressions
@@ -139,7 +143,7 @@ struct regexp_error_report_t {
   char msg[MAX_REGEXP_ERROR_LENGTH];
 };
 
-#include <stdio.h>
+#include <cstdio>
 
 void  regexp_print_letter(FILE* f, char l);
 void  regexp_print_letter2(FILE* f, char l);
@@ -147,10 +151,7 @@ void  regexp_print_PS(int PS[]);
 void  regexp_print_ptl(int ptl[]);
 void  regexp_print_tree(NODE* n, char* name, int detail);
 
-#if defined(__cplusplus)
-  }
-#endif
-#endif /* _TREE_H_ */
+#endif /* _REGEXP_H_ */
 
 /// Local Variables:
 /// mode: c++

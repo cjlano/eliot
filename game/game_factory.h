@@ -1,6 +1,7 @@
 /*****************************************************************************
- * Copyright (C) 2005 Eliot
- * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2005-2007 Olivier Teulière
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,10 +21,15 @@
 #ifndef _GAME_FACTORY_H_
 #define _GAME_FACTORY_H_
 
-#include "game.h"
-#include "training.h"
-#include "freegame.h"
-#include "duplicate.h"
+#include <string>
+
+using std::string;
+
+class Dictionary;
+class Game;
+class Training;
+class FreeGame;
+class Duplicate;
 
 
 /**
@@ -52,7 +58,7 @@ public:
      * load() might need some more work to be robust enough to
      * handle "hand written" files
      */
-    Game *load(string filename, const Dictionary &iDic);
+    Game *load(const string &iFileName, const Dictionary &iDic);
 
     Game *createFromCmdLine(int argc, char **argv);
 
@@ -62,13 +68,13 @@ public:
 private:
 
     GameFactory();
-    virtual ~GameFactory();
+    ~GameFactory();
 
     /// The unique instance of the class
     static GameFactory *m_factory;
 
     /// Initial dictionary (it could be changed later)
-    Dictionary m_dic;
+    Dictionary *m_dic;
 
     /** Parameters specified on the command-line */
     //@{

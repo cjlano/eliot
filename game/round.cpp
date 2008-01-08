@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,33 +53,27 @@ void Round::init()
 
 void Round::setWord(const vector<Tile> &iTiles)
 {
-    m_word.clear();
-
-    vector<Tile>::const_iterator it;
-    for (it = iTiles.begin(); it != iTiles.end(); it++)
-    {
-        m_word.push_back(*it);
-        // XXX: always from rack?
-        m_tileOrigin.push_back(FROMRACK);
-    }
+    m_word = iTiles;
+    // XXX: always from rack?
+    m_tileOrigin = vector<char>(iTiles.size(), FROMRACK);
 }
 
 
-void Round::setFromRack(int iIndex)
+void Round::setFromRack(unsigned int iIndex)
 {
     m_tileOrigin[iIndex] &= ~FROMBOARD;
     m_tileOrigin[iIndex] |= FROMRACK;
 }
 
 
-void Round::setFromBoard(int iIndex)
+void Round::setFromBoard(unsigned int iIndex)
 {
     m_tileOrigin[iIndex] &= ~FROMRACK;
     m_tileOrigin[iIndex] |= FROMBOARD;
 }
 
 
-void Round::setJoker(int iIndex, bool value)
+void Round::setJoker(unsigned int iIndex, bool value)
 {
     if (value)
         m_tileOrigin[iIndex] |= JOKER;
@@ -87,25 +82,19 @@ void Round::setJoker(int iIndex, bool value)
 }
 
 
-bool Round::isJoker(int iIndex) const
+bool Round::isJoker(unsigned int iIndex) const
 {
      return m_tileOrigin[iIndex] & JOKER;
 }
 
 
-const Tile& Round::getTile(int iIndex) const
+const Tile& Round::getTile(unsigned int iIndex) const
 {
      return m_word[iIndex];
 }
 
 
-int Round::getWordLen() const
-{
-     return m_word.size();
-}
-
-
-bool Round::isPlayedFromRack(int iIndex) const
+bool Round::isPlayedFromRack(unsigned int iIndex) const
 {
      return m_tileOrigin[iIndex] & FROMRACK;
 }
@@ -150,7 +139,7 @@ wstring Round::getWord() const
     wchar_t c;
     wstring s;
 
-    for (int i = 0; i < getWordLen(); i++)
+    for (unsigned int i = 0; i < getWordLen(); i++)
     {
         c = getTile(i).toChar();
         if (isJoker(i))

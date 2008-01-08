@@ -3,28 +3,46 @@ commande> l 2 0
 mode partie libre
 [?] pour l'aide
 commande> a T
-Joueur 0: NEIJEDN
-Joueur 1: UUEALEO
+Joueur 0: JNNEDEI
+Joueur 1: TLAEOWA
 commande> p JID
 commande> a T
-Joueur 0: EENNWTA
-Joueur 1: UUEALEO
-commande> p auouel
+Joueur 0: EENNMEN
+Joueur 1: TLAEOWA
+commande> p aowalt
 commande> a T
-Joueur 0: EENNWTA
-Joueur 1: EEAKEIA
-commande> p WX
+Joueur 0: EENNMEN
+Joueur 1: EEEGAIS
+commande> p MA
 commande> a T
-Joueur 0: EENNWTA
-Joueur 1: EEAKEIA
-commande> p WA
+Joueur 0: EENNMEN
+Joueur 1: EEEGAIS
+commande> p MN
 commande> a T
-Joueur 0: EENNTOD
-Joueur 1: EEAKEIA
-commande> p KEEEAAI
+Joueur 0: EEENNER
+Joueur 1: EEEGAIS
+commande> p SGEEEAI
 commande> a T
-Joueur 0: EENNTOD
-Joueur 1: UNLEUSS
+Joueur 0: EEENNER
+Joueur 1: HAAUAUO
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Human
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  JNNEDEI | (-JID)          |  -  |   0 | 0 |
+    2 |  TLAEOWA | (-AOWALT)       |  -  |   0 | 1 |
+    3 | EENN+MEN | (-MN)           |  -  |   0 | 0 |
+    4 | E+EEGAIS | (-SGEEEAI)      |  -  |   0 | 1 |
+
+   Total: 0
+
+Rack 0: EEENN+ER
+Rack 1: HAAUAUO
 commande> q
 fin du mode partie libre
 commande> q

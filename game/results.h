@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2005-2007 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,9 +34,9 @@
 
 using namespace std;
 
+class Dictionary;
 class Board;
 class Rack;
-typedef struct _Dictionary * Dictionary;
 
 
 /**
@@ -47,24 +48,22 @@ typedef struct _Dictionary * Dictionary;
 class Results
 {
 public:
-    Results() {}
-    virtual ~Results() {}
-
-    int size() const    { return m_rounds.size(); }
+    unsigned int size() const    { return m_rounds.size(); }
     void clear()        { m_rounds.clear(); }
-    const Round & get(int) const;
+    const Round & get(unsigned int) const;
 
-    // Perform a search on the board
+    /// Perform a search on the board
     void search(const Dictionary &iDic, Board &iBoard,
-                const Rack &iRack, int iTurn);
+                const Rack &iRack, bool iFirstWord);
 
-    // FIXME: These methods are used to fill the container with the rounds,
-    // but they should not be part of the public interface
+    // FIXME: This method is used to fill the container with the rounds,
+    // but it should not be part of the public interface
     void add(const Round &iRound)   { m_rounds.push_back(iRound); }
 
-    void sort_by_points();
 private:
     vector<Round> m_rounds;
+
+    void sortByPoints();
 };
 
 #endif
