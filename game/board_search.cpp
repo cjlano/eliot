@@ -61,15 +61,15 @@ static void BoardSearchEvalMove(const Board &iBoard,
             int l;
             if (!iWord.isJoker(i))
                 l = iWord.getTile(i).getPoints() *
-                    iBoard.getLetterMultiplier(row, col + i);
+                    iBoard.GetLetterMultiplier(row, col + i);
             else
                 l = 0;
             pts += l;
-            wordmul *= iBoard.getWordMultiplier(row, col + i);
+            wordmul *= iBoard.GetWordMultiplier(row, col + i);
 
             int t = iPointsMx[row][col+i];
             if (t >= 0)
-                ptscross += (t + l) * iBoard.getWordMultiplier(row, col + i);
+                ptscross += (t + l) * iBoard.GetWordMultiplier(row, col + i);
             fromrack++;
         }
     }

@@ -129,8 +129,8 @@ void GameIO::printBoardMultipliers(ostream &out, const Game &iGame)
                 out << padAndConvert(wstring(1, l), 3);
             else
             {
-                int wm = iGame.getBoard().getWordMultiplier(row, col);
-                int tm = iGame.getBoard().getLetterMultiplier(row, col);
+                int wm = iGame.getBoard().GetWordMultiplier(row, col);
+                int tm = iGame.getBoard().GetLetterMultiplier(row, col);
 
                 if (wm > 1)
                     out << "  " << ((wm == 3) ? '@' : '#');
@@ -160,8 +160,8 @@ void GameIO::printBoardMultipliers2(ostream &out, const Game &iGame)
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
             wchar_t l = iGame.getBoard().getChar(row, col);
-            int wm = iGame.getBoard().getWordMultiplier(row, col);
-            int tm = iGame.getBoard().getLetterMultiplier(row, col);
+            int wm = iGame.getBoard().GetWordMultiplier(row, col);
+            int tm = iGame.getBoard().GetLetterMultiplier(row, col);
 
             if (wm > 1)
                 out << " " << ((wm == 3) ? '@' : '#');

@@ -400,19 +400,19 @@ GfxBoard::DrawBoard(wxDC *dc)
 	{
 	    for (column = BOARD_MIN; column <= BOARD_MAX; column++)
 		{
-		    if (board.getLetterMultiplier(row, column) == 2)
+		    if (board.GetLetterMultiplier(row, column) == 2)
 			{
 			    dc->SetBrush(*Lx2Brush);
 			}
-		    else if (board.getLetterMultiplier(row, column) == 3)
+		    else if (board.GetLetterMultiplier(row, column) == 3)
 			{
 			    dc->SetBrush(*Lx3Brush);
 			}
-		    else if (board.getWordMultiplier(row, column) == 2)
+		    else if (board.GetWordMultiplier(row, column) == 2)
 			{
 			    dc->SetBrush(*Wx2Brush);
 			}
-		    else if (board.getWordMultiplier(row, column) == 3)
+		    else if (board.GetWordMultiplier(row, column) == 3)
 			{
 			    dc->SetBrush(*Wx3Brush);
 			}

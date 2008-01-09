@@ -83,7 +83,7 @@ public:
     wchar_t getChar    (int iRow, int iCol) const;
     int     getCharAttr(int iRow, int iCol) const;
 
-    Tile getTile(int iRow, int iCol) const;
+    const Tile& getTile(int iRow, int iCol) const;
     bool isJoker(int iRow, int iCol) const;
     bool isVacant(int iRow, int iCol) const;
 
@@ -112,8 +112,8 @@ public:
     /**
      *
      */
-    int getWordMultiplier(int iRow, int iCol) const;
-    int getLetterMultiplier(int iRow, int iCol) const;
+    static int GetWordMultiplier(int iRow, int iCol);
+    static int GetLetterMultiplier(int iRow, int iCol);
 
     /**
      * 

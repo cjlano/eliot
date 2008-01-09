@@ -129,7 +129,7 @@ int Board::getCharAttr(int iRow, int iCol) const
 }
 
 
-Tile Board::getTile(int iRow, int iCol) const
+const Tile& Board::getTile(int iRow, int iCol) const
 {
     return m_tilesRow[iRow][iCol];
 }
@@ -443,7 +443,7 @@ char Board::getTestChar(int iRow, int iCol) const
 }
 
 
-int Board::getWordMultiplier(int iRow, int iCol) const
+int Board::GetWordMultiplier(int iRow, int iCol)
 {
     if (iRow < BOARD_MIN || iRow > BOARD_MAX ||
         iCol < BOARD_MIN || iCol > BOARD_MAX)
@@ -452,7 +452,7 @@ int Board::getWordMultiplier(int iRow, int iCol) const
 }
 
 
-int Board::getLetterMultiplier(int iRow, int iCol) const
+int Board::GetLetterMultiplier(int iRow, int iCol)
 {
     if (iRow < BOARD_MIN || iRow > BOARD_MAX ||
         iCol < BOARD_MIN || iCol > BOARD_MAX)

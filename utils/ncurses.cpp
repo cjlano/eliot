@@ -220,8 +220,8 @@ void CursesIntf::drawBoard(WINDOW *win, int y, int x) const
         for (int col = 1; col < 16; col++)
         {
             // Handle colors
-            int wm = m_game->getBoard().getWordMultiplier(row, col);
-            int lm = m_game->getBoard().getLetterMultiplier(row, col);
+            int wm = m_game->getBoard().GetWordMultiplier(row, col);
+            int lm = m_game->getBoard().GetLetterMultiplier(row, col);
             if (wm == 3)
                 wattron(win, COLOR_PAIR(COLOR_RED));
             else if (wm == 2)

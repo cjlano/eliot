@@ -102,6 +102,7 @@ public:
     unsigned int getNbEdgesUsed()  const { return m_edgesUsed; }
     unsigned int getNbNodesSaved() const { return m_nodesSaved; }
     unsigned int getNbEdgesSaved() const { return m_edgesSaved; }
+    wstring      getName()         const { return m_dicName; }
     DictType     getType()         const { return m_type; }
     wstring      getLetters()      const { return m_letters; }
     uint8_t      getPoints(unsigned int iCode) const { return m_points[iCode - 1]; }
