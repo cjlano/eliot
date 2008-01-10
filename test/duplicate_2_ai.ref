@@ -3,14 +3,14 @@ commande> d 0 2
 mode duplicate
 [?] pour l'aide
 commande> a S
-Joueur 0:  918
-Joueur 1:  918
+Joueur 0:  931
+Joueur 1:  931
 commande> a T
-Joueur 0: DQRU
-Joueur 1: DQRU
+Joueur 0: R
+Joueur 1: R
 commande> a l
  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
- 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 1 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
 commande> a p
 Eliot 1.5
 
@@ -42,11 +42,12 @@ Player 1: Computer
    20 |  TOEHLRT | PHOT            |  8L |  27 | 0 |  
    21 | ELRT+NME | REMELENT        |  C2 |  70 | 0 | *
    22 |  QDRMUTI | MITAN           |  5E |  20 | 0 |  
+   23 |     DQRU | QUID            | 13H |  13 | 0 |  
 
-   Total: 918
+   Total: 931
 
-Rack 0: DQRU
-Rack 1: DQRU
+Rack 0: R
+Rack 1: R
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   -  -  -  -  -  -  -  -  -  -  -  H  A  V  A
@@ -56,10 +57,10 @@ commande> a g
  E   -  -  -  -  M  -  R  -  L  -  E  -  -  -  -
  F   -  -  -  -  I  C  I  -  O  K  A  -  -  -  -
  G   -  -  -  -  T  U  S  -  P  I  N  -  -  -  -
- H   -  -  -  F  A  B  A  c  E  E  S  -  -  -  -
- I   -  -  V  I  N  E  S  -  -  F  -  -  -  -  -
+ H   -  -  -  F  A  B  A  c  E  E  S  -  Q  -  -
+ I   -  -  V  I  N  E  S  -  -  F  -  -  U  -  -
  J   -  W  A  X  -  B  -  -  -  S  E  R  I  N  S
- K   D  U  N  E  -  E  -  -  -  -  -  -  -  -  T
+ K   D  U  N  E  -  E  -  -  -  -  -  -  D  -  T
  L   O  -  -  E  -  S  E  P  T  I  m  E  -  -  Y
  M   U  -  -  -  -  -  -  H  -  -  -  -  -  -  L
  N   M  O  L  L  I  T  -  O  -  C  A  R  G  U  E

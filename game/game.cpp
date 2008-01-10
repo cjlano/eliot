@@ -336,16 +336,36 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
         }
     }
 
+    // Count the needed consonants and vowels in the rack
+    // (i.e. minimum required, minus what we already have in the rack)
+    unsigned int neededVowels = min;
+    unsigned int neededConsonants = min;
+    for (unsigned int i = 0; i < tiles.size(); ++i)
+    {
+        if (neededVowels > 0 && tiles[i].isVowel())
+            neededVowels--;
+        if (neededConsonants > 0 && tiles[i].isConsonant())
+            neededConsonants--;
+    }
+
     // Nothing in the rack, nothing in the bag --> end of the (free)game
     if (bag.getNbTiles() == 0 && pld.getNbTiles() == 0)
+    {
+        return 1;
+    }
+
+    // Check whether it is possible to complete the rack properly
+    if (bag.getNbVowels() < neededVowels ||
+        bag.getNbConsonants() < neededConsonants)
     {
         return 1;
     }
     // End of game condition
     if (iCheck)
     {
-        if (bag.getNbVowels() == 0 || bag.getNbConsonants() == 0 ||
-            bag.getNbTiles() == 1)
+        if (bag.getNbVowels() < neededVowels ||
+            bag.getNbConsonants() < neededConsonants ||
+            (bag.getNbTiles() + tiles.size()) == 1)
         {
             return 1;
         }
@@ -382,25 +402,6 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
         // Restore the joker if we are in a joker game
         if (jokerAdded)
             pld.addNew(Tile::Joker());
-
-        // Count the needed consonants and vowels in the rack
-        // (i.e. minimum required, minus what we already have in the rack)
-        unsigned int neededVowels = min;
-        unsigned int neededConsonants = min;
-        for (unsigned int i = 0; i < tiles.size(); ++i)
-        {
-            if (neededVowels > 0 && tiles[i].isVowel())
-                neededVowels--;
-            if (neededConsonants > 0 && tiles[i].isConsonant())
-                neededConsonants--;
-        }
-
-        // Check whether it is possible to complete the rack properly
-        if (bag.getNbVowels() < neededVowels ||
-            bag.getNbConsonants() < neededConsonants)
-        {
-            return 1;
-        }
 
         // RACK_SIZE - tiles.size() is the number of letters to add to the rack
         if (neededVowels > RACK_SIZE - tiles.size() ||

@@ -178,24 +178,6 @@ MainFrame::MainFrame(wxPoint __UNUSED__ pos_, wxSize size_)
     listsizer->Add(reslist, 1, wxEXPAND | wxLEFT | wxRIGHT, 1);
 #endif
 
-    wxString dicpath = config.getDicPath();
-    try
-    {
-        Dictionary *dic = new Dictionary(dicpath.mb_str().data());
-        m_dic = dic;
-        m_game = GameFactory::Instance()->createTraining(*m_dic);
-        if (m_game)
-        {
-            m_game->start();
-        }
-    }
-    catch (std::exception &e)
-    {
-        wxCommandEvent event;
-        // This will also start a new training game indirectly
-        OnMenuConfGameDic(event);
-    }
-
     InitMenu();
 
     statusbar = CreateStatusBar(2, 0, Status_ID);
@@ -238,6 +220,24 @@ MainFrame::MainFrame(wxPoint __UNUSED__ pos_, wxSize size_)
 
     SetClientSize(size_);
     Move(config.getFramePos(wxT(APPNAME)));
+
+    wxString dicpath = config.getDicPath();
+    try
+    {
+        Dictionary *dic = new Dictionary(dicpath.mb_str().data());
+        m_dic = dic;
+        m_game = GameFactory::Instance()->createTraining(*m_dic);
+        if (m_game)
+        {
+            m_game->start();
+        }
+    }
+    catch (std::exception &e)
+    {
+        wxCommandEvent event;
+        // This will also start a new training game indirectly
+        OnMenuConfGameDic(event);
+    }
 
     InitFrames();
 }
