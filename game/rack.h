@@ -55,7 +55,7 @@ public:
     void clear();
     void getTiles(vector<Tile> &oTiles) const;
 
-    wstring toString();
+    wstring toString() const;
 
 private:
     /// Vector indexed by tile codes, containing the number of tiles

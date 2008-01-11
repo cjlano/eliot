@@ -68,7 +68,7 @@ void Rack::getTiles(vector<Tile> &oTiles) const
 }
 
 
-wstring Rack::toString()
+wstring Rack::toString() const
 {
     wstring rs;
     for (unsigned int i = 1; i < m_tiles.size(); i++)

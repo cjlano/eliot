@@ -327,7 +327,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
         int pts;
         unsigned int player;
         char bonus = 0;
-        int res = sscanf(buff, "   %2d | %8s | %s | %3s | %3d | %1d | %c",
+        int res = sscanf(buff, "   %2d | %8s | %s | %3s | %3d | %1u | %c",
                          &num, rack, tmpWord, ref, &pts, &player, &bonus);
 
         debug("   -- line %s",buff);

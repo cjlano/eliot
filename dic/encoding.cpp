@@ -181,17 +181,7 @@ string convertToMb(const wstring& iWStr)
 
 string convertToMb(wchar_t iWChar)
 {
-#ifdef WIN32
     return convertToMb(wstring(1, iWChar));
-#else
-    char res[MB_CUR_MAX + 1];
-    int len = wctomb(res, iWChar);
-    if (len == -1)
-        return "";
-    res[len] = '\0';
-
-    return res;
-#endif
 }
 
 
