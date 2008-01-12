@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 16:59+0100\n"
+"POT-Creation-Date: 2008-01-12 21:14+0100\n"
 "PO-Revision-Date: 2005-02-06 20:03+0100\n"
 "Last-Translator: Olivier Teuliere <ipkiss@via.ecp.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -590,15 +590,27 @@ msgstr "Pas de partie en cours"
 msgid "No result"
 msgstr "Pas de résultat"
 
-#: wxwin/auxframes.cc:409
+#: wxwin/auxframes.cc:373
+msgid "Rack + 1"
+msgstr "Tirage + 1"
+
+#: wxwin/auxframes.cc:415
 msgid "Rack: "
 msgstr "Tirage :"
 
-#: wxwin/auxframes.cc:525 wxwin/mainframe.cc:325
+#: wxwin/auxframes.cc:436
+msgid "Benjamins"
+msgstr "Benjamins"
+
+#: wxwin/auxframes.cc:477
+msgid "Extensions"
+msgstr "Raccords"
+
+#: wxwin/auxframes.cc:543 wxwin/mainframe.cc:325
 msgid "Game history"
 msgstr "Historique de la partie"
 
-#: wxwin/auxframes.cc:557 wxwin/mainframe.cc:327
+#: wxwin/auxframes.cc:575 wxwin/mainframe.cc:327
 msgid "Results"
 msgstr "Résultats"
 
@@ -746,77 +758,77 @@ msgstr "Mot"
 msgid "Results of the search"
 msgstr "Résultats de la recherche"
 
-#: wxwin/mainframe.cc:206
+#: wxwin/mainframe.cc:188
 msgid " Rack "
 msgstr " Tirage "
 
-#: wxwin/mainframe.cc:207
+#: wxwin/mainframe.cc:189
 msgid " Complement "
 msgstr " Complément "
 
-#: wxwin/mainframe.cc:208
+#: wxwin/mainframe.cc:190
 msgid " Search "
 msgstr " Rechercher "
 
-#: wxwin/mainframe.cc:209
+#: wxwin/mainframe.cc:191
 msgid " Back "
 msgstr " Arrière "
 
-#: wxwin/mainframe.cc:210
+#: wxwin/mainframe.cc:192
 msgid " Play "
 msgstr " Jouer "
 
-#: wxwin/mainframe.cc:212
+#: wxwin/mainframe.cc:194
 msgid "Random rack"
 msgstr "Tirage aléatoire"
 
-#: wxwin/mainframe.cc:214
+#: wxwin/mainframe.cc:196
 msgid "Random complement of the rack"
 msgstr "Complément aléatoire du tirage"
 
-#: wxwin/mainframe.cc:216
+#: wxwin/mainframe.cc:198
 msgid "Search with the current rack"
 msgstr "Recherche sur le tirage courant"
 
-#: wxwin/mainframe.cc:218
+#: wxwin/mainframe.cc:200
 msgid "Go back one turn"
 msgstr "Revenir un coup en arrière"
 
-#: wxwin/mainframe.cc:220
+#: wxwin/mainframe.cc:202
 msgid "Play the selected word"
 msgstr "Jouer le mot selectionné"
 
 #: wxwin/mainframe.cc:272
-msgid "&New game\tctrl+n"
-msgstr "&Nouvelle partie\tctrl+n"
+msgid "&New game\tCtrl+N"
+msgstr "&Nouvelle partie\tCtrl+N"
 
 #: wxwin/mainframe.cc:272
 msgid "Start a new game"
 msgstr "Démarrer une nouvelle partie"
 
 #: wxwin/mainframe.cc:273
-msgid "New &joker game\tctrl+j"
-msgstr "Nouvelle partie &joker\tctrl+j"
+msgid "New &joker game\tCtrl+J"
+msgstr "Nouvelle partie &joker\tCtrl+J"
 
 #: wxwin/mainframe.cc:273
 msgid "Start a new joker game"
 msgstr "Démarrer une nouvelle partie joker"
 
 #: wxwin/mainframe.cc:275
-msgid "&Load...\tctrl+l"
-msgstr "&Charger...\tctrl+l"
+msgid "&Load...\tCtrl+L"
+msgstr "&Charger...\tCtrl+O"
 
 #: wxwin/mainframe.cc:276
-msgid "&Save as...\tctrl+s"
-msgstr "&Enregistrer sous...\tctrl+s"
+msgid "&Save as...\tCtrl+S"
+msgstr "&Enregistrer sous...\tCtrl+S"
 
 #: wxwin/mainframe.cc:276
 msgid "Save the current game"
 msgstr "Sauvegarder la partie en cours"
 
 #: wxwin/mainframe.cc:278
-msgid "&Print...\tctrl+p"
-msgstr "&Imprimer...\tctrl+p"
+msgid "&Print...\tCtrl+P"
+msgstr "&Imprimer...\tCtrl+P"
 
 #: wxwin/mainframe.cc:278
 msgid "Print this game"
@@ -839,16 +851,16 @@ msgid "Print in a PostScript file"
 msgstr "Imprimer dans un fichier PostScript"
 
 #: wxwin/mainframe.cc:284
-msgid "&Quit"
-msgstr "&Quitter"
+msgid "&Quit\tCtrl+Q"
+msgstr "&Quitter\tCtrl+Q"
 
 #: wxwin/mainframe.cc:284
 msgid "Quit Eliot"
 msgstr "Quitter Eliot"
 
 #: wxwin/mainframe.cc:287
-msgid "&Dictionary..."
-msgstr "&Dictionnaire..."
+msgid "&Dictionary...\tCtrl+D"
+msgstr "&Dictionnaire...\tCtrl+D"
 
 #: wxwin/mainframe.cc:287 wxwin/mainframe.cc:604
 msgid "Choose a dictionary"
@@ -999,8 +1011,8 @@ msgid "Game board"
 msgstr "Plateau de jeu"
 
 #: wxwin/mainframe.cc:317
-msgid "Ba&g"
-msgstr "&Sac"
+msgid "Ba&g\tCtrl+B"
+msgstr "&Sac\tCtrl-B"
 
 #: wxwin/mainframe.cc:317
 msgid "Remaining letters in the bag"
@@ -1031,24 +1043,24 @@ msgid "Letters of the rack plus one"
 msgstr "Lettres du tirage plus une"
 
 #: wxwin/mainframe.cc:322
-msgid "R&accords"
-msgstr "R&accords"
+msgid "&Extensions"
+msgstr "&Raccords"
 
 #: wxwin/mainframe.cc:322
-msgid "Raccords on a word of the search"
-msgstr "Raccords sur un mot de la recherche"
+msgid "One-letter extensions on a word of the search"
+msgstr "Raccords d'une lettre sur un mot de la recherche"
 
 #: wxwin/mainframe.cc:323
 msgid "&Benjamins"
 msgstr "&Benjamins"
 
 #: wxwin/mainframe.cc:323
-msgid "Benjamins on a word of the search"
-msgstr "Benjamins sur un mot de la recherche"
+msgid "Benjamins (3-letter extensions) on a word of the search"
+msgstr "Benjamins (préfixes de 3 lettres) sur un mot de la recherche"
 
 #: wxwin/mainframe.cc:325
-msgid "Game &history"
-msgstr "&Historique de la partie"
+msgid "Game &history\tCtrl+H"
+msgstr "&Historique de la partie\tCtrl+H"
 
 #: wxwin/mainframe.cc:327
 msgid "R&esults"
@@ -1204,6 +1216,18 @@ msgstr "Plus 1"
 #: wxwin/searchpanel.cc:368
 msgid "Regular expressions"
 msgstr "Expressions régulières"
+
+#~ msgid "R&accords"
+#~ msgstr "R&accords"
+
+#~ msgid "Raccords on a word of the search"
+#~ msgstr "Raccords sur un mot de la recherche"
+
+#~ msgid "&Quit"
+#~ msgstr "&Quitter"
+
+#~ msgid "Ba&g"
+#~ msgstr "&Sac"
 
 #~ msgid " Racks "
 #~ msgstr " Tirages "

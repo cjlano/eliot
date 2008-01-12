@@ -45,13 +45,12 @@
 class EliotApp : public wxApp
 {
 private:
+    MainFrame *m_mainFrame;
 protected:
-#ifdef ENABLE_LOCALE
-  wxLocale locale;
-#endif
+    wxLocale locale;
 public:
-  virtual bool OnInit();
-  virtual int  OnExit();
+    virtual bool OnInit();
+    virtual int  OnExit();
 };
 
 IMPLEMENT_APP(EliotApp)
@@ -59,27 +58,39 @@ IMPLEMENT_APP(EliotApp)
 bool
 EliotApp::OnInit()
 {
+    wxApp::OnInit();
     srand(time(NULL));
     SetVendorName(wxT("Afrab"));
     SetAppName(wxString(wxT("eliot")) + wxT("-") + wxT(VERSION));
     SetClassName(wxT("eliot"));
 
-    wxConfigBase* config = wxConfigBase::Get();
-    config = NULL;
-#ifdef ENABLE_LOCALE
+    wxConfigBase::Get();
+
     locale.Init();
 
+    // Search for translations in the installation directory
+    wxString catalogPath;
+#ifdef WIN32
+    // Get the absolute path, as returned by GetFullPathName()
+    wchar_t path[MAX_PATH];
+    GetFullPathName(wstring(argv[0]).c_str(), MAX_PATH, path, NULL);
+    wchar_t *pos = wcsrchr(path, L'\\');
+    if (pos)
+        *pos = '\0';
+    catalogPath = wxU(path) + wxT("/locale");
+#else
+    catalogPath = wxT(LOCALEDIR);
+#endif
+
+    wxLocale::AddCatalogLookupPathPrefix(catalogPath);
     // No need to search in the current directory, it is already done by default
     // wxLocale::AddCatalogLookupPathPrefix(wxT("."));
-    // Search for translations in the installation directory
-    wxLocale::AddCatalogLookupPathPrefix(wxT(LOCALEDIR));
     locale.AddCatalog(wxT("eliot"));
 #ifdef __LINUX__
     {
         wxLogNull noLog;
         locale.AddCatalog(wxT("fileutils"));
     }
-#endif
 #endif
 
     ConfigDB configdb;
@@ -97,7 +108,7 @@ EliotApp::OnExit()
 {
     GameFactory::Destroy();
     delete wxConfigBase::Set(NULL);
-    return 0;
+    return wxApp::OnExit();
 }
 
 

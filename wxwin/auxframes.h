@@ -191,7 +191,7 @@ class Plus1Frame: public AuxFrameList
 protected:
     virtual void refresh();
 public:
-    Plus1Frame(wxFrame* p, Game* g) : AuxFrameList(p, ID_Frame_Plus1, wxT("Tirage + 1"), FRAMEPLUS1, g) {};
+    Plus1Frame(wxFrame* p, Game* g);
 };
 
 /**
@@ -203,7 +203,7 @@ class BenjFrame: public AuxFrameList
 protected:
     virtual void refresh();
 public:
-    BenjFrame(wxFrame* p, Game* g) : AuxFrameList(p, ID_Frame_Benj, wxT("benjamins"), FRAMEBENJ, g) {};
+    BenjFrame(wxFrame* p, Game* g);
 };
 
 /**
@@ -215,7 +215,7 @@ class RaccFrame: public AuxFrameList
 protected:
     virtual void refresh();
 public:
-    RaccFrame(wxFrame* p, Game* g) : AuxFrameList(p, ID_Frame_Racc, wxT("raccords"), FRAMERACC, g) {};
+    RaccFrame(wxFrame* p, Game* g);
 };
 
 /**

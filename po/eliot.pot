@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 16:59+0100\n"
+"POT-Creation-Date: 2008-01-12 21:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -569,15 +569,27 @@ msgstr ""
 msgid "No result"
 msgstr ""
 
-#: wxwin/auxframes.cc:409
+#: wxwin/auxframes.cc:373
+msgid "Rack + 1"
+msgstr ""
+
+#: wxwin/auxframes.cc:415
 msgid "Rack: "
 msgstr ""
 
-#: wxwin/auxframes.cc:525 wxwin/mainframe.cc:325
+#: wxwin/auxframes.cc:436
+msgid "Benjamins"
+msgstr ""
+
+#: wxwin/auxframes.cc:477
+msgid "Extensions"
+msgstr ""
+
+#: wxwin/auxframes.cc:543 wxwin/mainframe.cc:325
 msgid "Game history"
 msgstr ""
 
-#: wxwin/auxframes.cc:557 wxwin/mainframe.cc:327
+#: wxwin/auxframes.cc:575 wxwin/mainframe.cc:327
 msgid "Results"
 msgstr ""
 
@@ -725,48 +737,48 @@ msgstr ""
 msgid "Results of the search"
 msgstr ""
 
-#: wxwin/mainframe.cc:206
+#: wxwin/mainframe.cc:188
 msgid " Rack "
 msgstr ""
 
-#: wxwin/mainframe.cc:207
+#: wxwin/mainframe.cc:189
 msgid " Complement "
 msgstr ""
 
-#: wxwin/mainframe.cc:208
+#: wxwin/mainframe.cc:190
 msgid " Search "
 msgstr ""
 
-#: wxwin/mainframe.cc:209
+#: wxwin/mainframe.cc:191
 msgid " Back "
 msgstr ""
 
-#: wxwin/mainframe.cc:210
+#: wxwin/mainframe.cc:192
 msgid " Play "
 msgstr ""
 
-#: wxwin/mainframe.cc:212
+#: wxwin/mainframe.cc:194
 msgid "Random rack"
 msgstr ""
 
-#: wxwin/mainframe.cc:214
+#: wxwin/mainframe.cc:196
 msgid "Random complement of the rack"
 msgstr ""
 
-#: wxwin/mainframe.cc:216
+#: wxwin/mainframe.cc:198
 msgid "Search with the current rack"
 msgstr ""
 
-#: wxwin/mainframe.cc:218
+#: wxwin/mainframe.cc:200
 msgid "Go back one turn"
 msgstr ""
 
-#: wxwin/mainframe.cc:220
+#: wxwin/mainframe.cc:202
 msgid "Play the selected word"
 msgstr ""
 
 #: wxwin/mainframe.cc:272
-msgid "&New game\tctrl+n"
+msgid "&New game\tCtrl+N"
 msgstr ""
 
 #: wxwin/mainframe.cc:272
@@ -774,7 +786,7 @@ msgid "Start a new game"
 msgstr ""
 
 #: wxwin/mainframe.cc:273
-msgid "New &joker game\tctrl+j"
+msgid "New &joker game\tCtrl+J"
 msgstr ""
 
 #: wxwin/mainframe.cc:273
@@ -782,11 +794,11 @@ msgid "Start a new joker game"
 msgstr ""
 
 #: wxwin/mainframe.cc:275
-msgid "&Load...\tctrl+l"
+msgid "&Load...\tCtrl+L"
 msgstr ""
 
 #: wxwin/mainframe.cc:276
-msgid "&Save as...\tctrl+s"
+msgid "&Save as...\tCtrl+S"
 msgstr ""
 
 #: wxwin/mainframe.cc:276
@@ -794,7 +806,7 @@ msgid "Save the current game"
 msgstr ""
 
 #: wxwin/mainframe.cc:278
-msgid "&Print...\tctrl+p"
+msgid "&Print...\tCtrl+P"
 msgstr ""
 
 #: wxwin/mainframe.cc:278
@@ -818,7 +830,7 @@ msgid "Print in a PostScript file"
 msgstr ""
 
 #: wxwin/mainframe.cc:284
-msgid "&Quit"
+msgid "&Quit\tCtrl+Q"
 msgstr ""
 
 #: wxwin/mainframe.cc:284
@@ -826,7 +838,7 @@ msgid "Quit Eliot"
 msgstr ""
 
 #: wxwin/mainframe.cc:287
-msgid "&Dictionary..."
+msgid "&Dictionary...\tCtrl+D"
 msgstr ""
 
 #: wxwin/mainframe.cc:287 wxwin/mainframe.cc:604
@@ -978,7 +990,7 @@ msgid "Game board"
 msgstr ""
 
 #: wxwin/mainframe.cc:317
-msgid "Ba&g"
+msgid "Ba&g\tCtrl+B"
 msgstr ""
 
 #: wxwin/mainframe.cc:317
@@ -1010,11 +1022,11 @@ msgid "Letters of the rack plus one"
 msgstr ""
 
 #: wxwin/mainframe.cc:322
-msgid "R&accords"
+msgid "&Extensions"
 msgstr ""
 
 #: wxwin/mainframe.cc:322
-msgid "Raccords on a word of the search"
+msgid "One-letter extensions on a word of the search"
 msgstr ""
 
 #: wxwin/mainframe.cc:323
@@ -1022,11 +1034,11 @@ msgid "&Benjamins"
 msgstr ""
 
 #: wxwin/mainframe.cc:323
-msgid "Benjamins on a word of the search"
+msgid "Benjamins (3-letter extensions) on a word of the search"
 msgstr ""
 
 #: wxwin/mainframe.cc:325
-msgid "Game &history"
+msgid "Game &history\tCtrl+H"
 msgstr ""
 
 #: wxwin/mainframe.cc:327

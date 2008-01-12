@@ -269,22 +269,22 @@ MainFrame::InitMenu()
 {
     // menus
     wxMenu *menu_game = new wxMenu;
-    menu_game->Append(Menu_Game_New, _("&New game\tctrl+n"), _("Start a new game"));
-    menu_game->Append(Menu_Game_NewJoker, _("New &joker game\tctrl+j"), _("Start a new joker game"));
+    menu_game->Append(Menu_Game_New, _("&New game\tCtrl+N"), _("Start a new game"));
+    menu_game->Append(Menu_Game_NewJoker, _("New &joker game\tCtrl+J"), _("Start a new joker game"));
     menu_game->AppendSeparator();
-    menu_game->Append(Menu_Game_Open, _("&Load...\tctrl+l"), _("Load a game"));
-    menu_game->Append(Menu_Game_Save, _("&Save as...\tctrl+s"), _("Save the current game"));
+    menu_game->Append(Menu_Game_Open, _("&Load...\tCtrl+L"), _("Load a game"));
+    menu_game->Append(Menu_Game_Save, _("&Save as...\tCtrl+S"), _("Save the current game"));
     menu_game->AppendSeparator();
-    menu_game->Append(Menu_Game_Print, _("&Print...\tctrl+p"), _("Print this game"));
+    menu_game->Append(Menu_Game_Print, _("&Print...\tCtrl+P"), _("Print this game"));
     menu_game->Append(Menu_Game_PrintPreview, _("Print pre&view..."), _("Print preview of the game"));
 #ifdef ENABLE_SAVE_POSTSCRIPT
     menu_game->Append(Menu_Game_PrintPS, _("Print in PostS&cript..."), _("Print in a PostScript file"));
 #endif
     menu_game->AppendSeparator();
-    menu_game->Append(wxID_EXIT, _("&Quit"), _("Quit Eliot"));
+    menu_game->Append(wxID_EXIT, _("&Quit\tCtrl+Q"), _("Quit Eliot"));
     //
     wxMenu *menu_conf_game = new wxMenu;
-    menu_conf_game->Append(Menu_Conf_Game_Dic, _("&Dictionary..."), _("Choose a dictionary"));
+    menu_conf_game->Append(Menu_Conf_Game_Dic, _("&Dictionary...\tCtrl+D"), _("Choose a dictionary"));
     menu_conf_game->Append(Menu_Conf_Game_Search, _("&Search..."), _("Search options"));
     //
     wxMenu *menu_conf_board_colour = new wxMenu;
@@ -314,15 +314,15 @@ MainFrame::InitMenu()
     //
     wxMenu *menu_frame = new wxMenu;
     menu_frame->AppendCheckItem(Menu_ShowBoard, _("&Board"), _("Game board"));
-    menu_frame->AppendCheckItem(Menu_ShowBag, _("Ba&g"), _("Remaining letters in the bag"));
+    menu_frame->AppendCheckItem(Menu_ShowBag, _("Ba&g\tCtrl+B"), _("Remaining letters in the bag"));
     menu_frame->AppendCheckItem(Menu_ShowVerif, _("&Check"), _("Check a word in the dictionary"));
     menu_frame->AppendCheckItem(Menu_ShowSearch, _("&Search"), _("Search in the dictionary"));
     menu_frame->AppendSeparator();
     menu_frame->AppendCheckItem(Menu_ShowPlus1, _("&Rack + 1"), _("Letters of the rack plus one"));
-    menu_frame->AppendCheckItem(Menu_ShowRacc, _("R&accords"), _("Raccords on a word of the search"));
-    menu_frame->AppendCheckItem(Menu_ShowBenj, _("&Benjamins"), _("Benjamins on a word of the search"));
+    menu_frame->AppendCheckItem(Menu_ShowRacc, _("&Extensions"), _("One-letter extensions on a word of the search"));
+    menu_frame->AppendCheckItem(Menu_ShowBenj, _("&Benjamins"), _("Benjamins (3-letter extensions) on a word of the search"));
     menu_frame->AppendSeparator();
-    menu_frame->AppendCheckItem(Menu_ShowGame, _("Game &history"), _("Game history"));
+    menu_frame->AppendCheckItem(Menu_ShowGame, _("Game &history\tCtrl+H"), _("Game history"));
 #ifndef ENABLE_RESLIST_IN_MAIN
     menu_frame->Append(Menu_ShowResult, _("R&esults"), _("Results"));
 #endif

@@ -369,6 +369,12 @@ AuxFrameList::Refresh(refresh_t __UNUSED__ force)
 /* PLUS1 FRAME */
 /****************************************************************/
 
+Plus1Frame::Plus1Frame(wxFrame* p, Game* g)
+    : AuxFrameList(p, ID_Frame_Plus1, _("Rack + 1"), FRAMEPLUS1, g)
+{
+}
+
+
 void
 Plus1Frame::refresh()
 {
@@ -426,6 +432,12 @@ Plus1Frame::refresh()
 /*  BENJAMINS */
 /****************************************************************/
 
+BenjFrame::BenjFrame(wxFrame* p, Game* g)
+    : AuxFrameList(p, ID_Frame_Benj, _("Benjamins"), FRAMEBENJ, g)
+{
+}
+
+
 void
 BenjFrame::refresh()
 {
@@ -460,6 +472,12 @@ BenjFrame::refresh()
 /****************************************************************/
 /* RACC FRAME */
 /****************************************************************/
+
+RaccFrame::RaccFrame(wxFrame* p, Game* g)
+    : AuxFrameList(p, ID_Frame_Racc, _("Extensions"), FRAMERACC, g)
+{
+}
+
 
 void
 RaccFrame::refresh()

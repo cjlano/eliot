@@ -51,7 +51,6 @@
 #  define INCOMPLETE
 #else
 #  define ENABLE_SAVE_POSTSCRIPT
-#  define ENABLE_LOCALE
 #  define ENABLE_RESLIST_IN_MAIN
 #  define INCOMPLETE { std::cerr << "incomplete " << __FILE__ << " " << __LINE__ << "\n"; }
 #endif
