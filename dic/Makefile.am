@@ -38,10 +38,17 @@ libdic_a_SOURCES = \
 	automaton.cpp automaton.h \
 	regexp.cpp regexp.h
 
-BUILT_SOURCES= \
-	libdic_a-erl.cpp \
-	libdic_a-erl.h \
-	libdic_a-ery.cpp \
+BUILT_SOURCES= 			\
+	libdic_a-erl.cpp 	\
+	libdic_a-erl.h 		\
+	libdic_a-ery.cpp 	\
+	libdic_a-ery.h
+
+
+nodist_libdic_a_SOURCES=	\
+	libdic_a-erl.cpp 	\
+	libdic_a-erl.h 		\
+	libdic_a-ery.cpp	\
 	libdic_a-ery.h
 
 # This hook triggers on 'make dist' (and 'make distcheck')
@@ -62,6 +69,11 @@ CLEANFILES= \
 	libdic_a-erl.h \
 	libdic_a-ery.cpp \
 	libdic_a-ery.h
+
+
+## automake workaround to generate .h file 
+libdic_a-erl.h: erl.lpp
+	${LEX} ${srcdir}/erl.lpp
 
 #####################################
 if BUILD_DICTOOLS
