@@ -1,0 +1,32 @@
+Changes between 1.5 and 1.6:
+----------------------------
+
+Dictionary:
+ * Internationalization of the dictionary binaries (compdic, listdic,
+   regexpmain)
+ * Support for a new dictionary format, with the following features:
+    - handles up to 63 unicode letters (instead of 31 ASCII ones)
+    - integrates the value and frequency of the letters
+    - integrates whether letters are vowels and/or consonants
+    - handles endianness properly
+   The old format is still supported, but this may change in future versions.
+ * Full Unicode support
+
+Core:
+ * Better Unicode support
+ * (Technical) Homogeneous support for different types of moves
+ * (Technical) Cleaner API
+ * Several bug fixes
+
+WxWidgets interface:
+ * Accessibility improvements (shortcuts, more consistent menu, etc.)
+ * Internationalization, with complete French translation
+
+Ncurses interface:
+ * Unicode support
+ * New Bag display
+ * Many improvements (smoother behaviour)
+
+Note: like in version 1.5, loading a saved game in duplicate or free game mode
+is known not to work.
+

@@ -28,7 +28,7 @@ package-win32-zip:
 	done
 
 # Copy relevant text files
-	for i in AUTHORS COPYING; do \
+	for i in AUTHORS COPYING NEWS; do \
 		cp $(top_srcdir)/$$i $(WIN32_PACKAGE_DIR)/$$i.txt; \
 		unix2dos $(WIN32_PACKAGE_DIR)/$$i.txt; \
 	done
