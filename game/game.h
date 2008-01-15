@@ -258,20 +258,6 @@ protected:
     int helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode);
 
     /**
-     * Set the rack randomly for the player p
-     * Possible return values:
-     *  0: everything went fine
-     *  1: the game is over
-     *  2: the rack was checked and was not correct (try calling the
-     *     function again)
-     *  3: there is no chance to set the rack with the vowels/consonants
-     *     constraints
-     *
-     * @deprecated: use helperSetRackRandom instead
-     */
-    int helperSetRackRandomOld(unsigned int p, bool iCheck, set_rack_mode mode);
-
-    /**
      * Set the rack for the player p with the given letters
      * Possible return values:
      *  0: everything went fine

@@ -27,9 +27,9 @@ training_racc       0  # randseed unused
 # Test the 7 + 1 feature
 training_7pl1       0  # randseed unused
 # Several ways of getting a rack and playing a word
-training_play       4
+training_play       0  # randseed unused
 # Training rack+search+play+back
-training_back       5
+training_back       0  # randseed unused
 # Joker problem on game search
 training_rosace     0
 
@@ -74,7 +74,7 @@ freegame_3_ai       2
 # load a standard training game (fumee)
 load_game           0
 # save and reload a training game, standard format
-load_saved_game     5
+load_saved_game     0  # randseed unused
 # load a training game with advanced format (test.elt)
 # load_test_adv       0 # We need to specifie a much more complete file format
                         # before we can handle load/save on duplicate and

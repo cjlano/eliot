@@ -2,14 +2,10 @@
 commande> e
 mode entraînement
 [?] pour l'aide
-commande> *
-commande> a t
-EA?AEBF
+commande> t EA?AEBF
 commande> r
 commande> n 1
-commande> +
-commande> a t
-LMUAEYE
+commande> t LMUAEYE
 commande> r
 commande> a r
   1: AY                 46 I6
@@ -113,7 +109,7 @@ commande> a l
 commande> n -1
 commande> a s
 0
-commande> *
+commande> t IEIEIEF
 commande> r
 commande> n 1
 commande> a s

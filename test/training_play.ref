@@ -2,9 +2,7 @@
 commande> e
 mode entraînement
 [?] pour l'aide
-commande> *
-commande> a t
-UDEEEIJ
+commande> t IEJDEUE
 commande> j INVALID XX
 Mot incorrect ou mal placé (2)
 commande> j INVALID H5
@@ -20,9 +18,7 @@ commande> n 0
 commande> n 6
 commande> a t
 DEEI
-commande> +
-commande> a t
-DEEIPEG
+commande> t DEEIPEG
 commande> j PIEGEE H4
 Mot incorrect ou mal placé (6)
 commande> j PIEGEE A1

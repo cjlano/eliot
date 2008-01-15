@@ -2,14 +2,10 @@
 commande> e
 mode entraînement
 [?] pour l'aide
-commande> *
-commande> a t
-EA?AEBF
+commande> t EA?AEBF
 commande> r
 commande> n 1
-commande> +
-commande> a t
-LMUAEYE
+commande> t LMUAEYE
 commande> r
 commande> a r
   1: AY                 46 I6
@@ -46,9 +42,7 @@ commande>
 commande> r
 commande> n 1
 commande> 
-commande> +
-commande> a t
-EELMUJE
+commande> t EELMUJE
 commande> r
 commande> a r
   1: JUMEL              38 J2
@@ -80,9 +74,7 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 commande> 
-commande> +
-commande> a t
-EEIGLEH
+commande> t EEIGLEH
 commande> r
 commande> a r
   1: HELIEE             34 K5
@@ -124,8 +116,8 @@ Player 0: Human
    ===|==========|=================|=====|=====|===|======
     1 |  EA?AEBF | FABAcEE         |  H4 |  80 | 0 | *
     2 |  LMUAEYE | AY              |  I6 |  46 | 0 |  
-    3 | EELMU+JE | JUMEL           |  J2 |  38 | 0 |  
-    4 | EE+IGLEH | EGAYEE          |  7F |  32 | 0 |  
+    3 |  EELMUJE | JUMEL           |  J2 |  38 | 0 |  
+    4 |  EEIGLEH | EGAYEE          |  7F |  32 | 0 |  
 
    Total: 196
 
@@ -168,8 +160,8 @@ Player 0: Human
    ===|==========|=================|=====|=====|===|======
     1 |  EA?AEBF | FABAcEE         |  H4 |  80 | 0 | *
     2 |  LMUAEYE | AY              |  I6 |  46 | 0 |  
-    3 | EELMU+JE | JUMEL           |  J2 |  38 | 0 |  
-    4 | EE+IGLEH | EGAYEE          |  7F |  32 | 0 |  
+    3 |  EELMUJE | JUMEL           |  J2 |  38 | 0 |  
+    4 |  EEIGLEH | EGAYEE          |  7F |  32 | 0 |  
 
    Total: 196
 

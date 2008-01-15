@@ -42,20 +42,8 @@ Training::Training(const Dictionary &iDic)
 
 int Training::setRackRandom(bool iCheck, set_rack_mode mode)
 {
-#define MAX_RANDOM_TRY 5
-
-    int res;
-    int try_number = 0;
     m_results.clear();
-    do
-    {
-        res = helperSetRackRandomOld(m_currPlayer, iCheck, mode);
-        try_number ++;
-    } while (res == 2 && try_number < MAX_RANDOM_TRY);
-    // 0 : ok
-    // 1 : not enough tiles
-    // 2 : check failed (number of voyels before round 15)
-    return res;
+    return helperSetRackRandom(m_currPlayer, iCheck, mode);
 }
 
 
