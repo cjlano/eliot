@@ -358,9 +358,15 @@ void Dictionary::searchCrossRecTempl(struct params_cross_t *params,
 {
     const DAWG_EDGE *current = getEdgeAt<DAWG_EDGE>(edgeptr->ptr);
 
-    if (params->mask[params->wordlen] == '\0' && edgeptr->term)
+    if (params->mask[params->wordlen] == '\0')
     {
-        oWordList.push_back(params->mask);
+        if (edgeptr->term)
+            oWordList.push_back(params->mask);
+    }
+    else if (current->chr == 0)
+    {
+        // Do not go on recursion if we are on the sink
+        return;
     }
     else if (params->mask[params->wordlen] == '.')
     {
