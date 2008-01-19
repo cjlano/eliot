@@ -22,8 +22,12 @@
 #define _GAME_FACTORY_H_
 
 #include <string>
+#include <vector>
 
 using std::string;
+using std::wstring;
+using std::vector;
+using std::pair;
 
 class Dictionary;
 class Game;
@@ -85,14 +89,11 @@ private:
     /// Game mode
     string m_modeStr;
 
-    /// Number of human players
-    int m_human;
-
-    /// Number of AI players
-    int m_ai;
-
     /// Variant of the game
     bool m_joker;
+
+    typedef pair<bool, wstring> PlayerDesc;
+    vector<PlayerDesc> m_players;
 
     //@}
 

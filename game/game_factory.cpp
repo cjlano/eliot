@@ -26,18 +26,27 @@
 #include <fstream>
 #include <exception>
 
+#if ENABLE_NLS
+#   include <libintl.h>
+#   define _(String) gettext(String)
+#else
+#   define _(String) String
+#endif
+
 #include "game_factory.h"
 #include "game.h"
 #include "training.h"
 #include "freegame.h"
 #include "duplicate.h"
+#include "player.h"
 #include "dic.h"
+#include "encoding.h"
 
 
 GameFactory *GameFactory::m_factory = NULL;
 
 
-GameFactory::GameFactory(): m_dic(NULL), m_human(0), m_ai(0), m_joker(false)
+GameFactory::GameFactory(): m_dic(NULL), m_joker(false)
 {
 }
 
@@ -94,12 +103,12 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
         {"dictionary", required_argument, NULL, 'd'},
         {"dict", required_argument, NULL, 'd'},
         {"mode", required_argument, NULL, 'm'},
-        {"human", no_argument, NULL, 300},
-        {"ai", no_argument, NULL, 400},
+        {"human", required_argument, NULL, 'u'},
+        {"ai", required_argument, NULL, 'a'},
         {"joker", no_argument, NULL, 500},
         {0, 0, 0, 0}
     };
-    static char short_options[] = "hvd:m:";
+    static char short_options[] = "hvd:m:u:a:";
 
     int option_index = 1;
     int res;
@@ -126,11 +135,22 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
             m_modeStr = optarg;
             found_m = true;
             break;
-        case 300:
-            m_human++;
-            break;
-        case 400:
-            m_ai++;
+        case 'u':
+        case 'a':
+            // Handle both types of players together
+            {
+                wstring name;
+                if (optarg == NULL)
+                {
+                    // TODO: use Boost.Format
+                    char s[200];
+                    snprintf(s, 200, _("Player %u"), m_players.size() + 1);
+                    name = convertToWc(s);
+                }
+                else
+                    name = convertToWc(optarg);
+                m_players.push_back(make_pair<bool, wstring>(res == 'u', name));
+            }
             break;
         case 500:
             m_joker = true;
@@ -184,10 +204,15 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
     }
 
     // 5) Add the players
-    for (int i = 0; i < m_human; i++)
-        game->addHumanPlayer();
-    for (int i = 0; i < m_ai; i++)
-        game->addAIPlayer();
+    for (unsigned int i = 0; i < m_players.size(); ++i)
+    {
+        // Human?
+        if (m_players[i].first)
+            game->addHumanPlayer();
+        else
+            game->addAIPlayer();
+        const_cast<Player*>(&game->getPlayer(i))->setName(m_players[i].second);
+    }
 
     // 6) Set the variant
     if (m_joker)
@@ -225,9 +250,9 @@ void GameFactory::printUsage(const string &iBinaryName) const
          << "  -v, --version            Print version information and exit" << endl
          << "  -m, --mode {duplicate,d,freegame,f,training,t}" << endl
          << "                           Choose game mode (mandatory)" << endl
-         << "  -d, --dict <string>      Choose a dictionary (mandatory)" << endl
-         << "      --human              Add a human player" << endl
-         << "      --ai                 Add a AI (Artificial Intelligence) player" << endl
+         << "  -d, --dict <path>        Choose a dictionary (mandatory)" << endl
+         << "  -u  --human <name>       Add a human player" << endl
+         << "  -a  --ai <name>          Add a AI (Artificial Intelligence) player" << endl
          << "      --joker              Play with the \"Joker game\" variant" << endl;
 }
 

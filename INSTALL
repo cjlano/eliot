@@ -1,83 +1,86 @@
+Installation on Linux/Unix
+==========================
 
-Installation sous Linux (Un*x) (bien/facile)
-------------------------------
-* Pour installer à partir de l'archive CVS :
+In the following, do not forget that the ./configure command can take options.
+Run ./configure --help to have the list of available options.
 
-  ./bootstrap
+* If you build from a CVS snapshot, run the following commands:
+    ./bootstrap
+    ./configure
+    make
 
-  ./configure
-  make
-  make install
+Then, as root:
+    make install
 
-* Pour installer à partir de l'archive tar.gz
-
-  ./configure
-  make
-  make install
-
-
-Il existe en fait 3 versions d'eliot, une en mode texte, une avec une
-interface curses et une avec wxwidgets. Les modes peuvent être
-sélectionnés à l'aide de la commande configure lors de la compilation
-du programme.
-
-./configure --enable-text --enable-ncurses --enable-wxwidgets
+No graphical interface is built by default, see below for more details.
 
 
+* If you build from a release tarball, run the following commands:
+    ./configure
+    make
 
-Installation pour Windows (moins bien/facile)
--------------------------
+Then, as root:
+    make install
 
-Il y a 2 principales façons de procéder :
-* directement depuis Windows, en utilisant Cygwin (http://www.cygwin.com/).
-* depuis GNU/Linux, en utilisant le cross-compilateur Mingw32.
+No graphical interface is built by default, see below for more details.
 
 
-Dans les 2 cas, les étapes sont les mêmes :
-* installation de l'environnement de compilation (cette étape n'est pas
-  décrite ici, car elle ne rentre pas dans le cadre de ce document)
+There are in fact several interfaces to Eliot:
+ - one in text mode: mostly useful to debug Eliot
+ - one using the ncursesw library: nice but not really graphical
+ - a wxWidgets interface: complete, but it does not allow multiplayer
+   modes, only training mode
+ - a Qt interface: currently under construction, it will replace the
+   wxWidgets interface when finished. It will support all Eliot features.
 
-* compilation et installation des dépendances (même remarque):
+These interfaces can be enabled or disabled at configuration time. Example:
+    ./configure --disable-text --enable-ncurses --disable-wxwidgets --enable-qt
 
-    - wxWidgets (http://www.wxwidgets.org/), version 2.4.2 ou ultérieure, avec
-      support de l'unicode
 
-    - libiconv (http://www.gnu.org/software/libiconv/), de préférence compilée
-      en mode statique (--disable-shared --enable-static)
 
-    - boost (http://www.boost.org/). Eliot n'utilise pas de librairie de Boost
-      (uniquement des headers), donc il n'y a pas vraiment besoin de compiler
+Windows build
+=============
 
-* compilation d'Eliot :
+There are 2 ways to proceed:
+* cross-compilation from a Linux host, using the mingw32 cross-compiler
+* directly on Windows, using Cygwin (http://www.cygwin.com/)
+Only the cross-compilation is officially supported (but adapting these
+instructions for Cygwin shouldn't be too hard; patches welcome!).
 
-    - si vous utilisez l'archive CVS, il faut générer le script 'configure'
-      (aussi bien sous Cygwin que sous GNU/Linux) :
+Here are the steps for the cross-compilation:
+
+* install the build environment (this step is not documented here,
+  as it is out of the scope of this document)
+
+* build and install dependencies:
+  The Makefile in the 'extras/contrib' directory should be able to do it for you:
+
+    cd extras/contrib && make all
+
+  Eliot dependencies (libiconv, boost, wxWidgets and Qt) will be downloaded
+  and cross-compiled, except Qt, which is only downloaded. Install it with
+  Wine, ignoring the warning that mingw is not found.
+  The dependencies are installed in 'extras/contrib/inst'
+
+* build Eliot:
+
+    - if you don't have the 'configure' script, generate it:
             ./bootstrap
 
-    - à cause d'un bug de gettext, il faut appliquer un patch aux fichiers installés
-      dans intl/ :
-            - télécharger le patch ici (lien en haut à gauche) :
+    - because of a bug in gettext, you need to apply a little patch to the files
+      installed in the 'intl' directory:
+            - download the patch here (link in the top-left-hand corner)
               http://www.koders.com/noncode/fid46DF595700FEB564B6EF45BFF55067F95DCF0420.aspx
-            - exécuter la commande suivante :
+            - apply the patch:
               patch -p2 < gettext-win32.patch
 
-    - avec Cygwin, configurer avec la ligne de commande suivante :
-            CPPFLAGS=-I/path/to/installs/include LDFLAGS=-L/path/to/installs/lib \
-            CC="gcc -mno-cygwin" CXX="g++ -mno-cygwin" \
-            ./configure --enable-wxwidgets --with-wx-config=/path/to/wx-config \
-            --with-boost=/path/to/boost/installs
-      en prenant soin de remplacer les différents chemins par les bonnes valeurs.
-      Ensuite, un simple 'make' suffit pour terminer la compilation,
-      éventuellement suivi de 'make install'.
-
-    - pour la cross-compilation depuis GNU/Linux, configurer avec la ligne
-      de commande suivante :
-            CPPFLAGS=-I/path/to/installs/include LDFLAGS=-L/path/to/installs/lib \
+    - configure with the following command:
+            export INST=`pwd`/extras/contrib/inst && \
+            CPPFLAGS=-I${INST}/include LDFLAGS=-L${INST}/lib \
             CC=i586-mingw32msvc-gcc CXX=i586-mingw32msvc-g++ \
             ./configure --host=i586-mingw32msvc --build=i386-linux \
-            --enable-wxwidgets --with-wx-config=/path/to/wx-config \
-            --with-boost=/path/to/installs
-      en prenant soin de remplacer les différents chemins par les bonnes valeurs.
-      Ensuite, un simple 'make' suffit pour terminer la compilation,
-      éventuellement suivi de 'make install'.
+            --enable-wxwidgets --with-wx-config=${INST}/bin/wx-config \
+            --with-boost=${INST}
+
+    - to compile, run 'make', possibly followed with 'make install'
 

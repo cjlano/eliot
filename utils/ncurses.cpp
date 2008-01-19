@@ -27,6 +27,7 @@
 
 #include <ctype.h>
 #include <fstream>
+#include <algorithm>
 
 #include "ncurses.h"
 #include "dic.h"
@@ -266,14 +267,27 @@ void CursesIntf::drawBoard(WINDOW *win, int y, int x) const
 
 void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
 {
+    // Compute the longest player name
+    unsigned int longest = 0;
+    for (unsigned int i = 0; i < m_game->getNPlayers(); i++)
+    {
+        longest = std::max(longest, m_game->getPlayer(i).getName().size());
+    }
+
     Box box(win, y, x, m_game->getNPlayers() + 2, 25);
     box.draw(_("Scores"));
+    // Magic formula to truncate too long names
+    unsigned int maxForScores =
+        std::min(longest,
+                 box.getWidth() - strlen(_("%s: %d")) - 1);
     for (unsigned int i = 0; i < m_game->getNPlayers(); i++)
     {
         if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
             attron(A_BOLD);
-        mvwprintw(win, y + i + 1, x + 2,
-                  _("Player %d: %d"), i, m_game->getPlayer(i).getPoints());
+        mvwprintw(win, y + i + 1, x + 2, _("%s: %d"),
+                  truncOrPad(convertToMb(m_game->getPlayer(i).getName()),
+                             maxForScores).c_str(),
+                  m_game->getPlayer(i).getPoints());
         if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
             attroff(A_BOLD);
     }
@@ -283,13 +297,19 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
 
     Box box2(win, y + yOff, x, m_game->getNPlayers() + 2, 25);
     box2.draw(_("Racks"));
+    // Magic formula to truncate too long names
+    unsigned int maxForRacks =
+        std::min(longest,
+                 box.getWidth() - strlen(_("%s: %ls")) - 4);
     for (unsigned int i = 0; i < m_game->getNPlayers(); i++)
     {
         if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
             attron(A_BOLD);
         wstring rack = m_game->getPlayer(i).getCurrentRack().toString(PlayedRack::RACK_SIMPLE);
-        mvwprintw(win, y + yOff + i + 1, x + 2,
-                  _("Player %d: %ls"), i, rack.c_str());
+        mvwprintw(win, y + yOff + i + 1, x + 2, _("%s: %ls"),
+                  truncOrPad(convertToMb(m_game->getPlayer(i).getName()),
+                             maxForRacks).c_str(),
+                  rack.c_str());
         if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
             attroff(A_BOLD);
         // Force to refresh the whole rack

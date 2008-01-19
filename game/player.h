@@ -27,6 +27,8 @@
 #include "pldrack.h"
 #include "history.h"
 
+using std::wstring;
+
 class Turn;
 
 
@@ -43,12 +45,17 @@ public:
     // Pseudo RTTI
     virtual bool isHuman() const = 0;
 
+    /// Get the name of the player
+    const wstring & getName() const { return m_name; }
+    /// Set the name of the player
+    void setName(const wstring &iName) { m_name = iName; }
+
     /**************************
      * General getters
      **************************/
-    // Get the (possibly incomplete) rack of the player
+    /// Get the (possibly incomplete) rack of the player
     const PlayedRack & getCurrentRack() const;
-    // Get the previous rack
+    /// Get the previous rack
     const PlayedRack & getLastRack() const;
     /// Get the previous move (corresponding to the previous rack...)
     const Move & getLastMove() const;
@@ -56,6 +63,7 @@ public:
     void setCurrentRack(const PlayedRack &iPld);
 
     const History& getHistory() const { return m_history; }
+
     /// Remove last turn
     void removeLastTurn();
 
@@ -83,6 +91,9 @@ private:
 
     /// Score of the player
     int m_score;
+
+    /// Name of the player
+    wstring m_name;
 
     /// History of the racks and rounds for the player
     History m_history;

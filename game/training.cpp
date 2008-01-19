@@ -21,6 +21,13 @@
 
 #include <algorithm>
 
+#if ENABLE_NLS
+#   include <libintl.h>
+#   define _(String) gettext(String)
+#else
+#   define _(String) String
+#endif
+
 #include "dic.h"
 #include "tile.h"
 #include "rack.h"
@@ -37,6 +44,9 @@
 Training::Training(const Dictionary &iDic)
     : Game(iDic)
 {
+    // Training mode implicitly uses 1 human player
+    Game::addHumanPlayer();
+    m_players[0]->setName(convertToWc(_("Training")));
 }
 
 
@@ -124,8 +134,6 @@ int Training::start()
     if (getNPlayers() != 0)
         return 1;
 
-    // Training mode implicitly uses 1 human player
-    Game::addHumanPlayer();
     m_currPlayer = 0;
     return 0;
 }
