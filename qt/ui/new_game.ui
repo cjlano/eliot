@@ -1,0 +1,213 @@
+<ui version="4.0" >
+ <class>NewGameDialog</class>
+ <widget class="QDialog" name="NewGameDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>374</width>
+    <height>327</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>_("New game")</string>
+  </property>
+  <property name="modal" >
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" >
+   <item>
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>_("Game type")</string>
+     </property>
+     <layout class="QHBoxLayout" >
+      <item>
+       <widget class="QLabel" name="label_3" >
+        <property name="text" >
+         <string>_("Mode:")</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBoxMode" >
+        <item>
+         <property name="text" >
+          <string>_("Duplicate")</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>_("Free game")</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>_("Training")</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>16</width>
+          <height>26</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxJoker" >
+        <property name="text" >
+         <string>_("Joker game")</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBoxPlayers" >
+     <property name="title" >
+      <string>_("Players")</string>
+     </property>
+     <layout class="QVBoxLayout" >
+      <item>
+       <widget class="QTreeView" name="treeViewPlayers" >
+        <property name="editTriggers" >
+         <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="rootIsDecorated" >
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <item>
+         <widget class="QLabel" name="label" >
+          <property name="text" >
+           <string>_("Name:")</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEditName" >
+          <property name="text" >
+           <string>_("Player")</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2" >
+          <property name="text" >
+           <string>_("Type:")</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBoxType" >
+          <item>
+           <property name="text" >
+            <string>_("Human")</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>_("AI")</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <item>
+         <widget class="QPushButton" name="pushButtonAdd" >
+          <property name="text" >
+           <string>_("Add player")</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButtonRemove" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>_("Remove player")</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons" >
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>NewGameDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>194</x>
+     <y>309</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>173</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>NewGameDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>101</x>
+     <y>298</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>75</x>
+     <y>275</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

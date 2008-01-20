@@ -1,0 +1,146 @@
+<ui version="4.0" >
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>683</width>
+    <height>589</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Eliot</string>
+  </property>
+  <property name="windowIcon" >
+   <iconset>../../../bzr-cppdic/wxwin/eliot.xpm</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <layout class="QVBoxLayout" >
+    <item>
+     <widget class="QGroupBox" name="groupBoxTest" >
+      <property name="sizePolicy" >
+       <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="title" >
+       <string>GroupBox</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="tabWidgetPlayers" >
+      <property name="sizePolicy" >
+       <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <widget class="QWidget" name="tab" >
+       <attribute name="title" >
+        <string>_("No game")</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>683</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile" >
+    <property name="title" >
+     <string>_("&amp;Game")</string>
+    </property>
+    <addaction name="action_New_Game" />
+    <addaction name="separator" />
+    <addaction name="action_Quit" />
+   </widget>
+   <widget class="QMenu" name="menuHelp" >
+    <property name="title" >
+     <string>&amp;Settings</string>
+    </property>
+    <addaction name="action_ChooseDic" />
+   </widget>
+   <widget class="QMenu" name="menu_Help" >
+    <property name="title" >
+     <string>_("&amp;Help")</string>
+    </property>
+    <addaction name="action_About" />
+    <addaction name="separator" />
+   </widget>
+   <widget class="QMenu" name="menu_Windows" >
+    <property name="title" >
+     <string>_("&amp;Windows")</string>
+    </property>
+    <addaction name="action_Bag" />
+   </widget>
+   <addaction name="menuFile" />
+   <addaction name="menuHelp" />
+   <addaction name="menu_Windows" />
+   <addaction name="menu_Help" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <action name="action_ChooseDic" >
+   <property name="text" >
+    <string>&amp;Choose dictionary...</string>
+   </property>
+  </action>
+  <action name="action_About" >
+   <property name="text" >
+    <string>_("&amp;About...")</string>
+   </property>
+   <property name="statusTip" >
+    <string>About Eliot</string>
+   </property>
+  </action>
+  <action name="action_Quit" >
+   <property name="text" >
+    <string>_("&amp;Quit")</string>
+   </property>
+  </action>
+  <action name="action_New_Game" >
+   <property name="text" >
+    <string>_("&amp;New game...")</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="action_Bag" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>_("&amp;Bag")</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>action_Quit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>260</x>
+     <y>215</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
