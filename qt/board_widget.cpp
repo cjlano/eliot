@@ -24,10 +24,12 @@
 
 #include "board_widget.h"
 #include "qtcommon.h"
+#include "game.h"
 #include "tile.h"
 #include "board.h"
 
 using namespace std;
+
 
 const QColor BoardWidget::EmptyColour(Qt::white);
 const QColor BoardWidget::L2Colour(34, 189, 240);
@@ -37,8 +39,8 @@ const QColor BoardWidget::W3Colour(240, 80, 94);
 const QColor BoardWidget::TileColour(255, 235, 205);
 
 
-BoardWidget::BoardWidget(QWidget *parent, const Board *iBoard)
-    : QFrame(parent), m_board(iBoard)
+BoardWidget::BoardWidget(QWidget *parent)
+    : QFrame(parent), m_game(NULL)
 {
     setFrameStyle(QFrame::Panel);
     // Use as much space as possible
@@ -48,9 +50,9 @@ BoardWidget::BoardWidget(QWidget *parent, const Board *iBoard)
 }
 
 
-void BoardWidget::setBoard(const Board *iBoard)
+void BoardWidget::setGame(const Game *iGame)
 {
-    m_board = iBoard;
+    m_game = iGame;
     refresh();
 }
 
@@ -80,7 +82,7 @@ void BoardWidget::paintEvent(QPaintEvent *)
         for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
         {
             // Set the brush color
-            if (m_board != NULL && !m_board->getTile(row, col).isEmpty())
+            if (m_game != NULL && !m_game->getBoard().getTile(row, col).isEmpty())
                 painter.setBrush(TileColour);
             else if (Board::GetWordMultiplier(row, col) == 3)
                 painter.setBrush(W3Colour);
@@ -97,13 +99,13 @@ void BoardWidget::paintEvent(QPaintEvent *)
                              squareSize, squareSize);
 
             // Draw the letter
-            if (m_board != NULL && !m_board->getTile(row, col).isEmpty())
+            if (m_game != NULL && !m_game->getBoard().getTile(row, col).isEmpty())
             {
                 painter.drawText((col - BOARD_MIN + 1) * squareSize,
                                  (row - BOARD_MIN + 1) * squareSize + 1,
                                  squareSize, squareSize,
                                  Qt::AlignCenter,
-                                 qfw(wstring(1, m_board->getTile(row, col).toChar())));
+                                 qfw(wstring(1, m_game->getBoard().getTile(row, col).toChar())));
             }
         }
     }

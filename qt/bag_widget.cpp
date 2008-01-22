@@ -24,6 +24,7 @@
 
 #include "bag_widget.h"
 #include "qtcommon.h"
+#include "game.h"
 #include "dic.h"
 #include "tile.h"
 #include "bag.h"
@@ -31,8 +32,8 @@
 using namespace std;
 
 
-BagWidget::BagWidget(QWidget *parent, const Bag *iBag)
-    : QTreeView(parent), m_bag(iBag)
+BagWidget::BagWidget(QWidget *parent)
+    : QTreeView(parent), m_game(NULL)
 {
     // Create the tree view
     setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -48,9 +49,15 @@ BagWidget::BagWidget(QWidget *parent, const Bag *iBag)
 }
 
 
-void BagWidget::setBag(const Bag *iBag)
+void BagWidget::setGame(const Game *iGame)
 {
-    m_bag = iBag;
+    m_game = iGame;
+    updateModel();
+}
+
+
+void BagWidget::refresh()
+{
     updateModel();
 }
 
@@ -62,14 +69,14 @@ void BagWidget::updateModel()
     m_model->setHeaderData(0, Qt::Horizontal, _q("Letter"), Qt::DisplayRole);
     m_model->setHeaderData(1, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
 
-    if (m_bag == NULL)
+    if (m_game == NULL)
         return;
 
-    const vector<Tile>& allTiles = m_bag->getDic().getAllTiles();
+    const vector<Tile>& allTiles = m_game->getDic().getAllTiles();
     vector<Tile>::const_iterator it;
     for (it = allTiles.begin(); it != allTiles.end(); ++it)
     {
-        unsigned int nb = m_bag->in(*it);
+        unsigned int nb = m_game->getBag().in(*it);
         if (nb != 0)
         {
             int rowNum = m_model->rowCount();

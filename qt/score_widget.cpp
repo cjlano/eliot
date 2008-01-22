@@ -53,6 +53,12 @@ void ScoreWidget::setGame(const Game *iGame)
 }
 
 
+void ScoreWidget::refresh()
+{
+    updateModel();
+}
+
+
 void ScoreWidget::updateModel()
 {
     m_model->clear();

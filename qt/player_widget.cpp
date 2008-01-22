@@ -210,3 +210,49 @@ QValidator::State PlayWordValidator::validate(QString &input, int &) const
     return Acceptable;
 }
 
+
+
+PlayerTabWidget::PlayerTabWidget(QWidget *parent)
+    : QTabWidget(parent), m_game(NULL)
+{
+}
+
+
+void PlayerTabWidget::setGame(const Game *iGame)
+{
+    m_game = iGame;
+
+    if (m_game == NULL)
+    {
+        // Cut all the connections with the pages
+        disconnect();
+
+        // Remove all the tabs
+        int nbTabs = count();
+        for (int i = 0; i < nbTabs; ++i)
+            removeTab(0);
+    }
+    else
+    {
+        // Add one tab per player
+        for (unsigned int i = 0; i < m_game->getNPlayers(); ++i)
+        {
+            const Player &player = m_game->getPlayer(i);
+            PlayerWidget *p = new PlayerWidget(NULL, i, m_game);
+            QObject::connect(this, SIGNAL(refreshSignal()), p, SLOT(refresh()));
+            QObject::connect(p, SIGNAL(passing(unsigned int, QString)),
+                             this, SIGNAL(passing(unsigned int, QString)));
+            QObject::connect(p, SIGNAL(playingWord(unsigned int, QString, QString)),
+                             this, SIGNAL(playingWord(unsigned int, QString, QString)));
+            addTab(p, qfw(player.getName()));
+        }
+    }
+}
+
+
+void PlayerTabWidget::refresh()
+{
+    emit refreshSignal();
+}
+
+

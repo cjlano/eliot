@@ -24,7 +24,7 @@
 #include <QtGui/QFrame>
 
 
-class Board;
+class Game;
 class QTreeView;
 
 class BoardWidget: public QFrame
@@ -32,10 +32,10 @@ class BoardWidget: public QFrame
     Q_OBJECT;
 
 public:
-    explicit BoardWidget(QWidget *parent = 0, const Board *iBoard = NULL);
+    explicit BoardWidget(QWidget *parent = 0);
 
 public slots:
-    void setBoard(const Board *iBoard = NULL);
+    void setGame(const Game *iGame);
     void refresh();
 
 protected:
@@ -45,8 +45,8 @@ protected:
     virtual void paintEvent(QPaintEvent *iEvent);
 
 private:
-    /// Encapsulated board, can be NULL
-    const Board *m_board;
+    /// Encapsulated game, can be NULL
+    const Game *m_game;
 
     /// Define a few background colours
     //@{

@@ -5,11 +5,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>599</width>
-    <height>170</height>
+    <width>460</width>
+    <height>125</height>
    </rect>
   </property>
   <layout class="QGridLayout" >
+   <property name="horizontalSpacing" >
+    <number>-1</number>
+   </property>
    <item row="0" column="0" >
     <widget class="QLabel" name="label" >
      <property name="text" >
@@ -44,6 +47,9 @@
    <item row="1" column="1" colspan="2" >
     <widget class="QLineEdit" name="lineEditPlay" >
      <property name="toolTip" >
+      <string>_("To play a word, enter the word (case sensitive) and its coordinates. E.g.: WORD H4")</string>
+     </property>
+     <property name="statusTip" >
       <string>_("To play a word, enter the word (case sensitive) and its coordinates. E.g.: WORD H4")</string>
      </property>
      <property name="text" >
@@ -88,26 +94,6 @@
       <string>_("Pass")</string>
      </property>
     </widget>
-   </item>
-   <item row="3" column="0" colspan="3" >
-    <widget class="QLabel" name="label_3" >
-     <property name="text" >
-      <string>_("To play a word, enter the word (case sensitive) and its coordinates. E.g.: WORD H4")</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1" >
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>

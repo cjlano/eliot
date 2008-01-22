@@ -22,6 +22,7 @@
 #define RACK_WIDGET_H_
 
 #include <QtGui/QWidget>
+#include <QtGui/QTabWidget>
 #include "ui/player_widget.ui.h"
 
 
@@ -36,7 +37,6 @@ public:
     explicit PlayerWidget(QWidget *parent = 0,
                           unsigned int iPlayerNb = 0,
                           const Game *iGame = NULL);
-    QSize sizeHint() const;
 
 signals:
     void playingWord(unsigned int iPlayer, QString iWord, QString iCoord);
@@ -44,6 +44,9 @@ signals:
 
 public slots:
     void refresh();
+
+protected:
+    virtual QSize sizeHint() const;
 
 private slots:
     void on_pushButtonShuffle_clicked();
@@ -62,6 +65,28 @@ private:
     /// Encapsulated player, valid iff m_game is not NULL
     unsigned int m_player;
 
+};
+
+
+class PlayerTabWidget: public QTabWidget
+{
+    Q_OBJECT;
+
+public:
+    explicit PlayerTabWidget(QWidget *parent = 0);
+
+public slots:
+    void setGame(const Game *iGame);
+    void refresh();
+
+signals:
+    void refreshSignal();
+    void playingWord(unsigned int iPlayer, QString iWord, QString iCoord);
+    void passing(unsigned int iPlayer, QString iChangedLetters);
+
+private:
+    /// Encapsulated game, can be NULL
+    const Game *m_game;
 };
 
 #endif

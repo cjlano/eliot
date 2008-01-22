@@ -36,6 +36,7 @@ public:
 
 public slots:
     void setGame(const Game *iGame = NULL);
+    void refresh();
 
 protected:
     /// Define a default size

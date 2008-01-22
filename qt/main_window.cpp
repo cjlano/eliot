@@ -46,38 +46,56 @@
 
 
 MainWindow::MainWindow(QWidget *iParent)
-    : QMainWindow(iParent), m_dic(NULL), m_game(NULL), m_newGame(NULL),
+    : QMainWindow(iParent), m_dic(NULL), m_game(NULL), m_newGameDialog(NULL),
     m_bagWindow(NULL)
 {
     m_ui.setupUi(this);
 
-    // Cascading signals
-    QObject::connect(this, SIGNAL(gameChanged(const Game*)),
-                     this, SLOT(gameUpdated()));
-
-    // Create the main window
+    // Board
     BoardWidget *boardWidget = new BoardWidget;
-    QObject::connect(this, SIGNAL(boardChanged(const Board*)),
-                     boardWidget, SLOT(setBoard(const Board*)));
+    QObject::connect(this, SIGNAL(gameChanged(const Game*)),
+                     boardWidget, SLOT(setGame(const Game*)));
+    QObject::connect(this, SIGNAL(gameUpdated()),
+                     boardWidget, SLOT(refresh()));
 
     QDockWidget *dock = new QDockWidget;
     dock->setWidget(boardWidget);
     boardWidget->setWindowTitle(_q("Board"));
 
+    QHBoxLayout *hlayout = new QHBoxLayout;
+    hlayout->addWidget(dock);
+
+    m_ui.groupBoxTest->setLayout(hlayout);
+
+    // History
+    HistoryTabWidget *historyTab = new HistoryTabWidget;
+    QObject::connect(this, SIGNAL(gameChanged(const Game*)),
+                     historyTab, SLOT(setGame(const Game*)));
+    QObject::connect(this, SIGNAL(gameUpdated()),
+                     historyTab, SLOT(refresh()));
+    QHBoxLayout *hlayout2 = new QHBoxLayout;
+    hlayout2->addWidget(historyTab);
+    m_ui.groupBoxHistory->setLayout(hlayout2);
+
+    // Players racks
+    m_ui.groupBoxPlayers->hide();
+    PlayerTabWidget *players = new PlayerTabWidget(NULL);
+    m_ui.groupBoxPlayers->layout()->addWidget(players);
+    QObject::connect(this, SIGNAL(gameChanged(const Game*)),
+                     players, SLOT(setGame(const Game*)));
+    QObject::connect(this, SIGNAL(gameUpdated()), players, SLOT(refresh()));
+    QObject::connect(players, SIGNAL(playingWord(unsigned int, QString, QString)),
+                     this, SLOT(playerPlays(unsigned int, QString, QString)));
+    QObject::connect(players, SIGNAL(passing(unsigned int, QString)),
+                     this, SLOT(playerPasses(unsigned int, QString)));
+
+    // Players score
     ScoreWidget *scores = new ScoreWidget;
     QObject::connect(this, SIGNAL(gameChanged(const Game*)),
                      scores, SLOT(setGame(const Game*)));
-
-    HistoryWidget *historyWidget = new HistoryWidget;
-    QObject::connect(this, SIGNAL(historyChanged(const History*)),
-                     historyWidget, SLOT(setHistory(const History*)));
-
-    QHBoxLayout *hlayout = new QHBoxLayout;
-    hlayout->addWidget(dock);
-    hlayout->addWidget(scores);
-    hlayout->addWidget(historyWidget);
-
-    m_ui.groupBoxTest->setLayout(hlayout);
+    QObject::connect(this, SIGNAL(gameUpdated()),
+                     scores, SLOT(refresh()));
+    m_ui.groupBoxPlayers->layout()->addWidget(scores);
 
     // XXX: temporary, for testing purposes!
     try
@@ -122,11 +140,13 @@ void MainWindow::on_action_Bag_triggered()
     if (m_bagWindow == NULL)
     {
         // Create the bag window
-        BagWidget *bagWidget =
-            new BagWidget(NULL, m_game ? &m_game->getBag() : NULL);
+        BagWidget *bagWidget = new BagWidget(NULL);
+        bagWidget->setGame(m_game);
         m_bagWindow = new AuxWindow(*bagWidget, m_ui.action_Bag);
-        QObject::connect(this, SIGNAL(bagChanged(const Bag*)),
-                         bagWidget, SLOT(setBag(const Bag*)));
+        QObject::connect(this, SIGNAL(gameChanged(const Game*)),
+                         bagWidget, SLOT(setGame(const Game*)));
+        QObject::connect(this, SIGNAL(gameUpdated()),
+                         bagWidget, SLOT(refresh()));
         // XXX
         m_bagWindow->move(20, 20);
     }
@@ -158,6 +178,22 @@ void MainWindow::on_action_ChooseDic_triggered()
 }
 
 
+void MainWindow::destroyCurrentGame()
+{
+    if (m_game == NULL)
+        return;
+
+    // Some controls, like the board, can live when there is no game.
+    // We only have to give them a NULL handler instead of the current one.
+    emit gameChanged(NULL);
+
+    m_ui.groupBoxPlayers->hide();
+
+    delete m_game;
+    m_game = NULL;
+}
+
+
 void MainWindow::on_action_New_Game_triggered()
 {
     if (m_dic == NULL)
@@ -166,43 +202,26 @@ void MainWindow::on_action_New_Game_triggered()
         return;
     }
 
-    if (m_newGame == NULL)
-        m_newGame = new NewGame(this);
+    if (m_newGameDialog == NULL)
+        m_newGameDialog = new NewGame(this);
 
-    int res = m_newGame->exec();
+    int res = m_newGameDialog->exec();
     if (res == QDialog::Rejected)
         return;
 
-    m_game = m_newGame->createGame(*m_dic);
+    // Destroy the game and the associated controls
+    destroyCurrentGame();
+
+    // Create a new game
+    m_game = m_newGameDialog->createGame(*m_dic);
     if (m_game == NULL)
         return;
 
-    int nbTabs = m_ui.tabWidgetPlayers->count();
-    for (int i = 0; i < nbTabs; ++i)
-        m_ui.tabWidgetPlayers->removeTab(0);
+    m_ui.groupBoxPlayers->show();
 
     m_game->start();
-    for (unsigned int i = 0; i < m_game->getNPlayers(); ++i)
-    {
-        PlayerWidget *r = new PlayerWidget(NULL, i, m_game);
-        QObject::connect(this, SIGNAL(rackChanged()), r, SLOT(refresh()));
-        QObject::connect(r, SIGNAL(playingWord(unsigned int, QString, QString)),
-                         this, SLOT(playerPlays(unsigned int, QString, QString)));
-        QObject::connect(r, SIGNAL(passing(unsigned int, QString)),
-                         this, SLOT(playerPasses(unsigned int, QString)));
-        m_ui.tabWidgetPlayers->addTab(r, qfw(m_game->getPlayer(i).getName()));
-    }
-
     emit gameChanged(m_game);
-}
-
-
-void MainWindow::gameUpdated()
-{
-    emit bagChanged(&m_game->getBag());
-    emit boardChanged(&m_game->getBoard());
-    emit historyChanged(&m_game->getHistory());
-    emit rackChanged();
+    emit gameUpdated();
 }
 
 
@@ -219,7 +238,7 @@ void MainWindow::playerPlays(unsigned int p, QString iWord, QString iCoord)
         displayErrorMsg(error, qfl("playing word"));
         return;
     }
-    emit gameChanged(m_game);
+    emit gameUpdated();
 }
 
 
@@ -248,10 +267,7 @@ void MainWindow::playerPasses(unsigned int p, QString iChangedLetters)
         displayErrorMsg(error, qfl("playing word"));
         return;
     }
-    emit bagChanged(&m_game->getBag());
-    emit boardChanged(&m_game->getBoard());
-    emit historyChanged(&m_game->getHistory());
-    emit rackChanged();
+    emit gameUpdated();
 }
 
 

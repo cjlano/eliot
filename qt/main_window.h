@@ -45,28 +45,19 @@ public:
 signals:
     void dicChanged(QString iDicFile, QString iDicName);
     void gameChanged(const Game *iGame);
-    void bagChanged(const Bag *iBag);
-    void boardChanged(const Board *iBoard);
-    void historyChanged(const History *iHistory);
-    void rackChanged();
+    void gameUpdated();
 
 public slots:
     void playerPlays(unsigned int p, QString iWord, QString iCoord);
     void playerPasses(unsigned int p, QString iLetters);
 
 private slots:
-    /// Emit various specific signals
-    void gameUpdated();
-
     void on_action_About_triggered();
     void on_action_Bag_triggered();
     void on_action_ChooseDic_triggered();
     void on_action_New_Game_triggered();
 
 private:
-    /// Display an error message to the user
-    void displayErrorMsg(QString iMsg, QString iContext = QString());
-
     /// Current dictionary
     const Dictionary *m_dic;
 
@@ -77,10 +68,17 @@ private:
     Ui::MainWindow m_ui;
 
     /// Dialog for creating a new game
-    NewGame *m_newGame;
+    NewGame *m_newGameDialog;
 
     /// Bag window
     AuxWindow *m_bagWindow;
+
+    /// Display an error message to the user
+    void displayErrorMsg(QString iMsg, QString iContext = QString());
+
+    /// Destroy the current game (if any) and the associated widgets
+    void destroyCurrentGame();
+
 };
 
 #endif

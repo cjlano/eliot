@@ -22,30 +22,71 @@
 #define HISTORY_WIDGET_H_
 
 #include <QtGui/QTreeView>
+#include <QtGui/QTabWidget>
 
 
 class History;
+class Game;
 class QStandardItemModel;
+class QTabWidget;
 
 class HistoryWidget: public QTreeView
 {
     Q_OBJECT;
 
 public:
-    explicit HistoryWidget(QWidget *parent = 0, const History *iHistory = NULL);
+    explicit HistoryWidget(QWidget *parent = 0);
+
+    void setHistory(const History *iHistory = NULL,
+                    bool iIsForPlayer = false);
 
 public slots:
-    void setHistory(const History *iHistory = NULL);
+    void refresh();
 
 private:
     /// Encapsulated history, can be NULL
     const History *m_history;
+
+    /**
+     * Flag to avoid displaying the "players" column when the History object
+     * is precisely associated to a Player
+     */
+    bool m_forPlayer;
 
     /// Model of the history
     QStandardItemModel *m_model;
 
     /// Force synchronizing the model with the contents of the history
     void updateModel();
+};
+
+
+class HistoryTabWidget: public QTabWidget
+{
+    Q_OBJECT;
+
+public:
+    explicit HistoryTabWidget(QWidget *parent = NULL);
+
+public slots:
+    void setGame(const Game *iGame);
+    void refresh();
+
+signals:
+    void refreshSignal();
+
+protected:
+    virtual QSize sizeHint() const;
+
+private:
+    /// Encapsulated game, can be NULL
+    const Game *m_game;
+
+    /**
+     * HistoryWidget for the game: we reuse it instead of creating and
+     * destroying it every time
+     */
+    HistoryWidget *m_gameHistoryWidget;
 };
 
 #endif
