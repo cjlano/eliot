@@ -24,6 +24,7 @@
 #include <QtCore/QStringList>
 
 #include "player_widget.h"
+#include "training_widget.h"
 #include "qtcommon.h"
 #include "game.h"
 #include "player.h"
@@ -213,38 +214,51 @@ QValidator::State PlayWordValidator::validate(QString &input, int &) const
 
 
 PlayerTabWidget::PlayerTabWidget(QWidget *parent)
-    : QTabWidget(parent), m_game(NULL)
+    : QTabWidget(parent)
 {
 }
 
 
-void PlayerTabWidget::setGame(const Game *iGame)
+void PlayerTabWidget::setGame(Game *iGame)
 {
-    m_game = iGame;
+    // Cut all the connections with the pages
+    disconnect();
 
-    if (m_game == NULL)
-    {
-        // Cut all the connections with the pages
-        disconnect();
+    // Remove all the tabs
+    int nbTabs = count();
+    for (int i = 0; i < nbTabs; ++i)
+        removeTab(0);
 
-        // Remove all the tabs
-        int nbTabs = count();
-        for (int i = 0; i < nbTabs; ++i)
-            removeTab(0);
-    }
-    else
+    if (iGame != NULL)
     {
-        // Add one tab per player
-        for (unsigned int i = 0; i < m_game->getNPlayers(); ++i)
+        // Training mode: use a dedicated widget
+        if (iGame->getMode() == Game::kTRAINING)
         {
-            const Player &player = m_game->getPlayer(i);
-            PlayerWidget *p = new PlayerWidget(NULL, i, m_game);
-            QObject::connect(this, SIGNAL(refreshSignal()), p, SLOT(refresh()));
-            QObject::connect(p, SIGNAL(passing(unsigned int, QString)),
-                             this, SIGNAL(passing(unsigned int, QString)));
-            QObject::connect(p, SIGNAL(playingWord(unsigned int, QString, QString)),
-                             this, SIGNAL(playingWord(unsigned int, QString, QString)));
-            addTab(p, qfw(player.getName()));
+            const Player &player = iGame->getPlayer(0);
+            TrainingWidget *trWidget = new TrainingWidget;
+            trWidget->setGame(iGame);
+            QObject::connect(this, SIGNAL(refreshSignal()),
+                             trWidget, SLOT(refresh()));
+            // Forward the gameUpdated() signal to the outside
+            QObject::connect(trWidget, SIGNAL(gameUpdated()),
+                             this, SIGNAL(gameUpdated()));
+            addTab(trWidget, qfw(player.getName()));
+        }
+        else
+        {
+
+            // Add one tab per player
+            for (unsigned int i = 0; i < iGame->getNPlayers(); ++i)
+            {
+                const Player &player = iGame->getPlayer(i);
+                PlayerWidget *p = new PlayerWidget(NULL, i, iGame);
+                QObject::connect(this, SIGNAL(refreshSignal()), p, SLOT(refresh()));
+                QObject::connect(p, SIGNAL(passing(unsigned int, QString)),
+                                 this, SIGNAL(passing(unsigned int, QString)));
+                QObject::connect(p, SIGNAL(playingWord(unsigned int, QString, QString)),
+                                 this, SIGNAL(playingWord(unsigned int, QString, QString)));
+                addTab(p, qfw(player.getName()));
+            }
         }
     }
 }

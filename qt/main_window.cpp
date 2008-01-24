@@ -38,6 +38,7 @@
 #include "score_widget.h"
 #include "player_widget.h"
 #include "history_widget.h"
+#include "training_widget.h"
 #include "aux_window.h"
 #include "qtcommon.h"
 
@@ -81,13 +82,23 @@ MainWindow::MainWindow(QWidget *iParent)
     m_ui.groupBoxPlayers->hide();
     PlayerTabWidget *players = new PlayerTabWidget(NULL);
     m_ui.groupBoxPlayers->layout()->addWidget(players);
-    QObject::connect(this, SIGNAL(gameChanged(const Game*)),
-                     players, SLOT(setGame(const Game*)));
+    QObject::connect(this, SIGNAL(gameChangedNonConst(Game*)),
+                     players, SLOT(setGame(Game*)));
     QObject::connect(this, SIGNAL(gameUpdated()), players, SLOT(refresh()));
+
+    QObject::connect(players, SIGNAL(gameUpdated()), this, SIGNAL(gameUpdated()));
     QObject::connect(players, SIGNAL(playingWord(unsigned int, QString, QString)),
                      this, SLOT(playerPlays(unsigned int, QString, QString)));
     QObject::connect(players, SIGNAL(passing(unsigned int, QString)),
                      this, SLOT(playerPasses(unsigned int, QString)));
+
+    // XXX: temp: Training widget
+    //TrainingWidget *trWidget = new TrainingWidget(NULL);
+    //m_ui.groupBoxPlayers->layout()->addWidget(trWidget);
+    //QObject::connect(this, SIGNAL(gameChangedNonConst(Game*)),
+    //                 trWidget, SLOT(setGame(Game*)));
+    //QObject::connect(this, SIGNAL(gameUpdated()), trWidget, SLOT(refresh()));
+    //QObject::connect(trWidget, SIGNAL(gameUpdated()), this, SIGNAL(gameUpdated()));
 
     // Players score
     ScoreWidget *scores = new ScoreWidget;
@@ -185,6 +196,7 @@ void MainWindow::destroyCurrentGame()
 
     // Some controls, like the board, can live when there is no game.
     // We only have to give them a NULL handler instead of the current one.
+    emit gameChangedNonConst(NULL);
     emit gameChanged(NULL);
 
     m_ui.groupBoxPlayers->hide();
@@ -220,6 +232,7 @@ void MainWindow::on_action_New_Game_triggered()
     m_ui.groupBoxPlayers->show();
 
     m_game->start();
+    emit gameChangedNonConst(m_game);
     emit gameChanged(m_game);
     emit gameUpdated();
 }

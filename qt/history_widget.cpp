@@ -44,6 +44,12 @@ HistoryWidget::HistoryWidget(QWidget *parent)
     // Associate the model to the view
     m_model = new QStandardItemModel(this);
     setModel(m_model);
+    m_model->setColumnCount(6);
+    m_model->setHeaderData(0, Qt::Horizontal, _q("Turn"), Qt::DisplayRole);
+    m_model->setHeaderData(1, Qt::Horizontal, _q("Rack"), Qt::DisplayRole);
+    m_model->setHeaderData(2, Qt::Horizontal, _q("Word"), Qt::DisplayRole);
+    m_model->setHeaderData(3, Qt::Horizontal, _q("Ref"), Qt::DisplayRole);
+    m_model->setHeaderData(4, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
     updateModel();
 }
 
@@ -65,8 +71,7 @@ void HistoryWidget::refresh()
 
 void HistoryWidget::updateModel()
 {
-    m_model->clear();
-    m_model->setColumnCount(6);
+    m_model->removeRows(0, m_model->rowCount());
     if (m_forPlayer)
     {
         // Empty column
@@ -76,11 +81,6 @@ void HistoryWidget::updateModel()
     {
         m_model->setHeaderData(5, Qt::Horizontal, _q("Player"), Qt::DisplayRole);
     }
-    m_model->setHeaderData(0, Qt::Horizontal, _q("Turn"), Qt::DisplayRole);
-    m_model->setHeaderData(1, Qt::Horizontal, _q("Rack"), Qt::DisplayRole);
-    m_model->setHeaderData(2, Qt::Horizontal, _q("Word"), Qt::DisplayRole);
-    m_model->setHeaderData(3, Qt::Horizontal, _q("Ref"), Qt::DisplayRole);
-    m_model->setHeaderData(4, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
 
     if (m_history != NULL)
     {

@@ -42,6 +42,9 @@ ScoreWidget::ScoreWidget(QWidget *parent, const Game *iGame)
     // Associate the model to the view
     m_model = new QStandardItemModel(this);
     setModel(m_model);
+    m_model->setColumnCount(2);
+    m_model->setHeaderData(0, Qt::Horizontal, _q("Player"), Qt::DisplayRole);
+    m_model->setHeaderData(1, Qt::Horizontal, _q("Score"), Qt::DisplayRole);
     updateModel();
 }
 
@@ -61,10 +64,7 @@ void ScoreWidget::refresh()
 
 void ScoreWidget::updateModel()
 {
-    m_model->clear();
-    m_model->setColumnCount(2);
-    m_model->setHeaderData(0, Qt::Horizontal, _q("Player"), Qt::DisplayRole);
-    m_model->setHeaderData(1, Qt::Horizontal, _q("Score"), Qt::DisplayRole);
+    m_model->removeRows(0, m_model->rowCount());
     resizeColumnToContents(0);
     //resizeColumnToContents(1);
 
@@ -79,6 +79,8 @@ void ScoreWidget::updateModel()
         m_model->setData(m_model->index(rowNum, 0), qfw(p.getName()));
         m_model->setData(m_model->index(rowNum, 1), p.getPoints());
     }
+    resizeColumnToContents(0);
+    //resizeColumnToContents(1);
 }
 
 

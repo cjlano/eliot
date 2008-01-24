@@ -45,6 +45,7 @@ public:
 signals:
     void dicChanged(QString iDicFile, QString iDicName);
     void gameChanged(const Game *iGame);
+    void gameChangedNonConst(Game *iGame);
     void gameUpdated();
 
 public slots:

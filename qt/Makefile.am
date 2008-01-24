@@ -29,18 +29,21 @@ bin_PROGRAMS = qeliot
 EXTRA_DIST = \
     ui/main_window.ui \
     ui/new_game.ui \
+    ui/training_widget.ui \
     ui/player_widget.ui
 
 BUILT_SOURCES = \
     ui/main_window.ui.h \
     ui/new_game.ui.h \
     ui/player_widget.ui.h \
+    ui/training_widget.ui.h \
     new_game.moc.cpp \
     bag_widget.moc.cpp \
     score_widget.moc.cpp \
     board_widget.moc.cpp \
-    player_widget.moc.cpp \
     history_widget.moc.cpp \
+    player_widget.moc.cpp \
+    training_widget.moc.cpp \
     aux_window.moc.cpp \
     main_window.moc.cpp
 
@@ -52,6 +55,7 @@ qeliot_SOURCES = \
     board_widget.cpp board_widget.h \
     history_widget.cpp history_widget.h \
     player_widget.cpp player_widget.h \
+    training_widget.cpp training_widget.h \
     aux_window.cpp aux_window.h \
     main_window.cpp main_window.h \
     main.cpp

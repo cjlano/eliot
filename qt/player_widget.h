@@ -76,17 +76,14 @@ public:
     explicit PlayerTabWidget(QWidget *parent = 0);
 
 public slots:
-    void setGame(const Game *iGame);
+    void setGame(Game *iGame);
     void refresh();
 
 signals:
     void refreshSignal();
+    void gameUpdated();
     void playingWord(unsigned int iPlayer, QString iWord, QString iCoord);
     void passing(unsigned int iPlayer, QString iChangedLetters);
-
-private:
-    /// Encapsulated game, can be NULL
-    const Game *m_game;
 };
 
 #endif

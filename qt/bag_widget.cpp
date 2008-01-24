@@ -45,6 +45,9 @@ BagWidget::BagWidget(QWidget *parent)
     // Associate the model to the view
     m_model = new QStandardItemModel(this);
     setModel(m_model);
+    m_model->setColumnCount(2);
+    m_model->setHeaderData(0, Qt::Horizontal, _q("Letter"), Qt::DisplayRole);
+    m_model->setHeaderData(1, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
     updateModel();
 }
 
@@ -64,10 +67,7 @@ void BagWidget::refresh()
 
 void BagWidget::updateModel()
 {
-    m_model->clear();
-    m_model->setColumnCount(2);
-    m_model->setHeaderData(0, Qt::Horizontal, _q("Letter"), Qt::DisplayRole);
-    m_model->setHeaderData(1, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
+    m_model->removeRows(0, m_model->rowCount());
 
     if (m_game == NULL)
         return;
