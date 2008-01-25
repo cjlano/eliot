@@ -33,6 +33,7 @@
 #include "player.h"
 #include "debug.h"
 #include "new_game.h"
+#include "prefs_dialog.h"
 #include "bag_widget.h"
 #include "board_widget.h"
 #include "score_widget.h"
@@ -48,7 +49,7 @@
 
 MainWindow::MainWindow(QWidget *iParent)
     : QMainWindow(iParent), m_dic(NULL), m_game(NULL), m_newGameDialog(NULL),
-    m_bagWindow(NULL)
+    m_prefsDialog(NULL), m_bagWindow(NULL)
 {
     m_ui.setupUi(this);
 
@@ -87,18 +88,8 @@ MainWindow::MainWindow(QWidget *iParent)
     QObject::connect(this, SIGNAL(gameUpdated()), players, SLOT(refresh()));
 
     QObject::connect(players, SIGNAL(gameUpdated()), this, SIGNAL(gameUpdated()));
-    QObject::connect(players, SIGNAL(playingWord(unsigned int, QString, QString)),
-                     this, SLOT(playerPlays(unsigned int, QString, QString)));
-    QObject::connect(players, SIGNAL(passing(unsigned int, QString)),
-                     this, SLOT(playerPasses(unsigned int, QString)));
-
-    // XXX: temp: Training widget
-    //TrainingWidget *trWidget = new TrainingWidget(NULL);
-    //m_ui.groupBoxPlayers->layout()->addWidget(trWidget);
-    //QObject::connect(this, SIGNAL(gameChangedNonConst(Game*)),
-    //                 trWidget, SLOT(setGame(Game*)));
-    //QObject::connect(this, SIGNAL(gameUpdated()), trWidget, SLOT(refresh()));
-    //QObject::connect(trWidget, SIGNAL(gameUpdated()), this, SIGNAL(gameUpdated()));
+    QObject::connect(players, SIGNAL(notifyProblem(QString)),
+                     this, SLOT(displayErrorMsg(QString)));
 
     // Players score
     ScoreWidget *scores = new ScoreWidget;
@@ -238,49 +229,11 @@ void MainWindow::on_action_New_Game_triggered()
 }
 
 
-void MainWindow::playerPlays(unsigned int p, QString iWord, QString iCoord)
+void MainWindow::on_action_Preferences_triggered()
 {
-    cerr << "Player " << p << " plays \"" << convertToMb(qtw(iWord))
-        << "\" in " << convertToMb(qtw(iCoord)) << endl;
-    int res = m_game->play(qtw(iCoord), qtw(iWord));
-    if (res)
-    {
-        // XXX: tmp
-        QString error;
-        error.sprintf("Error: %d", res);
-        displayErrorMsg(error, qfl("playing word"));
-        return;
-    }
-    emit gameUpdated();
-}
-
-
-void MainWindow::playerPasses(unsigned int p, QString iChangedLetters)
-{
-    if (iChangedLetters == "")
-    {
-        cerr << "Player " << p << " passes" << endl;
-    }
-    else
-    {
-        cerr << "Player " << p << " changes \""
-            << convertToMb(qtw(iChangedLetters)) << "\"" << endl;
-    }
-
-    FreeGame *free = dynamic_cast<FreeGame*>(m_game);
-    ASSERT(free != NULL,
-           "MainWindow::playerPasses() called while not in a free game");
-
-    int res = free->pass(qtw(iChangedLetters));
-    if (res)
-    {
-        // XXX: tmp
-        QString error;
-        error.sprintf("Error: %d", res);
-        displayErrorMsg(error, qfl("playing word"));
-        return;
-    }
-    emit gameUpdated();
+    if (m_prefsDialog == NULL)
+        m_prefsDialog = new PrefsDialog(this);
+    m_prefsDialog->exec();
 }
 
 

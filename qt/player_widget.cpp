@@ -27,6 +27,7 @@
 #include "training_widget.h"
 #include "qtcommon.h"
 #include "game.h"
+#include "freegame.h"
 #include "player.h"
 #include "pldrack.h"
 #include "coord.h"
@@ -62,8 +63,7 @@ private:
 };
 
 
-PlayerWidget::PlayerWidget(QWidget *parent, unsigned int iPlayerNb,
-                           const Game *iGame)
+PlayerWidget::PlayerWidget(QWidget *parent, unsigned int iPlayerNb, Game *iGame)
     : QWidget(parent), m_game(iGame), m_player(iPlayerNb)
 {
     setupUi(this);
@@ -108,7 +108,6 @@ void PlayerWidget::refresh()
 
     if (m_game == NULL)
     {
-        // XXX
         lineEditRack->clear();
         return;
     }
@@ -122,7 +121,7 @@ void PlayerWidget::refresh()
 
 void PlayerWidget::on_pushButtonShuffle_clicked()
 {
-    // TODO
+    // TODO: (not supported in the core yet)
 }
 
 
@@ -144,13 +143,44 @@ void PlayerWidget::on_lineEditPlay_returnPressed()
 {
     QStringList items = lineEditPlay->text().split(' ', QString::SkipEmptyParts);
     ASSERT(items.size() == 2, "Bug found in the validator");
-    emit playingWord(m_player, items[0], items[1]);
+
+    // Play the word
+    int res = m_game->play(qtw(items[1]), qtw(items[0]));
+    if (res == 0)
+    {
+        emit gameUpdated();
+    }
+    else
+    {
+        // FIXME: the error is too generic
+        QString msg = _q("Cannot play '%1' at position '%2': incorrect or misplaced word (%3)")
+            .arg(items[0]).arg(items[1]).arg(res);
+        emit notifyProblem(msg);
+    }
 }
 
 
 void PlayerWidget::on_lineEditChange_returnPressed()
 {
-    emit passing(m_player, lineEditChange->text());
+    FreeGame *free = dynamic_cast<FreeGame*>(m_game);
+    ASSERT(free != NULL,
+           "Trying to pass or change letters while not in free game mode");
+
+    // Pass the turn (and possibly change letters)
+    QString letters = lineEditChange->text();
+    int res = free->pass(qtw(letters));
+    if (res == 0)
+        emit gameUpdated();
+    else
+    {
+        // FIXME: the error is too generic
+        QString msg;
+        if (letters == "")
+            msg = _q("Cannot pass turn (%1)").arg(res);
+        else
+            msg = _q("Cannot change letters '%1' (%2)").arg(letters).arg(res);
+        emit notifyProblem(msg);
+    }
 }
 
 
@@ -221,13 +251,16 @@ PlayerTabWidget::PlayerTabWidget(QWidget *parent)
 
 void PlayerTabWidget::setGame(Game *iGame)
 {
-    // Cut all the connections with the pages
-    disconnect();
-
     // Remove all the tabs
     int nbTabs = count();
     for (int i = 0; i < nbTabs; ++i)
+    {
+        setCurrentWidget(0);
+        // Cut all the connections with the page (needed because removeTab()
+        // doesn't really destroy the widget)
+        disconnect(currentWidget());
         removeTab(0);
+    }
 
     if (iGame != NULL)
     {
@@ -246,17 +279,17 @@ void PlayerTabWidget::setGame(Game *iGame)
         }
         else
         {
-
             // Add one tab per player
             for (unsigned int i = 0; i < iGame->getNPlayers(); ++i)
             {
                 const Player &player = iGame->getPlayer(i);
                 PlayerWidget *p = new PlayerWidget(NULL, i, iGame);
                 QObject::connect(this, SIGNAL(refreshSignal()), p, SLOT(refresh()));
-                QObject::connect(p, SIGNAL(passing(unsigned int, QString)),
-                                 this, SIGNAL(passing(unsigned int, QString)));
-                QObject::connect(p, SIGNAL(playingWord(unsigned int, QString, QString)),
-                                 this, SIGNAL(playingWord(unsigned int, QString, QString)));
+                // Forward signals to the outside
+                QObject::connect(p, SIGNAL(notifyProblem(QString)),
+                                 this, SIGNAL(notifyProblem(QString)));
+                QObject::connect(p, SIGNAL(gameUpdated()),
+                                 this, SIGNAL(gameUpdated()));
                 addTab(p, qfw(player.getName()));
             }
         }

@@ -32,6 +32,7 @@ class Board;
 class History;
 class Game;
 class NewGame;
+class PrefsDialog;
 class AuxWindow;
 
 class MainWindow: public QMainWindow
@@ -49,14 +50,15 @@ signals:
     void gameUpdated();
 
 public slots:
-    void playerPlays(unsigned int p, QString iWord, QString iCoord);
-    void playerPasses(unsigned int p, QString iLetters);
+    /// Display an error message to the user
+    void displayErrorMsg(QString iMsg, QString iContext = "");
 
 private slots:
     void on_action_About_triggered();
     void on_action_Bag_triggered();
     void on_action_ChooseDic_triggered();
     void on_action_New_Game_triggered();
+    void on_action_Preferences_triggered();
 
 private:
     /// Current dictionary
@@ -71,11 +73,11 @@ private:
     /// Dialog for creating a new game
     NewGame *m_newGameDialog;
 
+    /// Dialog for the preferences
+    PrefsDialog *m_prefsDialog;
+
     /// Bag window
     AuxWindow *m_bagWindow;
-
-    /// Display an error message to the user
-    void displayErrorMsg(QString iMsg, QString iContext = QString());
 
     /// Destroy the current game (if any) and the associated widgets
     void destroyCurrentGame();

@@ -79,6 +79,7 @@
      <string>&amp;Settings</string>
     </property>
     <addaction name="action_ChooseDic" />
+    <addaction name="action_Preferences" />
    </widget>
    <widget class="QMenu" name="menu_Help" >
     <property name="title" >
@@ -112,7 +113,7 @@
   </widget>
   <action name="action_ChooseDic" >
    <property name="text" >
-    <string>&amp;Choose dictionary...</string>
+    <string>_("Choose dictionary...")</string>
    </property>
   </action>
   <action name="action_About" >
@@ -142,6 +143,11 @@
    </property>
    <property name="text" >
     <string>_("&amp;Bag")</string>
+   </property>
+  </action>
+  <action name="action_Preferences" >
+   <property name="text" >
+    <string>_("Preferences...")</string>
    </property>
   </action>
  </widget>

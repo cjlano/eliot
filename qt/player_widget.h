@@ -36,11 +36,11 @@ class PlayerWidget: public QWidget, private Ui::PlayerWidget
 public:
     explicit PlayerWidget(QWidget *parent = 0,
                           unsigned int iPlayerNb = 0,
-                          const Game *iGame = NULL);
+                          Game *iGame = NULL);
 
 signals:
-    void playingWord(unsigned int iPlayer, QString iWord, QString iCoord);
-    void passing(unsigned int iPlayer, QString iChangedLetters);
+    void gameUpdated();
+    void notifyProblem(QString iMsg);
 
 public slots:
     void refresh();
@@ -60,7 +60,7 @@ private slots:
 
 private:
     /// Encapsulated game, can be NULL
-    const Game *m_game;
+    Game *m_game;
 
     /// Encapsulated player, valid iff m_game is not NULL
     unsigned int m_player;
@@ -82,8 +82,7 @@ public slots:
 signals:
     void refreshSignal();
     void gameUpdated();
-    void playingWord(unsigned int iPlayer, QString iWord, QString iCoord);
-    void passing(unsigned int iPlayer, QString iChangedLetters);
+    void notifyProblem(QString iMsg);
 };
 
 #endif
