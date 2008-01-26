@@ -477,7 +477,7 @@ int Game::helperSetRackManual(unsigned int p, bool iCheck, const wstring &iLette
 {
     ASSERT(p < getNPlayers(), "Wrong player number");
 
-    if (!m_dic.validateLetters(iLetters, L"+"))
+    if (!m_dic.validateLetters(iLetters, L"+-"))
         return 3;
 
     PlayedRack pld;

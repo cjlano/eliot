@@ -54,11 +54,13 @@ public slots:
     void displayErrorMsg(QString iMsg, QString iContext = "");
 
 private slots:
-    void on_action_About_triggered();
-    void on_action_Bag_triggered();
-    void on_action_ChooseDic_triggered();
-    void on_action_New_Game_triggered();
-    void on_action_Preferences_triggered();
+    void on_action_GameNew_triggered();
+    void on_action_GameLoad_triggered();
+    void on_action_GameSaveAs_triggered();
+    void on_action_SettingsChooseDic_triggered();
+    void on_action_SettingsPreferences_triggered();
+    void on_action_WindowsBag_triggered();
+    void on_action_HelpAbout_triggered();
 
 private:
     /// Current dictionary

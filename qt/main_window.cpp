@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <iostream>
+#include <fstream>
 #include <QtGui/QMessageBox>
 #include <QtGui/QFileDialog>
 #include <QtGui/QDockWidget>
@@ -28,6 +30,7 @@
 #include "dic.h"
 #include "encoding.h"
 #include "header.h"
+#include "game_factory.h"
 #include "game.h"
 #include "freegame.h"
 #include "player.h"
@@ -119,67 +122,6 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_action_About_triggered()
-{
-    QString msg;
-    msg.sprintf("Eliot %s\n\n", VERSION);
-    msg += _q( \
-        "Copyright (C) 1999-2008 - Antoine Fraboulet & Olivier Teuliere\n\n" \
-        "This program is free software; you can redistribute it and/or " \
-        "modify it under the terms of the GNU General Public License as " \
-        "published by the Free Software Foundation; either version 2 of " \
-        "the License, or (at your option) any later version.");
-    // QMessageBox::about() doesn't add the nice information icon, so we create
-    // the box manually (not much work...)
-    QMessageBox *aboutBox = new QMessageBox(QMessageBox::Information,
-                                            _q("About Eliot"), msg, QMessageBox::Ok, this);
-    aboutBox->exec();
-}
-
-
-void MainWindow::on_action_Bag_triggered()
-{
-    if (m_bagWindow == NULL)
-    {
-        // Create the bag window
-        BagWidget *bagWidget = new BagWidget(NULL);
-        bagWidget->setGame(m_game);
-        m_bagWindow = new AuxWindow(*bagWidget, m_ui.action_Bag);
-        QObject::connect(this, SIGNAL(gameChanged(const Game*)),
-                         bagWidget, SLOT(setGame(const Game*)));
-        QObject::connect(this, SIGNAL(gameUpdated()),
-                         bagWidget, SLOT(refresh()));
-        // XXX
-        m_bagWindow->move(20, 20);
-    }
-    if (m_bagWindow->isVisible())
-        m_bagWindow->hide();
-    else
-        m_bagWindow->show();
-}
-
-
-void MainWindow::on_action_ChooseDic_triggered()
-{
-    QString fileName =
-        QFileDialog::getOpenFileName(this, _q("Choose a dictionary"), "", "*.dawg");
-    if (!fileName.isEmpty())
-    {
-        try
-        {
-            Dictionary *dic = new Dictionary(qtl(fileName));
-            delete m_dic;
-            m_dic = dic;
-            emit dicChanged(fileName, qfw(m_dic->getHeader().getName()));
-        }
-        catch (std::exception &e)
-        {
-            displayErrorMsg(e.what());
-        }
-    }
-}
-
-
 void MainWindow::destroyCurrentGame()
 {
     if (m_game == NULL)
@@ -197,7 +139,16 @@ void MainWindow::destroyCurrentGame()
 }
 
 
-void MainWindow::on_action_New_Game_triggered()
+void MainWindow::displayErrorMsg(QString iMsg, QString iContext)
+{
+    if (iContext == "")
+        iContext = PACKAGE_NAME;
+
+    QMessageBox::warning(this, iContext, iMsg);
+}
+
+
+void MainWindow::on_action_GameNew_triggered()
 {
     if (m_dic == NULL)
     {
@@ -229,7 +180,47 @@ void MainWindow::on_action_New_Game_triggered()
 }
 
 
-void MainWindow::on_action_Preferences_triggered()
+void MainWindow::on_action_GameLoad_triggered()
+{
+    if (m_dic == NULL)
+    {
+        displayErrorMsg(_q("You have to select a dictionary first!"));
+        return;
+    }
+
+    QString fileName = QFileDialog::getOpenFileName(this, _q("Load a game"));
+    if (fileName != "")
+    {
+        destroyCurrentGame();
+        m_game = GameFactory::Instance()->load(qtl(fileName), *m_dic);
+        if (m_game == NULL)
+        {
+            displayErrorMsg(_q("Error while loading the game"));
+            return;
+        }
+        m_ui.groupBoxPlayers->show();
+        emit gameChangedNonConst(m_game);
+        emit gameChanged(m_game);
+        emit gameUpdated();
+    }
+}
+
+
+void MainWindow::on_action_GameSaveAs_triggered()
+{
+    if (m_game == NULL)
+        return;
+
+    QString fileName = QFileDialog::getSaveFileName(this, _q("Save a game"));
+    if (fileName != "")
+    {
+        ofstream fout(qtl(fileName));
+        m_game->save(fout);
+    }
+}
+
+
+void MainWindow::on_action_SettingsPreferences_triggered()
 {
     if (m_prefsDialog == NULL)
         m_prefsDialog = new PrefsDialog(this);
@@ -237,11 +228,63 @@ void MainWindow::on_action_Preferences_triggered()
 }
 
 
-void MainWindow::displayErrorMsg(QString iMsg, QString iContext)
+void MainWindow::on_action_SettingsChooseDic_triggered()
 {
-    if (iContext == "")
-        iContext = PACKAGE_NAME;
+    QString fileName =
+        QFileDialog::getOpenFileName(this, _q("Choose a dictionary"), "", "*.dawg");
+    if (!fileName.isEmpty())
+    {
+        try
+        {
+            Dictionary *dic = new Dictionary(qtl(fileName));
+            delete m_dic;
+            m_dic = dic;
+            emit dicChanged(fileName, qfw(m_dic->getHeader().getName()));
+        }
+        catch (std::exception &e)
+        {
+            displayErrorMsg(e.what());
+        }
+    }
+}
 
-    QMessageBox::warning(this, iContext, iMsg);
+
+void MainWindow::on_action_WindowsBag_triggered()
+{
+    if (m_bagWindow == NULL)
+    {
+        // Create the bag window
+        BagWidget *bagWidget = new BagWidget(NULL);
+        bagWidget->setGame(m_game);
+        m_bagWindow = new AuxWindow(*bagWidget, m_ui.action_WindowsBag);
+        QObject::connect(this, SIGNAL(gameChanged(const Game*)),
+                         bagWidget, SLOT(setGame(const Game*)));
+        QObject::connect(this, SIGNAL(gameUpdated()),
+                         bagWidget, SLOT(refresh()));
+        // XXX
+        m_bagWindow->move(20, 20);
+    }
+    if (m_bagWindow->isVisible())
+        m_bagWindow->hide();
+    else
+        m_bagWindow->show();
+}
+
+
+void MainWindow::on_action_HelpAbout_triggered()
+{
+    QString msg;
+    msg.sprintf("Eliot %s\n\n", VERSION);
+    msg += _q( \
+        "Copyright (C) 1999-2008 - Antoine Fraboulet & Olivier Teuliere\n\n" \
+        "This program is free software; you can redistribute it and/or " \
+        "modify it under the terms of the GNU General Public License as " \
+        "published by the Free Software Foundation; either version 2 of " \
+        "the License, or (at your option) any later version.");
+    // QMessageBox::about() doesn't add the nice information icon, so we create
+    // the box manually (not much work...)
+    QMessageBox *aboutBox = new QMessageBox(QMessageBox::Information,
+                                            _q("About Eliot"), msg, QMessageBox::Ok, this);
+    aboutBox->exec();
 }
 

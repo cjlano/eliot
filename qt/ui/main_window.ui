@@ -70,29 +70,32 @@
     <property name="title" >
      <string>_("&amp;Game")</string>
     </property>
-    <addaction name="action_New_Game" />
+    <addaction name="action_GameNew" />
+    <addaction name="action_GameLoad" />
     <addaction name="separator" />
-    <addaction name="action_Quit" />
+    <addaction name="action_GameSaveAs" />
+    <addaction name="separator" />
+    <addaction name="action_GameQuit" />
    </widget>
    <widget class="QMenu" name="menuHelp" >
     <property name="title" >
      <string>&amp;Settings</string>
     </property>
-    <addaction name="action_ChooseDic" />
-    <addaction name="action_Preferences" />
+    <addaction name="action_SettingsChooseDic" />
+    <addaction name="action_SettingsPreferences" />
    </widget>
    <widget class="QMenu" name="menu_Help" >
     <property name="title" >
      <string>_("&amp;Help")</string>
     </property>
-    <addaction name="action_About" />
+    <addaction name="action_HelpAbout" />
     <addaction name="separator" />
    </widget>
    <widget class="QMenu" name="menu_Windows" >
     <property name="title" >
      <string>_("&amp;Windows")</string>
     </property>
-    <addaction name="action_Bag" />
+    <addaction name="action_WindowsBag" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuHelp" />
@@ -111,12 +114,12 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <action name="action_ChooseDic" >
+  <action name="action_SettingsChooseDic" >
    <property name="text" >
     <string>_("Choose dictionary...")</string>
    </property>
   </action>
-  <action name="action_About" >
+  <action name="action_HelpAbout" >
    <property name="text" >
     <string>_("&amp;About...")</string>
    </property>
@@ -124,37 +127,67 @@
     <string>About Eliot</string>
    </property>
   </action>
-  <action name="action_Quit" >
+  <action name="action_GameQuit" >
    <property name="text" >
     <string>_("&amp;Quit")</string>
    </property>
   </action>
-  <action name="action_New_Game" >
+  <action name="action_GameNew" >
    <property name="text" >
-    <string>_("&amp;New game...")</string>
+    <string>_("New...")</string>
    </property>
    <property name="shortcut" >
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="action_Bag" >
+  <action name="action_WindowsBag" >
    <property name="checkable" >
     <bool>true</bool>
    </property>
    <property name="text" >
     <string>_("&amp;Bag")</string>
    </property>
+   <property name="shortcut" >
+    <string>Ctrl+B</string>
+   </property>
   </action>
-  <action name="action_Preferences" >
+  <action name="action_SettingsPreferences" >
    <property name="text" >
     <string>_("Preferences...")</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="action_GameSave" >
+   <property name="text" >
+    <string>_("Save")</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="action_GameLoad" >
+   <property name="text" >
+    <string>_("Load...")</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_GameSaveAs" >
+   <property name="text" >
+    <string>_("Save as...")</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>
  <resources/>
  <connections>
   <connection>
-   <sender>action_Quit</sender>
+   <sender>action_GameQuit</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>

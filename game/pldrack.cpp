@@ -140,8 +140,18 @@ void PlayedRack::setManual(const wstring& iLetters)
     if (iLetters.empty())
         return;
 
+    // Handle the reject sign
+    unsigned int begin;
+    if (iLetters[0] == L'-')
+    {
+        setReject();
+        begin = 1;
+    }
+    else
+        begin = 0;
+
     unsigned int i;
-    for (i = 0; i < iLetters.size() && iLetters[i] != L'+'; i++)
+    for (i = begin; i < iLetters.size() && iLetters[i] != L'+'; i++)
     {
         addOld(Tile(iLetters[i]));
     }
