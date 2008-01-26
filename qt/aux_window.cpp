@@ -18,19 +18,28 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include "config.h"
+
 #include <QtGui/QAction>
 #include <QtGui/QWidget>
 #include <QtGui/QVBoxLayout>
+#include <QtGui/QCloseEvent>
+#include <QtCore/QSettings>
 
 #include "aux_window.h"
+#include "qtcommon.h"
 
 
-AuxWindow::AuxWindow(QWidget &iWidget, QAction *iAction)
-    : m_widget(iWidget), m_action(iAction)
+AuxWindow::AuxWindow(QWidget &iWidget, QString iWindowTitle,
+                     QString iWindowName, QAction *iAction)
+    : m_widget(iWidget), m_windowName(iWindowName), m_action(iAction)
 {
+    setWindowTitle(iWindowTitle);
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(&iWidget);
     setLayout(layout);
+
+    readSettings();
 }
 
 
@@ -40,7 +49,16 @@ AuxWindow::~AuxWindow()
 }
 
 
-void AuxWindow::showEvent(QShowEvent * event)
+void AuxWindow::toggleVisibility()
+{
+    if (isVisible())
+        hide();
+    else
+        show();
+}
+
+
+void AuxWindow::showEvent(QShowEvent *event)
 {
     if (m_action)
         m_action->setChecked(true);
@@ -48,10 +66,39 @@ void AuxWindow::showEvent(QShowEvent * event)
 }
 
 
-void AuxWindow::hideEvent(QHideEvent * event)
+void AuxWindow::hideEvent(QHideEvent *event)
 {
     if (m_action)
         m_action->setChecked(false);
     QWidget::hideEvent(event);
+}
+
+
+void AuxWindow::closeEvent(QCloseEvent *event)
+{
+    writeSettings();
+    event->accept();
+}
+
+
+void AuxWindow::writeSettings() const
+{
+    QSettings settings(ORGANIZATION, PACKAGE_NAME);
+    settings.beginGroup(m_windowName);
+    settings.setValue("size", size());
+    settings.setValue("pos", pos());
+    settings.endGroup();
+}
+
+
+void AuxWindow::readSettings()
+{
+    QSettings settings(ORGANIZATION, PACKAGE_NAME);
+    settings.beginGroup(m_windowName);
+    QSize size = settings.value("size").toSize();
+    if (size.isValid())
+        resize(size);
+    move(settings.value("pos", QPoint(200, 200)).toPoint());
+    settings.endGroup();
 }
 

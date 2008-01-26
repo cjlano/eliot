@@ -54,6 +54,10 @@ public slots:
     void displayErrorMsg(QString iMsg, QString iContext = "");
     void displayInfoMsg(QString iMsg);
 
+protected:
+    /// Handler for close events
+    virtual void closeEvent(QCloseEvent * e);
+
 private slots:
     void on_action_GameNew_triggered();
     void on_action_GameLoad_triggered();
@@ -61,6 +65,8 @@ private slots:
     void on_action_SettingsChooseDic_triggered();
     void on_action_SettingsPreferences_triggered();
     void on_action_WindowsBag_triggered();
+    void on_action_WindowsBoard_triggered();
+    void on_action_WindowsHistory_triggered();
     void on_action_HelpAbout_triggered();
 
     /**
@@ -85,8 +91,12 @@ private:
     /// Dialog for the preferences
     PrefsDialog *m_prefsDialog;
 
-    /// Bag window
+    /// Auxiliary windows
+    //@{
     AuxWindow *m_bagWindow;
+    AuxWindow *m_boardWindow;
+    AuxWindow *m_historyWindow;
+    //@}
 
     /// Destroy the current game (if any) and the associated widgets
     void destroyCurrentGame();

@@ -29,6 +29,7 @@ class Game;
 class Training;
 class RackValidator;
 class QStandardItemModel;
+class QString;
 
 class TrainingWidget: public QWidget, private Ui::TrainingWidget
 {
@@ -43,6 +44,7 @@ public slots:
 
 signals:
     void gameUpdated();
+    void notifyProblem(QString iMsg);
 
 protected:
     /// Define a default size

@@ -23,6 +23,7 @@
 
 #include "training_widget.h"
 #include "qtcommon.h"
+#include "dic.h"
 #include "game.h"
 #include "training.h"
 #include "player.h"
@@ -53,12 +54,15 @@ TrainingWidget::TrainingWidget(QWidget *parent)
     // Associate the model to the view
     m_model = new QStandardItemModel(this);
     treeViewResults->setModel(m_model);
-    m_model->setColumnCount(5);
+    m_model->setColumnCount(6);
     m_model->setHeaderData(0, Qt::Horizontal, _q("Word"), Qt::DisplayRole);
     m_model->setHeaderData(1, Qt::Horizontal, _q("Ref"), Qt::DisplayRole);
     m_model->setHeaderData(2, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
     m_model->setHeaderData(3, Qt::Horizontal, "*", Qt::DisplayRole);
     m_model->setHeaderData(4, Qt::Horizontal, "", Qt::DisplayRole);
+    // Hidden column, used to store internal data
+    m_model->setHeaderData(5, Qt::Horizontal, "", Qt::DisplayRole);
+    treeViewResults->setColumnHidden(5, true);
 
     // Enable the Play button only when there is a selection in the tree
     QObject::connect(treeViewResults->selectionModel(),
@@ -142,6 +146,8 @@ void TrainingWidget::updateModel()
         m_model->setData(m_model->index(rowNum, 2), r.getPoints());
         m_model->setData(m_model->index(rowNum, 3),
                          r.getBonus() ? "*": "");
+        // Hidden data, used to handle proper sorting in the tree view
+        m_model->setData(m_model->index(rowNum, 5), i);
     }
     treeViewResults->resizeColumnToContents(0);
     treeViewResults->resizeColumnToContents(1);
@@ -165,7 +171,10 @@ void TrainingWidget::showPreview(const QItemSelection &iSelected,
     m_game->removeTestPlay();
     if (!iSelected.indexes().empty())
     {
-        m_game->testPlay(iSelected.indexes().first().row());
+        // Use the hidden column to get the result number
+        const QModelIndex &index =
+            m_model->index(iSelected.indexes().first().row(), 5);
+        m_game->testPlay(m_model->data(index).toUInt());
         emit gameUpdated();
     }
 }
@@ -174,11 +183,15 @@ void TrainingWidget::showPreview(const QItemSelection &iSelected,
 void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
 {
     // FIXME: first parameter is hardcoded
-    // FIXME: return code ignored
-    m_game->setRackManual(false, qtw(iText));
-    pushButtonSearch->setEnabled(m_model->rowCount() == 0 &&
-                                 lineEditRack->text() != "");
-    emit gameUpdated();
+    int res = m_game->setRackManual(false, qtw(iText));
+    if (res == 0)
+    {
+        pushButtonSearch->setEnabled(m_model->rowCount() == 0 &&
+                                     lineEditRack->text() != "");
+        emit gameUpdated();
+    }
+    else
+        emit notifyProblem(_q("Warning: Cannot set the rack to '%1'").arg(iText));
 }
 
 
@@ -223,7 +236,9 @@ void TrainingWidget::on_treeViewResults_doubleClicked(const QModelIndex &iIndex)
     if (!iIndex.isValid())
         return;
     m_game->removeTestPlay();
-    m_game->playResult(iIndex.row());
+    // Use the hidden column to get the result number
+    const QModelIndex &index = m_model->index(iIndex.row(), 5);
+    m_game->playResult(m_model->data(index).toUInt());
     emit gameUpdated();
 }
 
@@ -246,6 +261,9 @@ QValidator::State RackValidator::validate(QString &input, int &) const
     // This should never happen, since the control should be disabled in
     // such a case, but checking doesn't hurt...
     if (m_bag == NULL)
+        return Invalid;
+
+    if (!m_bag->getDic().validateLetters(qtw(input)))
         return Invalid;
 
     // The letters must be in the bag

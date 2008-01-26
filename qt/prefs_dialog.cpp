@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include "config.h"
+
 #include <QtCore/QSettings>
 #include <QtGui/QFileDialog>
 
@@ -35,7 +37,7 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     setupUi(this);
 
     // Interface settings
-    QSettings qs;
+    QSettings qs(ORGANIZATION, PACKAGE_NAME);
     checkBoxIntfAlignHistory->setChecked(qs.value(kINTF_ALIGN_HISTORY).toBool());
     lineEditIntfDicPath->setText(qs.value(kINTF_DIC_PATH, "").toString());
 
@@ -68,7 +70,7 @@ void PrefsDialog::updateSettings()
     bool shouldEmitUpdate = false;
 
     // Interface settings
-    QSettings qs;
+    QSettings qs(ORGANIZATION, PACKAGE_NAME);
     if (qs.value(kINTF_ALIGN_HISTORY).toBool() != checkBoxIntfAlignHistory->isChecked())
     {
         // We need to redraw the history widget

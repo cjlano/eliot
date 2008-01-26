@@ -43,4 +43,7 @@
 // Translation macro to use gettext
 #define _q(s) qfu(_(s))
 
+// Used for QSettings
+#define ORGANIZATION "Eliot"
+
 #endif

@@ -18,7 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <iostream>
+#include "config.h"
+
 #include <QtGui/QTreeView>
 #include <QtGui/QTabWidget>
 #include <QtGui/QStandardItemModel>
@@ -89,7 +90,7 @@ void HistoryWidget::updateModel()
     if (m_history != NULL && m_history->getSize() != 0)
     {
         // Should we align the rack with its solution?
-        QSettings qs;
+        QSettings qs(ORGANIZATION, PACKAGE_NAME);
         bool align = qs.value(PrefsDialog::kINTF_ALIGN_HISTORY).toBool();
 
         if (!align)

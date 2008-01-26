@@ -66,7 +66,7 @@ void BoardWidget::refresh()
 
 QSize BoardWidget::sizeHint() const
 {
-    return QSize(300, 300);
+    return QSize(400, 400);
 }
 
 

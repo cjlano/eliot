@@ -39,20 +39,36 @@ public:
     /**
      * Constructor. The AuxWindow takes ownership of the given widget (i.e. it
      * is responsible for its deletion).
-     * The optional action checked/unchecked when the window is shown/hidden
+     * @param iWindowTitle: title of the window; e.g.: "Bag"
+     * @param iWindowName: name of the window, used in the settings
+     *      e.g.: "BagWindow"
+     * @param iAction: if not NULL, it will be checked/unchecked when the
+     *      window is shown/hidden
      */
-    AuxWindow(QWidget &iWidget, QAction *iAction = NULL);
+    AuxWindow(QWidget &iWidget, QString iWindowTitle,
+              QString iWindowName, QAction *iAction = NULL);
     ~AuxWindow();
+
+    void toggleVisibility();
 
 protected:
     virtual void showEvent(QShowEvent *event);
     virtual void hideEvent(QHideEvent *event);
+    virtual void closeEvent(QCloseEvent *event);
 
 private:
     QWidget &m_widget;
 
+    /// Name of the window, used to save its state
+    QString m_windowName;
+
     /// Action to check/uncheck
     QAction *m_action;
+
+    /// Save window state
+    void writeSettings() const;
+    /// Restore window state
+    void readSettings();
 };
 
 #endif

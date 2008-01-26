@@ -76,6 +76,9 @@
         <property name="editTriggers" >
          <set>QAbstractItemView::NoEditTriggers</set>
         </property>
+        <property name="sortingEnabled" >
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
      </layout>
@@ -84,5 +87,22 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>lineEditRack</sender>
+   <signal>returnPressed()</signal>
+   <receiver>pushButtonSearch</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>283</x>
+     <y>31</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>281</x>
+     <y>48</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

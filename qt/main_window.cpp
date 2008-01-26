@@ -25,6 +25,7 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QFileDialog>
 #include <QtGui/QDockWidget>
+#include <QtGui/QCloseEvent>
 #include <QtCore/QSettings>
 
 #include "main_window.h"
@@ -53,7 +54,8 @@
 
 MainWindow::MainWindow(QWidget *iParent)
     : QMainWindow(iParent), m_dic(NULL), m_game(NULL), m_newGameDialog(NULL),
-    m_prefsDialog(NULL), m_bagWindow(NULL)
+    m_prefsDialog(NULL), m_bagWindow(NULL), m_boardWindow(NULL),
+    m_historyWindow(NULL)
 {
     m_ui.setupUi(this);
     QObject::connect(this, SIGNAL(gameChanged(const Game*)),
@@ -109,7 +111,7 @@ MainWindow::MainWindow(QWidget *iParent)
     emit gameChanged(NULL);
 
     // Load dictionary
-    QSettings qs;
+    QSettings qs(ORGANIZATION, PACKAGE_NAME);
     QString dicPath = qs.value(PrefsDialog::kINTF_DIC_PATH, "").toString();
     // FIXME: the messages are not displayed anymore when the window is shown
     if (dicPath == "")
@@ -134,6 +136,8 @@ MainWindow::MainWindow(QWidget *iParent)
 MainWindow::~MainWindow()
 {
     delete m_bagWindow;
+    delete m_boardWindow;
+    delete m_historyWindow;
     delete m_game;
     delete m_dic;
 }
@@ -194,6 +198,19 @@ void MainWindow::displayErrorMsg(QString iMsg, QString iContext)
 void MainWindow::displayInfoMsg(QString iMsg)
 {
     statusBar()->showMessage(iMsg);
+}
+
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    // Make sure auxiliary windows don't survive after the main one
+    if (m_bagWindow)
+        m_bagWindow->close();
+    if (m_boardWindow)
+        m_boardWindow->close();
+    if (m_historyWindow)
+        m_historyWindow->close();
+    event->accept();
 }
 
 
@@ -311,7 +328,7 @@ void MainWindow::on_action_SettingsChooseDic_triggered()
             displayInfoMsg(QString("Loaded dictionary '%1'").arg(fileName));
 
             // Save the location of the dictionary in the preferences
-            QSettings qs;
+            QSettings qs(ORGANIZATION, PACKAGE_NAME);
             QString dicPath = qs.value(PrefsDialog::kINTF_DIC_PATH, "").toString();
             qs.setValue(PrefsDialog::kINTF_DIC_PATH, fileName);
         }
@@ -327,21 +344,53 @@ void MainWindow::on_action_WindowsBag_triggered()
 {
     if (m_bagWindow == NULL)
     {
-        // Create the bag window
-        BagWidget *bagWidget = new BagWidget(NULL);
-        bagWidget->setGame(m_game);
-        m_bagWindow = new AuxWindow(*bagWidget, m_ui.action_WindowsBag);
+        // Create the window
+        BagWidget *bag = new BagWidget(NULL);
+        bag->setGame(m_game);
+        m_bagWindow = new AuxWindow(*bag, _q("Bag"), "BagWindow",
+                                    m_ui.action_WindowsBag);
         QObject::connect(this, SIGNAL(gameChanged(const Game*)),
-                         bagWidget, SLOT(setGame(const Game*)));
+                         bag, SLOT(setGame(const Game*)));
         QObject::connect(this, SIGNAL(gameUpdated()),
-                         bagWidget, SLOT(refresh()));
-        // XXX
-        m_bagWindow->move(20, 20);
+                         bag, SLOT(refresh()));
     }
-    if (m_bagWindow->isVisible())
-        m_bagWindow->hide();
-    else
-        m_bagWindow->show();
+    m_bagWindow->toggleVisibility();
+}
+
+
+void MainWindow::on_action_WindowsBoard_triggered()
+{
+    if (m_boardWindow == NULL)
+    {
+        // Create the window
+        BoardWidget *board = new BoardWidget(NULL);
+        board->setGame(m_game);
+        m_boardWindow = new AuxWindow(*board, _q("Board"), "BoardWindow",
+                                      m_ui.action_WindowsBoard);
+        QObject::connect(this, SIGNAL(gameChanged(const Game*)),
+                         board, SLOT(setGame(const Game*)));
+        QObject::connect(this, SIGNAL(gameUpdated()),
+                         board, SLOT(refresh()));
+    }
+    m_boardWindow->toggleVisibility();
+}
+
+
+void MainWindow::on_action_WindowsHistory_triggered()
+{
+    if (m_historyWindow == NULL)
+    {
+        // Create the window
+        HistoryTabWidget *history = new HistoryTabWidget(NULL);
+        history->setGame(m_game);
+        m_historyWindow = new AuxWindow(*history, _q("History"), "HistoryWindow",
+                                        m_ui.action_WindowsHistory);
+        QObject::connect(this, SIGNAL(gameChanged(const Game*)),
+                         history, SLOT(setGame(const Game*)));
+        QObject::connect(this, SIGNAL(gameUpdated()),
+                         history, SLOT(refresh()));
+    }
+    m_historyWindow->toggleVisibility();
 }
 
 

@@ -272,7 +272,9 @@ void PlayerTabWidget::setGame(Game *iGame)
             trWidget->setGame(iGame);
             QObject::connect(this, SIGNAL(refreshSignal()),
                              trWidget, SLOT(refresh()));
-            // Forward the gameUpdated() signal to the outside
+            // Forward signals to the outside
+            QObject::connect(trWidget, SIGNAL(notifyProblem(QString)),
+                             this, SIGNAL(notifyProblem(QString)));
             QObject::connect(trWidget, SIGNAL(gameUpdated()),
                              this, SIGNAL(gameUpdated()));
             addTab(trWidget, qfw(player.getName()));

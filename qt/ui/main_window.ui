@@ -96,6 +96,8 @@
      <string>_("&amp;Windows")</string>
     </property>
     <addaction name="action_WindowsBag" />
+    <addaction name="action_WindowsBoard" />
+    <addaction name="action_WindowsHistory" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuHelp" />
@@ -181,6 +183,25 @@
    </property>
    <property name="shortcut" >
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="action_WindowsBoard" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>_("External board")</string>
+   </property>
+  </action>
+  <action name="action_WindowsHistory" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>_("History")</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+H</string>
    </property>
   </action>
  </widget>
