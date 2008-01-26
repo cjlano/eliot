@@ -25,6 +25,7 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QFileDialog>
 #include <QtGui/QDockWidget>
+#include <QtCore/QSettings>
 
 #include "main_window.h"
 #include "dic.h"
@@ -55,6 +56,8 @@ MainWindow::MainWindow(QWidget *iParent)
     m_prefsDialog(NULL), m_bagWindow(NULL)
 {
     m_ui.setupUi(this);
+    QObject::connect(this, SIGNAL(gameChanged(const Game*)),
+                     this, SLOT(updateForGame(const Game*)));
 
     // Board
     BoardWidget *boardWidget = new BoardWidget;
@@ -102,14 +105,28 @@ MainWindow::MainWindow(QWidget *iParent)
                      scores, SLOT(refresh()));
     m_ui.groupBoxPlayers->layout()->addWidget(scores);
 
-    // XXX: temporary, for testing purposes!
-    try
+    emit gameChangedNonConst(NULL);
+    emit gameChanged(NULL);
+
+    // Load dictionary
+    QSettings qs;
+    QString dicPath = qs.value(PrefsDialog::kINTF_DIC_PATH, "").toString();
+    // FIXME: the messages are not displayed anymore when the window is shown
+    if (dicPath == "")
     {
-        m_dic = new Dictionary("/home/ipkiss/ods5.dawg");
+        displayInfoMsg(_q("No dictionary selected"));
     }
-    catch (...)
+    else
     {
-        // Ignore the error silently :)
+        try
+        {
+            m_dic = new Dictionary(qtl(dicPath));
+        }
+        catch (...)
+        {
+            displayInfoMsg(_q("No dictionary selected"));
+            displayErrorMsg(_q("Cannot load dictionary '%1' indicated in the preferences").arg(dicPath));
+        }
     }
 }
 
@@ -139,12 +156,44 @@ void MainWindow::destroyCurrentGame()
 }
 
 
+void MainWindow::updateForGame(const Game *iGame)
+{
+    if (iGame == NULL)
+    {
+        m_ui.action_GameSaveAs->setEnabled(false);
+        setWindowTitle(_q("No game") + " - Eliot");
+    }
+    else
+    {
+        m_ui.action_GameSaveAs->setEnabled(true);
+        if (iGame->getMode() == Game::kTRAINING)
+        {
+            setWindowTitle(_q("Training mode") + " - Eliot");
+        }
+        else if (iGame->getMode() == Game::kDUPLICATE)
+        {
+            setWindowTitle(_q("Duplicate game") + " - Eliot");
+        }
+        else
+        {
+            setWindowTitle(_q("Free game") + " - Eliot");
+        }
+    }
+}
+
+
 void MainWindow::displayErrorMsg(QString iMsg, QString iContext)
 {
     if (iContext == "")
         iContext = PACKAGE_NAME;
 
     QMessageBox::warning(this, iContext, iMsg);
+}
+
+
+void MainWindow::displayInfoMsg(QString iMsg)
+{
+    statusBar()->showMessage(iMsg);
 }
 
 
@@ -177,6 +226,7 @@ void MainWindow::on_action_GameNew_triggered()
     emit gameChangedNonConst(m_game);
     emit gameChanged(m_game);
     emit gameUpdated();
+    displayInfoMsg(_q("Game started"));
 }
 
 
@@ -202,6 +252,7 @@ void MainWindow::on_action_GameLoad_triggered()
         emit gameChangedNonConst(m_game);
         emit gameChanged(m_game);
         emit gameUpdated();
+        displayInfoMsg(_q("Game loaded"));
     }
 }
 
@@ -216,6 +267,7 @@ void MainWindow::on_action_GameSaveAs_triggered()
     {
         ofstream fout(qtl(fileName));
         m_game->save(fout);
+        displayInfoMsg(_q("Game saved"));
     }
 }
 
@@ -223,23 +275,45 @@ void MainWindow::on_action_GameSaveAs_triggered()
 void MainWindow::on_action_SettingsPreferences_triggered()
 {
     if (m_prefsDialog == NULL)
+    {
         m_prefsDialog = new PrefsDialog(this);
+        QObject::connect(m_prefsDialog, SIGNAL(gameUpdated()),
+                         this, SIGNAL(gameUpdated()));
+    }
     m_prefsDialog->exec();
 }
 
 
 void MainWindow::on_action_SettingsChooseDic_triggered()
 {
+    if (m_game)
+    {
+        int res = QMessageBox::question(this, _q("Stop current game?"),
+                                        _q("Loading a dictionary will stop the current game. Do you want to continue?"),
+                                        QMessageBox::Yes | QMessageBox::Default,
+                                        QMessageBox::No | QMessageBox::Escape);
+        if (res == QMessageBox::No)
+            return;
+    }
+
     QString fileName =
         QFileDialog::getOpenFileName(this, _q("Choose a dictionary"), "", "*.dawg");
     if (!fileName.isEmpty())
     {
+        destroyCurrentGame();
+
         try
         {
             Dictionary *dic = new Dictionary(qtl(fileName));
             delete m_dic;
             m_dic = dic;
             emit dicChanged(fileName, qfw(m_dic->getHeader().getName()));
+            displayInfoMsg(QString("Loaded dictionary '%1'").arg(fileName));
+
+            // Save the location of the dictionary in the preferences
+            QSettings qs;
+            QString dicPath = qs.value(PrefsDialog::kINTF_DIC_PATH, "").toString();
+            qs.setValue(PrefsDialog::kINTF_DIC_PATH, fileName);
         }
         catch (std::exception &e)
         {

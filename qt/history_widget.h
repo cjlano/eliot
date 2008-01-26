@@ -37,7 +37,8 @@ class HistoryWidget: public QTreeView
 public:
     explicit HistoryWidget(QWidget *parent = 0);
 
-    void setHistory(const History *iHistory = NULL,
+    void setHistory(const History *iHistory,
+                    const Game *iGame = NULL,
                     bool iIsForPlayer = false);
 
 public slots:
@@ -47,9 +48,12 @@ private:
     /// Encapsulated history, can be NULL
     const History *m_history;
 
+    /// Corresponding game (used to retrieve the players names) can be NULL
+    const Game *m_game;
+
     /**
      * Flag to avoid displaying the "players" column when the History object
-     * is precisely associated to a Player
+     * is associated to a Player
      */
     bool m_forPlayer;
 

@@ -19,13 +19,14 @@
  *****************************************************************************/
 
 #include <QtCore/QSettings>
+#include <QtGui/QFileDialog>
 
 #include "prefs_dialog.h"
-
 #include "settings.h"
 
 
-const QString PrefsDialog::kINTF_ALIGN_HISTORY = "AlignHistory";
+const QString PrefsDialog::kINTF_ALIGN_HISTORY = "Interface/AlignHistory";
+const QString PrefsDialog::kINTF_DIC_PATH = "Interface/DicPath";
 
 
 PrefsDialog::PrefsDialog(QWidget *iParent)
@@ -35,12 +36,8 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
 
     // Interface settings
     QSettings qs;
-    qs.beginGroup("Interface");
     checkBoxIntfAlignHistory->setChecked(qs.value(kINTF_ALIGN_HISTORY).toBool());
-    qs.endGroup();
-    // XXX: Hide the Interface settings until the "align history" is really
-    // taken into account by the HistoryWidget class
-    groupBoxInterface->hide();
+    lineEditIntfDicPath->setText(qs.value(kINTF_DIC_PATH, "").toString());
 
     // Duplicate settings
     checkBoxDuplRefuseInvalid->setChecked(Settings::Instance().getBool("duplicate-reject-invalid"));
@@ -68,11 +65,17 @@ void PrefsDialog::accept()
 
 void PrefsDialog::updateSettings()
 {
+    bool shouldEmitUpdate = false;
+
     // Interface settings
     QSettings qs;
-    qs.beginGroup("Interface");
-    qs.setValue(kINTF_ALIGN_HISTORY, checkBoxIntfAlignHistory->isChecked());
-    qs.endGroup();
+    if (qs.value(kINTF_ALIGN_HISTORY).toBool() != checkBoxIntfAlignHistory->isChecked())
+    {
+        // We need to redraw the history widget
+        shouldEmitUpdate = true;
+        qs.setValue(kINTF_ALIGN_HISTORY, checkBoxIntfAlignHistory->isChecked());
+    }
+    qs.setValue(kINTF_DIC_PATH, lineEditIntfDicPath->text());
 
     // Duplicate settings
     Settings::Instance().setBool("duplicate-reject-invalid",
@@ -87,6 +90,18 @@ void PrefsDialog::updateSettings()
                                  checkBoxFreeRefuseInvalid->isChecked());
 
     // Training settings
+
+
+    if (shouldEmitUpdate)
+        emit gameUpdated();
 }
 
+
+void PrefsDialog::on_pushButtonIntfDicBrowse_clicked()
+{
+    QString fileName =
+        QFileDialog::getOpenFileName(this, _q("Choose a dictionary"), "", "*.dawg");
+    if (fileName != "")
+        lineEditIntfDicPath->setText(fileName);
+}
 

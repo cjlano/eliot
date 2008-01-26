@@ -22,8 +22,10 @@
 #include <QtGui/QTreeView>
 #include <QtGui/QTabWidget>
 #include <QtGui/QStandardItemModel>
+#include <QtCore/QSettings>
 
 #include "history_widget.h"
+#include "prefs_dialog.h"
 #include "qtcommon.h"
 #include "game.h"
 #include "player.h"
@@ -55,9 +57,11 @@ HistoryWidget::HistoryWidget(QWidget *parent)
 
 
 void HistoryWidget::setHistory(const History *iHistory,
+                               const Game *iGame,
                                bool iIsForPlayer)
 {
     m_history = iHistory;
+    m_game = iGame;
     m_forPlayer = iIsForPlayer;
     updateModel();
 }
@@ -82,24 +86,41 @@ void HistoryWidget::updateModel()
         m_model->setHeaderData(5, Qt::Horizontal, _q("Player"), Qt::DisplayRole);
     }
 
-    if (m_history != NULL)
+    if (m_history != NULL && m_history->getSize() != 0)
     {
+        // Should we align the rack with its solution?
+        QSettings qs;
+        bool align = qs.value(PrefsDialog::kINTF_ALIGN_HISTORY).toBool();
+
+        if (!align)
+            m_model->insertRow(0);
+
         for (unsigned int i = 0; i < m_history->getSize(); ++i)
         {
             int rowNum = m_model->rowCount();
             m_model->insertRow(rowNum);
+            int prevRowNum;
+            if (align)
+                prevRowNum = rowNum;
+            else
+                prevRowNum = rowNum - 1;
 
             QColor color = Qt::black;
 
             const Turn& t = m_history->getTurn(i);
             const Move& m = t.getMove();
-            // Set data common to all moves)
-            m_model->setData(m_model->index(rowNum, 0), i + 1);
-            m_model->setData(m_model->index(rowNum, 1),
+
+            // Set data common to all moves
+            m_model->setData(m_model->index(prevRowNum, 0), i + 1);
+            m_model->setData(m_model->index(prevRowNum, 1),
                              qfw(t.getPlayedRack().toString()));
             m_model->setData(m_model->index(rowNum, 4), m.getScore());
-            if (!m_forPlayer)
-                m_model->setData(m_model->index(rowNum, 5), t.getPlayer() + 1);
+            if (!m_forPlayer && m_game != NULL)
+            {
+                const wstring &name = m_game->getPlayer(t.getPlayer()).getName();
+                m_model->setData(m_model->index(rowNum, 5), qfw(name));
+            }
+
             // Set the rest
             if (m.getType() == Move::VALID_ROUND)
             {
@@ -127,6 +148,7 @@ void HistoryWidget::updateModel()
                                  "[-" + qfw(m.getChangedLetters()) + "]");
                 color = Qt::blue;
             }
+
             // Set the color of the text
             for (int col = 0; col < 6; ++col)
             {
@@ -159,33 +181,40 @@ void HistoryTabWidget::setGame(const Game *iGame)
 {
     m_game = iGame;
 
+    // Keep only the Game tab, because it is nicer to have something, even
+    // if it is empty
+    int nbTabs = count();
+    for (int i = nbTabs - 1; i > 0; --i)
+    {
+        setCurrentIndex(i);
+        // Cut all the connections with the page (needed because removeTab()
+        // doesn't really destroy the widget)
+        disconnect(currentWidget());
+        removeTab(i);
+    }
+
     if (m_game == NULL)
     {
-        // Cut all the connections with the pages
-        disconnect();
-
-        // Keep only the Game tab, because it is nicer to have something, even
-        // if it is empty
-        int nbTabs = count();
-        for (int i = nbTabs - 1; i > 0; --i)
-            removeTab(i);
-
         // Tell the remaining tab that there is no more history to display
         m_gameHistoryWidget->setHistory(NULL);
     }
     else
     {
         // Refresh the Game tab
-        m_gameHistoryWidget->setHistory(&m_game->getHistory());
+        m_gameHistoryWidget->setHistory(&m_game->getHistory(), m_game);
         QObject::connect(this, SIGNAL(refreshSignal()),
                          m_gameHistoryWidget, SLOT(refresh()));
+
+        // In training mode, the players history is completely useless
+        if (m_game->getMode() == Game::kTRAINING)
+            return;
 
         // Add one history tab per player
         for (unsigned int i = 0; i < m_game->getNPlayers(); ++i)
         {
             const Player &player = m_game->getPlayer(i);
             HistoryWidget *h = new HistoryWidget(NULL);
-            h->setHistory(&player.getHistory(), true);
+            h->setHistory(&player.getHistory(), m_game, true);
             QObject::connect(this, SIGNAL(refreshSignal()), h, SLOT(refresh()));
             addTab(h, qfw(player.getName()));
         }

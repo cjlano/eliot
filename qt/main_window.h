@@ -52,6 +52,7 @@ signals:
 public slots:
     /// Display an error message to the user
     void displayErrorMsg(QString iMsg, QString iContext = "");
+    void displayInfoMsg(QString iMsg);
 
 private slots:
     void on_action_GameNew_triggered();
@@ -61,6 +62,12 @@ private slots:
     void on_action_SettingsPreferences_triggered();
     void on_action_WindowsBag_triggered();
     void on_action_HelpAbout_triggered();
+
+    /**
+     * Perform several updates when the game changes (title bar, status bar,
+     * grey out some menu items, ...)
+     */
+    void updateForGame(const Game *iGame);
 
 private:
     /// Current dictionary

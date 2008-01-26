@@ -92,11 +92,24 @@ Game * NewGame::createGame(const Dictionary &iDic) const
     // Add the players
     if (comboBoxMode->currentText() != _q("Training"))
     {
+        set<QString> allNames;
         for (int num = 0; num < m_model->rowCount(); ++num)
         {
             QString name = m_model->data(m_model->index(num, 0)).toString();
             if (name == "")
                 name = _q("Player %1").arg(num + 1);
+            // Ensure unicity of the players names
+            if (allNames.find(name) != allNames.end())
+            {
+                int n = 2;
+                while (allNames.find(name + QString(" (%1)").arg(n)) != allNames.end())
+                {
+                    ++n;
+                }
+                name += QString(" (%1)").arg(n);
+            }
+            allNames.insert(name);
+
             QString type = m_model->data(m_model->index(num, 1)).toString();
             if (type == kHUMAN)
                 game->addHumanPlayer();

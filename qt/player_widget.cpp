@@ -255,7 +255,7 @@ void PlayerTabWidget::setGame(Game *iGame)
     int nbTabs = count();
     for (int i = 0; i < nbTabs; ++i)
     {
-        setCurrentWidget(0);
+        setCurrentIndex(0);
         // Cut all the connections with the page (needed because removeTab()
         // doesn't really destroy the widget)
         disconnect(currentWidget());

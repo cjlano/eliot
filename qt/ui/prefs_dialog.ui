@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>343</width>
-    <height>383</height>
+    <width>365</width>
+    <height>418</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -20,7 +20,51 @@
      </property>
      <layout class="QVBoxLayout" >
       <item>
+       <layout class="QHBoxLayout" >
+        <item>
+         <widget class="QLabel" name="label_4" >
+          <property name="text" >
+           <string>_("Dictionary path:")</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEditIntfDicPath" >
+          <property name="toolTip" >
+           <string>_("Enter the dictionary path (mandatory to start a game)")</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButtonIntfDicBrowse" >
+          <property name="toolTip" >
+           <string>_("Open a browser window to choose the dictionary")</string>
+          </property>
+          <property name="text" >
+           <string>_("Browse...")</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <widget class="QCheckBox" name="checkBoxIntfAlignHistory" >
+        <property name="toolTip" >
+         <string>_("If checked, the game and player histories will diaplay the rack and the corresponding solution on the same line")</string>
+        </property>
         <property name="text" >
          <string>_("Align the rack and the solution in history")</string>
         </property>

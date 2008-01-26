@@ -35,10 +35,17 @@ public:
     explicit PrefsDialog(QWidget *iParent = 0);
 
     static const QString kINTF_ALIGN_HISTORY;
+    static const QString kINTF_DIC_PATH;
 
 public slots:
     /// Update the settings when the user selects "OK"
     virtual void accept();
+
+signals:
+    void gameUpdated();
+
+private slots:
+    void on_pushButtonIntfDicBrowse_clicked();
 
 private:
     void updateSettings();

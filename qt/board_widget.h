@@ -56,6 +56,7 @@ private:
     static const QColor W2Colour;
     static const QColor W3Colour;
     static const QColor TileColour;
+    static const QColor PreviewColour;
     //@}
 };
 

@@ -37,6 +37,7 @@ const QColor BoardWidget::L3Colour(29, 104, 240);
 const QColor BoardWidget::W2Colour(255, 147, 196);
 const QColor BoardWidget::W3Colour(240, 80, 94);
 const QColor BoardWidget::TileColour(255, 235, 205);
+const QColor BoardWidget::PreviewColour(183, 183, 123);
 
 
 BoardWidget::BoardWidget(QWidget *parent)
@@ -83,7 +84,12 @@ void BoardWidget::paintEvent(QPaintEvent *)
         {
             // Set the brush color
             if (m_game != NULL && !m_game->getBoard().getTile(row, col).isEmpty())
-                painter.setBrush(TileColour);
+            {
+                if (m_game->getBoard().getCharAttr(row, col) & ATTR_TEST)
+                    painter.setBrush(PreviewColour);
+                else
+                    painter.setBrush(TileColour);
+            }
             else if (Board::GetWordMultiplier(row, col) == 3)
                 painter.setBrush(W3Colour);
             else if (Board::GetWordMultiplier(row, col) == 2)
@@ -101,11 +107,14 @@ void BoardWidget::paintEvent(QPaintEvent *)
             // Draw the letter
             if (m_game != NULL && !m_game->getBoard().getTile(row, col).isEmpty())
             {
+                wchar_t chr = m_game->getBoard().getTile(row, col).toChar();
+                if (m_game->getBoard().getCharAttr(row, col) & ATTR_JOKER)
+                    chr = towlower(chr);
                 painter.drawText((col - BOARD_MIN + 1) * squareSize,
                                  (row - BOARD_MIN + 1) * squareSize + 1,
                                  squareSize, squareSize,
                                  Qt::AlignCenter,
-                                 qfw(wstring(1, m_game->getBoard().getTile(row, col).toChar())));
+                                 qfw(wstring(1, chr)));
             }
         }
     }
