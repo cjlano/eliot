@@ -153,7 +153,10 @@ void HistoryWidget::updateModel()
             // Set the color of the text
             for (int col = 0; col < 6; ++col)
             {
-                m_model->setData(m_model->index(rowNum, col),
+                int row = rowNum;
+                if (!align && col < 2)
+                    row = prevRowNum;
+                m_model->setData(m_model->index(row, col),
                                  QBrush(color), Qt::ForegroundRole);
             }
         }
