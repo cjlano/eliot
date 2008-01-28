@@ -41,6 +41,8 @@
 #include "training.h"
 #include "duplicate.h"
 #include "freegame.h"
+#include "player.h"
+#include "ai_percent.h"
 #include "encoding.h"
 
 
@@ -959,7 +961,7 @@ void main_loop(const Dictionary &iDic)
                     }
                     Duplicate *game = GameFactory::Instance()->createDuplicate(iDic);
                     for (i = 0; i < _wtoi(token); i++)
-                        game->addHumanPlayer();
+                        game->addPlayer(new HumanPlayer);
                     token = next_token_digit(NULL, delim, &state);
                     if (token == NULL)
                     {
@@ -967,7 +969,7 @@ void main_loop(const Dictionary &iDic)
                         break;
                     }
                     for (i = 0; i < _wtoi(token); i++)
-                        game->addAIPlayer();
+                        game->addPlayer(new AIPercent(1));
                     game->start();
                     loop_duplicate(*game);
                     GameFactory::Instance()->releaseGame(*game);
@@ -985,7 +987,7 @@ void main_loop(const Dictionary &iDic)
                     }
                     FreeGame *game = GameFactory::Instance()->createFreeGame(iDic);
                     for (i = 0; i < _wtoi(token); i++)
-                        game->addHumanPlayer();
+                        game->addPlayer(new HumanPlayer);
                     token = next_token_digit(NULL, delim, &state);
                     if (token == NULL)
                     {
@@ -993,7 +995,7 @@ void main_loop(const Dictionary &iDic)
                         break;
                     }
                     for (i = 0; i < _wtoi(token); i++)
-                        game->addAIPlayer();
+                        game->addPlayer(new AIPercent(1));
                     game->start();
                     loop_freegame(*game);
                     GameFactory::Instance()->releaseGame(*game);
@@ -1003,8 +1005,8 @@ void main_loop(const Dictionary &iDic)
                 {
                     // New duplicate game
                     Duplicate *game = GameFactory::Instance()->createDuplicate(iDic);
-                    game->addHumanPlayer();
-                    game->addAIPlayer();
+                    game->addPlayer(new HumanPlayer);
+                    game->addPlayer(new AIPercent(1));
                     game->start();
                     loop_duplicate(*game);
                     GameFactory::Instance()->releaseGame(*game);
@@ -1014,8 +1016,8 @@ void main_loop(const Dictionary &iDic)
                 {
                     // New free game
                     FreeGame *game = GameFactory::Instance()->createFreeGame(iDic);
-                    game->addHumanPlayer();
-                    game->addAIPlayer();
+                    game->addPlayer(new HumanPlayer);
+                    game->addPlayer(new AIPercent(1));
                     game->start();
                     loop_freegame(*game);
                     GameFactory::Instance()->releaseGame(*game);

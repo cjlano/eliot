@@ -30,6 +30,7 @@
 #include "freegame.h"
 #include "duplicate.h"
 #include "player.h"
+#include "ai_percent.h"
 
 
 const QString NewGame::kHUMAN = _q("Human");
@@ -111,14 +112,13 @@ Game * NewGame::createGame(const Dictionary &iDic) const
             allNames.insert(name);
 
             QString type = m_model->data(m_model->index(num, 1)).toString();
+            Player *player;
             if (type == kHUMAN)
-                game->addHumanPlayer();
+                player = new HumanPlayer;
             else
-                game->addAIPlayer();
-            // FIXME: ugly const_cast, because of the awkward Game API
-            // (we should have addPlayer(Player &) instead)
-            const Player *player = &game->getPlayer(game->getNPlayers() - 1);
-            const_cast<Player *>(player)->setName(qtw(name));
+                player = new AIPercent(1);
+            player->setName(qtw(name));
+            game->addPlayer(player);
         }
     }
     else

@@ -26,7 +26,6 @@
 #include "pldrack.h"
 #include "results.h"
 #include "player.h"
-#include "ai_percent.h"
 #include "game.h"
 #include "game_factory.h"
 #include "turn.h"
@@ -521,17 +520,13 @@ unsigned int Game::getNHumanPlayers() const
 }
 
 
-void Game::addHumanPlayer()
+void Game::addPlayer(Player *iPlayer)
 {
+    ASSERT(iPlayer != NULL, "Invalid player pointer in addPlayer()");
+
     // The ID of the player is its position in the m_players vector
-    m_players.push_back(new HumanPlayer(getNPlayers()));
-}
-
-
-void Game::addAIPlayer()
-{
-    // TODO: allow other percentages, and even other types of AI
-    m_players.push_back(new AIPercent(getNPlayers(), 1));
+    iPlayer->setId(getNPlayers());
+    m_players.push_back(iPlayer);
 }
 
 

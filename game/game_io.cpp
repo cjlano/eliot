@@ -31,6 +31,7 @@
 #include "round.h"
 #include "turn.h"
 #include "player.h"
+#include "ai_percent.h"
 #include "game.h"
 #include "game_factory.h"
 #include "training.h"
@@ -261,7 +262,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
                 if (string(type) == "Human")
                 {
                     debug("   add Human player\n");
-                    pGame->addHumanPlayer();
+                    pGame->addPlayer(new HumanPlayer);
                 }
                 else if (string(type) == "Computer")
                 {
@@ -273,7 +274,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
                     else
                     {
                         debug("   add Computer player\n");
-                        pGame->addAIPlayer();
+                        pGame->addPlayer(new AIPercent(1));
                     }
                 }
                 else

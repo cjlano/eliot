@@ -28,8 +28,8 @@
 #include "ai_percent.h"
 
 
-AIPercent::AIPercent(int iId, float iPercent)
-    : AIPlayer(iId), m_percent(iPercent)
+AIPercent::AIPercent(float iPercent)
+    : m_percent(iPercent)
 {
     // Ensure the decimal value of the percentage is between 0 and 1
     if (m_percent < 0)

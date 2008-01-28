@@ -45,7 +45,7 @@ Training::Training(const Dictionary &iDic)
     : Game(iDic)
 {
     // Training mode implicitly uses 1 human player
-    Game::addHumanPlayer();
+    Game::addPlayer(new HumanPlayer);
     m_players[0]->setName(convertToWc(_("Training")));
 }
 
@@ -175,17 +175,11 @@ int Training::playResult(unsigned int n)
 }
 
 
-void Training::addHumanPlayer()
+void Training::addPlayer(Player *iPlayer)
 {
-    // We are not supposed to be here...
-    ASSERT(false, "Trying to add a human player in Training mode");
-}
-
-
-void Training::addAIPlayer()
-{
-    // We are not supposed to be here...
-    ASSERT(false, "Trying to add a AI player in Training mode");
+    // Override the default behaviour to do nothing
+    // except releasing memory
+    delete iPlayer;
 }
 
 

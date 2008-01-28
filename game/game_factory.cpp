@@ -39,6 +39,7 @@
 #include "freegame.h"
 #include "duplicate.h"
 #include "player.h"
+#include "ai_percent.h"
 #include "dic.h"
 #include "encoding.h"
 
@@ -207,11 +208,13 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
     for (unsigned int i = 0; i < m_players.size(); ++i)
     {
         // Human?
+        Player *player;
         if (m_players[i].first)
-            game->addHumanPlayer();
+            player = new HumanPlayer;
         else
-            game->addAIPlayer();
-        const_cast<Player*>(&game->getPlayer(i))->setName(m_players[i].second);
+            player = new AIPercent(1);
+        player->setName(m_players[i].second);
+        game->addPlayer(player);
     }
 
     // 6) Set the variant

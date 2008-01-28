@@ -110,10 +110,13 @@ public:
     const Player& getCurrentPlayer() const { return getPlayer(currPlayer()); };
     unsigned int getNPlayers() const { return m_players.size(); }
     unsigned int getNHumanPlayers() const;
-    virtual void addHumanPlayer();
-    // TODO: Ability to specify which kind of AI player is wanted
-    virtual void addAIPlayer();
     unsigned int currPlayer() const { return m_currPlayer; }
+
+    /**
+     * Add a player to the game.
+     * The Game object takes ownership of the given player
+     */
+    virtual void addPlayer(Player *iPlayer);
 
     /***************
      * Game handling

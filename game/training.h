@@ -64,11 +64,10 @@ public:
     int setRack(set_rack_mode iMode, bool iCheck, const wstring &iLetters);
 
     /*************************
-     * Override the default behaviour of these methods, because in training
+     * Override the default behaviour of addPlayer(), because in training
      * mode we only want a human player
      *************************/
-    virtual void addHumanPlayer();
-    virtual void addAIPlayer();
+    virtual void addPlayer(Player *iPlayer);
 
     /*************************
      * Functions to access the current search results

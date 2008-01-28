@@ -33,8 +33,8 @@
 #include "debug.h"
 
 
-Player::Player(unsigned int iId)
-    : m_id(iId), m_score(0)
+Player::Player()
+    : m_id(0), m_score(0)
 {
 }
 

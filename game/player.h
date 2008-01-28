@@ -39,7 +39,7 @@ class Turn;
 class Player
 {
 public:
-    explicit Player(unsigned int iId);
+    explicit Player();
     virtual ~Player() {}
 
     // Pseudo RTTI
@@ -49,6 +49,9 @@ public:
     const wstring & getName() const { return m_name; }
     /// Set the name of the player
     void setName(const wstring &iName) { m_name = iName; }
+
+    /// Set the ID
+    void setId(unsigned int iId) { m_id = iId; }
 
     /**************************
      * General getters
@@ -106,7 +109,7 @@ private:
 class HumanPlayer: public Player
 {
 public:
-    HumanPlayer(int iId): Player(iId) {}
+    HumanPlayer(): Player() {}
     virtual ~HumanPlayer() {}
 
     // Pseudo RTTI
