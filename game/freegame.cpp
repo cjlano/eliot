@@ -32,6 +32,7 @@
 #include "player.h"
 #include "ai_player.h"
 #include "settings.h"
+#include "turn.h"
 
 #include "debug.h"
 
@@ -130,11 +131,16 @@ int FreeGame::start()
 int FreeGame::endTurn()
 {
     // Complete the rack for the player that just played
-    if (helperSetRackRandom(m_currPlayer, false, RACK_NEW) == 1)
+    const Move &move = m_history.getPreviousTurn().getMove();
+    if (move.getType() == Move::VALID_ROUND ||
+        move.getType() == Move::CHANGE_LETTERS)
     {
-        // End of the game
-        endGame();
-        return 1;
+        if (helperSetRackRandom(m_currPlayer, false, RACK_NEW) == 1)
+        {
+            // End of the game
+            endGame();
+            return 1;
+        }
     }
 
     // Next player
