@@ -124,6 +124,10 @@ void readLetters(const char *iFileName, DictHeaderInfo &ioHeaderInfo)
     string line;
     while (getline(in, line))
     {
+        // Ignore empty lines
+        if (line == "" || line == "\r" || line == "\n")
+            continue;
+
         // Split the lines on space characters
         vector<string> tokens;
         boost::char_separator<char> sep(" ");
@@ -134,17 +138,13 @@ void readLetters(const char *iFileName, DictHeaderInfo &ioHeaderInfo)
             tokens.push_back(*it);
         }
 
-        // Ignore empty lines
-        if (tokens.empty())
-            continue;
-
         // We expect 5 fields on the line, and the first one is a letter, so
         // it cannot exceed 4 bytes
         if (tokens.size() != 5 || tokens[0].size() > 4)
         {
             ostringstream ss;
             ss << "readLetters: Invalid line in " << iFileName;
-            ss << " (line " << lineNb;
+            ss << " (line " << lineNb << ")";
             throw DicException(ss.str());
         }
 
@@ -156,9 +156,21 @@ void readLetters(const char *iFileName, DictHeaderInfo &ioHeaderInfo)
 
         if (letter.size() != 1)
         {
-            ostringstream ss;
-            ss << "readLetters: Invalid letter at line " << lineNb;
-            throw DicException(ss.str());
+            // On the first line, there could be the BOM...
+            if (lineNb == 1 && tokens[0].size() > 3 &&
+                (uint8_t)tokens[0][0] == 0xEF &&
+                (uint8_t)tokens[0][1] == 0xBB &&
+                (uint8_t)tokens[0][2] == 0xBF)
+            {
+                // BOM detected, remove the first char in the wide string
+                letter.erase(0, 1);
+            }
+            else
+            {
+                ostringstream ss;
+                ss << "readLetters: Invalid letter at line " << lineNb;
+                throw DicException(ss.str());
+            }
         }
 #undef MAX_SIZE
 
