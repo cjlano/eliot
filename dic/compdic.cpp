@@ -406,6 +406,7 @@ void printUsage(const string &iBinaryName)
          << _("  -d, --dicname <string>  Set the dictionary name and version") << endl
          << _("  -l, --letters <string>  Path to the file containing the letters (see below)") << endl
          << _("  -i, --input <string>    Path to the uncompressed dictionary file (encoded in UTF-8)") << endl
+         << _("                          The words must be in alphabetical order, without duplicates") << endl
          << _("  -o, --output <string    Path to the generated compressed dictionary file") << endl
          << _("Other options:") << endl
          << _("  -h, --help              Print this help and exit") << endl
