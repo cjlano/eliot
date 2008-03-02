@@ -26,7 +26,6 @@
 
 #include <iostream>
 #include <sstream>
-#include <list>
 #include <string>
 
 #include "wx/sizer.h"
@@ -390,12 +389,12 @@ Plus1Frame::refresh()
     }
     savedword = rack;
 
-    map<wchar_t, list<wstring> > wordList;
+    map<wchar_t, vector<wstring> > wordList;
     game->getDic().search7pl1(rack, wordList, config.getJokerPlus1());
 
     // Count the results
     int sum = 0;
-    map<wchar_t, list<wstring> >::const_iterator it;
+    map<wchar_t, vector<wstring> >::const_iterator it;
     for (it = wordList.begin(); it != wordList.end(); it++)
     {
         if (it->first)
@@ -417,7 +416,7 @@ Plus1Frame::refresh()
     {
         if (it->first)
             res[resnum++] = wxString(wxT("+")) + wxU((wxString)it->first);
-        list<wstring>::const_iterator itWord;
+        vector<wstring>::const_iterator itWord;
         for (itWord = it->second.begin(); itWord != it->second.end(); itWord++)
         {
             res[resnum++] = wxString(wxT("  ")) + wxU(itWord->c_str());
@@ -452,12 +451,12 @@ BenjFrame::refresh()
     }
     savedword = word;
     //debug("   BenjFrame::refresh : %s\n",word.c_str());
-    list<wstring> wordList;
+    vector<wstring> wordList;
     game->getDic().searchBenj(word, wordList);
 
     wxString *res = new wxString[wordList.size()];
     int resnum = 0;
-    list<wstring>::const_iterator it;
+    vector<wstring>::const_iterator it;
     for (it = wordList.begin(); it != wordList.end(); it++)
     {
         res[resnum++] = wxU(it->c_str());
@@ -493,12 +492,12 @@ RaccFrame::refresh()
     }
     savedword = word;
     //debug("   RaccFrame::refresh : %s\n",word.c_str());
-    list<wstring> wordList;
+    vector<wstring> wordList;
     game->getDic().searchRacc(word, wordList);
 
     wxString *res = new wxString[wordList.size()];
     int resnum = 0;
-    list<wstring>::const_iterator it;
+    vector<wstring>::const_iterator it;
     for (it = wordList.begin(); it != wordList.end(); it++)
     {
         res[resnum++] = wxU(it->c_str());

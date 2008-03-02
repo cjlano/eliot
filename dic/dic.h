@@ -183,31 +183,38 @@ public:
      * Search for benjamins
      * @param iWord: letters
      * @param oWordList: results
+     * @param iMaxResults: maximum number of returned results (0 means no limit)
      */
-    void searchBenj(const wstring &iWord, list<wstring> &oWordList) const;
+    void searchBenj(const wstring &iWord, vector<wstring> &oWordList,
+                    unsigned int iMaxResults = 0) const;
 
     /**
      * Search for all words feasible by adding a letter in front or at the end
      * @param iWord: word
      * @param oWordList: results
+     * @param iMaxResults: maximum number of returned results (0 means no limit)
      */
-    void searchRacc(const wstring &iWord, list<wstring> &oWordList) const;
+    void searchRacc(const wstring &iWord, vector<wstring> &oWordList,
+                    unsigned int iMaxResults = 0) const;
 
     /**
      * Search for crosswords
      * @param iMask: letters
      * @param oWordList: results
+     * @param iMaxResults: maximum number of returned results (0 means no limit)
      */
-    void searchCross(const wstring &iMask, list<wstring> &oWordList) const;
+    void searchCross(const wstring &iMask, vector<wstring> &oWordList,
+                     unsigned int iMaxResults = 0) const;
 
     /**
      * Search for all feasible word with "rack" plus one letter
      * @param iRack: letters
      * @param oWordlist: results
      * @param joker: true if the search must be performed when a joker is in the rack
+     * @param iMaxResults: maximum number of returned results (0 means no limit)
      */
     void search7pl1(const wstring &iRack,
-                    map<wchar_t, list<wstring> > &oWordList,
+                    map<wchar_t, vector<wstring> > &oWordList,
                     bool joker) const;
 
     /**
@@ -215,11 +222,12 @@ public:
      * @param iRegexp: regular expression
      * @param oWordList: results
      * @param iList: parameters for the search (?)
+     * @param iMaxResults: maximum number of returned results (0 means no limit)
      */
     void searchRegExp(const wstring &iRegexp,
-                      list<wstring> &oWordList,
-                      struct search_RegE_list_t *iList) const;
-
+                      vector<wstring> &oWordList,
+                      struct search_RegE_list_t *iList,
+                      unsigned int iMaxResults = 0) const;
 
 
 private:
@@ -258,22 +266,25 @@ private:
 
     /// Helper for searchBenj()
     template <typename DAWG_EDGE>
-    void searchBenjTempl(const wstring &iWord, list<wstring> &oWordList) const;
+    void searchBenjTempl(const wstring &iWord, vector<wstring> &oWordList,
+                         unsigned int iMaxResults) const;
 
     /// Helper for searchRacc()
     template <typename DAWG_EDGE>
-    void searchRaccTempl(const wstring &iWord, list<wstring> &oWordList) const;
+    void searchRaccTempl(const wstring &iWord, vector<wstring> &oWordList,
+                         unsigned int iMaxResults) const;
 
     /// Helper for searchCross()
     template <typename DAWG_EDGE>
     void searchCrossRecTempl(struct params_cross_t *params,
-                             list<wstring> &oWordList,
-                             const DAWG_EDGE *edgeptr) const;
+                             vector<wstring> &oWordList,
+                             const DAWG_EDGE *edgeptr,
+                             unsigned int iMaxResults) const;
 
     /// Helper for search7pl1()
     template <typename DAWG_EDGE>
     void search7pl1Templ(const wstring &iRack,
-                         map<wchar_t, list<wstring> > &oWordList,
+                         map<wchar_t, vector<wstring> > &oWordList,
                          bool joker) const;
 
     /// Second helper for search7pl1()
@@ -286,15 +297,17 @@ private:
      * wide chars are supported by our regexp engine.
      */
     void searchRegExpInner(const string &iRegexp,
-                           list<string> &oWordList,
-                           struct search_RegE_list_t *iList) const;
+                           vector<string> &oWordList,
+                           struct search_RegE_list_t *iList,
+                           unsigned int iMaxResults) const;
 
     /// Helper for searchRegExp()
     template <typename DAWG_EDGE>
     void searchRegexpRecTempl(struct params_regexp_t *params,
                               int state,
                               const DAWG_EDGE *edgeptr,
-                              list<string> &oWordList) const;
+                              vector<string> &oWordList,
+                              unsigned int iMaxResults) const;
 };
 
 #endif /* _DIC_H_ */

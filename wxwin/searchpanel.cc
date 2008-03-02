@@ -151,12 +151,12 @@ PCross::compute_enter(wxCommandEvent&)
     wchar_t rack[DIC_WORD_MAX];
     wcsncpy(rack, t->GetValue().wc_str(), DIC_WORD_MAX);
 
-    list<wstring> wordList;
+    vector<wstring> wordList;
     dic->searchCross(rack, wordList);
 
     int resnum = 0;
     wxString *res = new wxString[wordList.size()];
-    list<wstring>::const_iterator it;
+    vector<wstring>::const_iterator it;
     for (it = wordList.begin(); it != wordList.end(); it++)
         res[resnum++] =  wxU(it->c_str());
     l->Set(resnum,res);
@@ -193,12 +193,12 @@ PPlus1::compute_enter(wxCommandEvent&)
     }
 
     wstring rack = t->GetValue().wc_str();
-    map<wchar_t, list<wstring> > wordList;
+    map<wchar_t, vector<wstring> > wordList;
     dic->search7pl1(rack, wordList, true);
 
     // Count the results
     int sum = 0;
-    map<wchar_t, list<wstring> >::const_iterator it;
+    map<wchar_t, vector<wstring> >::const_iterator it;
     for (it = wordList.begin(); it != wordList.end(); it++)
     {
         if (it->first)
@@ -212,7 +212,7 @@ PPlus1::compute_enter(wxCommandEvent&)
     {
         if (it->first)
             res[resnum++] = wxString(wxT("+")) + wxU((wxString)it->first);
-        list<wstring>::const_iterator itWord;
+        vector<wstring>::const_iterator itWord;
         for (itWord = it->second.begin(); itWord != it->second.end(); itWord++)
         {
             res[resnum++] = wxString(wxT("  ")) + wxU(itWord->c_str());
@@ -245,10 +245,7 @@ public:
 void
 PRegExp::build_letter_lists()
 {
-  int i;
-  std::list<Tile> all_tiles;
-
-  memset (&llist,0,sizeof(llist));
+  memset (&llist, 0, sizeof(llist));
 
   llist.minlength = 1;
   llist.maxlength = 15;
@@ -265,7 +262,7 @@ PRegExp::build_letter_lists()
   llist.valid[3] = 0; // user defined list 1
   llist.valid[4] = 0; // user defined list 2
 
-  for(i=0; i < DIC_SEARCH_REGE_LIST; i++)
+  for(int i = 0; i < DIC_SEARCH_REGE_LIST; i++)
     {
       memset(llist.letters[i],0,sizeof(llist.letters[i]));
     }
@@ -341,12 +338,12 @@ PRegExp::compute_enter(wxCommandEvent&)
     }
     debug("\n");
 
-    list<wstring> wordList;
+    vector<wstring> wordList;
     dic->searchRegExp(regexp, wordList, &llist);
 
     wxString *res = new wxString[wordList.size()];
     int resnum = 0;
-    list<wstring>::const_iterator it;
+    vector<wstring>::const_iterator it;
     for (it = wordList.begin(); it != wordList.end(); it++)
     {
         res[resnum++] =  wxU(it->c_str());

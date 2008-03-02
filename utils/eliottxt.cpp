@@ -192,10 +192,10 @@ wchar_t * next_token_filename(wchar_t *cmd, const wchar_t *delim, wchar_t **stat
 
 void eliottxt_get_cross(const Dictionary &iDic, const wstring &iCros)
 {
-    list<wstring> wordList;
+    vector<wstring> wordList;
     iDic.searchCross(iCros, wordList);
 
-    list<wstring>::const_iterator it;
+    vector<wstring>::const_iterator it;
     for (it = wordList.begin(); it != wordList.end(); it++)
     {
         printf("  %s\n", convertToMb(*it).c_str());
@@ -429,23 +429,23 @@ void loop_training(Training &iGame)
                             {
                                 case L'b':
                                 {
-                                    list<wstring> wordList;
+                                    vector<wstring> wordList;
                                     iGame.getDic().searchBenj(word, wordList);
-                                    list<wstring>::const_iterator it;
+                                    vector<wstring>::const_iterator it;
                                     for (it = wordList.begin(); it != wordList.end(); ++it)
                                         cout << convertToMb(*it) << endl;
                                     break;
                                 }
                                 case L'p':
                                 {
-                                    map<wchar_t, list<wstring> > wordMap;
+                                    map<wchar_t, vector<wstring> > wordMap;
                                     iGame.getDic().search7pl1(word, wordMap, false);
-                                    map<wchar_t, list<wstring> >::const_iterator it;
+                                    map<wchar_t, vector<wstring> >::const_iterator it;
                                     for (it = wordMap.begin(); it != wordMap.end(); ++it)
                                     {
                                         if (it->first)
                                             cout << "+" << convertToMb(it->first) << endl;
-                                        list<wstring>::const_iterator itWord;;
+                                        vector<wstring>::const_iterator itWord;;
                                         for (itWord = it->second.begin(); itWord != it->second.end(); itWord++)
                                         {
                                             cout << "  " << convertToMb(*itWord) << endl;
@@ -455,9 +455,9 @@ void loop_training(Training &iGame)
                                 }
                                 case L'r':
                                 {
-                                    list<wstring> wordList;
+                                    vector<wstring> wordList;
                                     iGame.getDic().searchRacc(word, wordList);
-                                    list<wstring>::const_iterator it;
+                                    vector<wstring>::const_iterator it;
                                     for (it = wordList.begin(); it != wordList.end(); ++it)
                                         cout << convertToMb(*it) << endl;
                                     break;
@@ -876,11 +876,11 @@ void eliot_regexp(const Dictionary& iDic, wchar_t __attribute__((unused)) *cmd,
     printf("search for %s (%d,%d,%d)\n", convertToMb(regexp).c_str(),
            nres, lmin, lmax);
 
-    list<wstring> wordList;
+    vector<wstring> wordList;
     iDic.searchRegExp(regexp, wordList, &llist);
 
     int nresult = 0;
-    list<wstring>::const_iterator it;
+    vector<wstring>::const_iterator it;
     for (it = wordList.begin(); it != wordList.end() && nresult < nres; it++)
     {
         printf("%s\n", convertToMb(*it).c_str());

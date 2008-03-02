@@ -143,11 +143,11 @@ int main(int argc, char* argv[])
 
             /* automaton */
             init_letter_lists(&regList);
-            list<wstring> wordList;
+            vector<wstring> wordList;
             dic.searchRegExp(convertToWc(er), wordList, &regList);
 
             cout << _("result:") << endl;
-            list<wstring>::const_iterator it;
+            vector<wstring>::const_iterator it;
             for (it = wordList.begin(); it != wordList.end(); it++)
             {
                 cerr << convertToMb(*it) << endl;
