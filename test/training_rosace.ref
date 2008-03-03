@@ -5,57 +5,39 @@ mode entraînement
 commande> 
 commande> t WAEROSC
 commande> 
-commande> r
-commande> 
-commande> n 1
+commande> j ROSACE H8
 commande> 
 commande> t W+TSREIN
 commande> 
-commande> r
-commande> 
-commande> n 1
+commande> j WESTERN 13G
 commande> 
 commande> t I+RDTVI?
 commande> 
-commande> r
-commande> 
-commande> n 1
+commande> j DIVeRTIR 8A
 commande> 
 commande> t ELMOEAH
 commande> 
-commande> r
-commande> 
-commande> n 1
+commande> j AH I8
 commande> 
 commande> t EELMO+PI
 commande> 
-commande> r
-commande> 
-commande> n 1
+commande> j DIPLOMEE A8
 commande> 
 commande> t OHUMJUI
 commande> 
-commande> r
-commande> 
-commande> n 1
+commande> j JOUI 12K
 commande> 
 commande> t HMU+EAUA
 commande> 
-commande> r
-commande> 
-commande> n 1
+commande> j HUE 14F
 commande> 
 commande> t AAMU+UBS
 commande> 
-commande> r
-commande> 
-commande> n 1
+commande> j SAMBA 15H
 commande> 
 commande> t UU+NYTEP
 commande> 
-commande> r
-commande> 
-commande> n 1
+commande> j TYPE O12
 commande> 
 commande> a gd # r1
  Ar [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1]
@@ -169,15 +151,15 @@ commande> r
 commande> 
 commande> a r
   1: SaUGRENU        *  82 E4
-  2: NUaGEUSE        *  66 D1
-  3: ENjUGUES        *  66 D8
-  4: GUEUSANt        *  66 11C
-  5: GUEUSENt        *  64 D6
-  6: ENjUGUES        *  64 D2
-  7: GUEUSENt        *  64 D3
-  8: NUaGEUSE        *  64 D4
+  2: eNjUGUES        *  66 D8
+  3: GUEUSANt        *  66 11C
+  4: NUaGEUSe        *  66 D1
+  5: ENjUGUeS        *  64 D2
+  6: GUeUSENt        *  64 D6
+  7: GUEUSeNt        *  64 D3
+  8: NUaGeUSE        *  64 D4
   9: GUeUSENT        *  62 F1
- 10: GUEUSeNT        *  60 F1
+ 10: GUEUSaNT        *  60 F1
 commande> 
 commande> a gd # r3
  Ar [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1][00000000:-1]

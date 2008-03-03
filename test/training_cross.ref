@@ -7,15 +7,15 @@ commande> t EUOFMIE
 commande> r
 commande> a r
   1: FUMEE              26 H4
-  2: FOUIE              24 H4
-  3: FOUEE              24 H4
+  2: FOUEE              24 H4
+  3: FOUIE              24 H4
   4: MEFIE              22 H4
   5: FUMEE              20 H8
   6: MEFIE              20 H8
-  7: FOUIE              18 H8
-  8: FOUEE              18 H8
-  9: FUMEE              18 H6
- 10: FUMEE              18 H7
+  7: FOUEE              18 H8
+  8: FOUIE              18 H8
+  9: FUMEE              18 H7
+ 10: FUMEE              18 H6
 commande> n 1
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -47,13 +47,13 @@ commande> r
 commande> a r
   1: KIMONO             38 6F
   2: KEMIA              37 6F
-  3: MOKO               34 6H
-  4: AMOK               34 6G
-  5: MOKA               34 6H
-  6: MAKI               34 6H
-  7: KAMI               34 6F
-  8: KINE               33 I3
-  9: KINA               33 I3
+  3: AMOK               34 6G
+  4: KAMI               34 6F
+  5: MAKI               34 6H
+  6: MOKA               34 6H
+  7: MOKO               34 6H
+  8: KINA               33 I3
+  9: KINE               33 I3
  10: KAN                29 I3
 commande> n 1
 commande> a g
@@ -88,9 +88,9 @@ commande> a r
   4: SWEAT              32 L6
   5: ETAIES             31 L1
   6: AISEE              29 L4
-  7: TAIES              27 L2
-  8: TAISE              27 L3
-  9: ETAIS              27 L2
+  7: ETAIS              27 L2
+  8: TAIES              27 L2
+  9: TAISE              27 L3
  10: WESTIE             27 9F
 commande> n 1 
 commande> a g
@@ -124,8 +124,8 @@ commande> a r
   3: LAVASSE         *  78 10G
   4: VASSALE         *  75 K9
   5: LAVASSE         *  73 9C
-  6: LAVASSE         *  72 K9
-  7: LAVASSE         *  72 9D
+  6: LAVASSE         *  72 9D
+  7: LAVASSE         *  72 K9
   8: VASSALE         *  67 G8
   9: LAVASSE         *  64 G8
  10: EVASAS             35 10I
@@ -196,13 +196,13 @@ commande> a r
   1: OMNIBUS         *  94 O4
   2: EMBUIONS        *  84 14H
   3: BITUMONS        *  62 15F
-  4: NIMBUS             38 O5
-  5: SIMOUN             38 O10
-  6: BOUSIN             38 O7
-  7: IMBUS              35 O6
-  8: BISON              35 O8
-  9: BISOU              35 O8
- 10: BOUMS              35 O6
+  4: BOUSIN             38 O7
+  5: NIMBUS             38 O5
+  6: SIMOUN             38 O10
+  7: BISON              35 O8
+  8: BISOU              35 O8
+  9: BOUMS              35 O6
+ 10: IMBUS              35 O6
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -235,11 +235,11 @@ commande> a r
   3: AXIEZ              46 K10
   4: AXEZ               44 K10
   5: IXEE               33 14E
-  6: EXPIEZ             32 14D
-  7: GEX                32 5K
-  8: EXPIEZ             32 14H
-  9: EPIEZ              32 N10
- 10: EXPIE              32 N10
+  6: EPIEZ              32 N10
+  7: EXPIE              32 N10
+  8: EXPIEZ             32 14D
+  9: EXPIEZ             32 14H
+ 10: GEX                32 5K
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -270,13 +270,13 @@ commande> a r
   1: TOPAZE             60 15J
   2: GAIZE              48 15K
   3: GAZE               48 15L
-  4: PAGEOTE            24 14B
-  5: EPITOGE            24 14B
+  4: EPITOGE            24 14B
+  5: PAGEOTE            24 14B
   6: EPIAIT             22 G2
   7: GOPAK              21 F2
-  8: TAPAGE             20 K9
-  9: PETA               20 7C
- 10: PIGEA              20 7B
+  8: PETA               20 7C
+  9: PIGEA              20 7B
+ 10: PITA               20 7C
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -305,15 +305,15 @@ commande> t GI+AVNCO
 commande> r
 commande> a r
   1: VAINCU             28 13C
-  2: VAINC              25 K9
-  3: VACOA              25 K9
-  4: CONVOI             24 11D
-  5: CAVAI              24 K9
+  2: VACOA              25 K9
+  3: VAINC              25 K9
+  4: CAVAI              24 K9
+  5: CONVOI             24 11D
   6: CONVIA             23 7A
   7: VAGIN              23 K9
-  8: VINA               22 7C
-  9: CAVA               22 K9
- 10: CONVIA             22 13J
+  8: CAVA               22 K9
+  9: CONVIA             22 13J
+ 10: VINA               22 7C
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -343,14 +343,14 @@ commande> r
 commande> a r
   1: ESSORAGE        *  80 8A
   2: GOSSA              23 11G
-  3: ROSES              21 11G
-  4: ROSSA              21 11G
-  5: ROSAS              21 11G
+  3: ROSAS              21 11G
+  4: ROSES              21 11G
+  5: ROSSA              21 11G
   6: AGRESSA            20 D7
-  7: OSES               19 11H
-  8: OSAS               19 11H
-  9: AGES               18 5J
- 10: GOSSERA            18 D7
+  7: OSAS               19 11H
+  8: OSES               19 11H
+  9: AGEE               18 5J
+ 10: AGES               18 5J
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -384,8 +384,8 @@ commande> a r
   4: JARD               33 K9
   5: JEU                31 M2
   6: JEUDIS             30 C3
-  7: JUDD               29 N1
-  8: JAR                29 K9
+  7: JAR                29 K9
+  8: JUDD               29 N1
   9: JARD               28 D12
  10: JUPE               28 12L
 commande> n 1 
@@ -420,10 +420,10 @@ commande> a r
   3: LADY               48 D12
   4: DEY                42 14B
   5: DYADES             36 C3
-  6: DYADE              34 D11
-  7: LAYES              34 B4
-  8: YAWL               34 4J
-  9: DELAYA             34 D10
+  6: DELAYA             34 D10
+  7: DYADE              34 D11
+  8: LAYES              34 B4
+  9: YAWL               34 4J
  10: ALYA               33 F8
 commande> n 1 
 commande> a g
@@ -453,15 +453,15 @@ commande> t D+IHUEEB
 commande> r
 commande> a r
   1: HEU                32 10B
-  2: HE                 31 10B
-  3: BEDE               31 10B
+  2: BEDE               31 10B
+  3: HE                 31 10B
   4: BEE                29 10B
   5: BE                 28 10B
   6: DEB                28 10B
-  7: IDEE               27 10A
-  8: HIEE               27 10A
-  9: HUEE               27 10A
- 10: HIE                26 10A
+  7: HIEE               27 10A
+  8: HUEE               27 10A
+  9: IDEE               27 10A
+ 10: BUEE               26 10A
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -490,14 +490,14 @@ commande> t BDEI+CIL
 commande> r
 commande> a r
   1: CIEL               25 D1
-  2: CLE                22 12D
-  3: BLE                22 12D
+  2: BLE                22 12D
+  3: CLE                22 12D
   4: BEY                20 7A
   5: BLINDE             19 F10
-  6: BIPE               18 12L
-  7: CAID               18 D12
-  8: LAIC               18 D12
-  9: BLIND              18 F10
+  6: ALBEDO             18 K10
+  7: BIPE               18 12L
+  8: BLIND              18 F10
+  9: CAID               18 D12
  10: CIBLE              18 4B
 commande> n 1 
 commande> a g
@@ -529,13 +529,13 @@ commande> a r
   1: BRADeRIE        *  86 A1
   2: BRIARDEs        *  61 A2
   3: BAuDRIER        *  60 A2
-  4: pARFUMEE           33 H1
+  4: BRoCARD            33 1A
   5: CRoBARD            33 1D
-  6: BRoCARD            33 1A
+  6: pARFUMEE           33 H1
   7: BICARRe            30 1B
   8: CRABIeR            30 1D
-  9: CIBARe             27 1D
- 10: CRoBAR             27 1D
+  9: BAs                27 11A
+ 10: BeRCAI             27 1A
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -564,15 +564,15 @@ commande> t EUGTDEA
 commande> r
 commande> a r
   1: DUT                29 M3
-  2: EUT                27 M3
-  3: CAUDEE             27 1D
+  2: CAUDEE             27 1D
+  3: EUT                27 M3
   4: DAW                25 4J
-  5: CETEAU             24 1D
-  6: CEDAT              24 1D
-  7: QUETE              24 12H
-  8: CAUDE              24 1D
-  9: CAGUE              24 1D
- 10: CAGET              24 1D
+  5: CADET              24 1D
+  6: CAGEE              24 1D
+  7: CAGET              24 1D
+  8: CAGUE              24 1D
+  9: CAUDE              24 1D
+ 10: CEDAT              24 1D
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -601,14 +601,14 @@ commande> t AEEG+LR?
 commande> r
 commande> a r
   1: CERcLAGE        *  80 1D
-  2: REGELAnT        *  77 15A
-  3: REGELAiT        *  77 15A
-  4: REGALEnT        *  77 15A
-  5: RELEGuAT        *  77 15A
-  6: GELERAiT        *  77 15A
-  7: dEREGLAT        *  77 15A
-  8: AiGRELET        *  77 15A
-  9: GALEREnT        *  77 15A
+  2: AiGRELET        *  77 15A
+  3: dEREGLAT        *  77 15A
+  4: GALEREnT        *  77 15A
+  5: GELERAiT        *  77 15A
+  6: REGALEnT        *  77 15A
+  7: REGELAiT        *  77 15A
+  8: REGELAnT        *  77 15A
+  9: RELEGuAT        *  77 15A
  10: GREnELAT        *  74 15A
 commande> n 1 
 commande> a g
@@ -645,8 +645,8 @@ commande> a r
   6: FLAN               21 14A
   7: FAN                19 14B
   8: FANON              18 11E
-  9: NAKFA              17 F4
- 10: FLA                17 14A
+  9: FLA                17 14A
+ 10: NAKFA              17 F4
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -675,15 +675,15 @@ commande> t AFNTT+HM
 commande> r
 commande> a r
   1: MATH               24 D12
-  2: HATIF              22 13K
+  2: FA                 22 12D
   3: HA                 22 12D
-  4: FA                 22 12D
+  4: HATIF              22 13K
   5: KHANAT             20 F6
-  6: MATON              19 I3
+  6: AH                 19 12D
   7: FAN                19 14B
   8: HAN                19 14B
-  9: AH                 19 12D
- 10: MANIF              18 13K
+  9: MATON              19 I3
+ 10: EH                 18 7H
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -712,15 +712,15 @@ commande> t AFNT+NRE
 commande> r
 commande> a r
   1: FANON              23 I3
-  2: KRAFT              19 F6
-  3: FRET               19 14A
-  4: REFAIT             18 13J
-  5: FANON              18 11E
-  6: FRETIN             18 13J
+  2: FRET               19 14A
+  3: KRAFT              19 F6
+  4: EN                 18 I13
+  5: ET                 18 I13
+  6: FANON              18 11E
   7: FERAIT             18 13J
   8: FREON              18 11E
-  9: REAI               18 E10
- 10: EN                 18 I13
+  9: FRETIN             18 13J
+ 10: REAI               18 E10
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -750,14 +750,14 @@ commande> r
 commande> a r
   1: ET                 18 I13
   2: RELAVASSES         15 10F
-  3: SE                 13 M10
-  4: EX                 13 11M
-  5: VAINCUE            13 13C
-  6: TREK               13 F3
+  3: EX                 13 11M
+  4: SE                 13 M10
+  5: TREK               13 F3
+  6: VAINCUE            13 13C
   7: KEA                12 F6
   8: TEK                12 F4
-  9: TET                11 14B
- 10: RE                 11 E10
+  9: RE                 11 E10
+ 10: TES                11 M8
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15

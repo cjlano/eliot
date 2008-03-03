@@ -28,6 +28,7 @@
 
 #include <algorithm>
 #include <functional>
+#include <cwctype>
 
 #include "tile.h"
 #include "round.h"
@@ -36,13 +37,30 @@
 #include "debug.h"
 
 
-struct less_points : public binary_function<const Round&,
-                     const Round&, bool>
+bool wcharCompare(wchar_t c1, wchar_t c2)
+{
+    return towlower(c1) < towlower(c2);
+}
+
+struct less_points : public binary_function<const Round&, const Round&, bool>
 {
     bool operator()(const Round &r1, const Round &r2)
     {
         // We want higher scores first, so we use '>' instead of '<'
-        return r1.getPoints() > r2.getPoints();
+        if (r1.getPoints() > r2.getPoints())
+            return true;
+        else if (r1.getPoints() < r2.getPoints())
+            return false;
+        else
+        {
+            // If the scores are equal, sort alphabetically, ignoring
+            // the case
+            return std::lexicographical_compare(r1.getWord().begin(),
+                                                r1.getWord().end(),
+                                                r2.getWord().begin(),
+                                                r2.getWord().end(),
+                                                wcharCompare);
+        }
     }
 };
 

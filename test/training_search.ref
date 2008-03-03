@@ -8,892 +8,892 @@ QPINZ?S
 commande> r
 commande> a r 1000
   1: SPItZ              50 H8
-  2: ZaNIS              46 H4
-  3: ZaINS              46 H4
+  2: ZaINS              46 H4
+  3: ZaNIS              46 H4
   4: ZINcS              46 H4
-  5: QuIZ               38 H7
-  6: QuIZ               38 H8
+  5: QINgS              38 H4
+  6: QuIZ               38 H6
   7: QuIZ               38 H5
-  8: QuIZ               38 H6
-  9: QINgS              38 H4
+  8: QuIZ               38 H8
+  9: QuIZ               38 H7
  10: SPItZ              32 H4
  11: SPItZ              30 H6
- 12: ZIPS               30 H6
- 13: ZIPS               30 H8
- 14: SPItZ              30 H5
- 15: ZIPS               30 H5
- 16: ZIPS               30 H7
- 17: SPItZ              30 H7
- 18: ZIPs               28 H7
- 19: ZiPS               28 H7
- 20: ZuPS               28 H7
- 21: ZaINS              28 H8
- 22: ZIP                28 H7
- 23: ZiPS               28 H8
- 24: NaZIS              28 H8
- 25: ZaNIS              28 H8
- 26: ZIPs               28 H8
- 27: ZuPS               28 H8
- 28: ZiPS               28 H6
- 29: ZiPS               28 H5
+ 12: SPItZ              30 H7
+ 13: SPItZ              30 H5
+ 14: ZIPS               30 H7
+ 15: ZIPS               30 H6
+ 16: ZIPS               30 H5
+ 17: ZIPS               30 H8
+ 18: NaZIS              28 H4
+ 19: NaZIS              28 H8
+ 20: ZaINS              28 H8
+ 21: ZaNIS              28 H8
+ 22: ZINcS              28 H8
+ 23: ZIP                28 H6
+ 24: ZIP                28 H7
+ 25: ZIP                28 H8
+ 26: ZiPS               28 H5
+ 27: ZiPS               28 H6
+ 28: ZIPs               28 H8
+ 29: ZiPS               28 H8
  30: ZIPs               28 H5
- 31: ZuPS               28 H6
- 32: NaZIS              28 H4
- 33: ZIP                28 H8
- 34: ZuPS               28 H5
- 35: ZIPs               28 H6
- 36: ZINcS              28 H8
- 37: ZIP                28 H6
- 38: ZiP                26 H6
- 39: ZiP                26 H8
- 40: ZaINS              26 H7
- 41: ZINcS              26 H7
- 42: ZaNIS              26 H7
- 43: NaZIS              26 H6
- 44: ZuP                26 H6
- 45: NaZIS              26 H7
- 46: ZINcS              26 H5
- 47: ZiP                26 H7
- 48: ZINcS              26 H6
- 49: ZuP                26 H7
- 50: ZuP                26 H8
- 51: ZaINS              26 H6
- 52: ZaNIS              26 H6
- 53: ZaNIS              26 H5
- 54: ZaINS              26 H5
- 55: NaZIS              26 H5
- 56: bINZ               24 H7
- 57: NIeZ               24 H8
- 58: ZaIN               24 H8
- 59: NaZI               24 H7
- 60: NIeZ               24 H5
- 61: ZISt               24 H8
- 62: ZINc               24 H8
- 63: NIeZ               24 H6
- 64: ZIpS               24 H8
- 65: ZIgS               24 H8
- 66: ZeNS               24 H8
- 67: ZaNI               24 H8
- 68: NIeZ               24 H7
- 69: NaZI               24 H6
- 70: NaZI               24 H5
- 71: ZIgS               24 H5
- 72: ZISt               24 H6
- 73: ZIpS               24 H6
- 74: QINgS              24 H8
- 75: ZINc               24 H6
- 76: ZIgS               24 H6
- 77: ZINc               24 H5
- 78: ZeNS               24 H5
- 79: ZeNS               24 H6
- 80: ZaNI               24 H5
- 81: ZaIN               24 H5
- 82: ZaNI               24 H6
- 83: ZaIN               24 H6
- 84: ZISt               24 H7
- 85: ZIpS               24 H7
- 86: bINZ               24 H8
- 87: ZINc               24 H7
- 88: ZIgS               24 H7
- 89: ZeNS               24 H7
- 90: ZaNI               24 H7
- 91: ZaIN               24 H7
- 92: NaZI               24 H8
- 93: ZIpS               24 H5
- 94: ZISt               24 H5
- 95: bINZ               24 H5
- 96: bINZ               24 H6
- 97: QINS               22 H8
- 98: ZIg                22 H8
- 99: QINgS              22 H6
-100: ZeN                22 H8
-101: QINS               22 H6
-102: QINgS              22 H5
-103: QINS               22 H5
-104: rIZ                22 H7
-105: rIZ                22 H6
-106: rIZ                22 H8
-107: NeZ                22 H8
-108: NeZ                22 H6
-109: ZeN                22 H6
-110: QINS               22 H7
-111: QINgS              22 H7
-112: ZIp                22 H8
-113: ZIp                22 H7
-114: NeZ                22 H7
-115: ZIp                22 H6
-116: ZIg                22 H7
-117: ZIg                22 H6
-118: ZeN                22 H7
-119: QIN                20 H8
-120: QIN                20 H6
-121: QINs               20 H6
-122: QiNS               20 H5
-123: QiNS               20 H6
-124: QInS               20 H6
-125: QInS               20 H5
-126: QINs               20 H5
+ 31: ZiPS               28 H7
+ 32: ZIPs               28 H6
+ 33: ZIPs               28 H7
+ 34: ZuPS               28 H8
+ 35: ZuPS               28 H5
+ 36: ZuPS               28 H6
+ 37: ZuPS               28 H7
+ 38: NaZIS              26 H6
+ 39: NaZIS              26 H5
+ 40: NaZIS              26 H7
+ 41: ZaINS              26 H7
+ 42: ZaINS              26 H5
+ 43: ZaINS              26 H6
+ 44: ZaNIS              26 H6
+ 45: ZaNIS              26 H7
+ 46: ZaNIS              26 H5
+ 47: ZINcS              26 H7
+ 48: ZINcS              26 H5
+ 49: ZINcS              26 H6
+ 50: ZiP                26 H6
+ 51: ZiP                26 H8
+ 52: ZiP                26 H7
+ 53: ZuP                26 H6
+ 54: ZuP                26 H8
+ 55: ZuP                26 H7
+ 56: bINZ               24 H8
+ 57: bINZ               24 H5
+ 58: bINZ               24 H6
+ 59: bINZ               24 H7
+ 60: NaZI               24 H8
+ 61: NaZI               24 H6
+ 62: NaZI               24 H5
+ 63: NaZI               24 H7
+ 64: NIeZ               24 H8
+ 65: NIeZ               24 H5
+ 66: NIeZ               24 H7
+ 67: NIeZ               24 H6
+ 68: QINgS              24 H8
+ 69: ZaIN               24 H6
+ 70: ZaIN               24 H7
+ 71: ZaIN               24 H8
+ 72: ZaIN               24 H5
+ 73: ZaNI               24 H6
+ 74: ZaNI               24 H8
+ 75: ZaNI               24 H7
+ 76: ZaNI               24 H5
+ 77: ZeNS               24 H6
+ 78: ZeNS               24 H7
+ 79: ZeNS               24 H8
+ 80: ZeNS               24 H5
+ 81: ZIgS               24 H5
+ 82: ZIgS               24 H6
+ 83: ZIgS               24 H7
+ 84: ZIgS               24 H8
+ 85: ZINc               24 H6
+ 86: ZINc               24 H5
+ 87: ZINc               24 H8
+ 88: ZINc               24 H7
+ 89: ZIpS               24 H8
+ 90: ZIpS               24 H6
+ 91: ZIpS               24 H5
+ 92: ZIpS               24 H7
+ 93: ZISt               24 H8
+ 94: ZISt               24 H6
+ 95: ZISt               24 H7
+ 96: ZISt               24 H5
+ 97: NeZ                22 H8
+ 98: NeZ                22 H7
+ 99: NeZ                22 H6
+100: QINgS              22 H5
+101: QINgS              22 H6
+102: QINgS              22 H7
+103: QINS               22 H6
+104: QINS               22 H5
+105: QINS               22 H7
+106: QINS               22 H8
+107: rIZ                22 H8
+108: rIZ                22 H6
+109: rIZ                22 H7
+110: ZeN                22 H7
+111: ZeN                22 H8
+112: ZeN                22 H6
+113: ZIg                22 H7
+114: ZIg                22 H6
+115: ZIg                22 H8
+116: ZIp                22 H8
+117: ZIp                22 H7
+118: ZIp                22 H6
+119: cINQ               20 H5
+120: cINQ               20 H6
+121: cINQ               20 H7
+122: cINQ               20 H8
+123: QIN                20 H6
+124: QIN                20 H7
+125: QIN                20 H8
+126: QINg               20 H5
 127: QINg               20 H6
-128: QINg               20 H5
-129: cINQ               20 H5
-130: QINs               20 H7
-131: QInS               20 H7
-132: QINg               20 H7
-133: QIN                20 H7
+128: QINg               20 H8
+129: QINg               20 H7
+130: QiNS               20 H6
+131: QiNS               20 H7
+132: QInS               20 H7
+133: QInS               20 H5
 134: QiNS               20 H8
-135: QiNS               20 H7
-136: QInS               20 H8
-137: QINs               20 H8
-138: cINQ               20 H7
-139: cINQ               20 H8
-140: cINQ               20 H6
-141: QINg               20 H8
-142: QIn                18 H6
-143: QiN                18 H8
-144: QIn                18 H8
-145: QuI                18 H8
-146: QiN                18 H6
-147: QuI                18 H6
-148: PeINS              18 H4
-149: PISaN              18 H4
-150: PeNIS              18 H4
-151: PIaNS              18 H4
-152: PaINS              18 H4
-153: PINeS              18 H4
-154: PuNIS              18 H4
-155: QuI                18 H7
-156: PoINS              18 H4
-157: QiN                18 H7
-158: PIoNS              18 H4
-159: QIn                18 H7
-160: SaPIN              14 H8
-161: sPINS              14 H8
-162: SuPIN              14 H4
-163: SPINs              14 H4
-164: PaINS              14 H8
-165: PeINS              14 H8
-166: PeNIS              14 H8
-167: PIaNS              14 H8
-168: SaPIN              14 H4
-169: PINeS              14 H8
-170: PIoNS              14 H8
-171: PISaN              14 H8
-172: SuPIN              14 H8
-173: PoINS              14 H8
-174: PuNIS              14 H8
-175: PIoNS              12 H5
-176: PoINS              12 H7
-177: PISaN              12 H5
-178: SPINs              12 H8
-179: PINS               12 H5
-180: PINeS              12 H5
-181: PIaNS              12 H5
-182: PISaN              12 H6
-183: PuNIS              12 H7
-184: PIoNS              12 H6
-185: PaINS              12 H6
-186: PINS               12 H6
-187: PINeS              12 H6
-188: PaINS              12 H5
-189: PIaNS              12 H6
-190: PeNIS              12 H5
-191: PeINS              12 H5
-192: PeNIS              12 H6
-193: PeINS              12 H6
-194: PIaNS              12 H7
-195: SPIN               12 H7
-196: SPINs              12 H7
-197: PeNIS              12 H7
-198: PeINS              12 H7
-199: PINS               12 H8
-200: SuPIN              12 H7
-201: SaPIN              12 H6
-202: SaPIN              12 H5
-203: PaINS              12 H7
-204: SPIN               12 H6
-205: SPINs              12 H6
-206: SPIN               12 H5
-207: SPINs              12 H5
-208: SuPIN              12 H6
-209: SuPIN              12 H5
-210: sPINS              12 H7
-211: sPINS              12 H6
-212: sPINS              12 H5
-213: sPINS              12 H4
-214: PoINS              12 H6
-215: PoINS              12 H5
-216: PIoNS              12 H7
-217: PISaN              12 H7
-218: SPIN               12 H8
-219: SaPIN              12 H7
-220: PuNIS              12 H5
-221: PINS               12 H7
-222: PINeS              12 H7
-223: PuNIS              12 H6
-224: PiNS               10 H7
-225: mIPS               10 H5
-226: mIPS               10 H6
-227: mIPS               10 H7
-228: lISP               10 H5
-229: PaIS               10 H6
-230: PaNS               10 H6
-231: PaIN               10 H5
-232: PISe               10 H7
-233: PaIS               10 H5
-234: lISP               10 H6
-235: PaNS               10 H5
-236: lISP               10 H7
-237: kIPS               10 H5
-238: kIPS               10 H6
-239: kIPS               10 H7
+135: QINs               20 H7
+136: QINs               20 H6
+137: QInS               20 H8
+138: QiNS               20 H5
+139: QINs               20 H5
+140: QINs               20 H8
+141: QInS               20 H6
+142: PaINS              18 H4
+143: PeINS              18 H4
+144: PeNIS              18 H4
+145: PIaNS              18 H4
+146: PINeS              18 H4
+147: PIoNS              18 H4
+148: PISaN              18 H4
+149: PoINS              18 H4
+150: PuNIS              18 H4
+151: QIn                18 H7
+152: QIn                18 H8
+153: QiN                18 H8
+154: QiN                18 H6
+155: QIn                18 H6
+156: QiN                18 H7
+157: QuI                18 H6
+158: QuI                18 H8
+159: QuI                18 H7
+160: PaINS              14 H8
+161: PeINS              14 H8
+162: PeNIS              14 H8
+163: PIaNS              14 H8
+164: PINeS              14 H8
+165: PIoNS              14 H8
+166: PISaN              14 H8
+167: PoINS              14 H8
+168: PuNIS              14 H8
+169: SaPIN              14 H8
+170: SaPIN              14 H4
+171: sPINS              14 H8
+172: SPINs              14 H4
+173: SuPIN              14 H8
+174: SuPIN              14 H4
+175: PaINS              12 H6
+176: PaINS              12 H5
+177: PaINS              12 H7
+178: PeINS              12 H5
+179: PeINS              12 H6
+180: PeINS              12 H7
+181: PeNIS              12 H5
+182: PeNIS              12 H6
+183: PeNIS              12 H7
+184: PIaNS              12 H5
+185: PIaNS              12 H6
+186: PIaNS              12 H7
+187: PINeS              12 H7
+188: PINeS              12 H5
+189: PINeS              12 H6
+190: PINS               12 H7
+191: PINS               12 H6
+192: PINS               12 H8
+193: PINS               12 H5
+194: PIoNS              12 H7
+195: PIoNS              12 H6
+196: PIoNS              12 H5
+197: PISaN              12 H6
+198: PISaN              12 H7
+199: PISaN              12 H5
+200: PoINS              12 H7
+201: PoINS              12 H6
+202: PoINS              12 H5
+203: PuNIS              12 H7
+204: PuNIS              12 H5
+205: PuNIS              12 H6
+206: SaPIN              12 H6
+207: SaPIN              12 H7
+208: SaPIN              12 H5
+209: SPIN               12 H6
+210: SPIN               12 H7
+211: SPIN               12 H5
+212: SPIN               12 H8
+213: sPINS              12 H7
+214: sPINS              12 H4
+215: SPINs              12 H5
+216: SPINs              12 H8
+217: sPINS              12 H6
+218: SPINs              12 H6
+219: SPINs              12 H7
+220: sPINS              12 H5
+221: SuPIN              12 H7
+222: SuPIN              12 H5
+223: SuPIN              12 H6
+224: aPIS               10 H8
+225: aPIS               10 H6
+226: aPIS               10 H5
+227: aPIS               10 H7
+228: aSPI               10 H6
+229: aSPI               10 H8
+230: aSPI               10 H7
+231: aSPI               10 H5
+232: bIPS               10 H8
+233: bIPS               10 H5
+234: bIPS               10 H6
+235: bIPS               10 H7
+236: ePIS               10 H8
+237: ePIS               10 H7
+238: ePIS               10 H6
+239: ePIS               10 H5
 240: IPeS               10 H5
 241: IPeS               10 H6
-242: PrIS               10 H7
-243: PSI                10 H7
-244: PuIS               10 H7
-245: PIlS               10 H7
-246: PIfS               10 H7
-247: PIeS               10 H7
-248: PuNI               10 H7
-249: PIcS               10 H7
-250: PoIS               10 H7
-251: PaIN               10 H6
-252: PIaN               10 H7
-253: PIN                10 H7
-254: PINe               10 H7
-255: PlIS               10 H7
-256: PaNS               10 H7
-257: PaIS               10 H7
-258: PINs               10 H7
-259: PaIN               10 H7
-260: PInS               10 H7
-261: PIoN               10 H7
-262: PIS                10 H7
-263: SPIn               10 H6
-264: SPIc               10 H6
-265: SPI                10 H6
-266: SlIP               10 H5
-267: SlIP               10 H6
-268: SkIP               10 H5
-269: SkIP               10 H6
-270: SIPo               10 H5
-271: SIPo               10 H6
-272: SPiN               10 H7
-273: SPIs               10 H7
-274: SPIn               10 H7
-275: SPIc               10 H7
-276: SPI                10 H7
-277: SlIP               10 H7
-278: SkIP               10 H7
-279: SIPo               10 H7
-280: zIPS               10 H5
-281: zIPS               10 H6
-282: zIPS               10 H7
-283: tIPS               10 H5
-284: tIPS               10 H6
-285: tIPS               10 H7
-286: sPIS               10 H5
-287: sPIN               10 H5
-288: sPIS               10 H6
-289: sPIN               10 H6
-290: sPIS               10 H7
-291: sPIN               10 H7
-292: SPiN               10 H5
-293: SPIs               10 H5
-294: SPIn               10 H5
-295: SPIc               10 H5
-296: SPiN               10 H6
-297: SPIs               10 H6
-298: PIlS               10 H5
-299: PIfS               10 H5
-300: PIeS               10 H5
-301: PIcS               10 H5
-302: PIaN               10 H5
-303: PISe               10 H6
-304: PIS                10 H6
-305: PIoN               10 H6
-306: PInS               10 H6
-307: PINs               10 H6
-308: PINe               10 H6
-309: PIN                10 H6
-310: PIlS               10 H6
-311: PIfS               10 H6
-312: PIeS               10 H6
-313: PIcS               10 H6
-314: PIaN               10 H6
-315: PuNI               10 H5
-316: PuIS               10 H5
-317: PuNI               10 H6
-318: PuIS               10 H6
-319: PSI                10 H6
-320: PrIS               10 H5
-321: PrIS               10 H6
-322: PoIS               10 H5
+242: IPeS               10 H8
+243: IPeS               10 H7
+244: kIPS               10 H5
+245: kIPS               10 H6
+246: kIPS               10 H7
+247: kIPS               10 H8
+248: lISP               10 H6
+249: lISP               10 H5
+250: lISP               10 H7
+251: lISP               10 H8
+252: mIPS               10 H8
+253: mIPS               10 H6
+254: mIPS               10 H5
+255: mIPS               10 H7
+256: PaIN               10 H7
+257: PaIN               10 H5
+258: PaIN               10 H6
+259: PaIN               10 H8
+260: PaIS               10 H5
+261: PaIS               10 H6
+262: PaIS               10 H8
+263: PaIS               10 H7
+264: PaNS               10 H5
+265: PaNS               10 H8
+266: PaNS               10 H6
+267: PaNS               10 H7
+268: PIaN               10 H6
+269: PIaN               10 H5
+270: PIaN               10 H8
+271: PIaN               10 H7
+272: PIcS               10 H6
+273: PIcS               10 H8
+274: PIcS               10 H7
+275: PIcS               10 H5
+276: PIeS               10 H5
+277: PIeS               10 H7
+278: PIeS               10 H6
+279: PIeS               10 H8
+280: PIfS               10 H6
+281: PIfS               10 H5
+282: PIfS               10 H7
+283: PIfS               10 H8
+284: PIlS               10 H7
+285: PIlS               10 H8
+286: PIlS               10 H5
+287: PIlS               10 H6
+288: PIN                10 H8
+289: PIN                10 H7
+290: PIN                10 H6
+291: PINe               10 H5
+292: PINe               10 H6
+293: PINe               10 H8
+294: PINe               10 H7
+295: PiNS               10 H6
+296: PINs               10 H8
+297: PiNS               10 H5
+298: PInS               10 H8
+299: PiNS               10 H8
+300: PINs               10 H5
+301: PInS               10 H6
+302: PINs               10 H6
+303: PINs               10 H7
+304: PInS               10 H7
+305: PInS               10 H5
+306: PiNS               10 H7
+307: PIoN               10 H6
+308: PIoN               10 H5
+309: PIoN               10 H8
+310: PIoN               10 H7
+311: PIS                10 H8
+312: PIS                10 H6
+313: PIS                10 H7
+314: PISe               10 H5
+315: PISe               10 H6
+316: PISe               10 H8
+317: PISe               10 H7
+318: PlIS               10 H7
+319: PlIS               10 H6
+320: PlIS               10 H5
+321: PlIS               10 H8
+322: PoIS               10 H8
 323: PoIS               10 H6
-324: PlIS               10 H5
-325: PlIS               10 H6
-326: PiNS               10 H5
-327: PiNS               10 H6
-328: PISe               10 H5
-329: PIoN               10 H5
-330: PInS               10 H5
-331: PINs               10 H5
-332: PINe               10 H5
-333: SPiN               10 H8
-334: SPIs               10 H8
-335: lISP               10 H8
-336: SPIn               10 H8
-337: SPIc               10 H8
-338: SPI                10 H8
-339: kIPS               10 H8
-340: PaIN               10 H8
-341: PaIS               10 H8
-342: SlIP               10 H8
-343: IPeS               10 H8
-344: SkIP               10 H8
-345: PaNS               10 H8
-346: SIPo               10 H8
-347: PIaN               10 H8
-348: PIcS               10 H8
-349: PIeS               10 H8
-350: ePIS               10 H5
-351: ePIS               10 H6
-352: ePIS               10 H7
-353: bIPS               10 H5
-354: bIPS               10 H6
-355: bIPS               10 H7
-356: aSPI               10 H5
-357: aSPI               10 H6
-358: aPIS               10 H5
-359: aPIS               10 H6
-360: aSPI               10 H7
-361: aPIS               10 H7
-362: zIPS               10 H8
-363: tIPS               10 H8
-364: sPIS               10 H8
-365: mIPS               10 H8
+324: PoIS               10 H5
+325: PoIS               10 H7
+326: PrIS               10 H5
+327: PrIS               10 H8
+328: PrIS               10 H7
+329: PrIS               10 H6
+330: PSI                10 H8
+331: PSI                10 H7
+332: PSI                10 H6
+333: PuIS               10 H8
+334: PuIS               10 H6
+335: PuIS               10 H7
+336: PuIS               10 H5
+337: PuNI               10 H7
+338: PuNI               10 H8
+339: PuNI               10 H6
+340: PuNI               10 H5
+341: SIPo               10 H8
+342: SIPo               10 H7
+343: SIPo               10 H5
+344: SIPo               10 H6
+345: SkIP               10 H5
+346: SkIP               10 H7
+347: SkIP               10 H6
+348: SkIP               10 H8
+349: SlIP               10 H5
+350: SlIP               10 H7
+351: SlIP               10 H6
+352: SlIP               10 H8
+353: SPI                10 H6
+354: SPI                10 H7
+355: SPI                10 H8
+356: SPIc               10 H7
+357: SPIc               10 H5
+358: SPIc               10 H6
+359: SPIc               10 H8
+360: SPiN               10 H7
+361: SPIn               10 H7
+362: SPIn               10 H5
+363: SPiN               10 H8
+364: SPiN               10 H6
+365: SPIn               10 H8
 366: sPIN               10 H8
-367: PSI                10 H8
-368: PrIS               10 H8
-369: PoIS               10 H8
-370: PlIS               10 H8
-371: PIfS               10 H8
-372: bIPS               10 H8
-373: aSPI               10 H8
-374: IPeS               10 H7
-375: PIlS               10 H8
-376: aPIS               10 H8
-377: PIN                10 H8
-378: PiNS               10 H8
-379: PINe               10 H8
-380: PINs               10 H8
-381: PInS               10 H8
-382: PISe               10 H8
-383: PIS                10 H8
-384: PIoN               10 H8
-385: PuNI               10 H8
-386: PuIS               10 H8
-387: ePIS               10 H8
-388: bIP                 8 H6
-389: SPa                 8 H7
-390: PuS                 8 H7
-391: bIP                 8 H7
-392: PaN                 8 H6
-393: PaS                 8 H6
-394: PIn                 8 H8
-395: PiN                 8 H8
-396: SPi                 8 H7
-397: aPI                 8 H6
-398: PIe                 8 H8
-399: PhI                 8 H6
-400: SeP                 8 H8
-401: PIc                 8 H6
-402: aPI                 8 H7
-403: PuS                 8 H8
-404: ePI                 8 H6
-405: PIf                 8 H8
-406: PIn                 8 H7
-407: ePI                 8 H7
-408: tIP                 8 H6
-409: tIP                 8 H7
-410: PIs                 8 H7
-411: PIu                 8 H7
-412: PiN                 8 H7
-413: PiS                 8 H7
-414: PlI                 8 H7
-415: PIs                 8 H8
-416: PIu                 8 H8
-417: PSi                 8 H7
-418: PSt                 8 H7
-419: PSy                 8 H7
-420: PsI                 8 H7
-421: PI                  8 H8
-422: PiS                 8 H8
-423: PiS                 8 H6
-424: PhI                 8 H8
-425: PlI                 8 H6
-426: PuS                 8 H6
-427: PlI                 8 H8
-428: PaS                 8 H8
-429: SPa                 8 H8
-430: SeP                 8 H6
-431: PSt                 8 H8
-432: PaN                 8 H8
-433: PsI                 8 H6
-434: PSi                 8 H8
-435: PSi                 8 H6
-436: PSt                 8 H6
-437: PSy                 8 H6
-438: PIe                 8 H6
-439: sPI                 8 H6
-440: PIf                 8 H6
-441: PsI                 8 H8
-442: zIP                 8 H8
-443: PIn                 8 H6
-444: sPI                 8 H7
-445: PIs                 8 H6
-446: PIu                 8 H6
-447: PIc                 8 H8
-448: tIP                 8 H8
-449: SeP                 8 H7
-450: SPa                 8 H6
-451: sPI                 8 H8
-452: SPi                 8 H6
-453: PSy                 8 H8
-454: SPi                 8 H8
-455: PiN                 8 H6
-456: kIP                 8 H6
-457: aPI                 8 H8
-458: hIP                 8 H7
-459: hIP                 8 H6
-460: bIP                 8 H8
-461: kIP                 8 H7
-462: kIP                 8 H8
-463: IPe                 8 H8
-464: IPe                 8 H7
-465: hIP                 8 H8
-466: IPe                 8 H6
-467: PaN                 8 H7
-468: PaS                 8 H7
-469: zIP                 8 H7
-470: PIc                 8 H7
-471: zIP                 8 H6
-472: ePI                 8 H8
-473: PIe                 8 H7
-474: PIf                 8 H7
-475: PhI                 8 H7
-476: PI                  8 H7
-477: SkIN                6 H8
-478: NIeS                6 H7
-479: SNIf                6 H8
-480: NIfS                6 H7
-481: SoIN                6 H8
-482: mINS                6 H6
-483: NItS                6 H7
-484: SeIN                6 H6
-485: lINS                6 H7
-486: lINS                6 H8
-487: SaIN                6 H7
-488: NuIS                6 H7
-489: NaIS                6 H6
-490: Pu                  6 H8
-491: IbNS                6 H7
-492: mINS                6 H7
-493: NaIS                6 H5
-494: fINS                6 H8
-495: SpIN                6 H8
-496: oINS                6 H8
-497: aSIN                6 H8
-498: NuIS                6 H8
-499: NIaS                6 H6
-500: mINS                6 H8
-501: gINS                6 H5
-502: SeIN                6 H7
-503: tINS                6 H8
-504: SaIN                6 H5
-505: SIeN                6 H5
-506: INSu                6 H7
+367: sPIN               10 H5
+368: SPiN               10 H5
+369: sPIN               10 H7
+370: SPIn               10 H6
+371: sPIN               10 H6
+372: SPIs               10 H7
+373: SPIs               10 H6
+374: SPIs               10 H5
+375: sPIS               10 H8
+376: sPIS               10 H6
+377: sPIS               10 H5
+378: sPIS               10 H7
+379: SPIs               10 H8
+380: tIPS               10 H7
+381: tIPS               10 H6
+382: tIPS               10 H5
+383: tIPS               10 H8
+384: zIPS               10 H6
+385: zIPS               10 H7
+386: zIPS               10 H8
+387: zIPS               10 H5
+388: aPI                 8 H7
+389: aPI                 8 H8
+390: aPI                 8 H6
+391: bIP                 8 H6
+392: bIP                 8 H7
+393: bIP                 8 H8
+394: ePI                 8 H8
+395: ePI                 8 H6
+396: ePI                 8 H7
+397: hIP                 8 H7
+398: hIP                 8 H6
+399: hIP                 8 H8
+400: IPe                 8 H8
+401: IPe                 8 H7
+402: IPe                 8 H6
+403: kIP                 8 H6
+404: kIP                 8 H7
+405: kIP                 8 H8
+406: PaN                 8 H8
+407: PaN                 8 H7
+408: PaN                 8 H6
+409: PaS                 8 H8
+410: PaS                 8 H7
+411: PaS                 8 H6
+412: PhI                 8 H8
+413: PhI                 8 H7
+414: PhI                 8 H6
+415: PI                  8 H7
+416: PI                  8 H8
+417: PIc                 8 H7
+418: PIc                 8 H8
+419: PIc                 8 H6
+420: PIe                 8 H8
+421: PIe                 8 H7
+422: PIe                 8 H6
+423: PIf                 8 H8
+424: PIf                 8 H7
+425: PIf                 8 H6
+426: PIn                 8 H8
+427: PiN                 8 H8
+428: PIn                 8 H6
+429: PiN                 8 H7
+430: PiN                 8 H6
+431: PIn                 8 H7
+432: PiS                 8 H8
+433: PIs                 8 H6
+434: PiS                 8 H7
+435: PiS                 8 H6
+436: PIs                 8 H8
+437: PIs                 8 H7
+438: PIu                 8 H6
+439: PIu                 8 H8
+440: PIu                 8 H7
+441: PlI                 8 H6
+442: PlI                 8 H7
+443: PlI                 8 H8
+444: PsI                 8 H7
+445: PSi                 8 H7
+446: PSi                 8 H6
+447: PSi                 8 H8
+448: PsI                 8 H6
+449: PsI                 8 H8
+450: PSt                 8 H6
+451: PSt                 8 H7
+452: PSt                 8 H8
+453: PSy                 8 H6
+454: PSy                 8 H7
+455: PSy                 8 H8
+456: PuS                 8 H7
+457: PuS                 8 H6
+458: PuS                 8 H8
+459: SeP                 8 H8
+460: SeP                 8 H7
+461: SeP                 8 H6
+462: SPa                 8 H8
+463: SPa                 8 H7
+464: SPa                 8 H6
+465: sPI                 8 H6
+466: sPI                 8 H7
+467: SPi                 8 H7
+468: SPi                 8 H8
+469: sPI                 8 H8
+470: SPi                 8 H6
+471: tIP                 8 H6
+472: tIP                 8 H7
+473: tIP                 8 H8
+474: zIP                 8 H6
+475: zIP                 8 H8
+476: zIP                 8 H7
+477: aNIS                6 H8
+478: aNIS                6 H5
+479: aNIS                6 H7
+480: aNIS                6 H6
+481: aSIN                6 H5
+482: aSIN                6 H8
+483: aSIN                6 H6
+484: aSIN                6 H7
+485: fINS                6 H7
+486: fINS                6 H6
+487: fINS                6 H8
+488: fINS                6 H5
+489: gINS                6 H7
+490: gINS                6 H8
+491: gINS                6 H6
+492: gINS                6 H5
+493: IbNS                6 H7
+494: IbNS                6 H5
+495: IbNS                6 H8
+496: IbNS                6 H6
+497: INSu                6 H6
+498: INSu                6 H7
+499: INSu                6 H5
+500: INSu                6 H8
+501: IoNS                6 H7
+502: IoNS                6 H6
+503: IoNS                6 H5
+504: IoNS                6 H8
+505: lINS                6 H8
+506: lINS                6 H7
 507: lINS                6 H6
-508: qINS                6 H8
-509: SkIN                6 H6
-510: SaIN                6 H8
-511: SIeN                6 H6
-512: IoNS                6 H7
-513: SeIN                6 H8
-514: SkIN                6 H5
-515: lINS                6 H5
-516: mINS                6 H5
-517: gINS                6 H8
-518: qINS                6 H7
-519: SIeN                6 H8
-520: NaIS                6 H7
-521: pINS                6 H5
-522: SNIf                6 H6
-523: pINS                6 H6
-524: SNIf                6 H5
-525: SoIN                6 H6
-526: pINS                6 H7
-527: qINS                6 H6
-528: SoIN                6 H5
-529: pINS                6 H8
-530: qINS                6 H5
-531: IbNS                6 H8
-532: SeIN                6 H5
-533: INSu                6 H8
-534: NIaS                6 H7
-535: IoNS                6 H8
-536: NIdS                6 H7
-537: oINS                6 H5
-538: oINS                6 H6
-539: Pu                  6 H7
-540: SNIf                6 H7
-541: NIaS                6 H8
-542: vINS                6 H7
-543: oINS                6 H7
-544: Pi                  6 H8
-545: IbNS                6 H5
-546: NuIS                6 H5
-547: SkIN                6 H7
-548: aSIN                6 H5
-549: NuIS                6 H6
-550: vINS                6 H6
-551: aSIN                6 H6
-552: IbNS                6 H6
-553: NItS                6 H5
-554: NaIS                6 H8
-555: fINS                6 H7
-556: tINS                6 H5
-557: uNIS                6 H7
-558: fINS                6 H6
-559: tINS                6 H6
-560: INSu                6 H6
-561: INSu                6 H5
-562: Pi                  6 H7
-563: fINS                6 H5
-564: tINS                6 H7
-565: uNIS                6 H6
-566: IoNS                6 H6
-567: IoNS                6 H5
-568: SoIN                6 H7
-569: gINS                6 H7
-570: uNIS                6 H5
-571: vINS                6 H8
-572: NItS                6 H8
-573: SaIN                6 H6
-574: SIeN                6 H7
-575: NIdS                6 H6
-576: NIfS                6 H8
-577: yINS                6 H6
-578: yINS                6 H8
-579: NIeS                6 H6
-580: yINS                6 H7
-581: NIeS                6 H8
-582: yINS                6 H5
-583: aNIS                6 H7
-584: SpIN                6 H7
-585: NIfS                6 H6
-586: vINS                6 H5
-587: NItS                6 H6
-588: NIaS                6 H5
-589: NIdS                6 H5
-590: SpIN                6 H5
-591: NIeS                6 H5
-592: SpIN                6 H6
-593: aSIN                6 H7
-594: gINS                6 H6
-595: NIdS                6 H8
-596: aNIS                6 H6
-597: aNIS                6 H8
-598: uNIS                6 H8
-599: aNIS                6 H5
-600: NIfS                6 H5
-601: dIS                 4 H8
+508: lINS                6 H5
+509: mINS                6 H8
+510: mINS                6 H5
+511: mINS                6 H7
+512: mINS                6 H6
+513: NaIS                6 H5
+514: NaIS                6 H6
+515: NaIS                6 H7
+516: NaIS                6 H8
+517: NIaS                6 H7
+518: NIaS                6 H8
+519: NIaS                6 H6
+520: NIaS                6 H5
+521: NIdS                6 H6
+522: NIdS                6 H5
+523: NIdS                6 H8
+524: NIdS                6 H7
+525: NIeS                6 H8
+526: NIeS                6 H5
+527: NIeS                6 H7
+528: NIeS                6 H6
+529: NIfS                6 H8
+530: NIfS                6 H7
+531: NIfS                6 H5
+532: NIfS                6 H6
+533: NItS                6 H6
+534: NItS                6 H8
+535: NItS                6 H5
+536: NItS                6 H7
+537: NuIS                6 H8
+538: NuIS                6 H7
+539: NuIS                6 H5
+540: NuIS                6 H6
+541: oINS                6 H7
+542: oINS                6 H6
+543: oINS                6 H5
+544: oINS                6 H8
+545: Pi                  6 H8
+546: Pi                  6 H7
+547: pINS                6 H6
+548: pINS                6 H5
+549: pINS                6 H8
+550: pINS                6 H7
+551: Pu                  6 H8
+552: Pu                  6 H7
+553: qINS                6 H8
+554: qINS                6 H7
+555: qINS                6 H6
+556: qINS                6 H5
+557: SaIN                6 H5
+558: SaIN                6 H8
+559: SaIN                6 H6
+560: SaIN                6 H7
+561: SeIN                6 H6
+562: SeIN                6 H5
+563: SeIN                6 H8
+564: SeIN                6 H7
+565: SIeN                6 H7
+566: SIeN                6 H5
+567: SIeN                6 H8
+568: SIeN                6 H6
+569: SkIN                6 H6
+570: SkIN                6 H5
+571: SkIN                6 H7
+572: SkIN                6 H8
+573: SNIf                6 H8
+574: SNIf                6 H5
+575: SNIf                6 H6
+576: SNIf                6 H7
+577: SoIN                6 H7
+578: SoIN                6 H6
+579: SoIN                6 H8
+580: SoIN                6 H5
+581: SpIN                6 H5
+582: SpIN                6 H8
+583: SpIN                6 H7
+584: SpIN                6 H6
+585: tINS                6 H6
+586: tINS                6 H5
+587: tINS                6 H8
+588: tINS                6 H7
+589: uNIS                6 H7
+590: uNIS                6 H6
+591: uNIS                6 H5
+592: uNIS                6 H8
+593: vINS                6 H8
+594: vINS                6 H5
+595: vINS                6 H7
+596: vINS                6 H6
+597: yINS                6 H5
+598: yINS                6 H6
+599: yINS                6 H7
+600: yINS                6 H8
+601: aIS                 4 H7
 602: aIS                 4 H8
-603: dIN                 4 H8
-604: SaI                 4 H6
-605: aNS                 4 H8
-606: SpI                 4 H7
-607: SIc                 4 H6
-608: bIS                 4 H8
-609: SeN                 4 H6
-610: cIS                 4 H8
-611: NoS                 4 H8
-612: SpI                 4 H6
-613: NIt                 4 H8
-614: sIS                 4 H7
-615: yIN                 4 H6
-616: NIf                 4 H8
-617: sIS                 4 H6
-618: yIN                 4 H7
-619: NIe                 4 H8
-620: NId                 4 H8
-621: vIS                 4 H6
-622: vIN                 4 H6
-623: NIb                 4 H8
-624: vIS                 4 H7
-625: vIN                 4 H7
-626: uNS                 4 H6
-627: NIa                 4 H8
-628: NI                  4 H8
-629: tIN                 4 H7
-630: uNI                 4 H6
-631: NeS                 4 H8
-632: tIN                 4 H6
-633: uNS                 4 H7
-634: uNI                 4 H7
-635: fIN                 4 H8
-636: fIS                 4 H8
-637: SIl                 4 H6
-638: SIr                 4 H6
-639: SIs                 4 H6
-640: SIx                 4 H6
-641: SkI                 4 H6
-642: gIN                 4 H8
-643: gIS                 4 H8
-644: SoI                 4 H6
-645: SoN                 4 H6
-646: IbN                 4 H8
-647: IfS                 4 H8
-648: IlS                 4 H8
-649: IN                  4 H8
-650: IoN                 4 H8
-651: ISo                 4 H8
-652: kSI                 4 H8
+603: aIS                 4 H6
+604: aNS                 4 H6
+605: aNS                 4 H7
+606: aNS                 4 H8
+607: bIS                 4 H8
+608: bIS                 4 H6
+609: bIS                 4 H7
+610: cIS                 4 H6
+611: cIS                 4 H7
+612: cIS                 4 H8
+613: dIN                 4 H8
+614: dIN                 4 H6
+615: dIN                 4 H7
+616: dIS                 4 H8
+617: dIS                 4 H7
+618: dIS                 4 H6
+619: fIN                 4 H6
+620: fIN                 4 H7
+621: fIN                 4 H8
+622: fIS                 4 H8
+623: fIS                 4 H7
+624: fIS                 4 H6
+625: gIN                 4 H6
+626: gIN                 4 H7
+627: gIN                 4 H8
+628: gIS                 4 H8
+629: gIS                 4 H6
+630: gIS                 4 H7
+631: IbN                 4 H7
+632: IbN                 4 H6
+633: IbN                 4 H8
+634: IfS                 4 H6
+635: IfS                 4 H7
+636: IfS                 4 H8
+637: IlS                 4 H8
+638: IlS                 4 H6
+639: IlS                 4 H7
+640: IN                  4 H8
+641: IN                  4 H7
+642: IoN                 4 H8
+643: IoN                 4 H6
+644: IoN                 4 H7
+645: ISo                 4 H8
+646: ISo                 4 H7
+647: ISo                 4 H6
+648: kSI                 4 H7
+649: kSI                 4 H8
+650: kSI                 4 H6
+651: lIN                 4 H6
+652: lIN                 4 H7
 653: lIN                 4 H8
-654: lIS                 4 H8
-655: mIN                 4 H8
-656: NuS                 4 H8
-657: NuI                 4 H8
-658: mIS                 4 H8
-659: fIS                 4 H7
-660: fIN                 4 H7
-661: IlS                 4 H7
-662: IN                  4 H7
-663: dIS                 4 H6
-664: dIN                 4 H6
-665: dIS                 4 H7
-666: dIN                 4 H7
-667: cIS                 4 H6
-668: cIS                 4 H7
-669: mIS                 4 H6
-670: bIS                 4 H6
-671: bIS                 4 H7
-672: mIN                 4 H6
-673: aNS                 4 H6
-674: aIS                 4 H6
-675: mIS                 4 H7
-676: aNS                 4 H7
-677: aIS                 4 H7
-678: yIN                 4 H8
-679: mIN                 4 H7
-680: vIS                 4 H8
-681: vIN                 4 H8
-682: IoN                 4 H7
-683: uNS                 4 H8
-684: uNI                 4 H8
-685: lIS                 4 H6
-686: lIN                 4 H6
-687: NIt                 4 H7
-688: NIf                 4 H7
-689: NIe                 4 H7
-690: NoS                 4 H7
-691: NId                 4 H7
-692: NuI                 4 H7
-693: NuS                 4 H7
-694: NIb                 4 H7
-695: IbN                 4 H7
-696: NeS                 4 H6
-697: NIa                 4 H6
-698: NIa                 4 H7
-699: NIb                 4 H6
-700: NId                 4 H6
-701: NIe                 4 H6
-702: gIS                 4 H6
-703: NIf                 4 H6
-704: NI                  4 H7
-705: NIt                 4 H6
-706: NoS                 4 H6
-707: NuI                 4 H6
-708: NuS                 4 H6
-709: IfS                 4 H7
-710: NeS                 4 H7
-711: gIN                 4 H6
-712: gIS                 4 H7
-713: gIN                 4 H7
-714: fIS                 4 H6
-715: fIN                 4 H6
+654: lIS                 4 H6
+655: lIS                 4 H8
+656: lIS                 4 H7
+657: mIN                 4 H7
+658: mIN                 4 H8
+659: mIN                 4 H6
+660: mIS                 4 H6
+661: mIS                 4 H8
+662: mIS                 4 H7
+663: NeS                 4 H8
+664: NeS                 4 H7
+665: NeS                 4 H6
+666: NI                  4 H7
+667: NI                  4 H8
+668: NIa                 4 H6
+669: NIa                 4 H8
+670: NIa                 4 H7
+671: NIb                 4 H6
+672: NIb                 4 H7
+673: NIb                 4 H8
+674: NId                 4 H6
+675: NId                 4 H8
+676: NId                 4 H7
+677: NIe                 4 H6
+678: NIe                 4 H8
+679: NIe                 4 H7
+680: NIf                 4 H6
+681: NIf                 4 H8
+682: NIf                 4 H7
+683: NIt                 4 H8
+684: NIt                 4 H6
+685: NIt                 4 H7
+686: NoS                 4 H6
+687: NoS                 4 H8
+688: NoS                 4 H7
+689: NuI                 4 H6
+690: NuI                 4 H8
+691: NuI                 4 H7
+692: NuS                 4 H8
+693: NuS                 4 H6
+694: NuS                 4 H7
+695: pIN                 4 H6
+696: pIN                 4 H8
+697: pIN                 4 H7
+698: pIS                 4 H8
+699: pIS                 4 H7
+700: pIS                 4 H6
+701: pSI                 4 H8
+702: pSI                 4 H6
+703: pSI                 4 H7
+704: qIN                 4 H6
+705: qIN                 4 H7
+706: qIN                 4 H8
+707: rIS                 4 H6
+708: rIS                 4 H7
+709: rIS                 4 H8
+710: SaI                 4 H6
+711: SaI                 4 H7
+712: SaI                 4 H8
+713: SeN                 4 H7
+714: SeN                 4 H8
+715: SeN                 4 H6
 716: SI                  4 H8
-717: SeN                 4 H8
-718: kSI                 4 H7
-719: SaI                 4 H8
-720: IbN                 4 H6
-721: rIS                 4 H8
-722: qIN                 4 H8
-723: pSI                 4 H8
-724: pIS                 4 H8
-725: pIN                 4 H8
-726: ISo                 4 H6
-727: qIN                 4 H7
-728: qIN                 4 H6
-729: IoN                 4 H6
-730: rIS                 4 H7
-731: rIS                 4 H6
-732: SaI                 4 H7
-733: IlS                 4 H6
-734: SeN                 4 H7
-735: SI                  4 H7
-736: SIc                 4 H7
-737: SIl                 4 H7
-738: SIr                 4 H7
-739: IfS                 4 H6
-740: SIs                 4 H7
-741: SIx                 4 H7
-742: SkI                 4 H7
-743: SoI                 4 H7
-744: SoN                 4 H7
-745: tIN                 4 H8
-746: sIS                 4 H8
-747: lIS                 4 H7
-748: lIN                 4 H7
-749: kSI                 4 H6
-750: SpI                 4 H8
-751: SoN                 4 H8
-752: SoI                 4 H8
-753: SkI                 4 H8
-754: ISo                 4 H7
-755: SIx                 4 H8
-756: SIs                 4 H8
-757: SIr                 4 H8
-758: SIl                 4 H8
-759: SIc                 4 H8
-760: pIN                 4 H7
-761: pIS                 4 H7
-762: pSI                 4 H7
-763: pIN                 4 H6
-764: pSI                 4 H6
-765: pIS                 4 H6
-766: cI                  2 H8
-767: If                  2 H7
-768: Na                  2 H7
-769: aI                  2 H8
-770: hI                  2 H8
-771: eN                  2 H8
-772: lI                  2 H7
+717: SI                  4 H7
+718: SIc                 4 H8
+719: SIc                 4 H7
+720: SIc                 4 H6
+721: SIl                 4 H7
+722: SIl                 4 H8
+723: SIl                 4 H6
+724: SIr                 4 H8
+725: SIr                 4 H7
+726: SIr                 4 H6
+727: sIS                 4 H6
+728: sIS                 4 H8
+729: sIS                 4 H7
+730: SIs                 4 H8
+731: SIs                 4 H6
+732: SIs                 4 H7
+733: SIx                 4 H8
+734: SIx                 4 H7
+735: SIx                 4 H6
+736: SkI                 4 H8
+737: SkI                 4 H6
+738: SkI                 4 H7
+739: SoI                 4 H8
+740: SoI                 4 H7
+741: SoI                 4 H6
+742: SoN                 4 H7
+743: SoN                 4 H8
+744: SoN                 4 H6
+745: SpI                 4 H8
+746: SpI                 4 H6
+747: SpI                 4 H7
+748: tIN                 4 H6
+749: tIN                 4 H8
+750: tIN                 4 H7
+751: uNI                 4 H8
+752: uNI                 4 H6
+753: uNI                 4 H7
+754: uNS                 4 H8
+755: uNS                 4 H6
+756: uNS                 4 H7
+757: vIN                 4 H6
+758: vIN                 4 H7
+759: vIN                 4 H8
+760: vIS                 4 H7
+761: vIS                 4 H6
+762: vIS                 4 H8
+763: yIN                 4 H8
+764: yIN                 4 H6
+765: yIN                 4 H7
+766: aI                  2 H8
+767: aI                  2 H7
+768: aN                  2 H8
+769: aN                  2 H7
+770: aS                  2 H8
+771: aS                  2 H7
+772: bI                  2 H7
 773: bI                  2 H8
-774: In                  2 H8
-775: mI                  2 H7
-776: Il                  2 H7
-777: eS                  2 H8
-778: fI                  2 H8
-779: aN                  2 H8
-780: In                  2 H7
-781: Ne                  2 H7
-782: iN                  2 H7
-783: aS                  2 H8
-784: Il                  2 H8
+774: cI                  2 H7
+775: cI                  2 H8
+776: eN                  2 H7
+777: eN                  2 H8
+778: eS                  2 H7
+779: eS                  2 H8
+780: fI                  2 H7
+781: fI                  2 H8
+782: hI                  2 H7
+783: hI                  2 H8
+784: If                  2 H7
 785: If                  2 H8
-786: xI                  2 H8
-787: vS                  2 H8
-788: sI                  2 H7
-789: Ni                  2 H8
-790: uS                  2 H8
-791: No                  2 H8
-792: uN                  2 H8
-793: Nu                  2 H8
-794: sI                  2 H8
-795: nI                  2 H8
-796: Su                  2 H8
-797: oN                  2 H8
-798: oS                  2 H8
-799: Si                  2 H8
-800: pI                  2 H7
-801: Se                  2 H8
-802: Sa                  2 H8
-803: rI                  2 H8
-804: pI                  2 H8
-805: rI                  2 H7
-806: Sa                  2 H7
-807: Se                  2 H7
-808: Su                  2 H7
-809: Si                  2 H7
-810: iN                  2 H8
-811: Ni                  2 H7
-812: No                  2 H7
-813: lI                  2 H8
-814: Nu                  2 H7
-815: mI                  2 H8
-816: hI                  2 H7
-817: Na                  2 H8
-818: xI                  2 H7
-819: vS                  2 H7
-820: nI                  2 H7
-821: oN                  2 H7
-822: oS                  2 H7
-823: uS                  2 H7
-824: uN                  2 H7
-825: fI                  2 H7
-826: eS                  2 H7
-827: Ne                  2 H8
-828: eN                  2 H7
-829: cI                  2 H7
-830: bI                  2 H7
-831: aS                  2 H7
-832: aN                  2 H7
-833: aI                  2 H7
+786: Il                  2 H8
+787: Il                  2 H7
+788: In                  2 H8
+789: iN                  2 H7
+790: iN                  2 H8
+791: In                  2 H7
+792: lI                  2 H7
+793: lI                  2 H8
+794: mI                  2 H7
+795: mI                  2 H8
+796: Na                  2 H7
+797: Na                  2 H8
+798: Ne                  2 H8
+799: Ne                  2 H7
+800: Ni                  2 H8
+801: nI                  2 H8
+802: nI                  2 H7
+803: Ni                  2 H7
+804: No                  2 H8
+805: No                  2 H7
+806: Nu                  2 H8
+807: Nu                  2 H7
+808: oN                  2 H7
+809: oN                  2 H8
+810: oS                  2 H8
+811: oS                  2 H7
+812: pI                  2 H8
+813: pI                  2 H7
+814: rI                  2 H8
+815: rI                  2 H7
+816: Sa                  2 H7
+817: Sa                  2 H8
+818: Se                  2 H8
+819: Se                  2 H7
+820: Si                  2 H8
+821: sI                  2 H8
+822: Si                  2 H7
+823: sI                  2 H7
+824: Su                  2 H8
+825: Su                  2 H7
+826: uN                  2 H8
+827: uN                  2 H7
+828: uS                  2 H8
+829: uS                  2 H7
+830: vS                  2 H7
+831: vS                  2 H8
+832: xI                  2 H7
+833: xI                  2 H8
 commande> j QuIZ H6
 commande> t E?
 commande> r
 commande> a r 50
-  1: ZEn                12 9H
-  2: ZEk                12 9H
-  3: ZEf                12 9H
-  4: ZEe                12 9H
+  1: fEZ                12 9F
+  2: lEZ                12 9F
+  3: nEZ                12 9F
+  4: rEZ                12 9F
   5: ZEc                12 9H
-  6: rEZ                12 9F
-  7: nEZ                12 9F
-  8: lEZ                12 9F
-  9: fEZ                12 9F
- 10: ZoE                11 9H
+  6: ZEe                12 9H
+  7: ZEf                12 9H
+  8: ZEk                12 9H
+  9: ZEn                12 9H
+ 10: QuE                11 6H
  11: ZeE                11 9H
- 12: QuE                11 6H
+ 12: ZoE                11 9H
  13: Eh                  5 G7
  14: En                  5 G7
  15: Es                  5 G7
  16: Ex                  5 G7
- 17: pIE                 2 8G
- 18: oIE                 2 8G
- 19: nIE                 2 8G
- 20: mIE                 2 8G
- 21: lIE                 2 8G
- 22: hIE                 2 8G
- 23: fIE                 2 8G
- 24: aIE                 2 8G
- 25: pEu                 2 7F
- 26: lEu                 2 7F
- 27: jEu                 2 7F
- 28: hEu                 2 7F
- 29: fEu                 2 7F
- 30: rIE                 2 8G
- 31: vIE                 2 8G
- 32: EpI                 2 8F
- 33: lEI                 2 8F
+ 17: aIE                 2 8G
+ 18: buE                 2 7G
+ 19: duE                 2 7G
+ 20: EpI                 2 8F
+ 21: Eu                  2 7G
+ 22: Eue                 2 7G
+ 23: euE                 2 7G
+ 24: Euh                 2 7G
+ 25: Eus                 2 7G
+ 26: Eut                 2 7G
+ 27: Eux                 2 7G
+ 28: fEu                 2 7F
+ 29: fIE                 2 8G
+ 30: guE                 2 7G
+ 31: hEu                 2 7F
+ 32: hIE                 2 8G
+ 33: huE                 2 7G
  34: IdE                 2 8H
  35: IlE                 2 8H
  36: IpE                 2 8H
  37: IrE                 2 8H
  38: IvE                 2 8H
  39: IxE                 2 8H
- 40: Eue                 2 7G
- 41: Eu                  2 7G
- 42: duE                 2 7G
- 43: buE                 2 7G
- 44: suE                 2 7G
- 45: ruE                 2 7G
- 46: tuE                 2 7G
- 47: quE                 2 7G
- 48: puE                 2 7G
- 49: vuE                 2 7G
- 50: nuE                 2 7G
+ 40: jEu                 2 7F
+ 41: lEI                 2 8F
+ 42: lEu                 2 7F
+ 43: lIE                 2 8G
+ 44: luE                 2 7G
+ 45: mIE                 2 8G
+ 46: muE                 2 7G
+ 47: nIE                 2 8G
+ 48: nuE                 2 7G
+ 49: oIE                 2 8G
+ 50: pEu                 2 7F
 commande> q
 fin du mode entraînement
 commande> q

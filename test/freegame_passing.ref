@@ -35,7 +35,7 @@ commande> p
 commande> p
 commande> a S
 Joueur 0:  -11
-Joueur 1:  777
+Joueur 1:  788
 commande> a T
 Joueur 0: AGSSTUV
 Joueur 1: 
@@ -49,55 +49,51 @@ Player 1: Computer
     N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
    ===|==========|=================|=====|=====|===|======
     1 |  SEUTISG | (PASS)          |  -  |   0 | 0 |
-    2 |  LXCORNU | ROUX            |  H8 |  26 | 1 |  
+    2 |  LXCORNU | ROUX            |  H5 |  26 | 1 |  
     3 |  EGISSTU | (PASS)          |  -  |   0 | 0 |
-    4 | CLN+?BEC | CiNECLUB        | 10B |  75 | 1 | *
+    4 | CLN+?BEC | CiNECLUB        |  7B |  67 | 1 | *
     5 |  EGISSTU | (-UIET)         |  -  |   0 | 0 |
-    6 |  LLESYEO | YOLES           |  J6 |  52 | 1 |  
+    6 |  LLESYEO | LYSEE           |  J5 |  48 | 1 |  
     7 | GSS+TAUV | (PASS)          |  -  |   0 | 0 |
-    8 | EL+AAOGT | GALETA          | 11A |  29 | 1 |  
+    8 | LO+AAOGT | GALA            |  8A |  26 | 1 |  
     9 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   10 | O+RTEUMI | MORUTIER        |  8A |  80 | 1 | *
+   10 | OOT+EMTU | EMOTTE          |  8J |  24 | 1 |  
    11 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   12 |  EUNPFUP | PFUT            |  E5 |  18 | 1 |  
+   12 | OU+AOILU | AUX             |  8F |  18 | 1 |  
    13 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   14 | ENPU+FTE | FETE            | 12B |  33 | 1 |  
+   14 | ILOOU+NF | FOULONNAI       |  D1 |  82 | 1 | *
    15 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   16 | NPU+NSIM | LUPINS          |  8J |  33 | 1 |  
+   16 |  UTEISEE | FETEES          |  1D |  27 | 1 |  
    17 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   18 | MN+UEWOI | WON             |  N6 |  32 | 1 |  
+   18 | IU+IURIO | MURI            |  K8 |  12 | 1 |  
    19 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   20 | EIMNU+MI | IMMUNS          |  O3 |  23 | 1 |  
+   20 | IIOU+VDS | VISOU           | 10B |  31 | 1 |  
    21 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   22 | EI+IDRED | BIRDIE          | I10 |  22 | 1 |  
+   22 | DI+IERNE | DENIER          | 12J |  22 | 1 |  
    23 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   24 | DE+RJAAT | DEJETA          | 15H |  45 | 1 |  
+   24 | I+TBIADK | BATIK           |  N6 |  42 | 1 |  
    25 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   26 | AR+ENQEE | CAFRE           | B10 |  20 | 1 |  
+   26 | DIT+EHEQ | EQUIDE          |  3B |  30 | 1 |  
    27 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   28 | AEENQ+BR | BADERNE         | 13G |  26 | 1 |  
+   28 | HT+EPARR | TEPHRA          |  O1 |  49 | 1 |  
    29 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   30 | Q+EAZAEL | ZEN             | L11 |  24 | 1 |  
+   30 | R+OE?NSF | FiERONS         | 13H |  86 | 1 | *
    31 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   32 | AAELQ+RA | ALEA            |  I3 |  16 | 1 |  
+   32 |  TMEAALP | APETALE         |  2I |  32 | 1 |  
    33 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   34 | AQR+LDEH | ADHERAI         |  3I |  22 | 1 |  
+   34 | M+EAZWRD | FEZ             | H13 |  45 | 1 |  
    35 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   36 | LQ+SI?AI | QuASI           | N10 |  65 | 1 |  
+   36 | ADMRW+NI | DAW             |  M1 |  26 | 1 |  
    37 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   38 | IL+TVHEO | OHE             |  4K |  29 | 1 |  
+   38 | AIMNR+JI | JAM             |  I9 |  37 | 1 |  
    39 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   40 | ILTV+ONK | KOHOL           |  K1 |  34 | 1 |  
+   40 | IINR+NMH | HIE             |  E5 |  24 | 1 |  
    41 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   42 | INTV+SIN | NAYS            |  6H |  31 | 1 |  
+   42 |    IMNNR | MINON           |  L5 |  17 | 1 |  
    43 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   44 |    IINTV | TIKI            |  1I |  14 | 1 |  
-   45 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   46 |       NV | VU              |  D7 |  10 | 1 |  
-   47 |  AGSSTUV | (PASS)          |  -  |   0 | 0 |
-   48 |        N | NI              |  M7 |   7 | 1 |  
+   44 |        R | DER             | J12 |   6 | 1 |  
 
-   Total: 766
+   Total: 777
 
 Rack 0: AGSSTUV
 Rack 1: 

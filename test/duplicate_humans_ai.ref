@@ -17,40 +17,40 @@ Joueur 0: DIAEINS
 Joueur 1: DIAEINS
 Joueur 2: DIAEINS
 commande> n 1
-commande> j DISAIENT 11A
+commande> j DISAIENT 7A
 commande> a S
 Joueur 0:   18
-Joueur 1:   82
+Joueur 1:   75
 Joueur 2:   30
-commande> j DESTINAI 11E
+commande> j DESTINAI 7E
 commande> a S
-Joueur 0:  104
-Joueur 1:   82
-Joueur 2:  116
+Joueur 0:   79
+Joueur 1:   75
+Joueur 2:   93
 commande> a t
 P?RBFEG
-commande> j FRiPE 10K
-commande> j sERF M11
+commande> j BERYl 5E
+commande> j hYPER 5G
 commande> a S
-Joueur 0:  126
-Joueur 1:  103
-Joueur 2:  145
+Joueur 0:  122
+Joueur 1:  116
+Joueur 2:  136
 commande> a t
-BGEEMTB
+FGPBEET
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  -  -  -  -  F  -  -  -
- B   -  -  -  -  -  -  -  -  -  -  -  R  -  -  -
- C   -  -  -  -  -  -  -  -  -  -  -  i  -  -  -
- D   -  -  -  -  -  -  -  -  -  -  -  P  -  -  -
- E   -  -  -  -  -  -  -  -  -  -  D  E  -  -  -
- F   -  -  -  -  -  -  -  -  -  -  E  -  -  -  -
- G   -  -  -  -  -  -  -  -  -  -  S  -  -  -  -
- H   -  -  -  -  -  -  -  O  Y  A  T  S  -  -  -
- I   -  -  -  -  -  -  -  -  -  -  I  -  -  -  -
- J   -  -  -  -  -  -  -  -  -  -  N  -  -  -  -
- K   -  -  -  -  -  -  -  -  -  -  A  -  -  -  -
- L   -  -  -  -  -  -  -  -  -  -  I  -  -  -  -
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  D  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  B  E  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  E  N  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  R  I  -  -  -  -  -  -  -  -  -
+ H   -  -  -  O  Y  A  T  S  -  -  -  -  -  -  -
+ I   -  -  -  -  l  I  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  S  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  A  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
@@ -64,15 +64,15 @@ Player 2: Computer
 
     N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
    ===|==========|=================|=====|=====|===|======
-    1 |  ATOYDSI | OYATS           |  H8 |  30 | 2 |  
-    2 | DI+AEINS | DESTINAI        | 11E |  86 | 0 | *
-    3 |  P?RBFEG | FRiPE           | 12A |  29 | 2 |  
+    1 |  ATOYDSI | OYATS           |  H4 |  30 | 2 |  
+    2 | DI+AEINS | DENIAISA        |  6D |  63 | 2 | *
+    3 |  P?RBFEG | BERYl           |  5E |  43 | 0 |  
 
-   Total: 145
+   Total: 136
 
-Rack 0: BG+EEMTB
-Rack 1: BG+EEMTB
-Rack 2: BG+EEMTB
+Rack 0: FGP+BEET
+Rack 1: FGP+BEET
+Rack 2: FGP+BEET
 commande> q
 fin du mode duplicate
 commande> q

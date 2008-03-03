@@ -3,14 +3,14 @@ commande> d 0 2
 mode duplicate
 [?] pour l'aide
 commande> a S
-Joueur 0:  931
-Joueur 1:  931
+Joueur 0:  929
+Joueur 1:  929
 commande> a T
-Joueur 0: R
-Joueur 1: R
+Joueur 0: TTV
+Joueur 1: TTV
 commande> a l
  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
- 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 1 0 2 0 1 0 0 0 0 0
 commande> a p
 Eliot 1.5
 
@@ -23,48 +23,45 @@ Player 1: Computer
     1 |  ?EBAAEF | FABAcEE         |  H4 |  80 | 0 | *
     2 |  KEELIFE | KIEF            | 10F |  36 | 0 |  
     3 | EEEL+IJX | FIXEE           |  4H |  34 | 0 |  
-    4 | EJL+RANS | JEANS           | 11D |  49 | 0 |  
-    5 | LR+OAHPU | LOPE            |  9E |  29 | 0 |  
-    6 | AHRU+OAE | HOUE            | 12A |  40 | 0 |  
-    7 | AAR+AVOC | HAVA            | A12 |  30 | 0 |  
-    8 | ACOR+WDN | WAX             |  J2 |  41 | 0 |  
-    9 | -VNIALZO | OZONAI          | B10 |  48 | 0 |  
-   10 | LV+NDULU | VIN             |  I3 |  21 | 0 |  
-   11 | DLLUU+NO | DUNE            |  K1 |  22 | 0 |  
-   12 | LLOU+DAM | DOUMA           |  1K |  24 | 0 |  
-   13 | DLL+TOBI | MOLLIT          |  N1 |  18 | 0 |  
-   14 | -ELTCUBE | CUBEBE          |  6F |  31 | 0 |  
-   15 | -PE?STIE | SEPTImE         |  L6 |  85 | 0 | *
-   16 |  LNRSISE | SERINS          | J10 |  29 | 0 |  
-   17 | L+RGYAET | STYLER          | 15J |  75 | 0 |  
-   18 | AG+CURGI | CARGUE          | N10 |  30 | 0 |  
-   19 | GI+EDRSS | DEGRISAS        |  7B |  79 | 0 | *
-   20 |  TOEHLRT | PHOT            |  8L |  27 | 0 |  
-   21 | ELRT+NME | REMELENT        |  C2 |  70 | 0 | *
-   22 |  QDRMUTI | MITAN           |  5E |  20 | 0 |  
-   23 |     DQRU | QUID            | 13H |  13 | 0 |  
+    4 | EJL+RANS | JALES           |  J6 |  49 | 0 |  
+    5 | NR+OAHPU | HURON           |  5K |  28 | 0 |  
+    6 | AP+MOEIA | LIPOME          |  8J |  36 | 0 |  
+    7 | AA+SMOND | ADONNAMES       |  O1 |  86 | 0 | *
+    8 |  LEATCYL | CATLEYA         |  5B |  36 | 0 |  
+    9 | L+EARBHO | BROCHA          |  B2 |  42 | 0 |  
+   10 | EL+OSULA | ALLOUES         |  A6 |  81 | 0 | *
+   11 |  DSNIMEN | DEMIS           |  I1 |  28 | 0 |  
+   12 | INN+NQUS | QUINTS          |  D1 |  42 | 0 |  
+   13 | NN+IEUR? | MUNIRENt        |  N8 |  72 | 0 | *
+   14 |  ISITTIE | EDITS           |  1H |  21 | 0 |  
+   15 | IIT+NEOP | POTINIER        | 12G |  72 | 0 | *
+   16 |  DVZEAET | DZETA           | 15K |  72 | 0 |  
+   17 | ETV+RWEV | EWE             |  F5 |  32 | 0 |  
+   18 | ERTVV+TC | YET             |  G5 |  31 | 0 |  
+   19 | CRTVV+UR | REVUE           | M11 |  30 | 0 |  
+   20 | CRTV+TUL | CRUEL           |  2F |  21 | 0 |  
 
-   Total: 931
+   Total: 929
 
-Rack 0: R
-Rack 1: R
+Rack 0: TTV
+Rack 1: TTV
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  -  -  -  -  H  A  V  A
- B   -  -  -  -  -  -  D  -  -  O  Z  O  N  A  I
- C   -  R  E  M  E  L  E  N  T  -  -  U  -  -  -
- D   -  -  -  -  -  -  G  -  -  -  J  E  -  -  -
- E   -  -  -  -  M  -  R  -  L  -  E  -  -  -  -
- F   -  -  -  -  I  C  I  -  O  K  A  -  -  -  -
- G   -  -  -  -  T  U  S  -  P  I  N  -  -  -  -
- H   -  -  -  F  A  B  A  c  E  E  S  -  Q  -  -
- I   -  -  V  I  N  E  S  -  -  F  -  -  U  -  -
- J   -  W  A  X  -  B  -  -  -  S  E  R  I  N  S
- K   D  U  N  E  -  E  -  -  -  -  -  -  D  -  T
- L   O  -  -  E  -  S  E  P  T  I  m  E  -  -  Y
- M   U  -  -  -  -  -  -  H  -  -  -  -  -  -  L
- N   M  O  L  L  I  T  -  O  -  C  A  R  G  U  E
- O   A  -  -  -  -  -  -  T  -  -  -  -  -  -  R
+ A   -  -  -  -  -  A  L  L  O  U  E  S  -  -  -
+ B   -  B  R  O  C  H  A  -  -  -  -  -  -  -  -
+ C   -  -  -  -  A  -  -  -  -  -  -  -  -  -  -
+ D   Q  U  I  N  T  S  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  L  -  -  -  -  -  -  -  -  -  -
+ F   -  C  -  -  E  W  E  -  -  K  -  -  -  -  -
+ G   -  R  -  -  Y  E  T  -  -  I  -  P  -  -  -
+ H   E  U  -  F  A  B  A  c  E  E  -  O  -  -  -
+ I   D  E  M  I  S  -  -  -  -  F  -  T  -  -  -
+ J   I  L  -  X  -  J  A  L  E  S  -  I  -  -  -
+ K   T  -  -  E  H  -  -  I  -  -  -  N  -  -  D
+ L   S  -  -  E  U  -  -  P  -  -  -  I  -  -  Z
+ M   -  -  -  -  R  -  -  O  -  -  R  E  V  U  E
+ N   -  -  -  -  O  -  -  M  U  N  I  R  E  N  t
+ O   A  D  O  N  N  A  M  E  S  -  -  -  -  -  A
 commande> q
 fin du mode duplicate
 commande> q

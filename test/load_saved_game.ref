@@ -3,22 +3,10 @@ commande> e
 mode entraînement
 [?] pour l'aide
 commande> t EA?AEBF
-commande> r
-commande> n 1
+commande> j FABAcEE H4
+commande> 
 commande> t LMUAEYE
-commande> r
-commande> a r
-  1: AY                 46 I6
-  2: YEBLE              38 6F
-  3: MAYE               36 I3
-  4: BAYLE              36 6H
-  5: AMYLE              35 10D
-  6: BAYE               35 6H
-  7: ELYME              35 10D
-  8: ELYME              35 10H
-  9: LAYE               34 I3
- 10: LAYEE              34 10D
-commande> n 2
+commande> j YEBLE 6F
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
@@ -38,24 +26,10 @@ commande> a g
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 commande> 
 commande> n -1
-commande> 
-commande> r
-commande> n 1
+commande> j AY I6
 commande> 
 commande> t EELMUJE
-commande> r
-commande> a r
-  1: JUMEL              38 J2
-  2: JUMELEE            33 10B
-  3: JUMELA             28 5C
-  4: JUMELEE            25 9C
-  5: JUMELE             24 G10
-  6: JUMEL              23 G10
-  7: JUMELE             23 9C
-  8: JEU                19 9G
-  9: JEU                19 G10
- 10: JUMELEE            19 10E
-commande> n 1
+commande> j JUMEL J2
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
@@ -75,19 +49,7 @@ commande> a g
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 commande> 
 commande> t EEIGLEH
-commande> r
-commande> a r
-  1: HELIEE             34 K5
-  2: HELEE              32 K5
-  3: EGAYEE             32 7F
-  4: EGAYE              31 7F
-  5: HELE               30 K5
-  6: LAYEE              29 7G
-  7: LAYE               28 7G
-  8: HUILEE             26 3I
-  9: HE                 26 K5
- 10: HUILE              24 3I
-commande> n 3
+commande> j EGAYEE 7F
 commande> 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15

@@ -38,15 +38,15 @@ commande> t EUOFMIE
 commande> r
 commande> a r
   1: FUMEE              26 H4
-  2: FOUIE              24 H4
-  3: FOUEE              24 H4
+  2: FOUEE              24 H4
+  3: FOUIE              24 H4
   4: MEFIE              22 H4
   5: FUMEE              20 H8
   6: MEFIE              20 H8
-  7: FOUIE              18 H8
-  8: FOUEE              18 H8
-  9: FUMEE              18 H6
- 10: FUMEE              18 H7
+  7: FOUEE              18 H8
+  8: FOUIE              18 H8
+  9: FUMEE              18 H7
+ 10: FUMEE              18 H6
 commande> n 1
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -157,15 +157,15 @@ commande> a gd
 commande> r
 commande> a r
   1: FUMEE              26 H4
-  2: FOUIE              24 H4
-  3: FOUEE              24 H4
+  2: FOUEE              24 H4
+  3: FOUIE              24 H4
   4: MEFIE              22 H4
   5: FUMEE              20 H8
   6: MEFIE              20 H8
-  7: FOUIE              18 H8
-  8: FOUEE              18 H8
-  9: FUMEE              18 H6
- 10: FUMEE              18 H7
+  7: FOUEE              18 H8
+  8: FOUIE              18 H8
+  9: FUMEE              18 H7
+ 10: FUMEE              18 H6
 commande> q
 fin du mode entraînement
 commande> q

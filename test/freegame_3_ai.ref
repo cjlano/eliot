@@ -3,13 +3,13 @@ commande> l 0 3
 mode partie libre
 [?] pour l'aide
 commande> a T
-Joueur 0: 
-Joueur 1: ADLT
-Joueur 2: AIU
+Joueur 0: KSROCT
+Joueur 1: 
+Joueur 2: DIUDGEA
 commande> a S
-Joueur 0:  319
-Joueur 1:  286
-Joueur 2:  303
+Joueur 0:  296
+Joueur 1:  362
+Joueur 2:  263
 commande> a p
 Eliot 1.5
 
@@ -23,48 +23,43 @@ Player 2: Computer
     1 |  RAHITRD | HARDI           |  H4 |  26 | 0 |  
     2 |  ?TIEXFA | FAXAIEnT        |  5E | 126 | 1 | *
     3 |  ATOSBUF | BOUTEFAS        |  J1 |  73 | 2 | *
-    4 | RT+AREEN | RENTERAI        |  8A |  77 | 0 | *
+    4 | RT+AREEN | ENTERRAI        |  8A |  77 | 0 | *
     5 |  RZUGNSS | AZURS           |  F5 |  34 | 1 |  
     6 |  MIMLLOP | PLOMB           |  1F |  30 | 2 |  
-    7 |  EEMNETV | VETEMENT        |  L3 |  76 | 0 | *
-    8 | GNRS+PEN | REPS            | 11I |  25 | 1 |  
-    9 | ILM+HSVI | VIZIR           |  6D |  33 | 2 |  
-   10 |  AWELOUB | WEB             | J10 |  34 | 0 |  
-   11 | GNN+EELE | EGEENNE         |  B8 |  20 | 1 |  
-   12 | HLMS+OJC | LOCHS           | 13F |  30 | 2 |  
-   13 | AELOU+TA | TAULE           | A11 |  27 | 0 |  
-   14 | L+ADSALY | LYS             |  M1 |  34 | 1 |  
-   15 | JM+U?EKO | TOKaJ           |  D8 |  40 | 2 |  
-   16 | AO+QRSED | COQ             | H13 |  36 | 0 |  
-   17 | AADL+INN | YIN             |  2M |  24 | 1 |  
-   18 | EMU+IGRO | GOUMIER         |  2B |  82 | 2 | *
-   19 | ADERS+IC | ENCRAIS         |  O1 |  30 | 0 |  
-   20 | AADLN+TE | ANE             | E10 |  28 | 1 |  
-   21 |    EUIAU | TUEE            |  4J |  18 | 2 |  
-   22 |        D | DU              |  D1 |   5 | 0 |  
+    7 |  EEMNETV | VETEMENT        |  C6 |  78 | 0 | *
+    8 | GNRS+PEN | PURGES          |  3I |  24 | 1 |  
+    9 | ILM+HSVI | VIS             | 14A |  25 | 2 |  
+   10 |  AWELOUB | BAVE            | A12 |  36 | 0 |  
+   11 | NN+ELEEE | SELENE          |  8J |  21 | 1 |  
+   12 | HILM+?IC | aLCHIMIE        |  A1 | 101 | 2 | *
+   13 | LOUW+ULS | SLOW            |  N3 |  33 | 0 |  
+   14 | EN+STAAI | NANTAISE        |  N8 |  70 | 1 | *
+   15 |  DIJUUYO | JOYAU           | 12K |  44 | 2 |  
+   16 | LSUU+KAQ | AUQUEL          | 15J |  63 | 0 |  
+   17 |  OENIREN | NERONIEN        | 10G |  60 | 1 | *
 
-   Total: 908
+   Total: 921
 
-Rack 0: 
-Rack 1: ADLT
-Rack 2: AIU
+Rack 0: KS+ROCT
+Rack 1: 
+Rack 2: DIU+DGEA
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  R  -  -  T  A  U  L  E
- B   -  G  -  -  -  -  -  E  G  E  E  N  N  E  -
- C   -  O  -  -  -  -  -  N  -  -  -  -  -  -  -
- D   D  U  -  -  -  V  -  T  O  K  a  J  -  -  -
- E   -  M  -  -  F  I  -  E  -  A  N  E  -  -  -
- F   P  I  -  -  A  Z  U  R  S  -  -  -  L  -  -
- G   L  E  -  -  X  I  -  A  -  -  -  -  O  -  -
- H   O  R  -  H  A  R  D  I  -  -  -  -  C  O  Q
- I   M  -  -  -  I  -  -  -  -  -  R  -  H  -  -
- J   B  O  U  T  E  F  A  S  -  W  E  B  S  -  -
- K   -  -  -  U  n  -  -  -  -  -  P  -  -  -  -
- L   -  -  V  E  T  E  M  E  N  T  S  -  -  -  -
- M   L  Y  S  E  -  -  -  -  -  -  -  -  -  -  -
- N   -  I  -  -  -  -  -  -  -  -  -  -  -  -  -
- O   E  N  C  R  A  I  S  -  -  -  -  -  -  -  -
+ A   a  L  C  H  I  M  I  E  -  -  -  B  A  V  E
+ B   -  -  -  -  -  -  -  N  -  -  -  -  -  I  -
+ C   -  -  -  -  -  V  E  T  E  M  E  N  T  S  -
+ D   -  -  -  -  -  -  -  E  -  -  -  -  -  -  -
+ E   -  -  -  -  F  -  -  R  -  -  -  -  -  -  -
+ F   P  -  -  -  A  Z  U  R  S  -  -  -  -  -  -
+ G   L  -  -  -  X  -  -  A  -  N  -  -  -  -  -
+ H   O  -  -  H  A  R  D  I  -  E  -  -  -  -  -
+ I   M  -  P  -  I  -  -  -  -  R  -  -  -  -  -
+ J   B  O  U  T  E  F  A  S  -  O  -  -  -  -  A
+ K   -  -  R  -  n  -  -  E  -  N  -  J  -  -  U
+ L   -  -  G  -  T  -  -  L  -  I  -  O  -  -  Q
+ M   -  -  E  -  -  -  -  E  -  E  -  Y  -  -  U
+ N   -  -  S  L  O  W  -  N  A  N  T  A  I  S  E
+ O   -  -  -  -  -  -  -  E  -  -  -  U  -  -  L
 commande> q
 fin du mode partie libre
 commande> q
