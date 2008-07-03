@@ -71,7 +71,7 @@ public:
     void removeLastTurn();
 
     /**************************
-     * Acessors for the score of the player
+     * Accessors for the score of the player
      **************************/
     // Add (or remove, if iPoints is negative) points to the score
     // of the player

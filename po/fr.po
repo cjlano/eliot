@@ -163,7 +163,7 @@ msgid ""
 " - 3rd field: the frequency of the letter (how many letters of this kind in "
 "the game)"
 msgstr ""
-" - 3e champ : la fréquance de la lettre (nombre de lettres de ce genre dans "
+" - 3e champ : la fréquence de la lettre (nombre de lettres de ce genre dans "
 "le jeu)"
 
 #: dic/compdic.cpp:409
