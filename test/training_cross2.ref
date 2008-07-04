@@ -45,8 +45,8 @@ commande> a r
   6: MEFIE              20 H8
   7: FOUEE              18 H8
   8: FOUIE              18 H8
-  9: FUMEE              18 H7
- 10: FUMEE              18 H6
+  9: FUMEE              18 H5
+ 10: FUMEE              18 H7
 commande> n 1
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -164,8 +164,8 @@ commande> a r
   6: MEFIE              20 H8
   7: FOUEE              18 H8
   8: FOUIE              18 H8
-  9: FUMEE              18 H7
- 10: FUMEE              18 H6
+  9: FUMEE              18 H5
+ 10: FUMEE              18 H7
 commande> q
 fin du mode entraînement
 commande> q

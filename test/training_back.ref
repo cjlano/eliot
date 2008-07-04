@@ -14,8 +14,8 @@ commande> a r
   4: MAYE               36 I3
   5: AMYLE              35 10D
   6: BAYE               35 6H
-  7: ELYME              35 10H
-  8: ELYME              35 10D
+  7: ELYME              35 10D
+  8: ELYME              35 10H
   9: BEY                34 6H
  10: LAYE               34 I3
 commande> n 2
@@ -125,7 +125,7 @@ Player 0: Human
 
     N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
    ===|==========|=================|=====|=====|===|======
-    1 |  IEIEIEF | FIEE            |  H6 |  14 | 0 |  
+    1 |  IEIEIEF | FIEE            |  H8 |  14 | 0 |  
 
    Total: 14
 

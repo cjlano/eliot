@@ -29,27 +29,27 @@ Joueur 1:   75
 Joueur 2:   93
 commande> a t
 P?RBFEG
-commande> j BERYl 5E
+commande> j FRaYE 5E
 commande> j hYPER 5G
 commande> a S
-Joueur 0:  122
-Joueur 1:  116
-Joueur 2:  136
+Joueur 0:  124
+Joueur 1:  106
+Joueur 2:  138
 commande> a t
-FGPBEET
+BGPBEET
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- D   -  -  -  -  -  D  -  -  -  -  -  -  -  -  -
- E   -  -  -  -  B  E  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  E  N  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  R  I  -  -  -  -  -  -  -  -  -
+ A   -  -  -  -  -  D  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  E  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  N  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  I  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  F  A  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  R  I  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  a  S  -  -  -  -  -  -  -  -  -
  H   -  -  -  O  Y  A  T  S  -  -  -  -  -  -  -
- I   -  -  -  -  l  I  -  -  -  -  -  -  -  -  -
- J   -  -  -  -  -  S  -  -  -  -  -  -  -  -  -
- K   -  -  -  -  -  A  -  -  -  -  -  -  -  -  -
+ I   -  -  -  -  E  -  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
@@ -65,14 +65,14 @@ Player 2: Computer
     N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
    ===|==========|=================|=====|=====|===|======
     1 |  ATOYDSI | OYATS           |  H4 |  30 | 2 |  
-    2 | DI+AEINS | DENIAISA        |  6D |  63 | 2 | *
-    3 |  P?RBFEG | BERYl           |  5E |  43 | 0 |  
+    2 | DI+AEINS | DENIAISA        |  6A |  63 | 2 | *
+    3 |  P?RBFEG | FRaYE           |  5E |  45 | 0 |  
 
-   Total: 136
+   Total: 138
 
-Rack 0: FGP+BEET
-Rack 1: FGP+BEET
-Rack 2: FGP+BEET
+Rack 0: BGP+BEET
+Rack 1: BGP+BEET
+Rack 2: BGP+BEET
 commande> q
 fin du mode duplicate
 commande> q

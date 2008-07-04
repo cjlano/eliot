@@ -14,8 +14,8 @@ commande> a r
   6: MEFIE              20 H8
   7: FOUEE              18 H8
   8: FOUIE              18 H8
-  9: FUMEE              18 H7
- 10: FUMEE              18 H6
+  9: FUMEE              18 H5
+ 10: FUMEE              18 H7
 commande> n 1
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -124,8 +124,8 @@ commande> a r
   3: LAVASSE         *  78 10G
   4: VASSALE         *  75 K9
   5: LAVASSE         *  73 9C
-  6: LAVASSE         *  72 9D
-  7: LAVASSE         *  72 K9
+  6: LAVASSE         *  72 K9
+  7: LAVASSE         *  72 9D
   8: VASSALE         *  67 G8
   9: LAVASSE         *  64 G8
  10: EVASAS             35 10I

@@ -55,10 +55,12 @@ struct less_points : public binary_function<const Round&, const Round&, bool>
         {
             // If the scores are equal, sort alphabetically, ignoring
             // the case
-            return std::lexicographical_compare(r1.getWord().begin(),
-                                                r1.getWord().end(),
-                                                r2.getWord().begin(),
-                                                r2.getWord().end(),
+            const wstring &s1 = r1.getWord();
+            const wstring &s2 = r2.getWord();
+            return std::lexicographical_compare(s1.begin(),
+                                                s1.end(),
+                                                s2.begin(),
+                                                s2.end(),
                                                 wcharCompare);
         }
     }

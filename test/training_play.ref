@@ -17,16 +17,16 @@ commande> r
 commande> a r
   1: JEUDI              42 H4
   2: JEUDI              28 H8
-  3: JEUDI              26 H7
+  3: JEUDI              26 H5
   4: JEUDI              26 H6
-  5: JEUDI              26 H5
-  6: JEU                20 H8
+  5: JEUDI              26 H7
+  6: JEU                20 H6
   7: JEU                20 H7
-  8: JEU                20 H6
+  8: JEU                20 H8
   9: JE                 18 H7
  10: JE                 18 H8
 commande> n 0
-commande> n 8
+commande> n 6
 commande> a t
 DEEI
 commande> t DEEIPEG
