@@ -800,11 +800,11 @@ void eliot_regexp_build_default_llist(const Dictionary &iDic,
     llist.symbl[3] = RE_USR1_MATCH;
     llist.symbl[5] = RE_USR2_MATCH;
 
-    llist.valid[0] = 1; // all letters
-    llist.valid[1] = 1; // vowels
-    llist.valid[2] = 1; // consonants
-    llist.valid[3] = 0; // user defined list 1
-    llist.valid[4] = 0; // user defined list 2
+    llist.valid[0] = true; // all letters
+    llist.valid[1] = true; // vowels
+    llist.valid[2] = true; // consonants
+    llist.valid[3] = false; // user defined list 1
+    llist.valid[4] = false; // user defined list 2
 
     for (int i = 0; i < DIC_SEARCH_REGE_LIST; i++)
     {

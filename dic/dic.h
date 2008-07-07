@@ -100,7 +100,7 @@ public:
 
     /**
      * Returns the character code associated with an element,
-     * codes may range from 0 to 31. 0 is the null character.
+     * codes may range from 0 to 63. 0 is the null character.
      * @returns code for the encoded character
      */
     const dic_code_t getCode(const dic_elt_t &elt) const;
@@ -114,14 +114,14 @@ public:
     /**
      * Returns a boolean to show if there is another available
      * character in the current depth (a neighbor in the tree)
-     * @returns 0 or 1 (true)
+     * @return true if the character is the last one at the current depth
      */
     bool isLast(const dic_elt_t &elt) const;
 
     /**
      * Returns a boolean to show if we are at the end of a word
-     * (see getNext)
-     * @returns 0 or 1 (true)
+     * (see getNext())
+     * @return true if this is the end of a word
      */
     bool isEndOfWord(const dic_elt_t &elt) const;
 
@@ -132,7 +132,7 @@ public:
     const dic_elt_t getRoot() const;
 
     /**
-     * Returns the next available neighbor (see getLast)
+     * Returns the next available neighbor (see isLast())
      * @returns next dictionary element at the same depth
      */
     const dic_elt_t getNext(const dic_elt_t &elt) const;
@@ -292,21 +292,12 @@ private:
     void searchWordByLen(struct params_7plus1_t *params,
                          int i, const DAWG_EDGE *edgeptr) const;
 
-    /**
-     * Internal version of searchRegExp, needed until
-     * wide chars are supported by our regexp engine.
-     */
-    void searchRegExpInner(const string &iRegexp,
-                           vector<string> &oWordList,
-                           struct search_RegE_list_t *iList,
-                           unsigned int iMaxResults) const;
-
     /// Helper for searchRegExp()
     template <typename DAWG_EDGE>
     void searchRegexpRecTempl(struct params_regexp_t *params,
                               int state,
                               const DAWG_EDGE *edgeptr,
-                              vector<string> &oWordList,
+                              vector<wstring> &oWordList,
                               unsigned int iMaxResults) const;
 };
 

@@ -5,12 +5,18 @@ x .*a.*e.*i.*o.*u.* 50 13
 x .*a.*e.*i.*o.*u.* 50 13 13
 x .*hop.* 50
 x a.*b 50
-x [abc].*b 
+x [abc].*b
 x [abc]*b
 x [abc]*.b
 x .*(cba)*b
 x .*(cba)+b
 x .*(nn)+.*
 x .*(nn)+.*x 200
+x ne.
+x ne:v:
+x ne:v:?
+x ne:c:s
+x (ass)+..
+x c:v:+p
 q
 

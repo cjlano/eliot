@@ -23,17 +23,6 @@ AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 PKG_PROG_PKG_CONFIG
 
-AC_PROG_YACC
-if test "$YACC" = yacc ; then
-    AC_MSG_ERROR([Could not find the 'bison' program on your system])
-fi
-
-dnl Better than AC_PROG_LEX
-AM_PROG_LEX
-if test "$LEX" != "flex" ; then
-    AC_MSG_ERROR([Could not find the 'flex' program on your system])
-fi
-
 dnl --------------------------------------------------------------
 dnl Checks for compilation flags
 dnl --------------------------------------------------------------

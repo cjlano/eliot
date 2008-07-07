@@ -28,6 +28,8 @@
 #ifndef _REGEXP_H_
 #define _REGEXP_H_
 
+#include <string>
+
 #define NODE_TOP    0
 #define NODE_VAR    1
 #define NODE_OR     2
@@ -35,96 +37,31 @@
 #define NODE_STAR   4
 #define NODE_PLUS   5
 
+using std::string;
 
-typedef struct node
+class Node
 {
-    int              type;
-    char             var;
-    struct node      *fg;
-    struct node      *fd;
-    int number;
-    int position;
-    int annulable;
-    int PP;
-    int DP;
-} NODE;
-
-    /**
-     * different letters in the dictionary
-     */
-#define DIC_LETTERS  27
-
-    /**
-     * maximum number of accepted terminals in regular expressions
-     */
-#define REGEXP_MAX 32
-
-    /**
-     * special terminals that should not appear in the dictionary
-     */
-#define RE_EPSILON     (DIC_LETTERS + 0)
-#define RE_FINAL_TOK   (DIC_LETTERS + 1)
-#define RE_ALL_MATCH   (DIC_LETTERS + 2)
-#define RE_VOWL_MATCH  (DIC_LETTERS + 3)
-#define RE_CONS_MATCH  (DIC_LETTERS + 4)
-#define RE_USR1_MATCH  (DIC_LETTERS + 5)
-#define RE_USR2_MATCH  (DIC_LETTERS + 6)
-
-    /**
-     * number of lists for regexp letter match \n
-     * 0 : all tiles                           \n
-     * 1 : vowels                              \n
-     * 2 : consonants                          \n
-     * 3 : user defined 1                      \n
-     * 4 : user defined 2                      \n
-     * x : lists used during parsing           \n
-     */
-#define DIC_SEARCH_REGE_LIST (REGEXP_MAX)
-
-    /**
-     * Structure used for Dic_search_RegE \n
-     * this structure is used to explicit letters list that will be matched
-     * against special tokens in the regular expression search
-     */
-struct search_RegE_list_t {
-  /** maximum length for results */
-  int minlength;
-  /** maximum length for results */
-  int maxlength;
-  /** special symbol associated with the list */
-  char symbl[DIC_SEARCH_REGE_LIST];
-  /** 0 or 1 if list is valid */
-  int  valid[DIC_SEARCH_REGE_LIST];
-  /** 0 or 1 if letter is present in the list */
-  char letters[DIC_SEARCH_REGE_LIST][DIC_LETTERS];
-};
-
-#define RE_LIST_ALL_MATCH  0
-#define RE_LIST_VOYL_MATCH 1
-#define RE_LIST_CONS_MATCH 2
-#define RE_LIST_USER_BEGIN 3
-#define RE_LIST_USER_END   4
-
+public:
     /**
      * Create a node for the syntactic tree used for
-     * parsing regular expressions                    \n
-     * The fonction is called by bison grammar rules
+     * parsing regular expressions
      */
-NODE* regexp_createNODE(int type,char v,NODE *fg,NODE *fd);
+    Node(int type, char v, Node *fg, Node *fd);
 
     /**
-     * delete regexp syntactic tree
+     * Delete regexp syntactic tree
      */
-void  regexp_delete_tree(NODE * root);
+    ~Node();
 
     /**
-     * Computes positions, first positions (PP), last position (DP)
-     * and translation table 'position to letter' (ptl)
+     * Computes positions, first positions (PP), last position (DP),
+     * and annulable attribute
+     *
      * @param p : max position found in the tree (must be initialized to 1)
      * @param n : number of nodes in the tree (must be initialized to 1)
      * @param ptl : position to letter translation table
      */
-void  regexp_parcours(NODE* r, int *p, int *n, int ptl[]);
+    void traverse(int &p, int &n, int ptl[]);
 
     /**
      * Computes 'next position' table used for building the
@@ -133,14 +70,106 @@ void  regexp_parcours(NODE* r, int *p, int *n, int ptl[]);
      * @param PS : next position table, PS[0] must contain the
      * number of terminals contained in the regular expression
      */
-void  regexp_possuivante(NODE* r, int PS[]);
+    void nextPos(int PS[]);
+
+    /// Return the first position
+    int getFirstPos() const { return m_PP; }
+
+#ifdef DEBUG_RE
+    /**
+     * Print the tree rooted at the current node to a file suitable
+     * for dot (Graphviz)
+     */
+    void printTreeDot(const string &iFileName, int detail) const;
+#endif
+
+private:
+    int m_type;
+    char m_var;
+    Node *m_fg;
+    Node *m_fd;
+    int m_number;
+    int m_position;
+    bool m_annulable;
+    int m_PP;
+    int m_DP;
+
+#ifdef DEBUG_RE
+    /// Print the current node to file
+    void printNode(FILE* f, int detail) const;
+
+    /// Print recursively the current node and its subnodes to file
+    void printNodesRec(FILE *f, int detail) const;
+
+    /// Print recursively the edges of the tree rooted at the current node
+    void printEdgesRec(FILE *f) const;
+#endif
+};
+
+/**
+ * different letters in the dictionary
+ */
+#define DIC_LETTERS 63
+
+/**
+ * maximum number of accepted terminals in regular expressions
+ */
+#define REGEXP_MAX 32
+
+/**
+ * special terminals that should not appear in the dictionary
+ */
+#define RE_EPSILON     (DIC_LETTERS + 0)
+#define RE_FINAL_TOK   (DIC_LETTERS + 1)
+#define RE_ALL_MATCH   (DIC_LETTERS + 2)
+#define RE_VOWL_MATCH  (DIC_LETTERS + 3)
+#define RE_CONS_MATCH  (DIC_LETTERS + 4)
+#define RE_USR1_MATCH  (DIC_LETTERS + 5)
+#define RE_USR2_MATCH  (DIC_LETTERS + 6)
+
+/**
+ * number of lists for regexp letter match \n
+ * 0 : all tiles                           \n
+ * 1 : vowels                              \n
+ * 2 : consonants                          \n
+ * 3 : user defined 1                      \n
+ * 4 : user defined 2                      \n
+ * x : lists used during parsing           \n
+ */
+#define DIC_SEARCH_REGE_LIST (REGEXP_MAX)
+
+/**
+ * Structure used for Dic_search_RegE \n
+ * this structure is used to explicit letters list that will be matched
+ * against special tokens in the regular expression search
+ */
+struct search_RegE_list_t
+{
+    /** maximum length for results */
+    int minlength;
+    /** maximum length for results */
+    int maxlength;
+    /** special symbol associated with the list */
+    char symbl[DIC_SEARCH_REGE_LIST];
+    /** 0 or 1 if list is valid */
+    bool valid[DIC_SEARCH_REGE_LIST];
+    /** 0 or 1 if letter is present in the list */
+    bool letters[DIC_SEARCH_REGE_LIST][DIC_LETTERS];
+};
+
+#define RE_LIST_ALL_MATCH  0
+#define RE_LIST_VOYL_MATCH 1
+#define RE_LIST_CONS_MATCH 2
+#define RE_LIST_USER_BEGIN 3
+#define RE_LIST_USER_END   4
 
 #define MAX_REGEXP_ERROR_LENGTH 500
 
-struct regexp_error_report_t {
-  int pos1;
-  int pos2;
-  char msg[MAX_REGEXP_ERROR_LENGTH];
+struct regexp_error_report_t
+{
+    int pos1;
+    int pos2;
+    char msg[MAX_REGEXP_ERROR_LENGTH];
 };
 
 #include <cstdio>
@@ -149,7 +178,6 @@ void  regexp_print_letter(FILE* f, char l);
 void  regexp_print_letter2(FILE* f, char l);
 void  regexp_print_PS(int PS[]);
 void  regexp_print_ptl(int ptl[]);
-void  regexp_print_tree(NODE* n, char* name, int detail);
 
 #endif /* _REGEXP_H_ */
 

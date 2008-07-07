@@ -39,115 +39,80 @@
 #include "regexp.h"
 #include "automaton.h"
 
-#ifndef PDBG
-#ifdef DEBUG_RE2
-#define PDBG(x) x
-#else
-#define PDBG(x)
-#endif
-#endif
 
-
-NODE* regexp_createNODE(int type, char v, NODE *fg, NODE *fd)
+Node::Node(int type, char v, Node *fg, Node *fd)
+    : m_type(type), m_var(v), m_fg(fg), m_fd(fd), m_number(0), m_position(0),
+    m_annulable(false), m_PP(0), m_DP(0)
 {
-    NODE *x;
-    x=(NODE *)malloc(sizeof(NODE));
-    x->type      = type;
-    x->var       = v;
-    x->fd        = fd;
-    x->fg        = fg;
-    x->number    = 0;
-    x->position  = 0;
-    x->annulable = 0;
-    x->PP        = 0;
-    x->DP        = 0;
-    return x;
 }
 
-void regexp_delete_tree(NODE *root)
+Node::~Node()
 {
-    if (root == NULL)
-        return;
-    regexp_delete_tree(root->fg);
-    regexp_delete_tree(root->fd);
-    free(root);
+    delete m_fg;
+    delete m_fd;
 }
 
-#ifdef DEBUG_RE
-static void print_node(FILE*, NODE *n, int detail);
-#endif
 
 /**
- * computes position, annulable, PP, DP attributes
- * @param r   = root
- * @param p   = current leaf position
- * @param n   = current node number
- * @param ptl = position to letter
+ * p is the current leaf position
+ * n is the current node number
  */
-
-void regexp_parcours(NODE* r, int *p, int *n, int ptl[])
+void Node::traverse(int &p, int &n, int ptl[])
 {
-    if (r == NULL)
-        return;
+    if (m_fg)
+        m_fg->traverse(p, n, ptl);
+    if (m_fd)
+        m_fd->traverse(p, n, ptl);
 
-    regexp_parcours(r->fg, p, n, ptl);
-    regexp_parcours(r->fd, p, n, ptl);
+    m_number = n;
+    ++n;
 
-    switch (r->type)
+    switch (m_type)
     {
         case NODE_VAR:
-            r->position = *p;
-            ptl[*p] = r->var;
-            *p = *p + 1;
-            r->annulable = 0;
-            r->PP = 1 << (r->position - 1);
-            r->DP = 1 << (r->position - 1);
+            m_position = p;
+            ptl[p] = m_var;
+            ++p;
+            m_annulable = false;
+            m_PP = 1 << (m_position - 1);
+            m_DP = 1 << (m_position - 1);
             break;
         case NODE_OR:
-            r->position = 0;
-            r->annulable = r->fg->annulable || r->fd->annulable;
-            r->PP = r->fg->PP | r->fd->PP;
-            r->DP = r->fg->DP | r->fd->DP;
+            m_position = 0;
+            m_annulable = m_fg->m_annulable || m_fd->m_annulable;
+            m_PP = m_fg->m_PP | m_fd->m_PP;
+            m_DP = m_fg->m_DP | m_fd->m_DP;
             break;
         case NODE_AND:
-            r->position = 0;
-            r->annulable = r->fg->annulable && r->fd->annulable;
-            r->PP = (r->fg->annulable) ? (r->fg->PP | r->fd->PP) : r->fg->PP;
-            r->DP = (r->fd->annulable) ? (r->fg->DP | r->fd->DP) : r->fd->DP;
+            m_position = 0;
+            m_annulable = m_fg->m_annulable && m_fd->m_annulable;
+            m_PP = (m_fg->m_annulable) ? (m_fg->m_PP | m_fd->m_PP) : m_fg->m_PP;
+            m_DP = (m_fd->m_annulable) ? (m_fg->m_DP | m_fd->m_DP) : m_fd->m_DP;
             break;
         case NODE_PLUS:
-            r->position = 0;
-            r->annulable = 0;
-            r->PP = r->fg->PP;
-            r->DP = r->fg->DP;
+            m_position = 0;
+            m_annulable = false;
+            m_PP = m_fg->m_PP;
+            m_DP = m_fg->m_DP;
             break;
         case NODE_STAR:
-            r->position = 0;
-            r->annulable = 1;
-            r->PP = r->fg->PP;
-            r->DP = r->fg->DP;
+            m_position = 0;
+            m_annulable = true;
+            m_PP = m_fg->m_PP;
+            m_DP = m_fg->m_DP;
             break;
     }
-
-    r->number = *n;
-    *n = *n + 1;
 }
 
-/**
- * computes possuivante
- * @param r   = root
- * @param PS  = next position
- */
 
-void regexp_possuivante(NODE* r, int PS[])
+void Node::nextPos(int PS[])
 {
-    if (r == NULL)
-        return;
+    if (m_fg)
+        m_fg->nextPos(PS);
+    if (m_fd)
+        m_fd->nextPos(PS);
 
-    regexp_possuivante(r->fg, PS);
-    regexp_possuivante(r->fd, PS);
-
-    switch (r->type)
+    switch (m_type)
     {
         case NODE_AND:
             /************************************/
@@ -156,8 +121,8 @@ void regexp_possuivante(NODE* r, int PS[])
             /************************************/
             for (int pos = 1; pos <= PS[0]; pos++)
             {
-                if (r->fg->DP & (1 << (pos-1)))
-                    PS[pos] |= r->fd->PP;
+                if (m_fg->m_DP & (1 << (pos-1)))
+                    PS[pos] |= m_fd->m_PP;
             }
             break;
         case NODE_PLUS:
@@ -168,8 +133,8 @@ void regexp_possuivante(NODE* r, int PS[])
             /************************************/
             for (int pos = 1; pos <= PS[0]; pos++)
             {
-                if (r->DP & (1 << (pos-1)))
-                    PS[pos] |= r->PP;
+                if (m_DP & (1 << (pos-1)))
+                    PS[pos] |= m_PP;
             }
             break;
         case NODE_STAR:
@@ -179,32 +144,27 @@ void regexp_possuivante(NODE* r, int PS[])
             /************************************/
             for (int pos = 1; pos <= PS[0]; pos++)
             {
-                if (r->DP & (1 << (pos-1)))
-                    PS[pos] |= r->PP;
+                if (m_DP & (1 << (pos-1)))
+                    PS[pos] |= m_PP;
             }
             break;
     }
 }
 
-/*////////////////////////////////////////////////
+////////////////////////////////////////////////
 // DEBUG only fonctions
-////////////////////////////////////////////////*/
+////////////////////////////////////////////////
 
 #ifdef DEBUG_RE
-void regexp_print_PS(int PS[])
+void printPS(int PS[])
 {
-    printf("** positions suivantes **\n");
+    printf("** next positions **\n");
     for (int i = 1; i <= PS[0]; i++)
     {
         printf("%02d: 0x%08x\n", i, PS[i]);
     }
 }
-#endif
 
-/*////////////////////////////////////////////////
-////////////////////////////////////////////////*/
-
-#ifdef DEBUG_RE
 void regexp_print_ptl(int ptl[])
 {
     printf("** pos -> lettre: ");
@@ -216,8 +176,6 @@ void regexp_print_ptl(int ptl[])
 }
 #endif
 
-/*////////////////////////////////////////////////
-////////////////////////////////////////////////*/
 
 void regexp_print_letter(FILE* f, char l)
 {
@@ -239,8 +197,6 @@ void regexp_print_letter(FILE* f, char l)
     }
 }
 
-/*////////////////////////////////////////////////
-////////////////////////////////////////////////*/
 
 void regexp_print_letter2(FILE* f, char l)
 {
@@ -262,19 +218,14 @@ void regexp_print_letter2(FILE* f, char l)
     }
 }
 
-/*////////////////////////////////////////////////
-////////////////////////////////////////////////*/
 
 #ifdef DEBUG_RE
-static void print_node(FILE* f, NODE *n, int detail)
+void Node::printNode(FILE* f, int detail) const
 {
-    if (n == NULL)
-        return;
-
-    switch (n->type)
+    switch (m_type)
     {
         case NODE_VAR:
-            regexp_print_letter(f, n->var);
+            regexp_print_letter(f, m_var);
             break;
         case NODE_OR:
             fprintf(f, "OR");
@@ -292,71 +243,54 @@ static void print_node(FILE* f, NODE *n, int detail)
     if (detail == 2)
     {
         fprintf(f, "\\n pos=%d\\n annul=%d\\n PP=0x%04x\\n DP=0x%04x",
-                n->position, n->annulable, n->PP, n->DP);
+                m_position, m_annulable, m_PP, m_DP);
     }
 }
-#endif
 
-/*////////////////////////////////////////////////
-////////////////////////////////////////////////*/
-
-#ifdef DEBUG_RE
-static void print_tree_nodes(FILE* f, NODE* n, int detail)
+void Node::printNodesRec(FILE* f, int detail) const
 {
-    if (n == NULL)
-        return;
+    if (m_fg)
+        m_fg->printNodesRec(f, detail);
+    if (m_fd)
+        m_fd->printNodesRec(f, detail);
 
-    print_tree_nodes(f, n->fg, detail);
-    print_tree_nodes(f, n->fd, detail);
-
-    fprintf(f, "%d [ label=\"", n->number);
-    print_node(f, n, detail);
+    fprintf(f, "%d [ label=\"", m_number);
+    printNode(f, detail);
     fprintf(f, "\"];\n");
 }
-#endif
 
-/*////////////////////////////////////////////////
-////////////////////////////////////////////////*/
-
-#ifdef DEBUG_RE
-static void print_tree_edges(FILE *f, NODE *n)
+void Node::printEdgesRec(FILE *f) const
 {
-    if (n == NULL)
-        return;
+    if (m_fg)
+        m_fg->printEdgesRec(f);
+    if (m_fd)
+        m_fd->printEdgesRec(f);
 
-    print_tree_edges(f, n->fg);
-    print_tree_edges(f, n->fd);
-
-    switch (n->type)
+    switch (m_type)
     {
         case NODE_OR:
-            fprintf(f, "%d -> %d;", n->number, n->fg->number);
-            fprintf(f, "%d -> %d;", n->number, n->fd->number);
+            fprintf(f, "%d -> %d;", m_number, m_fg->m_number);
+            fprintf(f, "%d -> %d;", m_number, m_fd->m_number);
             break;
         case NODE_AND:
-            fprintf(f, "%d -> %d;", n->number, n->fg->number);
-            fprintf(f, "%d -> %d;", n->number, n->fd->number);
+            fprintf(f, "%d -> %d;", m_number, m_fg->m_number);
+            fprintf(f, "%d -> %d;", m_number, m_fd->m_number);
             break;
         case NODE_PLUS:
         case NODE_STAR:
-            fprintf(f, "%d -> %d;", n->number, n->fg->number);
+            fprintf(f, "%d -> %d;", m_number, m_fg->m_number);
             break;
     }
 }
-#endif
 
-/*////////////////////////////////////////////////
-////////////////////////////////////////////////*/
-
-#ifdef DEBUG_RE
-void regexp_print_tree(NODE* n, const string &iName, int detail)
+void Node::printTreeDot(const string &iFileName, int detail) const
 {
-    FILE *f = fopen(iName.c_str(), "w");
+    FILE *f = fopen(iFileName.c_str(), "w");
     if (f == NULL)
         return;
-    fprintf(f, "digraph %s {\n", iName.c_str());
-    print_tree_nodes(f, n, detail);
-    print_tree_edges(f, n);
+    fprintf(f, "digraph %s {\n", iFileName.c_str());
+    printNodesRec(f, detail);
+    printEdgesRec(f);
     fprintf(f, "fontsize=20;\n");
     fprintf(f, "}\n");
     fclose(f);
@@ -369,7 +303,7 @@ void regexp_print_tree(NODE* n, const string &iName, int detail)
     }
     else if (pid == 0)
     {
-        execlp("dotty", "dotty", iName.c_str(), NULL);
+        execlp("dotty", "dotty", iFileName.c_str(), NULL);
         printf("exec dotty failed\n");
         exit(1);
     }

@@ -40,62 +40,40 @@
 #endif
 
 #include "dic.h"
+#include "header.h"
 #include "regexp.h"
 #include "encoding.h"
 
 
-#define __UNUSED__ __attribute__((unused))
-
-/********************************************************/
-/********************************************************/
-/********************************************************/
-
-const unsigned int all_letter[DIC_LETTERS] =
+void init_letter_lists(const Dictionary &iDic, struct search_RegE_list_t *iList)
 {
-    /*                      1  1 1 1 1 1 1 1 1 1 2 2 2  2  2  2  2 */
-    /* 0 1 2 3 4  5 6 7 8 9 0  1 2 3 4 5 6 7 8 9 0 1 2  3  4  5  6 */
-    /* x A B C D  E F G H I J  K L M N O P Q R S T U V  W  X  Y  Z */
-       0,1,1,1,1, 1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1, 1, 1, 1, 1
-};
-
-const unsigned int vowels[DIC_LETTERS] =
-{
-    /* x A B C D  E F G H I J  K L M N O P Q R S T U V  W  X  Y  Z */
-       0,1,0,0,0, 1,0,0,0,1,0, 0,0,0,0,1,0,0,0,0,0,1,0, 0, 0, 1, 0
-};
-
-const unsigned int consonants[DIC_LETTERS] =
-{
-    /* x A B C D  E F G H I J  K L M N O P Q R S T U V  W  X  Y  Z */
-       0,0,1,1,1, 0,1,1,1,0,1, 1,1,1,1,0,1,1,1,1,1,0,1, 1, 1, 1, 1
-};
-
-void init_letter_lists(struct search_RegE_list_t *iList)
-{
-    memset (iList, 0, sizeof(*iList));
+    memset(iList, 0, sizeof(*iList));
     iList->minlength = 1;
     iList->maxlength = 15;
-    iList->valid[0] = 1; // all letters
+    iList->valid[0] = true; // all letters
     iList->symbl[0] = RE_ALL_MATCH;
-    iList->valid[1] = 1; // vowels
+    iList->valid[1] = true; // vowels
     iList->symbl[1] = RE_VOWL_MATCH;
-    iList->valid[2] = 1; // consonants
+    iList->valid[2] = true; // consonants
     iList->symbl[2] = RE_CONS_MATCH;
-    for (int i = 0; i < DIC_LETTERS; i++)
+    iList->letters[0][0] = false;
+    iList->letters[1][0] = false;
+    iList->letters[2][0] = false;
+    const wstring &allLetters = iDic.getHeader().getLetters();
+    for (size_t i = 1; i <= allLetters.size(); ++i)
     {
-        iList->letters[0][i] = all_letter[i];
-        iList->letters[1][i] = vowels[i];
-        iList->letters[2][i] = consonants[i];
+        iList->letters[0][i] = true;
+        iList->letters[1][i] = iDic.getHeader().isVowel(i);
+        iList->letters[2][i] = iDic.getHeader().isConsonant(i);
     }
-    iList->valid[3] = 0; // user defined list 1
+
+    iList->valid[3] = false; // user defined list 1
     iList->symbl[3] = RE_USR1_MATCH;
-    iList->valid[4] = 0; // user defined list 2
+    iList->valid[4] = false; // user defined list 2
     iList->symbl[4] = RE_USR2_MATCH;
 }
 
-/********************************************************/
-/********************************************************/
-/********************************************************/
+
 void usage(const char *iBinaryName)
 {
     cerr << _("usage: %s dictionary") << iBinaryName << endl;
@@ -142,7 +120,7 @@ int main(int argc, char* argv[])
                 break;
 
             /* automaton */
-            init_letter_lists(&regList);
+            init_letter_lists(dic, &regList);
             vector<wstring> wordList;
             dic.searchRegExp(convertToWc(er), wordList, &regList);
 
@@ -163,7 +141,7 @@ int main(int argc, char* argv[])
     }
     catch (...)
     {
-        std::cerr << "Unkown exception taken" << endl;
+        std::cerr << "Unknown exception taken" << endl;
         return 1;
     }
 }

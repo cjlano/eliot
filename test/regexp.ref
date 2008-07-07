@@ -343,7 +343,7 @@ acheb
 aeroclub
 aplomb
 3 printed results
-commande> x [abc].*b 
+commande> x [abc].*b
 search for [abc].*b (50,1,15)
 acheb
 aeroclub
@@ -539,4 +539,52 @@ vallonneux
 vanneaux
 vicennaux
 57 printed results
+commande> x ne.
+search for ne. (50,1,15)
+nee
+nef
+nem
+neo
+nes
+net
+ney
+nez
+8 printed results
+commande> x ne:v:
+search for ne:v: (50,1,15)
+nee
+neo
+ney
+3 printed results
+commande> x ne:v:?
+search for ne:v:? (50,1,15)
+ne
+nee
+neo
+ney
+4 printed results
+commande> x ne:c:s
+search for ne:c:s (50,1,15)
+nefs
+nems
+nets
+news
+neys
+5 printed results
+commande> x (ass)+..
+search for (ass)+.. (50,1,15)
+assai
+assassin
+assec
+asses
+assez
+assis
+assit
+7 printed results
+commande> x c:v:+p
+search for c:v:+p (50,1,15)
+cap
+cep
+coup
+3 printed results
 commande> q
