@@ -489,7 +489,8 @@ void Dictionary::searchRegexpRecTempl(struct params_regexp_t *params,
         /* 1: the letter appears in the automaton as is */
         if (next_state)
         {
-            params->word[params->wordlen] = current->chr + L'a' - 1;
+            params->word[params->wordlen] =
+                towlower(getHeader().getCharFromCode(current->chr));
             params->wordlen ++;
             searchRegexpRecTempl(params, next_state, current, oWordList, iMaxResults);
             params->wordlen --;
@@ -513,15 +514,6 @@ void Dictionary::searchRegExp(const wstring &iRegexp,
     else
         oWordList.reserve(DEFAULT_VECT_ALLOC);
 
-    int ptl[REGEXP_MAX+1];
-    int PS [REGEXP_MAX+1];
-
-    for (int i = 0; i < REGEXP_MAX; i++)
-    {
-        PS[i] = 0;
-        ptl[i] = 0;
-    }
-
     struct regexp_error_report_t report;
     report.pos1 = 0;
     report.pos2 = 0;
@@ -539,6 +531,15 @@ void Dictionary::searchRegExp(const wstring &iRegexp,
 #endif
         delete root;
         return;
+    }
+
+    int ptl[REGEXP_MAX+1];
+    uint64_t PS [REGEXP_MAX+1];
+
+    for (int i = 0; i < REGEXP_MAX; i++)
+    {
+        PS[i] = 0;
+        ptl[i] = 0;
     }
 
     int n = 1;

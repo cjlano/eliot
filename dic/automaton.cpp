@@ -71,7 +71,7 @@ public:
     void dump(const string &iFileName) const;
 #endif
 
-    static AutomatonHelper *ps2nfa(int iInitState, int *ptl, int *PS);
+    static AutomatonHelper *ps2nfa(uint64_t iInitState, int *ptl, uint64_t *PS);
     static AutomatonHelper *nfa2dfa(const AutomatonHelper &iNfa,
                                     struct search_RegE_list_t *iList);
 
@@ -83,11 +83,11 @@ private:
     astate m_initState;
 
     void addState(astate s);
-    astate getState(const set<int> &iId) const;
+    astate getState(const set<uint64_t> &iId) const;
     void printNodes(FILE* f) const;
     void printEdges(FILE* f) const;
     void setAccept(astate s) const;
-    set<int> getSuccessor(const set<int> &S, int letter, struct search_RegE_list_t *iList) const;
+    set<uint64_t> getSuccessor(const set<uint64_t> &S, int letter, struct search_RegE_list_t *iList) const;
 };
 
 
@@ -95,14 +95,14 @@ private:
    State handling
  * ************************************************** */
 
-static set<int> s_state_id_create(int id);
-static string   s_state_id_to_str(const set<int> &iId);
-static astate   s_state_create   (const set<int> &iId);
+static set<uint64_t> s_state_id_create(uint64_t id);
+static string   s_state_id_to_str(const set<uint64_t> &iId);
+static astate   s_state_create   (const set<uint64_t> &iId);
 
 struct automaton_state_t
 {
-    set<int> id;
-    int      accept;
+    set<uint64_t> id;
+    bool accept;
     int      id_static;
     astate   next[MAX_TRANSITION_LETTERS];
 };
@@ -112,7 +112,7 @@ struct automaton_state_t
    Definition of the Automaton class
  * ************************************************** */
 
-Automaton::Automaton(int iInitState, int *ptl, int *PS, struct search_RegE_list_t *iList)
+Automaton::Automaton(uint64_t iInitState, int *ptl, uint64_t *PS, struct search_RegE_list_t *iList)
 {
     AutomatonHelper *nfa = AutomatonHelper::ps2nfa(iInitState, ptl, PS);
     DMSG(printf("\n non deterministic automaton OK \n\n"));
@@ -172,7 +172,7 @@ void Automaton::finalize(const AutomatonHelper &iHelper)
 
         if (s == iHelper.getInitState())
             m_init = i;
-        if (s->accept == 1)
+        if (s->accept)
             m_acceptors[i] = true;
 
         for (int l = 0; l < MAX_TRANSITION_LETTERS; l++)
@@ -234,34 +234,34 @@ void Automaton::dump(const string &iFileName) const
    Definition of the state handling methods
  * ************************************************** */
 
-static set<int> s_state_id_create(int id)
+static set<uint64_t> s_state_id_create(uint64_t id)
 {
-    set<int> l;
+    set<uint64_t> l;
     l.insert(id);
     return l;
 }
 
 
-static string s_state_id_to_str(const set<int> &iId)
+static string s_state_id_to_str(const set<uint64_t> &iId)
 {
     string s;
-    set<int>::const_iterator it;
+    set<uint64_t>::const_iterator it;
     for (it = iId.begin(); it != iId.end(); it++)
     {
         char tmp[50];
-        sprintf(tmp, "%d ", *it);
+        sprintf(tmp, "%llu ", *it);
         s += tmp;
     }
     return s;
 }
 
 
-static astate s_state_create(const set<int> &iId)
+static astate s_state_create(const set<uint64_t> &iId)
 {
     astate s = new automaton_state_t();
     // TODO: use copy constructor
-    s->id      = iId;
-    s->accept  = 0;
+    s->id     = iId;
+    s->accept = false;
     memset(s->next, 0, sizeof(astate)*MAX_TRANSITION_LETTERS);
     DMSG(printf("** state %s creation\n", s_state_id_to_str(iId).c_str()));
     return s;
@@ -295,7 +295,7 @@ void AutomatonHelper::addState(astate s)
 }
 
 
-astate AutomatonHelper::getState(const set<int> &iId) const
+astate AutomatonHelper::getState(const set<uint64_t> &iId) const
 {
     list<astate>::const_iterator it;
     for (it = m_states.begin(); it != m_states.end(); it++)
@@ -314,15 +314,15 @@ astate AutomatonHelper::getState(const set<int> &iId) const
  * ************************************************** *
  * ************************************************** */
 
-AutomatonHelper *AutomatonHelper::ps2nfa(int init_state_id, int *ptl, int *PS)
+AutomatonHelper *AutomatonHelper::ps2nfa(uint64_t init_state_id, int *ptl, uint64_t *PS)
 {
-    int maxpos = PS[0];
+    uint64_t maxpos = PS[0];
     astate current_state;
     char used_letter[MAX_TRANSITION_LETTERS];
 
 
     /* 1: init_state = root->PP */
-    set<int> temp_id0 = s_state_id_create(init_state_id);
+    set<uint64_t> temp_id0 = s_state_id_create(init_state_id);
     astate temp_state = s_state_create(temp_id0);
     AutomatonHelper *nfa = new AutomatonHelper(temp_state);
     nfa->addState(temp_state);
@@ -336,14 +336,14 @@ AutomatonHelper *AutomatonHelper::ps2nfa(int init_state_id, int *ptl, int *PS)
         DMSG(printf("** current state = %s\n", s_state_id_to_str(current_state->id).c_str()));
         memset(used_letter, 0, sizeof(used_letter));
         /* 3: \foreach l in \sigma | l \neq # */
-        for (int p = 1; p < maxpos; p++)
+        for (uint32_t p = 1; p < maxpos; p++)
         {
             int current_letter = ptl[p];
             if (used_letter[current_letter] == 0)
             {
                 /* 4: int set = \cup { PS(pos) | pos \in state \wedge pos == l } */
-                int ens = 0;
-                for (int pos = 1; pos <= maxpos; pos++)
+                uint64_t ens = 0;
+                for (uint32_t pos = 1; pos <= maxpos; pos++)
                 {
                     if (ptl[pos] == current_letter &&
                         (unsigned int)*(current_state->id.begin()) & (1 << (pos - 1)))
@@ -352,7 +352,7 @@ AutomatonHelper *AutomatonHelper::ps2nfa(int init_state_id, int *ptl, int *PS)
                 /* 5: transition from current_state to temp_state */
                 if (ens)
                 {
-                    set<int> temp_id = s_state_id_create(ens);
+                    set<uint64_t> temp_id = s_state_id_create(ens);
                     temp_state = nfa->getState(temp_id);
                     if (temp_state == NULL)
                     {
@@ -376,7 +376,7 @@ AutomatonHelper *AutomatonHelper::ps2nfa(int init_state_id, int *ptl, int *PS)
     {
         astate s = *it;
         if (*(s->id.begin()) & (1 << (maxpos - 1)))
-            s->accept = 1;
+            s->accept = true;
     }
 
     return nfa;
@@ -386,20 +386,20 @@ AutomatonHelper *AutomatonHelper::ps2nfa(int init_state_id, int *ptl, int *PS)
  * ************************************************** *
  * ************************************************** */
 
-set<int> AutomatonHelper::getSuccessor(const set<int> &S,
-                                       int letter,
-                                       struct search_RegE_list_t *iList) const
+set<uint64_t> AutomatonHelper::getSuccessor(const set<uint64_t> &S,
+                                            int letter,
+                                            struct search_RegE_list_t *iList) const
 {
-    set<int> R, r;
-    set<int>::const_iterator it;
+    set<uint64_t> R, r;
+    set<uint64_t>::const_iterator it;
     for (it = S.begin(); it != S.end(); it++)                /* \forall y \in S */
     {
         astate y, z;
 
-        set<int> t = s_state_id_create(*it);
+        set<uint64_t> t = s_state_id_create(*it);
         assert(y = getState(t));
 
-        set<int> Ry;                                        /* Ry = \empty             */
+        set<uint64_t> Ry;                                        /* Ry = \empty             */
 
         if ((z = y->next[letter]) != NULL)                   /* \delta (y,z) = l        */
         {
@@ -460,7 +460,7 @@ void AutomatonHelper::setAccept(astate s) const
         if (ns->accept && (find(s->id.begin(), s->id.end(), idx) != s->id.end()))
         {
             DMSG(printf("(ok) "));
-            s->accept = 1;
+            s->accept = true;
         }
     }
     DMSG(printf("\n"));
@@ -475,7 +475,7 @@ AutomatonHelper *AutomatonHelper::nfa2dfa(const AutomatonHelper &iNfa,
     list<astate> L;
 
     // Clone the list
-    set<int> temp_id0 = iNfa.m_initState->id;
+    set<uint64_t> temp_id0 = iNfa.m_initState->id;
     astate temp_state = s_state_create(temp_id0);
     AutomatonHelper *dfa = new AutomatonHelper(temp_state);
     dfa->addState(temp_state);
@@ -489,7 +489,7 @@ AutomatonHelper *AutomatonHelper::nfa2dfa(const AutomatonHelper &iNfa,
         {
             // DMSG(printf("*** start successor of %s\n", s_state_id_to_str(current_state->id).c_str()));
 
-            set<int> temp_id = iNfa.getSuccessor(current_state->id, letter, iList);
+            set<uint64_t> temp_id = iNfa.getSuccessor(current_state->id, letter, iList);
 
             if (! temp_id.empty())
             {

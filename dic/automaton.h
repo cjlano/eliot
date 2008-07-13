@@ -38,7 +38,7 @@ public:
      * Build a static deterministic finite automaton from
      * "init_state", "ptl" and "PS" given by the parser
      */
-    Automaton(int init_state, int *ptl, int *PS, struct search_RegE_list_t *iList);
+    Automaton(uint64_t init_state, int *ptl, uint64_t *PS, struct search_RegE_list_t *iList);
 
     /// Destructor
     ~Automaton();
@@ -59,13 +59,13 @@ public:
      * Query the acceptor flag for the given state
      * @return true/false
      */
-    bool accept(int state) const { return m_acceptors[state]; }
+    bool accept(uint64_t state) const { return m_acceptors[state]; }
 
     /**
      * Return the next state when the transition is taken
      * @returns next state id (1 <= id <= nstate, 0 = invalid id)
      */
-    int getNextState(int start, char l) const
+    uint64_t getNextState(uint64_t start, char l) const
     {
         return m_transitions[start][(int)l];
     }

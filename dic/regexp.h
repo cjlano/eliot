@@ -70,7 +70,7 @@ public:
      * @param PS : next position table, PS[0] must contain the
      * number of terminals contained in the regular expression
      */
-    void nextPos(int PS[]);
+    void nextPos(uint64_t PS[]);
 
     /// Return the first position
     int getFirstPos() const { return m_PP; }
@@ -91,8 +91,8 @@ private:
     int m_number;
     int m_position;
     bool m_annulable;
-    int m_PP;
-    int m_DP;
+    uint64_t m_PP;
+    uint64_t m_DP;
 
 #ifdef DEBUG_RE
     /// Print the current node to file

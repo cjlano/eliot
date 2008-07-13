@@ -105,7 +105,7 @@ void Node::traverse(int &p, int &n, int ptl[])
 }
 
 
-void Node::nextPos(int PS[])
+void Node::nextPos(uint64_t PS[])
 {
     if (m_fg)
         m_fg->nextPos(PS);
@@ -119,7 +119,7 @@ void Node::nextPos(int PS[])
             /* \forall p \in DP(left)           */
             /*     PS[p] = PS[p] \cup PP(right) */
             /************************************/
-            for (int pos = 1; pos <= PS[0]; pos++)
+            for (uint32_t pos = 1; pos <= PS[0]; pos++)
             {
                 if (m_fg->m_DP & (1 << (pos-1)))
                     PS[pos] |= m_fd->m_PP;
@@ -131,7 +131,7 @@ void Node::nextPos(int PS[])
             /* \forall p \in DP(left)           */
             /*     PS[p] = PS[p] \cup PP(left)  */
             /************************************/
-            for (int pos = 1; pos <= PS[0]; pos++)
+            for (uint32_t pos = 1; pos <= PS[0]; pos++)
             {
                 if (m_DP & (1 << (pos-1)))
                     PS[pos] |= m_PP;
@@ -142,7 +142,7 @@ void Node::nextPos(int PS[])
             /* \forall p \in DP(left)           */
             /*     PS[p] = PS[p] \cup PP(left)  */
             /************************************/
-            for (int pos = 1; pos <= PS[0]; pos++)
+            for (uint32_t pos = 1; pos <= PS[0]; pos++)
             {
                 if (m_DP & (1 << (pos-1)))
                     PS[pos] |= m_PP;

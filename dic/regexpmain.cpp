@@ -29,8 +29,6 @@
 
 #include <exception>
 #include <iostream>
-#include <cstdlib>
-#include <cstring>
 
 #if ENABLE_NLS
 #   include <libintl.h>
@@ -104,25 +102,20 @@ int main(int argc, char* argv[])
     {
         Dictionary dic(argv[1]);
 
-        char er[200];
-        strcpy(er, ".");
-
         struct search_RegE_list_t regList;
-        while (strcmp(er, ""))
+        string line;
+        cout << "**************************************************************" << endl;
+        cout << "**************************************************************" << endl;
+        cout << _("enter a regular expression:") << endl;
+        while (getline(cin, line))
         {
-            cout << "**************************************************************" << endl;
-            cout << "**************************************************************" << endl;
-            cout << _("enter a regular expression:") << endl;
-            fgets(er, sizeof(er), stdin);
-            /* strip \n */
-            er[strlen(er) - 1] = '\0';
-            if (strcmp(er, "") == 0)
+            if (line == "")
                 break;
 
-            /* automaton */
+            /* Automaton */
             init_letter_lists(dic, &regList);
             vector<wstring> wordList;
-            dic.searchRegExp(convertToWc(er), wordList, &regList);
+            dic.searchRegExp(convertToWc(line), wordList, &regList);
 
             cout << _("result:") << endl;
             vector<wstring>::const_iterator it;
@@ -130,6 +123,9 @@ int main(int argc, char* argv[])
             {
                 cerr << convertToMb(*it) << endl;
             }
+            cout << "**************************************************************" << endl;
+            cout << "**************************************************************" << endl;
+            cout << _("enter a regular expression:") << endl;
         }
 
         return 0;
