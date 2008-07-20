@@ -29,6 +29,7 @@
 
 #include <exception>
 #include <iostream>
+#include <cstring> // For memset
 
 #if ENABLE_NLS
 #   include <libintl.h>

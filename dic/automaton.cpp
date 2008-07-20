@@ -29,6 +29,7 @@
 
 #include <set>
 #include <list>
+#include <algorithm>
 #include <cassert>
 #include <cstring>
 #include <cstdlib>
@@ -457,7 +458,7 @@ void AutomatonHelper::setAccept(astate s) const
         astate ns = *it;
         int idx = *(ns->id.begin());
         DMSG(printf("%s ", s_state_id_to_str(ns->id).c_str()));
-        if (ns->accept && (find(s->id.begin(), s->id.end(), idx) != s->id.end()))
+        if (ns->accept && (std::find(s->id.begin(), s->id.end(), idx) != s->id.end()))
         {
             DMSG(printf("(ok) "));
             s->accept = true;

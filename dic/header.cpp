@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <cstring> // for strcpy
 #include <string>
 #include <sstream>
 #include <iostream>

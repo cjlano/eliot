@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2002-2007 Antoine Fraboulet & Olivier Teulière
+ * Copyright (C) 2002-2008 Antoine Fraboulet & Olivier Teulière
  * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *          Olivier Teulière <ipkiss @@ gmail.com>
  *
@@ -19,12 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   game_io.cpp
- *  \brief  Eliot game class file load/save handling
- *  \author Antoine Fraboulet & Olivier Teuliere
- *  \date   2002 - 2005
- */
+#include <cstring>
+#include <cstdlib> // For atoi
 
 #include "dic.h"
 #include "pldrack.h"

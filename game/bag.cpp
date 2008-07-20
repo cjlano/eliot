@@ -20,6 +20,7 @@
  *****************************************************************************/
 
 #include <string>
+#include <cstdlib> // For rand()
 
 #include <dic.h>
 #include "bag.h"

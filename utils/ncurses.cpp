@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (C) 2005 Eliot
+ * Copyright (C) 2005-2008 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@
 #endif
 
 #include <ctype.h>
+#include <cstring> // For strlen
 #include <fstream>
 #include <algorithm>
 
@@ -268,7 +269,7 @@ void CursesIntf::drawBoard(WINDOW *win, int y, int x) const
 void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
 {
     // Compute the longest player name
-    unsigned int longest = 0;
+    size_t longest = 0;
     for (unsigned int i = 0; i < m_game->getNPlayers(); i++)
     {
         longest = std::max(longest, m_game->getPlayer(i).getName().size());
