@@ -104,7 +104,7 @@ struct RegexpGrammar : grammar<RegexpGrammar>
                 ;
 
             alphavar
-                = chset<>(self.m_allLetters.c_str())
+                = chset<wchar_t>(self.m_allLetters.c_str())
                 ;
         }
 
@@ -137,30 +137,6 @@ void evaluate(const Header &iHeader, iter_t const& i, stack<Node*> &evalStack,
     }
     else if (i->value.id() == RegexpGrammar::choiceId)
     {
-#if 0
-        assert(i->children.size() == 0);
-
-        string choiceLetters(i->value.begin(), i->value.end());
-        int j;
-        for (j = RE_LIST_USER_END + 1; j < DIC_SEARCH_REGE_LIST; j++)
-        {
-            if (!iList->valid[j])
-            {
-                iList->valid[j] = true;
-                iList->symbl[j] = RE_ALL_MATCH + j;
-                iList->letters[j][0] = false;
-                for (int k = 1; k < DIC_LETTERS; k++)
-                {
-                    bool contains = (choiceLetters.find(k + L'a' - 1) != string::npos);
-                    iList->letters[j][k] = (contains ? !negate : negate);
-                }
-                break;
-            }
-        }
-        Node *node = new Node(NODE_VAR, iList->symbl[j], NULL, NULL);
-        evalStack.push(node);
-#endif
-#if 1
         assert(i->children.size() == 0);
 
         wstring choiceLetters(i->value.begin(), i->value.end());
@@ -176,7 +152,7 @@ void evaluate(const Header &iHeader, iter_t const& i, stack<Node*> &evalStack,
             if (!iList->valid[j])
             {
                 iList->valid[j] = true;
-                iList->symbl[j] = RE_ALL_MATCH + j;
+                iList->symbl.push_back(RE_ALL_MATCH + j);
                 iList->letters[j][0] = false;
                 for (itLetter = letters.begin(); itLetter != letters.end(); ++itLetter)
                 {
@@ -189,7 +165,6 @@ void evaluate(const Header &iHeader, iter_t const& i, stack<Node*> &evalStack,
         }
         Node *node = new Node(NODE_VAR, iList->symbl[j], NULL, NULL);
         evalStack.push(node);
-#endif
     }
     else if (i->value.id() == RegexpGrammar::varId)
     {

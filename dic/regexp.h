@@ -139,18 +139,14 @@ private:
 #define DIC_SEARCH_REGE_LIST (REGEXP_MAX)
 
 /**
- * Structure used for Dic_search_RegE \n
- * this structure is used to explicit letters list that will be matched
+ * Structure used for dic.searchRegExp
+ * This structure is used to explicit letters list that will be matched
  * against special tokens in the regular expression search
  */
 struct search_RegE_list_t
 {
-    /** maximum length for results */
-    int minlength;
-    /** maximum length for results */
-    int maxlength;
     /** special symbol associated with the list */
-    char symbl[DIC_SEARCH_REGE_LIST];
+    vector<char> symbl;
     /** 0 or 1 if list is valid */
     bool valid[DIC_SEARCH_REGE_LIST];
     /** 0 or 1 if letter is present in the list */
@@ -163,21 +159,12 @@ struct search_RegE_list_t
 #define RE_LIST_USER_BEGIN 3
 #define RE_LIST_USER_END   4
 
-#define MAX_REGEXP_ERROR_LENGTH 500
-
-struct regexp_error_report_t
-{
-    int pos1;
-    int pos2;
-    char msg[MAX_REGEXP_ERROR_LENGTH];
-};
-
 #include <cstdio>
 
-void  regexp_print_letter(FILE* f, char l);
-void  regexp_print_letter2(FILE* f, char l);
-void  regexp_print_PS(int PS[]);
-void  regexp_print_ptl(int ptl[]);
+void regexp_print_letter(FILE* f, char l);
+void regexp_print_letter2(FILE* f, char l);
+void regexp_print_PS(int PS[]);
+void regexp_print_ptl(int ptl[]);
 
 #endif /* _REGEXP_H_ */
 

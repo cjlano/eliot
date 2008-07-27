@@ -1,7 +1,8 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2005-2007 Antoine Fraboulet
+ * Copyright (C) 2005-2008 Antoine Fraboulet & Olivier Teulière
  * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière  <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,37 +41,7 @@
 
 #include "dic.h"
 #include "header.h"
-#include "regexp.h"
 #include "encoding.h"
-
-
-void init_letter_lists(const Dictionary &iDic, struct search_RegE_list_t *iList)
-{
-    memset(iList, 0, sizeof(*iList));
-    iList->minlength = 1;
-    iList->maxlength = 15;
-    iList->valid[0] = true; // all letters
-    iList->symbl[0] = RE_ALL_MATCH;
-    iList->valid[1] = true; // vowels
-    iList->symbl[1] = RE_VOWL_MATCH;
-    iList->valid[2] = true; // consonants
-    iList->symbl[2] = RE_CONS_MATCH;
-    iList->letters[0][0] = false;
-    iList->letters[1][0] = false;
-    iList->letters[2][0] = false;
-    const wstring &allLetters = iDic.getHeader().getLetters();
-    for (size_t i = 1; i <= allLetters.size(); ++i)
-    {
-        iList->letters[0][i] = true;
-        iList->letters[1][i] = iDic.getHeader().isVowel(i);
-        iList->letters[2][i] = iDic.getHeader().isConsonant(i);
-    }
-
-    iList->valid[3] = false; // user defined list 1
-    iList->symbl[3] = RE_USR1_MATCH;
-    iList->valid[4] = false; // user defined list 2
-    iList->symbl[4] = RE_USR2_MATCH;
-}
 
 
 void usage(const char *iBinaryName)
@@ -103,20 +74,18 @@ int main(int argc, char* argv[])
     {
         Dictionary dic(argv[1]);
 
-        struct search_RegE_list_t regList;
         string line;
         cout << "**************************************************************" << endl;
         cout << "**************************************************************" << endl;
-        cout << _("enter a regular expression:") << endl;
+        cout << _("Enter a regular expression:") << endl;
         while (getline(cin, line))
         {
             if (line == "")
                 break;
 
             /* Automaton */
-            init_letter_lists(dic, &regList);
             vector<wstring> wordList;
-            dic.searchRegExp(convertToWc(line), wordList, &regList);
+            dic.searchRegExp(convertToWc(line), wordList, 1, 15);
 
             cout << _("result:") << endl;
             vector<wstring>::const_iterator it;
@@ -126,7 +95,7 @@ int main(int argc, char* argv[])
             }
             cout << "**************************************************************" << endl;
             cout << "**************************************************************" << endl;
-            cout << _("enter a regular expression:") << endl;
+            cout << _("Enter a regular expression:") << endl;
         }
 
         return 0;

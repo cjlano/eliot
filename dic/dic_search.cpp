@@ -453,7 +453,6 @@ struct params_regexp_t
     int minlength;
     int maxlength;
     Automaton *automaton_field;
-    struct search_RegE_list_t *charlist;
     wchar_t word[DIC_WORD_MAX];
     int  wordlen;
 };
@@ -500,9 +499,40 @@ void Dictionary::searchRegexpRecTempl(struct params_regexp_t *params,
 }
 
 
+static void init_letter_lists(const Dictionary &iDic, struct search_RegE_list_t &iList)
+{
+    memset(&iList, 0, sizeof(iList));
+    // Prepare the space for 5 items
+    iList.symbl.assign(5, 0);
+
+    iList.valid[0] = true; // all letters
+    iList.symbl[0] = RE_ALL_MATCH;
+    iList.valid[1] = true; // vowels
+    iList.symbl[1] = RE_VOWL_MATCH;
+    iList.valid[2] = true; // consonants
+    iList.symbl[2] = RE_CONS_MATCH;
+    iList.letters[0][0] = false;
+    iList.letters[1][0] = false;
+    iList.letters[2][0] = false;
+    const wstring &allLetters = iDic.getHeader().getLetters();
+    for (size_t i = 1; i <= allLetters.size(); ++i)
+    {
+        iList.letters[0][i] = true;
+        iList.letters[1][i] = iDic.getHeader().isVowel(i);
+        iList.letters[2][i] = iDic.getHeader().isConsonant(i);
+    }
+
+    iList.valid[3] = false; // user defined list 1
+    iList.symbl[3] = RE_USR1_MATCH;
+    iList.valid[4] = false; // user defined list 2
+    iList.symbl[4] = RE_USR2_MATCH;
+}
+
+
 void Dictionary::searchRegExp(const wstring &iRegexp,
                               vector<wstring> &oWordList,
-                              struct search_RegE_list_t *iList,
+                              unsigned int iMinLength,
+                              unsigned int iMaxLength,
                               unsigned int iMaxResults) const
 {
     if (iRegexp == L"")
@@ -514,27 +544,21 @@ void Dictionary::searchRegExp(const wstring &iRegexp,
     else
         oWordList.reserve(DEFAULT_VECT_ALLOC);
 
-    struct regexp_error_report_t report;
-    report.pos1 = 0;
-    report.pos2 = 0;
-    report.msg[0] = '\0';
-
-    /* parsing */
+    // Parsing
     Node *root = NULL;
-    bool parsingOk = parseRegexp(*this, (iRegexp + L"#").c_str(), &root, iList);
+    struct search_RegE_list_t llist;
+    init_letter_lists(*this, llist);
+    bool parsingOk = parseRegexp(*this, (iRegexp + L"#").c_str(), &root, &llist);
 
     if (!parsingOk)
     {
-#if 0
-        fprintf(stderr, "parser error at pos %d - %d: %s\n",
-                report.pos1, report.pos2, report.msg);
-#endif
+        // TODO
         delete root;
         return;
     }
 
     int ptl[REGEXP_MAX+1];
-    uint64_t PS [REGEXP_MAX+1];
+    uint64_t PS[REGEXP_MAX+1];
 
     for (int i = 0; i < REGEXP_MAX; i++)
     {
@@ -550,14 +574,13 @@ void Dictionary::searchRegExp(const wstring &iRegexp,
 
     root->nextPos(PS);
 
-    Automaton *a = new Automaton(root->getFirstPos(), ptl, PS, iList);
+    Automaton *a = new Automaton(root->getFirstPos(), ptl, PS, &llist);
     if (a)
     {
         struct params_regexp_t params;
-        params.minlength = iList->minlength;
-        params.maxlength = iList->maxlength;
+        params.minlength = iMinLength;
+        params.maxlength = iMaxLength;
         params.automaton_field = a;
-        params.charlist = iList;
         memset(params.word, L'\0', sizeof(params.word));
         params.wordlen = 0;
         if (getHeader().getVersion() == 0)

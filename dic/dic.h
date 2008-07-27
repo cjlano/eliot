@@ -103,7 +103,7 @@ public:
      * codes may range from 0 to 63. 0 is the null character.
      * @returns code for the encoded character
      */
-    const dic_code_t getCode(const dic_elt_t &elt) const;
+    dic_code_t getCode(const dic_elt_t &elt) const;
 
     /**
      * Returns the wide character associated with an element.
@@ -129,13 +129,13 @@ public:
      * Returns the root of the dictionary
      * @returns root element
      */
-    const dic_elt_t getRoot() const;
+    dic_elt_t getRoot() const;
 
     /**
      * Returns the next available neighbor (see isLast())
      * @returns next dictionary element at the same depth
      */
-    const dic_elt_t getNext(const dic_elt_t &elt) const;
+    dic_elt_t getNext(const dic_elt_t &elt) const;
 
     /**
      * Returns the first element available at the next depth
@@ -143,7 +143,7 @@ public:
      * @params elt : current dictionary element
      * @returns next element (successor)
      */
-    const dic_elt_t getSucc(const dic_elt_t &elt) const;
+    dic_elt_t getSucc(const dic_elt_t &elt) const;
 
     /**
      * Find the dictionary element matching the pattern starting
@@ -226,7 +226,8 @@ public:
      */
     void searchRegExp(const wstring &iRegexp,
                       vector<wstring> &oWordList,
-                      struct search_RegE_list_t *iList,
+                      unsigned int iMinLength,
+                      unsigned int iMaxLength,
                       unsigned int iMaxResults = 0) const;
 
 

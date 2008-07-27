@@ -161,7 +161,7 @@ bool Dictionary::validateLetters(const wstring &iLetters,
 }
 
 
-const dic_elt_t Dictionary::getNext(const dic_elt_t &e) const
+dic_elt_t Dictionary::getNext(const dic_elt_t &e) const
 {
      if (!isLast(e))
          return e + 1;
@@ -169,7 +169,7 @@ const dic_elt_t Dictionary::getNext(const dic_elt_t &e) const
 }
 
 
-const dic_elt_t Dictionary::getSucc(const dic_elt_t &e) const
+dic_elt_t Dictionary::getSucc(const dic_elt_t &e) const
 {
     if (m_header->getVersion() == 0)
         return reinterpret_cast<const DicEdgeOld*>(m_dawg + e)->ptr;
@@ -178,13 +178,13 @@ const dic_elt_t Dictionary::getSucc(const dic_elt_t &e) const
 }
 
 
-const dic_elt_t Dictionary::getRoot() const
+dic_elt_t Dictionary::getRoot() const
 {
     return m_header->getRoot();
 }
 
 
-const dic_code_t Dictionary::getCode(const dic_elt_t &e) const
+dic_code_t Dictionary::getCode(const dic_elt_t &e) const
 {
     if (m_header->getVersion() == 0)
         return reinterpret_cast<const DicEdgeOld*>(m_dawg + e)->chr;

@@ -35,7 +35,6 @@
 #endif
 
 #include "dic.h"
-#include "regexp.h"
 #include "game_io.h"
 #include "game_factory.h"
 #include "training.h"
@@ -786,53 +785,6 @@ void loop_duplicate(Duplicate &iGame)
 }
 
 
-void eliot_regexp_build_default_llist(const Dictionary &iDic,
-                                      struct search_RegE_list_t &llist)
-{
-    memset(&llist, 0, sizeof(llist));
-
-    llist.minlength = 1;
-    llist.maxlength = 15;
-
-    llist.symbl[0] = RE_ALL_MATCH;
-    llist.symbl[1] = RE_VOWL_MATCH;
-    llist.symbl[2] = RE_CONS_MATCH;
-    llist.symbl[3] = RE_USR1_MATCH;
-    llist.symbl[5] = RE_USR2_MATCH;
-
-    llist.valid[0] = true; // all letters
-    llist.valid[1] = true; // vowels
-    llist.valid[2] = true; // consonants
-    llist.valid[3] = false; // user defined list 1
-    llist.valid[4] = false; // user defined list 2
-
-    for (int i = 0; i < DIC_SEARCH_REGE_LIST; i++)
-    {
-        memset(llist.letters[i], 0, sizeof(llist.letters[i]));
-    }
-
-    const vector<Tile>& allTiles = iDic.getAllTiles();
-    vector<Tile>::const_iterator it;
-    for (it = allTiles.begin(); it != allTiles.end(); it++)
-    {
-        if (! it->isJoker() && ! it->isEmpty())
-        {
-            // all tiles
-            llist.letters[0][it->toCode()] = 1;
-            // vowels
-            if (it->isVowel())
-            {
-                llist.letters[1][it->toCode()] = 1;
-            }
-            // consonants
-            if (it->isConsonant())
-            {
-                llist.letters[2][it->toCode()] = 1;
-            }
-        }
-    }
-}
-
 void eliot_regexp(const Dictionary& iDic, wchar_t __attribute__((unused)) *cmd,
                   const wchar_t *delim, wchar_t **state)
 {
@@ -844,11 +796,6 @@ void eliot_regexp(const Dictionary& iDic, wchar_t __attribute__((unused)) *cmd,
     printf("          {3} longueur maximum d'un mot\n");
     */
 
-#define DIC_RE_MAX (3*DIC_WORD_MAX) // yes, it's 3
-
-    struct search_RegE_list_t llist;
-    eliot_regexp_build_default_llist(iDic, llist);
-
     wchar_t *regexp = _wcstok(NULL, delim, state);
     wchar_t *cnres = _wcstok(NULL, delim, state);
     wchar_t *clmin = _wcstok(NULL, delim, state);
@@ -858,16 +805,11 @@ void eliot_regexp(const Dictionary& iDic, wchar_t __attribute__((unused)) *cmd,
     {
         return;
     }
-    int nres = cnres ? _wtoi(cnres) : 50;
-    int lmin = clmin ? _wtoi(clmin) : 1;
-    int lmax = clmax ? _wtoi(clmax) : DIC_WORD_MAX - 1;
+    unsigned int nres = cnres ? _wtoi(cnres) : 50;
+    unsigned int lmin = clmin ? _wtoi(clmin) : 1;
+    unsigned int lmax = clmax ? _wtoi(clmax) : DIC_WORD_MAX - 1;
 
-    if (lmax <= (DIC_WORD_MAX - 1) && lmin >= 1 && lmin <= lmax)
-    {
-        llist.minlength = lmin;
-        llist.maxlength = lmax;
-    }
-    else
+    if (lmax > (DIC_WORD_MAX - 1) || lmin < 1 || lmin > lmax)
     {
         printf("bad length -%s,%s-\n", (const char*)clmin, (const char*)clmax);
         return;
@@ -877,16 +819,14 @@ void eliot_regexp(const Dictionary& iDic, wchar_t __attribute__((unused)) *cmd,
            nres, lmin, lmax);
 
     vector<wstring> wordList;
-    iDic.searchRegExp(regexp, wordList, &llist);
+    iDic.searchRegExp(regexp, wordList, lmin, lmax, nres);
 
-    int nresult = 0;
     vector<wstring>::const_iterator it;
-    for (it = wordList.begin(); it != wordList.end() && nresult < nres; it++)
+    for (it = wordList.begin(); it != wordList.end(); it++)
     {
         printf("%s\n", convertToMb(*it).c_str());
-        nresult++;
     }
-    printf("%d printed results\n", nresult);
+    printf("%d printed results\n", wordList.size());
 }
 
 
