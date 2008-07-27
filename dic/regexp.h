@@ -128,29 +128,19 @@ private:
 #define RE_USR2_MATCH  (DIC_LETTERS + 6)
 
 /**
- * number of lists for regexp letter match \n
- * 0 : all tiles                           \n
- * 1 : vowels                              \n
- * 2 : consonants                          \n
- * 3 : user defined 1                      \n
- * 4 : user defined 2                      \n
- * x : lists used during parsing           \n
- */
-#define DIC_SEARCH_REGE_LIST (REGEXP_MAX)
-
-/**
  * Structure used for dic.searchRegExp
  * This structure is used to explicit letters list that will be matched
  * against special tokens in the regular expression search
  */
-struct search_RegE_list_t
+struct searchRegExpLists
 {
     /** special symbol associated with the list */
     vector<char> symbl;
-    /** 0 or 1 if list is valid */
-    bool valid[DIC_SEARCH_REGE_LIST];
-    /** 0 or 1 if letter is present in the list */
-    bool letters[DIC_SEARCH_REGE_LIST][DIC_LETTERS];
+    /**
+     * 0 or 1 if letter is present in the list.
+     * The inner vector should have a length of DIC_LETTERS (it is a bitmask)
+     */
+    vector<vector<bool> > letters;
 };
 
 #define RE_LIST_ALL_MATCH  0

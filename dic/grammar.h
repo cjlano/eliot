@@ -23,9 +23,12 @@
 
 class Dictionary;
 class Node;
-struct search_RegE_list_t;
+class searchRegExpLists;
 
-bool parseRegexp(const Dictionary &iDic, const wchar_t *input, Node **root, struct search_RegE_list_t *iList);
+bool parseRegexp(const Dictionary &iDic,
+                 const wchar_t *input,
+                 Node **root,
+                 searchRegExpLists &iList);
 
 #endif
 

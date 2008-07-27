@@ -18,17 +18,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   automaton.h
- *  \brief  (Non)Deterministic Finite Automaton for Regexp
- *  \author Antoine Fraboulet
- *  \date   2005
- */
-
 #ifndef _DIC_AUTOMATON_H_
 #define _DIC_AUTOMATON_H_
 
 class AutomatonHelper;
+struct searchRegExpLists;
 
 class Automaton
 {
@@ -38,7 +32,8 @@ public:
      * Build a static deterministic finite automaton from
      * "init_state", "ptl" and "PS" given by the parser
      */
-    Automaton(uint64_t init_state, int *ptl, uint64_t *PS, struct search_RegE_list_t *iList);
+    Automaton(uint64_t init_state, int *ptl, uint64_t *PS,
+              const searchRegExpLists &iList);
 
     /// Destructor
     ~Automaton();
@@ -77,10 +72,10 @@ public:
 
 private:
     /// Number of states
-    int m_nbStates;
+    unsigned int m_nbStates;
 
     /// ID of the init state
-    int m_init;
+    uint64_t m_init;
 
     /// Array of booleans, one for each state
     bool *m_acceptors;

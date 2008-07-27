@@ -499,18 +499,27 @@ void Dictionary::searchRegexpRecTempl(struct params_regexp_t *params,
 }
 
 
-static void init_letter_lists(const Dictionary &iDic, struct search_RegE_list_t &iList)
+/**
+ * Initialize the lists of letters with pre-defined lists
+ 
+ * 0: all tiles
+ * 1: vowels
+ * 2: consonants
+ * 3: user defined 1
+ * 4: user defined 2
+ * x: lists used during parsing
+ */
+static void initLetterLists(const Dictionary &iDic,
+                            searchRegExpLists &iList)
 {
     memset(&iList, 0, sizeof(iList));
     // Prepare the space for 5 items
     iList.symbl.assign(5, 0);
+    iList.letters.assign(5, vector<bool>(DIC_LETTERS, false));
 
-    iList.valid[0] = true; // all letters
-    iList.symbl[0] = RE_ALL_MATCH;
-    iList.valid[1] = true; // vowels
-    iList.symbl[1] = RE_VOWL_MATCH;
-    iList.valid[2] = true; // consonants
-    iList.symbl[2] = RE_CONS_MATCH;
+    iList.symbl[0] = RE_ALL_MATCH; // All letters
+    iList.symbl[1] = RE_VOWL_MATCH; // Vowels
+    iList.symbl[2] = RE_CONS_MATCH; // Consonants
     iList.letters[0][0] = false;
     iList.letters[1][0] = false;
     iList.letters[2][0] = false;
@@ -522,10 +531,8 @@ static void init_letter_lists(const Dictionary &iDic, struct search_RegE_list_t 
         iList.letters[2][i] = iDic.getHeader().isConsonant(i);
     }
 
-    iList.valid[3] = false; // user defined list 1
-    iList.symbl[3] = RE_USR1_MATCH;
-    iList.valid[4] = false; // user defined list 2
-    iList.symbl[4] = RE_USR2_MATCH;
+    iList.symbl[3] = RE_USR1_MATCH; // User defined list 1
+    iList.symbl[4] = RE_USR2_MATCH; // User defined list 2
 }
 
 
@@ -546,9 +553,10 @@ void Dictionary::searchRegExp(const wstring &iRegexp,
 
     // Parsing
     Node *root = NULL;
-    struct search_RegE_list_t llist;
-    init_letter_lists(*this, llist);
-    bool parsingOk = parseRegexp(*this, (iRegexp + L"#").c_str(), &root, &llist);
+    searchRegExpLists llist;
+    // Initialize the lists of letters
+    initLetterLists(*this, llist);
+    bool parsingOk = parseRegexp(*this, (iRegexp + L"#").c_str(), &root, llist);
 
     if (!parsingOk)
     {
@@ -574,7 +582,7 @@ void Dictionary::searchRegExp(const wstring &iRegexp,
 
     root->nextPos(PS);
 
-    Automaton *a = new Automaton(root->getFirstPos(), ptl, PS, &llist);
+    Automaton *a = new Automaton(root->getFirstPos(), ptl, PS, llist);
     if (a)
     {
         struct params_regexp_t params;

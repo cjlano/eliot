@@ -124,7 +124,7 @@ struct RegexpGrammar : grammar<RegexpGrammar>
 
 
 void evaluate(const Header &iHeader, iter_t const& i, stack<Node*> &evalStack,
-              struct search_RegE_list_t *iList, bool negate = false)
+              searchRegExpLists &iList, bool negate = false)
 {
     if (i->value.id() == RegexpGrammar::alphavarId)
     {
@@ -146,24 +146,17 @@ void evaluate(const Header &iHeader, iter_t const& i, stack<Node*> &evalStack,
         // The dictionary letters are already in upper case
         const wstring &letters = iHeader.getLetters();
         wstring::const_iterator itLetter;
-        int j;
-        for (j = RE_LIST_USER_END + 1; j < DIC_SEARCH_REGE_LIST; ++j)
+        // j is the index of the new list we create
+        size_t j = iList.symbl.size();
+        iList.symbl.push_back(RE_ALL_MATCH + j);
+        iList.letters.push_back(vector<bool>(DIC_LETTERS, false));
+        for (itLetter = letters.begin(); itLetter != letters.end(); ++itLetter)
         {
-            if (!iList->valid[j])
-            {
-                iList->valid[j] = true;
-                iList->symbl.push_back(RE_ALL_MATCH + j);
-                iList->letters[j][0] = false;
-                for (itLetter = letters.begin(); itLetter != letters.end(); ++itLetter)
-                {
-                    bool contains = (choiceLetters.find(*itLetter) != string::npos);
-                    iList->letters[j][iHeader.getCodeFromChar(*itLetter)] =
-                        (contains ? !negate : negate);
-                }
-                break;
-            }
+            bool contains = (choiceLetters.find(*itLetter) != string::npos);
+            iList.letters[j][iHeader.getCodeFromChar(*itLetter)] =
+                (contains ? !negate : negate);
         }
-        Node *node = new Node(NODE_VAR, iList->symbl[j], NULL, NULL);
+        Node *node = new Node(NODE_VAR, iList.symbl[j], NULL, NULL);
         evalStack.push(node);
     }
     else if (i->value.id() == RegexpGrammar::varId)
@@ -279,7 +272,8 @@ void evaluate(const Header &iHeader, iter_t const& i, stack<Node*> &evalStack,
 }
 
 
-bool parseRegexp(const Dictionary &iDic, const wchar_t *input, Node **root, struct search_RegE_list_t *iList)
+bool parseRegexp(const Dictionary &iDic, const wchar_t *input, Node **root,
+                 searchRegExpLists &iList)
 {
     // Create a grammar object
     RegexpGrammar g(iDic.getHeader().getLetters());

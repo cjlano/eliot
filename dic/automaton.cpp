@@ -18,13 +18,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   automaton.c
- *  \brief  (Non)Deterministic Finite AutomatonHelper for Regexp
- *  \author Antoine Fraboulet
- *  \date   2005
- */
-
 #include "config.h"
 
 #include <set>
@@ -79,6 +72,11 @@ public:
     State * m_next[MAX_TRANSITION_LETTERS];
 
 private:
+    /**
+     * Id of the state. For the first automaton, each ID contains only 1
+     * integer, but the ID of the deterministic automaton will contain
+     * several integers, according to the usual "determinization" algorithm.
+     */
     set<uint64_t> m_id;
 
     void init()
@@ -107,7 +105,7 @@ public:
 
     static AutomatonHelper *ps2nfa(uint64_t iInitState, int *ptl, uint64_t *PS);
     static AutomatonHelper *nfa2dfa(const AutomatonHelper &iNfa,
-                                    struct search_RegE_list_t *iList);
+                                    const searchRegExpLists &iList);
 
     /// List of states
     list<State *> m_states;
@@ -121,7 +119,8 @@ private:
     void printNodes(FILE* f) const;
     void printEdges(FILE* f) const;
     void setAccept(State * s) const;
-    set<uint64_t> getSuccessor(const set<uint64_t> &S, int letter, struct search_RegE_list_t *iList) const;
+    set<uint64_t> getSuccessor(const set<uint64_t> &S, int letter,
+                               const searchRegExpLists &iList) const;
 };
 
 
@@ -129,7 +128,8 @@ private:
    Definition of the Automaton class
  * ************************************************** */
 
-Automaton::Automaton(uint64_t iInitState, int *ptl, uint64_t *PS, struct search_RegE_list_t *iList)
+Automaton::Automaton(uint64_t iInitState, int *ptl, uint64_t *PS,
+                     const searchRegExpLists &iList)
 {
     AutomatonHelper *nfa = AutomatonHelper::ps2nfa(iInitState, ptl, PS);
     DMSG(printf("\n non deterministic automaton OK \n\n"));
@@ -151,7 +151,7 @@ Automaton::Automaton(uint64_t iInitState, int *ptl, uint64_t *PS, struct search_
 Automaton::~Automaton()
 {
     delete[] m_acceptors;
-    for (int i = 0; i <= m_nbStates; i++)
+    for (unsigned int i = 0; i <= m_nbStates; i++)
     {
         delete[] m_transitions[i];
     }
@@ -166,7 +166,7 @@ void Automaton::finalize(const AutomatonHelper &iHelper)
     m_acceptors = new bool[m_nbStates + 1];
     memset(m_acceptors, 0, (m_nbStates + 1) * sizeof(bool));
     m_transitions = new int*[m_nbStates + 1];
-    for (int i = 0; i <= m_nbStates; i++)
+    for (unsigned int i = 0; i <= m_nbStates; i++)
     {
         m_transitions[i] = new int[MAX_TRANSITION_LETTERS];
         memset(m_transitions[i], 0, MAX_TRANSITION_LETTERS * sizeof(int));
@@ -205,7 +205,7 @@ void Automaton::dump(const string &iFileName) const
 {
     FILE *f = fopen(iFileName.c_str(), "w");
     fprintf(f, "digraph automaton {\n");
-    for (int i = 1; i <= m_nbStates; i++)
+    for (unsigned int i = 1; i <= m_nbStates; i++)
     {
         fprintf(f, "\t%d [label = \"%d\"", i, i);
         if (i == m_init)
@@ -215,7 +215,7 @@ void Automaton::dump(const string &iFileName) const
         fprintf(f, "];\n");
     }
     fprintf(f, "\n");
-    for (int i = 1; i <= m_nbStates; i++)
+    for (unsigned int i = 1; i <= m_nbStates; i++)
     {
         for (int l = 0; l < MAX_TRANSITION_LETTERS; l++)
         {
@@ -363,7 +363,7 @@ AutomatonHelper *AutomatonHelper::ps2nfa(uint64_t init_state_id, int *ptl, uint6
 
 set<uint64_t> AutomatonHelper::getSuccessor(const set<uint64_t> &S,
                                             int letter,
-                                            struct search_RegE_list_t *iList) const
+                                            const searchRegExpLists &iList) const
 {
     set<uint64_t> R, r;
     set<uint64_t>::const_iterator it;
@@ -394,26 +394,23 @@ set<uint64_t> AutomatonHelper::getSuccessor(const set<uint64_t> &S,
 
         if (letter < RE_FINAL_TOK)
         {
-            for (int i = 0; i < DIC_SEARCH_REGE_LIST; i++)
+            for (unsigned int i = 0; i < iList.symbl.size(); i++)
             {
-                if (iList->valid[i])
+                if (iList.letters[i][letter] && (z = y->m_next[(int)iList.symbl[i]]) != NULL)
                 {
-                    if (iList->letters[i][letter] && (z = y->m_next[(int)iList->symbl[i]]) != NULL)
-                    {
-                        DMSG(printf("*** letter "));
-                        DMSG(regexp_print_letter(stdout, letter));
-                        DMSG(printf("is in "));
-                        DMSG(regexp_print_letter(stdout, i));
+                    DMSG(printf("*** letter "));
+                    DMSG(regexp_print_letter(stdout, letter));
+                    DMSG(printf("is in "));
+                    DMSG(regexp_print_letter(stdout, i));
 
-                        r = getSuccessor(z->getId(), RE_EPSILON, iList);
-                        Ry.insert(r.begin(), r.end());
-                        Ry.insert(z->getId().begin(), z->getId().end());
-                    }
+                    r = getSuccessor(z->getId(), RE_EPSILON, iList);
+                    Ry.insert(r.begin(), r.end());
+                    Ry.insert(z->getId().begin(), z->getId().end());
                 }
             }
         }
 
-        R.insert(Ry.begin(), Ry.end());                      /* R = R \cup Ry           */
+        R.insert(Ry.begin(), Ry.end());                   /* R = R \cup Ry  */
     }
 
     return R;
@@ -440,7 +437,7 @@ void AutomatonHelper::setAccept(State * s) const
 
 
 AutomatonHelper *AutomatonHelper::nfa2dfa(const AutomatonHelper &iNfa,
-                                          struct search_RegE_list_t *iList)
+                                          const searchRegExpLists &iList)
 {
     State * current_state;
 
