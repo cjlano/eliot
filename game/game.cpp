@@ -280,7 +280,7 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
         }
         pld.resetNew();
     }
-    else if (mode == RACK_NEW && nold == 0 || mode == RACK_ALL)
+    else if ((mode == RACK_NEW && nold == 0) || mode == RACK_ALL)
     {
         // Replace all the tiles in the bag before choosing random ones
         vector<Tile> tiles;
