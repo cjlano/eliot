@@ -138,7 +138,7 @@ struct searchRegExpLists
     vector<char> symbl;
     /**
      * 0 or 1 if letter is present in the list.
-     * The inner vector should have a length of DIC_LETTERS (it is a bitmask)
+     * The inner vector should have a length of DIC_LETTERS+1 (it is a bitmask)
      */
     vector<vector<bool> > letters;
 };

@@ -515,7 +515,7 @@ static void initLetterLists(const Dictionary &iDic,
     memset(&iList, 0, sizeof(iList));
     // Prepare the space for 5 items
     iList.symbl.assign(5, 0);
-    iList.letters.assign(5, vector<bool>(DIC_LETTERS, false));
+    iList.letters.assign(5, vector<bool>(DIC_LETTERS + 1, false));
 
     iList.symbl[0] = RE_ALL_MATCH; // All letters
     iList.symbl[1] = RE_VOWL_MATCH; // Vowels
