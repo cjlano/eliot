@@ -29,7 +29,6 @@
 
 #include "ewx.h"
 #include "dic.h"
-#include "regexp.h"
 #include "searchpanel.h"
 #include "tile.h"
 #include "configdb.h"
@@ -229,65 +228,16 @@ PPlus1::compute_enter(wxCommandEvent&)
 
 class PRegExp : public SimpleSearchPanel
 {
-protected:
+private:
   wxTextCtrl                *omin;
   wxTextCtrl                *omax;
-  struct search_RegE_list_t llist;
 
-  virtual void build_letter_lists();
-  virtual void panel_options();
+  void panel_options();
 public:
   void compute_char(wxCommandEvent&) {}
   void compute_enter(wxCommandEvent&);
   PRegExp(wxWindow* parent, int id, const Dictionary &d) : SimpleSearchPanel(parent,id,d) { panel_build(); }
 };
-
-void
-PRegExp::build_letter_lists()
-{
-  memset (&llist, 0, sizeof(llist));
-
-  llist.minlength = 1;
-  llist.maxlength = 15;
-
-  llist.symbl[0] = RE_ALL_MATCH;
-  llist.symbl[1] = RE_VOWL_MATCH;
-  llist.symbl[2] = RE_CONS_MATCH;
-  llist.symbl[3] = RE_USR1_MATCH;
-  llist.symbl[5] = RE_USR2_MATCH;
-
-  llist.valid[0] = 1; // all letters
-  llist.valid[1] = 1; // vowels
-  llist.valid[2] = 1; // consonants
-  llist.valid[3] = 0; // user defined list 1
-  llist.valid[4] = 0; // user defined list 2
-
-  for(int i = 0; i < DIC_SEARCH_REGE_LIST; i++)
-    {
-      memset(llist.letters[i],0,sizeof(llist.letters[i]));
-    }
-
-  const std::vector<Tile>& allTiles = dic->getAllTiles();
-  std::vector<Tile>::const_iterator it;
-  for (it = allTiles.begin(); it != allTiles.end(); it++)
-    {
-      if (! it->isJoker() && ! it->isEmpty())
-	{
-	  // all tiles
-	  llist.letters[0][it->toCode()] = 1;
-	  // vowels
-	  if (it->isVowel())
-	    {
-	      llist.letters[1][it->toCode()] = 1;
-	    }
-	  // consonants
-	  if (it->isConsonant())
-	    {
-	      llist.letters[2][it->toCode()] = 1;
-	    }
-	}
-    }
-}
 
 void
 PRegExp::panel_options()
@@ -317,8 +267,6 @@ PRegExp::compute_enter(wxCommandEvent&)
     if (!check_dic())
         return;
 
-    build_letter_lists();
-
     wstring regexp = t->GetValue().wc_str();
     debug("PRegExp::compute_enter for %ls", regexp.c_str());
 
@@ -326,8 +274,6 @@ PRegExp::compute_enter(wxCommandEvent&)
     int lmax = atoi((const char*)omax->GetValue().mb_str());
     if (lmax <= (DIC_WORD_MAX - 1) && lmin >= 1 && lmin <= lmax)
     {
-        llist.minlength = lmin;
-        llist.maxlength = lmax;
         debug(" length %d,%d",lmin,lmax);
     }
     else
@@ -335,11 +281,12 @@ PRegExp::compute_enter(wxCommandEvent&)
         debug(" bad length -%s,%s-",
               (const char*)omin->GetValue().mb_str(),
               (const char*)omax->GetValue().mb_str());
+        return;
     }
     debug("\n");
 
     vector<wstring> wordList;
-    dic->searchRegExp(regexp, wordList, &llist);
+    dic->searchRegExp(regexp, wordList, lmin, lmax);
 
     wxString *res = new wxString[wordList.size()];
     int resnum = 0;
