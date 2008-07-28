@@ -377,7 +377,7 @@ unsigned int writeInUTF8(const wstring &iWString, char *oBuffer,
     if (res == (size_t)(-1))
     {
         throw DicException("writeInUTF8: iconv failed (" +
-                           iContext + ")" + string(strerror(errno)));
+                           iContext + "): " + string(strerror(errno)));
     }
     // Return the number of written bytes
     return iBufSize - outChars;
