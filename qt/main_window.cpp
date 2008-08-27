@@ -26,6 +26,9 @@
 #include <QtGui/QFileDialog>
 #include <QtGui/QDockWidget>
 #include <QtGui/QCloseEvent>
+#include <QtGui/QPrintDialog>
+#include <QtGui/QPrinter>
+#include <QtGui/QPainter>
 #include <QtCore/QSettings>
 
 #include "main_window.h"
@@ -44,6 +47,7 @@
 #include "score_widget.h"
 #include "player_widget.h"
 #include "history_widget.h"
+#include "dic_tools_widget.h"
 #include "training_widget.h"
 #include "aux_window.h"
 #include "qtcommon.h"
@@ -55,7 +59,7 @@
 MainWindow::MainWindow(QWidget *iParent)
     : QMainWindow(iParent), m_dic(NULL), m_game(NULL), m_newGameDialog(NULL),
     m_prefsDialog(NULL), m_bagWindow(NULL), m_boardWindow(NULL),
-    m_historyWindow(NULL)
+    m_historyWindow(NULL), m_dicToolsWindow(NULL)
 {
     m_ui.setupUi(this);
     QObject::connect(this, SIGNAL(gameChanged(const Game*)),
@@ -68,12 +72,16 @@ MainWindow::MainWindow(QWidget *iParent)
     QObject::connect(this, SIGNAL(gameUpdated()),
                      boardWidget, SLOT(refresh()));
 
+    QHBoxLayout *hlayout = new QHBoxLayout;
+#if 0
     QDockWidget *dock = new QDockWidget;
     dock->setWidget(boardWidget);
     boardWidget->setWindowTitle(_q("Board"));
 
-    QHBoxLayout *hlayout = new QHBoxLayout;
     hlayout->addWidget(dock);
+#else
+    hlayout->addWidget(boardWidget);
+#endif
 
     m_ui.groupBoxTest->setLayout(hlayout);
 
@@ -138,6 +146,7 @@ MainWindow::~MainWindow()
     delete m_bagWindow;
     delete m_boardWindow;
     delete m_historyWindow;
+    delete m_dicToolsWindow;
     delete m_game;
     delete m_dic;
 }
@@ -165,11 +174,13 @@ void MainWindow::updateForGame(const Game *iGame)
     if (iGame == NULL)
     {
         m_ui.action_GameSaveAs->setEnabled(false);
+        m_ui.action_GamePrint->setEnabled(false);
         setWindowTitle(_q("No game") + " - Eliot");
     }
     else
     {
         m_ui.action_GameSaveAs->setEnabled(true);
+        m_ui.action_GamePrint->setEnabled(true);
         if (iGame->getMode() == Game::kTRAINING)
         {
             setWindowTitle(_q("Training mode") + " - Eliot");
@@ -210,6 +221,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
         m_boardWindow->close();
     if (m_historyWindow)
         m_historyWindow->close();
+    if (m_dicToolsWindow)
+        m_dicToolsWindow->close();
     event->accept();
 }
 
@@ -289,6 +302,63 @@ void MainWindow::on_action_GameSaveAs_triggered()
 }
 
 
+void MainWindow::on_action_GamePrint_triggered()
+{
+    if (m_game == NULL)
+        return;
+
+    displayErrorMsg("Not yet implemented!");
+    return;
+
+    QPrinter printer(QPrinter::HighResolution);
+    printer.setOutputFileName("/home/ipkiss/dev/eliot/qt-intf/linux/print.pdf");
+    QPrintDialog printDialog(&printer, this);
+    if (printDialog.exec() == QDialog::Accepted)
+    {
+        // TODO
+        QPainter painter(&printer);
+        const History &history = m_game->getHistory();
+
+#define TOTAL_WIDTH 500
+#define LINE_HEIGHT 20
+        const int colWidths[] = { 30, 150, 150, 70, 70 };
+        const int numCols = sizeof(colWidths) / sizeof(int);
+
+        double scale = printer.pageRect().width() / double(TOTAL_WIDTH);
+        painter.scale(scale, scale);
+
+        QPen pen(painter.pen());
+        pen.setWidth(1);
+        painter.setPen(pen);
+
+        //QFont font(painter.font(), &painter);
+        QFont font("Times", 12);
+        painter.setFont(font);
+
+        int maxRight = 0;
+        for (int i = 0; i < numCols; ++i)
+            maxRight += colWidths[i];
+        int maxBottom = LINE_HEIGHT * (1 + history.getSize());
+
+        // Draw the horizontal lines
+        painter.drawLine(0, 0, maxRight, 0);
+        for (unsigned int i = 0; i <= history.getSize(); ++i)
+            painter.drawLine(0, LINE_HEIGHT * (i + 1), maxRight, LINE_HEIGHT * (i + 1));
+
+        // Draw the vertical lines
+        painter.drawLine(0, 0, 0, maxBottom);
+        int curWidth = 0;
+        for (int i = 0; i < numCols; ++i)
+        {
+            curWidth += colWidths[i];
+            painter.drawLine(curWidth, 0, curWidth, maxBottom);
+        }
+
+        painter.drawText(190, 4, "SOLUTION");
+    }
+}
+
+
 void MainWindow::on_action_SettingsPreferences_triggered()
 {
     if (m_prefsDialog == NULL)
@@ -324,7 +394,7 @@ void MainWindow::on_action_SettingsChooseDic_triggered()
             Dictionary *dic = new Dictionary(qtl(fileName));
             delete m_dic;
             m_dic = dic;
-            emit dicChanged(fileName, qfw(m_dic->getHeader().getName()));
+            emit dicChanged(m_dic);
             displayInfoMsg(QString("Loaded dictionary '%1'").arg(fileName));
 
             // Save the location of the dictionary in the preferences
@@ -391,6 +461,24 @@ void MainWindow::on_action_WindowsHistory_triggered()
                          history, SLOT(refresh()));
     }
     m_historyWindow->toggleVisibility();
+}
+
+
+void MainWindow::on_action_WindowsDicTools_triggered()
+{
+    if (m_dicToolsWindow == NULL)
+    {
+        // Create the window
+        DicToolsWidget *dicTools = new DicToolsWidget(NULL);
+        m_dicToolsWindow = new AuxWindow(*dicTools, _q("Dictionary tools"), "DicTools",
+                                    m_ui.action_WindowsDicTools);
+        QObject::connect(this, SIGNAL(dicChanged(const Dictionary*)),
+                         dicTools, SLOT(setDic(const Dictionary*)));
+        // Fake a dictionary selection
+        dicTools->setDic(m_dic);
+        dicTools->setFocus();
+    }
+    m_dicToolsWindow->toggleVisibility();
 }
 
 

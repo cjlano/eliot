@@ -31,7 +31,8 @@ EXTRA_DIST = \
     ui/new_game.ui \
     ui/training_widget.ui \
     ui/prefs_dialog.ui \
-    ui/player_widget.ui
+    ui/player_widget.ui \
+    ui/dic_tools_widget.ui
 
 BUILT_SOURCES = \
     ui/main_window.ui.h \
@@ -39,7 +40,9 @@ BUILT_SOURCES = \
     ui/player_widget.ui.h \
     ui/training_widget.ui.h \
     ui/prefs_dialog.ui.h \
+    ui/dic_tools_widget.ui.h \
     new_game.moc.cpp \
+    dic_tools_widget.moc.cpp \
     bag_widget.moc.cpp \
     score_widget.moc.cpp \
     board_widget.moc.cpp \
@@ -53,6 +56,7 @@ BUILT_SOURCES = \
 qeliot_SOURCES = \
     qtcommon.h \
     bag_widget.cpp bag_widget.h \
+    dic_tools_widget.cpp dic_tools_widget.h \
     new_game.cpp new_game.h \
     score_widget.cpp score_widget.h \
     board_widget.cpp board_widget.h \

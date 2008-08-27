@@ -223,8 +223,11 @@ public:
      * @param oWordList: results
      * @param iList: parameters for the search (?)
      * @param iMaxResults: maximum number of returned results (0 means no limit)
+     * @return true if all the matching words were returned, false otherwise
+     *      (i.e. if the maximum number of results was reached, and there are
+     *      additional results)
      */
-    void searchRegExp(const wstring &iRegexp,
+    bool searchRegExp(const wstring &iRegexp,
                       vector<wstring> &oWordList,
                       unsigned int iMinLength,
                       unsigned int iMaxLength,

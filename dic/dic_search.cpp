@@ -489,7 +489,7 @@ void Dictionary::searchRegexpRecTempl(struct params_regexp_t *params,
         if (next_state)
         {
             params->word[params->wordlen] =
-                towlower(getHeader().getCharFromCode(current->chr));
+                getHeader().getCharFromCode(current->chr);
             params->wordlen ++;
             searchRegexpRecTempl(params, next_state, current, oWordList, iMaxResults);
             params->wordlen --;
@@ -536,16 +536,18 @@ static void initLetterLists(const Dictionary &iDic,
 }
 
 
-void Dictionary::searchRegExp(const wstring &iRegexp,
+bool Dictionary::searchRegExp(const wstring &iRegexp,
                               vector<wstring> &oWordList,
                               unsigned int iMinLength,
                               unsigned int iMaxLength,
                               unsigned int iMaxResults) const
 {
+    // XXX: throw an exception?
     if (iRegexp == L"")
-        return;
+        return true;
 
     // Allocate room for all the results
+    // XXX: is it really a good idea?
     if (iMaxResults)
         oWordList.reserve(iMaxResults);
     else
@@ -560,9 +562,9 @@ void Dictionary::searchRegExp(const wstring &iRegexp,
 
     if (!parsingOk)
     {
-        // TODO
+        // TODO: throw an exception
         delete root;
-        return;
+        return true;
     }
 
     int ptl[REGEXP_MAX+1];
@@ -594,16 +596,27 @@ void Dictionary::searchRegExp(const wstring &iRegexp,
         if (getHeader().getVersion() == 0)
         {
             searchRegexpRecTempl(&params, a->getInitId(),
-                                 getEdgeAt<DicEdgeOld>(getRoot()), oWordList, iMaxResults);
+                                 getEdgeAt<DicEdgeOld>(getRoot()), oWordList,
+                                 iMaxResults ? iMaxResults + 1 : 0);
         }
         else
         {
             searchRegexpRecTempl(&params, a->getInitId(),
-                                 getEdgeAt<DicEdge>(getRoot()), oWordList, iMaxResults);
+                                 getEdgeAt<DicEdge>(getRoot()), oWordList,
+                                 iMaxResults ? iMaxResults + 1 : 0);
         }
 
         delete a;
     }
     delete root;
+
+    // Check whether the maximum number of results was reached
+    if (iMaxResults && oWordList.size() > iMaxResults)
+    {
+        oWordList.pop_back();
+        return false;
+    }
+    else
+        return true;
 }
 

@@ -44,7 +44,7 @@ public:
     ~MainWindow();
 
 signals:
-    void dicChanged(QString iDicFile, QString iDicName);
+    void dicChanged(const Dictionary *iDic);
     void gameChanged(const Game *iGame);
     void gameChangedNonConst(Game *iGame);
     void gameUpdated();
@@ -62,11 +62,13 @@ private slots:
     void on_action_GameNew_triggered();
     void on_action_GameLoad_triggered();
     void on_action_GameSaveAs_triggered();
+    void on_action_GamePrint_triggered();
     void on_action_SettingsChooseDic_triggered();
     void on_action_SettingsPreferences_triggered();
     void on_action_WindowsBag_triggered();
     void on_action_WindowsBoard_triggered();
     void on_action_WindowsHistory_triggered();
+    void on_action_WindowsDicTools_triggered();
     void on_action_HelpAbout_triggered();
 
     /**
@@ -96,6 +98,7 @@ private:
     AuxWindow *m_bagWindow;
     AuxWindow *m_boardWindow;
     AuxWindow *m_historyWindow;
+    AuxWindow *m_dicToolsWindow;
     //@}
 
     /// Destroy the current game (if any) and the associated widgets

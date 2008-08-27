@@ -18,7 +18,7 @@ package-win32-zip:
 	mkdir -p $(WIN32_PACKAGE_DIR)
 
 # Copy the binaries and strip them
-	cp $(top_builddir)/wxwin/eliot$(EXEEXT) $(top_builddir)/dic/compdic$(EXEEXT) $(top_builddir)/dic/listdic$(EXEEXT) $(WIN32_PACKAGE_DIR)
+	cp $(top_builddir)/wxwin/eliot$(EXEEXT) $(top_builddir)/dic/compdic$(EXEEXT) $(top_builddir)/dic/listdic$(EXEEXT) $(top_builddir)/qt/qeliot$(EXEEXT) $(WIN32_PACKAGE_DIR)
 	$(STRIP) $(WIN32_PACKAGE_DIR)/*
 
 # Copy the i18n files
