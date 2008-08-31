@@ -34,3 +34,9 @@ const char *DicException::what() const throw()
     return m_message.c_str();
 }
 
+
+InvalidRegexpException::InvalidRegexpException(const string &iMessage)
+    : DicException(iMessage)
+{
+}
+

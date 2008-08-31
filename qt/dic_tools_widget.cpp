@@ -32,6 +32,7 @@
 #include "dic_tools_widget.h"
 #include "qtcommon.h"
 #include "dic.h"
+#include "dic_exception.h"
 
 using namespace std;
 
@@ -223,14 +224,25 @@ void DicToolsWidget::refreshRegexp()
         // or a warning should appear when it is reached
         unsigned limit = 1000;
         vector<wstring> wordList;
-        bool res = m_dic->searchRegExp(qtw(rack->text()), wordList,
-                                       lmin, lmax, limit);
-
+        bool res = true;
         int rowNum = 0;
+        try
+        {
+            res = m_dic->searchRegExp(qtw(rack->text()), wordList,
+                                      lmin, lmax, limit);
+        }
+        catch (InvalidRegexpException &e)
+        {
+            model->insertRow(rowNum);
+            model->setData(model->index(rowNum, 0),
+                           _q("Invalid regular expression: %1").arg(qfl(e.what())));
+            model->setData(model->index(rowNum, 0),
+                           QBrush(Qt::red), Qt::ForegroundRole);
+        }
+
         vector<wstring>::const_iterator it;
         for (it = wordList.begin(); it != wordList.end(); it++)
         {
-            // Create the header line
             model->insertRow(rowNum);
             model->setData(model->index(rowNum, 0), qfw(*it));
             ++rowNum;

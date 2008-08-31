@@ -21,6 +21,8 @@
 #ifndef QT_COMMON_H_
 #define QT_COMMON_H_
 
+#include "config.h"
+
 #if ENABLE_NLS
 #   include <libintl.h>
 #   define _(String) gettext(String)

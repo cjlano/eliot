@@ -397,6 +397,9 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
         // Do not mark the rack as rejected if it was empty
         if (nold > 0)
             pld.setReject();
+        // Reset the number of required vowels and consonants
+        neededVowels = min;
+        neededConsonants = min;
 
         // Restore the joker if we are in a joker game
         if (jokerAdded)
@@ -449,7 +452,7 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
     pld.shuffleNew();
 
     // Post-condition check. This should never fail, of course :)
-    ASSERT(pld.checkRack(min, min), "helperSetRackRandom() is buggy!")
+    ASSERT(pld.checkRack(min, min), "helperSetRackRandom() is buggy!");
 
     // Until now we didn't modify anything except local variables.
     // Let's "commit" the changes

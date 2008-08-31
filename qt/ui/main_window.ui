@@ -77,7 +77,7 @@
    </property>
    <widget class="QMenu" name="menuFile" >
     <property name="title" >
-     <string>_("&amp;Game")</string>
+     <string>_("Game")</string>
     </property>
     <addaction name="action_GameNew" />
     <addaction name="separator" />
@@ -90,21 +90,21 @@
    </widget>
    <widget class="QMenu" name="menuHelp" >
     <property name="title" >
-     <string>_("&amp;Settings")</string>
+     <string>_("Settings")</string>
     </property>
     <addaction name="action_SettingsChooseDic" />
     <addaction name="action_SettingsPreferences" />
    </widget>
    <widget class="QMenu" name="menu_Help" >
     <property name="title" >
-     <string>_("&amp;Help")</string>
+     <string>_("Help")</string>
     </property>
     <addaction name="action_HelpAbout" />
     <addaction name="separator" />
    </widget>
    <widget class="QMenu" name="menu_Windows" >
     <property name="title" >
-     <string>_("&amp;Windows")</string>
+     <string>_("Windows")</string>
     </property>
     <addaction name="action_WindowsBag" />
     <addaction name="action_WindowsBoard" />
@@ -155,7 +155,7 @@
   </action>
   <action name="action_HelpAbout" >
    <property name="text" >
-    <string>_("&amp;About...")</string>
+    <string>_("About...")</string>
    </property>
    <property name="statusTip" >
     <string>_("About Eliot")</string>
@@ -163,7 +163,7 @@
   </action>
   <action name="action_GameQuit" >
    <property name="text" >
-    <string>_("&amp;Quit")</string>
+    <string>_("Quit")</string>
    </property>
    <property name="statusTip" >
     <string>_("Quit Eliot")</string>
@@ -185,7 +185,7 @@
     <bool>true</bool>
    </property>
    <property name="text" >
-    <string>_("&amp;Bag")</string>
+    <string>_("Bag")</string>
    </property>
    <property name="statusTip" >
     <string>_("Show/hide the remaining tiles in the bag")</string>
@@ -200,9 +200,6 @@
    </property>
    <property name="statusTip" >
     <string>_("Edit the preferences")</string>
-   </property>
-   <property name="shortcut" >
-    <string>Ctrl+Q</string>
    </property>
   </action>
   <action name="action_GameSave" >
@@ -240,7 +237,7 @@
     <bool>true</bool>
    </property>
    <property name="text" >
-    <string>_("&amp;External board")</string>
+    <string>_("External board")</string>
    </property>
    <property name="statusTip" >
     <string>_("Show/hide the external board")</string>
@@ -251,7 +248,7 @@
     <bool>true</bool>
    </property>
    <property name="text" >
-    <string>_("&amp;History")</string>
+    <string>_("History")</string>
    </property>
    <property name="statusTip" >
     <string>_("Show/hide the game history")</string>
@@ -276,7 +273,7 @@
     <bool>true</bool>
    </property>
    <property name="text" >
-    <string>_("&amp;Dictionary tools")</string>
+    <string>_("Dictionary tools")</string>
    </property>
    <property name="statusTip" >
     <string>_("Show/hide the dictionary tools")</string>

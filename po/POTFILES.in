@@ -76,6 +76,8 @@ qt/bag_widget.cpp
 qt/bag_widget.h
 qt/board_widget.cpp
 qt/board_widget.h
+qt/dic_tools_widget.cpp
+qt/dic_tools_widget.h
 qt/history_widget.cpp
 qt/history_widget.h
 qt/main_window.cpp
@@ -87,6 +89,11 @@ qt/player_widget.cpp
 qt/player_widget.h
 qt/score_widget.cpp
 qt/score_widget.h
+qt/training_widget.cpp
+qt/training_widget.h
+qt/ui/dic_tools_widget.ui
+qt/ui/main_window.ui
 qt/ui/new_game.ui
 qt/ui/player_widget.ui
-qt/ui/main_window.ui
+qt/ui/prefs_dialog.ui
+qt/ui/training_widget.ui

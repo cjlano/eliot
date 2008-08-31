@@ -53,7 +53,7 @@
         <property name="orientation" >
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>16</width>
           <height>26</height>
@@ -80,7 +80,7 @@
       <item>
        <widget class="QTreeView" name="treeViewPlayers" >
         <property name="editTriggers" >
-         <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::NoEditTriggers</set>
+         <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
         </property>
         <property name="rootIsDecorated" >
          <bool>false</bool>
@@ -119,7 +119,7 @@
           </item>
           <item>
            <property name="text" >
-            <string>_("AI")</string>
+            <string>_("Computer")</string>
            </property>
           </item>
          </widget>
@@ -140,7 +140,7 @@
           <property name="orientation" >
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>40</width>
             <height>20</height>
@@ -169,7 +169,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>

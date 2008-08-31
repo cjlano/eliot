@@ -39,8 +39,8 @@ public:
     explicit NewGame(QWidget *iParent = 0);
 
     /// Possible values for the player type
-    static const QString kHUMAN;
-    static const QString kAI;
+    static const char * kHUMAN;
+    static const char * kAI;
 
     /**
      * Create and return a game object from the information of the dialog.

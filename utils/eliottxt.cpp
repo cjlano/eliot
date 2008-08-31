@@ -35,6 +35,7 @@
 #endif
 
 #include "dic.h"
+#include "dic_exception.h"
 #include "game_io.h"
 #include "game_factory.h"
 #include "training.h"
@@ -819,7 +820,15 @@ void eliot_regexp(const Dictionary& iDic, wchar_t __attribute__((unused)) *cmd,
            nres, lmin, lmax);
 
     vector<wstring> wordList;
-    iDic.searchRegExp(regexp, wordList, lmin, lmax, nres);
+    try
+    {
+        iDic.searchRegExp(regexp, wordList, lmin, lmax, nres);
+    }
+    catch (InvalidRegexpException &e)
+    {
+        printf("Invalid regular expression: %s\n", e.what());
+        return;
+    }
 
     vector<wstring>::const_iterator it;
     for (it = wordList.begin(); it != wordList.end(); it++)

@@ -226,6 +226,7 @@ public:
      * @return true if all the matching words were returned, false otherwise
      *      (i.e. if the maximum number of results was reached, and there are
      *      additional results)
+     * @throw InvalidRegexpException When the regular expression cannot be parsed
      */
     bool searchRegExp(const wstring &iRegexp,
                       vector<wstring> &oWordList,

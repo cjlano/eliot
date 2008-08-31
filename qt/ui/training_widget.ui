@@ -32,7 +32,7 @@
      <item>
       <widget class="QPushButton" name="pushButtonRack" >
        <property name="text" >
-        <string>_("New Rack")</string>
+        <string>_("New rack")</string>
        </property>
       </widget>
      </item>

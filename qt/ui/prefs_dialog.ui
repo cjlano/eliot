@@ -6,11 +6,11 @@
     <x>0</x>
     <y>0</y>
     <width>343</width>
-    <height>418</height>
+    <height>432</height>
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Dialog</string>
+   <string>Preferences</string>
   </property>
   <layout class="QVBoxLayout" >
    <item>
@@ -50,7 +50,7 @@
       <item>
        <widget class="QCheckBox" name="checkBoxIntfAlignHistory" >
         <property name="toolTip" >
-         <string>_("If checked, the game and player histories will diaplay the rack and the corresponding solution on the same line")</string>
+         <string>_("If checked, the game and player histories will display the rack and the corresponding solution on the same line")</string>
         </property>
         <property name="text" >
          <string>_("Align the rack and the solution in history")</string>
@@ -72,7 +72,7 @@
       <item>
        <widget class="QCheckBox" name="checkBoxDuplRefuseInvalid" >
         <property name="toolTip" >
-         <string>_("If checked, playing an invalid or misplaced word will not be possible. If unchecked, you will get 0 point and lose your turn.")</string>
+         <string>_("If checked, playing an invalid or misplaced word will not be possible. If unchecked, you will get 0 point and lose your turn")</string>
         </property>
         <property name="text" >
          <string>_("Refuse to play invalid moves")</string>
@@ -93,7 +93,7 @@
           <property name="orientation" >
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>40</width>
             <height>20</height>
@@ -127,7 +127,7 @@
           <property name="orientation" >
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>40</width>
             <height>20</height>
@@ -159,7 +159,7 @@
       <item>
        <widget class="QCheckBox" name="checkBoxFreeRefuseInvalid" >
         <property name="toolTip" >
-         <string>_("If checked, playing an invalid or misplaced word will not be possible. If unchecked, you will get 0 point and lose your turn.")</string>
+         <string>_("If checked, playing an invalid or misplaced word will not be possible. If unchecked, you will get 0 point and lose your turn")</string>
         </property>
         <property name="text" >
          <string>_("Refuse to play invalid moves")</string>
@@ -178,7 +178,7 @@
       <item>
        <widget class="QLabel" name="label" >
         <property name="text" >
-         <string>_("Nothing yet")</string>
+         <string>Nothing yet</string>
         </property>
        </widget>
       </item>
@@ -191,7 +191,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>

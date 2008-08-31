@@ -34,6 +34,7 @@ class Game;
 class NewGame;
 class PrefsDialog;
 class AuxWindow;
+class QLabel;
 
 class MainWindow: public QMainWindow
 {
@@ -77,6 +78,9 @@ private slots:
      */
     void updateForGame(const Game *iGame);
 
+    /// Update the status bar contents
+    void updateStatusBar(const Dictionary *iDic);
+
 private:
     /// Current dictionary
     const Dictionary *m_dic;
@@ -100,6 +104,9 @@ private:
     AuxWindow *m_historyWindow;
     AuxWindow *m_dicToolsWindow;
     //@}
+
+    /// Label indicationg the name of the current dictionary
+    QLabel *m_dicNameLabel;
 
     /// Destroy the current game (if any) and the associated widgets
     void destroyCurrentGame();

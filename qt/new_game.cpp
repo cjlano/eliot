@@ -33,8 +33,8 @@
 #include "ai_percent.h"
 
 
-const QString NewGame::kHUMAN = _q("Human");
-const QString NewGame::kAI = _q("AI");
+const char * NewGame::kHUMAN = _("Human");
+const char * NewGame::kAI = _("Computer");
 
 
 NewGame::NewGame(QWidget *iParent)
@@ -46,10 +46,10 @@ NewGame::NewGame(QWidget *iParent)
     m_model = new QStandardItemModel(2, 2, this);
     m_model->setHeaderData(0, Qt::Horizontal, _q("Name"), Qt::DisplayRole);
     m_model->setHeaderData(1, Qt::Horizontal, _q("Type"), Qt::DisplayRole);
-    m_model->setData(m_model->index(0, 0), _q("HumanPlayer"));
-    m_model->setData(m_model->index(0, 1), kHUMAN);
+    m_model->setData(m_model->index(0, 0), _q("Player"));
+    m_model->setData(m_model->index(0, 1), _q(kHUMAN));
     m_model->setData(m_model->index(1, 0), _q("Eliot"));
-    m_model->setData(m_model->index(1, 1), kAI);
+    m_model->setData(m_model->index(1, 1), _q(kAI));
 
     // Initialize the QTreeView with the model we just created
     treeViewPlayers->setModel(m_model);
@@ -113,7 +113,7 @@ Game * NewGame::createGame(const Dictionary &iDic) const
 
             QString type = m_model->data(m_model->index(num, 1)).toString();
             Player *player;
-            if (type == kHUMAN)
+            if (type == _q(kHUMAN))
                 player = new HumanPlayer;
             else
                 player = new AIPercent(1);
@@ -197,8 +197,8 @@ QWidget *PlayersDelegate::createEditor(QWidget *parent,
                                        const QModelIndex &) const
 {
     QComboBox *editor = new QComboBox(parent);
-    editor->addItem(NewGame::kHUMAN);
-    editor->addItem(NewGame::kAI);
+    editor->addItem(_q(NewGame::kHUMAN));
+    editor->addItem(_q(NewGame::kAI));
     return editor;
 }
 

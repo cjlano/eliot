@@ -29,6 +29,7 @@
 
 #include "ewx.h"
 #include "dic.h"
+#include "dic_exception.h"
 #include "searchpanel.h"
 #include "tile.h"
 #include "configdb.h"
@@ -286,7 +287,16 @@ PRegExp::compute_enter(wxCommandEvent&)
     debug("\n");
 
     vector<wstring> wordList;
-    dic->searchRegExp(regexp, wordList, lmin, lmax);
+    try
+    {
+        dic->searchRegExp(regexp, wordList, lmin, lmax);
+    }
+    catch (InvalidRegexpException &e)
+    {
+        wxString msg = _("Invalid regular expression: ") + wxU(e.what());
+        l->Append(msg);
+        return;
+    }
 
     wxString *res = new wxString[wordList.size()];
     int resnum = 0;

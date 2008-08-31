@@ -25,6 +25,7 @@
 #include <cwctype>
 
 #include "dic_internals.h"
+#include "dic_exception.h"
 #include "dic.h"
 #include "header.h"
 #include "encoding.h"
@@ -562,9 +563,8 @@ bool Dictionary::searchRegExp(const wstring &iRegexp,
 
     if (!parsingOk)
     {
-        // TODO: throw an exception
         delete root;
-        return true;
+        throw InvalidRegexpException(convertToMb(iRegexp));
     }
 
     int ptl[REGEXP_MAX+1];

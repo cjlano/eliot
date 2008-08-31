@@ -41,4 +41,12 @@ class DicException: public std::exception
         std::string m_message;
 };
 
+
+class InvalidRegexpException : public DicException
+{
+    public:
+        InvalidRegexpException(const std::string &iMessage);
+        ~InvalidRegexpException() throw() {}
+};
+
 #endif

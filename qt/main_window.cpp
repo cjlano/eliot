@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <QtGui/QLabel>
 #include <QtGui/QMessageBox>
 #include <QtGui/QFileDialog>
 #include <QtGui/QDockWidget>
@@ -39,6 +40,9 @@
 #include "game.h"
 #include "freegame.h"
 #include "player.h"
+#include "history.h"
+#include "turn.h"
+#include "move.h"
 #include "debug.h"
 #include "new_game.h"
 #include "prefs_dialog.h"
@@ -59,11 +63,19 @@
 MainWindow::MainWindow(QWidget *iParent)
     : QMainWindow(iParent), m_dic(NULL), m_game(NULL), m_newGameDialog(NULL),
     m_prefsDialog(NULL), m_bagWindow(NULL), m_boardWindow(NULL),
-    m_historyWindow(NULL), m_dicToolsWindow(NULL)
+    m_historyWindow(NULL), m_dicToolsWindow(NULL), m_dicNameLabel(NULL)
 {
     m_ui.setupUi(this);
     QObject::connect(this, SIGNAL(gameChanged(const Game*)),
                      this, SLOT(updateForGame(const Game*)));
+
+    // Status bar
+    statusBar()->addWidget(new QLabel, 1);
+    m_dicNameLabel = new QLabel;
+    m_dicNameLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
+    statusBar()->addPermanentWidget(m_dicNameLabel);
+    QObject::connect(this, SIGNAL(dicChanged(const Dictionary*)),
+                     this, SLOT(updateStatusBar(const Dictionary*)));
 
     // Board
     BoardWidget *boardWidget = new BoardWidget;
@@ -121,12 +133,7 @@ MainWindow::MainWindow(QWidget *iParent)
     // Load dictionary
     QSettings qs(ORGANIZATION, PACKAGE_NAME);
     QString dicPath = qs.value(PrefsDialog::kINTF_DIC_PATH, "").toString();
-    // FIXME: the messages are not displayed anymore when the window is shown
-    if (dicPath == "")
-    {
-        displayInfoMsg(_q("No dictionary selected"));
-    }
-    else
+    if (dicPath != "")
     {
         try
         {
@@ -134,10 +141,10 @@ MainWindow::MainWindow(QWidget *iParent)
         }
         catch (...)
         {
-            displayInfoMsg(_q("No dictionary selected"));
             displayErrorMsg(_q("Cannot load dictionary '%1' indicated in the preferences").arg(dicPath));
         }
     }
+    emit dicChanged(m_dic);
 }
 
 
@@ -194,6 +201,15 @@ void MainWindow::updateForGame(const Game *iGame)
             setWindowTitle(_q("Free game") + " - Eliot");
         }
     }
+}
+
+
+void MainWindow::updateStatusBar(const Dictionary *iDic)
+{
+    if (iDic == NULL)
+        m_dicNameLabel->setText("No dictionary");
+    else
+        m_dicNameLabel->setText(qfw(m_dic->getHeader().getName()));
 }
 
 
@@ -302,59 +318,141 @@ void MainWindow::on_action_GameSaveAs_triggered()
 }
 
 
+// Printing parameters
+#define TOTAL_WIDTH 500
+#define LINE_HEIGHT 20
+#define FONT_SIZE 12
+#define PEN_WIDTH 2
+#define TEXT_OFFSET 10
+#define SHOULD_ALIGN false
+
 void MainWindow::on_action_GamePrint_triggered()
 {
     if (m_game == NULL)
         return;
-
-    displayErrorMsg("Not yet implemented!");
-    return;
 
     QPrinter printer(QPrinter::HighResolution);
     printer.setOutputFileName("/home/ipkiss/dev/eliot/qt-intf/linux/print.pdf");
     QPrintDialog printDialog(&printer, this);
     if (printDialog.exec() == QDialog::Accepted)
     {
-        // TODO
         QPainter painter(&printer);
         const History &history = m_game->getHistory();
 
-#define TOTAL_WIDTH 500
-#define LINE_HEIGHT 20
         const int colWidths[] = { 30, 150, 150, 70, 70 };
-        const int numCols = sizeof(colWidths) / sizeof(int);
+        const char *colTitles[] = { _("N."), _("RACK"), _("SOLUTION"), _("REF"), _("PTS") };
+        const unsigned int nbCols = sizeof(colWidths) / sizeof(int);
+        const unsigned int nbRows = history.getSize() + (SHOULD_ALIGN ? 1 : 2);
 
         double scale = printer.pageRect().width() / double(TOTAL_WIDTH);
         painter.scale(scale, scale);
 
         QPen pen(painter.pen());
-        pen.setWidth(1);
+        pen.setWidth(PEN_WIDTH);
         painter.setPen(pen);
 
+        QFont font;
+        font.setPixelSize(FONT_SIZE);
         //QFont font(painter.font(), &painter);
-        QFont font("Times", 12);
         painter.setFont(font);
 
         int maxRight = 0;
-        for (int i = 0; i < numCols; ++i)
+        for (unsigned int i = 0; i < nbCols; ++i)
             maxRight += colWidths[i];
-        int maxBottom = LINE_HEIGHT * (1 + history.getSize());
+        int maxBottom = LINE_HEIGHT * (nbRows + 1);
 
         // Draw the horizontal lines
-        painter.drawLine(0, 0, maxRight, 0);
-        for (unsigned int i = 0; i <= history.getSize(); ++i)
-            painter.drawLine(0, LINE_HEIGHT * (i + 1), maxRight, LINE_HEIGHT * (i + 1));
+        for (unsigned int i = 0; i <= nbRows + 1; ++i)
+            painter.drawLine(0, LINE_HEIGHT * i, maxRight, LINE_HEIGHT * i);
 
         // Draw the vertical lines
         painter.drawLine(0, 0, 0, maxBottom);
         int curWidth = 0;
-        for (int i = 0; i < numCols; ++i)
+        for (unsigned int i = 0; i < nbCols; ++i)
         {
             curWidth += colWidths[i];
             painter.drawLine(curWidth, 0, curWidth, maxBottom);
         }
 
-        painter.drawText(190, 4, "SOLUTION");
+        // Draw the titles
+        QFontMetrics fm = painter.fontMetrics();
+        int textHeight = fm.boundingRect('A').height();
+        curWidth = 0;
+        int curHeight = (LINE_HEIGHT + textHeight + 1) / 2;
+        for (unsigned int i = 0; i < nbCols; ++i)
+        {
+            int textWidth = fm.width(colTitles[i]);
+            painter.drawText(curWidth + (colWidths[i] - textWidth) / 2,
+                             curHeight,  colTitles[i]);
+            curWidth += colWidths[i];
+        }
+
+        // Draw the history of the game
+        int score = 0;
+        int nextHeight;
+        if (SHOULD_ALIGN)
+            nextHeight = curHeight;
+        else
+            nextHeight = curHeight + LINE_HEIGHT;
+        for (unsigned int i = 0; i < history.getSize(); ++i)
+        {
+            const Turn &t = history.getTurn(i);
+            const Move &m = t.getMove();
+
+            curWidth = TEXT_OFFSET;
+            curHeight += LINE_HEIGHT;
+            nextHeight += LINE_HEIGHT;
+
+            // Turn number
+            painter.drawText(curWidth, curHeight, QString("%1").arg(i + 1));
+            curWidth += colWidths[0];
+
+            // Rack
+            painter.drawText(curWidth, curHeight,
+                             qfw(t.getPlayedRack().toString()));
+            curWidth += colWidths[1];
+
+            // Word and coordinates
+            if (m.getType() == Move::VALID_ROUND)
+            {
+                const Round &r = m.getRound();
+                painter.drawText(curWidth, nextHeight, qfw(r.getWord()));
+                curWidth += colWidths[2];
+                painter.drawText(curWidth, nextHeight,
+                                 qfw(r.getCoord().toString()));
+                curWidth += colWidths[3];
+            }
+            else if (m.getType() == Move::INVALID_WORD)
+            {
+                painter.drawText(curWidth, nextHeight,
+                                 "<" + qfw(m.getBadWord()) + ">");
+                curWidth += colWidths[2];
+                painter.drawText(curWidth, nextHeight, qfw(m.getBadCoord()));
+                curWidth += colWidths[3];
+            }
+            else if (m.getType() == Move::PASS)
+            {
+                painter.drawText(curWidth, nextHeight, _q("(PASS)"));
+                curWidth += colWidths[2];
+                curWidth += colWidths[3];
+            }
+            else
+            {
+                painter.drawText(curWidth, nextHeight,
+                                 "[-" + qfw(m.getChangedLetters()) + "]");
+                curWidth += colWidths[2];
+                curWidth += colWidths[3];
+            }
+
+            // Score
+            painter.drawText(curWidth, nextHeight,
+                             QString("%1").arg(m.getScore()));
+            score += m.getScore();
+        }
+
+        // Total score
+        curHeight += LINE_HEIGHT;
+        painter.drawText(curWidth, nextHeight, QString("%1").arg(score));
     }
 }
 

@@ -40,6 +40,7 @@
 #endif
 
 #include "dic.h"
+#include "dic_exception.h"
 #include "header.h"
 #include "encoding.h"
 
@@ -85,13 +86,19 @@ int main(int argc, char* argv[])
 
             /* Automaton */
             vector<wstring> wordList;
-            dic.searchRegExp(convertToWc(line), wordList, 1, 15);
-
-            cout << _("result:") << endl;
-            vector<wstring>::const_iterator it;
-            for (it = wordList.begin(); it != wordList.end(); it++)
+            try
             {
-                cerr << convertToMb(*it) << endl;
+                dic.searchRegExp(convertToWc(line), wordList, 1, 15);
+                cout << _("result:") << endl;
+                vector<wstring>::const_iterator it;
+                for (it = wordList.begin(); it != wordList.end(); it++)
+                {
+                    cout << convertToMb(*it) << endl;
+                }
+            }
+            catch (InvalidRegexpException &e)
+            {
+                cout << _("Invalid regular expression: ") << e.what() << endl;
             }
             cout << "**************************************************************" << endl;
             cout << "**************************************************************" << endl;
