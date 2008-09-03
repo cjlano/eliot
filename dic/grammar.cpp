@@ -190,7 +190,7 @@ void evaluate(const Header &iHeader, iter_t const& i, stack<Node*> &evalStack,
             for (iter = i->children.begin(); iter != i->children.end(); ++iter)
                 evaluate(iHeader, iter, evalStack, iList);
             // "Concatenate" the created child nodes with AND nodes
-            for (uint j = 0; j < i->children.size() - 1; ++j)
+            for (unsigned int j = 0; j < i->children.size() - 1; ++j)
             {
                 Node *old2 = evalStack.top();
                 evalStack.pop();

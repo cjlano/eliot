@@ -36,12 +36,18 @@
 // Convert to/from utf-8 char*
 #define qfu(s) QString::fromUtf8(s)
 #define qtu(s) (s).toUtf8().data()
-// Convert to/from std::wstring
-#define qfw(s) QString::fromStdWString(s)
-#define qtw(s) (s).toStdWString().data()
 // Convert to/from local encoding
 #define qfl(s) QString::fromLocal8Bit(s)
 #define qtl(s) (s).toLocal8Bit().data()
+// Convert to/from std::wstring
+#ifdef WIN32
+#include "encoding.h"
+#define qfw(s) qfl(convertToMb(s).c_str())
+#define qtw(s) convertToWc(qtl(s))
+#else
+#define qfw(s) QString::fromStdWString(s)
+#define qtw(s) (s).toStdWString().data()
+#endif
 // Translation macro to use gettext
 #define _q(s) qfu(_(s))
 

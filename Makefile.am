@@ -26,6 +26,8 @@ package-win32-zip:
 		mkdir -p $(WIN32_PACKAGE_DIR)/locale/$${lang}/LC_MESSAGES; \
 		cp $(top_srcdir)/po/$${lang}.gmo $(WIN32_PACKAGE_DIR)/locale/$${lang}/LC_MESSAGES/eliot.mo; \
 	done
+	mkdir -p $(WIN32_PACKAGE_DIR)/locale/qt4
+	cp $(QT4LOCALEDIR)/*.qm $(WIN32_PACKAGE_DIR)/locale/qt4/ || true
 
 # Copy relevant text files
 	for i in AUTHORS COPYING NEWS; do \

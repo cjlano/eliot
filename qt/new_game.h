@@ -49,6 +49,7 @@ public:
     Game * createGame(const Dictionary& iDic) const;
 
 private slots:
+    void enableLevelSpinBox(int);
     void enableOkButton();
     void enableRemoveButton(const QItemSelection&, const QItemSelection&);
 
@@ -63,14 +64,39 @@ private:
 };
 
 
-/// Delegate used for the edition of the players display
-class PlayersDelegate: public QItemDelegate
+/// Delegate used for the edition of the players type
+class PlayersTypeDelegate: public QItemDelegate
 {
     Q_OBJECT;
 
 public:
-    explicit PlayersDelegate(QObject *parent = 0);
-    virtual ~PlayersDelegate() {}
+    explicit PlayersTypeDelegate(QObject *parent = 0);
+    virtual ~PlayersTypeDelegate() {}
+
+    // Implement the needed methods
+    virtual QWidget *createEditor(QWidget *parent,
+                                  const QStyleOptionViewItem &option,
+                                  const QModelIndex &index) const;
+    virtual void setEditorData(QWidget *editor,
+                               const QModelIndex &index) const;
+    virtual void setModelData(QWidget *editor,
+                              QAbstractItemModel *model,
+                              const QModelIndex &index) const;
+
+    virtual void updateEditorGeometry(QWidget *editor,
+                                      const QStyleOptionViewItem &option,
+                                      const QModelIndex &index) const;
+};
+
+
+/// Delegate used for the edition of the players level
+class PlayersLevelDelegate: public QItemDelegate
+{
+    Q_OBJECT;
+
+public:
+    explicit PlayersLevelDelegate(QObject *parent = 0);
+    virtual ~PlayersLevelDelegate() {}
 
     // Implement the needed methods
     virtual QWidget *createEditor(QWidget *parent,

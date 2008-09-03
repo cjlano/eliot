@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>374</width>
-    <height>327</height>
+    <width>470</width>
+    <height>390</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -99,7 +99,7 @@
         <item>
          <widget class="QLineEdit" name="lineEditName" >
           <property name="text" >
-           <string>_("Player")</string>
+           <string>Player 2</string>
           </property>
          </widget>
         </item>
@@ -122,6 +122,26 @@
             <string>_("Computer")</string>
            </property>
           </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_4" >
+          <property name="text" >
+           <string>_("Level:")</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinBoxLevel" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="maximum" >
+           <number>100</number>
+          </property>
+          <property name="value" >
+           <number>100</number>
+          </property>
          </widget>
         </item>
        </layout>

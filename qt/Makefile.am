@@ -20,19 +20,24 @@ localedir = $(datadir)/locale
 
 if BUILD_QT
 
-AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" @QT_CFLAGS@ -I$(top_srcdir) -I../intl -I$(top_srcdir)/dic -I$(top_srcdir)/game
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" @QT_CFLAGS@ -DQT4LOCALEDIR=\"@QT4LOCALEDIR@\" -I$(top_srcdir) -I../intl -I$(top_srcdir)/dic -I$(top_srcdir)/game
 
 SUFFIXES=.ui.h .moc.cpp
 
 bin_PROGRAMS = qeliot
 
+RESOURCES = \
+    images/eliot.xpm
+
 EXTRA_DIST = \
+    ui/dic_tools_widget.ui \
     ui/main_window.ui \
     ui/new_game.ui \
-    ui/training_widget.ui \
-    ui/prefs_dialog.ui \
     ui/player_widget.ui \
-    ui/dic_tools_widget.ui
+    ui/prefs_dialog.ui \
+    ui/training_widget.ui \
+    eliot.qrc \
+    $(RESOURCES)
 
 BUILT_SOURCES = \
     ui/main_window.ui.h \
@@ -51,7 +56,8 @@ BUILT_SOURCES = \
     training_widget.moc.cpp \
     prefs_dialog.moc.cpp \
     aux_window.moc.cpp \
-    main_window.moc.cpp
+    main_window.moc.cpp \
+    resources.cpp
 
 qeliot_SOURCES = \
     qtcommon.h \
@@ -70,6 +76,10 @@ qeliot_SOURCES = \
 qeliot_SOURCES += $(BUILT_SOURCES)
 
 qeliot_LDADD = @QT_LIBS@ ../game/libgame.a ../dic/libdic.a @LIBINTL@
+
+# Generate a cpp file from the resources
+resources.cpp: eliot.qrc $(RESOURCES)
+	$(RCC) -o $@ $<
 
 # Generate the implementation file from the header
 %.moc.cpp: %.h

@@ -21,6 +21,8 @@
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QMessageBox>
+#include <QtGui/QComboBox>
+#include <QtGui/QSpinBox>
 
 #include "new_game.h"
 #include "qtcommon.h"
@@ -41,21 +43,30 @@ NewGame::NewGame(QWidget *iParent)
     : QDialog(iParent)
 {
     setupUi(this);
+    lineEditName->setText(_q("Player %1").arg(2));
 
     // Initialize the model of the default players
-    m_model = new QStandardItemModel(2, 2, this);
+    m_model = new QStandardItemModel(2, 3, this);
     m_model->setHeaderData(0, Qt::Horizontal, _q("Name"), Qt::DisplayRole);
     m_model->setHeaderData(1, Qt::Horizontal, _q("Type"), Qt::DisplayRole);
-    m_model->setData(m_model->index(0, 0), _q("Player"));
+    m_model->setHeaderData(2, Qt::Horizontal, _q("Level"), Qt::DisplayRole);
+    m_model->setData(m_model->index(0, 0), _q("Player %1").arg(1));
     m_model->setData(m_model->index(0, 1), _q(kHUMAN));
     m_model->setData(m_model->index(1, 0), _q("Eliot"));
     m_model->setData(m_model->index(1, 1), _q(kAI));
+    m_model->setData(m_model->index(1, 2), 100);
 
     // Initialize the QTreeView with the model we just created
     treeViewPlayers->setModel(m_model);
-    PlayersDelegate *delegate = new PlayersDelegate(this);
-    treeViewPlayers->setItemDelegateForColumn(1, delegate);
+    PlayersTypeDelegate *typeDelegate = new PlayersTypeDelegate(this);
+    treeViewPlayers->setItemDelegateForColumn(1, typeDelegate);
+    PlayersLevelDelegate *levelDelegate = new PlayersLevelDelegate(this);
+    treeViewPlayers->setItemDelegateForColumn(2, levelDelegate);
+    treeViewPlayers->resizeColumnToContents(2);
 
+    // Enable the Level spinbox only when the player is a computer
+    QObject::connect(comboBoxType, SIGNAL(currentIndexChanged(int)),
+                     this, SLOT(enableLevelSpinBox(int)));
     // Enable the Remove button only when there is a selection in the tree
     QObject::connect(treeViewPlayers->selectionModel(),
                      SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
@@ -116,7 +127,10 @@ Game * NewGame::createGame(const Dictionary &iDic) const
             if (type == _q(kHUMAN))
                 player = new HumanPlayer;
             else
-                player = new AIPercent(1);
+            {
+                double level = m_model->data(m_model->index(num, 2)).toInt();
+                player = new AIPercent(level / 100.);
+            }
             player->setName(qtw(name));
             game->addPlayer(player);
         }
@@ -131,6 +145,12 @@ Game * NewGame::createGame(const Dictionary &iDic) const
         game->setVariant(Game::kJOKER);
 
     return game;
+}
+
+
+void NewGame::enableLevelSpinBox(int index)
+{
+    spinBoxLevel->setEnabled(index == 1);
 }
 
 
@@ -173,6 +193,16 @@ void NewGame::on_pushButtonAdd_clicked()
     // Change the contents of the row
     m_model->setData(m_model->index(rowNum, 0), lineEditName->displayText());
     m_model->setData(m_model->index(rowNum, 1), comboBoxType->currentText());
+    if (spinBoxLevel->isEnabled())
+        m_model->setData(m_model->index(rowNum, 2), spinBoxLevel->value());
+
+    // Increment the player ID
+    static int currPlayer = 2;
+    if (lineEditName->displayText() == _q("Player %1").arg(currPlayer))
+    {
+        ++currPlayer;
+        lineEditName->setText(_q("Player %1").arg(currPlayer));
+    }
 }
 
 
@@ -186,15 +216,15 @@ void NewGame::on_pushButtonRemove_clicked()
 
 
 
-PlayersDelegate::PlayersDelegate(QObject *parent)
+PlayersTypeDelegate::PlayersTypeDelegate(QObject *parent)
     : QItemDelegate(parent)
 {
 }
 
 
-QWidget *PlayersDelegate::createEditor(QWidget *parent,
-                                       const QStyleOptionViewItem &,
-                                       const QModelIndex &) const
+QWidget *PlayersTypeDelegate::createEditor(QWidget *parent,
+                                           const QStyleOptionViewItem &,
+                                           const QModelIndex &) const
 {
     QComboBox *editor = new QComboBox(parent);
     editor->addItem(_q(NewGame::kHUMAN));
@@ -203,8 +233,8 @@ QWidget *PlayersDelegate::createEditor(QWidget *parent,
 }
 
 
-void PlayersDelegate::setEditorData(QWidget *editor,
-                                    const QModelIndex &index) const
+void PlayersTypeDelegate::setEditorData(QWidget *editor,
+                                        const QModelIndex &index) const
 {
     QComboBox *combo = static_cast<QComboBox*>(editor);
     QString text = index.model()->data(index, Qt::DisplayRole).toString();
@@ -212,26 +242,80 @@ void PlayersDelegate::setEditorData(QWidget *editor,
 }
 
 
-void PlayersDelegate::setModelData(QWidget *editor,
-                                   QAbstractItemModel *model,
-                                   const QModelIndex &index) const
+void PlayersTypeDelegate::setModelData(QWidget *editor,
+                                       QAbstractItemModel *model,
+                                       const QModelIndex &index) const
 {
     QComboBox *combo = static_cast<QComboBox*>(editor);
     model->setData(index, combo->currentText());
+    // Adapt the level to the chosen type of player
+    QModelIndex levelIndex = model->index(index.row(), 2);
+    if (combo->currentText() == _q(NewGame::kHUMAN))
+        model->setData(levelIndex, QVariant());
+    else
+        model->setData(levelIndex, 100);
 }
 
 
-void PlayersDelegate::updateEditorGeometry(QWidget *editor,
-                                           const QStyleOptionViewItem &option,
-                                           const QModelIndex &) const
+void PlayersTypeDelegate::updateEditorGeometry(QWidget *editor,
+                                               const QStyleOptionViewItem &option,
+                                               const QModelIndex &) const
 {
     editor->setGeometry(option.rect);
 }
 
 
 
-PlayersEventFilter::PlayersEventFilter(QObject *parent)
-    : QObject(parent)
+PlayersLevelDelegate::PlayersLevelDelegate(QObject *parent)
+    : QItemDelegate(parent)
+{
+}
+
+
+QWidget *PlayersLevelDelegate::createEditor(QWidget *parent,
+                                            const QStyleOptionViewItem &,
+                                            const QModelIndex &index) const
+{
+    // Allow changing the level only for computer players, i.e.
+    // if there is a level defined
+    if (index.model()->data(index, Qt::DisplayRole).isNull())
+        return NULL;
+    QSpinBox *editor = new QSpinBox(parent);
+    editor->setMinimum(0);
+    editor->setMaximum(100);
+    return editor;
+}
+
+
+void PlayersLevelDelegate::setEditorData(QWidget *editor,
+                                         const QModelIndex &index) const
+{
+    QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
+    int value = index.model()->data(index, Qt::DisplayRole).toInt();
+    spinBox->setValue(value);
+}
+
+
+void PlayersLevelDelegate::setModelData(QWidget *editor,
+                                        QAbstractItemModel *model,
+                                        const QModelIndex &index) const
+{
+    QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
+    model->setData(index, spinBox->value());
+}
+
+
+void PlayersLevelDelegate::updateEditorGeometry(QWidget *editor,
+                                                const QStyleOptionViewItem &option,
+                                                const QModelIndex &) const
+{
+    editor->setGeometry(option.rect);
+}
+
+
+
+    PlayersEventFilter::PlayersEventFilter(QObject *parent)
+: QObject(parent)
 {
 }
 

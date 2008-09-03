@@ -318,30 +318,38 @@ void MainWindow::on_action_GameSaveAs_triggered()
 }
 
 
-// Printing parameters
-#define TOTAL_WIDTH 500
-#define LINE_HEIGHT 20
-#define FONT_SIZE 12
-#define PEN_WIDTH 2
-#define TEXT_OFFSET 10
-#define SHOULD_ALIGN false
-
 void MainWindow::on_action_GamePrint_triggered()
 {
     if (m_game == NULL)
         return;
 
     QPrinter printer(QPrinter::HighResolution);
-    printer.setOutputFileName("/home/ipkiss/dev/eliot/qt-intf/linux/print.pdf");
     QPrintDialog printDialog(&printer, this);
     if (printDialog.exec() == QDialog::Accepted)
     {
         QPainter painter(&printer);
         const History &history = m_game->getHistory();
 
-        const int colWidths[] = { 30, 150, 150, 70, 70 };
-        const char *colTitles[] = { _("N."), _("RACK"), _("SOLUTION"), _("REF"), _("PTS") };
-        const unsigned int nbCols = sizeof(colWidths) / sizeof(int);
+        // Printing parameters (XXX: these could be configurable by the users)
+        // Number of pixels virtually present on the page width. The bigger
+        // this number, the smaller the print result
+        static const int TOTAL_WIDTH = 700;
+        // Distance between 2 horizontal lines
+        static const int LINE_HEIGHT = 16;
+        // Font size, in pixels
+        static const int FONT_SIZE = 10;
+        // Width of the pen used to draw the grid lines
+        static const int PEN_WIDTH = 1;
+        // Offset of the text from the previous vertical line, in pixels
+        static const int TEXT_OFFSET = 10;
+        // Indicate whether the rack and the solution should be aligned
+        static const bool SHOULD_ALIGN = false;
+        // Columns widths
+        static const int colWidths[] = { 30, 120, 120, 35, 35 };
+        // Columns titles
+        static const char *colTitles[] = { _("N."), _("RACK"), _("SOLUTION"), _("REF"), _("PTS") };
+
+        static const unsigned int nbCols = sizeof(colWidths) / sizeof(int);
         const unsigned int nbRows = history.getSize() + (SHOULD_ALIGN ? 1 : 2);
 
         double scale = printer.pageRect().width() / double(TOTAL_WIDTH);
@@ -353,7 +361,6 @@ void MainWindow::on_action_GamePrint_triggered()
 
         QFont font;
         font.setPixelSize(FONT_SIZE);
-        //QFont font(painter.font(), &painter);
         painter.setFont(font);
 
         int maxRight = 0;
@@ -451,7 +458,7 @@ void MainWindow::on_action_GamePrint_triggered()
         }
 
         // Total score
-        curHeight += LINE_HEIGHT;
+        nextHeight += LINE_HEIGHT;
         painter.drawText(curWidth, nextHeight, QString("%1").arg(score));
     }
 }

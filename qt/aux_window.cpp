@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <QtGui/QApplication>
 #include <QtGui/QAction>
 #include <QtGui/QWidget>
 #include <QtGui/QVBoxLayout>
@@ -35,6 +36,7 @@ AuxWindow::AuxWindow(QWidget &iWidget, QString iWindowTitle,
     : m_widget(iWidget), m_windowName(iWindowName), m_action(iAction)
 {
     setWindowTitle(iWindowTitle);
+    setWindowIcon(qApp->windowIcon());
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(&iWidget);
     setLayout(layout);
