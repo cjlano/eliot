@@ -1,7 +1,7 @@
 ICONV_VERSION = 1.12
 WX_VERSION = 2.6.4
 BOOST_VERSION = 1_34_1
-QT_VERSION = 4.3.3
+QT_VERSION = 4.4.1
 
 PREFIX = $(shell pwd)/inst
 WGET = wget -c
@@ -72,14 +72,14 @@ $(BOOST_DIR):
 ### Qt ###
 
 # FIXME: No automated way at the moment :-(
-QT_ARCHIVE = qt-win-opensource-$(QT_VERSION)-mingw.exe
+QT_ARCHIVE = qt4-$(QT_VERSION)-win32-bin.tar.bz2
+QT_DIR = qt4-$(QT_VERSION)-win32-bin
 
-$(QT_ARCHIVE):
-	$(WGET) ftp://ftp.trolltech.com/qt/source/qt-win-opensource-4.3.3-mingw.exe
+$(QT_DIR):
+	$(WGET) http://download.videolan.org/pub/videolan/testing/contrib/$(QT_ARCHIVE)
+	tar xjf $(QT_ARCHIVE)
 
-.qt: $(QT_ARCHIVE)
-	@echo "=============== Important note ==============="
-	@echo "You need to install $(QT_ARCHIVE) yourself using wine!"
-	@echo "=============================================="
+.qt: $(QT_DIR)
+	(cd $<; mkdir -p $(PREFIX)/bin; mkdir -p $(PREFIX)/include; mkdir -p $(PREFIX)/lib/pkgconfig; rm -f $(PREFIX)/lib/pkgconfig/Qt*; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtCore.pc.in > $(PREFIX)/lib/pkgconfig/QtCore.pc; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtGui.pc.in > $(PREFIX)/lib/pkgconfig/QtGui.pc; cp -r include/* $(PREFIX)/include; cp lib/*a $(PREFIX)/lib; mkdir -p $(PREFIX)/share/qt4/translations; cp -r share/translations/* $(PREFIX)/share/qt4/translations)
 	touch $@
 

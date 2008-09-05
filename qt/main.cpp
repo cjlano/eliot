@@ -24,6 +24,9 @@
 #include <QLocale>
 #include <QTranslator>
 #include "main_window.h"
+#ifdef WIN32
+#   include <windows.h>
+#endif
 
 int main(int argc, char **argv)
 {
@@ -37,24 +40,33 @@ int main(int argc, char **argv)
 
 #ifdef ENABLE_NLS
     // Set the message domain
-    bindtextdomain(PACKAGE, LOCALEDIR);
+#ifdef WIN32
+    // Get the absolute path, as returned by GetFullPathName()
+    char localeDir[MAX_PATH];
+    GetFullPathName(argv[0], MAX_PATH, localeDir, NULL);
+    char *pos = strrchr(localeDir, L'\\');
+    if (pos)
+        *pos = '\0';
+#else
+    static const char *localeDir = LOCALEDIR;
+#endif
+    bindtextdomain(PACKAGE, localeDir);
     textdomain(PACKAGE);
 
     // Translations for Qt's own strings
     QTranslator translator;
     // Set the path for the translation file
-#if !defined( WIN32 )
-    QString path = QString(QT4LOCALEDIR);
+#ifdef WIN32
+    QString path = localeDir;
 #else
-    QString path = QString(LOCALEDIR) + "/qt4/";
+    QString path = QString(QT4LOCALEDIR);
 #endif
     QString lang = QLocale::system().name();
-    translator.load(path + "qt_" + lang);
+    translator.load(path + "/qt_" + lang);
     app.installTranslator(&translator);
 #endif
 
     MainWindow qmain;
-    qmain.move(200, 200);
     qmain.show();
     return app.exec();
 }

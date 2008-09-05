@@ -21,6 +21,7 @@
 #include <cstdlib>
 
 #include "settings.h"
+#include "game_exception.h"
 
 
 Settings *Settings::m_instance = NULL;
@@ -113,8 +114,7 @@ void Settings::OptionsHandler<T>::setOption(const string &iName, const T &iValue
     typename map<string, T>::iterator it = m_options.find(iName);
     if (it == m_options.end())
     {
-        // FIXME: throw an exception object instead
-        throw 1;
+        throw GameException("No such option: " + iName);
     }
     it->second = iValue;
 }
@@ -126,8 +126,7 @@ const T& Settings::OptionsHandler<T>::getOption(const string &iName) const
     typename map<string, T>::const_iterator it = m_options.find(iName);
     if (it == m_options.end())
     {
-        // FIXME: throw an exception object instead
-        throw 1;
+        throw GameException("No such option: " + iName);
     }
     return it->second;
 }

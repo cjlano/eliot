@@ -97,6 +97,8 @@ private:
     /// Dialog for the preferences
     PrefsDialog *m_prefsDialog;
 
+    static const char * m_windowName;
+
     /// Auxiliary windows
     //@{
     AuxWindow *m_bagWindow;
@@ -107,6 +109,11 @@ private:
 
     /// Label indicationg the name of the current dictionary
     QLabel *m_dicNameLabel;
+
+    /// Save window state
+    void writeSettings() const;
+    /// Restore window state
+    void readSettings();
 
     /// Destroy the current game (if any) and the associated widgets
     void destroyCurrentGame();

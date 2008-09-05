@@ -22,28 +22,29 @@ noinst_LIBRARIES = libgame.a
 AM_CPPFLAGS = -I$(top_srcdir)/dic -I../intl -I$(top_srcdir)/intl
 
 libgame_a_SOURCES=           \
-	ai_percent.cpp ai_percent.h     \
-	ai_player.h                     \
-	bag.cpp bag.h                   \
-	coord.cpp coord.h               \
-	cross.cpp cross.h               \
-	board.cpp board.h               \
-	board_cross.cpp                 \
-	board_search.cpp                \
-	duplicate.cpp duplicate.h       \
-	freegame.cpp freegame.h         \
-	game.cpp game.h                 \
-	game_factory.cpp game_factory.h \
-	game_io.cpp                     \
-	move.cpp move.h                 \
-	player.cpp player.h             \
-	pldrack.cpp pldrack.h           \
-	rack.cpp rack.h                 \
-	results.cpp results.h           \
-	round.cpp round.h               \
-	settings.cpp settings.h         \
-	training.cpp training.h         \
-	turn.cpp turn.h                 \
-	history.cpp history.h           \
-	debug.h
+    ai_percent.cpp ai_percent.h     \
+    ai_player.h                     \
+    bag.cpp bag.h                   \
+    coord.cpp coord.h               \
+    cross.cpp cross.h               \
+    board.cpp board.h               \
+    board_cross.cpp                 \
+    board_search.cpp                \
+    duplicate.cpp duplicate.h       \
+    freegame.cpp freegame.h         \
+    game.cpp game.h                 \
+    game_exception.cpp game_exception.h \
+    game_factory.cpp game_factory.h \
+    game_io.cpp                     \
+    move.cpp move.h                 \
+    player.cpp player.h             \
+    pldrack.cpp pldrack.h           \
+    rack.cpp rack.h                 \
+    results.cpp results.h           \
+    round.cpp round.h               \
+    settings.cpp settings.h         \
+    training.cpp training.h         \
+    turn.cpp turn.h                 \
+    history.cpp history.h           \
+    debug.h
 

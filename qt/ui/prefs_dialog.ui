@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>343</width>
+    <width>401</width>
     <height>432</height>
    </rect>
   </property>
@@ -30,6 +30,12 @@
         </item>
         <item>
          <widget class="QLineEdit" name="lineEditIntfDicPath" >
+          <property name="minimumSize" >
+           <size>
+            <width>130</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="toolTip" >
            <string>_("Enter the dictionary path (mandatory to start a game)")</string>
           </property>

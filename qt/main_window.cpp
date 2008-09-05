@@ -60,12 +60,29 @@
 #include "coord.h"
 
 
+const char *MainWindow::m_windowName = "MainWindow";
+
 MainWindow::MainWindow(QWidget *iParent)
     : QMainWindow(iParent), m_dic(NULL), m_game(NULL), m_newGameDialog(NULL),
     m_prefsDialog(NULL), m_bagWindow(NULL), m_boardWindow(NULL),
     m_historyWindow(NULL), m_dicToolsWindow(NULL), m_dicNameLabel(NULL)
 {
     m_ui.setupUi(this);
+    readSettings();
+
+    // Initialize the random numbers generator
+    // Note: This must be done _after_ creating the QMenuBar object,
+    // because on Gnome QMenuBar calls gconftool2, which for some reason
+    // calls srand() internally...
+    // This could be disabled using QApplication::setDesktopSettingsAware(),
+    // but we would lose the desktop integration...
+    unsigned int val = time(NULL);
+    srand(val);
+#ifdef DEBUG
+    // Make it easier to reproduce bugs
+    cout << "Rand seed: " << val << endl;
+#endif
+
     QObject::connect(this, SIGNAL(gameChanged(const Game*)),
                      this, SLOT(updateForGame(const Game*)));
 
@@ -216,7 +233,7 @@ void MainWindow::updateStatusBar(const Dictionary *iDic)
 void MainWindow::displayErrorMsg(QString iMsg, QString iContext)
 {
     if (iContext == "")
-        iContext = PACKAGE_NAME;
+        iContext = _q("%1 error").arg(PACKAGE_NAME);
 
     QMessageBox::warning(this, iContext, iMsg);
 }
@@ -239,7 +256,30 @@ void MainWindow::closeEvent(QCloseEvent *event)
         m_historyWindow->close();
     if (m_dicToolsWindow)
         m_dicToolsWindow->close();
+    writeSettings();
     event->accept();
+}
+
+
+void MainWindow::writeSettings() const
+{
+    QSettings settings(ORGANIZATION, PACKAGE_NAME);
+    settings.beginGroup(m_windowName);
+    settings.setValue("size", size());
+    settings.setValue("pos", pos());
+    settings.endGroup();
+}
+
+
+void MainWindow::readSettings()
+{
+    QSettings settings(ORGANIZATION, PACKAGE_NAME);
+    settings.beginGroup(m_windowName);
+    QSize size = settings.value("size").toSize();
+    if (size.isValid())
+        resize(size);
+    move(settings.value("pos", QPoint(200, 200)).toPoint());
+    settings.endGroup();
 }
 
 

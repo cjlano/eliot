@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2008 Olivier Teulière
+ * Copyright (C) 2007 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -18,41 +18,28 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef QT_COMMON_H_
-#define QT_COMMON_H_
+#ifndef _GAME_EXCEPTION_H_
+#define _GAME_EXCEPTION_H_
 
-#include "config.h"
-#include <QtCore/QString>
+#include <exception>
+#include <string>
 
-#if ENABLE_NLS
-#   include <libintl.h>
-#   define _(String) gettext(String)
-// Apparently needed on Windows, where libintl.h defines sprintf
-// as libintl_sprintf...
-#   undef sprintf
-#else
-#   define _(String) String
-#endif
 
-// Convert to/from utf-8 char*
-#define qfu(s) QString::fromUtf8(s)
-#define qtu(s) (s).toUtf8().data()
-// Convert to/from local encoding
-#define qfl(s) QString::fromLocal8Bit(s)
-#define qtl(s) (s).toLocal8Bit().data()
-// Convert to/from std::wstring
-#ifdef QT_NO_STL
-#   include "encoding.h"
-#   define qfw(s) qfl(convertToMb(s).c_str())
-#   define qtw(s) convertToWc(qtl(s))
-#else
-#   define qfw(s) QString::fromStdWString(s)
-#   define qtw(s) (s).toStdWString().data()
-#endif
-// Translation macro to use gettext
-#define _q(s) qfu(_(s))
+/**
+ * Exception class for the Game library.
+ * It simply inherits from the standard exception and overrides
+ * its what() method.
+ */
+class GameException: public std::exception
+{
+    public:
+        GameException(const std::string &iMessage);
+        ~GameException() throw() {}
+        virtual const char *what() const throw();
 
-// Used for QSettings
-#define ORGANIZATION "Eliot"
+    private:
+        std::string m_message;
+};
+
 
 #endif

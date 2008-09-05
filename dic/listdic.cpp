@@ -41,6 +41,9 @@
 #else
 #   define _(String) String
 #endif
+#ifdef WIN32
+#   include <windows.h>
+#endif
 
 #include "header.h"
 #include "encoding.h"
@@ -125,7 +128,17 @@ int main(int argc, char *argv[])
 
 #if ENABLE_NLS
     // Set the message domain
-    bindtextdomain(PACKAGE, LOCALEDIR);
+#ifdef WIN32
+    // Get the absolute path, as returned by GetFullPathName()
+    char localeDir[MAX_PATH];
+    GetFullPathName(argv[0], MAX_PATH, localeDir, NULL);
+    char *pos = strrchr(localeDir, L'\\');
+    if (pos)
+        *pos = '\0';
+#else
+    static const char *localeDir = LOCALEDIR;
+#endif
+    bindtextdomain(PACKAGE, localeDir);
     textdomain(PACKAGE);
 #endif
 

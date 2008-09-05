@@ -22,8 +22,10 @@
 
 #include <QtCore/QSettings>
 #include <QtGui/QFileDialog>
+#include <QtGui/QMessageBox>
 
 #include "prefs_dialog.h"
+#include "game_exception.h"
 #include "settings.h"
 
 
@@ -36,15 +38,23 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
 {
     setupUi(this);
 
-    // Interface settings
-    QSettings qs(ORGANIZATION, PACKAGE_NAME);
-    checkBoxIntfAlignHistory->setChecked(qs.value(kINTF_ALIGN_HISTORY).toBool());
-    lineEditIntfDicPath->setText(qs.value(kINTF_DIC_PATH, "").toString());
+    try
+    {
+        // Interface settings
+        QSettings qs(ORGANIZATION, PACKAGE_NAME);
+        checkBoxIntfAlignHistory->setChecked(qs.value(kINTF_ALIGN_HISTORY).toBool());
+        lineEditIntfDicPath->setText(qs.value(kINTF_DIC_PATH, "").toString());
 
-    // Duplicate settings
-    checkBoxDuplRefuseInvalid->setChecked(Settings::Instance().getBool("duplicate-reject-invalid"));
-    spinBoxDuplSoloPlayers->setValue(Settings::Instance().getInt("duplicate-solo-players"));
-    spinBoxDuplSoloValue->setValue(Settings::Instance().getInt("duplicate-solo-value"));
+        // Duplicate settings
+        checkBoxDuplRefuseInvalid->setChecked(Settings::Instance().getBool("duplicate-reject-invalid"));
+        spinBoxDuplSoloPlayers->setValue(Settings::Instance().getInt("duplicate-solo-players"));
+        spinBoxDuplSoloValue->setValue(Settings::Instance().getInt("duplicate-solo-value"));
+    }
+    catch (GameException &e)
+    {
+        QMessageBox::warning(this, _q("%1 error").arg(PACKAGE_NAME),
+                             _q("Cannot load preferences: %1").arg(e.what()));
+    }
 
     // Freegame settings
     checkBoxFreeRefuseInvalid->setChecked(Settings::Instance().getBool("freegame-reject-invalid"));
@@ -69,30 +79,38 @@ void PrefsDialog::updateSettings()
 {
     bool shouldEmitUpdate = false;
 
-    // Interface settings
-    QSettings qs(ORGANIZATION, PACKAGE_NAME);
-    if (qs.value(kINTF_ALIGN_HISTORY).toBool() != checkBoxIntfAlignHistory->isChecked())
+    try
     {
-        // We need to redraw the history widget
-        shouldEmitUpdate = true;
-        qs.setValue(kINTF_ALIGN_HISTORY, checkBoxIntfAlignHistory->isChecked());
+        // Interface settings
+        QSettings qs(ORGANIZATION, PACKAGE_NAME);
+        if (qs.value(kINTF_ALIGN_HISTORY).toBool() != checkBoxIntfAlignHistory->isChecked())
+        {
+            // We need to redraw the history widget
+            shouldEmitUpdate = true;
+            qs.setValue(kINTF_ALIGN_HISTORY, checkBoxIntfAlignHistory->isChecked());
+        }
+        qs.setValue(kINTF_DIC_PATH, lineEditIntfDicPath->text());
+
+        // Duplicate settings
+        Settings::Instance().setBool("duplicate-reject-invalid",
+                                     checkBoxDuplRefuseInvalid->isChecked());
+        Settings::Instance().setInt("duplicate-solo-players",
+                                    spinBoxDuplSoloPlayers->value());
+        Settings::Instance().setInt("duplicate-solo-value",
+                                    spinBoxDuplSoloValue->value());
+
+        // Freegame settings
+        Settings::Instance().setBool("freegame-reject-invalid",
+                                     checkBoxFreeRefuseInvalid->isChecked());
+
+        // Training settings
+
     }
-    qs.setValue(kINTF_DIC_PATH, lineEditIntfDicPath->text());
-
-    // Duplicate settings
-    Settings::Instance().setBool("duplicate-reject-invalid",
-                                 checkBoxDuplRefuseInvalid->isChecked());
-    Settings::Instance().setInt("duplicate-solo-players",
-                                spinBoxDuplSoloPlayers->value());
-    Settings::Instance().setInt("duplicate-solo-value",
-                                spinBoxDuplSoloValue->value());
-
-    // Freegame settings
-    Settings::Instance().setBool("freegame-reject-invalid",
-                                 checkBoxFreeRefuseInvalid->isChecked());
-
-    // Training settings
-
+    catch (GameException &e)
+    {
+        QMessageBox::warning(this, _q("%1 error").arg(PACKAGE_NAME),
+                             _q("Cannot save preferences: %1").arg(e.what()));
+    }
 
     if (shouldEmitUpdate)
         emit gameUpdated();
