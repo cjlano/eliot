@@ -35,6 +35,7 @@ class NewGame;
 class PrefsDialog;
 class AuxWindow;
 class QLabel;
+class QAction;
 
 class MainWindow: public QMainWindow
 {
@@ -60,17 +61,17 @@ protected:
     virtual void closeEvent(QCloseEvent * e);
 
 private slots:
-    void on_action_GameNew_triggered();
-    void on_action_GameLoad_triggered();
-    void on_action_GameSaveAs_triggered();
-    void on_action_GamePrint_triggered();
-    void on_action_SettingsChooseDic_triggered();
-    void on_action_SettingsPreferences_triggered();
-    void on_action_WindowsBag_triggered();
-    void on_action_WindowsBoard_triggered();
-    void on_action_WindowsHistory_triggered();
-    void on_action_WindowsDicTools_triggered();
-    void on_action_HelpAbout_triggered();
+    void onGameNew();
+    void onGameLoad();
+    void onGameSaveAs();
+    void onGamePrint();
+    void onSettingsChooseDic();
+    void onSettingsPreferences();
+    void onWindowsBag();
+    void onWindowsBoard();
+    void onWindowsHistory();
+    void onWindowsDicTools();
+    void onHelpAbout();
 
     /**
      * Perform several updates when the game changes (title bar, status bar,
@@ -97,13 +98,21 @@ private:
     /// Dialog for the preferences
     PrefsDialog *m_prefsDialog;
 
+    /// Actions enabled or disabled depending on the game state
+    QAction *m_actionGamePrint;
+    QAction *m_actionGameSaveAs;
+
     static const char * m_windowName;
 
     /// Auxiliary windows
     //@{
+    QAction *m_actionWindowsBag;
     AuxWindow *m_bagWindow;
+    QAction *m_actionWindowsBoard;
     AuxWindow *m_boardWindow;
+    QAction *m_actionWindowsHistory;
     AuxWindow *m_historyWindow;
+    QAction *m_actionWindowsDicTools;
     AuxWindow *m_dicToolsWindow;
     //@}
 
@@ -114,6 +123,15 @@ private:
     void writeSettings() const;
     /// Restore window state
     void readSettings();
+
+    /// Helper function to easemenu creation
+    QAction * addMenuAction(QMenu *menu, QString iText,
+                            const QKeySequence &iShortcut,
+                            QString iStatusTip, const char *iMember,
+                            bool iCheckable = false);
+
+    /// Create the menu bar and the actions
+    void createMenu();
 
     /// Destroy the current game (if any) and the associated widgets
     void destroyCurrentGame();

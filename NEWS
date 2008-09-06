@@ -1,3 +1,27 @@
+Changes between 1.6 and 1.7:
+----------------------------
+
+Dictionary:
+ * Fixed regular expressions for non-ASCII languages
+ * Fixed bugs in the dictionary cmopression tool (compdic)
+ * The French translation of dictionary tools is now working on Windows
+
+New Qt interface:
+ * Allows playing several types of games:
+    - Training game: allows to set the rack and place your solution,
+      like in the previous Eliot versions
+    - Duplicate game: play a duplicate game against human or computer players
+    - Free game: play a free game against human or computer players
+ * All these types of games can be joker games
+ * Computer level can be adjusted to have a challenging opponent
+
+WxWidgets interface:
+ * This interface is still present (wxeliot binary) but will disappear in the
+   next release. Please indicate missing features in the new interface!
+
+Build system:
+ * It is now much easier to cross-compile a version for Windows
+
 Changes between 1.5 and 1.6:
 ----------------------------
 

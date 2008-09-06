@@ -75,6 +75,11 @@ void BoardWidget::paintEvent(QPaintEvent *)
     int size = std::min(width(), height());
     int squareSize = (int)floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2));
 
+    // The font must grow with the square size
+    QFont f = font();
+    f.setPixelSize(squareSize * 2 / 3);
+    setFont(f);
+
     // XXX: Naive implementation: we repaint everything every time
     QPainter painter(this);
     //painter.setPen(Qt::NoPen);

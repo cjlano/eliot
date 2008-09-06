@@ -75,46 +75,6 @@
      <height>26</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile" >
-    <property name="title" >
-     <string>_("Game")</string>
-    </property>
-    <addaction name="action_GameNew" />
-    <addaction name="separator" />
-    <addaction name="action_GameLoad" />
-    <addaction name="action_GameSaveAs" />
-    <addaction name="separator" />
-    <addaction name="action_GamePrint" />
-    <addaction name="separator" />
-    <addaction name="action_GameQuit" />
-   </widget>
-   <widget class="QMenu" name="menuHelp" >
-    <property name="title" >
-     <string>_("Settings")</string>
-    </property>
-    <addaction name="action_SettingsChooseDic" />
-    <addaction name="action_SettingsPreferences" />
-   </widget>
-   <widget class="QMenu" name="menu_Help" >
-    <property name="title" >
-     <string>_("Help")</string>
-    </property>
-    <addaction name="action_HelpAbout" />
-    <addaction name="separator" />
-   </widget>
-   <widget class="QMenu" name="menu_Windows" >
-    <property name="title" >
-     <string>_("Windows")</string>
-    </property>
-    <addaction name="action_WindowsBag" />
-    <addaction name="action_WindowsBoard" />
-    <addaction name="action_WindowsHistory" />
-    <addaction name="action_WindowsDicTools" />
-   </widget>
-   <addaction name="menuFile" />
-   <addaction name="menuHelp" />
-   <addaction name="menu_Windows" />
-   <addaction name="menu_Help" />
   </widget>
   <widget class="QStatusBar" name="statusbar" >
    <property name="geometry" >
@@ -126,41 +86,6 @@
     </rect>
    </property>
   </widget>
-  <action name="action_SettingsChooseDic" >
-   <property name="text" >
-    <string>_("Choose dictionary...")</string>
-   </property>
-   <property name="statusTip" >
-    <string>_("Select a new dictionary")</string>
-   </property>
-  </action>
-  <action name="action_HelpAbout" >
-   <property name="text" >
-    <string>_("About...")</string>
-   </property>
-   <property name="statusTip" >
-    <string>_("About Eliot")</string>
-   </property>
-  </action>
-  <action name="action_GameQuit" >
-   <property name="text" >
-    <string>_("Quit")</string>
-   </property>
-   <property name="statusTip" >
-    <string>_("Quit Eliot")</string>
-   </property>
-  </action>
-  <action name="action_GameNew" >
-   <property name="text" >
-    <string>_("New...")</string>
-   </property>
-   <property name="statusTip" >
-    <string>_("Start a new game")</string>
-   </property>
-   <property name="shortcut" >
-    <string>Ctrl+N</string>
-   </property>
-  </action>
   <action name="action_WindowsBag" >
    <property name="checkable" >
     <bool>true</bool>
@@ -173,47 +98,6 @@
    </property>
    <property name="shortcut" >
     <string>Ctrl+B</string>
-   </property>
-  </action>
-  <action name="action_SettingsPreferences" >
-   <property name="text" >
-    <string>_("Preferences...")</string>
-   </property>
-   <property name="statusTip" >
-    <string>_("Edit the preferences")</string>
-   </property>
-   <property name="shortcut" >
-    <string>Ctrl+F</string>
-   </property>
-  </action>
-  <action name="action_GameSave" >
-   <property name="text" >
-    <string>_("Save")</string>
-   </property>
-   <property name="shortcut" >
-    <string>Ctrl+S</string>
-   </property>
-  </action>
-  <action name="action_GameLoad" >
-   <property name="text" >
-    <string>_("Load...")</string>
-   </property>
-   <property name="statusTip" >
-    <string>_("Load an existing game")</string>
-   </property>
-   <property name="shortcut" >
-    <string>Ctrl+O</string>
-   </property>
-  </action>
-  <action name="action_GameSaveAs" >
-   <property name="text" >
-    <string>_("Save as...")</string>
-   </property>
-   <property name="statusTip" >
-    <string>_("Save the current game")</string>
-   </property>
-   <property name="shortcut" >
-    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="action_WindowsBoard" >
@@ -244,17 +128,6 @@
     <string>Ctrl+H</string>
    </property>
   </action>
-  <action name="action_GamePrint" >
-   <property name="text" >
-    <string>_("Print...")</string>
-   </property>
-   <property name="statusTip" >
-    <string>_("Print the current game")</string>
-   </property>
-   <property name="shortcut" >
-    <string>Ctrl+P</string>
-   </property>
-  </action>
   <action name="action_WindowsDicTools" >
    <property name="checkable" >
     <bool>true</bool>
@@ -273,22 +146,4 @@
  <resources>
   <include location="../eliot.qrc" />
  </resources>
- <connections>
-  <connection>
-   <sender>action_GameQuit</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>260</x>
-     <y>215</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
 </ui>

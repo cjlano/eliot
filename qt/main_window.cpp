@@ -68,6 +68,7 @@ MainWindow::MainWindow(QWidget *iParent)
     m_historyWindow(NULL), m_dicToolsWindow(NULL), m_dicNameLabel(NULL)
 {
     m_ui.setupUi(this);
+    createMenu();
     readSettings();
 
     // Initialize the random numbers generator
@@ -197,14 +198,14 @@ void MainWindow::updateForGame(const Game *iGame)
 {
     if (iGame == NULL)
     {
-        m_ui.action_GameSaveAs->setEnabled(false);
-        m_ui.action_GamePrint->setEnabled(false);
+        m_actionGameSaveAs->setEnabled(false);
+        m_actionGamePrint->setEnabled(false);
         setWindowTitle(_q("No game") + " - Eliot");
     }
     else
     {
-        m_ui.action_GameSaveAs->setEnabled(true);
-        m_ui.action_GamePrint->setEnabled(true);
+        m_actionGameSaveAs->setEnabled(true);
+        m_actionGamePrint->setEnabled(true);
         if (iGame->getMode() == Game::kTRAINING)
         {
             setWindowTitle(_q("Training mode") + " - Eliot");
@@ -283,7 +284,69 @@ void MainWindow::readSettings()
 }
 
 
-void MainWindow::on_action_GameNew_triggered()
+QAction * MainWindow::addMenuAction(QMenu *menu, QString iText,
+                                    const QKeySequence &iShortcut,
+                                    QString iStatusTip, const char *iMember,
+                                    bool iCheckable)
+{
+    QAction *action = new QAction(iText, this);
+    action->setShortcut(iShortcut);
+    action->setStatusTip(iStatusTip);
+    action->setCheckable(iCheckable);
+    QObject::connect(action, SIGNAL(triggered()), this, iMember);
+    menu->addAction(action);
+    return action;
+}
+
+
+void MainWindow::createMenu()
+{
+    QMenu *menuFile = new QMenu(m_ui.menubar);
+    m_ui.menubar->addAction(menuFile->menuAction());
+    menuFile->setTitle(_q("&Game"));
+    addMenuAction(menuFile, _q("&New..."), _q("Ctrl+N"),
+                  _q("Start a new game"), SLOT(onGameNew()));
+    menuFile->addSeparator();
+    addMenuAction(menuFile, _q("&Load..."), _q("Ctrl+O"),
+                  _q("Load an existing game"), SLOT(onGameLoad()));
+    m_actionGameSaveAs = addMenuAction(menuFile, _q("&Save as..."), _q("Ctrl+S"),
+                  _q("Save the current game"), SLOT(onGameSaveAs()));
+    menuFile->addSeparator();
+    m_actionGamePrint = addMenuAction(menuFile, _q("&Print..."), _q("Ctrl+P"),
+                  _q("Print the current game"), SLOT(onGamePrint()));
+    menuFile->addSeparator();
+    addMenuAction(menuFile, _q("&Quit"), _q("Ctrl+Q"),
+                  _q("Quit Eliot"), SLOT(close()));
+
+    QMenu *menuSettings = new QMenu(m_ui.menubar);
+    m_ui.menubar->addAction(menuSettings->menuAction());
+    menuSettings->setTitle(_q("&Settings"));
+    addMenuAction(menuSettings, _q("&Choose dictionary..."), QString(""),
+                  _q("Select a new dictionary"), SLOT(onSettingsChooseDic()));
+    addMenuAction(menuSettings, _q("&Preferences..."), _q("Ctrl+F"),
+                  _q("Edit the preferences"), SLOT(onSettingsPreferences()));
+
+    QMenu *menuWindows = new QMenu(m_ui.menubar);
+    m_ui.menubar->addAction(menuWindows->menuAction());
+    menuWindows->setTitle(_q("&Windows"));
+    m_actionWindowsBag = addMenuAction(menuWindows, _q("&Bag"), _q("Ctrl+B"),
+                  _q("Show/hide the remaining tiles in the bag"), SLOT(onWindowsBag()), true);
+    m_actionWindowsBoard = addMenuAction(menuWindows, _q("&External board"), _q("Ctrl+E"),
+                  _q("Show/hide the external board"), SLOT(onWindowsBoard()), true);
+    m_actionWindowsHistory = addMenuAction(menuWindows, _q("&History"), _q("Ctrl+H"),
+                  _q("Show/hide the game history"), SLOT(onWindowsHistory()), true);
+    m_actionWindowsDicTools = addMenuAction(menuWindows, _q("&Dictionary tools"), _q("Ctrl+D"),
+                  _q("Show/hide the dictionary tools"), SLOT(onWindowsDicTools()), true);
+
+    QMenu *menuHelp = new QMenu(m_ui.menubar);
+    m_ui.menubar->addAction(menuHelp->menuAction());
+    menuHelp->setTitle(_q("&Help"));
+    addMenuAction(menuHelp, _q("&About..."), _q("Ctrl+A"),
+                  _q("About Eliot"), SLOT(onHelpAbout()));
+}
+
+
+void MainWindow::onGameNew()
 {
     if (m_dic == NULL)
     {
@@ -316,7 +379,7 @@ void MainWindow::on_action_GameNew_triggered()
 }
 
 
-void MainWindow::on_action_GameLoad_triggered()
+void MainWindow::onGameLoad()
 {
     if (m_dic == NULL)
     {
@@ -343,7 +406,7 @@ void MainWindow::on_action_GameLoad_triggered()
 }
 
 
-void MainWindow::on_action_GameSaveAs_triggered()
+void MainWindow::onGameSaveAs()
 {
     if (m_game == NULL)
         return;
@@ -358,7 +421,7 @@ void MainWindow::on_action_GameSaveAs_triggered()
 }
 
 
-void MainWindow::on_action_GamePrint_triggered()
+void MainWindow::onGamePrint()
 {
     if (m_game == NULL)
         return;
@@ -504,7 +567,7 @@ void MainWindow::on_action_GamePrint_triggered()
 }
 
 
-void MainWindow::on_action_SettingsPreferences_triggered()
+void MainWindow::onSettingsPreferences()
 {
     if (m_prefsDialog == NULL)
     {
@@ -516,7 +579,7 @@ void MainWindow::on_action_SettingsPreferences_triggered()
 }
 
 
-void MainWindow::on_action_SettingsChooseDic_triggered()
+void MainWindow::onSettingsChooseDic()
 {
     if (m_game)
     {
@@ -555,7 +618,7 @@ void MainWindow::on_action_SettingsChooseDic_triggered()
 }
 
 
-void MainWindow::on_action_WindowsBag_triggered()
+void MainWindow::onWindowsBag()
 {
     if (m_bagWindow == NULL)
     {
@@ -563,7 +626,7 @@ void MainWindow::on_action_WindowsBag_triggered()
         BagWidget *bag = new BagWidget(NULL);
         bag->setGame(m_game);
         m_bagWindow = new AuxWindow(*bag, _q("Bag"), "BagWindow",
-                                    m_ui.action_WindowsBag);
+                                    m_actionWindowsBag);
         QObject::connect(this, SIGNAL(gameChanged(const Game*)),
                          bag, SLOT(setGame(const Game*)));
         QObject::connect(this, SIGNAL(gameUpdated()),
@@ -573,7 +636,7 @@ void MainWindow::on_action_WindowsBag_triggered()
 }
 
 
-void MainWindow::on_action_WindowsBoard_triggered()
+void MainWindow::onWindowsBoard()
 {
     if (m_boardWindow == NULL)
     {
@@ -581,7 +644,7 @@ void MainWindow::on_action_WindowsBoard_triggered()
         BoardWidget *board = new BoardWidget(NULL);
         board->setGame(m_game);
         m_boardWindow = new AuxWindow(*board, _q("Board"), "BoardWindow",
-                                      m_ui.action_WindowsBoard);
+                                      m_actionWindowsBoard);
         QObject::connect(this, SIGNAL(gameChanged(const Game*)),
                          board, SLOT(setGame(const Game*)));
         QObject::connect(this, SIGNAL(gameUpdated()),
@@ -591,7 +654,7 @@ void MainWindow::on_action_WindowsBoard_triggered()
 }
 
 
-void MainWindow::on_action_WindowsHistory_triggered()
+void MainWindow::onWindowsHistory()
 {
     if (m_historyWindow == NULL)
     {
@@ -599,7 +662,7 @@ void MainWindow::on_action_WindowsHistory_triggered()
         HistoryTabWidget *history = new HistoryTabWidget(NULL);
         history->setGame(m_game);
         m_historyWindow = new AuxWindow(*history, _q("History"), "HistoryWindow",
-                                        m_ui.action_WindowsHistory);
+                                        m_actionWindowsHistory);
         QObject::connect(this, SIGNAL(gameChanged(const Game*)),
                          history, SLOT(setGame(const Game*)));
         QObject::connect(this, SIGNAL(gameUpdated()),
@@ -609,14 +672,14 @@ void MainWindow::on_action_WindowsHistory_triggered()
 }
 
 
-void MainWindow::on_action_WindowsDicTools_triggered()
+void MainWindow::onWindowsDicTools()
 {
     if (m_dicToolsWindow == NULL)
     {
         // Create the window
         DicToolsWidget *dicTools = new DicToolsWidget(NULL);
         m_dicToolsWindow = new AuxWindow(*dicTools, _q("Dictionary tools"), "DicTools",
-                                    m_ui.action_WindowsDicTools);
+                                    m_actionWindowsDicTools);
         QObject::connect(this, SIGNAL(dicChanged(const Dictionary*)),
                          dicTools, SLOT(setDic(const Dictionary*)));
         // Fake a dictionary selection
@@ -627,7 +690,7 @@ void MainWindow::on_action_WindowsDicTools_triggered()
 }
 
 
-void MainWindow::on_action_HelpAbout_triggered()
+void MainWindow::onHelpAbout()
 {
     QString msg;
     msg.sprintf("Eliot %s\n\n", VERSION);
