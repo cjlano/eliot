@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Preferences</string>
+   <string>_("Preferences")</string>
   </property>
   <layout class="QVBoxLayout" >
    <item>

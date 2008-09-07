@@ -20,11 +20,11 @@ localedir = $(datadir)/locale
 
 if BUILD_WXWIDGETS
 
-bin_PROGRAMS = eliot
+bin_PROGRAMS = wxeliot
 
 AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" @WX_CPPFLAGS@ -I$(top_srcdir) -I$(top_srcdir)/dic -I$(top_srcdir)/game
 
-eliot_SOURCES = \
+wxeliot_SOURCES = \
     configdb.cc configdb.h \
     gfxboard.cc gfxboard.h \
     gfxresult.cc gfxresult.h \
@@ -36,7 +36,7 @@ eliot_SOURCES = \
     mainframe.cc mainframe.h  \
     main.cc ewx.h
 
-eliot_LDADD = @WX_LIBS@ ../game/libgame.a ../dic/libdic.a @LIBINTL@
+wxeliot_LDADD = @WX_LIBS@ ../game/libgame.a ../dic/libdic.a @LIBINTL@
 
 EXTRA_DIST = \
     eliot.xpm \

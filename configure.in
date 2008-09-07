@@ -4,7 +4,7 @@ dnl --------------------------------------------------------------
 dnl configure.in for Eliot
 dnl --------------------------------------------------------------
 AC_INIT(eliot, 1.7-cvs)
-AC_CONFIG_SRCDIR(wxwin/main.cc)
+AC_CONFIG_SRCDIR(qt/main.cpp)
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_HOST
@@ -68,6 +68,9 @@ fi
 dnl Regexp / Listdic / Compdic build enable
 AC_ARG_ENABLE([dictools],AC_HELP_STRING([--enable-dictools],[build independant dictionary tools (default enabled)]))
 AM_CONDITIONAL([BUILD_DICTOOLS], [test "${enable_dictools}" != "no"])
+
+dnl Define WIN32_BUILD if the compiler is i586-mingw32msvc-g++
+AM_CONDITIONAL([WIN32_BUILD], [test "${CXX}" = "i586-mingw32msvc-g++"])
 
 dnl --------------------------------------------------------------
 dnl Checks for header files.

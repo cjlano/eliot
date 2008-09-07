@@ -24,7 +24,7 @@ AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" @QT_CFLAGS@ -DQT4LOCALEDIR=\"@QT4LOCA
 
 SUFFIXES=.ui.h .moc.cpp
 
-bin_PROGRAMS = qeliot
+bin_PROGRAMS = eliot
 
 RESOURCES = \
     images/eliot.xpm
@@ -37,7 +37,8 @@ EXTRA_DIST = \
     ui/prefs_dialog.ui \
     ui/training_widget.ui \
     eliot.qrc \
-    $(RESOURCES)
+    $(RESOURCES) \
+    images/eliot.ico
 
 BUILT_SOURCES = \
     ui/main_window.ui.h \
@@ -59,7 +60,7 @@ BUILT_SOURCES = \
     main_window.moc.cpp \
     resources.cpp
 
-qeliot_SOURCES = \
+eliot_SOURCES = \
     qtcommon.h \
     bag_widget.cpp bag_widget.h \
     dic_tools_widget.cpp dic_tools_widget.h \
@@ -73,9 +74,9 @@ qeliot_SOURCES = \
     aux_window.cpp aux_window.h \
     main_window.cpp main_window.h \
     main.cpp
-qeliot_SOURCES += $(BUILT_SOURCES)
+eliot_SOURCES += $(BUILT_SOURCES)
 
-qeliot_LDADD = @QT_LIBS@ ../game/libgame.a ../dic/libdic.a @LIBINTL@
+eliot_LDADD = @QT_LIBS@ ../game/libgame.a ../dic/libdic.a @LIBINTL@
 
 # Generate a cpp file from the resources
 resources.cpp: eliot.qrc $(RESOURCES)
@@ -97,6 +98,18 @@ resources.cpp: eliot.qrc $(RESOURCES)
 	sed 's/Q_(\"_(\\\"\(.*\)\\\")"/Q_("\1"/' $@.tmp >$@
 	rm -f $@.tmp
 
+# Embed the icon in the win32 binary, see http://doc.trolltech.com/4.4/appicon.html
+if WIN32_BUILD
+BUILT_SOURCES += win32icon.rc
+eliot_SOURCES += win32icon.rc
+eliot_LDADD += win32icon.o
+
+win32icon.rc: images/eliot.ico
+	echo "IDI_ICON1 ICON DISCARDABLE \"$(top_srcdir)/qt/images/eliot.ico\"" > $@
+
+win32icon.o: win32icon.rc
+	i586-mingw32msvc-windres -o $@ -i $<
+endif
 
 endif
 

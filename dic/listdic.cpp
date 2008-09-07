@@ -130,15 +130,16 @@ int main(int argc, char *argv[])
     // Set the message domain
 #ifdef WIN32
     // Get the absolute path, as returned by GetFullPathName()
-    char localeDir[MAX_PATH];
-    GetFullPathName(argv[0], MAX_PATH, localeDir, NULL);
-    char *pos = strrchr(localeDir, L'\\');
+    char baseDir[MAX_PATH];
+    GetFullPathName(argv[0], MAX_PATH, baseDir, NULL);
+    char *pos = strrchr(baseDir, L'\\');
     if (pos)
         *pos = '\0';
+    const string localeDir = baseDir + string("\\locale");
 #else
-    static const char *localeDir = LOCALEDIR;
+    static const string localeDir = LOCALEDIR;
 #endif
-    bindtextdomain(PACKAGE, localeDir);
+    bindtextdomain(PACKAGE, localeDir.c_str());
     textdomain(PACKAGE);
 #endif
 

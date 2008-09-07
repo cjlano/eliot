@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-06 16:02+0200\n"
+"POT-Creation-Date: 2008-09-07 10:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,29 +192,29 @@ msgstr ""
 msgid "? 0 2 1 1"
 msgstr ""
 
-#: dic/compdic.cpp:511
+#: dic/compdic.cpp:512
 msgid "A mandatory option is missing"
 msgstr ""
 
-#: dic/compdic.cpp:519
+#: dic/compdic.cpp:520
 msgid "Cannot stat uncompressed dictionary "
 msgstr ""
 
-#: dic/compdic.cpp:527
+#: dic/compdic.cpp:528
 msgid "Cannot open output file "
-msgstr ""
-
-#: dic/compdic.cpp:575
-#, c-format
-msgid " Load time: %.3f s\n"
 msgstr ""
 
 #: dic/compdic.cpp:576
 #, c-format
+msgid " Load time: %.3f s\n"
+msgstr ""
+
+#: dic/compdic.cpp:577
+#, c-format
 msgid " Compression time: %.3f s\n"
 msgstr ""
 
-#: dic/compdic.cpp:578
+#: dic/compdic.cpp:579
 #, c-format
 msgid " Maximum recursion level reached: %d\n"
 msgstr ""
@@ -258,15 +258,15 @@ msgstr ""
 msgid "   dictionary: path to eliot dawg dictionary"
 msgstr ""
 
-#: dic/regexpmain.cpp:94 dic/regexpmain.cpp:118
+#: dic/regexpmain.cpp:95 dic/regexpmain.cpp:119
 msgid "Enter a regular expression:"
 msgstr ""
 
-#: dic/regexpmain.cpp:105
+#: dic/regexpmain.cpp:106
 msgid "result:"
 msgstr ""
 
-#: dic/regexpmain.cpp:114 wxwin/searchpanel.cc:296
+#: dic/regexpmain.cpp:115 wxwin/searchpanel.cc:296
 msgid "Invalid regular expression: "
 msgstr ""
 
@@ -1455,7 +1455,8 @@ msgstr ""
 msgid "History"
 msgstr ""
 
-#: qt/main_window.cpp:681 qt/ui/main_window.ui:136
+#: qt/main_window.cpp:681 qt/ui/dic_tools_widget.ui:13
+#: qt/ui/main_window.ui:136
 msgid "Dictionary tools"
 msgstr ""
 
@@ -1606,6 +1607,10 @@ msgstr ""
 
 #: qt/ui/player_widget.ui:94
 msgid "Pass"
+msgstr ""
+
+#: qt/ui/prefs_dialog.ui:13
+msgid "Preferences"
 msgstr ""
 
 #: qt/ui/prefs_dialog.ui:19

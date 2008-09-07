@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-06 16:02+0200\n"
+"POT-Creation-Date: 2008-09-07 10:38+0200\n"
 "PO-Revision-Date: 2008-08-31 10:43+0100\n"
 "Last-Translator: Olivier Teuliere <ipkiss@via.ecp.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -210,29 +210,29 @@ msgstr "Z 10 1 0 1"
 msgid "? 0 2 1 1"
 msgstr "? 0 2 1 1"
 
-#: dic/compdic.cpp:511
+#: dic/compdic.cpp:512
 msgid "A mandatory option is missing"
 msgstr "Une option obligatoire est manquante"
 
-#: dic/compdic.cpp:519
+#: dic/compdic.cpp:520
 msgid "Cannot stat uncompressed dictionary "
 msgstr "Impossible de trouver le dictionnaire non compressé "
 
-#: dic/compdic.cpp:527
+#: dic/compdic.cpp:528
 msgid "Cannot open output file "
 msgstr "Impossible d'ouvrir le fichier d'output "
 
-#: dic/compdic.cpp:575
+#: dic/compdic.cpp:576
 #, c-format
 msgid " Load time: %.3f s\n"
 msgstr " Temps de chargement : %.3f s\n"
 
-#: dic/compdic.cpp:576
+#: dic/compdic.cpp:577
 #, c-format
 msgid " Compression time: %.3f s\n"
 msgstr " Temps de compression : %.3f s\n"
 
-#: dic/compdic.cpp:578
+#: dic/compdic.cpp:579
 #, c-format
 msgid " Maximum recursion level reached: %d\n"
 msgstr " Niveau maximum de rcursion atteint : %d\n"
@@ -276,15 +276,15 @@ msgstr "Usage : %s dictionnaire"
 msgid "   dictionary: path to eliot dawg dictionary"
 msgstr "   dictionnaire : chemin vers un dictionnaire de type dawg pour Eliot"
 
-#: dic/regexpmain.cpp:94 dic/regexpmain.cpp:118
+#: dic/regexpmain.cpp:95 dic/regexpmain.cpp:119
 msgid "Enter a regular expression:"
 msgstr "Entrer une expression régulière :"
 
-#: dic/regexpmain.cpp:105
+#: dic/regexpmain.cpp:106
 msgid "result:"
 msgstr "résultat :"
 
-#: dic/regexpmain.cpp:114 wxwin/searchpanel.cc:296
+#: dic/regexpmain.cpp:115 wxwin/searchpanel.cc:296
 msgid "Invalid regular expression: "
 msgstr "Expression régulière invalide : "
 
@@ -1379,7 +1379,7 @@ msgstr "&Préférences..."
 
 #: qt/main_window.cpp:326
 msgid "Ctrl+F"
-msgstr "Ctrl-F"
+msgstr "Ctrl+F"
 
 #: qt/main_window.cpp:327
 msgid "Edit the preferences"
@@ -1487,7 +1487,8 @@ msgstr ""
 msgid "History"
 msgstr "Historique"
 
-#: qt/main_window.cpp:681 qt/ui/main_window.ui:136
+#: qt/main_window.cpp:681 qt/ui/dic_tools_widget.ui:13
+#: qt/ui/main_window.ui:136
 msgid "Dictionary tools"
 msgstr "Outils du dictionnaire"
 
@@ -1648,6 +1649,10 @@ msgstr "Changer"
 msgid "Pass"
 msgstr "Passer"
 
+#: qt/ui/prefs_dialog.ui:13
+msgid "Preferences"
+msgstr "Préférences"
+
 #: qt/ui/prefs_dialog.ui:19
 msgid "Interface"
 msgstr "Interface"
@@ -1728,9 +1733,6 @@ msgstr "Complément"
 
 #~ msgid "New..."
 #~ msgstr "&Nouvelle partie..."
-
-#~ msgid "Preferences..."
-#~ msgstr "&Préférences..."
 
 #~ msgid "Save"
 #~ msgstr "Sauver"

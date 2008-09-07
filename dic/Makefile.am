@@ -22,9 +22,6 @@ noinst_LIBRARIES = libdic.a
 localedir = $(datadir)/locale
 AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir) -I../intl -I$(top_srcdir)/intl $(INCICONV)
 
-libdic_a_CFLAGS=
-libdic_a_YFLAGS=-d
-libdic_a_LFLAGS=
 libdic_a_SOURCES = \
 	dic_exception.cpp dic_exception.h \
 	header.cpp header.h \
