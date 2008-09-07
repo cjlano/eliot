@@ -226,15 +226,30 @@ void MainWindow::updateStatusBar(const Dictionary *iDic)
 {
     if (iDic == NULL)
         m_dicNameLabel->setText("No dictionary");
-    else
-        m_dicNameLabel->setText(qfw(m_dic->getHeader().getName()));
+    else {
+        if (iDic->getHeader().getVersion() != 0)
+        {
+            QString dicName = qfw(m_dic->getHeader().getName());
+            m_dicNameLabel->setText(_q("Dictionary: %1").arg(dicName));
+            m_dicNameLabel->setToolTip("");
+        }
+        else
+        {
+            m_dicNameLabel->setText(_q("Dictionary: Unknown (old format)"));
+            QString warning = _q("The dictionary name cannot be "
+                    "retrieved, because you are using an old dictionary format.\n"
+                    "You can probably download a newer version of the dictionary "
+                    "on http://www.nongnu.org/eliot/");
+            m_dicNameLabel->setToolTip(warning);
+        }
+    }
 }
 
 
 void MainWindow::displayErrorMsg(QString iMsg, QString iContext)
 {
     if (iContext == "")
-        iContext = _q("%1 error").arg(PACKAGE_NAME);
+        iContext = _q("Eliot - Error");
 
     QMessageBox::warning(this, iContext, iMsg);
 }
@@ -321,7 +336,7 @@ void MainWindow::createMenu()
     QMenu *menuSettings = new QMenu(m_ui.menubar);
     m_ui.menubar->addAction(menuSettings->menuAction());
     menuSettings->setTitle(_q("&Settings"));
-    addMenuAction(menuSettings, _q("&Choose dictionary..."), QString(""),
+    addMenuAction(menuSettings, _q("&Choose dictionary..."), _q("Ctrl+C"),
                   _q("Select a new dictionary"), SLOT(onSettingsChooseDic()));
     addMenuAction(menuSettings, _q("&Preferences..."), _q("Ctrl+F"),
                   _q("Edit the preferences"), SLOT(onSettingsPreferences()));

@@ -50,7 +50,7 @@ private:
 };
 
 
-/// Validator used for the "change letters" line edit
+/// Validator used for the "play word" line edit
 class PlayWordValidator: public QValidator
 {
 public:
@@ -63,14 +63,33 @@ private:
 };
 
 
+/// Validator used for the "coords" line edit
+class CoordsValidator: public QValidator
+{
+public:
+    explicit CoordsValidator(QObject *parent);
+    virtual State validate(QString &input, int &pos) const;
+};
+
+
 PlayerWidget::PlayerWidget(QWidget *parent, unsigned int iPlayerNb, Game *iGame)
     : QWidget(parent), m_game(iGame), m_player(iPlayerNb)
 {
     setupUi(this);
+    lineEditPlay->setFocus();
+    // These strings cannot be in the .ui file, because of the newlines
+    lineEditPlay->setToolTip(_q("Enter the word to play (case-insensitive).\n"
+            "A joker from the rack must be written in parentheses.\n"
+            "E.g.: w(o)rd or W(O)RD"));
+    lineEditCoords->setToolTip(_q("Enter the coordinates of the word.\n"
+            "Specify the row before the column for horizontal words,\n"
+            "and the column before the row for vertical words.\n"
+            "E.g.: H4 or 4H"));
 
     if (m_game)
     {
         lineEditPlay->setValidator(new PlayWordValidator(this, m_game->getDic()));
+        lineEditCoords->setValidator(new CoordsValidator(this));
 
         // Do not allow messing with AI players
         if (!m_game->getPlayer(m_player).isHuman())
@@ -104,8 +123,6 @@ QSize PlayerWidget::sizeHint() const
 
 void PlayerWidget::refresh()
 {
-    lineEditPlay->clear();
-
     if (m_game == NULL)
     {
         lineEditRack->clear();
@@ -115,6 +132,7 @@ void PlayerWidget::refresh()
     const PlayedRack &pld = m_game->getPlayer(m_player).getCurrentRack();
     lineEditRack->setText(qfw(pld.toString(PlayedRack::RACK_EXTRA)));
     lineEditPlay->clear();
+    lineEditCoords->clear();
     lineEditChange->clear();
 }
 
@@ -127,7 +145,8 @@ void PlayerWidget::on_pushButtonShuffle_clicked()
 
 void PlayerWidget::on_lineEditPlay_textChanged()
 {
-    pushButtonPlay->setEnabled(lineEditPlay->hasAcceptableInput());
+    pushButtonPlay->setEnabled(lineEditPlay->hasAcceptableInput() &&
+                               lineEditCoords->hasAcceptableInput());
 }
 
 
@@ -141,20 +160,78 @@ void PlayerWidget::on_lineEditChange_textChanged()
 
 void PlayerWidget::on_lineEditPlay_returnPressed()
 {
-    QStringList items = lineEditPlay->text().split(' ', QString::SkipEmptyParts);
-    ASSERT(items.size() == 2, "Bug found in the validator");
+    // Convert the jokers to lowercase
+    QString word = lineEditPlay->text().toUpper();
+    int pos;
+    while ((pos = word.indexOf('(')) != -1)
+    {
+        if (word.size() < pos + 3 || word[pos + 2] != ')' ||
+            !m_game->getDic().validateLetters(qtw(QString(word[pos + 1]))))
+        {
+            // Bug in validate()!
+            // This should never happen
+            QString msg = _q("Cannot play word: misplaced parentheses");
+            emit notifyProblem(msg);
+            break;
+        }
+        else
+        {
+            QChar chr = word[pos + 1].toLower();
+            word.remove(pos, 3);
+            word.insert(pos, chr);
+        }
+    }
 
-    // Play the word
-    int res = m_game->play(qtw(items[1]), qtw(items[0]));
+    QString coords = lineEditCoords->text();
+    int res = m_game->play(qtw(coords), qtw(word));
     if (res == 0)
     {
         emit gameUpdated();
     }
     else
     {
+        // Try to be as explicit as possible concerning the error
+        QString msg = _q("Cannot play '%1' at position '%2':\n")
+            .arg(lineEditPlay->text()).arg(coords);
+        switch (res)
+        {
+            case 1:
+                msg += _q("Some letters are not valid for the current dictionary");
+                break;
+            case 2:
+                msg += _q("Invalid coordinates");
+                break;
+            case 3:
+                msg += _q("The word does not exist");
+                break;
+            case 4:
+                msg += _q("The rack doesn't contain the letters needed to play this word");
+                break;
+            case 5:
+                msg += _q("The word is part of a longer one");
+                break;
+            case 6:
+                msg += _q("The word tries to replace an existing letter");
+                break;
+            case 7:
+                msg += _q("The word is going out of the board, or an orthogonal word is not valid");
+                break;
+            case 8:
+                msg += _q("The word is already present on the board at these coordinates");
+                break;
+            case 9:
+                msg += _q("A word cannot be isolated (not connected to the placed words)");
+                break;
+            case 10:
+                msg += _q("The first word of the game must be horizontal");
+                break;
+            case 11:
+                msg += _q("The first word of the game must cover the H8 square");
+                break;
+            default:
+                msg += _q("Incorrect or misplaced word (%1)").arg(1);
+        }
         // FIXME: the error is too generic
-        QString msg = _q("Cannot play '%1' at position '%2': incorrect or misplaced word (%3)")
-            .arg(items[0]).arg(items[1]).arg(res);
         emit notifyProblem(msg);
     }
 }
@@ -223,18 +300,54 @@ QValidator::State PlayWordValidator::validate(QString &input, int &) const
     if (input == "")
         return Intermediate;
 
-    QStringList items = input.split(' ', QString::SkipEmptyParts);
-
+    QString copy(input);
+    // Strip parentheses
+    copy.remove('(');
+    copy.remove(')');
     // The string is invalid if it contains characters not present
     // in the dictionary
-    if (!m_dic.validateLetters(qtw(items[0])))
+    if (!m_dic.validateLetters(qtw(copy)))
         return Invalid;
 
-    if (items.size() != 2 || items[0].size() < 2)
+    // Check the parentheses pairs
+    copy = input;
+    int pos;
+    while ((pos = copy.indexOf('(')) != -1)
+    {
+        if (copy.size() < pos + 3 || copy[pos + 2] != ')' ||
+            !m_dic.validateLetters(qtw(QString(copy[pos + 1]))))
+        {
+            return Intermediate;
+        }
+        else
+        {
+            copy.remove(pos, 3);
+        }
+    }
+    if (copy.indexOf(')') != -1)
         return Intermediate;
 
+    return Acceptable;
+}
+
+
+
+CoordsValidator::CoordsValidator(QObject *parent)
+    : QValidator(parent)
+{
+}
+
+
+QValidator::State CoordsValidator::validate(QString &input, int &) const
+{
+    // Only authorize characters part of a valid coordinate
+    wstring copy = qtw(input.toUpper());
+    wstring authorized = L"ABCDEFGHIJKLMNO1234567890";
+    if (copy.find_first_not_of(authorized) != wstring::npos)
+        return Invalid;
+
     // Check coordinates
-    Coord c(qtw(items[1]));
+    Coord c(qtw(input));
     if (!c.isValid())
         return Intermediate;
 

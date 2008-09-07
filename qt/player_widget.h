@@ -54,8 +54,10 @@ private slots:
     void on_pushButtonChange_clicked() { on_lineEditChange_returnPressed(); }
     void on_pushButtonPass_clicked() { on_lineEditChange_returnPressed(); }
     void on_lineEditPlay_textChanged();
+    void on_lineEditCoords_textChanged() { on_lineEditPlay_textChanged(); }
     void on_lineEditChange_textChanged();
     void on_lineEditPlay_returnPressed();
+    void on_lineEditCoords_returnPressed() { on_lineEditPlay_returnPressed(); }
     void on_lineEditChange_returnPressed();
 
 private:

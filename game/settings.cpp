@@ -63,7 +63,7 @@ Settings::Settings()
     // If true, Eliot complains when the player does something illegal
     // If false, the word is accepted (with a score of 0) and the player does
     // not get a second chance
-    m_boolHandler.addOption("duplicate-reject-invalid", false);
+    m_boolHandler.addOption("duplicate-reject-invalid", true);
 
 
     // ============== Freegame mode options ==============
@@ -73,7 +73,7 @@ Settings::Settings()
     // not get a second chance.
     // Trying to change letters or to pass the turn in an incorrect way will
     // be rejected in any case.
-    m_boolHandler.addOption("freegame-reject-invalid", false);
+    m_boolHandler.addOption("freegame-reject-invalid", true);
 }
 
 

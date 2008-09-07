@@ -57,6 +57,8 @@ private:
     static const QColor W3Colour;
     static const QColor TileColour;
     static const QColor PreviewColour;
+    static const QColor NormalColour;
+    static const QColor JokerColour;
     //@}
 };
 

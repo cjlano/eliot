@@ -38,6 +38,8 @@ const QColor BoardWidget::W2Colour(255, 147, 196);
 const QColor BoardWidget::W3Colour(240, 80, 94);
 const QColor BoardWidget::TileColour(255, 235, 205);
 const QColor BoardWidget::PreviewColour(183, 183, 123);
+const QColor BoardWidget::NormalColour(0, 0, 0);
+const QColor BoardWidget::JokerColour(255, 0, 0);
 
 
 BoardWidget::BoardWidget(QWidget *parent)
@@ -114,12 +116,13 @@ void BoardWidget::paintEvent(QPaintEvent *)
             {
                 wchar_t chr = m_game->getBoard().getTile(row, col).toChar();
                 if (m_game->getBoard().getCharAttr(row, col) & ATTR_JOKER)
-                    chr = towlower(chr);
+                    painter.setPen(JokerColour);
                 painter.drawText((col - BOARD_MIN + 1) * squareSize,
                                  (row - BOARD_MIN + 1) * squareSize + 1,
                                  squareSize, squareSize,
                                  Qt::AlignCenter,
                                  qfw(wstring(1, chr)));
+                painter.setPen(NormalColour);
             }
         }
     }

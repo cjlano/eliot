@@ -6,13 +6,10 @@
     <x>0</x>
     <y>0</y>
     <width>460</width>
-    <height>125</height>
+    <height>148</height>
    </rect>
   </property>
-  <layout class="QGridLayout" >
-   <property name="horizontalSpacing" >
-    <number>-1</number>
-   </property>
+  <layout class="QGridLayout" name="gridLayout" >
    <item row="0" column="0" >
     <widget class="QLabel" name="label" >
      <property name="text" >
@@ -20,14 +17,14 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="2" >
+   <item row="0" column="1" colspan="3" >
     <widget class="QLineEdit" name="lineEditRack" >
      <property name="readOnly" >
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="0" column="3" >
+   <item row="0" column="4" >
     <widget class="QPushButton" name="pushButtonShuffle" >
      <property name="enabled" >
       <bool>false</bool>
@@ -44,13 +41,15 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="2" >
+   <item row="1" column="1" >
     <widget class="QLineEdit" name="lineEditPlay" >
      <property name="toolTip" >
-      <string>_("To play a word, enter the word (case sensitive) and its coordinates. E.g.: WORD H4")</string>
+      <string>_("Enter the word to play (case-insensitive).
+A joker from the rack must be written in parentheses.
+E.g.: w(o)rd or W(O)RD")</string>
      </property>
      <property name="statusTip" >
-      <string>_("To play a word, enter the word (case sensitive) and its coordinates. E.g.: WORD H4")</string>
+      <string>_("Enter the word to play (case-insensitive). A joker from the rack must be written in parentheses. E.g.: w(o)rd or W(O)RD")</string>
      </property>
      <property name="text" >
       <string>dummy</string>
@@ -58,6 +57,31 @@
     </widget>
    </item>
    <item row="1" column="3" >
+    <widget class="QLineEdit" name="lineEditCoords" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>45</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="toolTip" >
+      <string>_("Enter the coordinates of the word.
+Specify the row before the column for horizontal words,
+ and the column before the row for vertical words.
+E.g.: H4 or 4H")</string>
+     </property>
+     <property name="statusTip" >
+      <string>_("Enter the coordinates of the word. Specify the row before the column for horizontal words, and the column before the row for vertical words. E.g.: H4 or 4H")</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4" >
     <widget class="QPushButton" name="pushButtonPlay" >
      <property name="text" >
       <string>_("Play")</string>
@@ -81,17 +105,24 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="2" >
+   <item row="2" column="2" colspan="2" >
     <widget class="QPushButton" name="pushButtonChange" >
      <property name="text" >
       <string>_("Change")</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="3" >
+   <item row="2" column="4" >
     <widget class="QPushButton" name="pushButtonPass" >
      <property name="text" >
       <string>_("Pass")</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2" >
+    <widget class="QLabel" name="label_3" >
+     <property name="text" >
+      <string>_("Ref.:")</string>
      </property>
     </widget>
    </item>
