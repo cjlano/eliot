@@ -50,7 +50,7 @@
 #   define qtw(s) (s).toStdWString().data()
 #endif
 // Translation macro to use gettext
-#define _q(s) qfu(_(s))
+#define _q(s) qfl(_(s))
 
 // Used for QSettings
 #define ORGANIZATION "Eliot"
