@@ -55,7 +55,7 @@ string Cross::getHexContent() const
 
 bool Cross::check(const Tile& iTile) const
 {
-    return (iTile.isJoker() && m_mask != 0) || (m_mask & (1 << iTile.toCode()));
+    return m_mask & (1 << iTile.toCode());
 }
 
 

@@ -91,7 +91,8 @@ Board::Board():
     m_crossCol(BOARD_REALDIM, Cross()),
     m_pointRow(BOARD_REALDIM, -1),
     m_pointCol(BOARD_REALDIM, -1),
-    m_testsRow(BOARD_REALDIM, 0)
+    m_testsRow(BOARD_REALDIM, 0),
+    m_isEmpty(true)
 {
     // No cross check allowed around the board
     for (int i = 0; i < BOARD_REALDIM; i++)
@@ -154,12 +155,11 @@ bool Board::isVacant(int iRow, int iCol) const
 
 void Board::addRound(const Dictionary &iDic, const Round &iRound)
 {
-    Tile t;
-
     int row = iRound.getCoord().getRow();
     int col = iRound.getCoord().getCol();
     if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
     {
+        Tile t;
         for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
             if (m_tilesRow[row][col + i].isEmpty())
@@ -174,6 +174,7 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
     }
     else
     {
+        Tile t;
         for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
             if (m_tilesRow[row + i][col].isEmpty())
@@ -187,6 +188,7 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
         }
     }
     buildCross(iDic);
+    m_isEmpty = false;
 #ifdef DEBUG
     checkDouble();
 #endif
@@ -195,12 +197,15 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
 
 void Board::removeRound(const Dictionary &iDic, const Round &iRound)
 {
+    ASSERT(!m_isEmpty, "The board should not be empty");
     int row = iRound.getCoord().getRow();
     int col = iRound.getCoord().getCol();
     if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
     {
         for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
+            ASSERT(iRound.getTile(i).toCode() == m_tilesRow[row][col + i].toCode(),
+                   "Invalid round removal");
             if (iRound.isPlayedFromRack(i))
             {
                 m_tilesRow[row][col + i] = Tile();
@@ -216,6 +221,8 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
     {
         for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
+            ASSERT(iRound.getTile(i).toCode() == m_tilesRow[row + i][col].toCode(),
+                   "Invalid round removal");
             if (iRound.isPlayedFromRack(i))
             {
                 m_tilesRow[row + i][col] = Tile();
@@ -231,6 +238,17 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
 #ifdef DEBUG
     checkDouble();
 #endif
+
+    // Update the m_isEmpty flag
+    for (int i = 1; i <= BOARD_DIM; i++)
+    {
+        for (int j = 1; j <= BOARD_DIM; j++)
+        {
+            if (!m_tilesRow[i][j].isEmpty())
+                return;
+        }
+    }
+    m_isEmpty = true;
 }
 
 
@@ -240,8 +258,7 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
                          Matrix<Cross> &iCrossMx,
                          Matrix<int> &iPointsMx,
                          Matrix<bool> &iJokerMx,
-                         Round &iRound,
-                         bool firstturn)
+                         Round &iRound)
 {
     Tile t;
     int l, p;
@@ -254,7 +271,11 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
     int row = iRound.getCoord().getRow();
     int col = iRound.getCoord().getCol();
 
-    /* Is the word an extension of another word? */
+    // Is the word going out of the board?
+    if (col + iRound.getWordLen() > BOARD_MAX + 1)
+        return 8;
+
+    // Is the word an extension of another word?
     if (!iTilesMx[row][col - 1].isEmpty() ||
         !iTilesMx[row][col + iRound.getWordLen()].isEmpty())
     {
@@ -266,21 +287,18 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
         t = iRound.getTile(i);
         if (!iTilesMx[row][col + i].isEmpty())
         {
-            /* There is already a letter on the board */
+            // There is already a letter on the board
             if (iTilesMx[row][col + i] != t)
             {
-                /* Check if it is only a joker */
+                // Check if it is only a joker
                 if ((iTilesMx[row][col+i].toCode() == t.toCode()) && iTilesMx[row][col+i].isJoker())
                 {
                     // Do nothing, we don't need to change the tile in the round
-                    // iRound.setJoker(i,true);
-                    debug("load: play on joker for letter %d (%lc)\n", i, iRound.getTile(i).toChar());
+                    //iRound.setJoker(i,true);
                 }
                 else
                 {
-                    debug("load: overwriting tile %lc with %lc\n",
-                          iTilesMx[row][col+i].toChar(),
-                          t.toChar());
+                    // Trying to overwrite a placed letter
                     return 2;
                 }
             }
@@ -293,10 +311,10 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
         }
         else
         {
-            /* The letter is not yet on the board */
+            // The letter is not yet on the board
             if (iCrossMx[row][col + i].check(t))
             {
-                /* A non-trivial cross-check means an anchor square */
+                // A non-trivial cross-check means an anchor square
                 if (!iCrossMx[row][col + i].isAny())
                     isolated = false;
 
@@ -317,31 +335,31 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
             }
             else
             {
-                /* The letter is not in the crosscheck */
+                // The letter is not in the crosscheck
                 return 3;
             }
         }
     }
 
-    /* There must be at least 1 letter from the rack */
+    // There must be at least 1 letter from the rack
     if (fromrack == 0)
         return 4;
 
     /* The word must cover at least one anchor square, except
      * for the first turn */
-    if (isolated && !firstturn)
+    if (isolated && !m_isEmpty)
         return 5;
-    /* The first word must be horizontal */
-    if (firstturn && iRound.getCoord().getDir() == Coord::VERTICAL)
+    // The first word must be horizontal
+    if (m_isEmpty && iRound.getCoord().getDir() == Coord::VERTICAL)
         return 6;
-    /* The first word must cover the H8 square */
-    if (firstturn
+    // The first word must cover the H8 square
+    if (m_isEmpty
         && (row != 8 || col > 8 || col + iRound.getWordLen() <= 8))
     {
         return 7;
     }
 
-    /* Set the iPointsMx and bonus */
+    // Set the iPointsMx and bonus
     pts = ptscross + pts * wordmul + Game::BONUS_POINTS * (fromrack == Game::RACK_SIZE);
     iRound.setPoints(pts);
     iRound.setBonus(fromrack == Game::RACK_SIZE);
@@ -350,13 +368,12 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
 }
 
 
-int Board::checkRound(Round &iRound, bool firstturn)
+int Board::checkRound(Round &iRound)
 {
     if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
     {
         return checkRoundAux(m_tilesRow, m_crossRow,
-                             m_pointRow, m_jokerRow,
-                             iRound, firstturn);
+                             m_pointRow, m_jokerRow, iRound);
     }
     else
     {
@@ -365,8 +382,7 @@ int Board::checkRound(Round &iRound, bool firstturn)
         iRound.accessCoord().swap();
 
         int res = checkRoundAux(m_tilesCol, m_crossCol,
-                                m_pointCol, m_jokerCol,
-                                iRound, firstturn);
+                                m_pointCol, m_jokerCol, iRound);
 
         // Restore the coordinates
         iRound.accessCoord().swap();
@@ -466,7 +482,7 @@ int Board::GetLetterMultiplier(int iRow, int iCol)
 
 string Board::getCellContent_row(int row, int col) const
 {
-    char buff[1024];  /* [ joker, mask, point, tiles ] */
+    char buff[1024];  // [ joker, mask, point, tiles ]
     sprintf(buff,CELL_STRING_FORMAT,
             // m_jokerRow[row][col] ? 'j':'.',
             m_crossRow[row][col].getHexContent().c_str(),

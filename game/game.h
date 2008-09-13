@@ -140,11 +140,12 @@ public:
      *  4: not enough letters in the rack to play the word
      *  5: word is part of a longer one
      *  6: word overwriting an existing letter
-     *  7: invalid crosscheck, or word going out of the board
+     *  7: invalid crosscheck
      *  8: word already present on the board (no new letter from the rack)
      *  9: isolated word (not connected to the rest)
      * 10: first word not horizontal
      * 11: first word not covering the H8 square
+     * 12: word going out of the board
      */
     virtual int play(const wstring &iCoord, const wstring &iWord) = 0;
 

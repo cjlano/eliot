@@ -34,7 +34,7 @@
 #include "freegame.h"
 #include "duplicate.h"
 #include "encoding.h"
-#include "debug.h"
+#include "game_exception.h"
 
 using namespace std;
 
@@ -63,37 +63,31 @@ Game * Game::load(FILE *fin, const Dictionary& iDic)
     // Check characteristic string
     if (fgets(buff, sizeof(buff), fin) == NULL)
     {
-        debug("Game::load cannot load first line\n");
-        return NULL;
+        throw GameException("Cannot recognize the first line");
     }
 
     if ((token = strtok(buff, delim)) == NULL)
     {
-        debug("Game::load first line is empty\n");
-        return NULL;
+        throw GameException("The first line is empty");
     }
 
     /* checks for IDENT_STRING and file format */
     if (string(token) != IDENT_STRING)
     {
-        debug("Game::load IDENT_STRING %s unknown\n",token);
-        return NULL;
+        throw GameException("Invalid identity string: " + string(token));
     }
 
     if ((token = strtok(NULL, delim)) == NULL)
     {
-        debug("Game_io::loading file format 1.4\n");
         return Game::gameLoadFormat_14(fin,iDic);
     }
 
     if (string(token) == string(IDENT_FORMAT_15))
     {
-        debug("Game_io::loading file format 1.5\n");
         return Game::gameLoadFormat_15(fin,iDic);
     }
 
-    debug("Game::load unknown format %s\n",token);
-    return NULL;
+    throw GameException("Unknown format: " + string(token));
 }
 
 
@@ -110,7 +104,6 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
     char *token;
     Game *pGame = NULL;
 
-    debug("Game::gameLoadFormat_14\n");
     pGame = GameFactory::Instance()->createTraining(iDic);
     pGame->start();
 
@@ -124,7 +117,6 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
         token = strtok(buff, delim);
         if (token != NULL)
         {
-            debug("======== \n");
             if (strcmp(token, "total") == 0)
             {
                 break;
@@ -134,8 +126,7 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
             strncpy(rack, token, sizeof(rack));
             static_cast<Training*>(pGame)->setRack(RACK_MANUAL, false,
                                                    convertToWc(rack));
-            debug("load: %8s ", rack);
-            
+
             /* word */
             token = strtok(NULL, delim);
             if (!token || strcmp(token, "total") == 0)
@@ -144,22 +135,16 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
             }
 
             strncpy(word, token, sizeof(word));
-            debug(" %12s ", word);
-            
+
             /* bonus */
             if ((token = strtok(NULL, delim)) == NULL)
                 break;
-            
+
             /* points */
             if (token[0] == '*')
             {
-                debug("%s\t", token);
                 if ((token = strtok(NULL, delim)) == NULL)
                     break;
-            }
-            else
-            {
-                debug(" \t");
             }
 
             /* pos 1 */
@@ -175,13 +160,16 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
 
             //debug("%s)", token);
             strncat(pos, token, sizeof(pos));
-            debug("%s\n", pos);
 
             if ((ret = pGame->play(convertToWc(pos), convertToWc(word))))
             {
-                debug("loading error %d on line %d\n",ret,line);
                 GameFactory::Instance()->releaseGame(*pGame);
-                return NULL;
+                char tmp1[10];
+                snprintf(tmp1, 10, "%d", ret);
+                char tmp2[10];
+                snprintf(tmp2, 10, "%d", ret);
+                throw GameException("Loading error " + string(tmp1) +
+                                    " on line " + string(tmp2));
             }
         }
     }
@@ -215,31 +203,25 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
             // Create the correct Game object
             if (strstr(buff, "Training"))
             {
-                debug("Game::gameLoadFormat_15 new Training\n");
                 pGame = GameFactory::Instance()->createTraining(iDic);
                 break;
             }
             else if (strstr(buff, "Free game"))
             {
-                debug("Game::gameLoadFormat_15 new Freegame\n");
                 pGame = GameFactory::Instance()->createFreeGame(iDic);
                 break;
             }
             else if (strstr(buff, "Duplicate"))
             {
-                debug("Game::gameLoadFormat_15 new Duplicate\n");
                 pGame = GameFactory::Instance()->createDuplicate(iDic);
                 break;
             }
             else
             {
-                debug("Game::gameLoadFormat_15 unknown Game type\n");
-                return NULL;
+                throw GameException("Unknown game type");
             }
         }
     }
-
-    debug("   Game type is ok, switching to player list\n");
 
     /***************/
     /* Player List */
@@ -257,25 +239,21 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
             {
                 if (string(type) == "Human")
                 {
-                    debug("   add Human player\n");
                     pGame->addPlayer(new HumanPlayer);
                 }
                 else if (string(type) == "Computer")
                 {
                     if (pGame->getMode() == kTRAINING)
                     {
-                        debug("   mode == TRAINING, skip player list since we have a computer player\n");
                         break;
                     }
                     else
                     {
-                        debug("   add Computer player\n");
                         pGame->addPlayer(new AIPercent(1));
                     }
                 }
                 else
                 {
-                    debug("   unknown player, bailing out\n");
                     delete pGame;
                     return NULL;
                 }
@@ -283,12 +261,9 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
         }
         else if (strstr(buff," N |   RACK   "))
         {
-            debug("   ok for player list, going turn list\n");
             break;
         }
     }
-
-    debug("   Player list ok, switching to turn list \n");
 
     /*************/
     /* Turn list */
@@ -299,20 +274,17 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
         // Skip columns title
         if (strstr(buff,"| PTS | P |") != NULL)
         {
-            debug("   ** PTS line, skiping\n");
             continue;
         }
 
         // Skip columns title
         if (strstr(buff, "==") != NULL)
         {
-            debug("   ** == line, skiping\n");
             continue;
         }
 
         if (string(buff) == "\n")
         {
-            debug("   ** empty line\n");
             continue;
         }
 
@@ -327,32 +299,26 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
         int res = sscanf(buff, "   %2d | %8s | %s | %3s | %3d | %1u | %c",
                          &num, rack, tmpWord, ref, &pts, &player, &bonus);
 
-        debug("   -- line %s",buff);
-
         if (res < 6)
         {
-            debug("   Game::load15 invalid line -%s-\n",buff);
             continue;
         }
 
-        debug("              %2d | %8s | %s | %3s | %3d | %1d | %c \n",
-              num, rack, tmpWord, ref, pts, player, bonus);
+        //debug("              %2d | %8s | %s | %3s | %3d | %1d | %c \n",
+        //      num, rack, tmpWord, ref, pts, player, bonus);
 
         // Integrity checks
         // TODO: add more checks
         if (pts < 0)
         {
-            debug("   Game::load15 line -%s- points < 0  ?\n",buff);
             continue;
         }
         if (player > pGame->getNPlayers())
         {
-            debug("   Game::load15 line -%s- too much player (%d>%d)",buff,player,pGame->getNPlayers());
             continue;
         }
         if (bonus && bonus != '*')
         {
-            debug("   Game::load15 line -%s- wring bonus sign\n",buff);
             continue;
         }
 
@@ -360,10 +326,9 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
         PlayedRack pldrack;
         if (!iDic.validateLetters(convertToWc(rack)))
         {
-            debug("   Game::load15 rack invalid for the current dictionary\n");
+            throw GameException("Rack invalid for the current dictionary");
         }
         pldrack.setManual(convertToWc(rack));
-        debug("    history rack %s\n", convertToMb(pldrack.toString()).c_str());
 
         // Build a round
         Round round;

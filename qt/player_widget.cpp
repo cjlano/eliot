@@ -160,6 +160,10 @@ void PlayerWidget::on_lineEditChange_textChanged()
 
 void PlayerWidget::on_lineEditPlay_returnPressed()
 {
+    if (!lineEditPlay->hasAcceptableInput() ||
+        !lineEditCoords->hasAcceptableInput())
+        return;
+
     // Convert the jokers to lowercase
     QString word = lineEditPlay->text().toUpper();
     int pos;
@@ -187,6 +191,7 @@ void PlayerWidget::on_lineEditPlay_returnPressed()
     if (res == 0)
     {
         emit gameUpdated();
+        lineEditPlay->setFocus();
     }
     else
     {
@@ -214,7 +219,7 @@ void PlayerWidget::on_lineEditPlay_returnPressed()
                 msg += _q("The word tries to replace an existing letter");
                 break;
             case 7:
-                msg += _q("The word is going out of the board, or an orthogonal word is not valid");
+                msg += _q("An orthogonal word is not valid");
                 break;
             case 8:
                 msg += _q("The word is already present on the board at these coordinates");
@@ -227,6 +232,9 @@ void PlayerWidget::on_lineEditPlay_returnPressed()
                 break;
             case 11:
                 msg += _q("The first word of the game must cover the H8 square");
+                break;
+            case 12:
+                msg += _q("The word is going out of the board");
                 break;
             default:
                 msg += _q("Incorrect or misplaced word (%1)").arg(1);
@@ -306,7 +314,7 @@ QValidator::State PlayWordValidator::validate(QString &input, int &) const
     copy.remove(')');
     // The string is invalid if it contains characters not present
     // in the dictionary
-    if (!m_dic.validateLetters(qtw(copy)))
+    if (!m_dic.validateLetters(qtw(copy)) || copy.contains('?'))
         return Invalid;
 
     // Check the parentheses pairs

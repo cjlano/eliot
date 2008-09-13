@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-07 22:31+0200\n"
+"POT-Creation-Date: 2008-09-11 23:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1538,67 +1538,71 @@ msgid ""
 "E.g.: H4 or 4H"
 msgstr ""
 
-#: qt/player_widget.cpp:173
+#: qt/player_widget.cpp:177
 msgid "Cannot play word: misplaced parentheses"
 msgstr ""
 
-#: qt/player_widget.cpp:194
+#: qt/player_widget.cpp:199
 msgid "Cannot play '%1' at position '%2':\n"
 msgstr ""
 
-#: qt/player_widget.cpp:198
+#: qt/player_widget.cpp:204
 msgid "Some letters are not valid for the current dictionary"
 msgstr ""
 
-#: qt/player_widget.cpp:201
+#: qt/player_widget.cpp:207
 msgid "Invalid coordinates"
 msgstr ""
 
-#: qt/player_widget.cpp:204
+#: qt/player_widget.cpp:210
 msgid "The word does not exist"
 msgstr ""
 
-#: qt/player_widget.cpp:207
+#: qt/player_widget.cpp:213
 msgid "The rack doesn't contain the letters needed to play this word"
 msgstr ""
 
-#: qt/player_widget.cpp:210
+#: qt/player_widget.cpp:216
 msgid "The word is part of a longer one"
 msgstr ""
 
-#: qt/player_widget.cpp:213
+#: qt/player_widget.cpp:219
 msgid "The word tries to replace an existing letter"
 msgstr ""
 
-#: qt/player_widget.cpp:216
-msgid "The word is going out of the board, or an orthogonal word is not valid"
-msgstr ""
-
-#: qt/player_widget.cpp:219
-msgid "The word is already present on the board at these coordinates"
-msgstr ""
-
 #: qt/player_widget.cpp:222
-msgid "A word cannot be isolated (not connected to the placed words)"
+msgid "An orthogonal word is not valid"
 msgstr ""
 
 #: qt/player_widget.cpp:225
-msgid "The first word of the game must be horizontal"
+msgid "The word is already present on the board at these coordinates"
 msgstr ""
 
 #: qt/player_widget.cpp:228
-msgid "The first word of the game must cover the H8 square"
+msgid "A word cannot be isolated (not connected to the placed words)"
 msgstr ""
 
 #: qt/player_widget.cpp:231
+msgid "The first word of the game must be horizontal"
+msgstr ""
+
+#: qt/player_widget.cpp:234
+msgid "The first word of the game must cover the H8 square"
+msgstr ""
+
+#: qt/player_widget.cpp:237
+msgid "The word is going out of the board"
+msgstr ""
+
+#: qt/player_widget.cpp:240
 msgid "Incorrect or misplaced word (%1)"
 msgstr ""
 
-#: qt/player_widget.cpp:255
+#: qt/player_widget.cpp:264
 msgid "Cannot pass turn (%1)"
 msgstr ""
 
-#: qt/player_widget.cpp:257
+#: qt/player_widget.cpp:266
 msgid "Cannot change letters '%1' (%2)"
 msgstr ""
 

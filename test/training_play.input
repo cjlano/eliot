@@ -1,5 +1,6 @@
 e
 t IEJDEUE
+j INVéLID h4
 j INVALID XX
 j INVALID H5
 j MAUVAIS H5
@@ -7,7 +8,6 @@ j JEUDI 8E
 j JEUDI A6
 r
 a r
-n 0
 n 6
 a t
 t DEEIPEG
@@ -19,7 +19,13 @@ t EEEGIPS
 j SE H7
 j SE G6
 j PIEGEE 7C
-j PIEGEES 7C
+j PIEGEES 7c
+a t
+a g
+j PIEGEE c7
+a t
+t ADEEPSS
+j DEPASSE b12
 a t
 a g
 q

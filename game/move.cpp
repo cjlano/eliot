@@ -20,6 +20,7 @@
 
 #include <algorithm>
 #include <wctype.h>
+#include <sstream>
 
 #include "move.h"
 
@@ -101,7 +102,16 @@ const wstring & Move::getChangedLetters() const
 
 wstring Move::toString() const
 {
-    // TODO
-    return L"";
+    wstringstream wss;
+    if (m_type == PASS)
+        wss << "PASS";
+    else if (m_type == CHANGE_LETTERS)
+        wss << "CHANGE=" << m_letters;
+    else if (m_type == INVALID_WORD)
+        wss << "INVALID: word=" << m_round.toString() << "  coords=" << m_coord;
+    else if (m_type == VALID_ROUND)
+        wss << "VALID: word=" << m_round.toString();
+    wss << "  score=" << m_score;
+    return wss.str();
 }
 

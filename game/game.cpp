@@ -30,6 +30,7 @@
 #include "game_factory.h"
 #include "turn.h"
 #include "encoding.h"
+#include "game_exception.h"
 
 #include "debug.h"
 
@@ -70,7 +71,6 @@ void Game::helperPlayMove(unsigned int iPlayerId, const Move &iMove)
     m_history.playMove(iPlayerId, m_history.getSize(), iMove);
 
     // Points
-    debug("    helper: %d points\n", iMove.getScore());
     m_points += iMove.getScore();
 
     // For moves corresponding to a valid round, we have much more
@@ -85,18 +85,22 @@ void Game::helperPlayMove(unsigned int iPlayerId, const Move &iMove)
 
 void Game::helperPlayRound(unsigned int iPlayerId, const Round &iRound)
 {
+    // Copy the round, because we may need to modify it (case of
+    // the joker games).
+    Round round = iRound;
+
     // Before updating the bag and the board, if we are playing a "joker game",
     // we replace in the round the joker by the letter it represents
     // This is currently done by a succession of ugly hacks :-/
     if (m_variant == kJOKER)
     {
-        for (unsigned int i = 0; i < iRound.getWordLen(); i++)
+        for (unsigned int i = 0; i < round.getWordLen(); i++)
         {
-            if (iRound.isPlayedFromRack(i) && iRound.isJoker(i))
+            if (round.isPlayedFromRack(i) && round.isJoker(i))
             {
                 // Is the represented letter still available in the bag?
                 // XXX: this way to get the represented letter sucks...
-                Tile t(towupper(iRound.getTile(i).toChar()));
+                Tile t(towupper(round.getTile(i).toChar()));
                 Bag bag(m_dic);
                 realBag(bag);
                 // FIXME: realBag() does not give us a real bag in this
@@ -125,12 +129,11 @@ void Game::helperPlayRound(unsigned int iPlayerId, const Round &iRound)
 
                 if (bag.in(t))
                 {
-                    // FIXME: A const_cast sucks too...
-                    const_cast<Round&>(iRound).setTile(i, t);
-                    // FIXME: This shouldn't be necessary either, this is only
+                    round.setTile(i, t);
+                    // FIXME: This shouldn't be necessary, this is only
                     // needed because of the stupid way of handling jokers in
                     // rounds
-                    const_cast<Round&>(iRound).setJoker(i, false);
+                    round.setJoker(i, false);
                 }
 
                 // In a joker game we should have only 1 joker in the rack
@@ -144,32 +147,30 @@ void Game::helperPlayRound(unsigned int iPlayerId, const Round &iRound)
     // on the board. When going back in the game, we must only
     // replace played tiles.
     // We test a rack when it is set but tiles are left in the bag.
-    for (unsigned int i = 0; i < iRound.getWordLen(); i++)
+    for (unsigned int i = 0; i < round.getWordLen(); i++)
     {
-        if (iRound.isPlayedFromRack(i))
+        if (round.isPlayedFromRack(i))
         {
-            if (iRound.isJoker(i))
+            if (round.isJoker(i))
             {
                 m_bag.takeTile(Tile::Joker());
             }
             else
             {
-                m_bag.takeTile(iRound.getTile(i));
+                m_bag.takeTile(round.getTile(i));
             }
         }
     }
 
     // Update the board
-    m_board.addRound(m_dic, iRound);
+    m_board.addRound(m_dic, round);
 }
 
 
 int Game::back(unsigned int n)
 {
-    debug("Game::back %d\n",n);
-    // TODO: throw an exception
     if (m_history.getSize() < n)
-        return 1;
+        throw GameException("Cannot go back that far");
 
     for (unsigned int i = 0; i < n; i++)
     {
@@ -180,10 +181,8 @@ int Game::back(unsigned int n)
             continue;
 
         const Round &lastround = lastMove.getRound();
-        debug("Game::back last round %s\n",
-              convertToMb(lastround.toString()).c_str());
-        /* Remove the word from the board, and put its letters back
-         * into the bag */
+        // Remove the word from the board, and put its letters back
+        // into the bag
         m_board.removeRound(m_dic, lastround);
         for (unsigned int j = 0; j < lastround.getWordLen(); j++)
         {
@@ -195,9 +194,9 @@ int Game::back(unsigned int n)
                     m_bag.replaceTile(lastround.getTile(j));
             }
         }
-        /* Remove the points of this round */
+        // Remove the points of this round
         m_points -= lastround.getPoints();
-        /* Remove the turns */
+        // Remove the turns
         m_players[m_currPlayer]->removeLastTurn();
         m_history.removeLastTurn();
     }
@@ -209,13 +208,13 @@ void Game::realBag(Bag &ioBag) const
 {
     vector<Tile> tiles;
 
-    /* Copy the bag */
+    // Copy the bag
     ioBag = m_bag;
 
-    /* The real content of the bag depends on the game mode */
+    // The real content of the bag depends on the game mode
     if (getMode() == kFREEGAME)
     {
-        /* In freegame mode, take the letters from all the racks */
+        // In freegame mode, take the letters from all the racks
         for (unsigned int i = 0; i < getNPlayers(); i++)
         {
             getPlayer(i).getCurrentRack().getAllTiles(tiles);
@@ -296,7 +295,7 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
     }
     else
     {
-        debug("Game::helperSetRackRandom not a random mode\n");
+        throw GameException("Not a random mode");
     }
 
     // Get the tiles remaining on the rack
@@ -568,7 +567,6 @@ int Game::checkPlayedWord(const wstring &iCoord,
     oRound.accessCoord().setFromString(iCoord);
     if (!oRound.getCoord().isValid())
     {
-        debug("game: incorrect coordinates\n");
         return 2;
     }
 
@@ -596,7 +594,7 @@ int Game::checkPlayedWord(const wstring &iCoord,
 
     // Check the word position, compute its points,
     // and specify the origin of each letter (board or rack)
-    int res = m_board.checkRound(oRound, m_history.getSize() == 0);
+    int res = m_board.checkRound(oRound);
     if (res != 0)
         return res + 4;
 

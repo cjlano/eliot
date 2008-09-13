@@ -89,7 +89,7 @@ public:
 
     void addRound(const Dictionary &iDic, const Round &iRound);
     void removeRound(const Dictionary &iDic, const Round &iRound);
-    int  checkRound(Round &iRound, bool iFirstTurn);
+    int  checkRound(Round &iRound);
 
     /**
      *
@@ -137,6 +137,9 @@ private:
 
     Matrix<char> m_testsRow;
 
+    /// Flag indicating if the board is empty or if it has letters
+    bool m_isEmpty;
+
     static const int m_tileMultipliers[BOARD_REALDIM][BOARD_REALDIM];
     static const int m_wordMultipliers[BOARD_REALDIM][BOARD_REALDIM];
 
@@ -144,8 +147,7 @@ private:
                       Matrix<Cross> &iCrossMx,
                       Matrix<int> &iPointsMx,
                       Matrix<bool> &iJokerMx,
-                      Round &iRound,
-                      bool firstturn);
+                      Round &iRound);
 #ifdef DEBUG
     void checkDouble();
 #endif

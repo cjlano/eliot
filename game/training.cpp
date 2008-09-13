@@ -104,14 +104,8 @@ int Training::play(const wstring &iCoord, const wstring &iWord)
     int res = checkPlayedWord(iCoord, iWord, round);
     if (res != 0)
     {
-        debug("check returned with an error %d\n",res);
         return res;
     }
-
-    debug("play: %s %s %d\n",
-          convertToMb(round.getWord()).c_str(),
-          convertToMb(round.getCoord().toString()).c_str(),
-          round.getPoints());
 
     Move move(round);
     // Update the rack and the score of the current player
@@ -150,7 +144,6 @@ void Training::search()
     // Search for the current player
     Rack r;
     m_players[m_currPlayer]->getCurrentRack().getRack(r);
-    debug("Training::search for %s\n", convertToMb(r.toString()).c_str());
     m_results.search(m_dic, m_board, r, m_history.beforeFirstRound());
 }
 

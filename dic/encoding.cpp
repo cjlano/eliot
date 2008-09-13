@@ -148,6 +148,8 @@ string convertToMb(const wstring& iWStr)
 {
 #ifdef WIN32
     const unsigned int size = iWStr.size() * 4;
+    if (size == 0)
+        return "";
     char buf[size];
     // XXX: Assume the output is in UTF-8
     int nb = writeInUTF8(iWStr, buf, size, "convertToMb");

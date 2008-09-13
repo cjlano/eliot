@@ -43,12 +43,6 @@
 #   define ASSERT(cond, msg)
 #endif
 
-#ifdef DEBUG
-#  define debug(x...) { fprintf(stderr,x); }
-#else
-#  define debug(x...)
-#endif
-
 #endif
 
 /// Local Variables:

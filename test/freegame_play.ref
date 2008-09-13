@@ -1,0 +1,80 @@
+[?] pour l'aide
+commande> l 1 0
+mode partie libre
+[?] pour l'aide
+commande> a t
+AMLUNE?
+commande> p
+commande> a t
+AELMNU?
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  AMLUNE? | (PASS)          |  -  |   0 | 0 |
+
+   Total: 0
+
+Rack 0: AELMNU?
+commande> p
+commande> j MALvENU h4
+commande> a t
+ESEASTU
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  AMLUNE? | (PASS)          |  -  |   0 | 0 |
+    2 |  AELMNU? | (PASS)          |  -  |   0 | 0 |
+    3 |  AELMNU? | MALvENU         |  H4 |  68 | 0 | *
+
+   Total: 68
+
+Rack 0: ESEASTU
+commande> p
+commande> j SAUTEES 11H
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  AMLUNE? | (PASS)          |  -  |   0 | 0 |
+    2 |  AELMNU? | (PASS)          |  -  |   0 | 0 |
+    3 |  AELMNU? | MALvENU         |  H4 |  68 | 0 | *
+    4 |  ESEASTU | (PASS)          |  -  |   0 | 0 |
+    5 |  AEESSTU | SAUTEES         | 11H |  72 | 0 | *
+
+   Total: 140
+
+Rack 0: MIWBRAE
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ H   -  -  -  M  A  L  v  E  N  U  S  -  -  -  -
+ I   -  -  -  -  -  -  -  -  -  -  A  -  -  -  -
+ J   -  -  -  -  -  -  -  -  -  -  U  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  T  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  E  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  E  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  S  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> q
+fin du mode partie libre
+commande> q

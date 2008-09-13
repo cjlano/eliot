@@ -3,6 +3,8 @@ commande> e
 mode entraînement
 [?] pour l'aide
 commande> t IEJDEUE
+commande> j INVÃ©LID h4
+Mot incorrect ou mal placé (1)
 commande> j INVALID XX
 Mot incorrect ou mal placé (2)
 commande> j INVALID H5
@@ -25,7 +27,6 @@ commande> a r
   8: JEU                20 H8
   9: JE                 18 H7
  10: JE                 18 H8
-commande> n 0
 commande> n 6
 commande> a t
 DEEI
@@ -44,7 +45,7 @@ commande> j SE G6
 Mot incorrect ou mal placé (7)
 commande> j PIEGEE 7C
 Mot incorrect ou mal placé (8)
-commande> j PIEGEES 7C
+commande> j PIEGEES 7c
 commande> a t
 EEEGIP
 commande> a g
@@ -52,6 +53,31 @@ commande> a g
  A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  C   -  -  -  -  -  -  P  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  I  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  E  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  -  G  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  -  E  -  -  -  -  -  -  -  -
+ H   -  -  -  -  -  J  E  U  -  -  -  -  -  -  -
+ I   -  -  -  -  -  -  S  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> j PIEGEE c7
+commande> a t
+P
+commande> t ADEEPSS
+commande> j DEPASSE b12
+Mot incorrect ou mal placé (12)
+commande> a t
+ADEEPSS
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  P  I  E  G  E  E  -  -  -
  D   -  -  -  -  -  -  I  -  -  -  -  -  -  -  -
  E   -  -  -  -  -  -  E  -  -  -  -  -  -  -  -
  F   -  -  -  -  -  -  G  -  -  -  -  -  -  -  -

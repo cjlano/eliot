@@ -44,6 +44,7 @@
 #include "player.h"
 #include "ai_percent.h"
 #include "encoding.h"
+#include "game_exception.h"
 
 
 /* A static variable for holding the line. */
@@ -406,169 +407,176 @@ void loop_training(Training &iGame)
         token = _wcstok(commande, delim, &state);
         if (token)
         {
-            switch (token[0])
+            try
             {
-                case L'?':
-                    help_training();
-                    break;
-                case L'a':
-                    display_data(iGame, delim, &state);
-                    break;
-                case L'b':
-                    token = next_token_alpha(NULL, delim, &state);
-                    if (token == NULL)
+                switch (token[0])
+                {
+                    case L'?':
                         help_training();
-                    else
-                    {
-                        const wchar_t *word = next_token_alpha(NULL, delim, &state);
-                        if (word == NULL)
+                        break;
+                    case L'a':
+                        display_data(iGame, delim, &state);
+                        break;
+                    case L'b':
+                        token = next_token_alpha(NULL, delim, &state);
+                        if (token == NULL)
                             help_training();
                         else
                         {
-                            switch (token[0])
+                            const wchar_t *word = next_token_alpha(NULL, delim, &state);
+                            if (word == NULL)
+                                help_training();
+                            else
                             {
-                                case L'b':
+                                switch (token[0])
                                 {
-                                    vector<wstring> wordList;
-                                    iGame.getDic().searchBenj(word, wordList);
-                                    vector<wstring>::const_iterator it;
-                                    for (it = wordList.begin(); it != wordList.end(); ++it)
-                                        cout << convertToMb(*it) << endl;
-                                    break;
-                                }
-                                case L'p':
-                                {
-                                    map<wchar_t, vector<wstring> > wordMap;
-                                    iGame.getDic().search7pl1(word, wordMap, false);
-                                    map<wchar_t, vector<wstring> >::const_iterator it;
-                                    for (it = wordMap.begin(); it != wordMap.end(); ++it)
-                                    {
-                                        if (it->first)
-                                            cout << "+" << convertToMb(it->first) << endl;
-                                        vector<wstring>::const_iterator itWord;;
-                                        for (itWord = it->second.begin(); itWord != it->second.end(); itWord++)
+                                    case L'b':
                                         {
-                                            cout << "  " << convertToMb(*itWord) << endl;
+                                            vector<wstring> wordList;
+                                            iGame.getDic().searchBenj(word, wordList);
+                                            vector<wstring>::const_iterator it;
+                                            for (it = wordList.begin(); it != wordList.end(); ++it)
+                                                cout << convertToMb(*it) << endl;
+                                            break;
                                         }
-                                    }
-                                    break;
-                                }
-                                case L'r':
-                                {
-                                    vector<wstring> wordList;
-                                    iGame.getDic().searchRacc(word, wordList);
-                                    vector<wstring>::const_iterator it;
-                                    for (it = wordList.begin(); it != wordList.end(); ++it)
-                                        cout << convertToMb(*it) << endl;
-                                    break;
+                                    case L'p':
+                                        {
+                                            map<wchar_t, vector<wstring> > wordMap;
+                                            iGame.getDic().search7pl1(word, wordMap, false);
+                                            map<wchar_t, vector<wstring> >::const_iterator it;
+                                            for (it = wordMap.begin(); it != wordMap.end(); ++it)
+                                            {
+                                                if (it->first)
+                                                    cout << "+" << convertToMb(it->first) << endl;
+                                                vector<wstring>::const_iterator itWord;;
+                                                for (itWord = it->second.begin(); itWord != it->second.end(); itWord++)
+                                                {
+                                                    cout << "  " << convertToMb(*itWord) << endl;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case L'r':
+                                        {
+                                            vector<wstring> wordList;
+                                            iGame.getDic().searchRacc(word, wordList);
+                                            vector<wstring>::const_iterator it;
+                                            for (it = wordList.begin(); it != wordList.end(); ++it)
+                                                cout << convertToMb(*it) << endl;
+                                            break;
+                                        }
                                 }
                             }
                         }
-                    }
-                    break;
-                case L'd':
-                    token = next_token_alpha(NULL, delim, &state);
-                    if (token == NULL)
-                        help_training();
-                    else
-                    {
-                        if (iGame.getDic().searchWord(token))
-                        {
-                            printf("le mot -%s- existe\n",
-                                   convertToMb(token).c_str());
-                        }
-                        else
-                        {
-                            printf("le mot -%s- n'existe pas\n",
-                                   convertToMb(token).c_str());
-                        }
-                    }
-                    break;
-                case L'j':
-                    token = next_token_alpha(NULL, delim, &state);
-                    if (token == NULL)
-                        help_training();
-                    else
-                    {
-                        int res;
-                        wchar_t *coord = next_token_alphanum(NULL, delim, &state);
-                        if (coord == NULL)
-                        {
+                        break;
+                    case L'd':
+                        token = next_token_alpha(NULL, delim, &state);
+                        if (token == NULL)
                             help_training();
-                            break;
-                        }
-                        if ((res = iGame.play(coord, token)) != 0)
-                        {
-                            fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
-                                    res);
-                            break;
-                        }
-                    }
-                    break;
-                case L'n':
-                    token = next_token_digit(NULL, delim, &state);
-                    if (token == NULL)
-                        help_training();
-                    else
-                    {
-                        int n = _wtoi(token);
-                        if (n <= 0)
-                        {
-                            iGame.back(n == 0 ? 1 : -n);
-                        }
                         else
                         {
-                            if (iGame.playResult(--n))
-                                printf("mauvais argument\n");
+                            if (iGame.getDic().searchWord(token))
+                            {
+                                printf("le mot -%s- existe\n",
+                                       convertToMb(token).c_str());
+                            }
+                            else
+                            {
+                                printf("le mot -%s- n'existe pas\n",
+                                       convertToMb(token).c_str());
+                            }
                         }
-                    }
-                    break;
-                case L'r':
-                    iGame.search();
-                    break;
-                case L't':
-                    token = next_token_alphaplusjoker(NULL, delim, &state);
-                    if (token == NULL)
-                        help_training();
-                    else
-                        if (iGame.setRackManual(0, token))
-                            printf("le sac ne contient pas assez de lettres\n");
-                    break;
-                case L'x':
-                    token = next_token_cross(NULL, delim, &state);
-                    if (token == NULL)
-                        help_training();
-                    else
-                        eliottxt_get_cross(iGame.getDic(), token);
-                    break;
-                case L'*':
-                    iGame.setRackRandom(false, Game::RACK_ALL);
-                    break;
-                case L'+':
-                    iGame.setRackRandom(false, Game::RACK_NEW);
-                    break;
-                case L's':
-                    token = next_token_filename(NULL, delim, &state);
-                    if (token != NULL)
-                    {
-                        string filename = convertToMb(token);
-                        ofstream fout(filename.c_str());
-                        if (fout.rdstate() == ios::failbit)
+                        break;
+                    case L'j':
+                        token = next_token_alpha(NULL, delim, &state);
+                        if (token == NULL)
+                            help_training();
+                        else
                         {
-                            printf("impossible d'ouvrir %s\n",
-                                   filename.c_str());
-                            break;
+                            int res;
+                            wchar_t *coord = next_token_alphanum(NULL, delim, &state);
+                            if (coord == NULL)
+                            {
+                                help_training();
+                                break;
+                            }
+                            if ((res = iGame.play(coord, token)) != 0)
+                            {
+                                fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
+                                        res);
+                                break;
+                            }
                         }
-                        iGame.save(fout);
-                        fout.close();
-                    }
-                    break;
-                case L'q':
-                    quit = 1;
-                    break;
-                default:
-                    printf("commande inconnue\n");
-                    break;
+                        break;
+                    case L'n':
+                        token = next_token_digit(NULL, delim, &state);
+                        if (token == NULL)
+                            help_training();
+                        else
+                        {
+                            int n = _wtoi(token);
+                            if (n <= 0)
+                            {
+                                iGame.back(n == 0 ? 1 : -n);
+                            }
+                            else
+                            {
+                                if (iGame.playResult(--n))
+                                    printf("mauvais argument\n");
+                            }
+                        }
+                        break;
+                    case L'r':
+                        iGame.search();
+                        break;
+                    case L't':
+                        token = next_token_alphaplusjoker(NULL, delim, &state);
+                        if (token == NULL)
+                            help_training();
+                        else
+                            if (iGame.setRackManual(0, token))
+                                printf("le sac ne contient pas assez de lettres\n");
+                        break;
+                    case L'x':
+                        token = next_token_cross(NULL, delim, &state);
+                        if (token == NULL)
+                            help_training();
+                        else
+                            eliottxt_get_cross(iGame.getDic(), token);
+                        break;
+                    case L'*':
+                        iGame.setRackRandom(false, Game::RACK_ALL);
+                        break;
+                    case L'+':
+                        iGame.setRackRandom(false, Game::RACK_NEW);
+                        break;
+                    case L's':
+                        token = next_token_filename(NULL, delim, &state);
+                        if (token != NULL)
+                        {
+                            string filename = convertToMb(token);
+                            ofstream fout(filename.c_str());
+                            if (fout.rdstate() == ios::failbit)
+                            {
+                                printf("impossible d'ouvrir %s\n",
+                                       filename.c_str());
+                                break;
+                            }
+                            iGame.save(fout);
+                            fout.close();
+                        }
+                        break;
+                    case L'q':
+                        quit = 1;
+                        break;
+                    default:
+                        printf("commande inconnue\n");
+                        break;
+                }
+            }
+            catch (GameException &e)
+            {
+                printf("%s\n", e.what());
             }
         }
     }
@@ -592,84 +600,91 @@ void loop_freegame(FreeGame &iGame)
         token = _wcstok(commande, delim, &state);
         if (token)
         {
-            switch (token[0])
+            try
             {
-                case L'?':
-                    help_freegame();
-                    break;
-                case L'a':
-                    display_data(iGame, delim, &state);
-                    break;
-                case L'd':
-                    token = next_token_alpha(NULL, delim, &state);
-                    if (token == NULL)
+                switch (token[0])
+                {
+                    case L'?':
                         help_freegame();
-                    else
-                    {
-                        if (iGame.getDic().searchWord(token))
-                        {
-                            printf("le mot -%s- existe\n",
-                                   convertToMb(token).c_str());
-                        }
+                        break;
+                    case L'a':
+                        display_data(iGame, delim, &state);
+                        break;
+                    case L'd':
+                        token = next_token_alpha(NULL, delim, &state);
+                        if (token == NULL)
+                            help_freegame();
                         else
                         {
-                            printf("le mot -%s- n'existe pas\n",
-                                   convertToMb(token).c_str());
+                            if (iGame.getDic().searchWord(token))
+                            {
+                                printf("le mot -%s- existe\n",
+                                       convertToMb(token).c_str());
+                            }
+                            else
+                            {
+                                printf("le mot -%s- n'existe pas\n",
+                                       convertToMb(token).c_str());
+                            }
                         }
-                    }
-                    break;
-                case L'j':
-                    token = next_token_alpha(NULL, delim, &state);
-                    if (token == NULL)
-                        help_freegame();
-                    else
-                    {
-                        int res;
-                        wchar_t *coord = next_token_alphanum(NULL, delim, &state);
-                        if (coord == NULL)
-                        {
-                            help_freegame();
-                            break;
-                        }
-                        if ((res = iGame.play(coord, token)) != 0)
-                        {
-                            fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
-                                    res);
-                            break;
-                        }
-                    }
-                    break;
-               case L'p':
-                    token = next_token_alpha(NULL, delim, &state);
-                    /* You can pass your turn without changing any letter */
-                    if (token == NULL)
-                        token = L"";
-
-                    if (iGame.pass(token) != 0)
                         break;
-                    break;
-                case L's':
-                    token = next_token_filename(NULL, delim, &state);
-                    if (token != NULL)
-                    {
-                        string filename = convertToMb(token);
-                        ofstream fout(filename.c_str());
-                        if (fout.rdstate() == ios::failbit)
+                    case L'j':
+                        token = next_token_alpha(NULL, delim, &state);
+                        if (token == NULL)
+                            help_freegame();
+                        else
                         {
-                            printf("impossible d'ouvrir %s\n",
-                                   filename.c_str());
-                            break;
+                            int res;
+                            wchar_t *coord = next_token_alphanum(NULL, delim, &state);
+                            if (coord == NULL)
+                            {
+                                help_freegame();
+                                break;
+                            }
+                            if ((res = iGame.play(coord, token)) != 0)
+                            {
+                                fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
+                                        res);
+                                break;
+                            }
                         }
-                        iGame.save(fout);
-                        fout.close();
-                    }
-                    break;
-                case L'q':
-                    quit = 1;
-                    break;
-                default:
-                    printf("commande inconnue\n");
-                    break;
+                        break;
+                    case L'p':
+                        token = next_token_alpha(NULL, delim, &state);
+                        /* You can pass your turn without changing any letter */
+                        if (token == NULL)
+                            token = L"";
+
+                        if (iGame.pass(token) != 0)
+                            break;
+                        break;
+                    case L's':
+                        token = next_token_filename(NULL, delim, &state);
+                        if (token != NULL)
+                        {
+                            string filename = convertToMb(token);
+                            ofstream fout(filename.c_str());
+                            if (fout.rdstate() == ios::failbit)
+                            {
+                                printf("impossible d'ouvrir %s\n",
+                                       filename.c_str());
+                                break;
+                            }
+                            iGame.save(fout);
+                            fout.close();
+                        }
+                        break;
+                    case L'q':
+                        quit = 1;
+                        break;
+                    default:
+                        printf("commande inconnue\n");
+                        break;
+                }
+            }
+            catch (GameException &e)
+            {
+                printf("%s\n", e.what());
             }
         }
     }
@@ -693,92 +708,99 @@ void loop_duplicate(Duplicate &iGame)
         token = _wcstok(commande, delim, &state);
         if (token)
         {
-            switch (token[0])
+            try
             {
-                case L'?':
-                    help_duplicate();
-                    break;
-                case L'a':
-                    display_data(iGame, delim, &state);
-                    break;
-                case L'd':
-                    token = next_token_alpha(NULL, delim, &state);
-                    if (token == NULL)
+                switch (token[0])
+                {
+                    case L'?':
                         help_duplicate();
-                    else
-                    {
-                        if (iGame.getDic().searchWord(token))
-                        {
-                            printf("le mot -%s- existe\n",
-                                   convertToMb(token).c_str());
-                        }
+                        break;
+                    case L'a':
+                        display_data(iGame, delim, &state);
+                        break;
+                    case L'd':
+                        token = next_token_alpha(NULL, delim, &state);
+                        if (token == NULL)
+                            help_duplicate();
                         else
                         {
-                            printf("le mot -%s- n'existe pas\n",
-                                   convertToMb(token).c_str());
+                            if (iGame.getDic().searchWord(token))
+                            {
+                                printf("le mot -%s- existe\n",
+                                       convertToMb(token).c_str());
+                            }
+                            else
+                            {
+                                printf("le mot -%s- n'existe pas\n",
+                                       convertToMb(token).c_str());
+                            }
                         }
-                    }
-                    break;
-                case L'j':
-                    token = next_token_alpha(NULL, delim, &state);
-                    if (token == NULL)
-                        help_duplicate();
-                    else
-                    {
-                        int res;
-                        wchar_t *coord = next_token_alphanum(NULL, delim, &state);
-                        if (coord == NULL)
-                        {
+                        break;
+                    case L'j':
+                        token = next_token_alpha(NULL, delim, &state);
+                        if (token == NULL)
                             help_duplicate();
-                            break;
-                        }
-                        if ((res = iGame.play(coord, token)) != 0)
+                        else
                         {
-                            fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
-                                    res);
-                            break;
+                            int res;
+                            wchar_t *coord = next_token_alphanum(NULL, delim, &state);
+                            if (coord == NULL)
+                            {
+                                help_duplicate();
+                                break;
+                            }
+                            if ((res = iGame.play(coord, token)) != 0)
+                            {
+                                fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
+                                        res);
+                                break;
+                            }
                         }
-                    }
-                    break;
-                case L'n':
-                    token = next_token_digit(NULL, delim, &state);
-                    if (token == NULL)
-                        help_duplicate();
-                    else
-                    {
-                        int n = _wtoi(token);
-                        if (n < 0 || n >= (int)iGame.getNPlayers())
+                        break;
+                    case L'n':
+                        token = next_token_digit(NULL, delim, &state);
+                        if (token == NULL)
+                            help_duplicate();
+                        else
                         {
-                            fprintf(stderr, "Numéro de joueur invalide\n");
-                            break;
+                            int n = _wtoi(token);
+                            if (n < 0 || n >= (int)iGame.getNPlayers())
+                            {
+                                fprintf(stderr, "Numéro de joueur invalide\n");
+                                break;
+                            }
+                            int res = iGame.setPlayer(_wtoi(token));
+                            if (res == 1)
+                                fprintf(stderr, "Impossible de choisir un joueur non humain\n");
                         }
-                        int res = iGame.setPlayer(_wtoi(token));
-                        if (res == 1)
-                            fprintf(stderr, "Impossible de choisir un joueur non humain\n");
-                    }
-                    break;
-                case L's':
-                    token = next_token_filename(NULL, delim, &state);
-                    if (token != NULL)
-                    {
-                        string filename = convertToMb(token);
-                        ofstream fout(filename.c_str());
-                        if (fout.rdstate() == ios::failbit)
+                        break;
+                    case L's':
+                        token = next_token_filename(NULL, delim, &state);
+                        if (token != NULL)
                         {
-                            printf("impossible d'ouvrir %s\n",
-                                   filename.c_str());
-                            break;
+                            string filename = convertToMb(token);
+                            ofstream fout(filename.c_str());
+                            if (fout.rdstate() == ios::failbit)
+                            {
+                                printf("impossible d'ouvrir %s\n",
+                                       filename.c_str());
+                                break;
+                            }
+                            iGame.save(fout);
+                            fout.close();
                         }
-                        iGame.save(fout);
-                        fout.close();
-                    }
-                    break;
-                case L'q':
-                    quit = 1;
-                    break;
-                default:
-                    printf("commande inconnue\n");
-                    break;
+                        break;
+                    case L'q':
+                        quit = 1;
+                        break;
+                    default:
+                        printf("commande inconnue\n");
+                        break;
+                }
+            }
+            catch (GameException &e)
+            {
+                printf("%s\n", e.what());
             }
         }
     }
@@ -786,7 +808,7 @@ void loop_duplicate(Duplicate &iGame)
 }
 
 
-void eliot_regexp(const Dictionary& iDic, wchar_t __attribute__((unused)) *cmd,
+void eliot_regexp(const Dictionary& iDic,
                   const wchar_t *delim, wchar_t **state)
 {
     /*
@@ -974,7 +996,7 @@ void main_loop(const Dictionary &iDic)
                 }
                 case L'x':
                     // Regular expression tests
-                    eliot_regexp(iDic, NULL, delim, &state);
+                    eliot_regexp(iDic, delim, &state);
                     break;
                 case L'q':
                     quit = 1;

@@ -60,6 +60,8 @@ duplicate_humans_ai 6
 # Free game mode
 #################
 
+# 1 human plays and/or passes
+freegame_play       7
 # The human player always passes, letting the AI player do what it wants
 freegame_passing    1
 # 2 human players, changing letters a lot
