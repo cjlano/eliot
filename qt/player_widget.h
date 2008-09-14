@@ -85,6 +85,13 @@ signals:
     void refreshSignal();
     void gameUpdated();
     void notifyProblem(QString iMsg);
+
+private slots:
+    void changeCurrentPlayer(int);
+
+private:
+    /// Encapsulated game, can be NULL
+    Game *m_game;
 };
 
 #endif

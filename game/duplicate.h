@@ -90,6 +90,10 @@ public:
     /// Switch to the next human player who has not played yet
     void nextHumanPlayer();
 
+    /// Return true if the player has played for the current turn
+    // XXX: not very nice API, should be a player property...
+    virtual bool hasPlayed(unsigned int player) const;
+
 private:
     // Private constructor to force using the GameFactory class
     Duplicate(const Dictionary &iDic);
@@ -127,7 +131,7 @@ private:
     void endGame();
 
     // m_hasPlayed[p] is true iff player p has played for this turn
-    map<int, bool> m_hasPlayed;
+    map<unsigned int, bool> m_hasPlayed;
 };
 
 #endif /* _DUPLICATE_H_ */

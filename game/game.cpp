@@ -204,6 +204,14 @@ int Game::back(unsigned int n)
 }
 
 
+void Game::shuffleRack()
+{
+    PlayedRack pld = getCurrentPlayer().getCurrentRack();
+    pld.shuffle();
+    m_players[currPlayer()]->setCurrentRack(pld);
+}
+
+
 void Game::realBag(Bag &ioBag) const
 {
     vector<Tile> tiles;

@@ -28,6 +28,7 @@
 #include "qtcommon.h"
 #include "game.h"
 #include "freegame.h"
+#include "duplicate.h"
 #include "player.h"
 #include "pldrack.h"
 #include "coord.h"
@@ -134,12 +135,17 @@ void PlayerWidget::refresh()
     lineEditPlay->clear();
     lineEditCoords->clear();
     lineEditChange->clear();
+
+    // Do not allow messing with AI players or with players who already played
+    setEnabled(!m_game->hasPlayed(m_player) &&
+               m_game->getPlayer(m_player).isHuman());
 }
 
 
 void PlayerWidget::on_pushButtonShuffle_clicked()
 {
-    // TODO: (not supported in the core yet)
+    m_game->shuffleRack();
+    emit gameUpdated();
 }
 
 
@@ -367,11 +373,15 @@ QValidator::State CoordsValidator::validate(QString &input, int &) const
 PlayerTabWidget::PlayerTabWidget(QWidget *parent)
     : QTabWidget(parent)
 {
+    QObject::connect(this, SIGNAL(currentChanged(int)),
+                     this, SLOT(changeCurrentPlayer(int)));
 }
 
 
 void PlayerTabWidget::setGame(Game *iGame)
 {
+    m_game = iGame;
+
     // Remove all the tabs
     int nbTabs = count();
     for (int i = 0; i < nbTabs; ++i)
@@ -414,7 +424,12 @@ void PlayerTabWidget::setGame(Game *iGame)
                 QObject::connect(p, SIGNAL(gameUpdated()),
                                  this, SIGNAL(gameUpdated()));
                 addTab(p, qfw(player.getName()));
+                // Switching to a tab corresponding to an AI player
+                // is forbidden
+                if (!player.isHuman())
+                    setTabEnabled(i, false);
             }
+            setCurrentIndex(iGame->currPlayer());
         }
     }
 }
@@ -422,7 +437,20 @@ void PlayerTabWidget::setGame(Game *iGame)
 
 void PlayerTabWidget::refresh()
 {
+    if (m_game)
+        setCurrentIndex(m_game->currPlayer());
     emit refreshSignal();
 }
 
+
+void PlayerTabWidget::changeCurrentPlayer(int p)
+{
+    // Change the active player when the active tab changes
+    // (only in duplicate mode)
+    Duplicate *dupli = dynamic_cast<Duplicate*>(m_game);
+    if (dupli && widget(p)->isEnabled())
+    {
+        dupli->setPlayer(p);
+    }
+}
 

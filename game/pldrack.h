@@ -75,6 +75,8 @@ public:
 
     /// Randomly change the order of the "new" tiles
     void shuffleNew();
+    /// Randomly change the order of all the tiles (they all become "new")
+    void shuffle();
 
     enum display_mode
     {

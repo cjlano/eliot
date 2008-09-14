@@ -271,6 +271,15 @@ void Duplicate::nextHumanPlayer()
              m_hasPlayed[m_currPlayer]);
 }
 
+
+bool Duplicate::hasPlayed(unsigned int p) const
+{
+    ASSERT(p < getNPlayers(), "Wrong player number");
+
+    map<unsigned int, bool>::const_iterator it = m_hasPlayed.find(p);
+    return it != m_hasPlayed.end() && it->second;
+}
+
 /// Local Variables:
 /// mode: c++
 /// mode: hs-minor

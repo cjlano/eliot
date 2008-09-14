@@ -192,6 +192,15 @@ void PlayedRack::shuffleNew()
 }
 
 
+void PlayedRack::shuffle()
+{
+    m_newTiles.insert(m_newTiles.end(),
+                      m_oldTiles.begin(), m_oldTiles.end());
+    m_oldTiles.clear();
+    shuffleNew();
+}
+
+
 wstring PlayedRack::toString(display_mode mode) const
 {
     wstring s;

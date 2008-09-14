@@ -158,6 +158,13 @@ public:
      */
     int back(unsigned int iTurn);
 
+    /// Shuffle the rack of the current player
+    void shuffleRack();
+
+    /// Return true if the player has played for the current turn
+    // XXX: not very nice API, should be a player property...
+    virtual bool hasPlayed(unsigned int player) const { return player != currPlayer(); }
+
     /***************
      * Saved games handling
      ***************/

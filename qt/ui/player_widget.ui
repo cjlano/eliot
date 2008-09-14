@@ -26,9 +26,6 @@
    </item>
    <item row="0" column="4" >
     <widget class="QPushButton" name="pushButtonShuffle" >
-     <property name="enabled" >
-      <bool>false</bool>
-     </property>
      <property name="text" >
       <string>_("Shuffle")</string>
      </property>
