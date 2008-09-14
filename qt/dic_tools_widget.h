@@ -48,6 +48,8 @@ private:
     QStandardItemModel *m_plus1Model;
     /// Model of the tree view for the "regexp" search
     QStandardItemModel *m_regexpModel;
+    /// Model of the tree view for the dictionary letters
+    QStandardItemModel *m_dicInfoModel;
 
     /// Palette to write text in red
     QPalette redPalette;
@@ -61,6 +63,8 @@ private slots:
     void refreshPlus1();
     /// Force synchronizing the model with the "regexp" results
     void refreshRegexp();
+    /// Force synchronizing the model with the dictionary letters
+    void refreshDicInfo();
 };
 
 #endif

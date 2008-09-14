@@ -32,6 +32,7 @@
 #include "dic_tools_widget.h"
 #include "qtcommon.h"
 #include "dic.h"
+#include "header.h"
 #include "dic_exception.h"
 
 using namespace std;
@@ -90,6 +91,15 @@ DicToolsWidget::DicToolsWidget(QWidget *parent)
     treeViewRegexp->setModel(m_regexpModel);
     m_regexpModel->setColumnCount(1);
     m_regexpModel->setHeaderData(0, Qt::Horizontal, _q("Rack:"), Qt::DisplayRole);
+
+    m_dicInfoModel = new QStandardItemModel(this);
+    treeViewDicLetters->setModel(m_dicInfoModel);
+    m_dicInfoModel->setColumnCount(5);
+    m_dicInfoModel->setHeaderData(0, Qt::Horizontal, _q("Letter"), Qt::DisplayRole);
+    m_dicInfoModel->setHeaderData(1, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
+    m_dicInfoModel->setHeaderData(2, Qt::Horizontal, _q("Frequency"), Qt::DisplayRole);
+    m_dicInfoModel->setHeaderData(3, Qt::Horizontal, _q("Vowel?"), Qt::DisplayRole);
+    m_dicInfoModel->setHeaderData(4, Qt::Horizontal, _q("Consonant?"), Qt::DisplayRole);
 }
 
 
@@ -110,6 +120,7 @@ void DicToolsWidget::setDic(const Dictionary *iDic)
         refreshCheck();
         refreshPlus1();
         refreshRegexp();
+        refreshDicInfo();
     }
 }
 
@@ -251,6 +262,47 @@ void DicToolsWidget::refreshRegexp()
             labelLimitReached->hide();
         else
             labelLimitReached->show();
+    }
+}
+
+
+void DicToolsWidget::refreshDicInfo()
+{
+    if (m_dic == NULL)
+    {
+        lineEditName->setText("");
+        lineEditLetters->setText("");
+        spinBoxWords->setValue(0);
+        m_dicInfoModel->clear();
+    }
+    else
+    {
+        const Header &header = m_dic->getHeader();
+        lineEditName->setText(qfw(header.getName()));
+        lineEditLetters->setText(qfw(header.getLetters()));
+        spinBoxWords->setValue(header.getNbWords());
+
+        QStandardItemModel *model = m_dicInfoModel;
+        model->removeRows(0, model->rowCount());
+        const vector<Tile> &allTiles = m_dic->getAllTiles();
+        vector<Tile>::const_iterator it;
+        int rowNum = 0;
+        for (it = allTiles.begin(); it != allTiles.end(); ++it)
+        {
+            model->insertRow(rowNum);
+            model->setData(model->index(rowNum, 0),
+                           qfw(wstring(1, it->toChar())));
+            model->setData(model->index(rowNum, 1), it->getPoints());
+            model->setData(model->index(rowNum, 2), it->maxNumber());
+            model->setData(model->index(rowNum, 3), it->isVowel());
+            model->setData(model->index(rowNum, 4), it->isConsonant());
+            ++rowNum;
+        }
+        treeViewDicLetters->resizeColumnToContents(0);
+        treeViewDicLetters->resizeColumnToContents(1);
+        treeViewDicLetters->resizeColumnToContents(2);
+        treeViewDicLetters->resizeColumnToContents(3);
+        treeViewDicLetters->resizeColumnToContents(4);
     }
 }
 

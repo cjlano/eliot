@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-11 23:04+0200\n"
+"POT-Creation-Date: 2008-09-14 23:07+0200\n"
 "PO-Revision-Date: 2008-08-31 10:43+0100\n"
 "Last-Translator: Olivier Teuliere <ipkiss@via.ecp.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -1237,45 +1237,58 @@ msgstr "Plus 1"
 msgid "Regular expressions"
 msgstr "Expressions régulières"
 
-#: qt/bag_widget.cpp:49
+#: qt/bag_widget.cpp:49 qt/dic_tools_widget.cpp:98
 msgid "Letter"
 msgstr "Lettre"
 
-#: qt/bag_widget.cpp:50 qt/history_widget.cpp:55 qt/training_widget.cpp:60
+#: qt/bag_widget.cpp:50 qt/dic_tools_widget.cpp:99 qt/history_widget.cpp:55
+#: qt/training_widget.cpp:60
 msgid "Points"
 msgstr "Points"
 
-#: qt/dic_tools_widget.cpp:87 qt/dic_tools_widget.cpp:92
+#: qt/dic_tools_widget.cpp:88 qt/dic_tools_widget.cpp:93
 #: qt/ui/player_widget.ui:16 qt/ui/training_widget.ui:21
 msgid "Rack:"
 msgstr "Tirage :"
 
-#: qt/dic_tools_widget.cpp:122 qt/dic_tools_widget.cpp:155
-#: qt/dic_tools_widget.cpp:208
+#: qt/dic_tools_widget.cpp:100
+msgid "Frequency"
+msgstr "Fréquence"
+
+#: qt/dic_tools_widget.cpp:101
+msgid "Vowel?"
+msgstr "Voyelle ?"
+
+#: qt/dic_tools_widget.cpp:102
+msgid "Consonant?"
+msgstr "Consonne ?"
+
+#: qt/dic_tools_widget.cpp:133 qt/dic_tools_widget.cpp:166
+#: qt/dic_tools_widget.cpp:219
 msgid "Please select a dictionary"
 msgstr "Choisir un dictionnaire"
 
-#: qt/dic_tools_widget.cpp:133
+#: qt/dic_tools_widget.cpp:144
 msgid "The word '%1' exists"
 msgstr "Le mot '%1' existe"
 
-#: qt/dic_tools_widget.cpp:138
+#: qt/dic_tools_widget.cpp:149
 msgid "The word '%1' does not exist"
 msgstr "Le mot '%1' n'existe pas"
 
-#: qt/dic_tools_widget.cpp:162
+#: qt/dic_tools_widget.cpp:173
 msgid "Rack: %1"
 msgstr "Tirage : %1"
 
-#: qt/dic_tools_widget.cpp:181
+#: qt/dic_tools_widget.cpp:192
 msgid "Anagrams"
 msgstr "Anagrammes"
 
-#: qt/dic_tools_widget.cpp:215
+#: qt/dic_tools_widget.cpp:226
 msgid "Regular expression: %1"
 msgstr "Expression régulière : %1"
 
-#: qt/dic_tools_widget.cpp:238
+#: qt/dic_tools_widget.cpp:249
 msgid "Invalid regular expression: %1"
 msgstr "Expression régulière invalide : %1"
 
@@ -1565,7 +1578,7 @@ msgstr "Eliot"
 msgid "Duplicate"
 msgstr "Duplicate"
 
-#: qt/player_widget.cpp:81
+#: qt/player_widget.cpp:82
 msgid ""
 "Enter the word to play (case-insensitive).\n"
 "A joker from the rack must be written in parentheses.\n"
@@ -1575,7 +1588,7 @@ msgstr ""
 "Un joker provenant du chevalet doit être écrit entre parenthèses.\n"
 "Ex. : m(o)( ou M(O)T"
 
-#: qt/player_widget.cpp:84
+#: qt/player_widget.cpp:85
 msgid ""
 "Enter the coordinates of the word.\n"
 "Specify the row before the column for horizontal words,\n"
@@ -1587,72 +1600,72 @@ msgstr ""
 "et la colonne avant la rangée pour les mots verticaux.\n"
 "Ex. : H4 ou 4H"
 
-#: qt/player_widget.cpp:177
+#: qt/player_widget.cpp:183
 msgid "Cannot play word: misplaced parentheses"
 msgstr "Impossible de jouer le mot : parenthèses mal placées"
 
-#: qt/player_widget.cpp:199
+#: qt/player_widget.cpp:205
 msgid "Cannot play '%1' at position '%2':\n"
 msgstr "Impossible de jouer '%1' en '%2' :\n"
 
-#: qt/player_widget.cpp:204
+#: qt/player_widget.cpp:210
 msgid "Some letters are not valid for the current dictionary"
 msgstr ""
 "Le tirage contient des lettres incorrectes pour le dictionnaire courant"
 
-#: qt/player_widget.cpp:207
+#: qt/player_widget.cpp:213
 msgid "Invalid coordinates"
 msgstr "Coordonnées invalides"
 
-#: qt/player_widget.cpp:210
+#: qt/player_widget.cpp:216
 msgid "The word does not exist"
 msgstr "Le mot n'existe pas"
 
-#: qt/player_widget.cpp:213
+#: qt/player_widget.cpp:219
 msgid "The rack doesn't contain the letters needed to play this word"
 msgstr "Le chevalet ne contient pas les lettres permettant de jouer ce mot"
 
-#: qt/player_widget.cpp:216
+#: qt/player_widget.cpp:222
 msgid "The word is part of a longer one"
 msgstr "Le mot fait partie d'un autre mot plus long"
 
-#: qt/player_widget.cpp:219
+#: qt/player_widget.cpp:225
 msgid "The word tries to replace an existing letter"
 msgstr "Le mot remplace une lettre existante"
 
-#: qt/player_widget.cpp:222
+#: qt/player_widget.cpp:228
 msgid "An orthogonal word is not valid"
 msgstr "Un mot perpendiculaire est invalide"
 
-#: qt/player_widget.cpp:225
+#: qt/player_widget.cpp:231
 msgid "The word is already present on the board at these coordinates"
 msgstr "Le mot est déjà présent sur la grille à cette position"
 
-#: qt/player_widget.cpp:228
+#: qt/player_widget.cpp:234
 msgid "A word cannot be isolated (not connected to the placed words)"
 msgstr "Un mot ne peut pas être isolé (non connecté aux autres mots placés)"
 
-#: qt/player_widget.cpp:231
+#: qt/player_widget.cpp:237
 msgid "The first word of the game must be horizontal"
 msgstr "Le premier mot de la partie doit être horizontal"
 
-#: qt/player_widget.cpp:234
+#: qt/player_widget.cpp:240
 msgid "The first word of the game must cover the H8 square"
 msgstr "Le premier mot de la partie doit couvrir la case H8"
 
-#: qt/player_widget.cpp:237
+#: qt/player_widget.cpp:243
 msgid "The word is going out of the board"
 msgstr "Le mot sort de la grille"
 
-#: qt/player_widget.cpp:240
+#: qt/player_widget.cpp:246
 msgid "Incorrect or misplaced word (%1)"
 msgstr "Mot incorrect ou mal placé (%1)"
 
-#: qt/player_widget.cpp:264
+#: qt/player_widget.cpp:270
 msgid "Cannot pass turn (%1)"
 msgstr "Impossible de passer le tour (%1)"
 
-#: qt/player_widget.cpp:266
+#: qt/player_widget.cpp:272
 msgid "Cannot change letters '%1' (%2)"
 msgstr "Impossible de changer les lettres '%1' (%2)"
 
@@ -1676,13 +1689,29 @@ msgstr "Longueur maximum :"
 msgid "Note: only the 1000 first results have been displayed"
 msgstr "Note : seuls les 1000 premiers résultats ont été affichés"
 
+#: qt/ui/dic_tools_widget.ui:168
+msgid "Dic. info."
+msgstr "Infos dic."
+
+#: qt/ui/dic_tools_widget.ui:174
+msgid "Dictionary name:"
+msgstr "Nom du dictionnaire :"
+
+#: qt/ui/dic_tools_widget.ui:188
+msgid "Letters:"
+msgstr "Lettres:"
+
+#: qt/ui/dic_tools_widget.ui:202
+msgid "Number of words:"
+msgstr "Nombre de mots :"
+
 #: qt/ui/main_window.ui:62 qt/ui/new_game.ui:77
 msgid "Players"
 msgstr "Joueurs"
 
 #: qt/ui/main_window.ui:108
 msgid "External board"
-msgstr "&Plateau de jeu externe"
+msgstr "Plateau de jeu externe"
 
 #: qt/ui/new_game.ui:13
 msgid "New game"
@@ -1716,15 +1745,15 @@ msgstr "Ajouter un joueur"
 msgid "Remove player"
 msgstr "Supprimer un joueur"
 
-#: qt/ui/player_widget.ui:33
+#: qt/ui/player_widget.ui:30
 msgid "Shuffle"
 msgstr "Mélanger"
 
-#: qt/ui/player_widget.ui:40
+#: qt/ui/player_widget.ui:37
 msgid "Play a word:"
 msgstr "Jouer le mot :"
 
-#: qt/ui/player_widget.ui:52
+#: qt/ui/player_widget.ui:49
 msgid ""
 "Enter the word to play (case-insensitive). A joker from the rack must be "
 "written in parentheses. E.g.: w(o)rd or W(O)RD"
@@ -1732,7 +1761,7 @@ msgstr ""
 "Entrer le mot à jouer (insensible à la casse). Un joker provenant du "
 "chevalet doit être écrit entre parenthèses. Ex. : m(o)( ou M(O)T"
 
-#: qt/ui/player_widget.ui:80
+#: qt/ui/player_widget.ui:77
 msgid ""
 "Enter the coordinates of the word. Specify the row before the column for "
 "horizontal words, and the column before the row for vertical words. E.g.: H4 "
@@ -1742,35 +1771,35 @@ msgstr ""
 "mots horizontaux, et la colonne avant la rangée pour les mots verticaux. "
 "Ex. : H4 ou 4H"
 
-#: qt/ui/player_widget.ui:87 qt/ui/training_widget.ui:62
+#: qt/ui/player_widget.ui:84 qt/ui/training_widget.ui:62
 msgid "Play"
 msgstr "Jouer"
 
-#: qt/ui/player_widget.ui:94
+#: qt/ui/player_widget.ui:91
 msgid "Change letters:"
 msgstr "Lettres à changer :"
 
-#: qt/ui/player_widget.ui:101
+#: qt/ui/player_widget.ui:98
 msgid "Enter the letters you want to change"
 msgstr "Entrer les lettres à changer"
 
-#: qt/ui/player_widget.ui:111
+#: qt/ui/player_widget.ui:108
 msgid "Change"
 msgstr "Changer"
 
-#: qt/ui/player_widget.ui:118
+#: qt/ui/player_widget.ui:115
 msgid "Pass"
 msgstr "Passer"
 
-#: qt/ui/player_widget.ui:125
+#: qt/ui/player_widget.ui:122
 msgid "Ref.:"
 msgstr "Ref. :"
 
-#: qt/ui/player_widget.ui:74
+#: qt/ui/player_widget.ui:71
 msgid "Enter the coordinates of the word."
 msgstr "Entrer les coordonnées du mot."
 
-#: qt/ui/player_widget.ui:47
+#: qt/ui/player_widget.ui:44
 msgid "Enter the word to play (case-insensitive)."
 msgstr "Entrer le mot à jouer (non sensible à la casse)."
 

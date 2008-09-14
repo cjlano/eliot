@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>462</width>
+    <width>431</width>
     <height>354</height>
    </rect>
   </property>
@@ -23,7 +23,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>440</width>
+        <width>409</width>
         <height>308</height>
        </rect>
       </property>
@@ -61,7 +61,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>440</width>
+        <width>409</width>
         <height>308</height>
        </rect>
       </property>
@@ -86,7 +86,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>440</width>
+        <width>409</width>
         <height>308</height>
        </rect>
       </property>
@@ -163,9 +163,81 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tabDicInfo" >
+      <attribute name="title" >
+       <string>_("Dic. info.")</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_3" >
+         <property name="text" >
+          <string>_("Dictionary name:")</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="QLineEdit" name="lineEditName" >
+         <property name="readOnly" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QLabel" name="label_4" >
+         <property name="text" >
+          <string>_("Letters:")</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="QLineEdit" name="lineEditLetters" >
+         <property name="readOnly" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QLabel" name="label_5" >
+         <property name="text" >
+          <string>_("Number of words:")</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" >
+        <widget class="QSpinBox" name="spinBoxWords" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize" >
+          <size>
+           <width>90</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="readOnly" >
+          <bool>true</bool>
+         </property>
+         <property name="maximum" >
+          <number>100000000</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2" >
+        <widget class="QTreeView" name="treeViewDicLetters" >
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
+  <zorder>tabWidget</zorder>
  </widget>
  <resources/>
  <connections/>
