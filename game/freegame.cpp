@@ -48,7 +48,7 @@ int FreeGame::play(const wstring &iCoord, const wstring &iWord)
     // Perform all the validity checks, and try to fill a round
     Round round;
     int res = checkPlayedWord(iCoord, iWord, round);
-    if (res != 0 && Settings::Instance().getBool("freegame-reject-invalid"))
+    if (res != 0 && Settings::Instance().getBool("freegame.reject-invalid"))
     {
         return res;
     }

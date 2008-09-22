@@ -43,7 +43,7 @@ int Duplicate::play(const wstring &iCoord, const wstring &iWord)
     // Perform all the validity checks, and try to fill a round
     Round round;
     int res = checkPlayedWord(iCoord, iWord, round);
-    if (res != 0 && Settings::Instance().getBool("duplicate-reject-invalid"))
+    if (res != 0 && Settings::Instance().getBool("duplicate.reject-invalid"))
     {
         return res;
     }
@@ -182,7 +182,7 @@ void Duplicate::endTurn()
     // Handle solo bonus
     // First check whether there are enough players in the game for the
     // bonus to apply
-    int minNbPlayers = Settings::Instance().getInt("duplicate-solo-players");
+    int minNbPlayers = Settings::Instance().getInt("duplicate.solo-players");
     if (getNPlayers() >= (unsigned int)minNbPlayers &&
         m_players[imax]->getLastMove().getType() == Move::VALID_ROUND)
     {
@@ -200,7 +200,7 @@ void Duplicate::endTurn()
         if (!otherWithSameScore)
         {
             // Give the bonus to player imax
-            int bonus = Settings::Instance().getInt("duplicate-solo-value");
+            int bonus = Settings::Instance().getInt("duplicate.solo-value");
             m_players[imax]->addPoints(bonus);
             // TODO: keep a trace of the solo, so the interface
             // can be aware of it...

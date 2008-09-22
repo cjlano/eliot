@@ -1,4 +1,5 @@
 ICONV_VERSION = 1.12
+LIBCONFIG_VERSION = 1.3.1
 WX_VERSION = 2.6.4
 BOOST_VERSION = 1_34_1
 QT_VERSION = 4.4.1
@@ -10,14 +11,14 @@ WGET = wget -c
 CC = i586-mingw32msvc-gcc
 CXX = i586-mingw32msvc-g++
 CPPFLAGS += -I$(PREFIX)/include
-CONFIGURE = CC=$(CC) CXX=$(CXX) CPPFLAGS=$(CPPFLAGS) ./configure --host=i586-mingw32msvc --build=i386-linux --prefix=$(PREFIX)
+CONFIGURE = CC="$(CC)" CXX="$(CXX)" CPPFLAGS="$(CPPFLAGS)" ./configure --host=i586-mingw32msvc --build=i386-linux --prefix=$(PREFIX)
 
 .PHONY: help all
 
-help:
-	echo "Usage: make all"
+all: .iconv .wxWidgets .boost .qt .libconfig
 
-all: .iconv .wxWidgets .boost .qt
+help:
+	@echo "Usage: make all"
 
 
 ### iconv ###
@@ -31,6 +32,20 @@ $(ICONV_DIR):
 
 .iconv: $(ICONV_DIR)
 	(cd $< && $(CONFIGURE) --enable-static --disable-shared && make && make install)
+	touch $@
+
+
+### libconfig ###
+
+LIBCONFIG_DIR = libconfig-$(LIBCONFIG_VERSION)
+LIBCONFIG_ARCHIVE = libconfig-$(LIBCONFIG_VERSION).tar.gz
+
+$(LIBCONFIG_DIR):
+	$(WGET) http://www.hyperrealm.com/libconfig/$(LIBCONFIG_ARCHIVE)
+	tar xvf $(LIBCONFIG_ARCHIVE)
+
+.libconfig: $(LIBCONFIG_DIR)
+	(cd $< && CFLAGS=-DLIBCONFIG_STATIC CXXFLAGS=-DLIBCONFIG_STATIC $(CONFIGURE) --enable-static --disable-shared && make && make install)
 	touch $@
 
 
@@ -66,7 +81,6 @@ $(BOOST_DIR):
 	#(cd $< && ./configure --prefix=$(PREFIX) && ./tools/jam/src/bin.linuxx86/bjam --toolset=gcc --prefix=$(PREFIX) --without-date_time --without-filesystem --without-graph --without-iostreams --without-program_options --without-python --without-regex --without-serialization --without-signals --without-test --without-thread --without-wave install)
 	cp -r $</boost $(PREFIX)/include
 	touch $@
-
 
 
 ### Qt ###

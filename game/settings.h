@@ -27,18 +27,20 @@
 using std::string;
 using std::map;
 
+namespace libconfig
+{
+    class Config;
+}
+
 
 /**
  * This class centralizes the various configuration options of Eliot.
  * It implements the Singleton pattern.
  *
  * Currently, there are few settings, and their initial value is hard-coded.
- * In a later phase, this class will be able to export/import settings
- * to/from a configuration file, and it should be possible to override
- * configuration settings with settings given on the command-line (TODO).
- * The boost::program_options library could be useful for this.
- *
- * This class will also be helpful for the "Settings" dialog box of the GUI.
+ * It is possible to load/save the settings from/to a configuration file.
+ * In a later phase, it should be possible to override configuration
+ * settings with settings given on the command-line (TODO).
  */
 class Settings
 {
@@ -48,6 +50,11 @@ public:
     /// Destroy the singleton cleanly
     static void Destroy();
 
+    ~Settings();
+
+    /// Save the current value of the settinfs to a configuration file
+    void save() const;
+
     void setBool(const string &iName, bool iValue);
     bool getBool(const string &iName) const;
 
@@ -56,47 +63,17 @@ public:
 
 private:
 
-    /**
-     * This nested class is simply there to handle storage and retrieval
-     * for options of a particular type (and factorize code)
-     */
-    template <typename T>
-    class OptionsHandler
-    {
-        public:
-            /// Set the value of an option
-            /**
-             * If the option already exists, its value is replaced,
-             * otherwise the option is created
-             */
-            void addOption(const string &iName, const T &iValue);
-
-            /**
-             * Change the value of an existing option.
-             * An exception is thrown if the option doesn't exist yet
-             */
-            void setOption(const string &iName, const T &iValue);
-
-            /**
-             * Query the value of an option.
-             * An exception is thrown if the option doesn't exist
-             */
-            const T& getOption(const string &iName) const;
-
-        private:
-            map<string, T> m_options;
-    };
-
-
     /// Singleton instance
     static Settings *m_instance;
     Settings();
 
-    /// The settings can be of various types
-    OptionsHandler<bool> m_boolHandler;
-    OptionsHandler<int> m_intHandler;
-    // Add types as needed...
+    /// Name of the file used to store the settings
+    string m_fileName;
 
+    libconfig::Config *m_conf;
+
+    template<class T>
+    void setValue(const string &iName, T iValue);
 };
 
 #endif

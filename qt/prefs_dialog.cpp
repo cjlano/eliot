@@ -46,9 +46,9 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         lineEditIntfDicPath->setText(qs.value(kINTF_DIC_PATH, "").toString());
 
         // Duplicate settings
-        checkBoxDuplRefuseInvalid->setChecked(Settings::Instance().getBool("duplicate-reject-invalid"));
-        spinBoxDuplSoloPlayers->setValue(Settings::Instance().getInt("duplicate-solo-players"));
-        spinBoxDuplSoloValue->setValue(Settings::Instance().getInt("duplicate-solo-value"));
+        checkBoxDuplRefuseInvalid->setChecked(Settings::Instance().getBool("duplicate.reject-invalid"));
+        spinBoxDuplSoloPlayers->setValue(Settings::Instance().getInt("duplicate.solo-players"));
+        spinBoxDuplSoloValue->setValue(Settings::Instance().getInt("duplicate.solo-value"));
     }
     catch (GameException &e)
     {
@@ -57,7 +57,7 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     }
 
     // Freegame settings
-    checkBoxFreeRefuseInvalid->setChecked(Settings::Instance().getBool("freegame-reject-invalid"));
+    checkBoxFreeRefuseInvalid->setChecked(Settings::Instance().getBool("freegame.reject-invalid"));
 
     // Training settings
     // XXX: Hide them until there is something to show
@@ -71,6 +71,15 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
 void PrefsDialog::accept()
 {
     updateSettings();
+    try
+    {
+        Settings::Instance().save();
+    }
+    catch (GameException &e)
+    {
+        QMessageBox::warning(this, _q("%1 error").arg(PACKAGE_NAME),
+                             _q("Cannot save the preferences: %1").arg(e.what()));
+    }
     QDialog::accept();
 }
 
@@ -92,15 +101,15 @@ void PrefsDialog::updateSettings()
         qs.setValue(kINTF_DIC_PATH, lineEditIntfDicPath->text());
 
         // Duplicate settings
-        Settings::Instance().setBool("duplicate-reject-invalid",
+        Settings::Instance().setBool("duplicate.reject-invalid",
                                      checkBoxDuplRefuseInvalid->isChecked());
-        Settings::Instance().setInt("duplicate-solo-players",
+        Settings::Instance().setInt("duplicate.solo-players",
                                     spinBoxDuplSoloPlayers->value());
-        Settings::Instance().setInt("duplicate-solo-value",
+        Settings::Instance().setInt("duplicate.solo-value",
                                     spinBoxDuplSoloValue->value());
 
         // Freegame settings
-        Settings::Instance().setBool("freegame-reject-invalid",
+        Settings::Instance().setBool("freegame.reject-invalid",
                                      checkBoxFreeRefuseInvalid->isChecked());
 
         // Training settings

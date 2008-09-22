@@ -1,4 +1,4 @@
-SUBDIRS = intl dic game utils wxwin qt po
+SUBDIRS = intl dic game utils wxwin qt po extras
 
 ACLOCAL_AMFLAGS = -I m4
 

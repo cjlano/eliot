@@ -53,6 +53,6 @@
 #define _q(s) qfl(_(s))
 
 // Used for QSettings
-#define ORGANIZATION "Eliot"
+#define ORGANIZATION "eliot"
 
 #endif

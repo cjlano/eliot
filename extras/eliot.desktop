@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Eliot
+Comment=A Scrabble (TM) game
+Comment[fr]=Un jeu de Scrabble (TM)
+Exec=eliot
+Icon=eliot.xpm
+Terminal=0
+Type=Application
+Categories=Game;
+

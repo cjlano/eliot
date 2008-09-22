@@ -36,7 +36,7 @@ wxeliot_SOURCES = \
     mainframe.cc mainframe.h  \
     main.cc ewx.h
 
-wxeliot_LDADD = @WX_LIBS@ ../game/libgame.a ../dic/libdic.a @LIBINTL@
+wxeliot_LDADD = @WX_LIBS@ ../game/libgame.a ../dic/libdic.a @LIBINTL@ @LIBCONFIG_LIBS@
 
 EXTRA_DIST = \
     eliot.xpm \

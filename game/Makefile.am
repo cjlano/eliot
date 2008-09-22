@@ -19,7 +19,7 @@
 
 noinst_LIBRARIES = libgame.a
 
-AM_CPPFLAGS = -I$(top_srcdir)/dic -I../intl -I$(top_srcdir)/intl
+AM_CPPFLAGS = -I$(top_srcdir)/dic -I../intl -I$(top_srcdir)/intl @LIBCONFIG_CFLAGS@
 
 libgame_a_SOURCES=           \
     ai_percent.cpp ai_percent.h     \

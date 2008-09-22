@@ -76,7 +76,7 @@ eliot_SOURCES = \
     main.cpp
 eliot_SOURCES += $(BUILT_SOURCES)
 
-eliot_LDADD = @QT_LIBS@ ../game/libgame.a ../dic/libdic.a @LIBINTL@
+eliot_LDADD = ../game/libgame.a ../dic/libdic.a @QT_LIBS@ @LIBINTL@ @LIBCONFIG_LIBS@
 
 # Generate a cpp file from the resources
 resources.cpp: eliot.qrc $(RESOURCES)
@@ -104,12 +104,13 @@ BUILT_SOURCES += win32icon.rc
 eliot_SOURCES += win32icon.rc
 eliot_LDADD += win32icon.o
 
-win32icon.rc: images/eliot.ico
-	echo "IDI_ICON1 ICON DISCARDABLE \"$(top_srcdir)/qt/images/eliot.ico\"" > $@
-
 win32icon.o: win32icon.rc
 	i586-mingw32msvc-windres -o $@ -i $<
 endif
+
+# This target is out of the conditional, so that make distcheck is happy
+win32icon.rc: images/eliot.ico
+	echo "IDI_ICON1 ICON DISCARDABLE \"$(top_srcdir)/qt/images/eliot.ico\"" > $@
 
 endif
 
