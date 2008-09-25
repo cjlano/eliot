@@ -255,7 +255,9 @@ void Settings::setValue(const string &iName, T iValue)
     }
     catch (SettingNotFoundException &e)
     {
+#ifdef DEBUG
         throw GameException("No such option: " + iName);
+#endif
     }
 #endif
 }
