@@ -294,8 +294,10 @@ void DicToolsWidget::refreshDicInfo()
                            qfw(wstring(1, it->toChar())));
             model->setData(model->index(rowNum, 1), it->getPoints());
             model->setData(model->index(rowNum, 2), it->maxNumber());
-            model->setData(model->index(rowNum, 3), it->isVowel());
-            model->setData(model->index(rowNum, 4), it->isConsonant());
+            model->setData(model->index(rowNum, 3),
+                           it->isVowel() ? _q("Yes") : _q("No"));
+            model->setData(model->index(rowNum, 4),
+                           it->isConsonant() ? _q("Yes") : _q("No"));
             ++rowNum;
         }
         treeViewDicLetters->resizeColumnToContents(0);

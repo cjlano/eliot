@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-14 23:07+0200\n"
+"POT-Creation-Date: 2008-09-27 21:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -309,7 +309,7 @@ msgstr ""
 msgid " N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS"
 msgstr ""
 
-#: utils/ncurses.cpp:414 qt/history_widget.cpp:143 qt/main_window.cpp:560
+#: utils/ncurses.cpp:414 qt/history_widget.cpp:143 qt/main_window.cpp:564
 msgid "(PASS)"
 msgstr ""
 
@@ -415,7 +415,7 @@ msgstr ""
 msgid "   Ctrl-l           Refresh the screen"
 msgstr ""
 
-#: utils/ncurses.cpp:486 wxwin/auxframes.cc:147 qt/main_window.cpp:643
+#: utils/ncurses.cpp:486 wxwin/auxframes.cc:147 qt/main_window.cpp:647
 #: qt/ui/main_window.ui:94
 msgid "Bag"
 msgstr ""
@@ -481,7 +481,7 @@ msgid "Game saved in '%ls'"
 msgstr ""
 
 #: utils/ncurses.cpp:632 wxwin/mainframe.cc:275 wxwin/mainframe.cc:405
-#: wxwin/mainframe.cc:429 qt/main_window.cpp:405
+#: wxwin/mainframe.cc:429 qt/main_window.cpp:409
 msgid "Load a game"
 msgstr ""
 
@@ -495,7 +495,7 @@ msgstr ""
 msgid "Invalid saved game"
 msgstr ""
 
-#: utils/ncurses.cpp:656 qt/main_window.cpp:419
+#: utils/ncurses.cpp:656 qt/main_window.cpp:423
 #, c-format
 msgid "Game loaded"
 msgstr ""
@@ -797,7 +797,7 @@ msgstr ""
 msgid "&New game\tCtrl+N"
 msgstr ""
 
-#: wxwin/mainframe.cc:272 qt/main_window.cpp:323
+#: wxwin/mainframe.cc:272 qt/main_window.cpp:327
 msgid "Start a new game"
 msgstr ""
 
@@ -817,7 +817,7 @@ msgstr ""
 msgid "&Save as...\tCtrl+S"
 msgstr ""
 
-#: wxwin/mainframe.cc:276 qt/main_window.cpp:328
+#: wxwin/mainframe.cc:276 qt/main_window.cpp:332
 msgid "Save the current game"
 msgstr ""
 
@@ -849,7 +849,7 @@ msgstr ""
 msgid "&Quit\tCtrl+Q"
 msgstr ""
 
-#: wxwin/mainframe.cc:284 qt/main_window.cpp:334
+#: wxwin/mainframe.cc:284 qt/main_window.cpp:338
 msgid "Quit Eliot"
 msgstr ""
 
@@ -857,7 +857,7 @@ msgstr ""
 msgid "&Dictionary...\tCtrl+D"
 msgstr ""
 
-#: wxwin/mainframe.cc:287 wxwin/mainframe.cc:604 qt/main_window.cpp:610
+#: wxwin/mainframe.cc:287 wxwin/mainframe.cc:604 qt/main_window.cpp:614
 msgid "Choose a dictionary"
 msgstr ""
 
@@ -966,7 +966,7 @@ msgid "Font for the search"
 msgstr ""
 
 #: wxwin/mainframe.cc:310 wxwin/mainframe.cc:334 qt/history_widget.cpp:177
-#: qt/main_window.cpp:321
+#: qt/main_window.cpp:325
 msgid "&Game"
 msgstr ""
 
@@ -1062,24 +1062,24 @@ msgstr ""
 msgid "R&esults"
 msgstr ""
 
-#: wxwin/mainframe.cc:331 qt/main_window.cpp:359
+#: wxwin/mainframe.cc:331 qt/main_window.cpp:363
 msgid "&About..."
 msgstr ""
 
-#: wxwin/mainframe.cc:331 wxwin/mainframe.cc:733 qt/main_window.cpp:360
-#: qt/main_window.cpp:721
+#: wxwin/mainframe.cc:331 wxwin/mainframe.cc:733 qt/main_window.cpp:364
+#: qt/main_window.cpp:725
 msgid "About Eliot"
 msgstr ""
 
-#: wxwin/mainframe.cc:335 qt/main_window.cpp:338
+#: wxwin/mainframe.cc:335 qt/main_window.cpp:342
 msgid "&Settings"
 msgstr ""
 
-#: wxwin/mainframe.cc:336 qt/main_window.cpp:346
+#: wxwin/mainframe.cc:336 qt/main_window.cpp:350
 msgid "&Windows"
 msgstr ""
 
-#: wxwin/mainframe.cc:337 qt/main_window.cpp:358
+#: wxwin/mainframe.cc:337 qt/main_window.cpp:362
 msgid "&Help"
 msgstr ""
 
@@ -1096,7 +1096,7 @@ msgstr ""
 msgid "Cannot open "
 msgstr ""
 
-#: wxwin/mainframe.cc:440 wxwin/mainframe.cc:449 qt/main_window.cpp:412
+#: wxwin/mainframe.cc:440 wxwin/mainframe.cc:449 qt/main_window.cpp:416
 msgid "Error while loading the game"
 msgstr ""
 
@@ -1262,6 +1262,14 @@ msgstr ""
 msgid "Invalid regular expression: %1"
 msgstr ""
 
+#: qt/dic_tools_widget.cpp:298 qt/dic_tools_widget.cpp:300
+msgid "Yes"
+msgstr ""
+
+#: qt/dic_tools_widget.cpp:298 qt/dic_tools_widget.cpp:300
+msgid "No"
+msgstr ""
+
 #: qt/history_widget.cpp:51
 msgid "Turn"
 msgstr ""
@@ -1274,7 +1282,7 @@ msgstr ""
 msgid "Player"
 msgstr ""
 
-#: qt/main_window.cpp:109 qt/main_window.cpp:661 qt/ui/main_window.ui:40
+#: qt/main_window.cpp:109 qt/main_window.cpp:665 qt/ui/main_window.ui:40
 msgid "Board"
 msgstr ""
 
@@ -1286,24 +1294,24 @@ msgstr ""
 msgid "No game"
 msgstr ""
 
-#: qt/main_window.cpp:215
+#: qt/main_window.cpp:217
 msgid "Duplicate game"
 msgstr ""
 
-#: qt/main_window.cpp:219 qt/new_game.cpp:99 qt/new_game.cpp:165
+#: qt/main_window.cpp:223 qt/new_game.cpp:99 qt/new_game.cpp:165
 #: qt/ui/new_game.ui:41
 msgid "Free game"
 msgstr ""
 
-#: qt/main_window.cpp:233
+#: qt/main_window.cpp:237
 msgid "Dictionary: %1"
 msgstr ""
 
-#: qt/main_window.cpp:238
+#: qt/main_window.cpp:242
 msgid "Dictionary: Unknown (old format)"
 msgstr ""
 
-#: qt/main_window.cpp:239
+#: qt/main_window.cpp:243
 msgid ""
 "The dictionary name cannot be retrieved, because you are using an old "
 "dictionary format.\n"
@@ -1311,189 +1319,189 @@ msgid ""
 "nongnu.org/eliot/"
 msgstr ""
 
-#: qt/main_window.cpp:252
+#: qt/main_window.cpp:256
 msgid "Eliot - Error"
 msgstr ""
 
-#: qt/main_window.cpp:322
+#: qt/main_window.cpp:326
 msgid "&New..."
 msgstr ""
 
-#: qt/main_window.cpp:322
+#: qt/main_window.cpp:326
 msgid "Ctrl+N"
 msgstr ""
 
-#: qt/main_window.cpp:325
+#: qt/main_window.cpp:329
 msgid "&Load..."
 msgstr ""
 
-#: qt/main_window.cpp:325
+#: qt/main_window.cpp:329
 msgid "Ctrl+O"
 msgstr ""
 
-#: qt/main_window.cpp:326
+#: qt/main_window.cpp:330
 msgid "Load an existing game"
 msgstr ""
 
-#: qt/main_window.cpp:327
+#: qt/main_window.cpp:331
 msgid "&Save as..."
 msgstr ""
 
-#: qt/main_window.cpp:327
+#: qt/main_window.cpp:331
 msgid "Ctrl+S"
 msgstr ""
 
-#: qt/main_window.cpp:330
+#: qt/main_window.cpp:334
 msgid "&Print..."
 msgstr ""
 
-#: qt/main_window.cpp:330
+#: qt/main_window.cpp:334
 msgid "Ctrl+P"
 msgstr ""
 
-#: qt/main_window.cpp:331
+#: qt/main_window.cpp:335
 msgid "Print the current game"
 msgstr ""
 
-#: qt/main_window.cpp:333
+#: qt/main_window.cpp:337
 msgid "&Quit"
 msgstr ""
 
-#: qt/main_window.cpp:333
+#: qt/main_window.cpp:337
 msgid "Ctrl+Q"
 msgstr ""
 
-#: qt/main_window.cpp:339
+#: qt/main_window.cpp:343
 msgid "&Choose dictionary..."
 msgstr ""
 
-#: qt/main_window.cpp:339
+#: qt/main_window.cpp:343
 msgid "Ctrl+C"
 msgstr ""
 
-#: qt/main_window.cpp:340
+#: qt/main_window.cpp:344
 msgid "Select a new dictionary"
 msgstr ""
 
-#: qt/main_window.cpp:341
+#: qt/main_window.cpp:345
 msgid "&Preferences..."
 msgstr ""
 
-#: qt/main_window.cpp:341
+#: qt/main_window.cpp:345
 msgid "Ctrl+F"
 msgstr ""
 
-#: qt/main_window.cpp:342
+#: qt/main_window.cpp:346
 msgid "Edit the preferences"
 msgstr ""
 
-#: qt/main_window.cpp:347
+#: qt/main_window.cpp:351
 msgid "&Bag"
 msgstr ""
 
-#: qt/main_window.cpp:347
+#: qt/main_window.cpp:351
 msgid "Ctrl+B"
 msgstr ""
 
-#: qt/main_window.cpp:348 qt/ui/main_window.ui:97
+#: qt/main_window.cpp:352 qt/ui/main_window.ui:97
 msgid "Show/hide the remaining tiles in the bag"
 msgstr ""
 
-#: qt/main_window.cpp:349
+#: qt/main_window.cpp:353
 msgid "&External board"
 msgstr ""
 
-#: qt/main_window.cpp:349
+#: qt/main_window.cpp:353
 msgid "Ctrl+E"
 msgstr ""
 
-#: qt/main_window.cpp:350 qt/ui/main_window.ui:111
+#: qt/main_window.cpp:354 qt/ui/main_window.ui:111
 msgid "Show/hide the external board"
 msgstr ""
 
-#: qt/main_window.cpp:351
+#: qt/main_window.cpp:355
 msgid "&History"
 msgstr ""
 
-#: qt/main_window.cpp:351
+#: qt/main_window.cpp:355
 msgid "Ctrl+H"
 msgstr ""
 
-#: qt/main_window.cpp:352 qt/ui/main_window.ui:125
+#: qt/main_window.cpp:356 qt/ui/main_window.ui:125
 msgid "Show/hide the game history"
 msgstr ""
 
-#: qt/main_window.cpp:353
+#: qt/main_window.cpp:357
 msgid "&Dictionary tools"
 msgstr ""
 
-#: qt/main_window.cpp:353
+#: qt/main_window.cpp:357
 msgid "Ctrl+D"
 msgstr ""
 
-#: qt/main_window.cpp:354 qt/ui/main_window.ui:139
+#: qt/main_window.cpp:358 qt/ui/main_window.ui:139
 msgid "Show/hide the dictionary tools"
 msgstr ""
 
-#: qt/main_window.cpp:359
+#: qt/main_window.cpp:363
 msgid "Ctrl+A"
 msgstr ""
 
-#: qt/main_window.cpp:368 qt/main_window.cpp:401
+#: qt/main_window.cpp:372 qt/main_window.cpp:405
 msgid "You have to select a dictionary first!"
 msgstr ""
 
-#: qt/main_window.cpp:393
+#: qt/main_window.cpp:397
 msgid "Game started"
 msgstr ""
 
-#: qt/main_window.cpp:429
+#: qt/main_window.cpp:433
 msgid "Save a game"
 msgstr ""
 
-#: qt/main_window.cpp:434
+#: qt/main_window.cpp:438
 msgid "Game saved"
 msgstr ""
 
-#: qt/main_window.cpp:468
+#: qt/main_window.cpp:472
 msgid "N."
 msgstr ""
 
-#: qt/main_window.cpp:468
+#: qt/main_window.cpp:472
 msgid "RACK"
 msgstr ""
 
-#: qt/main_window.cpp:468
+#: qt/main_window.cpp:472
 msgid "SOLUTION"
 msgstr ""
 
-#: qt/main_window.cpp:468
+#: qt/main_window.cpp:472
 msgid "REF"
 msgstr ""
 
-#: qt/main_window.cpp:468
+#: qt/main_window.cpp:472
 msgid "PTS"
 msgstr ""
 
-#: qt/main_window.cpp:601
+#: qt/main_window.cpp:605
 msgid "Stop current game?"
 msgstr ""
 
-#: qt/main_window.cpp:602
+#: qt/main_window.cpp:606
 msgid ""
 "Loading a dictionary will stop the current game. Do you want to continue?"
 msgstr ""
 
-#: qt/main_window.cpp:679 qt/ui/main_window.ui:53 qt/ui/main_window.ui:122
+#: qt/main_window.cpp:683 qt/ui/main_window.ui:53 qt/ui/main_window.ui:122
 msgid "History"
 msgstr ""
 
-#: qt/main_window.cpp:696 qt/ui/dic_tools_widget.ui:13
+#: qt/main_window.cpp:700 qt/ui/dic_tools_widget.ui:13
 #: qt/ui/main_window.ui:136
 msgid "Dictionary tools"
 msgstr ""
 
-#: qt/main_window.cpp:713
+#: qt/main_window.cpp:717
 msgid ""
 "Copyright (C) 1999-2008 - Antoine Fraboulet & Olivier Teuliere\n"
 "\n"

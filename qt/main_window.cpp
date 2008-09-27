@@ -204,18 +204,20 @@ void MainWindow::updateForGame(const Game *iGame)
     }
     else
     {
-        m_actionGameSaveAs->setEnabled(true);
         m_actionGamePrint->setEnabled(true);
         if (iGame->getMode() == Game::kTRAINING)
         {
+            m_actionGameSaveAs->setEnabled(true);
             setWindowTitle(_q("Training mode") + " - Eliot");
         }
         else if (iGame->getMode() == Game::kDUPLICATE)
         {
+            m_actionGameSaveAs->setEnabled(false);
             setWindowTitle(_q("Duplicate game") + " - Eliot");
         }
         else
         {
+            m_actionGameSaveAs->setEnabled(false);
             setWindowTitle(_q("Free game") + " - Eliot");
         }
     }
