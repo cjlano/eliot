@@ -263,6 +263,8 @@ QValidator::State RackValidator::validate(QString &input, int &) const
     if (m_bag == NULL)
         return Invalid;
 
+    input = input.toUpper();
+
     if (!m_bag->getDic().validateLetters(qtw(input)))
         return Invalid;
 

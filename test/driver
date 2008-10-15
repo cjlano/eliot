@@ -39,6 +39,8 @@ training_cross      0
 training_cross2     0
 # Board cross backward joker
 training_cross3     0
+# Search with best word having a joker on the cross-set
+training_cross4     0
 
 # Joker problem on game load
 training_joker      0

@@ -1,0 +1,22 @@
+[?] pour l'aide
+commande> e
+mode entraînement
+[?] pour l'aide
+commande> t maison
+commande> j MAISON h4
+commande> t wu?
+commande> r
+commande> a r
+  1: WUs                38 10F
+  2: WUs                25 I3
+  3: WU                 24 I3
+  4: Wu                 22 I3
+  5: WUrM               13 4E
+  6: WUS                13 7F
+  7: dAUW               12 5G
+  8: dAW                11 5G
+  9: kWA                11 5F
+ 10: WAd                11 5G
+commande> q
+fin du mode entraînement
+commande> q

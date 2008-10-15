@@ -50,6 +50,7 @@ public:
 
     bool isEmpty() const        { return m_char == kTILE_DUMMY; }
     bool isJoker() const        { return m_joker; }
+    bool isPureJoker() const    { return m_char == kTILE_JOKER; }
     bool isVowel() const;
     bool isConsonant() const;
     unsigned int maxNumber() const;
