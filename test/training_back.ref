@@ -112,7 +112,7 @@ commande> a s
 0
 commande> t IEIEIEF
 commande> r
-commande> n 1
+commande> j FIEE H8
 commande> a s
 14
 commande> a l

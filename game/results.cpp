@@ -57,11 +57,42 @@ struct less_points : public binary_function<const Round&, const Round&, bool>
             // the case
             const wstring &s1 = r1.getWord();
             const wstring &s2 = r2.getWord();
-            return std::lexicographical_compare(s1.begin(),
-                                                s1.end(),
-                                                s2.begin(),
-                                                s2.end(),
-                                                wcharCompare);
+            if (std::lexicographical_compare(s1.begin(),
+                                             s1.end(),
+                                             s2.begin(),
+                                             s2.end(),
+                                             wcharCompare))
+            {
+                return true;;
+            }
+            else if (std::lexicographical_compare(s2.begin(),
+                                                  s2.end(),
+                                                  s1.begin(),
+                                                  s1.end(),
+                                                  wcharCompare))
+            {
+                return false;
+            }
+            else
+            {
+                // If the rounds are still equal, compare the coordinates
+                const wstring &c1 = r1.getCoord().toString();
+                const wstring &c2 = r2.getCoord().toString();
+                if (c1 < c2)
+                    return true;
+                else if (c2 < c1)
+                    return false;
+                else
+                {
+                    // Still equal? This time compare taking the case into
+                    // account. After that, we are sure that the rounds will
+                    // be different...
+                    return std::lexicographical_compare(s1.begin(),
+                                                        s1.end(),
+                                                        s2.begin(),
+                                                        s2.end());
+                }
+            }
         }
     }
 };
