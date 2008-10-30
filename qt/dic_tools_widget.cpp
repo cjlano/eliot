@@ -43,11 +43,13 @@ class DicRackValidator: public QValidator
 {
 public:
     explicit DicRackValidator(QObject *parent,
-                              const Dictionary *iDic);
+                              const Dictionary *iDic,
+                              bool acceptJoker = false);
     virtual State validate(QString &input, int &pos) const;
 
 private:
     const Dictionary *m_dic;
+    const bool m_acceptJoker;
 };
 
 
@@ -114,7 +116,7 @@ void DicToolsWidget::setDic(const Dictionary *iDic)
         lineEditRegexp->clear();
         // Create new validators
         lineEditCheck->setValidator(new DicRackValidator(this, m_dic));
-        lineEditPlus1->setValidator(new DicRackValidator(this, m_dic));
+        lineEditPlus1->setValidator(new DicRackValidator(this, m_dic, true));
         lineEditRegexp->setValidator(new RegexpValidator(this, m_dic));
         // Refresh
         refreshCheck();
@@ -177,7 +179,7 @@ void DicToolsWidget::refreshPlus1()
     if (rack->text() != "")
     {
         map<wchar_t, vector<wstring> > wordList;
-        m_dic->search7pl1(qtw(rack->text()), wordList, false);
+        m_dic->search7pl1(qtw(rack->text()), wordList, true);
 
         int rowNum = 0;
         map<wchar_t, vector<wstring> >::const_iterator it;
@@ -311,8 +313,9 @@ void DicToolsWidget::refreshDicInfo()
 
 
 DicRackValidator::DicRackValidator(QObject *parent,
-                                   const Dictionary *iDic)
-    : QValidator(parent), m_dic(iDic)
+                                   const Dictionary *iDic,
+                                   bool acceptJoker)
+    : QValidator(parent), m_dic(iDic), m_acceptJoker(acceptJoker)
 {
 }
 
@@ -329,7 +332,12 @@ QValidator::State DicRackValidator::validate(QString &input, int &) const
 
     // The string is invalid if it contains characters not present
     // in the dictionary or if it contains a '?'
-    if (!m_dic->validateLetters(qtw(input)) || input.contains('?'))
+    if (!m_dic->validateLetters(qtw(input)))
+        return Invalid;
+    if (!m_acceptJoker && input.contains('?'))
+        return Invalid;
+    // Do not accept more than 2 jokers
+    if (input.count('?') > 2)
         return Invalid;
     return Acceptable;
 }

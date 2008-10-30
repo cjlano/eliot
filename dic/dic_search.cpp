@@ -112,7 +112,10 @@ void Dictionary::searchWordByLen(struct params_7plus1_t *params,
                 {
                     if (edgeptr->term)
                     {
-                        (*params->results)[params->added_char].push_back(params->search_wordtst);
+                        // Add the solution
+                        vector<wstring> &sols = (*params->results)[params->added_char];
+                        if (sols.empty() || sols.back() != params->search_wordtst)
+                            sols.push_back(params->search_wordtst);
                     }
                 }
                 else
@@ -132,7 +135,10 @@ void Dictionary::searchWordByLen(struct params_7plus1_t *params,
                 {
                     if (edgeptr->term)
                     {
-                        (*params->results)[params->added_char].push_back(params->search_wordtst);
+                        // Add the solution
+                        vector<wstring> &sols = (*params->results)[params->added_char];
+                        if (sols.empty() || sols.back() != params->search_wordtst)
+                            sols.push_back(params->search_wordtst);
                     }
                 }
                 else
