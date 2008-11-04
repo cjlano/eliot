@@ -45,6 +45,7 @@ public slots:
 signals:
     void gameUpdated();
     void notifyProblem(QString iMsg);
+    void notifyInfo(QString iMsg);
 
 protected:
     /// Define a default size

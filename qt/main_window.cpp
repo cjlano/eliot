@@ -52,7 +52,6 @@
 #include "player_widget.h"
 #include "history_widget.h"
 #include "dic_tools_widget.h"
-#include "training_widget.h"
 #include "aux_window.h"
 #include "qtcommon.h"
 
@@ -136,6 +135,8 @@ MainWindow::MainWindow(QWidget *iParent)
     QObject::connect(players, SIGNAL(gameUpdated()), this, SIGNAL(gameUpdated()));
     QObject::connect(players, SIGNAL(notifyProblem(QString)),
                      this, SLOT(displayErrorMsg(QString)));
+    QObject::connect(players, SIGNAL(notifyInfo(QString)),
+                     this, SLOT(displayInfoMsg(QString)));
 
     // Players score
     ScoreWidget *scores = new ScoreWidget;

@@ -108,7 +108,7 @@ void TrainingWidget::refresh()
     else
     {
         wstring rack = m_game->getPlayer(0).getCurrentRack().toString(PlayedRack::RACK_SIMPLE);
-        // Update the rack only if it needed, to avoid losing cursor position
+        // Update the rack only if it is needed, to avoid losing cursor position
         if (qfw(rack) != lineEditRack->text())
             lineEditRack->setText(qfw(rack));
         lineEditRack->setEnabled(true);
@@ -149,6 +149,11 @@ void TrainingWidget::updateModel()
         // Hidden data, used to handle proper sorting in the tree view
         m_model->setData(m_model->index(rowNum, 5), i);
     }
+
+    // Clear the status bar when there is no search result
+    if (m_model->rowCount() == 0)
+        emit notifyInfo("");
+
     treeViewResults->resizeColumnToContents(0);
     treeViewResults->resizeColumnToContents(1);
     treeViewResults->resizeColumnToContents(2);
@@ -216,7 +221,9 @@ void TrainingWidget::on_pushButtonComplement_clicked()
 void TrainingWidget::on_pushButtonSearch_clicked()
 {
     m_game->removeTestPlay();
+    emit notifyInfo(_q("Searching with rack '%1'...").arg(lineEditRack->text()));
     m_game->search();
+    emit notifyInfo(_q("Search done"));
     emit gameUpdated();
 }
 

@@ -41,6 +41,7 @@ public:
 signals:
     void gameUpdated();
     void notifyProblem(QString iMsg);
+    void notifyInfo(QString iMsg);
 
 public slots:
     void refresh();
@@ -85,6 +86,7 @@ signals:
     void refreshSignal();
     void gameUpdated();
     void notifyProblem(QString iMsg);
+    void notifyInfo(QString iMsg);
 
 private slots:
     void changeCurrentPlayer(int);
