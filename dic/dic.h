@@ -42,6 +42,7 @@ typedef unsigned char dic_code_t;
 struct params_cross_t;
 struct params_7plus1_t;
 struct params_regexp_t;
+class DicEdge;
 
 class Dictionary
 {
@@ -162,7 +163,11 @@ public:
     unsigned int charLookup(const dic_elt_t &iRoot, const wchar_t *iPattern) const;
 
     /// Getter for the edge at the given position
-    const uint32_t *getEdgeAt(const dic_elt_t &iElt) const { return m_dawg + iElt; }
+    const DicEdge * getEdgeAt(const dic_elt_t &iElt) const
+    {
+        return reinterpret_cast<const DicEdge*>(m_dawg + iElt);
+    }
+
 
     /**
      * Search for a word in the dictionary
@@ -245,56 +250,29 @@ private:
     void convertDataToArch();
     void initializeTiles();
 
-    /// Template getter for the edge at the given position
-    template <typename DAWG_EDGE>
-    const DAWG_EDGE * getEdgeAt(const dic_elt_t &iElt) const
-    {
-        return reinterpret_cast<const DAWG_EDGE*>(m_dawg + iElt);
-    }
-
     /**
      * Walk the dictionary until the end of the word
      * @param s: current pointer to letters
      * @param eptr: current edge in the dawg
      */
-    template <typename DAWG_EDGE>
-    const DAWG_EDGE * seekEdgePtr(const wchar_t *s, const DAWG_EDGE *eptr) const;
-
-    /// Helper for searchBenj()
-    template <typename DAWG_EDGE>
-    void searchBenjTempl(const wstring &iWord, vector<wstring> &oWordList,
-                         unsigned int iMaxResults) const;
-
-    /// Helper for searchRacc()
-    template <typename DAWG_EDGE>
-    void searchRaccTempl(const wstring &iWord, vector<wstring> &oWordList,
-                         unsigned int iMaxResults) const;
+    const DicEdge * seekEdgePtr(const wchar_t *s, const DicEdge *eptr) const;
 
     /// Helper for searchCross()
-    template <typename DAWG_EDGE>
-    void searchCrossRecTempl(struct params_cross_t *params,
-                             vector<wstring> &oWordList,
-                             const DAWG_EDGE *edgeptr,
-                             unsigned int iMaxResults) const;
+    void searchCrossRec(struct params_cross_t *params,
+                        vector<wstring> &oWordList,
+                        const DicEdge *edgeptr,
+                        unsigned int iMaxResults) const;
 
     /// Helper for search7pl1()
-    template <typename DAWG_EDGE>
-    void search7pl1Templ(const wstring &iRack,
-                         map<wchar_t, vector<wstring> > &oWordList,
-                         bool joker) const;
-
-    /// Second helper for search7pl1()
-    template <typename DAWG_EDGE>
     void searchWordByLen(struct params_7plus1_t *params,
-                         int i, const DAWG_EDGE *edgeptr) const;
+                         int i, const DicEdge *edgeptr) const;
 
     /// Helper for searchRegExp()
-    template <typename DAWG_EDGE>
-    void searchRegexpRecTempl(struct params_regexp_t *params,
-                              int state,
-                              const DAWG_EDGE *edgeptr,
-                              vector<wstring> &oWordList,
-                              unsigned int iMaxResults) const;
+    void searchRegexpRec(struct params_regexp_t *params,
+                         int state,
+                         const DicEdge *edgeptr,
+                         vector<wstring> &oWordList,
+                         unsigned int iMaxResults) const;
 };
 
 #endif /* _DIC_H_ */

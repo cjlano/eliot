@@ -50,24 +50,6 @@
 const Dictionary *Dictionary::m_dic = NULL;
 
 
-// Note: duplicated in header.cpp
-#if defined(WORDS_BIGENDIAN)
-static uint32_t swap4(uint32_t v)
-{
-    uint32_t r;
-    uint8_t *pv = (uint8_t*)&v;
-    uint8_t *pr = (uint8_t*)&r;
-
-    pr[0] = pv[3];
-    pr[1] = pv[2];
-    pr[2] = pv[1];
-    pr[3] = pv[0];
-
-    return r;
-}
-#endif
-
-
 Dictionary::Dictionary(const string &iPath)
     : m_dawg(NULL)
 {
@@ -112,21 +94,9 @@ Dictionary::~Dictionary()
 
 void Dictionary::convertDataToArch()
 {
-    if (m_header->getVersion() == 0)
+    for (unsigned int i = 0; i < (m_header->getNbEdgesUsed() + 1); i++)
     {
-#if defined(WORDS_BIGENDIAN)
-        for (unsigned int i = 0; i < (m_header->getNbEdgesUsed() + 1); i++)
-        {
-            m_dawg[i] = swap4(m_dawg[i]);
-        }
-#endif
-    }
-    else
-    {
-        for (unsigned int i = 0; i < (m_header->getNbEdgesUsed() + 1); i++)
-        {
-            m_dawg[i] = ntohl(m_dawg[i]);
-        }
+        m_dawg[i] = ntohl(m_dawg[i]);
     }
 }
 
@@ -164,10 +134,7 @@ dic_elt_t Dictionary::getNext(const dic_elt_t &e) const
 
 dic_elt_t Dictionary::getSucc(const dic_elt_t &e) const
 {
-    if (m_header->getVersion() == 0)
-        return reinterpret_cast<const DicEdgeOld*>(m_dawg + e)->ptr;
-    else
-        return reinterpret_cast<const DicEdge*>(m_dawg + e)->ptr;
+    return reinterpret_cast<const DicEdge*>(m_dawg + e)->ptr;
 }
 
 
@@ -179,10 +146,7 @@ dic_elt_t Dictionary::getRoot() const
 
 dic_code_t Dictionary::getCode(const dic_elt_t &e) const
 {
-    if (m_header->getVersion() == 0)
-        return reinterpret_cast<const DicEdgeOld*>(m_dawg + e)->chr;
-    else
-        return reinterpret_cast<const DicEdge*>(m_dawg + e)->chr;
+    return reinterpret_cast<const DicEdge*>(m_dawg + e)->chr;
 }
 
 
@@ -194,19 +158,13 @@ wchar_t Dictionary::getChar(const dic_elt_t &e) const
 
 bool Dictionary::isLast(const dic_elt_t &e) const
 {
-    if (m_header->getVersion() == 0)
-        return reinterpret_cast<const DicEdgeOld*>(m_dawg + e)->last;
-    else
-        return reinterpret_cast<const DicEdge*>(m_dawg + e)->last;
+    return reinterpret_cast<const DicEdge*>(m_dawg + e)->last;
 }
 
 
 bool Dictionary::isEndOfWord(const dic_elt_t &e) const
 {
-    if (m_header->getVersion() == 0)
-        return reinterpret_cast<const DicEdgeOld*>(m_dawg + e)->term;
-    else
-        return reinterpret_cast<const DicEdge*>(m_dawg + e)->term;
+    return reinterpret_cast<const DicEdge*>(m_dawg + e)->term;
 }
 
 

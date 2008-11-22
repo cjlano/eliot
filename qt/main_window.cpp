@@ -230,21 +230,9 @@ void MainWindow::updateStatusBar(const Dictionary *iDic)
     if (iDic == NULL)
         m_dicNameLabel->setText("No dictionary");
     else {
-        if (iDic->getHeader().getVersion() != 0)
-        {
-            QString dicName = qfw(m_dic->getHeader().getName());
-            m_dicNameLabel->setText(_q("Dictionary: %1").arg(dicName));
-            m_dicNameLabel->setToolTip("");
-        }
-        else
-        {
-            m_dicNameLabel->setText(_q("Dictionary: Unknown (old format)"));
-            QString warning = _q("The dictionary name cannot be "
-                    "retrieved, because you are using an old dictionary format.\n"
-                    "You can probably download a newer version of the dictionary "
-                    "on http://www.nongnu.org/eliot/");
-            m_dicNameLabel->setToolTip(warning);
-        }
+        QString dicName = qfw(m_dic->getHeader().getName());
+        m_dicNameLabel->setText(_q("Dictionary: %1").arg(dicName));
+        m_dicNameLabel->setToolTip("");
     }
 }
 

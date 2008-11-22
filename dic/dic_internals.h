@@ -38,22 +38,6 @@
  *  ----------------
  */
 
-struct __attribute__ ((packed)) DicEdgeOld
-{
-    public:
-      uint32_t
-        ptr : 24,
-        term:  1,
-        last:  1,
-        fill:  1,
-        chr :  5;
-      bool operator==(const DicEdgeOld &iOther) const
-      {
-          return memcmp(this, &iOther, sizeof(*this)) == 0;
-      }
-};
-
-
 struct __attribute__ ((packed)) DicEdge
 {
     public:

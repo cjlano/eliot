@@ -36,9 +36,6 @@
 using namespace boost::spirit;
 using namespace std;
 
-// TODO:
-// - error handling
-
 // A few typedefs to simplify things
 typedef const wchar_t *iterator_t;
 typedef tree_match<iterator_t> parse_tree_match_t;

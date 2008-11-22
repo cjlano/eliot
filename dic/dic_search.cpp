@@ -37,18 +37,17 @@
 static const unsigned int DEFAULT_VECT_ALLOC = 100;
 
 
-template <typename DAWG_EDGE>
-const DAWG_EDGE* Dictionary::seekEdgePtr(const wchar_t* s, const DAWG_EDGE *eptr) const
+const DicEdge* Dictionary::seekEdgePtr(const wchar_t* s, const DicEdge *eptr) const
 {
     if (*s)
     {
-        const DAWG_EDGE *p = getEdgeAt<DAWG_EDGE>(eptr->ptr);
+        const DicEdge *p = getEdgeAt(eptr->ptr);
         do
         {
             if (p->chr == getHeader().getCodeFromChar(*s))
                 return seekEdgePtr(s + 1, p);
         } while (!(*p++).last);
-        return getEdgeAt<DAWG_EDGE>(0);
+        return getEdgeAt(0);
     }
     else
         return eptr;
@@ -60,18 +59,8 @@ bool Dictionary::searchWord(const wstring &iWord) const
     if (!validateLetters(iWord))
         return false;
 
-    if (getHeader().getVersion() == 0)
-    {
-        const DicEdgeOld *e =
-            seekEdgePtr(iWord.c_str(), getEdgeAt<DicEdgeOld>(getRoot()));
-        return e->term;
-    }
-    else
-    {
-        const DicEdge *e =
-            seekEdgePtr(iWord.c_str(), getEdgeAt<DicEdge>(getRoot()));
-        return e->term;
-    }
+    const DicEdge *e = seekEdgePtr(iWord.c_str(), getEdgeAt(getRoot()));
+    return e->term;
 }
 
 
@@ -93,9 +82,8 @@ struct params_7plus1_t
     char search_letters[63];
 };
 
-template <typename DAWG_EDGE>
 void Dictionary::searchWordByLen(struct params_7plus1_t *params,
-                                 int i, const DAWG_EDGE *edgeptr) const
+                                 int i, const DicEdge *edgeptr) const
 {
     /* depth first search in the dictionary */
     do
@@ -120,7 +108,7 @@ void Dictionary::searchWordByLen(struct params_7plus1_t *params,
                 }
                 else
                 {
-                    searchWordByLen(params, i + 1, getEdgeAt<DAWG_EDGE>(edgeptr->ptr));
+                    searchWordByLen(params, i + 1, getEdgeAt(edgeptr->ptr));
                 }
                 params->search_letters[edgeptr->chr] ++;
                 params->search_wordtst[i] = L'\0';
@@ -143,7 +131,7 @@ void Dictionary::searchWordByLen(struct params_7plus1_t *params,
                 }
                 else
                 {
-                    searchWordByLen(params, i + 1, getEdgeAt<DAWG_EDGE>(edgeptr->ptr));
+                    searchWordByLen(params, i + 1, getEdgeAt(edgeptr->ptr));
                 }
                 params->search_letters[0] ++;
                 params->search_wordtst[i] = L'\0';
@@ -153,10 +141,9 @@ void Dictionary::searchWordByLen(struct params_7plus1_t *params,
 }
 
 
-template <typename DAWG_EDGE>
-void Dictionary::search7pl1Templ(const wstring &iRack,
-                                 map<wchar_t, vector<wstring> > &oWordList,
-                                 bool joker) const
+void Dictionary::search7pl1(const wstring &iRack,
+                            map<wchar_t, vector<wstring> > &oWordList,
+                            bool joker) const
 {
     if (iRack == L"" || iRack.size() > DIC_WORD_MAX)
         return;
@@ -196,8 +183,8 @@ void Dictionary::search7pl1Templ(const wstring &iRack,
     if (wordlen < 1)
         return;
 
-    const DAWG_EDGE *root_edge = getEdgeAt<DAWG_EDGE>(getRoot());
-    root_edge = getEdgeAt<DAWG_EDGE>(root_edge->ptr);
+    const DicEdge *root_edge = getEdgeAt(getRoot());
+    root_edge = getEdgeAt(root_edge->ptr);
 
     params.results = &oWordList;
 
@@ -223,23 +210,12 @@ void Dictionary::search7pl1Templ(const wstring &iRack,
     }
 }
 
-
-void Dictionary::search7pl1(const wstring &iRack,
-                            map<wchar_t, vector<wstring> > &oWordList,
-                            bool joker) const
-{
-    if (getHeader().getVersion() == 0)
-        search7pl1Templ<DicEdgeOld>(iRack, oWordList, joker);
-    else
-        search7pl1Templ<DicEdge>(iRack, oWordList, joker);
-}
-
 /****************************************/
 /****************************************/
 
-template <typename DAWG_EDGE>
-void Dictionary::searchRaccTempl(const wstring &iWord, vector<wstring> &oWordList,
-                                 unsigned int iMaxResults) const
+void Dictionary::searchRacc(const wstring &iWord,
+                            vector<wstring> &oWordList,
+                            unsigned int iMaxResults) const
 {
     if (iWord == L"")
         return;
@@ -271,13 +247,13 @@ void Dictionary::searchRaccTempl(const wstring &iWord, vector<wstring> &oWordLis
     wordtst[i  ] = '\0';
     wordtst[i+1] = '\0';
 
-    const DAWG_EDGE *edge_seek =
-        seekEdgePtr(iWord.c_str(), getEdgeAt<DAWG_EDGE>(getRoot()));
+    const DicEdge *edge_seek =
+        seekEdgePtr(iWord.c_str(), getEdgeAt(getRoot()));
 
     /* points to what the next letter can be */
-    const DAWG_EDGE *edge = getEdgeAt<DAWG_EDGE>(edge_seek->ptr);
+    const DicEdge *edge = getEdgeAt(edge_seek->ptr);
 
-    if (edge != getEdgeAt<DAWG_EDGE>(0))
+    if (edge != getEdgeAt(0))
     {
         do
         {
@@ -292,21 +268,11 @@ void Dictionary::searchRaccTempl(const wstring &iWord, vector<wstring> &oWordLis
     }
 }
 
-
-void Dictionary::searchRacc(const wstring &iWord, vector<wstring> &oWordList, unsigned int iMaxResults) const
-{
-    if (getHeader().getVersion() == 0)
-        searchRaccTempl<DicEdgeOld>(iWord, oWordList, iMaxResults);
-    else
-        searchRaccTempl<DicEdge>(iWord, oWordList, iMaxResults);
-}
-
 /****************************************/
 /****************************************/
 
-template <typename DAWG_EDGE>
-void Dictionary::searchBenjTempl(const wstring &iWord, vector<wstring> &oWordList,
-                                 unsigned int iMaxResults) const
+void Dictionary::searchBenj(const wstring &iWord, vector<wstring> &oWordList,
+                            unsigned int iMaxResults) const
 {
     if (iWord == L"")
         return;
@@ -319,17 +285,17 @@ void Dictionary::searchBenjTempl(const wstring &iWord, vector<wstring> &oWordLis
 
     wchar_t wordtst[DIC_WORD_MAX];
     wcscpy(wordtst + 3, iWord.c_str());
-    const DAWG_EDGE *edge0, *edge1, *edge2, *edgetst;
-    edge0 = getEdgeAt<DAWG_EDGE>(getRoot());
-    edge0 = getEdgeAt<DAWG_EDGE>(edge0->ptr);
+    const DicEdge *edge0, *edge1, *edge2, *edgetst;
+    edge0 = getEdgeAt(getRoot());
+    edge0 = getEdgeAt(edge0->ptr);
     do
     {
         wordtst[0] = getHeader().getCharFromCode(edge0->chr);
-        edge1 = getEdgeAt<DAWG_EDGE>(edge0->ptr);
+        edge1 = getEdgeAt(edge0->ptr);
         do
         {
             wordtst[1] = getHeader().getCharFromCode(edge1->chr);
-            edge2 = getEdgeAt<DAWG_EDGE>(edge1->ptr);
+            edge2 = getEdgeAt(edge1->ptr);
             do
             {
                 edgetst = seekEdgePtr(iWord.c_str(), edge2);
@@ -345,16 +311,6 @@ void Dictionary::searchBenjTempl(const wstring &iWord, vector<wstring> &oWordLis
     } while (!(*edge0++).last);
 }
 
-
-void Dictionary::searchBenj(const wstring &iWord, vector<wstring> &oWordList,
-                            unsigned int iMaxResults) const
-{
-    if (getHeader().getVersion() == 0)
-        searchBenjTempl<DicEdgeOld>(iWord, oWordList, iMaxResults);
-    else
-        searchBenjTempl<DicEdge>(iWord, oWordList, iMaxResults);
-}
-
 /****************************************/
 /****************************************/
 
@@ -365,16 +321,15 @@ struct params_cross_t
 };
 
 
-template <typename DAWG_EDGE>
-void Dictionary::searchCrossRecTempl(struct params_cross_t *params,
-                                     vector<wstring> &oWordList,
-                                     const DAWG_EDGE *edgeptr,
-                                     unsigned int iMaxResults) const
+void Dictionary::searchCrossRec(struct params_cross_t *params,
+                                vector<wstring> &oWordList,
+                                const DicEdge *edgeptr,
+                                unsigned int iMaxResults) const
 {
     if (iMaxResults && oWordList.size() >= iMaxResults)
         return;
 
-    const DAWG_EDGE *current = getEdgeAt<DAWG_EDGE>(edgeptr->ptr);
+    const DicEdge *current = getEdgeAt(edgeptr->ptr);
 
     if (params->mask[params->wordlen] == '\0')
     {
@@ -392,7 +347,7 @@ void Dictionary::searchCrossRecTempl(struct params_cross_t *params,
         {
             params->mask[params->wordlen] = getHeader().getCharFromCode(current->chr);
             params->wordlen ++;
-            searchCrossRecTempl(params, oWordList, current, iMaxResults);
+            searchCrossRec(params, oWordList, current, iMaxResults);
             params->wordlen --;
             params->mask[params->wordlen] = '.';
         }
@@ -405,7 +360,7 @@ void Dictionary::searchCrossRecTempl(struct params_cross_t *params,
             if (current->chr == getHeader().getCodeFromChar(params->mask[params->wordlen]))
             {
                 params->wordlen ++;
-                searchCrossRecTempl(params, oWordList, current, iMaxResults);
+                searchCrossRec(params, oWordList, current, iMaxResults);
                 params->wordlen --;
                 break;
             }
@@ -440,16 +395,7 @@ void Dictionary::searchCross(const wstring &iMask, vector<wstring> &oWordList,
     params.mask[i] = '\0';
 
     params.wordlen = 0;
-    if (getHeader().getVersion() == 0)
-    {
-        searchCrossRecTempl(&params, oWordList,
-                            getEdgeAt<DicEdgeOld>(getRoot()), iMaxResults);
-    }
-    else
-    {
-        searchCrossRecTempl(&params, oWordList,
-                            getEdgeAt<DicEdge>(getRoot()), iMaxResults);
-    }
+    searchCrossRec(&params, oWordList, getEdgeAt(getRoot()), iMaxResults);
 }
 
 /****************************************/
@@ -461,16 +407,15 @@ struct params_regexp_t
     int maxlength;
     Automaton *automaton_field;
     wchar_t word[DIC_WORD_MAX];
-    int  wordlen;
+    int wordlen;
 };
 
 
-template <typename DAWG_EDGE>
-void Dictionary::searchRegexpRecTempl(struct params_regexp_t *params,
-                                      int state,
-                                      const DAWG_EDGE *edgeptr,
-                                      vector<wstring> &oWordList,
-                                      unsigned int iMaxResults) const
+void Dictionary::searchRegexpRec(struct params_regexp_t *params,
+                                 int state,
+                                 const DicEdge *edgeptr,
+                                 vector<wstring> &oWordList,
+                                 unsigned int iMaxResults) const
 {
     if (iMaxResults && oWordList.size() >= iMaxResults)
         return;
@@ -487,7 +432,7 @@ void Dictionary::searchRegexpRecTempl(struct params_regexp_t *params,
         }
     }
     /* we now drive the search by exploring the dictionary */
-    const DAWG_EDGE *current = getEdgeAt<DAWG_EDGE>(edgeptr->ptr);
+    const DicEdge *current = getEdgeAt(edgeptr->ptr);
     do
     {
         /* the current letter is current->chr */
@@ -498,7 +443,7 @@ void Dictionary::searchRegexpRecTempl(struct params_regexp_t *params,
             params->word[params->wordlen] =
                 getHeader().getCharFromCode(current->chr);
             params->wordlen ++;
-            searchRegexpRecTempl(params, next_state, current, oWordList, iMaxResults);
+            searchRegexpRec(params, next_state, current, oWordList, iMaxResults);
             params->wordlen --;
             params->word[params->wordlen] = L'\0';
         }
@@ -599,19 +544,9 @@ bool Dictionary::searchRegExp(const wstring &iRegexp,
         params.automaton_field = a;
         memset(params.word, L'\0', sizeof(params.word));
         params.wordlen = 0;
-        if (getHeader().getVersion() == 0)
-        {
-            searchRegexpRecTempl(&params, a->getInitId(),
-                                 getEdgeAt<DicEdgeOld>(getRoot()), oWordList,
-                                 iMaxResults ? iMaxResults + 1 : 0);
-        }
-        else
-        {
-            searchRegexpRecTempl(&params, a->getInitId(),
-                                 getEdgeAt<DicEdge>(getRoot()), oWordList,
-                                 iMaxResults ? iMaxResults + 1 : 0);
-        }
-
+        searchRegexpRec(&params, a->getInitId(),
+                        getEdgeAt(getRoot()), oWordList,
+                        iMaxResults ? iMaxResults + 1 : 0);
         delete a;
     }
     delete root;

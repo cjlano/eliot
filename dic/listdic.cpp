@@ -46,8 +46,7 @@
 using namespace std;
 
 
-template <typename DAWG_EDGE>
-static void print_dic_rec(ostream &out, const Dictionary &iDic, wchar_t *buf, wchar_t *s, DAWG_EDGE i)
+static void print_dic_rec(ostream &out, const Dictionary &iDic, wchar_t *buf, wchar_t *s, DicEdge i)
 {
     if (i.term)  /* edge points at a complete word */
     {
@@ -56,7 +55,7 @@ static void print_dic_rec(ostream &out, const Dictionary &iDic, wchar_t *buf, wc
     }
     if (i.ptr)
     {           /* Compute index: is it non-zero ? */
-        const DAWG_EDGE *p = reinterpret_cast<const DAWG_EDGE*>(iDic.getEdgeAt(i.ptr));
+        const DicEdge *p = iDic.getEdgeAt(i.ptr);
         do
         {                         /* for each edge out of this node */
             *s = iDic.getHeader().getCharFromCode(p->chr);
@@ -67,24 +66,22 @@ static void print_dic_rec(ostream &out, const Dictionary &iDic, wchar_t *buf, wc
 }
 
 
-template <typename DAWG_EDGE>
 void print_dic_list(const Dictionary &iDic)
 {
     static wchar_t buf[80];
-    print_dic_rec(cout, iDic, buf, buf, *reinterpret_cast<const DAWG_EDGE*>(iDic.getEdgeAt(iDic.getRoot())));
+    print_dic_rec(cout, iDic, buf, buf, *iDic.getEdgeAt(iDic.getRoot()));
 }
 
 
-template <typename DAWG_EDGE>
 static void print_node_hex(const Dictionary &dic, int i)
 {
     union edge_t
     {
-        DAWG_EDGE e;
+        DicEdge e;
         uint32_t  s;
     } ee;
 
-    ee.e = *reinterpret_cast<const DAWG_EDGE*>(dic.getEdgeAt(i));
+    ee.e = *reinterpret_cast<const DicEdge*>(dic.getEdgeAt(i));
 
     printf("0x%04lx %08x |%4d ptr=%8d t=%d l=%d chr=%2d (%c)\n",
            (unsigned long)i*sizeof(ee), (unsigned int)(ee.s),
@@ -92,13 +89,12 @@ static void print_node_hex(const Dictionary &dic, int i)
 }
 
 
-template <typename DAWG_EDGE>
 void print_dic_hex(const Dictionary &iDic)
 {
     printf(_("offset binary   | structure\n"));
     printf("------ -------- | --------------------\n");
     for (unsigned int i = 0; i < (iDic.getHeader().getNbEdgesUsed() + 1); i++)
-        print_node_hex<DAWG_EDGE>(iDic, i);
+        print_node_hex(iDic, i);
 }
 
 
@@ -172,17 +168,11 @@ int main(int argc, char *argv[])
         }
         if (option_print_dic_hex || option_print_all)
         {
-            if (dic.getHeader().getVersion() == 0)
-                print_dic_hex<DicEdgeOld>(dic);
-            else
-                print_dic_hex<DicEdge>(dic);
+            print_dic_hex(dic);
         }
         if (option_print_dic_list || option_print_all)
         {
-            if (dic.getHeader().getVersion() == 0)
-                print_dic_list<DicEdgeOld>(dic);
-            else
-                print_dic_list<DicEdge>(dic);
+            print_dic_list(dic);
         }
         return 0;
     }
