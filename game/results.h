@@ -46,7 +46,7 @@ public:
     const Round & get(unsigned int) const;
 
     /// Perform a search on the board
-    void search(const Dictionary &iDic, Board &iBoard,
+    void search(const Dictionary &iDic, const Board &iBoard,
                 const Rack &iRack, bool iFirstWord);
 
     // FIXME: This method is used to fill the container with the rounds,

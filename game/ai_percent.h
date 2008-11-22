@@ -46,7 +46,7 @@ public:
      * This method does the actual computation. It will be called before any
      * of the following methods, so it must prepare everything for them.
      */
-    virtual void compute(const Dictionary &iDic, Board &iBoard, bool iFirstWord);
+    virtual void compute(const Dictionary &iDic, const Board &iBoard, bool iFirstWord);
 
     /// Return the move played by the AI
     virtual Move getMove() const;

@@ -77,7 +77,7 @@ void Duplicate::playAI(unsigned int p)
     AIPlayer *player = dynamic_cast<AIPlayer*>(m_players[p]);
     ASSERT(player != NULL, "AI requested for a human player");
 
-    player->compute(m_dic, m_board, m_history.beforeFirstRound());
+    player->compute(getDic(), getBoard(), getHistory().beforeFirstRound());
     const Move move = player->getMove();
     if (move.getType() == Move::CHANGE_LETTERS ||
         move.getType() == Move::PASS)
@@ -169,7 +169,7 @@ void Duplicate::recordPlayerMove(const Move &iMove, unsigned int p)
     const Rack &newRack = helperComputeRackForMove(oldRack, iMove);
 
     // Update the rack and the score of the playing player
-    m_players[p]->endTurn(iMove, m_history.getSize(), newRack);
+    m_players[p]->endTurn(iMove, getHistory().getSize(), newRack);
 
     m_hasPlayed[p] = true;
 }

@@ -39,7 +39,7 @@ AIPercent::AIPercent(float iPercent)
 }
 
 
-void AIPercent::compute(const Dictionary &iDic, Board &iBoard, bool iFirstWord)
+void AIPercent::compute(const Dictionary &iDic, const Board &iBoard, bool iFirstWord)
 {
     m_results.clear();
 

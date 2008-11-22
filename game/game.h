@@ -213,7 +213,7 @@ protected:
     unsigned int m_currPlayer;
 
 // TODO: check what should be private and what should be protected
-// private:
+private:
 
     /// Variant
     GameVariant m_variant;
@@ -221,18 +221,19 @@ protected:
     /// Dictionary currently associated to the game
     const Dictionary & m_dic;
 
-    /// Board
-    Board m_board;
-
-    /// Bag
-    Bag m_bag;
-
     /**
      * History of the game.
      */
     History m_history;
 
     int m_points;
+
+protected:
+    /// Board
+    Board m_board;
+
+    /// Bag
+    Bag m_bag;
 
     bool m_finished;
 

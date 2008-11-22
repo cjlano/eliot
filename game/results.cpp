@@ -98,7 +98,7 @@ const Round & Results::get(unsigned int i) const
 }
 
 
-void Results::search(const Dictionary &iDic, Board &iBoard,
+void Results::search(const Dictionary &iDic, const Board &iBoard,
                      const Rack &iRack, bool iFirstWord)
 {
     clear();

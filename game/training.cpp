@@ -134,7 +134,7 @@ void Training::recordPlayerMove(const Move &iMove, unsigned int p)
     const Rack &newRack = helperComputeRackForMove(oldRack, iMove);
 
     // Record the invalid move of the player
-    m_players[p]->endTurn(iMove, m_history.getSize(), newRack);
+    m_players[p]->endTurn(iMove, getHistory().getSize(), newRack);
 }
 
 
@@ -163,7 +163,7 @@ void Training::search()
     // Search for the current player
     Rack r;
     m_players[m_currPlayer]->getCurrentRack().getRack(r);
-    m_results.search(m_dic, m_board, r, m_history.beforeFirstRound());
+    m_results.search(getDic(), getBoard(), r, getHistory().beforeFirstRound());
 }
 
 

@@ -87,7 +87,7 @@ void FreeGame::playAI(unsigned int p)
 
     AIPlayer *player = static_cast<AIPlayer*>(m_players[p]);
 
-    player->compute(m_dic, m_board, m_history.beforeFirstRound());
+    player->compute(getDic(), getBoard(), getHistory().beforeFirstRound());
     const Move move = player->getMove();
     if (move.getType() == Move::CHANGE_LETTERS ||
         move.getType() == Move::PASS)
@@ -113,7 +113,7 @@ void FreeGame::recordPlayerMove(const Move &iMove, unsigned int p)
     const Rack &newRack = helperComputeRackForMove(oldRack, iMove);
 
     // Record the invalid move of the player
-    m_players[p]->endTurn(iMove, m_history.getSize(), newRack);
+    m_players[p]->endTurn(iMove, getHistory().getSize(), newRack);
 }
 
 
@@ -225,7 +225,7 @@ int FreeGame::checkPass(const wstring &iToChange, unsigned int p) const
         return 3;
 
     // Check that the letters are valid for the current dictionary
-    if (!m_dic.validateLetters(iToChange))
+    if (!getDic().validateLetters(iToChange))
         return 4;
 
     // It is forbidden to change letters when the bag does not contain at
@@ -234,7 +234,7 @@ int FreeGame::checkPass(const wstring &iToChange, unsigned int p) const
 #ifdef REAL_BAG_MODE
     if (m_bag.getNbTiles() < 7 && !iToChange.empty())
 #else
-    Bag bag(m_dic);
+    Bag bag(getDic());
     realBag(bag);
     if (bag.getNbTiles() < 7 && !iToChange.empty())
 #endif

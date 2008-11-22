@@ -34,6 +34,7 @@
 
 #include "main_window.h"
 #include "dic.h"
+#include "dic_exception.h"
 #include "encoding.h"
 #include "header.h"
 #include "game_factory.h"
@@ -158,9 +159,10 @@ MainWindow::MainWindow(QWidget *iParent)
         {
             m_dic = new Dictionary(qtl(dicPath));
         }
-        catch (...)
+        catch (DicException &e)
         {
-            displayErrorMsg(_q("Cannot load dictionary '%1' indicated in the preferences").arg(dicPath));
+            displayErrorMsg(_q("Cannot load dictionary '%1' indicated in the "
+                               "preferences.\nReason: %2").arg(dicPath).arg(e.what()));
         }
     }
     emit dicChanged(m_dic);
