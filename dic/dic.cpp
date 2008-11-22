@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   dic.c
- *  \brief  Dawg dictionary
- *  \author Antoine Fraboulet & Olivier Teuliere
- *  \date   2002
- */
-
 #include "config.h"
 
 #include <fstream>

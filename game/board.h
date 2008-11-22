@@ -89,7 +89,7 @@ public:
 
     void addRound(const Dictionary &iDic, const Round &iRound);
     void removeRound(const Dictionary &iDic, const Round &iRound);
-    int  checkRound(Round &iRound);
+    int  checkRound(Round &iRound) const;
 
     /**
      *
@@ -101,8 +101,8 @@ public:
     /**
      * board_search.c
      */
-    void search(const Dictionary &iDic, const Rack &iRack, Results &oResults);
-    void searchFirst(const Dictionary &iDic, const Rack &iRack, Results &oResults);
+    void search(const Dictionary &iDic, const Rack &iRack, Results &oResults) const;
+    void searchFirst(const Dictionary &iDic, const Rack &iRack, Results &oResults) const;
 
     /**
      * board_cross.c
@@ -143,11 +143,11 @@ private:
     static const int m_tileMultipliers[BOARD_REALDIM][BOARD_REALDIM];
     static const int m_wordMultipliers[BOARD_REALDIM][BOARD_REALDIM];
 
-    int checkRoundAux(Matrix<Tile> &iTilesMx,
-                      Matrix<Cross> &iCrossMx,
-                      Matrix<int> &iPointsMx,
-                      Matrix<bool> &iJokerMx,
-                      Round &iRound);
+    int checkRoundAux(const Matrix<Tile> &iTilesMx,
+                      const Matrix<Cross> &iCrossMx,
+                      const Matrix<int> &iPointsMx,
+                      const Matrix<bool> &iJokerMx,
+                      Round &iRound) const;
 #ifdef DEBUG
     void checkDouble();
 #endif
@@ -156,9 +156,3 @@ private:
 
 #endif
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

@@ -107,9 +107,3 @@ private:
 
 #endif // _GAME_FACTORY_H_
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

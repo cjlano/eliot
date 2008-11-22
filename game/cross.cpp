@@ -70,9 +70,3 @@ bool Cross::operator==(const Cross &iOther) const
     return m_mask == iOther.m_mask;
 }
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

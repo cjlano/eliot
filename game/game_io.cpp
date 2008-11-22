@@ -124,8 +124,7 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
 
             /* rack */
             strncpy(rack, token, sizeof(rack));
-            static_cast<Training*>(pGame)->setRack(RACK_MANUAL, false,
-                                                   convertToWc(rack));
+            static_cast<Training*>(pGame)->setRackManual(false, convertToWc(rack));
 
             /* word */
             token = strtok(NULL, delim);
@@ -601,9 +600,3 @@ void Game::gameSaveFormat_15(ostream &out) const
     }
 }
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

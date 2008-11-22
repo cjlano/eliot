@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   hashtable.h
- *  \brief  Simple hashtable type
- *  \author Antoine Fraboulet
- *  \date   1999
- */
-
 #ifndef _HASHTABLE_H
 #define _HASHTABLE_H
 

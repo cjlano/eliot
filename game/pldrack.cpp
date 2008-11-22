@@ -19,12 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   pldrack.cpp
- *  \brief  Improved Rack class with old and new tiles
- *  \author Antoine Fraboulet & Olivier Teuliere
- *  \date   2002 - 2005
- */
+#include <boost/foreach.hpp>
 
 #include <algorithm>
 #include "pldrack.h"
@@ -87,33 +82,30 @@ void PlayedRack::resetNew()
 
 void PlayedRack::getOld(Rack &oRack) const
 {
-    vector<Tile>::const_iterator it;
     oRack.clear();
-    for (it = m_oldTiles.begin(); it != m_oldTiles.end(); it++)
+    BOOST_FOREACH(const Tile &tile, m_oldTiles)
     {
-        oRack.add(*it);
+        oRack.add(tile);
     }
 }
 
 
 void PlayedRack::getNew(Rack &oRack) const
 {
-    vector<Tile>::const_iterator it;
     oRack.clear();
-    for (it = m_newTiles.begin(); it != m_newTiles.end(); it++)
+    BOOST_FOREACH(const Tile &tile, m_newTiles)
     {
-        oRack.add(*it);
+        oRack.add(tile);
     }
 }
 
 
 void PlayedRack::getRack(Rack &oRack) const
 {
-    vector<Tile>::const_iterator it;
     getOld(oRack);
-    for (it = m_newTiles.begin(); it != m_newTiles.end(); it++)
+    BOOST_FOREACH(const Tile &tile, m_newTiles)
     {
-        oRack.add(*it);
+        oRack.add(tile);
     }
 }
 
@@ -168,19 +160,18 @@ void PlayedRack::setManual(const wstring& iLetters)
 
 bool PlayedRack::checkRack(unsigned int cMin, unsigned int vMin) const
 {
-    vector<Tile>::const_iterator it;
     unsigned int v = 0;
     unsigned int c = 0;
 
-    for (it = m_oldTiles.begin(); it != m_oldTiles.end(); it++)
+    BOOST_FOREACH(const Tile &tile, m_oldTiles)
     {
-        if (it->isVowel()) v++;
-        if (it->isConsonant()) c++;
+        if (tile.isVowel()) v++;
+        if (tile.isConsonant()) c++;
     }
-    for (it = m_newTiles.begin(); it != m_newTiles.end(); it++)
+    BOOST_FOREACH(const Tile &tile, m_newTiles)
     {
-        if (it->isVowel()) v++;
-        if (it->isConsonant()) c++;
+        if (tile.isVowel()) v++;
+        if (tile.isConsonant()) c++;
     }
     return (v >= vMin) && (c >= cMin);
 }
@@ -204,17 +195,15 @@ void PlayedRack::shuffle()
 wstring PlayedRack::toString(display_mode mode) const
 {
     wstring s;
-    vector<Tile>::const_iterator it;
 
     if (mode >= RACK_EXTRA && m_reject)
     {
         s += L"-";
     }
 
-    if (getNbOld() > 0)
+    BOOST_FOREACH(const Tile &tile, m_oldTiles)
     {
-        for (it = m_oldTiles.begin(); it != m_oldTiles.end(); it++)
-            s += it->toChar();
+        s += tile.toChar();
     }
 
     if (mode > RACK_SIMPLE && getNbOld() > 0 && getNbNew() > 0)
@@ -222,18 +211,11 @@ wstring PlayedRack::toString(display_mode mode) const
         s += L"+";
     }
 
-    if (getNbNew() > 0)
+    BOOST_FOREACH(const Tile &tile, m_newTiles)
     {
-        for (it = m_newTiles.begin(); it != m_newTiles.end(); it++)
-            s += it->toChar();
+        s += tile.toChar();
     }
 
     return s;
 }
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

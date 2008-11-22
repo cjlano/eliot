@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   dic.h
- *  \brief  Dawg dictionary
- *  \author Antoine Fraboulet & Olivier Teuliere
- *  \date   2002
- */
-
 #ifndef _DIC_H_
 #define _DIC_H_
 
@@ -49,7 +42,6 @@ typedef unsigned char dic_code_t;
 struct params_cross_t;
 struct params_7plus1_t;
 struct params_regexp_t;
-struct search_RegE_list_t;
 
 class Dictionary
 {
@@ -234,7 +226,6 @@ public:
                       unsigned int iMaxLength,
                       unsigned int iMaxResults = 0) const;
 
-
 private:
     // Prevent from copying the dictionary!
     Dictionary &operator=(const Dictionary&);
@@ -308,9 +299,3 @@ private:
 
 #endif /* _DIC_H_ */
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   pldrack.h
- *  \brief  Improved Rack class with old and new tiles
- *  \author Antoine Fraboulet & Olivier Teuliere
- *  \date   2002 - 2005
- */
-
 #ifndef _PLAYEDRACK_H_
 #define _PLAYEDRACK_H_
 
@@ -94,9 +87,3 @@ private:
 
 #endif
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

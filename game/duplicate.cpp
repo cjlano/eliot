@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #include "duplicate.h"
+#include "game_exception.h"
 #include "dic.h"
 #include "tile.h"
 #include "rack.h"
@@ -53,12 +54,12 @@ int Duplicate::play(const wstring &iCoord, const wstring &iWord)
     if (res == 0)
     {
         // Everything is OK, we can play the word
-        playMove(Move(round), m_currPlayer);
+        recordPlayerMove(Move(round), m_currPlayer);
     }
     else
     {
         // Record the invalid move of the player
-        playMove(Move(iWord, iCoord), m_currPlayer);
+        recordPlayerMove(Move(iWord, iCoord), m_currPlayer);
     }
 
     // Little hack to handle duplicate games with only AI players.
@@ -85,7 +86,7 @@ void Duplicate::playAI(unsigned int p)
         ASSERT(false, "AI tried to cheat!");
     }
 
-    playMove(move, p);
+    recordPlayerMove(move, p);
 }
 
 
@@ -97,9 +98,13 @@ int Duplicate::start()
     m_currPlayer = 0;
 
     // Complete the rack for the player that just played
-    int res = helperSetRackRandom(m_currPlayer, true, RACK_NEW);
-    // End of the game?
-    if (res == 1)
+    try
+    {
+        const PlayedRack &newRack =
+            helperSetRackRandom(getCurrentPlayer().getCurrentRack(), true, RACK_NEW);
+        m_players[m_currPlayer]->setCurrentRack(newRack);
+    }
+    catch (EndGameException &e)
     {
         endGame();
         return 1;
@@ -153,12 +158,18 @@ void Duplicate::tryEndTurn()
 }
 
 
-void Duplicate::playMove(const Move &iMove, unsigned int p)
+void Duplicate::recordPlayerMove(const Move &iMove, unsigned int p)
 {
     ASSERT(p < getNPlayers(), "Wrong player number");
 
+    // Get what was the rack for the current turn
+    Rack oldRack;
+    m_players[p]->getCurrentRack().getRack(oldRack);
+    // Compute the new rack
+    const Rack &newRack = helperComputeRackForMove(oldRack, iMove);
+
     // Update the rack and the score of the playing player
-    m_players[p]->endTurn(iMove, m_history.getSize());
+    m_players[p]->endTurn(iMove, m_history.getSize(), newRack);
 
     m_hasPlayed[p] = true;
 }
@@ -179,14 +190,17 @@ void Duplicate::endTurn()
 
     // TODO: do something if nobody played a valid round!
 
+    // Get the best valid move
+    const Move &bestMove = m_players[imax]->getLastMove();
+
     // Handle solo bonus
     // First check whether there are enough players in the game for the
     // bonus to apply
     int minNbPlayers = Settings::Instance().getInt("duplicate.solo-players");
     if (getNPlayers() >= (unsigned int)minNbPlayers &&
-        m_players[imax]->getLastMove().getType() == Move::VALID_ROUND)
+        bestMove.getType() == Move::VALID_ROUND)
     {
-        int maxScore = m_players[imax]->getLastMove().getScore();
+        int maxScore = bestMove.getScore();
         // Find whether other players than imax have the same score
         bool otherWithSameScore = false;
         for (unsigned int i = imax + 1; i < getNPlayers(); i++)
@@ -208,7 +222,7 @@ void Duplicate::endTurn()
     }
 
     // Play the best word on the board
-    helperPlayMove(imax, m_players[imax]->getLastMove());
+    helperPlayMove(imax, bestMove);
 
     // Leave the same reliquate to all players
     // This is required by the start() method which will be called to
@@ -280,9 +294,3 @@ bool Duplicate::hasPlayed(unsigned int p) const
     return it != m_hasPlayed.end() && it->second;
 }
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

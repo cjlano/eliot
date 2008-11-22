@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   turn.cpp
- *  \brief  Game turn (= id + pldrack + move)
- *  \author Antoine Fraboulet
- *  \date   2005
- */
-
 #include "turn.h"
 
 
@@ -55,9 +48,3 @@ wstring Turn::toString(bool iShowExtraSigns) const
     return rs;
 }
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

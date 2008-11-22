@@ -18,6 +18,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <boost/foreach.hpp>
 #include <vector>
 #include <QtGui/QTreeView>
 #include <QtGui/QStandardItemModel>
@@ -72,18 +73,17 @@ void BagWidget::updateModel()
     if (m_game == NULL)
         return;
 
-    const vector<Tile>& allTiles = m_game->getDic().getAllTiles();
-    vector<Tile>::const_iterator it;
-    for (it = allTiles.begin(); it != allTiles.end(); ++it)
+    const Bag &bag = m_game->getBag();
+    BOOST_FOREACH(const Tile &tile, m_game->getDic().getAllTiles())
     {
-        unsigned int nb = m_game->getBag().in(*it);
+        unsigned int nb = bag.in(tile);
         if (nb != 0)
         {
             int rowNum = m_model->rowCount();
             m_model->insertRow(rowNum);
             m_model->setData(m_model->index(rowNum, 0),
-                             qfw(wstring(nb, it->toChar())));
-            m_model->setData(m_model->index(rowNum, 1), it->getPoints());
+                             qfw(wstring(nb, tile.toChar())));
+            m_model->setData(m_model->index(rowNum, 1), tile.getPoints());
         }
     }
     //resizeColumnToContents(0);

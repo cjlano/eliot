@@ -269,10 +269,3 @@ void GameFactory::printVersion() const
          << "see the file named COPYING for details." << endl;
 }
 
-
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

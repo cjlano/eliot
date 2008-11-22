@@ -181,12 +181,5 @@ private:
     void buildMapCodeFromChar();
 };
 
-
 #endif /* _HEADER_H */
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

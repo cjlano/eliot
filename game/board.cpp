@@ -23,7 +23,6 @@
 #include "dic.h"
 #include "tile.h"
 #include "round.h"
-#include "bag.h"
 #include "rack.h"
 #include "results.h"
 #include "board.h"
@@ -254,11 +253,11 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
 
 /* XXX: There is duplicated code with board_search.c.
  * We could probably factorize something... */
-int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
-                         Matrix<Cross> &iCrossMx,
-                         Matrix<int> &iPointsMx,
-                         Matrix<bool> &iJokerMx,
-                         Round &iRound)
+int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
+                         const Matrix<Cross> &iCrossMx,
+                         const Matrix<int> &iPointsMx,
+                         const Matrix<bool> &iJokerMx,
+                         Round &iRound) const
 {
     Tile t;
     int l, p;
@@ -368,7 +367,7 @@ int Board::checkRoundAux(Matrix<Tile> &iTilesMx,
 }
 
 
-int Board::checkRound(Round &iRound)
+int Board::checkRound(Round &iRound) const
 {
     if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
     {
@@ -530,9 +529,3 @@ void Board::checkDouble()
 }
 #endif
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <boost/foreach.hpp>
+
 #include <iomanip>
 #include <string>
 #include <stdlib.h>
@@ -178,20 +180,18 @@ void GameIO::printBoardMultipliers2(ostream &out, const Game &iGame)
 
 void GameIO::printNonPlayed(ostream &out, const Game &iGame)
 {
-    const vector<Tile>& allTiles = iGame.getDic().getAllTiles();
-    vector<Tile>::const_iterator it;
-
-    for (it = allTiles.begin(); it != allTiles.end(); it++)
+    const Bag &bag = iGame.getBag();
+    BOOST_FOREACH(const Tile &tile, iGame.getDic().getAllTiles())
     {
-        if (iGame.getBag().in(*it) > 9)
+        if (bag.in(tile) > 9)
             out << " ";
-        out << setw(2) << convertToMb(it->toChar());
+        out << setw(2) << convertToMb(tile.toChar());
     }
     out << endl;
 
-    for (it = allTiles.begin(); it != allTiles.end(); it++)
+    BOOST_FOREACH(const Tile &tile, iGame.getDic().getAllTiles())
     {
-        out << " " << iGame.getBag().in(*it);
+        out << " " << bag.in(tile);
     }
     out << endl;
 }

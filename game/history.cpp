@@ -19,12 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   history.cpp
- *  \brief  Game history  system
- *  \author Antoine Fraboulet
- *  \date   2005
- */
+#include <boost/foreach.hpp>
 
 #include <string>
 #include "rack.h"
@@ -34,11 +29,6 @@
 #include "history.h"
 #include "encoding.h"
 #include "debug.h"
-
-
-/* ******************************************************** */
-/* ******************************************************** */
-/* ******************************************************** */
 
 
 History::History()
@@ -51,9 +41,9 @@ History::History()
 
 History::~History()
 {
-    for (unsigned int i = 0; i < m_history.size(); i++)
+    BOOST_FOREACH(Turn *turn, m_history)
     {
-        delete m_history[i];
+        delete turn;
     }
 }
 
@@ -103,7 +93,8 @@ bool History::beforeFirstRound() const
 }
 
 
-void History::playMove(unsigned int iPlayer, unsigned int iTurn, const Move &iMove)
+void History::playMove(unsigned int iPlayer, unsigned int iTurn,
+                       const Move &iMove, const Rack &iNewRack)
 {
     Turn * current_turn = m_history.back();
 
@@ -112,39 +103,10 @@ void History::playMove(unsigned int iPlayer, unsigned int iTurn, const Move &iMo
     current_turn->setPlayer(iPlayer);
     current_turn->setMove(iMove);
 
-    // Get what was the rack for the current turn
-    Rack rack;
-    current_turn->getPlayedRack().getRack(rack);
-
-    if (iMove.getType() == Move::VALID_ROUND)
-    {
-        // Remove the played tiles from the rack
-        const Round &round = iMove.getRound();
-        for (unsigned int i = 0; i < round.getWordLen(); i++)
-        {
-            if (round.isPlayedFromRack(i))
-            {
-                if (round.isJoker(i))
-                    rack.remove(Tile::Joker());
-                else
-                    rack.remove(round.getTile(i));
-            }
-        }
-    }
-    else if (iMove.getType() == Move::CHANGE_LETTERS)
-    {
-        // Remove the changed tiles from the rack
-        const wstring & changed = iMove.getChangedLetters();
-        for (unsigned int i = 0; i < changed.size(); ++i)
-        {
-            rack.remove(Tile(changed[i]));
-        }
-    }
-
     // Create a new turn
     Turn * next_turn = new Turn();
     PlayedRack pldrack;
-    pldrack.setOld(rack);
+    pldrack.setOld(iNewRack);
     next_turn->setPlayedRack(pldrack);
     m_history.push_back(next_turn);
 }
@@ -181,22 +143,10 @@ wstring History::toString() const
     _swprintf(buff, 4, L"%ld", m_history.size());
     rs = L"history size = " + wstring(buff) + L"\n\n";
 #endif
-    for (unsigned int i = 0; i < m_history.size(); i++)
+    BOOST_FOREACH(const Turn *turn, m_history)
     {
-        Turn *t = m_history[i];
-        rs += t->toString() + L"\n";
+        rs += turn->toString() + L"\n";
     }
     return rs;
 }
 
-/* ******************************************************** */
-/* ******************************************************** */
-/* ******************************************************** */
-
-
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

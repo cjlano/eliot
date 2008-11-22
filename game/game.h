@@ -98,7 +98,11 @@ public:
     /// Get the board
     const Board& getBoard() const { return m_board; }
     /// Get the bag
+#ifdef REAL_BAG_MODE
+    Bag getBag() const;
+#else
     const Bag& getBag() const { return m_bag; }
+#endif
     /// Get the history of the game */
     const History& getHistory() const { return m_history; }
 
@@ -217,15 +221,14 @@ protected:
     /// Dictionary currently associated to the game
     const Dictionary & m_dic;
 
-    /// Bag
-    Bag m_bag;
-
     /// Board
     Board m_board;
 
+    /// Bag
+    Bag m_bag;
+
     /**
      * History of the game.
-     * The vector is indexed by the number of turns in the game
      */
     History m_history;
 
@@ -237,16 +240,18 @@ protected:
      * Helper functions
      *********************************************************/
 
+    /**
+     * Return the rack obtained from the given one, after playing the
+     * given move.
+     * The move is supposed to be possible for the given rack.
+     */
+    static Rack helperComputeRackForMove(const Rack &iOldRack, const Move &iMove);
+
     /** Play a Move for the given player, updating game history */
     void helperPlayMove(unsigned int iPlayerId, const Move &iMove);
 
     /**
-     * Set the rack randomly for the player p
-     * Possible return values:
-     *  0: everything went fine
-     *  1: the game is over
-     *  3: there is no chance to set the rack with the vowels/consonants
-     *     constraints
+     * Complete the given rack randomly.
      *
      * Completing a rack randomly is more complex than it seems, because we
      * must take into account several constraints:
@@ -266,7 +271,8 @@ protected:
      *    This also means we have to check whether completing the rack with the
      *    requirements is possible...
      */
-    int helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode);
+    PlayedRack helperSetRackRandom(const PlayedRack &iPld,
+                                   bool iCheck, set_rack_mode mode) const;
 
     /**
      * Set the rack for the player p with the given letters
@@ -292,6 +298,8 @@ protected:
      */
     bool rackInBag(const Rack &iRack, const Bag &iBag) const;
 
+#ifdef REAL_BAG_MODE
+#else
     /**
      * The realBag is the current bag minus all the racks
      * present in the game. It represents the actual
@@ -301,6 +309,7 @@ protected:
      * it is important to set m_currPlayer accurately before!
      */
     void realBag(Bag &iBag) const;
+#endif
 
     /**
      * This function checks whether it is legal to play the given word at the
@@ -309,7 +318,7 @@ protected:
      * Possible return values: same as the play() method
      */
     int  checkPlayedWord(const wstring &iCoord,
-                         const wstring &iWord, Round &oRound);
+                         const wstring &iWord, Round &oRound) const;
 
     /**
      * load games from File using the first format.
@@ -345,9 +354,3 @@ private:
 
 #endif /* _GAME_H_ */
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

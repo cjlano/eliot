@@ -19,6 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <boost/foreach.hpp>
+
 #include <string>
 #include <cstdlib> // For rand()
 
@@ -29,15 +31,12 @@
 
 
 Bag::Bag(const Dictionary &iDic)
-    : m_dic(iDic)
+    : m_dic(iDic), m_ntiles(0)
 {
-    m_ntiles = 0;
-    const vector<Tile>& allTiles = m_dic.getAllTiles();
-    vector<Tile>::const_iterator it;
-    for (it = allTiles.begin(); it != allTiles.end(); it++)
+    BOOST_FOREACH(const Tile &tile, m_dic.getAllTiles())
     {
-        m_tilesMap[*it] = it->maxNumber();
-        m_ntiles += it->maxNumber();
+        m_tilesMap[tile] = tile.maxNumber();
+        m_ntiles += tile.maxNumber();
     }
 }
 
@@ -53,13 +52,13 @@ unsigned int Bag::in(const Tile &iTile) const
 
 unsigned int Bag::getNbVowels() const
 {
-    map<Tile, int>::const_iterator it;
     int v = 0;
 
-    for (it = m_tilesMap.begin(); it != m_tilesMap.end(); it++)
+    std::pair<Tile, int> p;
+    BOOST_FOREACH(p, m_tilesMap)
     {
-        if (it->first.isVowel())
-            v += it->second;
+        if (p.first.isVowel())
+            v += p.second;
     }
     return v;
 }
@@ -67,13 +66,13 @@ unsigned int Bag::getNbVowels() const
 
 unsigned int Bag::getNbConsonants() const
 {
-    map<Tile, int>::const_iterator it;
     int c = 0;
 
-    for (it = m_tilesMap.begin(); it != m_tilesMap.end(); it++)
+    std::pair<Tile, int> p;
+    BOOST_FOREACH(p, m_tilesMap)
     {
-        if (it->first.isConsonant())
-            c += it->second;
+        if (p.first.isConsonant())
+            c += p.second;
     }
     return c;
 }
@@ -106,12 +105,12 @@ Tile Bag::selectRandom() const
 
     int n = (int)(max * rand() / (RAND_MAX + 1.0));
 
-    map<Tile, int>::const_iterator it;
-    for (it = m_tilesMap.begin(); it != m_tilesMap.end(); it++)
+    std::pair<Tile, int> p;
+    BOOST_FOREACH(p, m_tilesMap)
     {
-        if (n < it->second)
-            return it->first;
-        n -= it->second;
+        if (n < p.second)
+            return p.first;
+        n -= p.second;
     }
     ASSERT(false, "We should not come here");
     return Tile();
@@ -125,14 +124,14 @@ Tile Bag::selectRandomVowel() const
 
     int n = (int)(max * rand() / (RAND_MAX + 1.0));
 
-    map<Tile, int>::const_iterator it;
-    for (it = m_tilesMap.begin(); it != m_tilesMap.end(); it++)
+    std::pair<Tile, int> p;
+    BOOST_FOREACH(p, m_tilesMap)
     {
-        if (!it->first.isVowel())
+        if (!p.first.isVowel())
             continue;
-        if (n < it->second)
-            return it->first;
-        n -= it->second;
+        if (n < p.second)
+            return p.first;
+        n -= p.second;
     }
     ASSERT(false, "We should not come here");
     return Tile();
@@ -146,14 +145,14 @@ Tile Bag::selectRandomConsonant() const
 
     int n = (int)(max * rand() / (RAND_MAX + 1.0));
 
-    map<Tile, int>::const_iterator it;
-    for (it = m_tilesMap.begin(); it != m_tilesMap.end(); it++)
+    std::pair<Tile, int> p;
+    BOOST_FOREACH(p, m_tilesMap)
     {
-        if (!it->first.isConsonant())
+        if (!p.first.isConsonant())
             continue;
-        if (n < it->second)
-            return it->first;
-        n -= it->second;
+        if (n < p.second)
+            return p.first;
+        n -= p.second;
     }
     ASSERT(false, "We should not come here");
     return Tile();
@@ -169,18 +168,12 @@ void Bag::operator=(const Bag &iOther)
 
 void Bag::dumpAll() const
 {
-    map<Tile, int>::const_iterator it;
-    for (it = m_tilesMap.begin(); it != m_tilesMap.end(); it++)
+    std::pair<Tile, int> p;
+    BOOST_FOREACH(p, m_tilesMap)
     {
-        if (it->second)
-            fprintf(stderr, "%lc[%i] ", it->first.toChar(), it->second);
+        if (p.second)
+            fprintf(stderr, "%lc[%i] ", p.first.toChar(), p.second);
     }
     fprintf(stderr, "\n");
 }
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

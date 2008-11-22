@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   coord.h
- *  \brief  Board coordinates system
- *  \author Antoine Fraboulet
- *  \date   2005
- */
-
 #ifndef _COORD_H
 #define _COORD_H
 
@@ -79,9 +72,3 @@ private:
 
 #endif
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

@@ -19,6 +19,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <boost/foreach.hpp>
+
+#if ENABLE_NLS
+#   include <libintl.h>
+#   define _(String) gettext(String)
+#else
+#   define _(String) String
+#endif
+
+
 #include "dic.h"
 #include "tile.h"
 #include "rack.h"
@@ -33,7 +43,6 @@
 #include "game_exception.h"
 
 #include "debug.h"
-
 
 const unsigned int Game::RACK_SIZE =  7;
 const int Game::BONUS_POINTS = 50;
@@ -50,9 +59,9 @@ Game::Game(const Dictionary &iDic):
 
 Game::~Game()
 {
-    for (unsigned int i = 0; i < getNPlayers(); i++)
+    BOOST_FOREACH(Player *p, m_players)
     {
-        delete m_players[i];
+        delete p;
     }
 }
 
@@ -64,11 +73,51 @@ const Player& Game::getPlayer(unsigned int iNum) const
 }
 
 
+Rack Game::helperComputeRackForMove(const Rack &iRack, const Move &iMove)
+{
+    // Start from the given rack
+    Rack newRack = iRack;
+
+    if (iMove.getType() == Move::VALID_ROUND)
+    {
+        // Remove the played tiles from the rack
+        const Round &round = iMove.getRound();
+        for (unsigned int i = 0; i < round.getWordLen(); i++)
+        {
+            if (round.isPlayedFromRack(i))
+            {
+                if (round.isJoker(i))
+                    newRack.remove(Tile::Joker());
+                else
+                    newRack.remove(round.getTile(i));
+            }
+        }
+    }
+    else if (iMove.getType() == Move::CHANGE_LETTERS)
+    {
+        // Remove the changed tiles from the rack
+        const wstring & changed = iMove.getChangedLetters();
+        BOOST_FOREACH(wchar_t ch, changed)
+        {
+            newRack.remove(Tile(ch));
+        }
+    }
+
+    return newRack;
+}
+
+
 void Game::helperPlayMove(unsigned int iPlayerId, const Move &iMove)
 {
+    // Get the original rack from the player history
+    const PlayedRack &oldPldRack = getPlayer(iPlayerId).getLastRack();
+    Rack oldRack;
+    oldPldRack.getRack(oldRack);
+    const Rack &newRack = helperComputeRackForMove(oldRack, iMove);
+
     // History of the game
-    m_history.setCurrentRack(getPlayer(iPlayerId).getLastRack());
-    m_history.playMove(iPlayerId, m_history.getSize(), iMove);
+    m_history.setCurrentRack(oldPldRack);
+    m_history.playMove(iPlayerId, m_history.getSize(), iMove, newRack);
 
     // Points
     m_points += iMove.getScore();
@@ -79,6 +128,16 @@ void Game::helperPlayMove(unsigned int iPlayerId, const Move &iMove)
     {
         helperPlayRound(iPlayerId, iMove.getRound());
     }
+#ifdef REAL_BAG_MODE
+    else if (iMove.getType() == Move::CHANGE_LETTERS)
+    {
+        // Put the changed letters back into the bag
+        BOOST_FOREACH(wchar_t ch, iMove.getChangedLetters())
+        {
+            m_bag.replaceTile(Tile(ch));
+        }
+    }
+#endif
 }
 
 
@@ -101,6 +160,9 @@ void Game::helperPlayRound(unsigned int iPlayerId, const Round &iRound)
                 // Is the represented letter still available in the bag?
                 // XXX: this way to get the represented letter sucks...
                 Tile t(towupper(round.getTile(i).toChar()));
+#ifdef REAL_BAG_MODE
+                Bag &bag = m_bag;
+#else
                 Bag bag(m_dic);
                 realBag(bag);
                 // FIXME: realBag() does not give us a real bag in this
@@ -117,15 +179,16 @@ void Game::helperPlayRound(unsigned int iPlayerId, const Round &iRound)
                 // the best way to fix it.
                 vector<Tile> tiles;
                 getPlayer(iPlayerId).getCurrentRack().getAllTiles(tiles);
-                for (unsigned int j = 0; j < tiles.size(); j++)
+                BOOST_FOREACH(const Tile &tile, tiles)
                 {
-                    bag.replaceTile(tiles[j]);
+                    bag.replaceTile(tile);
                 }
                 getPlayer(iPlayerId).getLastRack().getAllTiles(tiles);
-                for (unsigned int j = 0; j < tiles.size(); j++)
+                BOOST_FOREACH(const Tile &tile, tiles)
                 {
-                    bag.takeTile(tiles[j]);
+                    bag.takeTile(tile);
                 }
+#endif
 
                 if (bag.in(t))
                 {
@@ -142,6 +205,8 @@ void Game::helperPlayRound(unsigned int iPlayerId, const Round &iRound)
         }
     }
 
+#ifdef REAL_BAG_MODE
+#else
     // Update the bag
     // We remove tiles from the bag only when they are played
     // on the board. When going back in the game, we must only
@@ -161,6 +226,7 @@ void Game::helperPlayRound(unsigned int iPlayerId, const Round &iRound)
             }
         }
     }
+#endif
 
     // Update the board
     m_board.addRound(m_dic, round);
@@ -211,41 +277,79 @@ void Game::shuffleRack()
     m_players[currPlayer()]->setCurrentRack(pld);
 }
 
+#ifdef REAL_BAG_MODE
 
-void Game::realBag(Bag &ioBag) const
+Bag Game::getBag() const
 {
-    vector<Tile> tiles;
+    Bag bag = m_bag;
 
-    // Copy the bag
-    ioBag = m_bag;
+    vector<Tile> tiles;
 
     // The real content of the bag depends on the game mode
     if (getMode() == kFREEGAME)
     {
-        // In freegame mode, take the letters from all the racks
-        for (unsigned int i = 0; i < getNPlayers(); i++)
+        // In freegame mode, replace the letters from all the racks
+        BOOST_FOREACH(const Player *player, m_players)
         {
-            getPlayer(i).getCurrentRack().getAllTiles(tiles);
-            for (unsigned int j = 0; j < tiles.size(); j++)
+            player->getCurrentRack().getAllTiles(tiles);
+            BOOST_FOREACH(const Tile &tile, tiles)
             {
-                ioBag.takeTile(tiles[j]);
+                bag.replaceTile(tile);
             }
         }
     }
     else
     {
-        /* In training or duplicate mode, take the rack of the current
-         * player only */
+        // In training or duplicate mode, replace the rack of the current
+        // player only
         getPlayer(m_currPlayer).getCurrentRack().getAllTiles(tiles);
-        for (unsigned int j = 0; j < tiles.size(); j++)
+        BOOST_FOREACH(const Tile &tile, tiles)
         {
-            ioBag.takeTile(tiles[j]);
+            bag.replaceTile(tile);
+        }
+    }
+
+    return bag;
+}
+
+#else
+
+void Game::realBag(Bag &ioBag) const
+{
+    // Copy the bag
+    ioBag = m_bag;
+
+    vector<Tile> tiles;
+
+    // The real content of the bag depends on the game mode
+    if (getMode() == kFREEGAME)
+    {
+        // In freegame mode, take the letters from all the racks
+        BOOST_FOREACH(const Player *player, m_players)
+        {
+            player->getCurrentRack().getAllTiles(tiles);
+            BOOST_FOREACH(const Tile &tile, tiles)
+            {
+                ioBag.takeTile(tile);
+            }
+        }
+    }
+    else
+    {
+        // In training or duplicate mode, take the rack of the current
+        // player only
+        getPlayer(m_currPlayer).getCurrentRack().getAllTiles(tiles);
+        BOOST_FOREACH(const Tile &tile, tiles)
+        {
+            ioBag.takeTile(tile);
         }
     }
 }
 
+#endif
 
-int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
+PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
+                                     bool iCheck, set_rack_mode mode) const
 {
     ASSERT(p < getNPlayers(), "Wrong player number");
     // FIXME: RACK_MANUAL shouldn't be in the enum
@@ -266,24 +370,28 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
             min = 1;
     }
 
-    // Make a copy of the current player's rack
-    PlayedRack pld = getPlayer(p).getCurrentRack();
+    // Make a copy of the given rack
+    PlayedRack pld = iPld;
     int nold = pld.getNbOld();
 
     // Create a copy of the bag in which we can do everything we want,
     // and take from it the tiles of the players rack so that "bag"
     // contains the right number of tiles.
+#ifdef REAL_BAG_MODE
+    Bag &bag = m_bag;
+#else
     Bag bag(m_dic);
     realBag(bag);
+#endif
     if (mode == RACK_NEW && nold != 0)
     {
         // We may have removed too many letters from the bag (i.e. the 'new'
         // letters of the player)
         vector<Tile> tiles;
         pld.getNewTiles(tiles);
-        for (unsigned int i = 0; i < tiles.size(); i++)
+        BOOST_FOREACH(const Tile &tile, tiles)
         {
-            bag.replaceTile(tiles[i]);
+            bag.replaceTile(tile);
         }
         pld.resetNew();
     }
@@ -292,9 +400,9 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
         // Replace all the tiles in the bag before choosing random ones
         vector<Tile> tiles;
         pld.getAllTiles(tiles);
-        for (unsigned int i = 0; i < tiles.size(); i++)
+        BOOST_FOREACH(const Tile &tile, tiles)
         {
-            bag.replaceTile(tiles[i]);
+            bag.replaceTile(tile);
         }
         // RACK_NEW with an empty rack is equivalent to RACK_ALL
         pld.reset();
@@ -318,9 +426,9 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
     {
         // 1) Is there already a joker in the remaining letters of the rack?
         bool jokerFound = false;
-        for (unsigned int i = 0; i < tiles.size(); i++)
+        BOOST_FOREACH(const Tile &tile, tiles)
         {
-            if (tiles[i].isJoker())
+            if (tile.isJoker())
             {
                 jokerFound = true;
                 break;
@@ -346,34 +454,35 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
     // (i.e. minimum required, minus what we already have in the rack)
     unsigned int neededVowels = min;
     unsigned int neededConsonants = min;
-    for (unsigned int i = 0; i < tiles.size(); ++i)
+    BOOST_FOREACH(const Tile &tile, tiles)
     {
-        if (neededVowels > 0 && tiles[i].isVowel())
+        if (neededVowels > 0 && tile.isVowel())
             neededVowels--;
-        if (neededConsonants > 0 && tiles[i].isConsonant())
+        if (neededConsonants > 0 && tile.isConsonant())
             neededConsonants--;
     }
 
     // Nothing in the rack, nothing in the bag --> end of the (free)game
     if (bag.getNbTiles() == 0 && pld.getNbTiles() == 0)
     {
-        return 1;
+        throw EndGameException(_("The bag is empty"));
     }
 
     // Check whether it is possible to complete the rack properly
     if (bag.getNbVowels() < neededVowels ||
         bag.getNbConsonants() < neededConsonants)
     {
-        return 1;
+        throw EndGameException(_("Not enough vowels or consonants to complete the rack"));
     }
     // End of game condition
     if (iCheck)
     {
+        // FIXME: redundant checks?
         if (bag.getNbVowels() < neededVowels ||
             bag.getNbConsonants() < neededConsonants ||
             (bag.getNbTiles() + tiles.size()) == 1)
         {
-            return 1;
+            throw EndGameException(_("Not enough vowels or consonants to complete the rack"));
         }
     }
 
@@ -386,7 +495,7 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
     // requirements will be met.
     while (bag.getNbTiles() != 0 && pld.getNbTiles() < RACK_SIZE)
     {
-        Tile l = bag.selectRandom();
+        const Tile &l = bag.selectRandom();
         bag.takeTile(l);
         pld.addNew(l);
     }
@@ -396,9 +505,9 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
         // Bad luck... we have to reject the rack
         vector<Tile> rejectedTiles;
         pld.getAllTiles(rejectedTiles);
-        for (unsigned int i = 0; i < rejectedTiles.size(); i++)
+        BOOST_FOREACH(const Tile &rejTile, rejectedTiles)
         {
-            bag.replaceTile(rejectedTiles[i]);
+            bag.replaceTile(rejTile);
         }
         pld.reset();
         // Do not mark the rack as rejected if it was empty
@@ -420,13 +529,13 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
             // Actually this should never happen, but it doesn't hurt to check...
             // FIXME: this test is not completely right, because it supposes no
             // letter can be at the same time a vowel and a consonant
-            return 3;
+            throw EndGameException("Not enough vowels or consonants to complete the rack");
         }
 
         // Get the required vowels and consonants first
         for (unsigned int i = 0; i < neededVowels; ++i)
         {
-            Tile l = bag.selectRandomVowel();
+            const Tile &l = bag.selectRandomVowel();
             bag.takeTile(l);
             pld.addNew(l);
             // Handle the case where the vowel can also be considered
@@ -436,7 +545,7 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
         }
         for (unsigned int i = 0; i < neededConsonants; ++i)
         {
-            Tile l = bag.selectRandomConsonant();
+            const Tile &l = bag.selectRandomConsonant();
             bag.takeTile(l);
             pld.addNew(l);
         }
@@ -447,7 +556,7 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
         // Now complete the rack with truly random letters
         while (bag.getNbTiles() != 0 && pld.getNbTiles() < RACK_SIZE)
         {
-            Tile l = bag.selectRandom();
+            const Tile &l = bag.selectRandom();
             bag.takeTile(l);
             pld.addNew(l);
         }
@@ -461,21 +570,21 @@ int Game::helperSetRackRandom(unsigned int p, bool iCheck, set_rack_mode mode)
     // Post-condition check. This should never fail, of course :)
     ASSERT(pld.checkRack(min, min), "helperSetRackRandom() is buggy!");
 
+#if 0
     // Until now we didn't modify anything except local variables.
     // Let's "commit" the changes
     m_players[p]->setCurrentRack(pld);
+#endif
 
-    return 0;
+    return pld;
 }
 
 
 bool Game::rackInBag(const Rack &iRack, const Bag &iBag) const
 {
-    const vector<Tile>& allTiles = m_dic.getAllTiles();
-    vector<Tile>::const_iterator it;
-    for (it = allTiles.begin(); it != allTiles.end(); it++)
+    BOOST_FOREACH(const Tile &t, m_dic.getAllTiles())
     {
-        if (iRack.in(*it) > iBag.in(*it))
+        if (iRack.in(t) > iBag.in(t))
             return false;
     }
     return true;
@@ -492,13 +601,21 @@ int Game::helperSetRackManual(unsigned int p, bool iCheck, const wstring &iLette
     PlayedRack pld;
     pld.setManual(iLetters);
 
+#ifdef REAL_BAG_MODE
+    vector<Tile> allTiles;
+    m_players[p]->getCurrentRack().getAllTiles(allTiles);
+    BOOST_FOREACH(const Tile &tile, allTiles)
+    {
+        m_bag.replaceTile(tile);
+    }
+#else
     Rack rack;
     pld.getRack(rack);
     if (!rackInBag(rack, m_bag))
     {
-        pld.reset();
         return 1;
     }
+#endif
 
     if (iCheck)
     {
@@ -509,8 +626,26 @@ int Game::helperSetRackManual(unsigned int p, bool iCheck, const wstring &iLette
         else
             min = 1;
         if (!pld.checkRack(min, min))
+        {
+#ifdef REAL_BAG_MODE
+            // Changing the rack failed, so we restore the tiles we
+            // just removed
+            BOOST_FOREACH(const Tile &tile, allTiles)
+            {
+                m_bag.takeTile(tile);
+            }
+#endif
             return 2;
+        }
     }
+
+#ifdef REAL_BAG_MODE
+    pld.getAllTiles(allTiles);
+    BOOST_FOREACH(const Tile &tile, allTiles)
+    {
+        m_bag.takeTile(tile);
+    }
+#endif
 
     m_players[p]->setCurrentRack(pld);
 
@@ -524,8 +659,10 @@ int Game::helperSetRackManual(unsigned int p, bool iCheck, const wstring &iLette
 unsigned int Game::getNHumanPlayers() const
 {
     unsigned int count = 0;
-    for (unsigned int i = 0; i < getNPlayers(); i++)
-        count += (getPlayer(i).isHuman() ? 1 : 0);
+    BOOST_FOREACH(const Player *player, m_players)
+    {
+        count += (player->isHuman() ? 1 : 0);
+    }
     return count;
 }
 
@@ -563,7 +700,7 @@ void Game::nextPlayer()
 
 
 int Game::checkPlayedWord(const wstring &iCoord,
-                          const wstring &iWord, Round &oRound)
+                          const wstring &iWord, Round &oRound) const
 {
     ASSERT(getNPlayers() != 0, "Expected at least one player");
 
@@ -634,12 +771,3 @@ int Game::checkPlayedWord(const wstring &iCoord,
     return 0;
 }
 
-/****************************************************************/
-/****************************************************************/
-
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

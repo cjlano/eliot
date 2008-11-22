@@ -42,4 +42,10 @@ class GameException: public std::exception
 };
 
 
+class EndGameException: public GameException
+{
+    public:
+        EndGameException(const std::string &iMessage);
+};
+
 #endif

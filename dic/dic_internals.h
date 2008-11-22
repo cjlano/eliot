@@ -18,13 +18,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   dic_internals.h
- *  \brief  Internal dictionary structures
- *  \author Antoine Fraboulet
- *  \date   2002
- */
-
 #ifndef _DIC_INTERNALS_H_
 #define _DIC_INTERNALS_H_
 
@@ -74,7 +67,6 @@ struct __attribute__ ((packed)) DicEdge
           return memcmp(this, &iOther, sizeof(*this)) == 0;
       }
 };
-
 
 #endif /* _DIC_INTERNALS_H */
 

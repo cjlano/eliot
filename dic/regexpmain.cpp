@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   regexpmain.c
- *  \brief  Program used to test regexp
- *  \author Antoine Fraboulet
- *  \date   2005
- */
-
 #include "config.h"
 
 #include <exception>
@@ -132,3 +125,4 @@ int main(int argc, char* argv[])
         return 1;
     }
 }
+

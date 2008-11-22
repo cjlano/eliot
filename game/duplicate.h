@@ -98,7 +98,8 @@ private:
     // Private constructor to force using the GameFactory class
     Duplicate(const Dictionary &iDic);
 
-    void playMove(const Move &iMove, unsigned int p);
+    /// Record a player move
+    void recordPlayerMove(const Move &iMove, unsigned int p);
 
     /// Make the AI player whose ID is p play its turn
     void playAI(unsigned int p);
@@ -136,9 +137,3 @@ private:
 
 #endif /* _DUPLICATE_H_ */
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

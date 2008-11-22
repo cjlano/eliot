@@ -59,8 +59,18 @@ public:
     const Results& getResults() const { return m_results; };
     int playResult(unsigned int);
 
-    int setRackRandom(bool, set_rack_mode);
+    /**
+     * Complete (or reset) the rack randomly.
+     * @exception EndGameException if it is impossible to complete the rack
+     * for some reason...
+     */
+    void setRackRandom(bool, set_rack_mode);
+
     int setRackManual(bool iCheck, const wstring &iLetters);
+
+    /**
+     * @Deprecated: use setRackRandom() or setRackManual() instead.
+     */
     int setRack(set_rack_mode iMode, bool iCheck, const wstring &iLetters);
 
     /*************************
@@ -85,6 +95,9 @@ private:
     /// Private constructor and destructor to force using the GameFactory class
     Training(const Dictionary &iDic);
 
+    /// Record a player move
+    void recordPlayerMove(const Move &iMove, unsigned int p);
+
     void endTurn();
 
     /// Search results, with all the possible rounds
@@ -96,9 +109,3 @@ private:
 
 #endif /* _TRAINING_H_ */
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

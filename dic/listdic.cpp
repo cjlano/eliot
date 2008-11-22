@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   listdic.c
- *  \brief  Program used to list a dictionary
- *  \author Antoine Fraboulet
- *  \date   1999
- */
-
 #include "config.h"
 
 #include <fstream>
@@ -199,3 +192,4 @@ int main(int argc, char *argv[])
         return 1;
     }
 }
+

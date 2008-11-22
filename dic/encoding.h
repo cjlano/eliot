@@ -18,13 +18,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   encoding.h
- *  \brief  Utility functions to ease manipulation of wide-character strings
- *  \author Olivier Teuliere
- *  \date   2005
- */
-
 #ifndef _ENCODING_H_
 #define _ENCODING_H_
 

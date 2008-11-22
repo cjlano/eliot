@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   board_cross.cpp
- *  \brief  Build cross information used to speed up search
- *  \author Antoine Fraboulet & Olivier Teulière
- *  \date   2005
- */
-
 #include <wctype.h>
 
 #include <dic.h>
@@ -135,13 +128,3 @@ void Board::buildCross(const Dictionary &iDic)
     Board_check(iDic, m_tilesCol, m_jokerCol, m_crossRow, m_pointRow);
 }
 
-
-/****************************************************************/
-/****************************************************************/
-
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

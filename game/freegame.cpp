@@ -18,10 +18,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <boost/foreach.hpp>
+
 #include <iomanip>
 #include <wctype.h>
 
 #include "freegame.h"
+#include "game_exception.h"
 #include "dic.h"
 #include "tile.h"
 #include "rack.h"
@@ -60,20 +63,14 @@ int FreeGame::play(const wstring &iCoord, const wstring &iWord)
         Move move(round);
 
         // Update the rack and the score of the current player
-        m_players[m_currPlayer]->endTurn(move, m_history.getSize());
-
-        // Everything is OK, we can play the word
-        helperPlayMove(m_currPlayer, move);
+        recordPlayerMove(move, m_currPlayer);
     }
     else
     {
         Move move(iWord, iCoord);
 
         // Record the invalid move of the player
-        m_players[m_currPlayer]->endTurn(move, m_history.getSize());
-
-        // Update the game
-        helperPlayMove(m_currPlayer, move);
+        recordPlayerMove(move, m_currPlayer);
     }
 
     // Next turn
@@ -99,10 +96,24 @@ void FreeGame::playAI(unsigned int p)
     }
 
     // Update the rack and the score of the current player
-    player->endTurn(move, m_history.getSize());
+    recordPlayerMove(move, p);
 
-    helperPlayMove(p, move);
     endTurn();
+}
+
+
+void FreeGame::recordPlayerMove(const Move &iMove, unsigned int p)
+{
+    ASSERT(p < getNPlayers(), "Wrong player number");
+
+    // Get what was the rack for the current turn
+    Rack oldRack;
+    m_players[p]->getCurrentRack().getRack(oldRack);
+    // Compute the new rack
+    const Rack &newRack = helperComputeRackForMove(oldRack, iMove);
+
+    // Record the invalid move of the player
+    m_players[p]->endTurn(iMove, m_history.getSize(), newRack);
 }
 
 
@@ -113,7 +124,9 @@ int FreeGame::start()
     // Set the initial racks of the players
     for (unsigned int i = 0; i < getNPlayers(); i++)
     {
-        helperSetRackRandom(i, false, RACK_NEW);
+        const PlayedRack &newRack =
+            helperSetRackRandom(getPlayer(i).getCurrentRack(), false, RACK_NEW);
+        m_players[i]->setCurrentRack(newRack);
     }
 
     m_currPlayer = 0;
@@ -130,12 +143,21 @@ int FreeGame::start()
 
 int FreeGame::endTurn()
 {
+    const Move &move = m_players[m_currPlayer]->getLastMove();
+    // Update the game
+    helperPlayMove(m_currPlayer, move);
+
     // Complete the rack for the player that just played
-    const Move &move = m_history.getPreviousTurn().getMove();
     if (move.getType() == Move::VALID_ROUND ||
         move.getType() == Move::CHANGE_LETTERS)
     {
-        if (helperSetRackRandom(m_currPlayer, false, RACK_NEW) == 1)
+        try
+        {
+            const PlayedRack &newRack =
+                helperSetRackRandom(getCurrentPlayer().getCurrentRack(), false, RACK_NEW);
+            m_players[m_currPlayer]->setCurrentRack(newRack);
+        }
+        catch (EndGameException &e)
         {
             // End of the game
             endGame();
@@ -181,10 +203,10 @@ void FreeGame::endGame()
         {
             const PlayedRack &pld = m_players[i]->getCurrentRack();
             pld.getAllTiles(tiles);
-            for (unsigned int j = 0; j < tiles.size(); j++)
+            BOOST_FOREACH(const Tile &tile, tiles)
             {
-                m_players[i]->addPoints(- tiles[j].getPoints());
-                m_players[m_currPlayer]->addPoints(tiles[j].getPoints());
+                m_players[i]->addPoints(- tile.getPoints());
+                m_players[m_currPlayer]->addPoints(tile.getPoints());
             }
         }
     }
@@ -209,9 +231,13 @@ int FreeGame::checkPass(const wstring &iToChange, unsigned int p) const
     // It is forbidden to change letters when the bag does not contain at
     // least 7 letters (this is explicitly stated in the ODS). But it is
     // still allowed to pass
+#ifdef REAL_BAG_MODE
+    if (m_bag.getNbTiles() < 7 && !iToChange.empty())
+#else
     Bag bag(m_dic);
     realBag(bag);
     if (bag.getNbTiles() < 7 && !iToChange.empty())
+#endif
     {
         return 1;
     }
@@ -221,14 +247,14 @@ int FreeGame::checkPass(const wstring &iToChange, unsigned int p) const
     PlayedRack pld = player->getCurrentRack();
     Rack rack;
     pld.getRack(rack);
-    for (unsigned int i = 0; i < iToChange.size(); i++)
+    BOOST_FOREACH(wchar_t wch, iToChange)
     {
         // Remove the letter from the rack
-        if (!rack.in(Tile(iToChange[i])))
+        if (!rack.in(Tile(wch)))
         {
             return 2;
         }
-        rack.remove(Tile(iToChange[i]));
+        rack.remove(Tile(wch));
     }
 
     // According to the rules in the ODS, it is allowed to pass its turn (no
@@ -250,9 +276,7 @@ int FreeGame::pass(const wstring &iToChange)
 
     Move move(iToChange);
     // End the player's turn
-    m_players[m_currPlayer]->endTurn(move, m_history.getSize());
-    // Update the game
-    helperPlayMove(m_currPlayer, move);
+    recordPlayerMove(move, m_currPlayer);
 
     // Next game turn
     endTurn();
@@ -260,9 +284,3 @@ int FreeGame::pass(const wstring &iToChange)
     return 0;
 }
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

@@ -25,6 +25,7 @@
 #include "qtcommon.h"
 #include "dic.h"
 #include "game.h"
+#include "game_exception.h"
 #include "training.h"
 #include "player.h"
 #include "results.h"
@@ -204,8 +205,15 @@ void TrainingWidget::on_pushButtonRack_clicked()
 {
     // FIXME: first parameter is hardcoded
     m_game->removeTestPlay();
-    m_game->setRackRandom(true, Game::RACK_ALL);
-    emit gameUpdated();
+    try
+    {
+        m_game->setRackRandom(true, Game::RACK_ALL);
+        emit gameUpdated();
+    }
+    catch (GameException &e)
+    {
+        emit notifyProblem(e.what());
+    }
 }
 
 
@@ -213,8 +221,15 @@ void TrainingWidget::on_pushButtonComplement_clicked()
 {
     // FIXME: first parameter is hardcoded
     m_game->removeTestPlay();
-    m_game->setRackRandom(true, Game::RACK_NEW);
-    emit gameUpdated();
+    try
+    {
+        m_game->setRackRandom(true, Game::RACK_NEW);
+        emit gameUpdated();
+    }
+    catch (GameException &e)
+    {
+        emit notifyProblem(e.what());
+    }
 }
 
 

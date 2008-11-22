@@ -63,10 +63,10 @@ const Move & Player::getLastMove() const
 }
 
 
-void Player::endTurn(const Move &iMove, unsigned int iTurn)
+void Player::endTurn(const Move &iMove, unsigned int iTurn, const Rack &iNewRack)
 {
     addPoints(iMove.getScore());
-    m_history.playMove(m_id, iTurn, iMove);
+    m_history.playMove(m_id, iTurn, iMove, iNewRack);
 }
 
 void Player::removeLastTurn()
@@ -89,12 +89,3 @@ wstring Player::toString() const
     return res;
 }
 
-/****************************************************************/
-/****************************************************************/
-
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

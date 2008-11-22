@@ -34,3 +34,9 @@ const char *GameException::what() const throw()
     return m_message.c_str();
 }
 
+
+EndGameException::EndGameException(const string &iMessage)
+    : GameException(iMessage)
+{
+}
+

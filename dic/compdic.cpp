@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   compdic.c
- *  \brief  Program used to compress a dictionary
- *  \author Antoine Fraboulet
- *  \date   1999
- */
-
 #include "config.h"
 
 #include <fstream>

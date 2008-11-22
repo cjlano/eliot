@@ -50,10 +50,12 @@ Training::Training(const Dictionary &iDic)
 }
 
 
-int Training::setRackRandom(bool iCheck, set_rack_mode mode)
+void Training::setRackRandom(bool iCheck, set_rack_mode mode)
 {
     m_results.clear();
-    return helperSetRackRandom(m_currPlayer, iCheck, mode);
+    const PlayedRack &newRack =
+        helperSetRackRandom(getCurrentPlayer().getCurrentRack(), iCheck, mode);
+    m_players[m_currPlayer]->setCurrentRack(newRack);
 }
 
 
@@ -86,10 +88,10 @@ int Training::setRack(set_rack_mode iMode, bool iCheck, const wstring &iLetters)
             res = setRackManual(iCheck, iLetters);
             break;
         case RACK_ALL:
-            res = setRackRandom(iCheck, iMode);
+            setRackRandom(iCheck, iMode);
             break;
         case RACK_NEW:
-            res = setRackRandom(iCheck, iMode);
+            setRackRandom(iCheck, iMode);
             break;
     }
     return res;
@@ -109,17 +111,30 @@ int Training::play(const wstring &iCoord, const wstring &iWord)
 
     Move move(round);
     // Update the rack and the score of the current player
-    // Player::endTurn() must be called before Game::helperPlayMove().
+    // Player::endTurn() must be called before Game::helperPlayMove()
+    // (called here in endTurn()).
     // See the big comment in game.cpp, line 96
-    m_players[m_currPlayer]->endTurn(move, m_history.getSize());
-
-    // Everything is OK, we can play the word
-    helperPlayMove(m_currPlayer, move);
+    recordPlayerMove(move, m_currPlayer);
 
     // Next turn
     endTurn();
 
     return 0;
+}
+
+
+void Training::recordPlayerMove(const Move &iMove, unsigned int p)
+{
+    ASSERT(p < getNPlayers(), "Wrong player number");
+
+    // Get what was the rack for the current turn
+    Rack oldRack;
+    m_players[p]->getCurrentRack().getRack(oldRack);
+    // Compute the new rack
+    const Rack &newRack = helperComputeRackForMove(oldRack, iMove);
+
+    // Record the invalid move of the player
+    m_players[p]->endTurn(iMove, m_history.getSize(), newRack);
 }
 
 
@@ -135,7 +150,11 @@ int Training::start()
 
 void Training::endTurn()
 {
-    // Nothing to do, but this method is kept for consistency with other modes
+    m_results.clear();
+
+    // Play the word on the board
+    const Move &move = m_players[m_currPlayer]->getLastMove();
+    helperPlayMove(m_currPlayer, move);
 }
 
 
@@ -155,11 +174,7 @@ int Training::playResult(unsigned int n)
 
     Move move(m_results.get(n));
     // Update the rack and the score of the current player
-    m_players[m_currPlayer]->endTurn(move, m_history.getSize());
-
-    // Update the game
-    helperPlayMove(m_currPlayer, move);
-    m_results.clear();
+    recordPlayerMove(move, m_currPlayer);
 
     // Next turn
     endTurn();
@@ -196,12 +211,3 @@ wstring Training::getTestPlayWord() const
     return m_testRound.getWord();
 }
 
-/****************************************************************/
-/****************************************************************/
-
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

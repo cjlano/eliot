@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   results.cc
- *  \brief  Search result storage class
- *  \author Olivier Teulière & Antoine Fraboulet
- *  \date   2005
- */
-
 #include <algorithm>
 #include <functional>
 #include <cwctype>
@@ -129,12 +122,3 @@ void Results::sortByPoints()
     std::sort(m_rounds.begin(), m_rounds.end(), lp);
 }
 
-/****************************************************************/
-/****************************************************************/
-
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

@@ -18,13 +18,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   encoding.cpp
- *  \brief  Utility functions to ease handling of wide-character strings
- *  \author Olivier Teuliere
- *  \date   2005
- */
-
 #include "config.h"
 
 #include <iostream>

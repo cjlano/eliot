@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   results.h
- *  \brief  Search result storage class
- *  \author Olivier Teulière & Antoine Fraboulet
- *  \date   2005
- */
-
 #ifndef _RESULTS_H_
 #define _RESULTS_H_
 
@@ -68,12 +61,3 @@ private:
 
 #endif
 
-/****************************************************************/
-/****************************************************************/
-
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

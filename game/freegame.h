@@ -86,6 +86,9 @@ private:
     /// Make the AI player whose ID is p play its turn
     void playAI(unsigned int p);
 
+    /// Record a player move
+    void recordPlayerMove(const Move &iMove, unsigned int p);
+
     /// Finish the current turn
     int endTurn();
 
@@ -101,9 +104,3 @@ private:
 
 #endif /* _FREEGAME_H_ */
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

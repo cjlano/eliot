@@ -18,13 +18,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   regexp.c
- *  \brief  Regular Expression functions
- *  \author Antoine Fraboulet
- *  \date   2005
- */
-
 #include "config.h"
 
 #include <cstdio>
@@ -311,8 +304,3 @@ void Node::printTreeDot(const string &iFileName, int detail) const
 }
 #endif
 
-
-/// Local Variables:
-/// mode: hs-minor
-/// c-basic-offset: 2
-/// End:

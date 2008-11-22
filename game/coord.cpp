@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   coord.cpp
- *  \brief  Board coordinate system
- *  \author Antoine Fraboulet
- *  \date   2005
- */
-
 #include <string>
 #include <wchar.h>
 #include "coord.h"
@@ -125,9 +118,3 @@ wstring Coord::toString(coord_mode_t mode) const
     return res;
 }
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

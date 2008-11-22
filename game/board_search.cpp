@@ -34,9 +34,9 @@
  * the real direction of the word
  */
 static void BoardSearchEvalMove(const Board &iBoard,
-                                Matrix<Tile> &iTilesMx,
-                                Matrix<int> &iPointsMx,
-                                Matrix<bool> &iJokerMx,
+                                const Matrix<Tile> &iTilesMx,
+                                const Matrix<int> &iPointsMx,
+                                const Matrix<bool> &iJokerMx,
                                 Results &iResults, Round &iWord)
 {
     unsigned int fromrack = 0;
@@ -94,10 +94,10 @@ static void BoardSearchEvalMove(const Board &iBoard,
 
 static void ExtendRight(const Board &iBoard,
                         const Dictionary &iDic,
-                        Matrix<Tile> &iTilesMx,
-                        Matrix<Cross> &iCrossMx,
-                        Matrix<int> &iPointsMx,
-                        Matrix<bool> &iJokerMx,
+                        const Matrix<Tile> &iTilesMx,
+                        const Matrix<Cross> &iCrossMx,
+                        const Matrix<int> &iPointsMx,
+                        const Matrix<bool> &iJokerMx,
                         Rack &iRack, Round &ioPartialWord,
                         Results &iResults, unsigned int iNode,
                         int iRow, int iCol, int iAnchor)
@@ -170,10 +170,10 @@ static void ExtendRight(const Board &iBoard,
 
 static void LeftPart(const Board &iBoard,
                      const Dictionary &iDic,
-                     Matrix<Tile> &iTilesMx,
-                     Matrix<Cross> &iCrossMx,
-                     Matrix<int> &iPointsMx,
-                     Matrix<bool> &iJokerMx,
+                     const Matrix<Tile> &iTilesMx,
+                     const Matrix<Cross> &iCrossMx,
+                     const Matrix<int> &iPointsMx,
+                     const Matrix<bool> &iJokerMx,
                      Rack &iRack, Round &ioPartialWord,
                      Results &iResults, int n, int iRow,
                      int iAnchor, int iLimit)
@@ -221,10 +221,10 @@ static void LeftPart(const Board &iBoard,
 
 static void BoardSearchAux(const Board &iBoard,
                            const Dictionary &iDic,
-                           Matrix<Tile> &iTilesMx,
-                           Matrix<Cross> &iCrossMx,
-                           Matrix<int> &iPointsMx,
-                           Matrix<bool> &iJokerMx,
+                           const Matrix<Tile> &iTilesMx,
+                           const Matrix<Cross> &iCrossMx,
+                           const Matrix<int> &iPointsMx,
+                           const Matrix<bool> &iJokerMx,
                            Rack &iRack, Results &iResults,
                            Coord::Direction iDir)
 {
@@ -308,7 +308,7 @@ static void BoardSearchAux(const Board &iBoard,
 
 void Board::search(const Dictionary &iDic,
                    const Rack &iRack,
-                   Results &oResults)
+                   Results &oResults) const
 {
     // Create a copy of the rack to avoid modifying the given one
     Rack copyRack = iRack;
@@ -325,7 +325,7 @@ void Board::search(const Dictionary &iDic,
 
 void Board::searchFirst(const Dictionary &iDic,
                         const Rack &iRack,
-                        Results &oResults)
+                        Results &oResults) const
 {
     int row = 8, col = 8;
 
@@ -342,9 +342,3 @@ void Board::searchFirst(const Dictionary &iDic,
              copyRack.getNbTiles() - 1);
 }
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

@@ -30,6 +30,7 @@
 using std::wstring;
 
 class Turn;
+class Rack;
 
 
 /**
@@ -84,7 +85,7 @@ public:
      * The score of the player is updated with the one of the move, if it is
      * meaningful.
      */
-    void endTurn(const Move &iMove, unsigned int iTurn);
+    void endTurn(const Move &iMove, unsigned int iTurn, const Rack &iNewRack);
 
     wstring toString() const;
 
@@ -118,9 +119,3 @@ public:
 
 #endif
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

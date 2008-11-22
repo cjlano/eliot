@@ -19,13 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-/**
- *  \file   history.h
- *  \brief  Game history system
- *  \author Antoine Fraboulet
- *  \date   2005
- */
-
 #ifndef _HISTORY_H
 #define _HISTORY_H
 
@@ -91,7 +84,8 @@ class History
      * A new turn is created with the unplayed letters in the rack
      * 03 sept 2000: We have to sort the tiles according to the new rules
      */
-    void playMove(unsigned int player, unsigned int turn, const Move &iMove);
+    void playMove(unsigned int player, unsigned int turn,
+                  const Move &iMove, const Rack &iNewRack);
 
     /// Remove last turn
     void removeLastTurn();
@@ -105,9 +99,3 @@ class History
 
 #endif
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:
