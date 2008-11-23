@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #include <boost/foreach.hpp>
+#include <sstream>
 
 #include "duplicate.h"
 #include "game_exception.h"
@@ -109,12 +110,13 @@ void Duplicate::start()
         const PlayedRack &newRack =
             helperSetRackRandom(getCurrentPlayer().getCurrentRack(), true, RACK_NEW);
         // All the players have the same rack
-        for (unsigned int i = 0; i < getNPlayers(); i++)
+        BOOST_FOREACH(Player *player, m_players)
         {
-            Command *pCmd = new PlayerRackCmd(*m_players[i], newRack);
+            Command *pCmd = new PlayerRackCmd(*player, newRack);
             accessNavigation().addAndExecute(pCmd);
             // Nobody has played yet in this round
-            m_hasPlayed[i] = false;
+            Command *pCmd2 = new MarkPlayedCmd(*this, player->getId(), false);
+            accessNavigation().addAndExecute(pCmd2);
         }
         // Change the turn _after_ setting the new rack, so that when going
         // back in the history the rack is already there. The turn boundaries
@@ -167,7 +169,8 @@ void Duplicate::recordPlayerMove(const Move &iMove, Player &ioPlayer)
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
     accessNavigation().addAndExecute(pCmd);
 
-    m_hasPlayed[ioPlayer.getId()] = true;
+    Command *pCmd2 = new MarkPlayedCmd(*this, ioPlayer.getId(), true);
+    accessNavigation().addAndExecute(pCmd2);
 }
 
 
@@ -314,4 +317,44 @@ bool Duplicate::hasPlayed(unsigned int p) const
     map<unsigned int, bool>::const_iterator it = m_hasPlayed.find(p);
     return it != m_hasPlayed.end() && it->second;
 }
+
+
+void Duplicate::setPlayedFlag(unsigned int iPlayerId, bool iNewFlag)
+{
+    ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
+
+    m_hasPlayed[iPlayerId] = iNewFlag;
+}
+
+
+Duplicate::MarkPlayedCmd::MarkPlayedCmd(Duplicate &ioDuplicate,
+                             unsigned int iPlayerId,
+                             bool iPlayedFlag)
+    : m_duplicateGame(ioDuplicate), m_playerId(iPlayerId),
+      m_newPlayedFlag(iPlayedFlag)
+{
+}
+
+
+void Duplicate::MarkPlayedCmd::doExecute()
+{
+    m_oldPlayedFlag = m_duplicateGame.hasPlayed(m_playerId);
+    m_duplicateGame.setPlayedFlag(m_playerId, m_newPlayedFlag);
+}
+
+
+void Duplicate::MarkPlayedCmd::doUndo()
+{
+    m_duplicateGame.setPlayedFlag(m_playerId, m_oldPlayedFlag);
+}
+
+
+wstring Duplicate::MarkPlayedCmd::toString() const
+{
+    wostringstream oss;
+    oss << L"MarkPlayedCmd (player " << m_playerId
+        << L" marked " << m_newPlayedFlag << L")";
+    return oss.str();
+}
+
 

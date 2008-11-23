@@ -321,7 +321,7 @@ protected:
 
     /**
      * load games from File using advanced format (since Eliot 1.5)
-     * This format is used for Duplicate, Freegame, ...
+     * This format is used for Duplicate, FreeGame, ...
      */
     static Game* gameLoadFormat_15(FILE *fin, const Dictionary& iDic);
 

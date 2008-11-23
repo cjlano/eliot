@@ -22,6 +22,7 @@
 #define _DUPLICATE_H_
 
 #include "game.h"
+#include "command.h"
 
 class Player;
 
@@ -93,8 +94,7 @@ public:
     void nextHumanPlayer();
 
     /// Return true if the player has played for the current turn
-    // XXX: not very nice API, should be a player property...
-    virtual bool hasPlayed(unsigned int player) const;
+    virtual bool hasPlayed(unsigned int iPlayerId) const;
 
 private:
     // Private constructor to force using the GameFactory class
@@ -105,6 +105,9 @@ private:
 
     /// Make the AI player whose ID is p play its turn
     void playAI(unsigned int p);
+
+    /// Change the "has played" status of the given player to the given status
+    void setPlayedFlag(unsigned int iPlayerId, bool iNewFlag);
 
     /**
      * This function does not terminate the turn itself, but performs some
@@ -133,8 +136,29 @@ private:
     /// Finish the game
     void endGame();
 
-    // m_hasPlayed[p] is true iff player p has played for this turn
+    /// m_hasPlayed[p] is true iff player p has played for this turn
     map<unsigned int, bool> m_hasPlayed;
+
+    /// Command used internally to change the "has played" flag of a player
+    class MarkPlayedCmd: public Command
+    {
+        public:
+            MarkPlayedCmd(Duplicate &ioDuplicate,
+                          unsigned int iPlayerId,
+                          bool iPlayedFlag);
+
+            virtual wstring toString() const;
+
+        protected:
+            virtual void doExecute();
+            virtual void doUndo();
+
+        private:
+            Duplicate &m_duplicateGame;
+            unsigned int m_playerId;
+            bool m_newPlayedFlag;
+            bool m_oldPlayedFlag;
+    };
 };
 
 #endif /* _DUPLICATE_H_ */
