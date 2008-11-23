@@ -116,6 +116,11 @@ void Duplicate::start()
             // Nobody has played yet in this round
             m_hasPlayed[i] = false;
         }
+        // Change the turn _after_ setting the new rack, so that when going
+        // back in the history the rack is already there. The turn boundaries
+        // must be just before player actions, otherwise restoring the game
+        // doesn't work properly.
+        accessNavigation().newTurn();
     }
     catch (EndGameException &e)
     {
@@ -196,7 +201,6 @@ void Duplicate::endTurn()
         if (bestPlayer == NULL)
         {
             // Nobody played a valid round. Go to the next turn...
-            accessNavigation().newTurn();
             start();
             return;
         }
@@ -252,8 +256,6 @@ void Duplicate::endTurn()
             accessNavigation().addAndExecute(pCmd);
         }
     }
-
-    accessNavigation().newTurn();
 
     // Start next turn...
     start();
