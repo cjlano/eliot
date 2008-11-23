@@ -18,11 +18,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <boost/foreach.hpp>
+
 #include <algorithm>
 #include <wctype.h>
 #include <sstream>
 
 #include "move.h"
+#include "rack.h"
+#include "pldrack.h"
 
 
 Move::Move(const Round &iRound)
@@ -97,6 +101,41 @@ const wstring & Move::getChangedLetters() const
         throw 1;
     }
     return m_letters;
+}
+
+
+Rack Move::ComputeRackForMove(const PlayedRack &iOldRack, const Move &iMove)
+{
+    // Start from the given rack
+    Rack newRack;
+    iOldRack.getRack(newRack);
+
+    if (iMove.getType() == Move::VALID_ROUND)
+    {
+        // Remove the played tiles from the rack
+        const Round &round = iMove.getRound();
+        for (unsigned int i = 0; i < round.getWordLen(); i++)
+        {
+            if (round.isPlayedFromRack(i))
+            {
+                if (round.isJoker(i))
+                    newRack.remove(Tile::Joker());
+                else
+                    newRack.remove(round.getTile(i));
+            }
+        }
+    }
+    else if (iMove.getType() == Move::CHANGE_LETTERS)
+    {
+        // Remove the changed tiles from the rack
+        const wstring & changed = iMove.getChangedLetters();
+        BOOST_FOREACH(wchar_t ch, changed)
+        {
+            newRack.remove(Tile(ch));
+        }
+    }
+
+    return newRack;
 }
 
 

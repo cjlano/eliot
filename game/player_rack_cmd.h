@@ -1,8 +1,7 @@
-/*****************************************************************************
+/*******************************************************************
  * Eliot
- * Copyright (C) 2005-2007 Antoine Fraboulet & Olivier Teulière
- * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
- *          Olivier Teulière <ipkiss @@ gmail.com>
+ * Copyright (C) 2008 Olivier Teulière
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,32 +18,33 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include "turn.h"
+#ifndef _PLAYER_RACK_CMD_H
+#define _PLAYER_RACK_CMD_H
+
+#include "command.h"
+#include "pldrack.h"
+
+class Player;
 
 
-// FIXME: move set to an invalid value. It would be better to get rid of this
-// constructor completely
-Turn::Turn()
-    : m_playerId(0), m_move(L"", L"")
+/**
+ * This class implements the Command design pattern.
+ * It encapsulates the logic to update the player rack, usually to complete it.
+ */
+class PlayerRackCmd: public Command
 {
-}
+    public:
+        PlayerRackCmd(Player &ioPlayer, const PlayedRack &iNewRack);
 
+    protected:
+        virtual void doExecute();
+        virtual void doUndo();
 
-Turn::Turn(unsigned int iPlayerId, const PlayedRack& iPldRack,
-           const Move& iMove)
-    : m_playerId(iPlayerId), m_pldrack(iPldRack), m_move(iMove)
-{
-}
+    private:
+        Player &m_player;
+        PlayedRack m_oldRack;
+        PlayedRack m_newRack;
+};
 
-
-wstring Turn::toString(bool iShowExtraSigns) const
-{
-    wstring rs;
-    if (iShowExtraSigns)
-    {
-        // TODO
-    }
-    rs = rs + m_pldrack.toString() + L" " + m_move.toString();
-    return rs;
-}
+#endif
 

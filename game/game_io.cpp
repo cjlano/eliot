@@ -35,6 +35,7 @@
 #include "duplicate.h"
 #include "encoding.h"
 #include "game_exception.h"
+#include "game_move_cmd.h"
 
 using namespace std;
 
@@ -389,7 +390,10 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
 //                     pGame->m_players[player]->endTurn(round,num - 1);
 
         // Play the round
-        pGame->helperPlayRound(pGame->m_currPlayer, round);
+        GameMoveCmd cmd(*pGame, Move(round),
+                        pGame->getCurrentPlayer().getLastRack(),
+                        pGame->m_currPlayer);
+        cmd.execute();
     }
 
     /**************************************/

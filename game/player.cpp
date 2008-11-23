@@ -63,12 +63,6 @@ const Move & Player::getLastMove() const
 }
 
 
-void Player::endTurn(const Move &iMove, unsigned int iTurn, const Rack &iNewRack)
-{
-    addPoints(iMove.getScore());
-    m_history.playMove(m_id, iTurn, iMove, iNewRack);
-}
-
 void Player::removeLastTurn()
 {
     // Remove points of the last turn
@@ -78,13 +72,14 @@ void Player::removeLastTurn()
 
 wstring Player::toString() const
 {
-    wstring res;
+    wstring res = L"Player ";
 
     wchar_t buff[6];
-    _swprintf(buff, 5, L"Player %d\n", m_id);
-    res = wstring(buff);
+    _swprintf(buff, 5, L"%d\n", m_id);
+    res += wstring(buff);
     res += m_history.toString() + L"\n";
-    _swprintf(buff, 5, L"score %d\n", m_score);
+    res += L"score ";
+    _swprintf(buff, 5, L"%d\n", m_score);
     res += wstring(buff);
     return res;
 }

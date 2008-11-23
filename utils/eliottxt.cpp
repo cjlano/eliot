@@ -233,6 +233,7 @@ void help_training()
     printf("  n [] : jouer le résultat numéro []\n");
     printf("  r    : rechercher les meilleurs résultats\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
+    printf("  h [p|n|f|l] : naviguer dans l'historique (prev, next, first, last\n");
     printf("  q    : quitter le mode entraînement\n");
 }
 
@@ -257,6 +258,7 @@ void help_freegame()
     printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
     printf("  p [] : passer son tour en changeant les lettres []\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
+    printf("  h [p|n|f|l] : naviguer dans l'historique (prev, next, first, last\n");
     printf("  q    : quitter le mode partie libre\n");
 }
 
@@ -280,6 +282,7 @@ void help_duplicate()
     printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
     printf("  n [] : passer au joueur n°[]\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
+    printf("  h [p|n|f|l] : naviguer dans l'historique (prev, next, first, last\n");
     printf("  q    : quitter le mode duplicate\n");
 }
 
@@ -566,6 +569,27 @@ void loop_training(Training &iGame)
                             fout.close();
                         }
                         break;
+                    case L'h':
+                        token = next_token_alpha(NULL, delim, &state);
+                        if (token != NULL)
+                        {
+                            switch (token[0])
+                            {
+                                case L'p':
+                                    iGame.prevTurn();
+                                    break;
+                                case L'n':
+                                    iGame.nextTurn();
+                                    break;
+                                case L'f':
+                                    iGame.firstTurn();
+                                    break;
+                                case L'l':
+                                    iGame.lastTurn();
+                                    break;
+                            }
+                        }
+                        break;
                     case L'q':
                         quit = 1;
                         break;
@@ -672,6 +696,27 @@ void loop_freegame(FreeGame &iGame)
                             }
                             iGame.save(fout);
                             fout.close();
+                        }
+                        break;
+                    case L'h':
+                        token = next_token_alpha(NULL, delim, &state);
+                        if (token != NULL)
+                        {
+                            switch (token[0])
+                            {
+                                case L'p':
+                                    iGame.prevTurn();
+                                    break;
+                                case L'n':
+                                    iGame.nextTurn();
+                                    break;
+                                case L'f':
+                                    iGame.firstTurn();
+                                    break;
+                                case L'l':
+                                    iGame.lastTurn();
+                                    break;
+                            }
                         }
                         break;
                     case L'q':
@@ -788,6 +833,27 @@ void loop_duplicate(Duplicate &iGame)
                             }
                             iGame.save(fout);
                             fout.close();
+                        }
+                        break;
+                    case L'h':
+                        token = next_token_alpha(NULL, delim, &state);
+                        if (token != NULL)
+                        {
+                            switch (token[0])
+                            {
+                                case L'p':
+                                    iGame.prevTurn();
+                                    break;
+                                case L'n':
+                                    iGame.nextTurn();
+                                    break;
+                                case L'f':
+                                    iGame.firstTurn();
+                                    break;
+                                case L'l':
+                                    iGame.lastTurn();
+                                    break;
+                            }
                         }
                         break;
                     case L'q':

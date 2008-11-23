@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Copyright (C) 1999-2008 Antoine Fraboulet & Olivier Teulière
  * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *          Olivier Teulière <ipkiss @@ gmail.com>
  *
@@ -27,6 +27,8 @@
 #include "game.h"
 #include "round.h"
 #include "results.h"
+
+class Player;
 
 using std::string;
 using std::wstring;
@@ -96,7 +98,7 @@ private:
     Training(const Dictionary &iDic);
 
     /// Record a player move
-    void recordPlayerMove(const Move &iMove, unsigned int p);
+    void recordPlayerMove(const Move &iMove, Player &ioPlayer);
 
     void endTurn();
 

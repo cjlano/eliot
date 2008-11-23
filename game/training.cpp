@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Copyright (C) 1999-2008 Antoine Fraboulet & Olivier Teulière
  * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *          Olivier Teulière <ipkiss @@ gmail.com>
  *
@@ -35,8 +35,12 @@
 #include "move.h"
 #include "pldrack.h"
 #include "player.h"
+#include "player_move_cmd.h"
+#include "player_rack_cmd.h"
+#include "game_move_cmd.h"
 #include "training.h"
 #include "encoding.h"
+#include "turn_cmd.h"
 
 #include "debug.h"
 
@@ -55,7 +59,8 @@ void Training::setRackRandom(bool iCheck, set_rack_mode mode)
     m_results.clear();
     const PlayedRack &newRack =
         helperSetRackRandom(getCurrentPlayer().getCurrentRack(), iCheck, mode);
-    m_players[m_currPlayer]->setCurrentRack(newRack);
+    Command *pCmd = new PlayerRackCmd(*m_players[m_currPlayer], newRack);
+    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
 }
 
 
@@ -110,11 +115,7 @@ int Training::play(const wstring &iCoord, const wstring &iWord)
     }
 
     Move move(round);
-    // Update the rack and the score of the current player
-    // Player::endTurn() must be called before Game::helperPlayMove()
-    // (called here in endTurn()).
-    // See the big comment in game.cpp, line 96
-    recordPlayerMove(move, m_currPlayer);
+    recordPlayerMove(move, *m_players[m_currPlayer]);
 
     // Next turn
     endTurn();
@@ -123,18 +124,14 @@ int Training::play(const wstring &iCoord, const wstring &iWord)
 }
 
 
-void Training::recordPlayerMove(const Move &iMove, unsigned int p)
+void Training::recordPlayerMove(const Move &iMove, Player &ioPlayer)
 {
-    ASSERT(p < getNPlayers(), "Wrong player number");
-
-    // Get what was the rack for the current turn
-    Rack oldRack;
-    m_players[p]->getCurrentRack().getRack(oldRack);
-    // Compute the new rack
-    const Rack &newRack = helperComputeRackForMove(oldRack, iMove);
-
-    // Record the invalid move of the player
-    m_players[p]->endTurn(iMove, getHistory().getSize(), newRack);
+    // Update the rack and the score of the current player
+    // PlayerMoveCmd::execute() must be called before Game::helperPlayMove()
+    // (called in this class in endTurn()).
+    // See the big comment in game.cpp, line 96
+    Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
+    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
 }
 
 
@@ -154,7 +151,11 @@ void Training::endTurn()
 
     // Play the word on the board
     const Move &move = m_players[m_currPlayer]->getLastMove();
-    helperPlayMove(m_currPlayer, move);
+    Command *pCmd = new GameMoveCmd(*this, move,
+                                    getCurrentPlayer().getLastRack(),
+                                    m_currPlayer);
+    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
+    newTurn();
 }
 
 
@@ -174,7 +175,7 @@ int Training::playResult(unsigned int n)
 
     Move move(m_results.get(n));
     // Update the rack and the score of the current player
-    recordPlayerMove(move, m_currPlayer);
+    recordPlayerMove(move, *m_players[m_currPlayer]);
 
     // Next turn
     endTurn();

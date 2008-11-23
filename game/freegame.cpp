@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2005-2007 Olivier Teulière
+ * Copyright (C) 2005-2008 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -33,9 +33,13 @@
 #include "pldrack.h"
 #include "results.h"
 #include "player.h"
+#include "player_move_cmd.h"
+#include "player_rack_cmd.h"
+#include "game_move_cmd.h"
 #include "ai_player.h"
 #include "settings.h"
 #include "turn.h"
+#include "turn_cmd.h"
 
 #include "debug.h"
 
@@ -63,14 +67,14 @@ int FreeGame::play(const wstring &iCoord, const wstring &iWord)
         Move move(round);
 
         // Update the rack and the score of the current player
-        recordPlayerMove(move, m_currPlayer);
+        recordPlayerMove(move, *m_players[m_currPlayer]);
     }
     else
     {
         Move move(iWord, iCoord);
 
         // Record the invalid move of the player
-        recordPlayerMove(move, m_currPlayer);
+        recordPlayerMove(move, *m_players[m_currPlayer]);
     }
 
     // Next turn
@@ -88,32 +92,25 @@ void FreeGame::playAI(unsigned int p)
     AIPlayer *player = static_cast<AIPlayer*>(m_players[p]);
 
     player->compute(getDic(), getBoard(), getHistory().beforeFirstRound());
-    const Move move = player->getMove();
+    const Move &move = player->getMove();
     if (move.getType() == Move::CHANGE_LETTERS ||
         move.getType() == Move::PASS)
     {
-        ASSERT(checkPass(move.getChangedLetters(), p) == 0, "AI tried to cheat!");
+        ASSERT(checkPass(*player, move.getChangedLetters()) == 0,
+               "AI tried to cheat!");
     }
 
     // Update the rack and the score of the current player
-    recordPlayerMove(move, p);
+    recordPlayerMove(move, *player);
 
     endTurn();
 }
 
 
-void FreeGame::recordPlayerMove(const Move &iMove, unsigned int p)
+void FreeGame::recordPlayerMove(const Move &iMove, Player &ioPlayer)
 {
-    ASSERT(p < getNPlayers(), "Wrong player number");
-
-    // Get what was the rack for the current turn
-    Rack oldRack;
-    m_players[p]->getCurrentRack().getRack(oldRack);
-    // Compute the new rack
-    const Rack &newRack = helperComputeRackForMove(oldRack, iMove);
-
-    // Record the invalid move of the player
-    m_players[p]->endTurn(iMove, getHistory().getSize(), newRack);
+    Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
+    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
 }
 
 
@@ -126,7 +123,8 @@ int FreeGame::start()
     {
         const PlayedRack &newRack =
             helperSetRackRandom(getPlayer(i).getCurrentRack(), false, RACK_NEW);
-        m_players[i]->setCurrentRack(newRack);
+        Command *pCmd = new PlayerRackCmd(*m_players[i], newRack);
+        m_turnCommands[m_currTurn]->addAndExecute(pCmd);
     }
 
     m_currPlayer = 0;
@@ -143,9 +141,12 @@ int FreeGame::start()
 
 int FreeGame::endTurn()
 {
-    const Move &move = m_players[m_currPlayer]->getLastMove();
+    const Move &move = getCurrentPlayer().getLastMove();
     // Update the game
-    helperPlayMove(m_currPlayer, move);
+    Command *pCmd = new GameMoveCmd(*this, move,
+                                    getCurrentPlayer().getLastRack(),
+                                    m_currPlayer);
+    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
 
     // Complete the rack for the player that just played
     if (move.getType() == Move::VALID_ROUND ||
@@ -155,7 +156,9 @@ int FreeGame::endTurn()
         {
             const PlayedRack &newRack =
                 helperSetRackRandom(getCurrentPlayer().getCurrentRack(), false, RACK_NEW);
-            m_players[m_currPlayer]->setCurrentRack(newRack);
+            Command *pCmd = new PlayerRackCmd(*m_players[m_currPlayer],
+                                              newRack);
+            m_turnCommands[m_currTurn]->addAndExecute(pCmd);
         }
         catch (EndGameException &e)
         {
@@ -168,8 +171,10 @@ int FreeGame::endTurn()
     // Next player
     nextPlayer();
 
+    newTurn();
+
     // If this player is an AI, make it play now
-    if (!m_players[m_currPlayer]->isHuman())
+    if (!getCurrentPlayer().isHuman())
     {
         playAI(m_currPlayer);
     }
@@ -216,10 +221,9 @@ void FreeGame::endGame()
 }
 
 
-int FreeGame::checkPass(const wstring &iToChange, unsigned int p) const
+int FreeGame::checkPass(const Player &iPlayer,
+                        const wstring &iToChange) const
 {
-    ASSERT(p < getNPlayers(), "Wrong player number");
-
     // Check that the game is not finished
     if (m_finished)
         return 3;
@@ -243,8 +247,7 @@ int FreeGame::checkPass(const wstring &iToChange, unsigned int p) const
     }
 
     // Check that the letters are all present in the player's rack
-    Player *player = m_players[p];
-    PlayedRack pld = player->getCurrentRack();
+    const PlayedRack &pld = iPlayer.getCurrentRack();
     Rack rack;
     pld.getRack(rack);
     BOOST_FOREACH(wchar_t wch, iToChange)
@@ -270,13 +273,14 @@ int FreeGame::checkPass(const wstring &iToChange, unsigned int p) const
 
 int FreeGame::pass(const wstring &iToChange)
 {
-    int res = checkPass(iToChange, m_currPlayer);
+    Player &player = *m_players[m_currPlayer];
+    int res = checkPass(player, iToChange);
     if (res != 0)
         return res;
 
     Move move(iToChange);
     // End the player's turn
-    recordPlayerMove(move, m_currPlayer);
+    recordPlayerMove(move, player);
 
     // Next game turn
     endTurn();

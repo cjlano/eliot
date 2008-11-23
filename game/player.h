@@ -51,7 +51,8 @@ public:
     /// Set the name of the player
     void setName(const wstring &iName) { m_name = iName; }
 
-    /// Set the ID
+    /// ID handling
+    unsigned int getId() const { return m_id; }
     void setId(unsigned int iId) { m_id = iId; }
 
     /**************************
@@ -67,6 +68,7 @@ public:
     void setCurrentRack(const PlayedRack &iPld);
 
     const History& getHistory() const { return m_history; }
+    History & accessHistory() { return m_history; }
 
     /// Remove last turn
     void removeLastTurn();
@@ -78,14 +80,6 @@ public:
     // of the player
     void addPoints(int iPoints) { m_score += iPoints; }
     int  getPoints() const      { return m_score; }
-
-    /**
-     * Update the player "history", with the given move.
-     * A new rack is created with the remaining letters.
-     * The score of the player is updated with the one of the move, if it is
-     * meaningful.
-     */
-    void endTurn(const Move &iMove, unsigned int iTurn, const Rack &iNewRack);
 
     wstring toString() const;
 

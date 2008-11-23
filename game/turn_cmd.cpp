@@ -1,8 +1,7 @@
-/*****************************************************************************
+/*******************************************************************
  * Eliot
- * Copyright (C) 2005-2007 Antoine Fraboulet & Olivier Teulière
- * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
- *          Olivier Teulière <ipkiss @@ gmail.com>
+ * Copyright (C) 2008 Olivier Teulière
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,32 +18,45 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include "turn.h"
+#include <boost/foreach.hpp>
+
+#include "turn_cmd.h"
+#include "player.h"
 
 
-// FIXME: move set to an invalid value. It would be better to get rid of this
-// constructor completely
-Turn::Turn()
-    : m_playerId(0), m_move(L"", L"")
+TurnCmd::~TurnCmd()
 {
-}
-
-
-Turn::Turn(unsigned int iPlayerId, const PlayedRack& iPldRack,
-           const Move& iMove)
-    : m_playerId(iPlayerId), m_pldrack(iPldRack), m_move(iMove)
-{
-}
-
-
-wstring Turn::toString(bool iShowExtraSigns) const
-{
-    wstring rs;
-    if (iShowExtraSigns)
+    BOOST_FOREACH(Command *cmd, m_commands)
     {
-        // TODO
+        delete cmd;
     }
-    rs = rs + m_pldrack.toString() + L" " + m_move.toString();
-    return rs;
+}
+
+
+void TurnCmd::addAndExecute(Command *iCmd)
+{
+    m_commands.push_back(iCmd);
+    iCmd->execute();
+}
+
+
+void TurnCmd::doExecute()
+{
+    BOOST_FOREACH(Command *cmd, m_commands)
+    {
+        if (!cmd->isExecuted())
+            cmd->execute();
+    }
+}
+
+
+void TurnCmd::doUndo()
+{
+    // Undo commands in the reverse order of execution
+    vector<Command*>::reverse_iterator it;
+    for (it = m_commands.rbegin(); it != m_commands.rend(); ++it)
+    {
+        (*it)->undo();
+    }
 }
 

@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Copyright (C) 1999-2008 Antoine Fraboulet & Olivier Teulière
  * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *          Olivier Teulière <ipkiss @@ gmail.com>
  *
@@ -41,6 +41,7 @@
 #include "turn.h"
 #include "encoding.h"
 #include "game_exception.h"
+#include "turn_cmd.h"
 
 #include "debug.h"
 
@@ -54,6 +55,8 @@ Game::Game(const Dictionary &iDic):
     m_points = 0;
     m_currPlayer = 0;
     m_finished = false;
+    m_currTurn = -1;
+    newTurn();
 }
 
 
@@ -63,6 +66,10 @@ Game::~Game()
     {
         delete p;
     }
+    BOOST_FOREACH(Command *c, m_turnCommands)
+    {
+        delete c;
+    }
 }
 
 
@@ -70,166 +77,6 @@ const Player& Game::getPlayer(unsigned int iNum) const
 {
     ASSERT(iNum < m_players.size(), "Wrong player number");
     return *(m_players[iNum]);
-}
-
-
-Rack Game::helperComputeRackForMove(const Rack &iRack, const Move &iMove)
-{
-    // Start from the given rack
-    Rack newRack = iRack;
-
-    if (iMove.getType() == Move::VALID_ROUND)
-    {
-        // Remove the played tiles from the rack
-        const Round &round = iMove.getRound();
-        for (unsigned int i = 0; i < round.getWordLen(); i++)
-        {
-            if (round.isPlayedFromRack(i))
-            {
-                if (round.isJoker(i))
-                    newRack.remove(Tile::Joker());
-                else
-                    newRack.remove(round.getTile(i));
-            }
-        }
-    }
-    else if (iMove.getType() == Move::CHANGE_LETTERS)
-    {
-        // Remove the changed tiles from the rack
-        const wstring & changed = iMove.getChangedLetters();
-        BOOST_FOREACH(wchar_t ch, changed)
-        {
-            newRack.remove(Tile(ch));
-        }
-    }
-
-    return newRack;
-}
-
-
-void Game::helperPlayMove(unsigned int iPlayerId, const Move &iMove)
-{
-    // Get the original rack from the player history
-    const PlayedRack &oldPldRack = getPlayer(iPlayerId).getLastRack();
-    Rack oldRack;
-    oldPldRack.getRack(oldRack);
-    const Rack &newRack = helperComputeRackForMove(oldRack, iMove);
-
-    // History of the game
-    m_history.setCurrentRack(oldPldRack);
-    m_history.playMove(iPlayerId, m_history.getSize(), iMove, newRack);
-
-    // Points
-    m_points += iMove.getScore();
-
-    // For moves corresponding to a valid round, we have much more
-    // work to do...
-    if (iMove.getType() == Move::VALID_ROUND)
-    {
-        helperPlayRound(iPlayerId, iMove.getRound());
-    }
-#ifdef REAL_BAG_MODE
-    else if (iMove.getType() == Move::CHANGE_LETTERS)
-    {
-        // Put the changed letters back into the bag
-        BOOST_FOREACH(wchar_t ch, iMove.getChangedLetters())
-        {
-            m_bag.replaceTile(Tile(ch));
-        }
-    }
-#endif
-}
-
-
-
-void Game::helperPlayRound(unsigned int iPlayerId, const Round &iRound)
-{
-    // Copy the round, because we may need to modify it (case of
-    // the joker games).
-    Round round = iRound;
-
-    // Before updating the bag and the board, if we are playing a "joker game",
-    // we replace in the round the joker by the letter it represents
-    // This is currently done by a succession of ugly hacks :-/
-    if (m_variant == kJOKER)
-    {
-        for (unsigned int i = 0; i < round.getWordLen(); i++)
-        {
-            if (round.isPlayedFromRack(i) && round.isJoker(i))
-            {
-                // Is the represented letter still available in the bag?
-                // XXX: this way to get the represented letter sucks...
-                Tile t(towupper(round.getTile(i).toChar()));
-#ifdef REAL_BAG_MODE
-                Bag &bag = m_bag;
-#else
-                Bag bag(m_dic);
-                realBag(bag);
-                // FIXME: realBag() does not give us a real bag in this
-                // particular case! This is because Player::endTurn() is called
-                // before Game::helperPlayRound(), which means that the rack
-                // of the player is updated, while the word is not actually
-                // played on the board yet. Since realBag() relies on
-                // Player::getCurrentRack(), it doesn't remove the letters of
-                // the current player, which are in fact available through
-                // Player::getLastRack().
-                // That's why we have to replace the letters of the current
-                // rack and remove the ones from the previous rack...
-                // There is a big design problem here, but i am unsure what is
-                // the best way to fix it.
-                vector<Tile> tiles;
-                getPlayer(iPlayerId).getCurrentRack().getAllTiles(tiles);
-                BOOST_FOREACH(const Tile &tile, tiles)
-                {
-                    bag.replaceTile(tile);
-                }
-                getPlayer(iPlayerId).getLastRack().getAllTiles(tiles);
-                BOOST_FOREACH(const Tile &tile, tiles)
-                {
-                    bag.takeTile(tile);
-                }
-#endif
-
-                if (bag.in(t))
-                {
-                    round.setTile(i, t);
-                    // FIXME: This shouldn't be necessary, this is only
-                    // needed because of the stupid way of handling jokers in
-                    // rounds
-                    round.setJoker(i, false);
-                }
-
-                // In a joker game we should have only 1 joker in the rack
-                break;
-            }
-        }
-    }
-
-#ifdef REAL_BAG_MODE
-#else
-    // Update the bag
-    // We remove tiles from the bag only when they are played
-    // on the board. When going back in the game, we must only
-    // replace played tiles.
-    // We test a rack when it is set but tiles are left in the bag.
-    for (unsigned int i = 0; i < round.getWordLen(); i++)
-    {
-        if (round.isPlayedFromRack(i))
-        {
-            if (round.isJoker(i))
-            {
-                m_bag.takeTile(Tile::Joker());
-            }
-            else
-            {
-                m_bag.takeTile(round.getTile(i));
-            }
-        }
-    }
-#endif
-
-    // Update the board
-    m_board.addRound(m_dic, round);
 }
 
 
@@ -769,5 +616,53 @@ int Game::checkPlayedWord(const wstring &iCoord,
     }
 
     return 0;
+}
+
+/*********************************************************
+ *********************************************************/
+
+void Game::prevTurn()
+{
+    if (m_currTurn > 0)
+    {
+        --m_currTurn;
+        m_turnCommands[m_currTurn]->undo();
+    }
+}
+
+
+void Game::nextTurn()
+{
+    if (m_currTurn + 1 < m_turnCommands.size())
+    {
+        m_turnCommands[m_currTurn]->execute();
+        ++m_currTurn;
+    }
+}
+
+
+void Game::firstTurn()
+{
+    while (m_currTurn > 0)
+    {
+        prevTurn();
+    }
+}
+
+
+void Game::lastTurn()
+{
+    while (m_currTurn + 1 < m_turnCommands.size())
+    {
+        nextTurn();
+    }
+}
+
+
+void Game::newTurn()
+{
+    lastTurn();
+    m_turnCommands.push_back(new TurnCmd);
+    ++m_currTurn;
 }
 

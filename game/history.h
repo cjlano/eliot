@@ -84,8 +84,8 @@ class History
      * A new turn is created with the unplayed letters in the rack
      * 03 sept 2000: We have to sort the tiles according to the new rules
      */
-    void playMove(unsigned int player, unsigned int turn,
-                  const Move &iMove, const Rack &iNewRack);
+    void playMove(unsigned int player, const Move &iMove,
+                  const Rack &iNewRack);
 
     /// Remove last turn
     void removeLastTurn();

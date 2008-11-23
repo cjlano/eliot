@@ -25,6 +25,8 @@
 
 #include "round.h"
 
+class Rack;
+class PlayedRack;
 using std::wstring;
 
 
@@ -106,6 +108,14 @@ class Move
          * does not correspond to a passed turn
          */
         const wstring & getChangedLetters() const;
+
+        /**
+         * Return the rack obtained from the given one, after playing the
+         * given move.
+         * The move is supposed to be possible for the given rack.
+         */
+        static Rack ComputeRackForMove(const PlayedRack &iOldRack,
+                                       const Move &iMove);
 
         /// To help debugging
         wstring toString() const;

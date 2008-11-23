@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2005-2007 Olivier Teulière
+ * Copyright (C) 2005-2008 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -23,6 +23,8 @@
 
 #include "game.h"
 #include "tile.h"
+
+class Player;
 
 using std::string;
 using std::wstring;
@@ -87,7 +89,7 @@ private:
     void playAI(unsigned int p);
 
     /// Record a player move
-    void recordPlayerMove(const Move &iMove, unsigned int p);
+    void recordPlayerMove(const Move &iMove, Player &ioPlayer);
 
     /// Finish the current turn
     int endTurn();
@@ -99,7 +101,7 @@ private:
      * Check whether it is legal to change the letters of iToChange.
      * The return codes are the same as the ones on the pass() method
      */
-    int checkPass(const wstring &iToChange, unsigned int p) const;
+    int checkPass(const Player &iPlayer, const wstring &iToChange) const;
 };
 
 #endif /* _FREEGAME_H_ */

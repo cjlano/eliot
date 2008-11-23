@@ -32,7 +32,6 @@ using std::wstring;
 /**
  * A Turn is the information about one 'move' done by a player.
  * It consists of the player who played, the rack, and the actual move.
- * A turn also has an id (XXX: currently never read)
  *
  * This class has no logic, it is merely there to aggregate corresponding
  * data.
@@ -41,15 +40,13 @@ class Turn
 {
 public:
     Turn();
-    Turn(unsigned int iNum, unsigned int iPlayerId,
+    Turn(unsigned int iPlayerId,
          const PlayedRack& iPldRack, const Move& iMove);
 
-    void setNum(unsigned int iNum)                 { m_num = iNum; }
     void setPlayer(unsigned int iPlayerId)         { m_playerId = iPlayerId; }
     void setPlayedRack(const PlayedRack& iPldRack) { m_pldrack = iPldRack; }
     void setMove(const Move& iMove)             { m_move = iMove; }
 
-    unsigned int      getNum()        const { return m_num; }
     unsigned int      getPlayer()     const { return m_playerId; }
     const PlayedRack& getPlayedRack() const { return m_pldrack; }
     const Move&       getMove()       const { return m_move; }
@@ -57,7 +54,6 @@ public:
     wstring toString(bool iShowExtraSigns = false) const;
 
 private:
-    unsigned int m_num;
     unsigned int m_playerId;
     PlayedRack   m_pldrack;
     Move         m_move;

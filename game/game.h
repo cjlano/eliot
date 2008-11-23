@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Copyright (C) 1999-2008 Antoine Fraboulet & Olivier Teulière
  * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *          Olivier Teulière <ipkiss @@ gmail.com>
  *
@@ -35,6 +35,7 @@ class PlayedRack;
 class Round;
 class Rack;
 class Turn;
+class TurnCmd;
 
 using namespace std;
 
@@ -97,14 +98,28 @@ public:
 
     /// Get the board
     const Board& getBoard() const { return m_board; }
+    Board & accessBoard() { return m_board; }
     /// Get the bag
 #ifdef REAL_BAG_MODE
     Bag getBag() const;
 #else
     const Bag& getBag() const { return m_bag; }
+    Bag & accessBag() { return m_bag; }
+    /**
+     * The realBag is the current bag minus all the racks
+     * present in the game. It represents the actual
+     * letters that are left in the bag.
+     * FIXME: in Duplicate mode, this method uses m_currPlayer to find the
+     * rack of the player. Since not all the players played the same word,
+     * it is important to set m_currPlayer accurately before!
+     */
+    void realBag(Bag &iBag) const;
 #endif
+
+
     /// Get the history of the game */
     const History& getHistory() const { return m_history; }
+    History & accessHistory() { return m_history; }
 
     /***************
      * Methods to access players.
@@ -205,16 +220,14 @@ public:
 
     enum set_rack_mode {RACK_ALL, RACK_NEW, RACK_MANUAL};
 
+    void addPoints(int iPoints) { m_points += iPoints; }
 
-protected:
-    /// All the players, indexed by their ID
-    vector<Player*> m_players;
-    /// ID of the "current" player
-    unsigned int m_currPlayer;
+    void prevTurn();
+    void nextTurn();
+    void firstTurn();
+    void lastTurn();
 
-// TODO: check what should be private and what should be protected
 private:
-
     /// Variant
     GameVariant m_variant;
 
@@ -228,12 +241,22 @@ private:
 
     int m_points;
 
+
+// TODO: check what should be private and what should be protected
 protected:
+    /// All the players, indexed by their ID
+    vector<Player*> m_players;
+    /// ID of the "current" player
+    unsigned int m_currPlayer;
+
     /// Board
     Board m_board;
 
     /// Bag
     Bag m_bag;
+
+    vector<TurnCmd *> m_turnCommands;
+    unsigned int m_currTurn;
 
     bool m_finished;
 
@@ -241,15 +264,7 @@ protected:
      * Helper functions
      *********************************************************/
 
-    /**
-     * Return the rack obtained from the given one, after playing the
-     * given move.
-     * The move is supposed to be possible for the given rack.
-     */
-    static Rack helperComputeRackForMove(const Rack &iOldRack, const Move &iMove);
-
-    /** Play a Move for the given player, updating game history */
-    void helperPlayMove(unsigned int iPlayerId, const Move &iMove);
+    void newTurn();
 
     /**
      * Complete the given rack randomly.
@@ -299,27 +314,14 @@ protected:
      */
     bool rackInBag(const Rack &iRack, const Bag &iBag) const;
 
-#ifdef REAL_BAG_MODE
-#else
-    /**
-     * The realBag is the current bag minus all the racks
-     * present in the game. It represents the actual
-     * letters that are left in the bag.
-     * FIXME: in Duplicate mode, this method uses m_currPlayer to find the
-     * rack of the player. Since not all the players played the same word,
-     * it is important to set m_currPlayer accurately before!
-     */
-    void realBag(Bag &iBag) const;
-#endif
-
     /**
      * This function checks whether it is legal to play the given word at the
      * given coordinates. If so, the function fills a Round object, also given
      * as a parameter.
      * Possible return values: same as the play() method
      */
-    int  checkPlayedWord(const wstring &iCoord,
-                         const wstring &iWord, Round &oRound) const;
+    int checkPlayedWord(const wstring &iCoord,
+                        const wstring &iWord, Round &oRound) const;
 
     /**
      * load games from File using the first format.
@@ -342,14 +344,6 @@ protected:
      * Advanced game file format output
      */
     void gameSaveFormat_15(ostream &out) const;
-
-private:
-
-    /**
-     * Play a round on the board.
-     * This should only be called by helperPlayMove().
-     */
-    void helperPlayRound(unsigned int iPlayerId, const Round &iRound);
 
 };
 

@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2005-2007 Olivier Teulière
+ * Copyright (C) 2005-2008 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -28,8 +28,12 @@
 #include "pldrack.h"
 #include "results.h"
 #include "player.h"
+#include "player_move_cmd.h"
+#include "player_rack_cmd.h"
+#include "game_move_cmd.h"
 #include "ai_player.h"
 #include "settings.h"
+#include "turn_cmd.h"
 #include "debug.h"
 
 
@@ -51,15 +55,16 @@ int Duplicate::play(const wstring &iCoord, const wstring &iWord)
 
     // If we reach this point, either the move is valid and we can use the
     // "round" variable, or it is invalid but played nevertheless
+    Player &currPlayer = *m_players[m_currPlayer];
     if (res == 0)
     {
         // Everything is OK, we can play the word
-        recordPlayerMove(Move(round), m_currPlayer);
+        recordPlayerMove(Move(round), currPlayer);
     }
     else
     {
         // Record the invalid move of the player
-        recordPlayerMove(Move(iWord, iCoord), m_currPlayer);
+        recordPlayerMove(Move(iWord, iCoord), currPlayer);
     }
 
     // Little hack to handle duplicate games with only AI players.
@@ -78,7 +83,7 @@ void Duplicate::playAI(unsigned int p)
     ASSERT(player != NULL, "AI requested for a human player");
 
     player->compute(getDic(), getBoard(), getHistory().beforeFirstRound());
-    const Move move = player->getMove();
+    const Move &move = player->getMove();
     if (move.getType() == Move::CHANGE_LETTERS ||
         move.getType() == Move::PASS)
     {
@@ -86,7 +91,7 @@ void Duplicate::playAI(unsigned int p)
         ASSERT(false, "AI tried to cheat!");
     }
 
-    recordPlayerMove(move, p);
+    recordPlayerMove(move, *player);
 }
 
 
@@ -102,24 +107,19 @@ int Duplicate::start()
     {
         const PlayedRack &newRack =
             helperSetRackRandom(getCurrentPlayer().getCurrentRack(), true, RACK_NEW);
-        m_players[m_currPlayer]->setCurrentRack(newRack);
+        // All the players have the same rack
+        for (unsigned int i = 0; i < getNPlayers(); i++)
+        {
+            Command *pCmd = new PlayerRackCmd(*m_players[i], newRack);
+            m_turnCommands[m_currTurn]->addAndExecute(pCmd);
+            // Nobody has played yet in this round
+            m_hasPlayed[i] = false;
+        }
     }
     catch (EndGameException &e)
     {
         endGame();
         return 1;
-    }
-
-    const PlayedRack& pld = m_players[m_currPlayer]->getCurrentRack();
-    // All the players have the same rack
-    for (unsigned int i = 0; i < getNPlayers(); i++)
-    {
-        if (i != m_currPlayer)
-        {
-            m_players[i]->setCurrentRack(pld);
-        }
-        // Nobody has played yet in this round
-        m_hasPlayed[i] = false;
     }
 
     // Little hack to handle duplicate games with only AI players.
@@ -158,20 +158,12 @@ void Duplicate::tryEndTurn()
 }
 
 
-void Duplicate::recordPlayerMove(const Move &iMove, unsigned int p)
+void Duplicate::recordPlayerMove(const Move &iMove, Player &ioPlayer)
 {
-    ASSERT(p < getNPlayers(), "Wrong player number");
+    Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
+    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
 
-    // Get what was the rack for the current turn
-    Rack oldRack;
-    m_players[p]->getCurrentRack().getRack(oldRack);
-    // Compute the new rack
-    const Rack &newRack = helperComputeRackForMove(oldRack, iMove);
-
-    // Update the rack and the score of the playing player
-    m_players[p]->endTurn(iMove, getHistory().getSize(), newRack);
-
-    m_hasPlayed[p] = true;
+    m_hasPlayed[ioPlayer.getId()] = true;
 }
 
 
@@ -222,7 +214,9 @@ void Duplicate::endTurn()
     }
 
     // Play the best word on the board
-    helperPlayMove(imax, bestMove);
+    Command *pCmd = new GameMoveCmd(*this, bestMove,
+                                    getPlayer(imax).getLastRack(), imax);
+    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
 
     // Leave the same reliquate to all players
     // This is required by the start() method which will be called to
@@ -232,9 +226,12 @@ void Duplicate::endTurn()
     {
         if (i != imax)
         {
-            m_players[i]->setCurrentRack(pld);
+            Command *pCmd = new PlayerRackCmd(*m_players[i], pld);
+            m_turnCommands[m_currTurn]->addAndExecute(pCmd);
         }
     }
+
+    newTurn();
 
     // Start next turn...
     start();

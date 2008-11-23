@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2005-2007 Olivier Teulière
+ * Copyright (C) 2005-2008 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -22,6 +22,8 @@
 #define _DUPLICATE_H_
 
 #include "game.h"
+
+class Player;
 
 using std::string;
 using std::wstring;
@@ -99,7 +101,7 @@ private:
     Duplicate(const Dictionary &iDic);
 
     /// Record a player move
-    void recordPlayerMove(const Move &iMove, unsigned int p);
+    void recordPlayerMove(const Move &iMove, Player &ioPlayer);
 
     /// Make the AI player whose ID is p play its turn
     void playAI(unsigned int p);

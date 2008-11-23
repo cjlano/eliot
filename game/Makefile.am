@@ -21,30 +21,35 @@ noinst_LIBRARIES = libgame.a
 
 AM_CPPFLAGS = -I$(top_srcdir)/dic -I../intl -I$(top_srcdir)/intl @LIBCONFIG_CFLAGS@
 
-libgame_a_SOURCES=           \
+libgame_a_SOURCES= \
     game_exception.cpp game_exception.h \
-    rack.cpp rack.h                 \
-    pldrack.cpp pldrack.h           \
-    round.cpp round.h               \
-    move.cpp move.h                 \
-    results.cpp results.h           \
-    bag.cpp bag.h                   \
-    player.cpp player.h             \
-    ai_player.h                     \
-    ai_percent.cpp ai_percent.h     \
-    coord.cpp coord.h               \
-    cross.cpp cross.h               \
-    board.cpp board.h               \
-    board_cross.cpp                 \
-    board_search.cpp                \
-    settings.cpp settings.h         \
-    turn.cpp turn.h                 \
-    history.cpp history.h           \
-    game.cpp game.h                 \
-    game_io.cpp                     \
-    duplicate.cpp duplicate.h       \
-    freegame.cpp freegame.h         \
-    training.cpp training.h         \
+    command.h command.cpp \
+    rack.cpp rack.h \
+    pldrack.cpp pldrack.h \
+    round.cpp round.h \
+    move.cpp move.h \
+    results.cpp results.h \
+    bag.cpp bag.h \
+    turn.cpp turn.h \
+    history.cpp history.h \
+    player.cpp player.h \
+    player_move_cmd.cpp player_move_cmd.h \
+    player_rack_cmd.cpp player_rack_cmd.h \
+    ai_player.h \
+    ai_percent.cpp ai_percent.h \
+    coord.cpp coord.h \
+    cross.cpp cross.h \
+    board.cpp board.h \
+    board_cross.cpp \
+    board_search.cpp \
+    settings.cpp settings.h \
+    game.cpp game.h \
+    game_move_cmd.h game_move_cmd.cpp \
+    turn_cmd.cpp turn_cmd.h \
+    duplicate.cpp duplicate.h \
+    freegame.cpp freegame.h \
+    training.cpp training.h \
     game_factory.cpp game_factory.h \
+    game_io.cpp \
     debug.h
 
