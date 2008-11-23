@@ -19,10 +19,12 @@
  *****************************************************************************/
 
 #include <boost/foreach.hpp>
+#include <iostream>
 
 #include "navigation.h"
 #include "turn_cmd.h"
 #include "debug.h"
+#include "encoding.h"
 
 
 Navigation::Navigation()
@@ -114,5 +116,15 @@ void Navigation::clearFuture()
     // Sanity check
     ASSERT(isLastTurn(),
            "After removing the next turns, we should be at the last turn");
+}
+
+
+void Navigation::print() const
+{
+    cout << "=== Commands history ===" << endl;
+    BOOST_FOREACH(Command *c, m_turnCommands)
+    {
+        cout << convertToMb(c->toString()) << endl;
+    }
 }
 

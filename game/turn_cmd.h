@@ -46,6 +46,8 @@ class TurnCmd: public Command
 
         bool isEmpty() const { return m_commands.empty(); }
 
+        virtual wstring toString() const;
+
     protected:
         virtual void doExecute();
         virtual void doUndo();

@@ -47,6 +47,8 @@ class GameMoveCmd: public Command
                     const PlayedRack &iMoveRack,
                     unsigned int iPlayerId);
 
+        virtual wstring toString() const;
+
     protected:
         virtual void doExecute();
         virtual void doUndo();

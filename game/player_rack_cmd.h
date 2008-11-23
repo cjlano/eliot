@@ -36,6 +36,8 @@ class PlayerRackCmd: public Command
     public:
         PlayerRackCmd(Player &ioPlayer, const PlayedRack &iNewRack);
 
+        virtual wstring toString() const;
+
     protected:
         virtual void doExecute();
         virtual void doUndo();

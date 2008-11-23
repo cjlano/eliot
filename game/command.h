@@ -21,6 +21,10 @@
 #ifndef _COMMAND_H
 #define _COMMAND_H
 
+#include <string>
+
+using std::wstring;
+
 
 /**
  * This abstract class is the parent of all classes implementing the Command
@@ -53,6 +57,11 @@ class Command
          * allowed to call undo()), false otherwise.
          */
         bool isExecuted() const { return m_executed; }
+
+        /**
+         * Description of the command, for debugging purposes
+         */
+        virtual wstring toString() const = 0;
 
     protected:
         virtual void doExecute() = 0;

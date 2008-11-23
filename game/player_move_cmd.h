@@ -44,6 +44,8 @@ class PlayerMoveCmd: public Command
     public:
         PlayerMoveCmd(Player &ioPlayer, const Move &iMove);
 
+        virtual wstring toString() const;
+
     protected:
         virtual void doExecute();
         virtual void doUndo();

@@ -21,6 +21,7 @@
 #include "player_move_cmd.h"
 #include "player.h"
 #include "rack.h"
+#include <sstream>
 
 
 PlayerMoveCmd::PlayerMoveCmd(Player &ioPlayer, const Move &iMove)
@@ -51,5 +52,14 @@ void PlayerMoveCmd::doUndo()
     // Restore the score
     m_player.addPoints(- m_move.getScore());
     // TODO: restore rack?
+}
+
+
+wstring PlayerMoveCmd::toString() const
+{
+    wostringstream oss;
+    oss << L"PlayerMoveCmd (player " << m_player.getId() << L"): "
+        << m_move.toString();
+    return oss.str();
 }
 

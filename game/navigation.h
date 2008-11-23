@@ -52,10 +52,14 @@ class Navigation
          */
         void clearFuture();
 
+        /**
+         * Print the contents of the commands history, to ease debugging
+         */
+        void print() const;
+
     private:
         vector<TurnCmd *> m_turnCommands;
         unsigned int m_currTurn;
-
 };
 
 #endif

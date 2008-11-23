@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <sstream>
+
 #include "game_move_cmd.h"
 #include "player.h"
 #include "game.h"
@@ -158,5 +160,14 @@ void GameMoveCmd::unplayRound()
             }
         }
     }
+}
+
+
+wstring GameMoveCmd::toString() const
+{
+    wostringstream oss;
+    oss << L"GameMoveCmd (move: " << m_move.toString() << L", rack: "
+        << m_moveRack.toString() << L")";
+    return oss.str();
 }
 

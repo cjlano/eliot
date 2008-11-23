@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #include <boost/foreach.hpp>
+#include <sstream>
 
 #include "turn_cmd.h"
 #include "player.h"
@@ -65,5 +66,17 @@ void TurnCmd::doUndo()
     {
         (*it)->undo();
     }
+}
+
+
+wstring TurnCmd::toString() const
+{
+    wostringstream oss;
+    oss << L"TurnCmd:" << endl;
+    BOOST_FOREACH(Command *cmd, m_commands)
+    {
+        oss << L"    " << cmd->toString() << endl;
+    }
+    return oss.str();
 }
 
