@@ -60,12 +60,32 @@ void Navigation::addAndExecute(Command *iCmd)
 }
 
 
+bool Navigation::isFirstTurn() const
+{
+    return m_currTurn == 1 ||
+        (m_currTurn == 2 && m_turnCommands[1]->isEmpty());
+}
+
+
+bool Navigation::isLastTurn() const
+{
+    return m_currTurn == m_turnCommands.size();
+}
+
+
 void Navigation::prevTurn()
 {
-    if (m_currTurn > 0)
+    if (m_currTurn > 1)
     {
         --m_currTurn;
         m_turnCommands[m_currTurn]->undo();
+        // Special case: when the last turn is empty, automatically
+        // undo the previous turn as well
+        if (m_currTurn + 1 == m_turnCommands.size() &&
+            m_turnCommands[m_currTurn]->isEmpty())
+        {
+            prevTurn();
+        }
     }
 }
 
@@ -76,13 +96,20 @@ void Navigation::nextTurn()
     {
         m_turnCommands[m_currTurn]->execute();
         ++m_currTurn;
+        // Special case: when the last turn is empty, automatically
+        // execute it
+        if (m_currTurn + 1 == m_turnCommands.size() &&
+            m_turnCommands[m_currTurn]->isEmpty())
+        {
+            nextTurn();
+        }
     }
 }
 
 
 void Navigation::firstTurn()
 {
-    while (m_currTurn > 0)
+    while (m_currTurn > 1)
     {
         prevTurn();
     }

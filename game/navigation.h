@@ -39,8 +39,8 @@ class Navigation
         void addAndExecute(Command *iCmd);
 
         unsigned int getCurrTurn() const { return m_currTurn; }
-        bool isFirstTurn() const { return m_currTurn == 0; }
-        bool isLastTurn() const { return m_currTurn == m_turnCommands.size(); }
+        bool isFirstTurn() const;
+        bool isLastTurn() const;
 
         void firstTurn();
         void prevTurn();
