@@ -1,0 +1,54 @@
+Using seed: 68
+[?] pour l'aide
+commande> s b duplicate/reject-invalid 0
+commande> d 2 0
+mode duplicate
+[?] pour l'aide
+commande> a t
+ATNE??A
+commande> j XXX a1
+commande> j ay h8
+commande> a T
+Joueur 0: AAENTUL
+Joueur 1: AAENTUL
+commande> a S
+Joueur 0:    0
+Joueur 1:    0
+commande> a p
+Eliot 1.5
+
+Game type: Duplicate
+Player 0: Human
+Player 1: Human
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  ATNE??A | ay              |  H8 |   0 | 1 |  
+
+   Total: 0
+
+Rack 0: AAENT+UL
+Rack 1: AAENT+UL
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ H   -  -  -  -  -  -  -  a  y  -  -  -  -  -  -
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a l
+ A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
+ 9 2 2 3 15 2 2 2 8 1 1 5 3 6 6 2 1 6 6 6 6 2 1 1 1 1 0
+commande> q
+fin du mode duplicate
+commande> q

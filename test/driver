@@ -61,6 +61,8 @@ duplicate_humans_ai 6
 duplicate_1_player  8
 # One complete turn without a valid move
 duplicate_invalid_turn 9
+# Turn where the only valid move has 0 point
+duplicate_no_point 68 # For 2 jokers in the rack
 
 #################
 # Free game mode
