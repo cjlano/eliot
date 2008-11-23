@@ -100,9 +100,6 @@ public:
     const Board& getBoard() const { return m_board; }
     Board & accessBoard() { return m_board; }
     /// Get the bag
-#ifdef REAL_BAG_MODE
-    Bag getBag() const;
-#else
     const Bag& getBag() const { return m_bag; }
     Bag & accessBag() { return m_bag; }
     /**
@@ -114,7 +111,6 @@ public:
      * it is important to set m_currPlayer accurately before!
      */
     void realBag(Bag &iBag) const;
-#endif
 
 
     /// Get the history of the game */

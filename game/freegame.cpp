@@ -234,13 +234,9 @@ int FreeGame::checkPass(const Player &iPlayer,
     // It is forbidden to change letters when the bag does not contain at
     // least 7 letters (this is explicitly stated in the ODS). But it is
     // still allowed to pass
-#ifdef REAL_BAG_MODE
-    if (m_bag.getNbTiles() < 7 && !iToChange.empty())
-#else
     Bag bag(getDic());
     realBag(bag);
     if (bag.getNbTiles() < 7 && !iToChange.empty())
-#endif
     {
         return 1;
     }

@@ -51,16 +51,6 @@ void GameMoveCmd::doExecute()
     {
         playRound();
     }
-#ifdef REAL_BAG_MODE
-    else if (m_move.getType() == Move::CHANGE_LETTERS)
-    {
-        // Put the changed letters back into the bag
-        BOOST_FOREACH(wchar_t ch, m_move.getChangedLetters())
-        {
-            m_bag.replaceTile(Tile(ch));
-        }
-    }
-#endif
 }
 
 
@@ -87,8 +77,6 @@ void GameMoveCmd::playRound()
     // method.
     m_round = m_move.getRound();
 
-#ifdef REAL_BAG_MODE
-#else
     // Update the bag
     // We remove tiles from the bag only when they are played
     // on the board. When going back in the game, we must only
@@ -109,7 +97,6 @@ void GameMoveCmd::playRound()
             }
         }
     }
-#endif
 
     if (m_game.getVariant() == Game::kJOKER)
     {
@@ -118,12 +105,8 @@ void GameMoveCmd::playRound()
             if (m_round.isPlayedFromRack(i) && m_round.isJoker(i))
             {
                 // Get the real bag
-#ifdef REAL_BAG_MODE
-                Bag &bag = m_game.accessBag();
-#else
                 Bag bag(m_game.getDic());
                 m_game.realBag(bag);
-#endif
 
                 // Is the represented letter still available in the bag?
                 // XXX: this way to get the represented letter sucks...
@@ -155,8 +138,6 @@ void GameMoveCmd::unplayRound()
     // Update the board
     m_game.accessBoard().removeRound(m_game.getDic(), m_round);
 
-#ifdef REAL_BAG_MODE
-#else
     // Update the bag
     // We remove tiles from the bag only when they are played
     // on the board. When going back in the game, we must only
@@ -177,6 +158,5 @@ void GameMoveCmd::unplayRound()
             }
         }
     }
-#endif
 }
 

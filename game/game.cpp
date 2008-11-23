@@ -125,42 +125,6 @@ void Game::shuffleRack()
     m_players[currPlayer()]->setCurrentRack(pld);
 }
 
-#ifdef REAL_BAG_MODE
-
-Bag Game::getBag() const
-{
-    Bag bag = m_bag;
-
-    vector<Tile> tiles;
-
-    // The real content of the bag depends on the game mode
-    if (getMode() == kFREEGAME)
-    {
-        // In freegame mode, replace the letters from all the racks
-        BOOST_FOREACH(const Player *player, m_players)
-        {
-            player->getCurrentRack().getAllTiles(tiles);
-            BOOST_FOREACH(const Tile &tile, tiles)
-            {
-                bag.replaceTile(tile);
-            }
-        }
-    }
-    else
-    {
-        // In training or duplicate mode, replace the rack of the current
-        // player only
-        getPlayer(m_currPlayer).getCurrentRack().getAllTiles(tiles);
-        BOOST_FOREACH(const Tile &tile, tiles)
-        {
-            bag.replaceTile(tile);
-        }
-    }
-
-    return bag;
-}
-
-#else
 
 void Game::realBag(Bag &ioBag) const
 {
@@ -194,7 +158,6 @@ void Game::realBag(Bag &ioBag) const
     }
 }
 
-#endif
 
 PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
                                      bool iCheck, set_rack_mode mode) const
@@ -224,12 +187,8 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
     // Create a copy of the bag in which we can do everything we want,
     // and take from it the tiles of the players rack so that "bag"
     // contains the right number of tiles.
-#ifdef REAL_BAG_MODE
-    Bag &bag = m_bag;
-#else
     Bag bag(m_dic);
     realBag(bag);
-#endif
     if (mode == RACK_NEW && nold != 0)
     {
         // We may have removed too many letters from the bag (i.e. the 'new'
@@ -448,21 +407,12 @@ int Game::helperSetRackManual(unsigned int p, bool iCheck, const wstring &iLette
     PlayedRack pld;
     pld.setManual(iLetters);
 
-#ifdef REAL_BAG_MODE
-    vector<Tile> allTiles;
-    m_players[p]->getCurrentRack().getAllTiles(allTiles);
-    BOOST_FOREACH(const Tile &tile, allTiles)
-    {
-        m_bag.replaceTile(tile);
-    }
-#else
     Rack rack;
     pld.getRack(rack);
     if (!rackInBag(rack, m_bag))
     {
         return 1;
     }
-#endif
 
     if (iCheck)
     {
@@ -474,25 +424,9 @@ int Game::helperSetRackManual(unsigned int p, bool iCheck, const wstring &iLette
             min = 1;
         if (!pld.checkRack(min, min))
         {
-#ifdef REAL_BAG_MODE
-            // Changing the rack failed, so we restore the tiles we
-            // just removed
-            BOOST_FOREACH(const Tile &tile, allTiles)
-            {
-                m_bag.takeTile(tile);
-            }
-#endif
             return 2;
         }
     }
-
-#ifdef REAL_BAG_MODE
-    pld.getAllTiles(allTiles);
-    BOOST_FOREACH(const Tile &tile, allTiles)
-    {
-        m_bag.takeTile(tile);
-    }
-#endif
 
     m_players[p]->setCurrentRack(pld);
 
