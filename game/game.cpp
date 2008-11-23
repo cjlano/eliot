@@ -20,6 +20,7 @@
  *****************************************************************************/
 
 #include <boost/foreach.hpp>
+#include <sstream>
 
 #if ENABLE_NLS
 #   include <libintl.h>
@@ -458,14 +459,29 @@ void Game::addPlayer(Player *iPlayer)
 }
 
 
+void Game::firstPlayer()
+{
+    ASSERT(getNPlayers() != 0, "Expected at least one player");
+    // Make sure there is something to do
+    if (m_currPlayer == 0)
+        return;
+
+    Command *pCmd = new CurrentPlayerCmd(*this, 0);
+    accessNavigation().addAndExecute(pCmd);
+}
+
+
 void Game::prevPlayer()
 {
     ASSERT(getNPlayers() != 0, "Expected at least one player");
 
+    unsigned int newPlayerId;
     if (m_currPlayer == 0)
-        m_currPlayer = getNPlayers() - 1;
+        newPlayerId = getNPlayers() - 1;
     else
-        m_currPlayer--;
+        newPlayerId = m_currPlayer - 1;
+    Command *pCmd = new CurrentPlayerCmd(*this, newPlayerId);
+    accessNavigation().addAndExecute(pCmd);
 }
 
 
@@ -473,10 +489,13 @@ void Game::nextPlayer()
 {
     ASSERT(getNPlayers() != 0, "Expected at least one player");
 
+    unsigned int newPlayerId;
     if (m_currPlayer == getNPlayers() - 1)
-        m_currPlayer = 0;
+        newPlayerId = 0;
     else
-        m_currPlayer++;
+        newPlayerId = m_currPlayer + 1;
+    Command *pCmd = new CurrentPlayerCmd(*this, newPlayerId);
+    accessNavigation().addAndExecute(pCmd);
 }
 
 
@@ -550,5 +569,38 @@ int Game::checkPlayedWord(const wstring &iCoord,
     }
 
     return 0;
+}
+
+
+Game::CurrentPlayerCmd::CurrentPlayerCmd(Game &ioGame,
+                             unsigned int iPlayerId)
+    : m_game(ioGame), m_newPlayerId(iPlayerId), m_oldPlayerId(0)
+{
+}
+
+
+void Game::CurrentPlayerCmd::doExecute()
+{
+    m_oldPlayerId = m_game.currPlayer();
+    m_game.setCurrentPlayer(m_newPlayerId);
+}
+
+
+void Game::CurrentPlayerCmd::doUndo()
+{
+    m_game.setCurrentPlayer(m_oldPlayerId);
+}
+
+
+wstring Game::CurrentPlayerCmd::toString() const
+{
+    wostringstream oss;
+    oss << L"CurrentPlayerCmd (new player: " << m_newPlayerId;
+    if (isExecuted())
+    {
+        oss << L"  old player: " << m_oldPlayerId;
+    }
+    oss << L")";
+    return oss.str();
 }
 

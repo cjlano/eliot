@@ -22,7 +22,6 @@
 #define _FREEGAME_H_
 
 #include "game.h"
-#include "tile.h"
 
 class Player;
 

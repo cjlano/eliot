@@ -29,6 +29,7 @@
 #include "board.h"
 #include "history.h"
 #include "navigation.h"
+#include "command.h"
 
 class Dictionary;
 class Player;
@@ -237,6 +238,28 @@ private:
 
     int m_points;
 
+    /// Change the player who is supposed to play
+    void setCurrentPlayer(unsigned int iPlayerId) { m_currPlayer = iPlayerId; }
+
+    /// Command used to keep track of the current player changes
+    class CurrentPlayerCmd: public Command
+    {
+        public:
+            CurrentPlayerCmd(Game &ioGame,
+                             unsigned int iPlayerId);
+
+            virtual wstring toString() const;
+
+        protected:
+            virtual void doExecute();
+            virtual void doUndo();
+
+        private:
+            Game &m_game;
+            unsigned int m_newPlayerId;
+            unsigned int m_oldPlayerId;
+    };
+
 // TODO: check what should be private and what should be protected
 protected:
     /// All the players, indexed by their ID
@@ -289,6 +312,7 @@ protected:
      */
     int helperSetRackManual(unsigned int p, bool iCheck, const wstring &iLetters);
 
+    void firstPlayer();
     void prevPlayer();
     void nextPlayer();
 

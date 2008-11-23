@@ -126,7 +126,7 @@ void FreeGame::start()
         accessNavigation().addAndExecute(pCmd);
     }
 
-    m_currPlayer = 0;
+    firstPlayer();
 
     accessNavigation().newTurn();
 
