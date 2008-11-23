@@ -52,7 +52,7 @@ public:
 
     ~Settings();
 
-    /// Save the current value of the settinfs to a configuration file
+    /// Save the current value of the settings to a configuration file
     void save() const;
 
     void setBool(const string &iName, bool iValue);

@@ -20,6 +20,7 @@
  *****************************************************************************/
 
 #include <string>
+#include <sstream>
 #include <wctype.h>
 #include "tile.h"
 #include "round.h"
@@ -151,19 +152,12 @@ wstring Round::getWord() const
 
 wstring Round::toString() const
 {
-    wstring rs = L" ";
-
-    if (getWord().size() > 0)
+    wostringstream oss;
+    if (!getWord().empty())
     {
-        rs  = getWord();
-        rs += wstring(17 - getWord().size(), ' ');
-        rs += getBonus() ? L'*' : L' ';
-        wchar_t buff[5];
-        _swprintf(buff, 4, L"%3d", getPoints());
-        rs += buff;
-        rs += L" " + getCoord().toString();
+        oss << getWord() << L' ' << (getBonus() ? L'*' : L' ')
+            << L' ' << getPoints() << L' ' << getCoord().toString();
     }
-
-    return rs;
+    return oss.str();
 }
 

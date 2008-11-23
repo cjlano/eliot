@@ -149,9 +149,12 @@ void Navigation::clearFuture()
 void Navigation::print() const
 {
     cout << "=== Commands history ===" << endl;
+    cout << "Current position right after turn " << m_currTurn  - 1<< endl;
+    int index = 0;
     BOOST_FOREACH(Command *c, m_turnCommands)
     {
-        cout << convertToMb(c->toString()) << endl;
+        cout << index << " " << convertToMb(c->toString()) << endl;
+        ++index;
     }
 }
 
