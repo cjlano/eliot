@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <boost/foreach.hpp>
+
 #include "duplicate.h"
 #include "game_exception.h"
 #include "dic.h"
@@ -169,20 +171,41 @@ void Duplicate::recordPlayerMove(const Move &iMove, Player &ioPlayer)
 void Duplicate::endTurn()
 {
     // Find the player with the best score
-    unsigned int imax = 0;
-    for (unsigned int i = 1; i < getNPlayers(); i++)
+    Player *bestPlayer = NULL;
+    int bestScore = 0;
+    BOOST_FOREACH(Player *player, m_players)
     {
-        if (m_players[i]->getLastMove().getScore() >
-            m_players[imax]->getLastMove().getScore())
+        if (player->getLastMove().getScore() > bestScore)
         {
-            imax = i;
+            bestScore = player->getLastMove().getScore();
+            bestPlayer = player;
         }
     }
 
-    // TODO: do something if nobody played a valid round!
+    // If nobody played a valid round, go to the next turn
+    if (bestPlayer == NULL)
+    {
+        // In fact, maybe someone played a valid round with a score of 0
+        // (just playing a joker, for example)
+        BOOST_FOREACH(Player *player, m_players)
+        {
+            if (player->getLastMove().getType() == Move::VALID_ROUND)
+            {
+                bestPlayer = player;
+                break;
+            }
+        }
+        if (bestPlayer == NULL)
+        {
+            // Nobody played a valid round. Go to the next turn...
+            accessNavigation().newTurn();
+            start();
+            return;
+        }
+    }
 
     // Get the best valid move
-    const Move &bestMove = m_players[imax]->getLastMove();
+    const Move &bestMove = bestPlayer->getLastMove();
 
     // Handle solo bonus
     // First check whether there are enough players in the game for the
@@ -191,12 +214,13 @@ void Duplicate::endTurn()
     if (getNPlayers() >= (unsigned int)minNbPlayers &&
         bestMove.getType() == Move::VALID_ROUND)
     {
-        int maxScore = bestMove.getScore();
         // Find whether other players than imax have the same score
         bool otherWithSameScore = false;
-        for (unsigned int i = imax + 1; i < getNPlayers(); i++)
+        BOOST_FOREACH(const Player *player, m_players)
         {
-            if (m_players[i]->getLastMove().getScore() >= maxScore)
+            if (player != bestPlayer &&
+                player->getLastMove().getScore() >= bestScore &&
+                player->getLastMove().getType() == Move::VALID_ROUND)
             {
                 otherWithSameScore = true;
                 break;
@@ -204,9 +228,9 @@ void Duplicate::endTurn()
         }
         if (!otherWithSameScore)
         {
-            // Give the bonus to player imax
+            // Give the bonus to the player of the best move
             int bonus = Settings::Instance().getInt("duplicate.solo-value");
-            m_players[imax]->addPoints(bonus);
+            bestPlayer->addPoints(bonus);
             // TODO: keep a trace of the solo, so the interface
             // can be aware of it...
         }
@@ -214,18 +238,19 @@ void Duplicate::endTurn()
 
     // Play the best word on the board
     Command *pCmd = new GameMoveCmd(*this, bestMove,
-                                    getPlayer(imax).getLastRack(), imax);
+                                    bestPlayer->getLastRack(),
+                                    bestPlayer->getId());
     accessNavigation().addAndExecute(pCmd);
 
     // Leave the same reliquate to all players
     // This is required by the start() method which will be called to
     // start the next turn
-    const PlayedRack& pld = m_players[imax]->getCurrentRack();
-    for (unsigned int i = 0; i < getNPlayers(); i++)
+    const PlayedRack& pld = bestPlayer->getCurrentRack();
+    BOOST_FOREACH(Player *player, m_players)
     {
-        if (i != imax)
+        if (player != bestPlayer)
         {
-            Command *pCmd = new PlayerRackCmd(*m_players[i], pld);
+            Command *pCmd = new PlayerRackCmd(*player, pld);
             accessNavigation().addAndExecute(pCmd);
         }
     }
