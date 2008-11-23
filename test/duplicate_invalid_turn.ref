@@ -1,5 +1,6 @@
 Using seed: 9
 [?] pour l'aide
+commande> s b duplicate/reject-invalid 0
 commande> d 2 0
 mode duplicate
 [?] pour l'aide

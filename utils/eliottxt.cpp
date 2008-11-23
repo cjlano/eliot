@@ -45,6 +45,7 @@
 #include "ai_percent.h"
 #include "encoding.h"
 #include "game_exception.h"
+#include "settings.h"
 
 
 /* A static variable for holding the line. */
@@ -303,6 +304,8 @@ void help()
     printf("          {1} nombre de résultats à afficher\n");
     printf("          {2} longueur minimum d'un mot\n");
     printf("          {3} longueur maximum d'un mot\n");
+    printf("  s [b|i] {1} {2} : définir la valeur {2} pour l'option {1},\n");
+    printf("                    qui est de type (b)ool ou (i)nt}\n");
     printf("  q       : quitter\n");
 }
 
@@ -927,6 +930,49 @@ void eliot_regexp(const Dictionary& iDic,
 }
 
 
+void set_setting(const wchar_t *delim, wchar_t **state)
+{
+    wchar_t *type = next_token_alpha(NULL, delim, state);
+    if (type == NULL || (*type != L'b' && *type != L'i'))
+    {
+        printf("Invalid type\n");
+        return;
+    }
+    wchar_t *settingWide = _wcstok(NULL, delim, state);
+    if (settingWide == NULL)
+    {
+        printf("Invalid setting name\n");
+        return;
+    }
+    wchar_t *value = _wcstok(NULL, delim, state);
+    if (value == NULL)
+    {
+        printf("Invalid value\n");
+        return;
+    }
+
+    try
+    {
+        string setting = convertToMb(settingWide);
+        if (*type == L'i')
+        {
+            Settings::Instance().setInt(setting, _wtoi(value));
+        }
+        else if (*type == L'b')
+        {
+            Settings::Instance().setBool(setting, _wtoi(value));
+        }
+    }
+    catch (GameException &e)
+    {
+        string msg = "Error while changing a setting: " + string(e.what()) + "\n";
+        printf("%s", msg.c_str());
+        return;
+    }
+
+}
+
+
 void main_loop(const Dictionary &iDic)
 {
     const wchar_t *token;
@@ -1063,6 +1109,9 @@ void main_loop(const Dictionary &iDic)
                 case L'x':
                     // Regular expression tests
                     eliot_regexp(iDic, delim, &state);
+                    break;
+                case L's':
+                    set_setting(delim, &state);
                     break;
                 case L'q':
                     quit = 1;
