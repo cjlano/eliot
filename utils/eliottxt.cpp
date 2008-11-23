@@ -1097,10 +1097,13 @@ int main(int argc, char *argv[])
     {
         Dictionary dic(dicPath);
 
+        unsigned int seed;
         if (argc == 3)
-            srand(atoi(argv[2]));
+            seed = atoi(argv[2]);
         else
-            srand(time(NULL));
+            seed = time(NULL);
+        srand(seed);
+        cerr << "Using seed: " << seed << endl;
 
         main_loop(dic);
         GameFactory::Destroy();
