@@ -1,0 +1,55 @@
+Using seed: 9
+[?] pour l'aide
+commande> d 2 0
+mode duplicate
+[?] pour l'aide
+commande> a t
+ILERERU
+commande> j ERROR H1
+commande> j ERROR H2
+commande> a T
+Joueur 0: EEILRRU
+Joueur 1: EEILRRU
+commande> a S
+Joueur 0:    0
+Joueur 1:    0
+commande> a p
+Eliot 1.5
+
+Game type: Duplicate
+Player 0: Human
+Player 1: Human
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+
+   Total: 0
+
+Rack 0: EEILRRU
+Rack 1: EEILRRU
+commande> j RELIURE h4
+commande> j RELIEUR h4
+commande> a S
+Joueur 0:   66
+Joueur 1:   66
+commande> a T
+Joueur 0: GUAUVBP
+Joueur 1: GUAUVBP
+commande> a p
+Eliot 1.5
+
+Game type: Duplicate
+Player 0: Human
+Player 1: Human
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  EEILRRU | RELIURE         |  H4 |  66 | 0 | *
+
+   Total: 66
+
+Rack 0: GUAUVBP
+Rack 1: GUAUVBP
+commande> q
+fin du mode duplicate
+commande> q

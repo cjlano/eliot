@@ -80,41 +80,11 @@ int Game::back(unsigned int n)
     if (m_history.getSize() < n)
         throw GameException("Cannot go back that far");
 
-    for (unsigned int i = 0; i < n+1; ++i)
+    for (unsigned int i = 0; i < n; ++i)
     {
         m_navigation.prevTurn();
     }
     m_navigation.clearFuture();
-#if 0
-    for (unsigned int i = 0; i < n; i++)
-    {
-        prevPlayer();
-        const Move &lastMove = m_history.getPreviousTurn().getMove();
-        // Nothing to cancel if the move was not a valid round
-        if (lastMove.getType() != Move::VALID_ROUND)
-            continue;
-
-        const Round &lastround = lastMove.getRound();
-        // Remove the word from the board, and put its letters back
-        // into the bag
-        m_board.removeRound(m_dic, lastround);
-        for (unsigned int j = 0; j < lastround.getWordLen(); j++)
-        {
-            if (lastround.isPlayedFromRack(j))
-            {
-                if (lastround.isJoker(j))
-                    m_bag.replaceTile(Tile::Joker());
-                else
-                    m_bag.replaceTile(lastround.getTile(j));
-            }
-        }
-        // Remove the points of this round
-        m_points -= lastround.getPoints();
-        // Remove the turns
-        m_players[m_currPlayer]->removeLastTurn();
-        m_history.removeLastTurn();
-    }
-#endif
     return 0;
 }
 
@@ -224,8 +194,10 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
     // Get the tiles remaining on the rack
     vector<Tile> tiles;
     pld.getOldTiles(tiles);
-    ASSERT(tiles.size() < RACK_SIZE,
-           "Cannot complete the rack, it is already complete");
+    // The rack is already complete, there is nothing to do
+    // TODO: add a log here
+    if (tiles.size() >= RACK_SIZE)
+        return iPld;
 
     bool jokerAdded = false;
     // Are we dealing with a normal game or a joker game?

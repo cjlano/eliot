@@ -57,6 +57,10 @@ training_joker2     0
 duplicate_2_ai      5
 # 2 human players, one IA, with manual change of human player
 duplicate_humans_ai 6
+# Only one player
+duplicate_1_player  8
+# One complete turn without a valid move
+duplicate_invalid_turn 9
 
 #################
 # Free game mode
