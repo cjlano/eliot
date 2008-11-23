@@ -43,6 +43,7 @@ libgame_a_SOURCES= \
     board_cross.cpp \
     board_search.cpp \
     settings.cpp settings.h \
+    navigation.cpp navigation.h \
     game.cpp game.h \
     game_move_cmd.h game_move_cmd.cpp \
     turn_cmd.cpp turn_cmd.h \

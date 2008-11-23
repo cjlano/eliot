@@ -39,7 +39,6 @@
 #include "ai_player.h"
 #include "settings.h"
 #include "turn.h"
-#include "turn_cmd.h"
 
 #include "debug.h"
 
@@ -110,7 +109,7 @@ void FreeGame::playAI(unsigned int p)
 void FreeGame::recordPlayerMove(const Move &iMove, Player &ioPlayer)
 {
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
-    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
+    accessNavigation().addAndExecute(pCmd);
 }
 
 
@@ -124,7 +123,7 @@ int FreeGame::start()
         const PlayedRack &newRack =
             helperSetRackRandom(getPlayer(i).getCurrentRack(), false, RACK_NEW);
         Command *pCmd = new PlayerRackCmd(*m_players[i], newRack);
-        m_turnCommands[m_currTurn]->addAndExecute(pCmd);
+        accessNavigation().addAndExecute(pCmd);
     }
 
     m_currPlayer = 0;
@@ -146,7 +145,7 @@ int FreeGame::endTurn()
     Command *pCmd = new GameMoveCmd(*this, move,
                                     getCurrentPlayer().getLastRack(),
                                     m_currPlayer);
-    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
+    accessNavigation().addAndExecute(pCmd);
 
     // Complete the rack for the player that just played
     if (move.getType() == Move::VALID_ROUND ||
@@ -158,7 +157,7 @@ int FreeGame::endTurn()
                 helperSetRackRandom(getCurrentPlayer().getCurrentRack(), false, RACK_NEW);
             Command *pCmd = new PlayerRackCmd(*m_players[m_currPlayer],
                                               newRack);
-            m_turnCommands[m_currTurn]->addAndExecute(pCmd);
+            accessNavigation().addAndExecute(pCmd);
         }
         catch (EndGameException &e)
         {
@@ -171,7 +170,7 @@ int FreeGame::endTurn()
     // Next player
     nextPlayer();
 
-    newTurn();
+    accessNavigation().newTurn();
 
     // If this player is an AI, make it play now
     if (!getCurrentPlayer().isHuman())

@@ -73,6 +73,14 @@ private slots:
     void onWindowsDicTools();
     void onHelpAbout();
 
+    void onGameFirst();
+    void onGamePrev();
+    void onGameNext();
+    void onGameLast();
+
+    /** Perform some updates when the game is updated */
+    void refresh();
+
     /**
      * Perform several updates when the game changes (title bar, status bar,
      * grey out some menu items, ...)

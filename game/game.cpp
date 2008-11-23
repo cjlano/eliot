@@ -55,8 +55,6 @@ Game::Game(const Dictionary &iDic):
     m_points = 0;
     m_currPlayer = 0;
     m_finished = false;
-    m_currTurn = -1;
-    newTurn();
 }
 
 
@@ -65,10 +63,6 @@ Game::~Game()
     BOOST_FOREACH(Player *p, m_players)
     {
         delete p;
-    }
-    BOOST_FOREACH(Command *c, m_turnCommands)
-    {
-        delete c;
     }
 }
 
@@ -85,6 +79,12 @@ int Game::back(unsigned int n)
     if (m_history.getSize() < n)
         throw GameException("Cannot go back that far");
 
+    for (unsigned int i = 0; i < n+1; ++i)
+    {
+        m_navigation.prevTurn();
+    }
+    m_navigation.clearFuture();
+#if 0
     for (unsigned int i = 0; i < n; i++)
     {
         prevPlayer();
@@ -113,6 +113,7 @@ int Game::back(unsigned int n)
         m_players[m_currPlayer]->removeLastTurn();
         m_history.removeLastTurn();
     }
+#endif
     return 0;
 }
 
@@ -198,7 +199,6 @@ void Game::realBag(Bag &ioBag) const
 PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
                                      bool iCheck, set_rack_mode mode) const
 {
-    ASSERT(p < getNPlayers(), "Wrong player number");
     // FIXME: RACK_MANUAL shouldn't be in the enum
     ASSERT(mode != RACK_MANUAL, "Invalid rack mode");
 
@@ -616,53 +616,5 @@ int Game::checkPlayedWord(const wstring &iCoord,
     }
 
     return 0;
-}
-
-/*********************************************************
- *********************************************************/
-
-void Game::prevTurn()
-{
-    if (m_currTurn > 0)
-    {
-        --m_currTurn;
-        m_turnCommands[m_currTurn]->undo();
-    }
-}
-
-
-void Game::nextTurn()
-{
-    if (m_currTurn + 1 < m_turnCommands.size())
-    {
-        m_turnCommands[m_currTurn]->execute();
-        ++m_currTurn;
-    }
-}
-
-
-void Game::firstTurn()
-{
-    while (m_currTurn > 0)
-    {
-        prevTurn();
-    }
-}
-
-
-void Game::lastTurn()
-{
-    while (m_currTurn + 1 < m_turnCommands.size())
-    {
-        nextTurn();
-    }
-}
-
-
-void Game::newTurn()
-{
-    lastTurn();
-    m_turnCommands.push_back(new TurnCmd);
-    ++m_currTurn;
 }
 

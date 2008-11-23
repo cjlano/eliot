@@ -86,6 +86,9 @@ MainWindow::MainWindow(QWidget *iParent)
 
     QObject::connect(this, SIGNAL(gameChanged(const Game*)),
                      this, SLOT(updateForGame(const Game*)));
+    QObject::connect(this, SIGNAL(gameUpdated()),
+                     this, SLOT(refresh()));
+    refresh();
 
     // Status bar
     statusBar()->addWidget(new QLabel, 1);
@@ -150,6 +153,15 @@ MainWindow::MainWindow(QWidget *iParent)
     emit gameChangedNonConst(NULL);
     emit gameChanged(NULL);
 
+    QObject::connect(m_ui.buttonFirst, SIGNAL(clicked()),
+                     this, SLOT(onGameFirst()));
+    QObject::connect(m_ui.buttonPrev, SIGNAL(clicked()),
+                     this, SLOT(onGamePrev()));
+    QObject::connect(m_ui.buttonNext, SIGNAL(clicked()),
+                     this, SLOT(onGameNext()));
+    QObject::connect(m_ui.buttonLast, SIGNAL(clicked()),
+                     this, SLOT(onGameLast()));
+
     // Load dictionary
     QSettings qs(ORGANIZATION, PACKAGE_NAME);
     QString dicPath = qs.value(PrefsDialog::kINTF_DIC_PATH, "").toString();
@@ -194,6 +206,31 @@ void MainWindow::destroyCurrentGame()
 
     delete m_game;
     m_game = NULL;
+}
+
+
+void MainWindow::refresh()
+{
+    if (m_game == NULL)
+    {
+        m_ui.buttonFirst->setEnabled(false);
+        m_ui.buttonPrev->setEnabled(false);
+        m_ui.buttonNext->setEnabled(false);
+        m_ui.buttonLast->setEnabled(false);
+        // XXX: tmp
+        m_ui.labelTurnNb->setText("");
+    }
+    else
+    {
+        bool isFirstTurn = m_game->getNavigation().isFirstTurn();
+        bool isLastTurn = m_game->getNavigation().isLastTurn();
+        m_ui.buttonFirst->setEnabled(!isFirstTurn);
+        m_ui.buttonPrev->setEnabled(!isFirstTurn);
+        m_ui.buttonNext->setEnabled(!isLastTurn);
+        m_ui.buttonLast->setEnabled(!isLastTurn);
+        // XXX: tmp
+        m_ui.labelTurnNb->setText(QString("Turn: %1").arg(m_game->getNavigation().getCurrTurn()));
+    }
 }
 
 
@@ -713,5 +750,45 @@ void MainWindow::onHelpAbout()
     QMessageBox *aboutBox = new QMessageBox(QMessageBox::Information,
                                             _q("About Eliot"), msg, QMessageBox::Ok, this);
     aboutBox->exec();
+}
+
+
+void MainWindow::onGameFirst()
+{
+    if (m_game == NULL)
+        return;
+
+    m_game->accessNavigation().firstTurn();
+    emit gameUpdated();
+}
+
+
+void MainWindow::onGamePrev()
+{
+    if (m_game == NULL)
+        return;
+
+    m_game->accessNavigation().prevTurn();
+    emit gameUpdated();
+}
+
+
+void MainWindow::onGameNext()
+{
+    if (m_game == NULL)
+        return;
+
+    m_game->accessNavigation().nextTurn();
+    emit gameUpdated();
+}
+
+
+void MainWindow::onGameLast()
+{
+    if (m_game == NULL)
+        return;
+
+    m_game->accessNavigation().lastTurn();
+    emit gameUpdated();
 }
 

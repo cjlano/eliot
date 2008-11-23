@@ -40,7 +40,6 @@
 #include "game_move_cmd.h"
 #include "training.h"
 #include "encoding.h"
-#include "turn_cmd.h"
 
 #include "debug.h"
 
@@ -60,7 +59,7 @@ void Training::setRackRandom(bool iCheck, set_rack_mode mode)
     const PlayedRack &newRack =
         helperSetRackRandom(getCurrentPlayer().getCurrentRack(), iCheck, mode);
     Command *pCmd = new PlayerRackCmd(*m_players[m_currPlayer], newRack);
-    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
+    accessNavigation().addAndExecute(pCmd);
 }
 
 
@@ -131,7 +130,7 @@ void Training::recordPlayerMove(const Move &iMove, Player &ioPlayer)
     // (called in this class in endTurn()).
     // See the big comment in game.cpp, line 96
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
-    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
+    accessNavigation().addAndExecute(pCmd);
 }
 
 
@@ -154,8 +153,8 @@ void Training::endTurn()
     Command *pCmd = new GameMoveCmd(*this, move,
                                     getCurrentPlayer().getLastRack(),
                                     m_currPlayer);
-    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
-    newTurn();
+    accessNavigation().addAndExecute(pCmd);
+    accessNavigation().newTurn();
 }
 
 

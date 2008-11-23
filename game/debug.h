@@ -28,6 +28,11 @@
 
 #ifdef DEBUG
 #   include <iostream>
+#   include <cstdlib>
+
+using std::cerr;
+using std::endl;
+
 // Assertion macro: if the condition is not verified, print a message on stderr
 // and stops execution, otherwise do nothing.
 #   define ASSERT(cond, msg) \

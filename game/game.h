@@ -28,6 +28,7 @@
 #include "bag.h"
 #include "board.h"
 #include "history.h"
+#include "navigation.h"
 
 class Dictionary;
 class Player;
@@ -35,7 +36,6 @@ class PlayedRack;
 class Round;
 class Rack;
 class Turn;
-class TurnCmd;
 
 using namespace std;
 
@@ -222,10 +222,8 @@ public:
 
     void addPoints(int iPoints) { m_points += iPoints; }
 
-    void prevTurn();
-    void nextTurn();
-    void firstTurn();
-    void lastTurn();
+    const Navigation & getNavigation() const { return m_navigation; }
+    Navigation & accessNavigation() { return m_navigation; }
 
 private:
     /// Variant
@@ -239,8 +237,9 @@ private:
      */
     History m_history;
 
-    int m_points;
+    Navigation m_navigation;
 
+    int m_points;
 
 // TODO: check what should be private and what should be protected
 protected:
@@ -255,16 +254,11 @@ protected:
     /// Bag
     Bag m_bag;
 
-    vector<TurnCmd *> m_turnCommands;
-    unsigned int m_currTurn;
-
     bool m_finished;
 
     /*********************************************************
      * Helper functions
      *********************************************************/
-
-    void newTurn();
 
     /**
      * Complete the given rack randomly.

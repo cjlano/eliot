@@ -18,52 +18,45 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <boost/foreach.hpp>
+#ifndef _NAVIGATION_H
+#define _NAVIGATION_H
 
-#include "turn_cmd.h"
-#include "player.h"
+#include <vector>
+
+class TurnCmd;
+class Command;
+
+using namespace std;
 
 
-TurnCmd::TurnCmd()
+class Navigation
 {
-    // Fake execution
-    execute();
-}
+    public:
+        Navigation();
+        ~Navigation();
 
+        void newTurn();
+        void addAndExecute(Command *iCmd);
 
-TurnCmd::~TurnCmd()
-{
-    BOOST_FOREACH(Command *cmd, m_commands)
-    {
-        delete cmd;
-    }
-}
+        unsigned int getCurrTurn() const { return m_currTurn; }
+        bool isFirstTurn() const { return m_currTurn == 0; }
+        bool isLastTurn() const { return m_currTurn == m_turnCommands.size(); }
 
+        void firstTurn();
+        void prevTurn();
+        void nextTurn();
+        void lastTurn();
+        /**
+         * Get rid of the future turns of the game, the current turn
+         * becoming the last one.
+         */
+        void clearFuture();
 
-void TurnCmd::addAndExecute(Command *iCmd)
-{
-    m_commands.push_back(iCmd);
-    iCmd->execute();
-}
+    private:
+        vector<TurnCmd *> m_turnCommands;
+        unsigned int m_currTurn;
 
+};
 
-void TurnCmd::doExecute()
-{
-    BOOST_FOREACH(Command *cmd, m_commands)
-    {
-        if (!cmd->isExecuted())
-            cmd->execute();
-    }
-}
-
-
-void TurnCmd::doUndo()
-{
-    // Undo commands in the reverse order of execution
-    vector<Command*>::reverse_iterator it;
-    for (it = m_commands.rbegin(); it != m_commands.rend(); ++it)
-    {
-        (*it)->undo();
-    }
-}
+#endif
 

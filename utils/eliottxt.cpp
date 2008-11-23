@@ -576,16 +576,16 @@ void loop_training(Training &iGame)
                             switch (token[0])
                             {
                                 case L'p':
-                                    iGame.prevTurn();
+                                    iGame.accessNavigation().prevTurn();
                                     break;
                                 case L'n':
-                                    iGame.nextTurn();
+                                    iGame.accessNavigation().nextTurn();
                                     break;
                                 case L'f':
-                                    iGame.firstTurn();
+                                    iGame.accessNavigation().firstTurn();
                                     break;
                                 case L'l':
-                                    iGame.lastTurn();
+                                    iGame.accessNavigation().lastTurn();
                                     break;
                             }
                         }
@@ -705,16 +705,16 @@ void loop_freegame(FreeGame &iGame)
                             switch (token[0])
                             {
                                 case L'p':
-                                    iGame.prevTurn();
+                                    iGame.accessNavigation().prevTurn();
                                     break;
                                 case L'n':
-                                    iGame.nextTurn();
+                                    iGame.accessNavigation().nextTurn();
                                     break;
                                 case L'f':
-                                    iGame.firstTurn();
+                                    iGame.accessNavigation().firstTurn();
                                     break;
                                 case L'l':
-                                    iGame.lastTurn();
+                                    iGame.accessNavigation().lastTurn();
                                     break;
                             }
                         }
@@ -842,16 +842,16 @@ void loop_duplicate(Duplicate &iGame)
                             switch (token[0])
                             {
                                 case L'p':
-                                    iGame.prevTurn();
+                                    iGame.accessNavigation().prevTurn();
                                     break;
                                 case L'n':
-                                    iGame.nextTurn();
+                                    iGame.accessNavigation().nextTurn();
                                     break;
                                 case L'f':
-                                    iGame.firstTurn();
+                                    iGame.accessNavigation().firstTurn();
                                     break;
                                 case L'l':
-                                    iGame.lastTurn();
+                                    iGame.accessNavigation().lastTurn();
                                     break;
                             }
                         }
@@ -1120,9 +1120,3 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-/// Local Variables:
-/// mode: c++
-/// mode: hs-minor
-/// c-basic-offset: 4
-/// indent-tabs-mode: nil
-/// End:

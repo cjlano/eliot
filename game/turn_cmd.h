@@ -35,6 +35,7 @@ using namespace std;
 class TurnCmd: public Command
 {
     public:
+        TurnCmd();
         virtual ~TurnCmd();
 
         /**
@@ -42,6 +43,8 @@ class TurnCmd: public Command
          * The TurnCmd object takes ownership of the given Command.
          */
         void addAndExecute(Command *iCmd);
+
+        bool isEmpty() const { return m_commands.empty(); }
 
     protected:
         virtual void doExecute();

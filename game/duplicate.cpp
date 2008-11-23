@@ -33,7 +33,6 @@
 #include "game_move_cmd.h"
 #include "ai_player.h"
 #include "settings.h"
-#include "turn_cmd.h"
 #include "debug.h"
 
 
@@ -111,7 +110,7 @@ int Duplicate::start()
         for (unsigned int i = 0; i < getNPlayers(); i++)
         {
             Command *pCmd = new PlayerRackCmd(*m_players[i], newRack);
-            m_turnCommands[m_currTurn]->addAndExecute(pCmd);
+            accessNavigation().addAndExecute(pCmd);
             // Nobody has played yet in this round
             m_hasPlayed[i] = false;
         }
@@ -161,7 +160,7 @@ void Duplicate::tryEndTurn()
 void Duplicate::recordPlayerMove(const Move &iMove, Player &ioPlayer)
 {
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
-    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
+    accessNavigation().addAndExecute(pCmd);
 
     m_hasPlayed[ioPlayer.getId()] = true;
 }
@@ -216,7 +215,7 @@ void Duplicate::endTurn()
     // Play the best word on the board
     Command *pCmd = new GameMoveCmd(*this, bestMove,
                                     getPlayer(imax).getLastRack(), imax);
-    m_turnCommands[m_currTurn]->addAndExecute(pCmd);
+    accessNavigation().addAndExecute(pCmd);
 
     // Leave the same reliquate to all players
     // This is required by the start() method which will be called to
@@ -227,11 +226,11 @@ void Duplicate::endTurn()
         if (i != imax)
         {
             Command *pCmd = new PlayerRackCmd(*m_players[i], pld);
-            m_turnCommands[m_currTurn]->addAndExecute(pCmd);
+            accessNavigation().addAndExecute(pCmd);
         }
     }
 
-    newTurn();
+    accessNavigation().newTurn();
 
     // Start next turn...
     start();
