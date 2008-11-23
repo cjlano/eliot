@@ -113,7 +113,7 @@ void FreeGame::recordPlayerMove(const Move &iMove, Player &ioPlayer)
 }
 
 
-int FreeGame::start()
+void FreeGame::start()
 {
     ASSERT(getNPlayers(), "Cannot start a game without any player");
 
@@ -133,8 +133,6 @@ int FreeGame::start()
     {
         playAI(m_currPlayer);
     }
-
-    return 0;
 }
 
 

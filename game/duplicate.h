@@ -67,7 +67,7 @@ public:
      * Pre-requisite: all the players must have the same rack when this
      * method is called
      */
-    virtual int start();
+    virtual void start();
 
     /**
      * See description of Game::play() for the possible return values.

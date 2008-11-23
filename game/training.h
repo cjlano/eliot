@@ -52,7 +52,7 @@ public:
     /*************************
      * Game handling
      *************************/
-    virtual int start();
+    virtual void start();
 
     /// See description of Game::play()
     virtual int play(const wstring &iCoord, const wstring &iWord);

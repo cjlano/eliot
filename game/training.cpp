@@ -134,13 +134,12 @@ void Training::recordPlayerMove(const Move &iMove, Player &ioPlayer)
 }
 
 
-int Training::start()
+void Training::start()
 {
     if (getNPlayers() != 0)
-        return 1;
+        return;
 
     m_currPlayer = 0;
-    return 0;
 }
 
 

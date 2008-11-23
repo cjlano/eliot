@@ -142,7 +142,7 @@ public:
      * AI players are handled automatically, so if the game only has AI
      * players, it will play until the end.
      */
-    virtual int start() = 0;
+    virtual void start() = 0;
 
     /**
      * Method used by human players to play the word iWord at coordinates

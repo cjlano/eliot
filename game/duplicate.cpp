@@ -96,7 +96,7 @@ void Duplicate::playAI(unsigned int p)
 }
 
 
-int Duplicate::start()
+void Duplicate::start()
 {
     ASSERT(getNPlayers(), "Cannot start a game without any player");
 
@@ -120,14 +120,12 @@ int Duplicate::start()
     catch (EndGameException &e)
     {
         endGame();
-        return 1;
+        return;
     }
 
     // Little hack to handle duplicate games with only AI players.
     // This will have no effect when there is at least one human player
     tryEndTurn();
-
-    return 0;
 }
 
 

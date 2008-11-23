@@ -53,10 +53,8 @@ public:
      *************************/
     /**
      * Start the game.
-     * Possible return values:
-     *  0: everything went fine
      */
-    virtual int start();
+    virtual void start();
 
     /**
      * See description of Game::play() for the possible return values.
