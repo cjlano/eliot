@@ -153,15 +153,6 @@ MainWindow::MainWindow(QWidget *iParent)
     emit gameChangedNonConst(NULL);
     emit gameChanged(NULL);
 
-    QObject::connect(m_ui.buttonFirst, SIGNAL(clicked()),
-                     this, SLOT(onGameFirst()));
-    QObject::connect(m_ui.buttonPrev, SIGNAL(clicked()),
-                     this, SLOT(onGamePrev()));
-    QObject::connect(m_ui.buttonNext, SIGNAL(clicked()),
-                     this, SLOT(onGameNext()));
-    QObject::connect(m_ui.buttonLast, SIGNAL(clicked()),
-                     this, SLOT(onGameLast()));
-
     // Load dictionary
     QSettings qs(ORGANIZATION, PACKAGE_NAME);
     QString dicPath = qs.value(PrefsDialog::kINTF_DIC_PATH, "").toString();
@@ -211,25 +202,19 @@ void MainWindow::destroyCurrentGame()
 
 void MainWindow::refresh()
 {
-    if (m_game == NULL)
-    {
-        m_ui.buttonFirst->setEnabled(false);
-        m_ui.buttonPrev->setEnabled(false);
-        m_ui.buttonNext->setEnabled(false);
-        m_ui.buttonLast->setEnabled(false);
-        // XXX: tmp
-        m_ui.labelTurnNb->setText("");
-    }
-    else
+    if (m_game != NULL)
     {
         bool isFirstTurn = m_game->getNavigation().isFirstTurn();
         bool isLastTurn = m_game->getNavigation().isLastTurn();
-        m_ui.buttonFirst->setEnabled(!isFirstTurn);
-        m_ui.buttonPrev->setEnabled(!isFirstTurn);
-        m_ui.buttonNext->setEnabled(!isLastTurn);
-        m_ui.buttonLast->setEnabled(!isLastTurn);
-        // XXX: tmp
-        m_ui.labelTurnNb->setText(QString("Turn: %1").arg(m_game->getNavigation().getCurrTurn()));
+        m_actionHistoryFirstTurn->setEnabled(!isFirstTurn);
+        m_actionHistoryPrevTurn->setEnabled(!isFirstTurn);
+        m_actionHistoryNextTurn->setEnabled(!isLastTurn);
+        m_actionHistoryLastTurn->setEnabled(!isLastTurn);
+        m_actionHistoryReplayTurn->setEnabled(!isLastTurn);
+#ifdef DEBUG
+        cout << endl << endl;
+        m_game->getNavigation().print();
+#endif
     }
 }
 
@@ -240,6 +225,11 @@ void MainWindow::updateForGame(const Game *iGame)
     {
         m_actionGameSaveAs->setEnabled(false);
         m_actionGamePrint->setEnabled(false);
+        m_actionHistoryFirstTurn->setEnabled(false);
+        m_actionHistoryPrevTurn->setEnabled(false);
+        m_actionHistoryNextTurn->setEnabled(false);
+        m_actionHistoryLastTurn->setEnabled(false);
+        m_actionHistoryReplayTurn->setEnabled(false);
         setWindowTitle(_q("No game") + " - Eliot");
     }
     else
@@ -332,12 +322,13 @@ void MainWindow::readSettings()
 QAction * MainWindow::addMenuAction(QMenu *menu, QString iText,
                                     const QKeySequence &iShortcut,
                                     QString iStatusTip, const char *iMember,
-                                    bool iCheckable)
+                                    bool iCheckable, QIcon icon)
 {
     QAction *action = new QAction(iText, this);
     action->setShortcut(iShortcut);
     action->setStatusTip(iStatusTip);
     action->setCheckable(iCheckable);
+    action->setIcon(icon);
     QObject::connect(action, SIGNAL(triggered()), this, iMember);
     menu->addAction(action);
     return action;
@@ -363,6 +354,32 @@ void MainWindow::createMenu()
     addMenuAction(menuFile, _q("&Quit"), _q("Ctrl+Q"),
                   _q("Quit Eliot"), SLOT(close()));
 
+    QMenu *menuHistory = new QMenu(m_ui.menubar);
+    m_ui.menubar->addAction(menuHistory->menuAction());
+    menuHistory->setTitle(_q("&History"));
+    m_actionHistoryFirstTurn = addMenuAction(menuHistory, _q("&First turn"), _q("Ctrl+Home"),
+                  _q("Go to the first turn of the game"), SLOT(onHistoryFirstTurn()),
+                  false, QIcon(":/images/first.xpm"));
+    m_actionHistoryPrevTurn = addMenuAction(menuHistory, _q("&Previous turn"), _q("Ctrl+Left"),
+                  _q("Go to the previous turn of the game"), SLOT(onHistoryPrevTurn()),
+                  false, QIcon(":/images/prev.xpm"));
+    m_actionHistoryNextTurn = addMenuAction(menuHistory, _q("&Next turn"), _q("Ctrl+Right"),
+                  _q("Go to the next turn of the game"), SLOT(onHistoryNextTurn()),
+                  false, QIcon(":/images/next.xpm"));
+    m_actionHistoryLastTurn = addMenuAction(menuHistory, _q("&Last turn"), _q("Ctrl+End"),
+                  _q("Go to the last turn of the game"), SLOT(onHistoryLastTurn()),
+                  false, QIcon(":/images/last.xpm"));
+    m_actionHistoryReplayTurn = addMenuAction(menuHistory, _q("&Replay turn"), _q("Ctrl+R"),
+                  _q("Play the game from the current position, "
+                     "replacing what was really played"), SLOT(onHistoryReplayTurn()),
+                  false, QIcon(":/images/replay.xpm"));
+    // Add actions to the toolbar
+    m_ui.toolBar->addAction(m_actionHistoryFirstTurn);
+    m_ui.toolBar->addAction(m_actionHistoryPrevTurn);
+    m_ui.toolBar->addAction(m_actionHistoryNextTurn);
+    m_ui.toolBar->addAction(m_actionHistoryLastTurn);
+    m_ui.toolBar->addAction(m_actionHistoryReplayTurn);
+
     QMenu *menuSettings = new QMenu(m_ui.menubar);
     m_ui.menubar->addAction(menuSettings->menuAction());
     menuSettings->setTitle(_q("&Settings"));
@@ -374,6 +391,9 @@ void MainWindow::createMenu()
     QMenu *menuWindows = new QMenu(m_ui.menubar);
     m_ui.menubar->addAction(menuWindows->menuAction());
     menuWindows->setTitle(_q("&Windows"));
+    m_actionWindowsToolbar = addMenuAction(menuWindows, _q("&Toolbar"), _q("Ctrl+T"),
+                  _q("Show/hide the toolbar"), SLOT(onWindowsToolbar()), true);
+    m_actionWindowsToolbar->setChecked(true);
     m_actionWindowsBag = addMenuAction(menuWindows, _q("&Bag"), _q("Ctrl+B"),
                   _q("Show/hide the remaining tiles in the bag"), SLOT(onWindowsBag()), true);
     m_actionWindowsBoard = addMenuAction(menuWindows, _q("&External board"), _q("Ctrl+E"),
@@ -663,6 +683,15 @@ void MainWindow::onSettingsChooseDic()
 }
 
 
+void MainWindow::onWindowsToolbar()
+{
+    if (m_ui.toolBar->isVisible())
+        m_ui.toolBar->hide();
+    else
+        m_ui.toolBar->show();
+}
+
+
 void MainWindow::onWindowsBag()
 {
     if (m_bagWindow == NULL)
@@ -747,13 +776,13 @@ void MainWindow::onHelpAbout()
         "the License, or (at your option) any later version.");
     // QMessageBox::about() doesn't add the nice information icon, so we create
     // the box manually (not much work...)
-    QMessageBox *aboutBox = new QMessageBox(QMessageBox::Information,
-                                            _q("About Eliot"), msg, QMessageBox::Ok, this);
-    aboutBox->exec();
+    QMessageBox aboutBox(QMessageBox::Information, _q("About Eliot"),
+                         msg, QMessageBox::Ok, this);
+    aboutBox.exec();
 }
 
 
-void MainWindow::onGameFirst()
+void MainWindow::onHistoryFirstTurn()
 {
     if (m_game == NULL)
         return;
@@ -763,7 +792,7 @@ void MainWindow::onGameFirst()
 }
 
 
-void MainWindow::onGamePrev()
+void MainWindow::onHistoryPrevTurn()
 {
     if (m_game == NULL)
         return;
@@ -773,7 +802,7 @@ void MainWindow::onGamePrev()
 }
 
 
-void MainWindow::onGameNext()
+void MainWindow::onHistoryNextTurn()
 {
     if (m_game == NULL)
         return;
@@ -783,12 +812,33 @@ void MainWindow::onGameNext()
 }
 
 
-void MainWindow::onGameLast()
+void MainWindow::onHistoryLastTurn()
 {
     if (m_game == NULL)
         return;
 
     m_game->accessNavigation().lastTurn();
     emit gameUpdated();
+}
+
+
+void MainWindow::onHistoryReplayTurn()
+{
+    if (m_game == NULL)
+        return;
+
+    // Ask for a confirmation, because this may lead to data loss
+    QString msg = _q("Replaying this turn will modify the game history "
+                     "by deleting the turns \"in the future\".");
+    QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), msg,
+                                QMessageBox::Ok | QMessageBox::Cancel, this);
+    confirmationBox.setInformativeText(_q("Do you want to continue?"));
+    int ret = confirmationBox.exec();
+    if (ret != QMessageBox::Ok)
+        return;
+
+    m_game->accessNavigation().clearFuture();
+    emit gameUpdated();
+    displayInfoMsg(_q("Future turns deleted"));
 }
 

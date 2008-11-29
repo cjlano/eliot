@@ -1,5 +1,10 @@
 <RCC>
   <qresource>
     <file>images/eliot.xpm</file>
+    <file>images/first.xpm</file>
+    <file>images/last.xpm</file>
+    <file>images/prev.xpm</file>
+    <file>images/next.xpm</file>
+    <file>images/replay.xpm</file>
   </qresource>
 </RCC>

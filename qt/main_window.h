@@ -67,16 +67,18 @@ private slots:
     void onGamePrint();
     void onSettingsChooseDic();
     void onSettingsPreferences();
+    void onWindowsToolbar();
     void onWindowsBag();
     void onWindowsBoard();
     void onWindowsHistory();
     void onWindowsDicTools();
     void onHelpAbout();
 
-    void onGameFirst();
-    void onGamePrev();
-    void onGameNext();
-    void onGameLast();
+    void onHistoryFirstTurn();
+    void onHistoryPrevTurn();
+    void onHistoryNextTurn();
+    void onHistoryLastTurn();
+    void onHistoryReplayTurn();
 
     /** Perform some updates when the game is updated */
     void refresh();
@@ -109,6 +111,12 @@ private:
     /// Actions enabled or disabled depending on the game state
     QAction *m_actionGamePrint;
     QAction *m_actionGameSaveAs;
+    QAction *m_actionHistoryPrevTurn;
+    QAction *m_actionHistoryNextTurn;
+    QAction *m_actionHistoryFirstTurn;
+    QAction *m_actionHistoryLastTurn;
+    QAction *m_actionHistoryReplayTurn;
+    QAction *m_actionWindowsToolbar;
 
     static const char * m_windowName;
 
@@ -136,7 +144,7 @@ private:
     QAction * addMenuAction(QMenu *menu, QString iText,
                             const QKeySequence &iShortcut,
                             QString iStatusTip, const char *iMember,
-                            bool iCheckable = false);
+                            bool iCheckable = false, QIcon icon = QIcon());
 
     /// Create the menu bar and the actions
     void createMenu();
