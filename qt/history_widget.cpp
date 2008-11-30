@@ -28,7 +28,7 @@
 #include "history_widget.h"
 #include "prefs_dialog.h"
 #include "qtcommon.h"
-#include "game.h"
+#include "public_game.h"
 #include "player.h"
 #include "history.h"
 #include "turn.h"
@@ -58,7 +58,7 @@ HistoryWidget::HistoryWidget(QWidget *parent)
 
 
 void HistoryWidget::setHistory(const History *iHistory,
-                               const Game *iGame,
+                               const PublicGame *iGame,
                                bool iIsForPlayer)
 {
     m_history = iHistory;
@@ -181,7 +181,7 @@ HistoryTabWidget::HistoryTabWidget(QWidget *parent)
 }
 
 
-void HistoryTabWidget::setGame(const Game *iGame)
+void HistoryTabWidget::setGame(const PublicGame *iGame)
 {
     m_game = iGame;
 
@@ -210,11 +210,11 @@ void HistoryTabWidget::setGame(const Game *iGame)
                          m_gameHistoryWidget, SLOT(refresh()));
 
         // In training mode, the players history is completely useless
-        if (m_game->getMode() == Game::kTRAINING)
+        if (m_game->getMode() == PublicGame::kTRAINING)
             return;
 
         // Add one history tab per player
-        for (unsigned int i = 0; i < m_game->getNPlayers(); ++i)
+        for (unsigned int i = 0; i < m_game->getNbPlayers(); ++i)
         {
             const Player &player = m_game->getPlayer(i);
             HistoryWidget *h = new HistoryWidget(NULL);

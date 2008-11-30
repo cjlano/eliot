@@ -50,6 +50,7 @@ libgame_a_SOURCES= \
     duplicate.cpp duplicate.h \
     freegame.cpp freegame.h \
     training.cpp training.h \
+    public_game.cpp public_game.h \
     game_factory.cpp game_factory.h \
     game_io.cpp \
     debug.h

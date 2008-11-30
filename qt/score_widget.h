@@ -24,7 +24,7 @@
 #include <QtGui/QTreeView>
 
 
-class Game;
+class PublicGame;
 class QStandardItemModel;
 
 class ScoreWidget: public QTreeView
@@ -32,10 +32,10 @@ class ScoreWidget: public QTreeView
     Q_OBJECT;
 
 public:
-    explicit ScoreWidget(QWidget *parent = 0, const Game *iGame = NULL);
+    explicit ScoreWidget(QWidget *parent = 0, const PublicGame *iGame = NULL);
 
 public slots:
-    void setGame(const Game *iGame = NULL);
+    void setGame(const PublicGame *iGame = NULL);
     void refresh();
 
 protected:
@@ -44,7 +44,7 @@ protected:
 
 private:
     /// Encapsulated game, can be NULL
-    const Game *m_game;
+    const PublicGame *m_game;
 
     /// Model of the game
     QStandardItemModel *m_model;

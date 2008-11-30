@@ -24,7 +24,7 @@
 #include <QtGui/QTreeView>
 
 
-class Game;
+class PublicGame;
 class QStandardItemModel;
 
 class BagWidget: public QTreeView
@@ -35,7 +35,7 @@ public:
     explicit BagWidget(QWidget *parent = 0);
 
 public slots:
-    void setGame(const Game *iGame);
+    void setGame(const PublicGame *iGame);
     void refresh();
 
 protected:
@@ -44,7 +44,7 @@ protected:
 
 private:
     /// Encapsulated game, can be NULL
-    const Game *m_game;
+    const PublicGame *m_game;
 
     /// Model of the bag
     QStandardItemModel *m_model;

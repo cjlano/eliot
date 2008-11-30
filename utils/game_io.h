@@ -23,8 +23,8 @@
 
 #include <iostream>
 
-class Game;
-class Training;
+class PublicGame;
+class Results;
 
 using std::ostream;
 
@@ -40,20 +40,20 @@ using std::ostream;
 class GameIO
 {
 public:
-    static void printBoard(ostream &out, const Game &iGame);
-    static void printBoardDebug(ostream &out, const Game &iGame);
-    static void printBoardJoker(ostream &out, const Game &iGame);
-    static void printBoardMultipliers(ostream &out, const Game &iGame);
-    static void printBoardMultipliers2(ostream &out, const Game &iGame);
+    static void printBoard(ostream &out, const PublicGame &iGame);
+    static void printBoardDebug(ostream &out, const PublicGame &iGame);
+    static void printBoardJoker(ostream &out, const PublicGame &iGame);
+    static void printBoardMultipliers(ostream &out, const PublicGame &iGame);
+    static void printBoardMultipliers2(ostream &out, const PublicGame &iGame);
 
-    static void printNonPlayed(ostream &out, const Game &iGame);
-    static void printPlayedRack(ostream &out, const Game &iGame, int n);
-    static void printAllRacks(ostream &out, const Game &iGame);
-    static void printSearchResults(ostream &out, const Training &iGame, int);
-    static void printPoints(ostream &out, const Game &iGame);
-    static void printAllPoints(ostream &out, const Game &iGame);
+    static void printNonPlayed(ostream &out, const PublicGame &iGame);
+    static void printPlayedRack(ostream &out, const PublicGame &iGame, int n);
+    static void printAllRacks(ostream &out, const PublicGame &iGame);
+    static void printSearchResults(ostream &out, const Results &iResults, int);
+    static void printPoints(ostream &out, const PublicGame &iGame);
+    static void printAllPoints(ostream &out, const PublicGame &iGame);
 
-    static void printGameDebug(ostream &out, const Game &iGame);
+    static void printGameDebug(ostream &out, const PublicGame &iGame);
 
 private:
     /// This class is a toolbox, and should not be instanciated

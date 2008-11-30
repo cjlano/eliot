@@ -26,8 +26,10 @@
 
 #include <dic.h>
 #include "game_io.h"
-#include "game.h"
-#include "training.h"
+#include "public_game.h"
+#include "bag.h"
+#include "board.h"
+#include "results.h"
 #include "player.h"
 #include "encoding.h"
 
@@ -35,7 +37,7 @@ using namespace std;
 
 #define __UNUSED__ __attribute__((unused))
 
-void GameIO::printBoard(ostream &out, const Game &iGame)
+void GameIO::printBoard(ostream &out, const PublicGame &iGame)
 {
     int row, col;
 
@@ -59,7 +61,7 @@ void GameIO::printBoard(ostream &out, const Game &iGame)
 }
 
 /* this mode is used for regression tests */
-void GameIO::printBoardDebug(ostream &out, const Game &iGame)
+void GameIO::printBoardDebug(ostream &out, const PublicGame &iGame)
 {
     int row, col;
 
@@ -85,7 +87,7 @@ void GameIO::printBoardDebug(ostream &out, const Game &iGame)
     }
 }
 
-void GameIO::printBoardJoker(ostream &out, const Game &iGame)
+void GameIO::printBoardJoker(ostream &out, const PublicGame &iGame)
 {
     int row,col;
 
@@ -112,7 +114,7 @@ void GameIO::printBoardJoker(ostream &out, const Game &iGame)
 }
 
 
-void GameIO::printBoardMultipliers(ostream &out, const Game &iGame)
+void GameIO::printBoardMultipliers(ostream &out, const PublicGame &iGame)
 {
     int row, col;
 
@@ -147,7 +149,7 @@ void GameIO::printBoardMultipliers(ostream &out, const Game &iGame)
 }
 
 
-void GameIO::printBoardMultipliers2(ostream &out, const Game &iGame)
+void GameIO::printBoardMultipliers2(ostream &out, const PublicGame &iGame)
 {
     int row, col;
 
@@ -178,7 +180,7 @@ void GameIO::printBoardMultipliers2(ostream &out, const Game &iGame)
 }
 
 
-void GameIO::printNonPlayed(ostream &out, const Game &iGame)
+void GameIO::printNonPlayed(ostream &out, const PublicGame &iGame)
 {
     const Bag &bag = iGame.getBag();
     BOOST_FOREACH(const Tile &tile, iGame.getDic().getAllTiles())
@@ -197,15 +199,15 @@ void GameIO::printNonPlayed(ostream &out, const Game &iGame)
 }
 
 
-void GameIO::printPlayedRack(ostream &out, const Game &iGame, int __UNUSED__ n)
+void GameIO::printPlayedRack(ostream &out, const PublicGame &iGame, int __UNUSED__ n)
 {
     out << convertToMb(iGame.getCurrentPlayer().getCurrentRack().toString(PlayedRack::RACK_SIMPLE)) << endl;
 }
 
 
-void GameIO::printAllRacks(ostream &out, const Game &iGame)
+void GameIO::printAllRacks(ostream &out, const PublicGame &iGame)
 {
-    for (unsigned int j = 0; j < iGame.getNPlayers(); j++)
+    for (unsigned int j = 0; j < iGame.getNbPlayers(); j++)
     {
         out << "Joueur " << j << ": ";
         out << convertToMb(iGame.getPlayer(j).getCurrentRack().toString(PlayedRack::RACK_SIMPLE)) << endl;
@@ -213,11 +215,10 @@ void GameIO::printAllRacks(ostream &out, const Game &iGame)
 }
 
 
-static void searchResultLine(ostream &out, const Training &iGame, int num)
+static void searchResultLine(ostream &out, const Results &iResults, int num)
 {
-    const Results &res = iGame.getResults();
-    Round r = res.get(num);
-    wstring word = r.getWord();
+    const Round &r = iResults.get(num);
+    const wstring &word = r.getWord();
     if (word.size() == 0)
         return;
     out << convertToMb(word) << string(16 - word.size(), ' ')
@@ -227,27 +228,26 @@ static void searchResultLine(ostream &out, const Training &iGame, int num)
 }
 
 
-void GameIO::printSearchResults(ostream &out, const Training &iGame, int num)
+void GameIO::printSearchResults(ostream &out, const Results &iResults, int num)
 {
-    int size = (int) iGame.getResults().size();
-    for (int i = 0; i < num && i < size; i++)
+    for (int i = 0; i < num && i < (int)iResults.size(); i++)
     {
         out << setw(3) << i + 1 << ": ";
-        searchResultLine(out, iGame, i);
+        searchResultLine(out, iResults, i);
         out << endl;
     }
 }
 
 
-void GameIO::printPoints(ostream &out, const Game &iGame)
+void GameIO::printPoints(ostream &out, const PublicGame &iGame)
 {
     out << iGame.getPlayer(0).getPoints() << endl;
 }
 
 
-void GameIO::printAllPoints(ostream &out, const Game &iGame)
+void GameIO::printAllPoints(ostream &out, const PublicGame &iGame)
 {
-    for (unsigned int i = 0; i < iGame.getNPlayers(); i++)
+    for (unsigned int i = 0; i < iGame.getNbPlayers(); i++)
     {
         out << "Joueur " << i << ": "
             << setw(4) << iGame.getPlayer(i).getPoints() << endl;
@@ -255,24 +255,24 @@ void GameIO::printAllPoints(ostream &out, const Game &iGame)
 }
 
 
-void GameIO::printGameDebug(ostream &out, const Game &iGame)
+void GameIO::printGameDebug(ostream &out, const PublicGame &iGame)
 {
-    out << "Game:: joueur en cours " << iGame.currPlayer() << " sur " << iGame.getNPlayers() << endl;
+    out << "Game:: joueur en cours " << iGame.getCurrentPlayer().getId()
+        << " sur " << iGame.getNbPlayers() << endl;
     out << "Game:: mode " << iGame.getModeAsString() << endl;
     out << "Game:: variante ";
     switch (iGame.getVariant())
     {
-        case Game::kNONE:
+        case PublicGame::kNONE:
             out << "aucune" << endl;
             break;
-        case Game::kJOKER:
+        case PublicGame::kJOKER:
             out << "joker" << endl;
             break;
         default:
             out << "inconnu" << endl;
             break;
     }
-    out << "Game:: rack size " << iGame.RACK_SIZE << endl;
     out << "Game:: history --" << endl;
     out << convertToMb(iGame.getHistory().toString());
     out << "--" << endl;

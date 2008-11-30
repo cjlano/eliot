@@ -27,7 +27,7 @@
 
 
 class QLineEdit;
-class Game;
+class PublicGame;
 
 class PlayerWidget: public QWidget, private Ui::PlayerWidget
 {
@@ -36,7 +36,7 @@ class PlayerWidget: public QWidget, private Ui::PlayerWidget
 public:
     explicit PlayerWidget(QWidget *parent = 0,
                           unsigned int iPlayerNb = 0,
-                          Game *iGame = NULL);
+                          PublicGame *iGame = NULL);
 
 signals:
     void gameUpdated();
@@ -63,7 +63,7 @@ private slots:
 
 private:
     /// Encapsulated game, can be NULL
-    Game *m_game;
+    PublicGame *m_game;
 
     /// Encapsulated player, valid iff m_game is not NULL
     unsigned int m_player;
@@ -79,7 +79,7 @@ public:
     explicit PlayerTabWidget(QWidget *parent = 0);
 
 public slots:
-    void setGame(Game *iGame);
+    void setGame(PublicGame *iGame);
     void refresh();
 
 signals:
@@ -93,7 +93,7 @@ private slots:
 
 private:
     /// Encapsulated game, can be NULL
-    Game *m_game;
+    PublicGame *m_game;
 };
 
 #endif

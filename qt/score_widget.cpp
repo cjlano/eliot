@@ -23,13 +23,13 @@
 
 #include "score_widget.h"
 #include "qtcommon.h"
-#include "game.h"
+#include "public_game.h"
 #include "player.h"
 
 using namespace std;
 
 
-ScoreWidget::ScoreWidget(QWidget *parent, const Game *iGame)
+ScoreWidget::ScoreWidget(QWidget *parent, const PublicGame *iGame)
     : QTreeView(parent), m_game(iGame)
 {
     // Create the tree view
@@ -49,7 +49,7 @@ ScoreWidget::ScoreWidget(QWidget *parent, const Game *iGame)
 }
 
 
-void ScoreWidget::setGame(const Game *iGame)
+void ScoreWidget::setGame(const PublicGame *iGame)
 {
     m_game = iGame;
     updateModel();
@@ -71,7 +71,7 @@ void ScoreWidget::updateModel()
     if (m_game == NULL)
         return;
 
-    for (unsigned int i = 0; i < m_game->getNPlayers(); ++i)
+    for (unsigned int i = 0; i < m_game->getNbPlayers(); ++i)
     {
         const Player &p = m_game->getPlayer(i);
         int rowNum = m_model->rowCount();

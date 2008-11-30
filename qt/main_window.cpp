@@ -39,7 +39,7 @@
 #include "header.h"
 #include "game_factory.h"
 #include "game.h"
-#include "freegame.h"
+#include "public_game.h"
 #include "player.h"
 #include "history.h"
 #include "turn.h"
@@ -84,8 +84,8 @@ MainWindow::MainWindow(QWidget *iParent)
     cout << "Rand seed: " << val << endl;
 #endif
 
-    QObject::connect(this, SIGNAL(gameChanged(const Game*)),
-                     this, SLOT(updateForGame(const Game*)));
+    QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+                     this, SLOT(updateForGame(const PublicGame*)));
     QObject::connect(this, SIGNAL(gameUpdated()),
                      this, SLOT(refresh()));
     refresh();
@@ -100,8 +100,8 @@ MainWindow::MainWindow(QWidget *iParent)
 
     // Board
     BoardWidget *boardWidget = new BoardWidget;
-    QObject::connect(this, SIGNAL(gameChanged(const Game*)),
-                     boardWidget, SLOT(setGame(const Game*)));
+    QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+                     boardWidget, SLOT(setGame(const PublicGame*)));
     QObject::connect(this, SIGNAL(gameUpdated()),
                      boardWidget, SLOT(refresh()));
 
@@ -120,8 +120,8 @@ MainWindow::MainWindow(QWidget *iParent)
 
     // History
     HistoryTabWidget *historyTab = new HistoryTabWidget;
-    QObject::connect(this, SIGNAL(gameChanged(const Game*)),
-                     historyTab, SLOT(setGame(const Game*)));
+    QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+                     historyTab, SLOT(setGame(const PublicGame*)));
     QObject::connect(this, SIGNAL(gameUpdated()),
                      historyTab, SLOT(refresh()));
     QHBoxLayout *hlayout2 = new QHBoxLayout;
@@ -132,8 +132,8 @@ MainWindow::MainWindow(QWidget *iParent)
     m_ui.groupBoxPlayers->hide();
     PlayerTabWidget *players = new PlayerTabWidget(NULL);
     m_ui.groupBoxPlayers->layout()->addWidget(players);
-    QObject::connect(this, SIGNAL(gameChangedNonConst(Game*)),
-                     players, SLOT(setGame(Game*)));
+    QObject::connect(this, SIGNAL(gameChangedNonConst(PublicGame*)),
+                     players, SLOT(setGame(PublicGame*)));
     QObject::connect(this, SIGNAL(gameUpdated()), players, SLOT(refresh()));
 
     QObject::connect(players, SIGNAL(gameUpdated()), this, SIGNAL(gameUpdated()));
@@ -144,8 +144,8 @@ MainWindow::MainWindow(QWidget *iParent)
 
     // Players score
     ScoreWidget *scores = new ScoreWidget;
-    QObject::connect(this, SIGNAL(gameChanged(const Game*)),
-                     scores, SLOT(setGame(const Game*)));
+    QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+                     scores, SLOT(setGame(const PublicGame*)));
     QObject::connect(this, SIGNAL(gameUpdated()),
                      scores, SLOT(refresh()));
     m_ui.groupBoxPlayers->layout()->addWidget(scores);
@@ -204,8 +204,8 @@ void MainWindow::refresh()
 {
     if (m_game != NULL)
     {
-        bool isFirstTurn = m_game->getNavigation().isFirstTurn();
-        bool isLastTurn = m_game->getNavigation().isLastTurn();
+        bool isFirstTurn = m_game->isFirstTurn();
+        bool isLastTurn = m_game->isLastTurn();
         m_actionHistoryFirstTurn->setEnabled(!isFirstTurn);
         m_actionHistoryPrevTurn->setEnabled(!isFirstTurn);
         m_actionHistoryNextTurn->setEnabled(!isLastTurn);
@@ -213,13 +213,13 @@ void MainWindow::refresh()
         m_actionHistoryReplayTurn->setEnabled(!isLastTurn);
 #ifdef DEBUG
         cout << endl << endl;
-        m_game->getNavigation().print();
+        m_game->printTurns();
 #endif
     }
 }
 
 
-void MainWindow::updateForGame(const Game *iGame)
+void MainWindow::updateForGame(const PublicGame *iGame)
 {
     if (iGame == NULL)
     {
@@ -235,12 +235,12 @@ void MainWindow::updateForGame(const Game *iGame)
     else
     {
         m_actionGamePrint->setEnabled(true);
-        if (iGame->getMode() == Game::kTRAINING)
+        if (iGame->getMode() == PublicGame::kTRAINING)
         {
             m_actionGameSaveAs->setEnabled(true);
             setWindowTitle(_q("Training mode") + " - Eliot");
         }
-        else if (iGame->getMode() == Game::kDUPLICATE)
+        else if (iGame->getMode() == PublicGame::kDUPLICATE)
         {
             m_actionGameSaveAs->setEnabled(false);
             setWindowTitle(_q("Duplicate game") + " - Eliot");
@@ -456,12 +456,13 @@ void MainWindow::onGameLoad()
     if (fileName != "")
     {
         destroyCurrentGame();
-        m_game = GameFactory::Instance()->load(qtl(fileName), *m_dic);
-        if (m_game == NULL)
+        Game *tmpGame = GameFactory::Instance()->load(qtl(fileName), *m_dic);
+        if (tmpGame == NULL)
         {
             displayErrorMsg(_q("Error while loading the game"));
             return;
         }
+        m_game = new PublicGame(*tmpGame);
         m_ui.groupBoxPlayers->show();
         emit gameChangedNonConst(m_game);
         emit gameChanged(m_game);
@@ -701,8 +702,8 @@ void MainWindow::onWindowsBag()
         bag->setGame(m_game);
         m_bagWindow = new AuxWindow(*bag, _q("Bag"), "BagWindow",
                                     m_actionWindowsBag);
-        QObject::connect(this, SIGNAL(gameChanged(const Game*)),
-                         bag, SLOT(setGame(const Game*)));
+        QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+                         bag, SLOT(setGame(const PublicGame*)));
         QObject::connect(this, SIGNAL(gameUpdated()),
                          bag, SLOT(refresh()));
     }
@@ -719,8 +720,8 @@ void MainWindow::onWindowsBoard()
         board->setGame(m_game);
         m_boardWindow = new AuxWindow(*board, _q("Board"), "BoardWindow",
                                       m_actionWindowsBoard);
-        QObject::connect(this, SIGNAL(gameChanged(const Game*)),
-                         board, SLOT(setGame(const Game*)));
+        QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+                         board, SLOT(setGame(const PublicGame*)));
         QObject::connect(this, SIGNAL(gameUpdated()),
                          board, SLOT(refresh()));
     }
@@ -737,8 +738,8 @@ void MainWindow::onWindowsHistory()
         history->setGame(m_game);
         m_historyWindow = new AuxWindow(*history, _q("History"), "HistoryWindow",
                                         m_actionWindowsHistory);
-        QObject::connect(this, SIGNAL(gameChanged(const Game*)),
-                         history, SLOT(setGame(const Game*)));
+        QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+                         history, SLOT(setGame(const PublicGame*)));
         QObject::connect(this, SIGNAL(gameUpdated()),
                          history, SLOT(refresh()));
     }
@@ -787,10 +788,10 @@ void MainWindow::onHistoryFirstTurn()
     if (m_game == NULL)
         return;
 
-    m_game->accessNavigation().firstTurn();
+    m_game->firstTurn();
     emit gameUpdated();
-    unsigned int currTurn = m_game->getNavigation().getCurrTurn();
-    unsigned int nbTurns = m_game->getNavigation().getNbTurns();
+    unsigned int currTurn = m_game->getCurrTurn();
+    unsigned int nbTurns = m_game->getNbTurns();
     displayInfoMsg(_q("Turn %1/%2").arg(currTurn).arg(nbTurns));
 }
 
@@ -800,10 +801,10 @@ void MainWindow::onHistoryPrevTurn()
     if (m_game == NULL)
         return;
 
-    m_game->accessNavigation().prevTurn();
+    m_game->prevTurn();
     emit gameUpdated();
-    unsigned int currTurn = m_game->getNavigation().getCurrTurn();
-    unsigned int nbTurns = m_game->getNavigation().getNbTurns();
+    unsigned int currTurn = m_game->getCurrTurn();
+    unsigned int nbTurns = m_game->getNbTurns();
     displayInfoMsg(_q("Turn %1/%2").arg(currTurn).arg(nbTurns));
 }
 
@@ -813,10 +814,10 @@ void MainWindow::onHistoryNextTurn()
     if (m_game == NULL)
         return;
 
-    m_game->accessNavigation().nextTurn();
+    m_game->nextTurn();
     emit gameUpdated();
-    unsigned int currTurn = m_game->getNavigation().getCurrTurn();
-    unsigned int nbTurns = m_game->getNavigation().getNbTurns();
+    unsigned int currTurn = m_game->getCurrTurn();
+    unsigned int nbTurns = m_game->getNbTurns();
     displayInfoMsg(_q("Turn %1/%2").arg(currTurn).arg(nbTurns));
 }
 
@@ -826,10 +827,10 @@ void MainWindow::onHistoryLastTurn()
     if (m_game == NULL)
         return;
 
-    m_game->accessNavigation().lastTurn();
+    m_game->lastTurn();
     emit gameUpdated();
-    unsigned int currTurn = m_game->getNavigation().getCurrTurn();
-    unsigned int nbTurns = m_game->getNavigation().getNbTurns();
+    unsigned int currTurn = m_game->getCurrTurn();
+    unsigned int nbTurns = m_game->getNbTurns();
     displayInfoMsg(_q("Turn %1/%2").arg(currTurn).arg(nbTurns));
 }
 
@@ -849,7 +850,7 @@ void MainWindow::onHistoryReplayTurn()
     if (ret != QMessageBox::Ok)
         return;
 
-    m_game->accessNavigation().clearFuture();
+    m_game->clearFuture();
     emit gameUpdated();
     displayInfoMsg(_q("Future turns deleted"));
 }

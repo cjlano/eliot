@@ -38,6 +38,7 @@
 #include "dic_exception.h"
 #include "game_io.h"
 #include "game_factory.h"
+#include "public_game.h"
 #include "training.h"
 #include "duplicate.h"
 #include "freegame.h"
@@ -310,7 +311,7 @@ void help()
 }
 
 
-void display_data(const Game &iGame, const wchar_t *delim, wchar_t **state)
+void display_data(const PublicGame &iGame, const wchar_t *delim, wchar_t **state)
 {
     const wchar_t *token;
 
@@ -346,7 +347,7 @@ void display_data(const Game &iGame, const wchar_t *delim, wchar_t **state)
             }
             break;
         case L'j':
-            cout << "Joueur " << iGame.currPlayer() << endl;
+            cout << "Joueur " << iGame.getCurrentPlayer().getId() << endl;
             break;
         case L'l':
             GameIO::printNonPlayed(cout, iGame);
@@ -355,7 +356,7 @@ void display_data(const Game &iGame, const wchar_t *delim, wchar_t **state)
             switch (token[1])
                 {
                 case '\0':
-                    iGame.save(cout,Game::FILE_FORMAT_ADVANCED);
+                    iGame.save(cout,PublicGame::kFILE_FORMAT_ADVANCED);
                     break;
                 case 'd':
                     GameIO::printGameDebug(cout, iGame);
@@ -365,17 +366,17 @@ void display_data(const Game &iGame, const wchar_t *delim, wchar_t **state)
                 }
             break;
         case L'P':
-            iGame.save(cout,Game::FILE_FORMAT_STANDARD);
+            iGame.save(cout,PublicGame::kFILE_FORMAT_STANDARD);
             break;
         case L'r':
             token = next_token_digit(NULL, delim, state);
             if (token == NULL)
                 GameIO::printSearchResults(cout,
-                                           static_cast<const Training&>(iGame),
+                                           iGame.trainingGetResults(),
                                            10);
             else
                 GameIO::printSearchResults(cout,
-                                           static_cast<const Training&>(iGame),
+                                           iGame.trainingGetResults(),
                                            _wtoi(token));
             break;
         case L's':
@@ -397,7 +398,7 @@ void display_data(const Game &iGame, const wchar_t *delim, wchar_t **state)
 }
 
 
-void loop_training(Training &iGame)
+void loop_training(PublicGame &iGame)
 {
     const wchar_t *token;
     wchar_t *state;
@@ -506,7 +507,7 @@ void loop_training(Training &iGame)
                                 help_training();
                                 break;
                             }
-                            if ((res = iGame.play(coord, token)) != 0)
+                            if ((res = iGame.play(token, coord)) != 0)
                             {
                                 fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
                                         res);
@@ -523,24 +524,30 @@ void loop_training(Training &iGame)
                             int n = _wtoi(token);
                             if (n <= 0)
                             {
-                                iGame.back(n == 0 ? 1 : -n);
+                                if (n == 0)
+                                    n = -1;
+                                if ((unsigned int)-n > iGame.getHistory().getSize())
+                                    throw GameException("Cannot go back that far");
+                                for (int i = 0; i < -n; ++i)
+                                    iGame.prevTurn();
+                                iGame.clearFuture();
                             }
                             else
                             {
-                                if (iGame.playResult(--n))
+                                if (iGame.trainingPlayResult(--n))
                                     printf("mauvais argument\n");
                             }
                         }
                         break;
                     case L'r':
-                        iGame.search();
+                        iGame.trainingSearch();
                         break;
                     case L't':
                         token = next_token_alphaplusjoker(NULL, delim, &state);
                         if (token == NULL)
                             help_training();
                         else
-                            if (iGame.setRackManual(0, token))
+                            if (iGame.trainingSetRackManual(0, token))
                                 printf("le sac ne contient pas assez de lettres\n");
                         break;
                     case L'x':
@@ -551,10 +558,10 @@ void loop_training(Training &iGame)
                             eliottxt_get_cross(iGame.getDic(), token);
                         break;
                     case L'*':
-                        iGame.setRackRandom(false, Game::RACK_ALL);
+                        iGame.trainingSetRackRandom(false, PublicGame::kRACK_ALL);
                         break;
                     case L'+':
-                        iGame.setRackRandom(false, Game::RACK_NEW);
+                        iGame.trainingSetRackRandom(false, PublicGame::kRACK_NEW);
                         break;
                     case L's':
                         token = next_token_filename(NULL, delim, &state);
@@ -579,16 +586,16 @@ void loop_training(Training &iGame)
                             switch (token[0])
                             {
                                 case L'p':
-                                    iGame.accessNavigation().prevTurn();
+                                    iGame.prevTurn();
                                     break;
                                 case L'n':
-                                    iGame.accessNavigation().nextTurn();
+                                    iGame.nextTurn();
                                     break;
                                 case L'f':
-                                    iGame.accessNavigation().firstTurn();
+                                    iGame.firstTurn();
                                     break;
                                 case L'l':
-                                    iGame.accessNavigation().lastTurn();
+                                    iGame.lastTurn();
                                     break;
                             }
                         }
@@ -611,7 +618,7 @@ void loop_training(Training &iGame)
 }
 
 
-void loop_freegame(FreeGame &iGame)
+void loop_freegame(PublicGame &iGame)
 {
     const wchar_t *token;
     wchar_t *state;
@@ -668,7 +675,7 @@ void loop_freegame(FreeGame &iGame)
                                 help_freegame();
                                 break;
                             }
-                            if ((res = iGame.play(coord, token)) != 0)
+                            if ((res = iGame.play(token, coord)) != 0)
                             {
                                 fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
                                         res);
@@ -682,7 +689,7 @@ void loop_freegame(FreeGame &iGame)
                         if (token == NULL)
                             token = L"";
 
-                        if (iGame.pass(token) != 0)
+                        if (iGame.freeGamePass(token) != 0)
                             break;
                         break;
                     case L's':
@@ -708,16 +715,16 @@ void loop_freegame(FreeGame &iGame)
                             switch (token[0])
                             {
                                 case L'p':
-                                    iGame.accessNavigation().prevTurn();
+                                    iGame.prevTurn();
                                     break;
                                 case L'n':
-                                    iGame.accessNavigation().nextTurn();
+                                    iGame.nextTurn();
                                     break;
                                 case L'f':
-                                    iGame.accessNavigation().firstTurn();
+                                    iGame.firstTurn();
                                     break;
                                 case L'l':
-                                    iGame.accessNavigation().lastTurn();
+                                    iGame.lastTurn();
                                     break;
                             }
                         }
@@ -740,7 +747,7 @@ void loop_freegame(FreeGame &iGame)
 }
 
 
-void loop_duplicate(Duplicate &iGame)
+void loop_duplicate(PublicGame &iGame)
 {
     const wchar_t *token;
     wchar_t *state;
@@ -797,7 +804,7 @@ void loop_duplicate(Duplicate &iGame)
                                 help_duplicate();
                                 break;
                             }
-                            if ((res = iGame.play(coord, token)) != 0)
+                            if ((res = iGame.play(token, coord)) != 0)
                             {
                                 fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
                                         res);
@@ -812,12 +819,12 @@ void loop_duplicate(Duplicate &iGame)
                         else
                         {
                             int n = _wtoi(token);
-                            if (n < 0 || n >= (int)iGame.getNPlayers())
+                            if (n < 0 || n >= (int)iGame.getNbPlayers())
                             {
                                 fprintf(stderr, "Numéro de joueur invalide\n");
                                 break;
                             }
-                            int res = iGame.setPlayer(_wtoi(token));
+                            int res = iGame.duplicateSetPlayer(_wtoi(token));
                             if (res == 1)
                                 fprintf(stderr, "Impossible de choisir un joueur non humain\n");
                         }
@@ -845,16 +852,16 @@ void loop_duplicate(Duplicate &iGame)
                             switch (token[0])
                             {
                                 case L'p':
-                                    iGame.accessNavigation().prevTurn();
+                                    iGame.prevTurn();
                                     break;
                                 case L'n':
-                                    iGame.accessNavigation().nextTurn();
+                                    iGame.nextTurn();
                                     break;
                                 case L'f':
-                                    iGame.accessNavigation().firstTurn();
+                                    iGame.firstTurn();
                                     break;
                                 case L'l':
-                                    iGame.accessNavigation().lastTurn();
+                                    iGame.lastTurn();
                                     break;
                             }
                         }
@@ -1000,36 +1007,40 @@ void main_loop(const Dictionary &iDic)
                     else
                     {
                         string filename = convertToMb(token);
-                        Game *game = GameFactory::Instance()->load(filename, iDic);
-                        if (game == NULL)
+                        Game *tmpGame = GameFactory::Instance()->load(filename, iDic);
+                        if (tmpGame == NULL)
                         {
                             printf("erreur pendant le chargement de la partie\n");
                         }
                         else
                         {
+                            PublicGame *game = new PublicGame(*tmpGame);
                             switch (game->getMode())
                                 {
-                                case Game::kTRAINING:
-                                    loop_training((Training&)*game);
+                                case PublicGame::kTRAINING:
+                                    loop_training(*game);
                                     break;
-                                case Game::kFREEGAME:
-                                    loop_freegame((FreeGame&)*game);
+                                case PublicGame::kFREEGAME:
+                                    loop_freegame(*game);
                                     break;
-                                case Game::kDUPLICATE:
-                                    loop_duplicate((Duplicate&)*game);
+                                case PublicGame::kDUPLICATE:
+                                    loop_duplicate(*game);
                                     break;
                                 }
+                            //GameFactory::Instance()->releaseGame(*game);
+                            delete game;
                         }
-                        GameFactory::Instance()->releaseGame(*game);
                     }
                     break;
                 case L'e':
                 {
                     // New training game
-                    Training *game = GameFactory::Instance()->createTraining(iDic);
+                    Training *tmpGame = GameFactory::Instance()->createTraining(iDic);
+                    PublicGame *game = new PublicGame(*tmpGame);
                     game->start();
                     loop_training(*game);
-                    GameFactory::Instance()->releaseGame(*game);
+                    //GameFactory::Instance()->releaseGame(*game);
+                    delete game;
                     break;
                 }
                 case L'd':
@@ -1042,7 +1053,8 @@ void main_loop(const Dictionary &iDic)
                         help();
                         break;
                     }
-                    Duplicate *game = GameFactory::Instance()->createDuplicate(iDic);
+                    Duplicate *tmpGame = GameFactory::Instance()->createDuplicate(iDic);
+                    PublicGame *game = new PublicGame(*tmpGame);
                     for (i = 0; i < _wtoi(token); i++)
                         game->addPlayer(new HumanPlayer);
                     token = next_token_digit(NULL, delim, &state);
@@ -1055,7 +1067,8 @@ void main_loop(const Dictionary &iDic)
                         game->addPlayer(new AIPercent(1));
                     game->start();
                     loop_duplicate(*game);
-                    GameFactory::Instance()->releaseGame(*game);
+                    //GameFactory::Instance()->releaseGame(*game);
+                    delete game;
                     break;
                 }
                 case L'l':
@@ -1068,7 +1081,8 @@ void main_loop(const Dictionary &iDic)
                         help();
                         break;
                     }
-                    FreeGame *game = GameFactory::Instance()->createFreeGame(iDic);
+                    FreeGame *tmpGame = GameFactory::Instance()->createFreeGame(iDic);
+                    PublicGame *game = new PublicGame(*tmpGame);
                     for (i = 0; i < _wtoi(token); i++)
                         game->addPlayer(new HumanPlayer);
                     token = next_token_digit(NULL, delim, &state);
@@ -1081,29 +1095,34 @@ void main_loop(const Dictionary &iDic)
                         game->addPlayer(new AIPercent(1));
                     game->start();
                     loop_freegame(*game);
-                    GameFactory::Instance()->releaseGame(*game);
+                    //GameFactory::Instance()->releaseGame(*game);
+                    delete game;
                     break;
                 }
                 case L'D':
                 {
                     // New duplicate game
-                    Duplicate *game = GameFactory::Instance()->createDuplicate(iDic);
+                    Duplicate *tmpGame = GameFactory::Instance()->createDuplicate(iDic);
+                    PublicGame *game = new PublicGame(*tmpGame);
                     game->addPlayer(new HumanPlayer);
                     game->addPlayer(new AIPercent(1));
                     game->start();
                     loop_duplicate(*game);
-                    GameFactory::Instance()->releaseGame(*game);
+                    //GameFactory::Instance()->releaseGame(*game);
+                    delete game;
                     break;
                 }
                 case L'L':
                 {
                     // New free game
-                    FreeGame *game = GameFactory::Instance()->createFreeGame(iDic);
+                    FreeGame *tmpGame = GameFactory::Instance()->createFreeGame(iDic);
+                    PublicGame *game = new PublicGame(*tmpGame);
                     game->addPlayer(new HumanPlayer);
                     game->addPlayer(new AIPercent(1));
                     game->start();
                     loop_freegame(*game);
-                    GameFactory::Instance()->releaseGame(*game);
+                    //GameFactory::Instance()->releaseGame(*game);
+                    delete game;
                     break;
                 }
                 case L'x':

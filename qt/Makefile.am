@@ -68,8 +68,8 @@ eliot_SOURCES = \
     score_widget.cpp score_widget.h \
     board_widget.cpp board_widget.h \
     history_widget.cpp history_widget.h \
-    player_widget.cpp player_widget.h \
     training_widget.cpp training_widget.h \
+    player_widget.cpp player_widget.h \
     prefs_dialog.cpp prefs_dialog.h \
     aux_window.cpp aux_window.h \
     main_window.cpp main_window.h \

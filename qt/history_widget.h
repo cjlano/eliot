@@ -26,7 +26,7 @@
 
 
 class History;
-class Game;
+class PublicGame;
 class QStandardItemModel;
 class QTabWidget;
 
@@ -38,7 +38,7 @@ public:
     explicit HistoryWidget(QWidget *parent = 0);
 
     void setHistory(const History *iHistory,
-                    const Game *iGame = NULL,
+                    const PublicGame *iGame = NULL,
                     bool iIsForPlayer = false);
 
 public slots:
@@ -49,7 +49,7 @@ private:
     const History *m_history;
 
     /// Corresponding game (used to retrieve the players names) can be NULL
-    const Game *m_game;
+    const PublicGame *m_game;
 
     /**
      * Flag to avoid displaying the "players" column when the History object
@@ -73,7 +73,7 @@ public:
     explicit HistoryTabWidget(QWidget *parent = NULL);
 
 public slots:
-    void setGame(const Game *iGame);
+    void setGame(const PublicGame *iGame);
     void refresh();
 
 signals:
@@ -84,7 +84,7 @@ protected:
 
 private:
     /// Encapsulated game, can be NULL
-    const Game *m_game;
+    const PublicGame *m_game;
 
     /**
      * HistoryWidget for the game: we reuse it instead of creating and

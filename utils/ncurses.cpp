@@ -36,9 +36,9 @@
 #include "ncurses.h"
 #include "dic.h"
 #include "game_factory.h"
-#include "training.h"
-#include "duplicate.h"
-#include "freegame.h"
+#include "game.h"
+#include "public_game.h"
+#include "results.h"
 #include "player.h"
 #include "history.h"
 #include "turn.h"
@@ -175,7 +175,7 @@ void Box::clearRect(WINDOW *win, int y, int x, int h, int w)
 }
 
 
-CursesIntf::CursesIntf(WINDOW *win, Game& iGame)
+CursesIntf::CursesIntf(WINDOW *win, PublicGame& iGame)
     : m_win(win), m_game(&iGame), m_state(DEFAULT), m_dying(false),
     m_box(win, 0, 0, 0, 0), m_showDots(false)
 {
@@ -184,7 +184,8 @@ CursesIntf::CursesIntf(WINDOW *win, Game& iGame)
 
 CursesIntf::~CursesIntf()
 {
-    GameFactory::Instance()->releaseGame(*m_game);
+    //GameFactory::Instance()->releaseGame(*m_game);
+    delete m_game;
     GameFactory::Destroy();
 }
 
@@ -273,56 +274,57 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
 {
     // Compute the longest player name
     size_t longest = 0;
-    for (unsigned int i = 0; i < m_game->getNPlayers(); i++)
+    for (unsigned int i = 0; i < m_game->getNbPlayers(); i++)
     {
         longest = std::max(longest, m_game->getPlayer(i).getName().size());
     }
 
-    Box box(win, y, x, m_game->getNPlayers() + 2, 25);
+    Box box(win, y, x, m_game->getNbPlayers() + 2, 25);
     box.draw(_("Scores"));
     // Magic formula to truncate too long names
     unsigned int maxForScores =
         std::min(longest,
                  box.getWidth() - strlen(_("%s: %d")) - 1);
-    for (unsigned int i = 0; i < m_game->getNPlayers(); i++)
+    unsigned int currId = m_game->getCurrentPlayer().getId();
+    for (unsigned int i = 0; i < m_game->getNbPlayers(); i++)
     {
-        if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
+        if (m_game->getMode() != PublicGame::kTRAINING && i == currId)
             attron(A_BOLD);
         mvwprintw(win, y + i + 1, x + 2, _("%s: %d"),
                   truncOrPad(convertToMb(m_game->getPlayer(i).getName()),
                              maxForScores).c_str(),
                   m_game->getPlayer(i).getPoints());
-        if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
+        if (m_game->getMode() != PublicGame::kTRAINING && i == currId)
             attroff(A_BOLD);
     }
 
     // Distance between the 2 boxes
-    unsigned int yOff = m_game->getNPlayers() + 3;
+    unsigned int yOff = m_game->getNbPlayers() + 3;
 
-    Box box2(win, y + yOff, x, m_game->getNPlayers() + 2, 25);
+    Box box2(win, y + yOff, x, m_game->getNbPlayers() + 2, 25);
     box2.draw(_("Racks"));
     // Magic formula to truncate too long names
     unsigned int maxForRacks =
         std::min(longest,
                  box.getWidth() - strlen(_("%s: %ls")) - 4);
-    for (unsigned int i = 0; i < m_game->getNPlayers(); i++)
+    for (unsigned int i = 0; i < m_game->getNbPlayers(); i++)
     {
-        if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
+        if (m_game->getMode() != PublicGame::kTRAINING && i == currId)
             attron(A_BOLD);
         wstring rack = m_game->getPlayer(i).getCurrentRack().toString(PlayedRack::RACK_SIMPLE);
         mvwprintw(win, y + yOff + i + 1, x + 2, _("%s: %ls"),
                   truncOrPad(convertToMb(m_game->getPlayer(i).getName()),
                              maxForRacks).c_str(),
                   rack.c_str());
-        if (m_game->getMode() != Game::kTRAINING && i == m_game->currPlayer())
+        if (m_game->getMode() != PublicGame::kTRAINING && i == currId)
             attroff(A_BOLD);
         // Force to refresh the whole rack
         whline(win, ' ', 7 - rack.size());
     }
 
     // Display a message when the search is complete
-    if (m_game->getMode() == Game::kTRAINING &&
-        static_cast<Training*>(m_game)->getResults().size())
+    if (m_game->getMode() == PublicGame::kTRAINING &&
+        m_game->trainingGetResults().size())
     {
         mvwprintw(win, y + 2*yOff - 1, x + 2, _("Search complete"));
     }
@@ -333,15 +335,14 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
 
 void CursesIntf::drawResults(Box &ioBox) const
 {
-    if (m_game->getMode() != Game::kTRAINING)
+    if (m_game->getMode() != PublicGame::kTRAINING)
         return;
-    Training *tr_game = static_cast<Training*>(m_game);
 
     ioBox.draw(_("Search results"));
-    ioBox.setDataSize(tr_game->getResults().size());
+    const Results& res = m_game->trainingGetResults();
+    ioBox.setDataSize(res.size());
 
     unsigned int i;
-    const Results& res = tr_game->getResults();
     int x = ioBox.getLeft();
     for (i = (unsigned int)ioBox.getFirstLine();
          i < res.size() && i < (unsigned int)ioBox.getLastLine(); i++)
@@ -564,7 +565,7 @@ void CursesIntf::playWord(WINDOW *win, int y, int x)
     if (readString(win, y + 1, x + xOff, 15, word) &&
         readString(win, y + 2, x + xOff, 3, coord))
     {
-        int res = m_game->play(coord, word);
+        int res = m_game->play(word, coord);
         if (res)
         {
             drawStatus(win, _("Incorrect or misplaced word"));
@@ -616,7 +617,7 @@ void CursesIntf::saveGame(WINDOW *win, int y, int x)
         }
         else
         {
-            m_game->save(fout, Game::FILE_FORMAT_ADVANCED);
+            m_game->save(fout, PublicGame::kFILE_FORMAT_ADVANCED);
             fout.close();
             snprintf(s, 100, _("Game saved in '%ls'"), filename.c_str());
             drawStatus(win, s, false);
@@ -645,7 +646,7 @@ void CursesIntf::loadGame(WINDOW *win, int y, int x)
         }
         else
         {
-            Game *loaded = Game::load(fin, m_game->getDic());
+            PublicGame *loaded = PublicGame::load(fin, m_game->getDic());
             if (loaded == NULL)
             {
                 snprintf(s, 100, _("Invalid saved game"));
@@ -654,7 +655,8 @@ void CursesIntf::loadGame(WINDOW *win, int y, int x)
             else
             {
                 snprintf(s, 100, _("Game loaded"));
-                GameFactory::Instance()->releaseGame(*m_game);
+                //GameFactory::Instance()->releaseGame(*m_game);
+                delete m_game;
                 m_game = loaded;
                 drawStatus(win, s, false);
             }
@@ -665,7 +667,7 @@ void CursesIntf::loadGame(WINDOW *win, int y, int x)
 }
 
 
-void CursesIntf::passTurn(WINDOW *win, int y, int x, FreeGame &iGame)
+void CursesIntf::passTurn(WINDOW *win, int y, int x, PublicGame &iGame)
 {
     Box box(win, y, x, 4, 32);
     box.draw(_("Pass your turn"));
@@ -675,7 +677,7 @@ void CursesIntf::passTurn(WINDOW *win, int y, int x, FreeGame &iGame)
     wstring letters;
     if (readString(win, y + 2, x + 2, 7, letters))
     {
-        int res = iGame.pass(letters);
+        int res = iGame.freeGamePass(letters);
         if (res)
         {
             drawStatus(win, _("Cannot pass the turn"));
@@ -685,7 +687,7 @@ void CursesIntf::passTurn(WINDOW *win, int y, int x, FreeGame &iGame)
 }
 
 
-void CursesIntf::setRack(WINDOW *win, int y, int x, Training &iGame)
+void CursesIntf::setRack(WINDOW *win, int y, int x, PublicGame &iGame)
 {
     Box box(win, y, x, 4, 32);
     box.draw(_("Set rack"));
@@ -695,7 +697,7 @@ void CursesIntf::setRack(WINDOW *win, int y, int x, Training &iGame)
     wstring letters;
     if (readString(win, y + 2, x + 2, 7, letters, kJOKER))
     {
-        int res = iGame.setRackManual(false, letters);
+        int res = iGame.trainingSetRackManual(false, letters);
         if (res)
         {
             drawStatus(win, _("Cannot take these letters from the bag"));
@@ -830,7 +832,7 @@ bool CursesIntf::readString(WINDOW *win, int y, int x, int n, wstring &oString,
 }
 
 
-int CursesIntf::handleKeyForGame(int iKey, Training &iGame)
+int CursesIntf::handleKeyForTraining(int iKey, PublicGame &iGame)
 {
     switch (iKey)
     {
@@ -840,7 +842,7 @@ int CursesIntf::handleKeyForGame(int iKey, Training &iGame)
                 setState(DEFAULT);
                 redraw(m_win);
             }
-            iGame.setRackRandom(false, Game::RACK_ALL);
+            iGame.trainingSetRackRandom(false, PublicGame::kRACK_ALL);
             return 1;
 
         case '+':
@@ -849,7 +851,7 @@ int CursesIntf::handleKeyForGame(int iKey, Training &iGame)
                 setState(DEFAULT);
                 redraw(m_win);
             }
-            iGame.setRackRandom(false, Game::RACK_NEW);
+            iGame.trainingSetRackRandom(false, PublicGame::kRACK_NEW);
             return 1;
 
         case 't':
@@ -864,7 +866,7 @@ int CursesIntf::handleKeyForGame(int iKey, Training &iGame)
 
         case 'c':
         case 'C':
-            iGame.search();
+            iGame.trainingSearch();
             return 1;
 
         default:
@@ -873,7 +875,7 @@ int CursesIntf::handleKeyForGame(int iKey, Training &iGame)
 }
 
 
-int CursesIntf::handleKeyForGame(int iKey, Duplicate &iGame)
+int CursesIntf::handleKeyForDuplicate(int iKey, PublicGame &iGame)
 {
     switch (iKey)
     {
@@ -882,7 +884,7 @@ int CursesIntf::handleKeyForGame(int iKey, Duplicate &iGame)
         {
             // Get the human players who have not played yet
             set<unsigned int> humans;
-            for (unsigned int id = 0; id < iGame.getNPlayers(); ++id)
+            for (unsigned int id = 0; id < iGame.getNbPlayers(); ++id)
             {
                 if (iGame.getPlayer(id).isHuman() && !iGame.hasPlayed(id))
                     humans.insert(id);
@@ -891,9 +893,9 @@ int CursesIntf::handleKeyForGame(int iKey, Duplicate &iGame)
             // Try to find a player with a bigger ID
             set<unsigned int>::const_iterator it = humans.upper_bound(currId);
             if (it != humans.end())
-                iGame.setPlayer(*it);
+                iGame.duplicateSetPlayer(*it);
             else
-                iGame.setPlayer(*humans.begin());
+                iGame.duplicateSetPlayer(*humans.begin());
             return 1;
         }
 
@@ -903,7 +905,7 @@ int CursesIntf::handleKeyForGame(int iKey, Duplicate &iGame)
 }
 
 
-int CursesIntf::handleKeyForGame(int iKey, FreeGame &iGame)
+int CursesIntf::handleKeyForFreeGame(int iKey, PublicGame &iGame)
 {
     switch (iKey)
     {
@@ -926,17 +928,17 @@ int CursesIntf::handleKey(int iKey)
 
     // Handle game-specific keys
     int res;
-    if (m_game->getMode() == Game::kTRAINING)
+    if (m_game->getMode() == PublicGame::kTRAINING)
     {
-        res = handleKeyForGame(iKey, (Training&)*m_game);
+        res = handleKeyForTraining(iKey, *m_game);
     }
-    else if (m_game->getMode() == Game::kDUPLICATE)
+    else if (m_game->getMode() == PublicGame::kDUPLICATE)
     {
-        res = handleKeyForGame(iKey, (Duplicate&)*m_game);
+        res = handleKeyForDuplicate(iKey, *m_game);
     }
     else
     {
-        res = handleKeyForGame(iKey, (FreeGame&)*m_game);
+        res = handleKeyForFreeGame(iKey, *m_game);
     }
     if (res != 2)
         return res;
@@ -988,7 +990,7 @@ int CursesIntf::handleKey(int iKey)
         // Toggle results (training mode only)
         case 'r':
         case 'R':
-            if (m_game->getMode() != Game::kTRAINING)
+            if (m_game->getMode() != PublicGame::kTRAINING)
             {
                 beep();
                 return 0;
@@ -1106,14 +1108,14 @@ void CursesIntf::redraw(WINDOW *win)
     // Title
     attron(A_REVERSE);
     string mode;
-    if (m_game->getMode() == Game::kTRAINING)
+    if (m_game->getMode() == PublicGame::kTRAINING)
         mode = _("Training mode");
-    else if (m_game->getMode() == Game::kFREEGAME)
+    else if (m_game->getMode() == PublicGame::kFREEGAME)
         mode = _("Free game mode");
-    else if (m_game->getMode() == Game::kDUPLICATE)
+    else if (m_game->getMode() == PublicGame::kDUPLICATE)
         mode = _("Duplicate mode");
     string variant = "";
-    if (m_game->getVariant() == Game::kJOKER)
+    if (m_game->getVariant() == PublicGame::kJOKER)
         variant = string(" - ") + _("Joker game");
     string title = "Eliot (" + mode + variant + ") " + _("[h for help]");
 
@@ -1153,12 +1155,13 @@ int main(int argc, char ** argv)
 
     srand(time(NULL));
 
-    Game *game = GameFactory::Instance()->createFromCmdLine(argc, argv);
-    if (game == NULL)
+    Game *realGame = GameFactory::Instance()->createFromCmdLine(argc, argv);
+    if (realGame == NULL)
     {
         GameFactory::Destroy();
         return 1;
     }
+    PublicGame *game = new PublicGame(*realGame);
 
     game->start();
 

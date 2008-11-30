@@ -25,8 +25,7 @@
 #include "ui/training_widget.ui.h"
 
 
-class Game;
-class Training;
+class PublicGame;
 class RackValidator;
 class QStandardItemModel;
 class QString;
@@ -39,7 +38,7 @@ public:
     explicit TrainingWidget(QWidget *parent = 0);
 
 public slots:
-    void setGame(Game *iGame);
+    void setGame(PublicGame *iGame);
     void refresh();
 
 signals:
@@ -65,7 +64,7 @@ private slots:
 
 private:
     /// Encapsulated training game, can be NULL
-    Training *m_game;
+    PublicGame *m_game;
 
     /// Model of the search results
     QStandardItemModel *m_model;

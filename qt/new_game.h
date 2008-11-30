@@ -28,7 +28,7 @@
 
 
 class Dictionary;
-class Game;
+class PublicGame;
 class QStandardItemModel;
 
 class NewGame: public QDialog, private Ui::NewGameDialog
@@ -46,7 +46,7 @@ public:
      * Create and return a game object from the information of the dialog.
      * The Game object is always valid
      */
-    Game * createGame(const Dictionary& iDic) const;
+    PublicGame * createGame(const Dictionary& iDic) const;
 
 private slots:
     void enableLevelSpinBox(int);

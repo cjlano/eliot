@@ -28,6 +28,7 @@
 #include "qtcommon.h"
 #include "game_factory.h"
 #include "game.h"
+#include "public_game.h"
 #include "training.h"
 #include "freegame.h"
 #include "duplicate.h"
@@ -90,16 +91,17 @@ NewGame::NewGame(QWidget *iParent)
 }
 
 
-Game * NewGame::createGame(const Dictionary &iDic) const
+PublicGame * NewGame::createGame(const Dictionary &iDic) const
 {
     // Create the game
-    Game *game = NULL;
+    Game *tmpGame = NULL;
     if (comboBoxMode->currentText() == _q("Training"))
-        game = GameFactory::Instance()->createTraining(iDic);
+        tmpGame = GameFactory::Instance()->createTraining(iDic);
     else if (comboBoxMode->currentText() == _q("Free game"))
-        game = GameFactory::Instance()->createFreeGame(iDic);
+        tmpGame = GameFactory::Instance()->createFreeGame(iDic);
     else
-        game = GameFactory::Instance()->createDuplicate(iDic);
+        tmpGame = GameFactory::Instance()->createDuplicate(iDic);
+    PublicGame *game = new PublicGame(*tmpGame);
 
     // Add the players
     if (comboBoxMode->currentText() != _q("Training"))
@@ -142,7 +144,7 @@ Game * NewGame::createGame(const Dictionary &iDic) const
 
     // Joker game?
     if (checkBoxJoker->isChecked())
-        game->setVariant(Game::kJOKER);
+        game->setVariant(PublicGame::kJOKER);
 
     return game;
 }

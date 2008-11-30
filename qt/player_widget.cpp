@@ -26,9 +26,7 @@
 #include "player_widget.h"
 #include "training_widget.h"
 #include "qtcommon.h"
-#include "game.h"
-#include "freegame.h"
-#include "duplicate.h"
+#include "public_game.h"
 #include "player.h"
 #include "pldrack.h"
 #include "coord.h"
@@ -73,7 +71,7 @@ public:
 };
 
 
-PlayerWidget::PlayerWidget(QWidget *parent, unsigned int iPlayerNb, Game *iGame)
+PlayerWidget::PlayerWidget(QWidget *parent, unsigned int iPlayerNb, PublicGame *iGame)
     : QWidget(parent), m_game(iGame), m_player(iPlayerNb)
 {
     setupUi(this);
@@ -97,9 +95,9 @@ PlayerWidget::PlayerWidget(QWidget *parent, unsigned int iPlayerNb, Game *iGame)
             setEnabled(false);
 
         // Changing the rack is authorized only in training mode
-        lineEditRack->setReadOnly(m_game->getMode() != Game::kTRAINING);
+        lineEditRack->setReadOnly(m_game->getMode() != PublicGame::kTRAINING);
     }
-    if (m_game == NULL || m_game->getMode() != Game::kFREEGAME)
+    if (m_game == NULL || m_game->getMode() != PublicGame::kFREEGAME)
     {
         // Hide the freegame-specific controls
         labelChange->hide();
@@ -193,7 +191,7 @@ void PlayerWidget::on_lineEditPlay_returnPressed()
     }
 
     QString coords = lineEditCoords->text();
-    int res = m_game->play(qtw(coords), qtw(word));
+    int res = m_game->play(qtw(word), qtw(coords));
     if (res == 0)
     {
         emit gameUpdated();
@@ -253,13 +251,12 @@ void PlayerWidget::on_lineEditPlay_returnPressed()
 
 void PlayerWidget::on_lineEditChange_returnPressed()
 {
-    FreeGame *free = dynamic_cast<FreeGame*>(m_game);
-    ASSERT(free != NULL,
+    ASSERT(m_game->getMode() == PublicGame::kFREEGAME,
            "Trying to pass or change letters while not in free game mode");
 
     // Pass the turn (and possibly change letters)
     QString letters = lineEditChange->text();
-    int res = free->pass(qtw(letters));
+    int res = m_game->freeGamePass(qtw(letters));
     if (res == 0)
         emit gameUpdated();
     else
@@ -378,7 +375,7 @@ PlayerTabWidget::PlayerTabWidget(QWidget *parent)
 }
 
 
-void PlayerTabWidget::setGame(Game *iGame)
+void PlayerTabWidget::setGame(PublicGame *iGame)
 {
     m_game = iGame;
 
@@ -396,7 +393,7 @@ void PlayerTabWidget::setGame(Game *iGame)
     if (iGame != NULL)
     {
         // Training mode: use a dedicated widget
-        if (iGame->getMode() == Game::kTRAINING)
+        if (iGame->getMode() == PublicGame::kTRAINING)
         {
             const Player &player = iGame->getPlayer(0);
             TrainingWidget *trWidget = new TrainingWidget;
@@ -415,7 +412,7 @@ void PlayerTabWidget::setGame(Game *iGame)
         else
         {
             // Add one tab per player
-            for (unsigned int i = 0; i < iGame->getNPlayers(); ++i)
+            for (unsigned int i = 0; i < iGame->getNbPlayers(); ++i)
             {
                 const Player &player = iGame->getPlayer(i);
                 PlayerWidget *p = new PlayerWidget(NULL, i, iGame);
@@ -431,7 +428,7 @@ void PlayerTabWidget::setGame(Game *iGame)
                 if (!player.isHuman())
                     setTabEnabled(i, false);
             }
-            setCurrentIndex(iGame->currPlayer());
+            setCurrentIndex(iGame->getCurrentPlayer().getId());
         }
     }
 }
@@ -440,7 +437,7 @@ void PlayerTabWidget::setGame(Game *iGame)
 void PlayerTabWidget::refresh()
 {
     if (m_game)
-        setCurrentIndex(m_game->currPlayer());
+        setCurrentIndex(m_game->getCurrentPlayer().getId());
     emit refreshSignal();
 }
 
@@ -449,10 +446,10 @@ void PlayerTabWidget::changeCurrentPlayer(int p)
 {
     // Change the active player when the active tab changes
     // (only in duplicate mode)
-    Duplicate *dupli = dynamic_cast<Duplicate*>(m_game);
-    if (dupli && widget(p)->isEnabled())
+    if (m_game->getMode() == PublicGame::kDUPLICATE &&
+        widget(p)->isEnabled())
     {
-        dupli->setPlayer(p);
+        m_game->duplicateSetPlayer(p);
     }
 }
 

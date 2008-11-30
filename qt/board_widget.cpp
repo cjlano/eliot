@@ -24,7 +24,7 @@
 
 #include "board_widget.h"
 #include "qtcommon.h"
-#include "game.h"
+#include "public_game.h"
 #include "tile.h"
 #include "board.h"
 
@@ -53,7 +53,7 @@ BoardWidget::BoardWidget(QWidget *parent)
 }
 
 
-void BoardWidget::setGame(const Game *iGame)
+void BoardWidget::setGame(const PublicGame *iGame)
 {
     m_game = iGame;
     refresh();

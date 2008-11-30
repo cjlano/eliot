@@ -30,7 +30,7 @@ class Dictionary;
 class Bag;
 class Board;
 class History;
-class Game;
+class PublicGame;
 class NewGame;
 class PrefsDialog;
 class AuxWindow;
@@ -47,8 +47,8 @@ public:
 
 signals:
     void dicChanged(const Dictionary *iDic);
-    void gameChanged(const Game *iGame);
-    void gameChangedNonConst(Game *iGame);
+    void gameChanged(const PublicGame *iGame);
+    void gameChangedNonConst(PublicGame *iGame);
     void gameUpdated();
 
 public slots:
@@ -87,7 +87,7 @@ private slots:
      * Perform several updates when the game changes (title bar, status bar,
      * grey out some menu items, ...)
      */
-    void updateForGame(const Game *iGame);
+    void updateForGame(const PublicGame *iGame);
 
     /// Update the status bar contents
     void updateStatusBar(const Dictionary *iDic);
@@ -97,7 +97,7 @@ private:
     const Dictionary *m_dic;
 
     /// Current game
-    Game *m_game;
+    PublicGame *m_game;
 
     /// The UI file generated with Qt Designer
     Ui::MainWindow m_ui;

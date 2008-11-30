@@ -23,10 +23,7 @@
 #include <ncursesw/curses.h>
 #include <string>
 
-class Game;
-class Training;
-class Duplicate;
-class FreeGame;
+class PublicGame;
 
 using std::string;
 using std::wstring;
@@ -104,7 +101,7 @@ public:
     // Pre-requisite: the given Game object MUST have been allocated with new
     // (in particular: not on the stack)
     // This class also takes the responsability of destroying the Game object.
-    CursesIntf(WINDOW *win, Game& iGame);
+    CursesIntf(WINDOW *win, PublicGame& iGame);
     ~CursesIntf();
     bool isDying() const { return m_dying; }
     int handleKey(int iKey);
@@ -142,8 +139,8 @@ private:
     void checkWord(WINDOW *win, int y, int x);
     void saveGame(WINDOW *win, int y, int x);
     void loadGame(WINDOW *win, int y, int x);
-    void passTurn(WINDOW *win, int y, int x, FreeGame &iGame);
-    void setRack(WINDOW *win, int y, int x, Training &iGame);
+    void passTurn(WINDOW *win, int y, int x, PublicGame &iGame);
+    void setRack(WINDOW *win, int y, int x, PublicGame &iGame);
 
     // Get a string from the user, with a maximum length
     // The string is validated if the user presses Enter (return value: true)
@@ -158,17 +155,17 @@ private:
     static const unsigned int kFILENAME = 1 << 1;
 
     // Handle the key in Training mode
-    int handleKeyForGame(int iKey, Training &iGame);
+    int handleKeyForTraining(int iKey, PublicGame &iGame);
     // Handle the key in Duplicate mode
-    int handleKeyForGame(int iKey, Duplicate &iGame);
+    int handleKeyForDuplicate(int iKey, PublicGame &iGame);
     // Handle the key in FreeGame mode
-    int handleKeyForGame(int iKey, FreeGame &iGame);
+    int handleKeyForFreeGame(int iKey, PublicGame &iGame);
 
     // Main window for drawing
     WINDOW *m_win;
     // Current game
-    // Invariant: the pointer will always point to a valid Game object
-    Game *m_game;
+    // Invariant: the pointer will always point to a valid PublicGame object
+    PublicGame *m_game;
     // Interface state
     State m_state;
     // True when the user requested to quit

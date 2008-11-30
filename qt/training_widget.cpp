@@ -24,9 +24,9 @@
 #include "training_widget.h"
 #include "qtcommon.h"
 #include "dic.h"
-#include "game.h"
+#include "bag.h"
+#include "public_game.h"
 #include "game_exception.h"
-#include "training.h"
 #include "player.h"
 #include "results.h"
 
@@ -83,9 +83,9 @@ TrainingWidget::TrainingWidget(QWidget *parent)
 }
 
 
-void TrainingWidget::setGame(Game *iGame)
+void TrainingWidget::setGame(PublicGame *iGame)
 {
-    m_game = dynamic_cast<Training*>(iGame);
+    m_game = iGame;
     if (m_game != NULL)
         m_validator->setBag(&m_game->getBag());
     else
@@ -126,7 +126,7 @@ void TrainingWidget::updateModel()
     // Consider that there is nothing to do if the number of lines is correct
     // This avoids problems when the game is updated for a test play
     if (m_game != NULL &&
-        m_game->getResults().size() == (unsigned int)m_model->rowCount())
+        m_game->trainingGetResults().size() == (unsigned int)m_model->rowCount())
     {
         return;
     }
@@ -136,9 +136,10 @@ void TrainingWidget::updateModel()
     if (m_game == NULL)
         return;
 
-    for (unsigned int i = 0; i < m_game->getResults().size(); ++i)
+    const Results &results = m_game->trainingGetResults();
+    for (unsigned int i = 0; i < results.size(); ++i)
     {
-        const Round &r = m_game->getResults().get(i);
+        const Round &r = results.get(i);
         int rowNum = m_model->rowCount();
         m_model->insertRow(rowNum);
         m_model->setData(m_model->index(rowNum, 0), qfw(r.getWord()));
@@ -174,13 +175,13 @@ void TrainingWidget::enablePlayButton(const QItemSelection &iSelected,
 void TrainingWidget::showPreview(const QItemSelection &iSelected,
                                  const QItemSelection &)
 {
-    m_game->removeTestPlay();
+    m_game->trainingRemoveTestPlay();
     if (!iSelected.indexes().empty())
     {
         // Use the hidden column to get the result number
         const QModelIndex &index =
             m_model->index(iSelected.indexes().first().row(), 5);
-        m_game->testPlay(m_model->data(index).toUInt());
+        m_game->trainingTestPlay(m_model->data(index).toUInt());
         emit gameUpdated();
     }
 }
@@ -189,7 +190,7 @@ void TrainingWidget::showPreview(const QItemSelection &iSelected,
 void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
 {
     // FIXME: first parameter is hardcoded
-    int res = m_game->setRackManual(false, qtw(iText));
+    int res = m_game->trainingSetRackManual(false, qtw(iText));
     if (res == 0)
     {
         pushButtonSearch->setEnabled(m_model->rowCount() == 0 &&
@@ -204,10 +205,10 @@ void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
 void TrainingWidget::on_pushButtonRack_clicked()
 {
     // FIXME: first parameter is hardcoded
-    m_game->removeTestPlay();
+    m_game->trainingRemoveTestPlay();
     try
     {
-        m_game->setRackRandom(true, Game::RACK_ALL);
+        m_game->trainingSetRackRandom(true, PublicGame::kRACK_ALL);
         emit gameUpdated();
     }
     catch (GameException &e)
@@ -220,10 +221,10 @@ void TrainingWidget::on_pushButtonRack_clicked()
 void TrainingWidget::on_pushButtonComplement_clicked()
 {
     // FIXME: first parameter is hardcoded
-    m_game->removeTestPlay();
+    m_game->trainingRemoveTestPlay();
     try
     {
-        m_game->setRackRandom(true, Game::RACK_NEW);
+        m_game->trainingSetRackRandom(true, PublicGame::kRACK_NEW);
         emit gameUpdated();
     }
     catch (GameException &e)
@@ -235,9 +236,9 @@ void TrainingWidget::on_pushButtonComplement_clicked()
 
 void TrainingWidget::on_pushButtonSearch_clicked()
 {
-    m_game->removeTestPlay();
+    m_game->trainingRemoveTestPlay();
     emit notifyInfo(_q("Searching with rack '%1'...").arg(lineEditRack->text()));
-    m_game->search();
+    m_game->trainingSearch();
     emit notifyInfo(_q("Search done"));
     emit gameUpdated();
 }
@@ -257,10 +258,10 @@ void TrainingWidget::on_treeViewResults_doubleClicked(const QModelIndex &iIndex)
 {
     if (!iIndex.isValid())
         return;
-    m_game->removeTestPlay();
+    m_game->trainingRemoveTestPlay();
     // Use the hidden column to get the result number
     const QModelIndex &index = m_model->index(iIndex.row(), 5);
-    m_game->playResult(m_model->data(index).toUInt());
+    m_game->trainingPlayResult(m_model->data(index).toUInt());
     emit gameUpdated();
 }
 

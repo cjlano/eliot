@@ -25,7 +25,7 @@
 
 #include "bag_widget.h"
 #include "qtcommon.h"
-#include "game.h"
+#include "public_game.h"
 #include "dic.h"
 #include "tile.h"
 #include "bag.h"
@@ -53,7 +53,7 @@ BagWidget::BagWidget(QWidget *parent)
 }
 
 
-void BagWidget::setGame(const Game *iGame)
+void BagWidget::setGame(const PublicGame *iGame)
 {
     m_game = iGame;
     updateModel();
