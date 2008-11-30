@@ -58,15 +58,15 @@ public:
     virtual int play(const wstring &iCoord, const wstring &iWord);
 
     void search();
-    const Results& getResults() const { return m_results; };
-    int playResult(unsigned int);
+    const Results& getResults() const { return m_results; }
+    int playResult(unsigned int iResultIndex);
 
     /**
      * Complete (or reset) the rack randomly.
      * @exception EndGameException if it is impossible to complete the rack
      * for some reason...
      */
-    void setRackRandom(bool, set_rack_mode);
+    void setRackRandom(bool iCheck, set_rack_mode iRackMode);
 
     int setRackManual(bool iCheck, const wstring &iLetters);
 
@@ -87,7 +87,7 @@ public:
      *************************/
 
     /// Place a temporary word on the board for preview purposes
-    void testPlay(unsigned int);
+    void testPlay(unsigned int iResultIndex);
     /// Remove the temporary word
     void removeTestPlay();
     /// Get the temporary word

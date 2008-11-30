@@ -879,8 +879,23 @@ int CursesIntf::handleKeyForGame(int iKey, Duplicate &iGame)
     {
         case 'n':
         case 'N':
-            iGame.nextHumanPlayer();
+        {
+            // Get the human players who have not played yet
+            set<unsigned int> humans;
+            for (unsigned int id = 0; id < iGame.getNPlayers(); ++id)
+            {
+                if (iGame.getPlayer(id).isHuman() && !iGame.hasPlayed(id))
+                    humans.insert(id);
+            }
+            unsigned int currId = iGame.getCurrentPlayer().getId();
+            // Try to find a player with a bigger ID
+            set<unsigned int>::const_iterator it = humans.upper_bound(currId);
+            if (it != humans.end())
+                iGame.setPlayer(*it);
+            else
+                iGame.setPlayer(*humans.begin());
             return 1;
+        }
 
         default:
             return 2;

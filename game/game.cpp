@@ -38,7 +38,6 @@
 #include "results.h"
 #include "player.h"
 #include "game.h"
-#include "game_factory.h"
 #include "turn.h"
 #include "encoding.h"
 #include "game_exception.h"

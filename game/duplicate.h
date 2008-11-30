@@ -87,12 +87,6 @@ public:
      */
     int setPlayer(unsigned int p);
 
-    /// Switch to the previous human player who has not played yet
-    void prevHumanPlayer();
-
-    /// Switch to the next human player who has not played yet
-    void nextHumanPlayer();
-
     /// Return true if the player has played for the current turn
     virtual bool hasPlayed(unsigned int iPlayerId) const;
 

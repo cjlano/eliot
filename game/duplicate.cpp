@@ -284,32 +284,6 @@ int Duplicate::setPlayer(unsigned int p)
 }
 
 
-void Duplicate::prevHumanPlayer()
-{
-    if (getNHumanPlayers() == 0)
-        return;
-    // FIXME: possible infinite loop...
-    do
-    {
-        prevPlayer();
-    } while (!m_players[m_currPlayer]->isHuman() ||
-             m_hasPlayed[m_currPlayer]);
-}
-
-
-void Duplicate::nextHumanPlayer()
-{
-    if (getNHumanPlayers() == 0)
-        return;
-    // FIXME: possible infinite loop...
-    do
-    {
-        nextPlayer();
-    } while (!m_players[m_currPlayer]->isHuman() ||
-             m_hasPlayed[m_currPlayer]);
-}
-
-
 bool Duplicate::hasPlayed(unsigned int p) const
 {
     ASSERT(p < getNPlayers(), "Wrong player number");
