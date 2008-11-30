@@ -134,9 +134,18 @@ void PlayerWidget::refresh()
     lineEditCoords->clear();
     lineEditChange->clear();
 
-    // Do not allow messing with AI players or with players who already played
-    setEnabled(!m_game->hasPlayed(m_player) &&
-               m_game->getPlayer(m_player).isHuman());
+    if (!m_game->isLastTurn())
+    {
+        // Do not allow entering a move when displaying an old turn
+        setEnabled(false);
+    }
+    else
+    {
+        // Do not allow messing with AI players or with players
+        // who already played
+        setEnabled(!m_game->hasPlayed(m_player) &&
+                   m_game->getPlayer(m_player).isHuman());
+    }
 }
 
 
