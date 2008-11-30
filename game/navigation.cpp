@@ -145,6 +145,11 @@ void Navigation::lastTurn()
 
 void Navigation::clearFuture()
 {
+    // Replay the auto-execution turns
+    // (i.e. turns where only the AI was involved)
+    while (!isLastTurn() && m_turnCommands[m_currTurn]->isAutoExecution())
+        nextTurn();
+
     // When there is no future, don't do anything
     if (isLastTurn())
         return;

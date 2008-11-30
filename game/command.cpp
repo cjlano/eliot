@@ -23,7 +23,7 @@
 
 
 Command::Command()
-    : m_executed(false)
+    : m_executed(false), m_autoExecution(true)
 {
 }
 

@@ -95,7 +95,7 @@ private:
     Duplicate(const Dictionary &iDic);
 
     /// Record a player move
-    void recordPlayerMove(const Move &iMove, Player &ioPlayer);
+    void recordPlayerMove(const Move &iMove, Player &ioPlayer, bool isForHuman);
 
     /// Make the AI player whose ID is p play its turn
     void playAI(unsigned int p);

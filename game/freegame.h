@@ -86,7 +86,7 @@ private:
     void playAI(unsigned int p);
 
     /// Record a player move
-    void recordPlayerMove(const Move &iMove, Player &ioPlayer);
+    void recordPlayerMove(const Move &iMove, Player &ioPlayer, bool isForHuman);
 
     /// Finish the current turn
     int endTurn();

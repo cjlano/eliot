@@ -69,6 +69,17 @@ void TurnCmd::doUndo()
 }
 
 
+bool TurnCmd::isAutoExecution() const
+{
+    BOOST_FOREACH(Command *cmd, m_commands)
+    {
+        if (!cmd->isAutoExecution())
+            return false;
+    }
+    return true;
+}
+
+
 wstring TurnCmd::toString() const
 {
     wostringstream oss;

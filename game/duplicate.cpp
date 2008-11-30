@@ -61,12 +61,12 @@ int Duplicate::play(const wstring &iCoord, const wstring &iWord)
     if (res == 0)
     {
         // Everything is OK, we can play the word
-        recordPlayerMove(Move(round), currPlayer);
+        recordPlayerMove(Move(round), currPlayer, true);
     }
     else
     {
         // Record the invalid move of the player
-        recordPlayerMove(Move(iWord, iCoord), currPlayer);
+        recordPlayerMove(Move(iWord, iCoord), currPlayer, true);
     }
 
     // Little hack to handle duplicate games with only AI players.
@@ -93,7 +93,7 @@ void Duplicate::playAI(unsigned int p)
         ASSERT(false, "AI tried to cheat!");
     }
 
-    recordPlayerMove(move, *player);
+    recordPlayerMove(move, *player, false);
 }
 
 
@@ -164,12 +164,14 @@ void Duplicate::tryEndTurn()
 }
 
 
-void Duplicate::recordPlayerMove(const Move &iMove, Player &ioPlayer)
+void Duplicate::recordPlayerMove(const Move &iMove, Player &ioPlayer, bool isForHuman)
 {
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
+    pCmd->setAutoExecution(!isForHuman);
     accessNavigation().addAndExecute(pCmd);
 
     Command *pCmd2 = new MarkPlayedCmd(*this, ioPlayer.getId(), true);
+    pCmd2->setAutoExecution(!isForHuman);
     accessNavigation().addAndExecute(pCmd2);
 }
 

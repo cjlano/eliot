@@ -59,6 +59,7 @@ void Training::setRackRandom(bool iCheck, set_rack_mode mode)
     const PlayedRack &newRack =
         helperSetRackRandom(getCurrentPlayer().getCurrentRack(), iCheck, mode);
     Command *pCmd = new PlayerRackCmd(*m_players[m_currPlayer], newRack);
+    pCmd->setAutoExecution(false);
     accessNavigation().addAndExecute(pCmd);
 }
 
@@ -130,6 +131,7 @@ void Training::recordPlayerMove(const Move &iMove, Player &ioPlayer)
     // (called in this class in endTurn()).
     // See the big comment in game.cpp, line 96
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
+    pCmd->setAutoExecution(false);
     accessNavigation().addAndExecute(pCmd);
 }
 
