@@ -444,6 +444,11 @@ void PlayerTabWidget::refresh()
 
 void PlayerTabWidget::changeCurrentPlayer(int p)
 {
+    // This method is triggered somehow when creating a Duplicate game
+    // after a FreeGame one. The next line avoids crashing in this case...
+    if (m_game == NULL)
+        return;
+
     // Change the active player when the active tab changes
     // (only in duplicate mode)
     if (m_game->getMode() == PublicGame::kDUPLICATE &&
