@@ -53,12 +53,10 @@ Move AIPercent::getMove() const
 {
     if (m_results.size() == 0)
     {
-        // If there is no result, change all the letters
+        // If there is no result, pass the turn.
         // XXX: it is forbidden in duplicate mode (even passing is forbidden),
         // but well, what else to do?
-        Rack rack;
-        getCurrentRack().getRack(rack);
-        return Move(rack.toString());
+        return Move(L"");
     }
     else
     {
