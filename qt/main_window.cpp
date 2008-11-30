@@ -789,6 +789,9 @@ void MainWindow::onHistoryFirstTurn()
 
     m_game->accessNavigation().firstTurn();
     emit gameUpdated();
+    unsigned int currTurn = m_game->getNavigation().getCurrTurn();
+    unsigned int nbTurns = m_game->getNavigation().getNbTurns();
+    displayInfoMsg(_q("Turn %1/%2").arg(currTurn).arg(nbTurns));
 }
 
 
@@ -799,6 +802,9 @@ void MainWindow::onHistoryPrevTurn()
 
     m_game->accessNavigation().prevTurn();
     emit gameUpdated();
+    unsigned int currTurn = m_game->getNavigation().getCurrTurn();
+    unsigned int nbTurns = m_game->getNavigation().getNbTurns();
+    displayInfoMsg(_q("Turn %1/%2").arg(currTurn).arg(nbTurns));
 }
 
 
@@ -809,6 +815,9 @@ void MainWindow::onHistoryNextTurn()
 
     m_game->accessNavigation().nextTurn();
     emit gameUpdated();
+    unsigned int currTurn = m_game->getNavigation().getCurrTurn();
+    unsigned int nbTurns = m_game->getNavigation().getNbTurns();
+    displayInfoMsg(_q("Turn %1/%2").arg(currTurn).arg(nbTurns));
 }
 
 
@@ -819,6 +828,9 @@ void MainWindow::onHistoryLastTurn()
 
     m_game->accessNavigation().lastTurn();
     emit gameUpdated();
+    unsigned int currTurn = m_game->getNavigation().getCurrTurn();
+    unsigned int nbTurns = m_game->getNavigation().getNbTurns();
+    displayInfoMsg(_q("Turn %1/%2").arg(currTurn).arg(nbTurns));
 }
 
 

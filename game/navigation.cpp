@@ -60,6 +60,24 @@ void Navigation::addAndExecute(Command *iCmd)
 }
 
 
+unsigned int Navigation::getCurrTurn() const
+{
+    unsigned int currTurn = m_currTurn;
+    if (isLastTurn() && m_turnCommands.back()->isEmpty())
+        --currTurn;
+    return currTurn;
+}
+
+
+unsigned int Navigation::getNbTurns() const
+{
+    unsigned int count = m_turnCommands.size();
+    if (m_turnCommands.back()->isEmpty())
+        --count;
+    return count;
+}
+
+
 bool Navigation::isFirstTurn() const
 {
     return m_currTurn == 1 ||

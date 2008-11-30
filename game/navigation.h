@@ -38,7 +38,8 @@ class Navigation
         void newTurn();
         void addAndExecute(Command *iCmd);
 
-        unsigned int getCurrTurn() const { return m_currTurn; }
+        unsigned int getCurrTurn() const;
+        unsigned int getNbTurns() const;
         bool isFirstTurn() const;
         bool isLastTurn() const;
 
