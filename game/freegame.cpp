@@ -33,6 +33,7 @@
 #include "pldrack.h"
 #include "results.h"
 #include "player.h"
+#include "player_points_cmd.h"
 #include "player_move_cmd.h"
 #include "player_rack_cmd.h"
 #include "game_move_cmd.h"
@@ -209,11 +210,17 @@ void FreeGame::endGame()
         {
             const PlayedRack &pld = m_players[i]->getCurrentRack();
             pld.getAllTiles(tiles);
+            int points = 0;
             BOOST_FOREACH(const Tile &tile, tiles)
             {
-                m_players[i]->addPoints(- tile.getPoints());
-                m_players[m_currPlayer]->addPoints(tile.getPoints());
+                points += tile.getPoints();
             }
+            // Add the points to the current player...
+            Command *pCmd = new PlayerPointsCmd(*m_players[m_currPlayer], points);
+            accessNavigation().addAndExecute(pCmd);
+            // ... and remove them from the other player
+            Command *pCmd2 = new PlayerPointsCmd(*m_players[i], -points);
+            accessNavigation().addAndExecute(pCmd2);
         }
     }
 
