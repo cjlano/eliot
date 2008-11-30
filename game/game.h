@@ -165,15 +165,6 @@ public:
      */
     virtual int play(const wstring &iCoord, const wstring &iWord) = 0;
 
-    /**
-     * Go back to turn iTurn.
-     * We must have: iTurn < getHistory().getSize()
-     * Possible return values:
-     *  0: everything went fine
-     *  1: iTurn is invalid
-     */
-    int back(unsigned int iTurn);
-
     /// Shuffle the rack of the current player
     void shuffleRack();
 

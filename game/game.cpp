@@ -74,20 +74,6 @@ const Player& Game::getPlayer(unsigned int iNum) const
 }
 
 
-int Game::back(unsigned int n)
-{
-    if (m_history.getSize() < n)
-        throw GameException("Cannot go back that far");
-
-    for (unsigned int i = 0; i < n; ++i)
-    {
-        m_navigation.prevTurn();
-    }
-    m_navigation.clearFuture();
-    return 0;
-}
-
-
 void Game::shuffleRack()
 {
     PlayedRack pld = getCurrentPlayer().getCurrentRack();
