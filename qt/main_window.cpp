@@ -649,10 +649,13 @@ void MainWindow::onSettingsChooseDic()
 {
     if (m_game)
     {
-        int res = QMessageBox::question(this, _q("Stop current game?"),
-                                        _q("Loading a dictionary will stop the current game. Do you want to continue?"),
-                                        QMessageBox::Yes | QMessageBox::Default,
-                                        QMessageBox::No | QMessageBox::Escape);
+        QString msg = _q("Loading a dictionary will stop the current game.");
+        QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), msg,
+                                    QMessageBox::Yes | QMessageBox::No, this);
+        confirmationBox.setInformativeText(_q("Do you want to continue?"));
+        confirmationBox.setDefaultButton(QMessageBox::Yes);
+        confirmationBox.setEscapeButton(QMessageBox::No);
+        int res = confirmationBox.exec();
         if (res == QMessageBox::No)
             return;
     }
@@ -842,16 +845,20 @@ void MainWindow::onHistoryReplayTurn()
 
     // Ask for a confirmation, because this may lead to data loss
     QString msg = _q("Replaying this turn will modify the game history "
-                     "by deleting the turns \"in the future\".");
+                     "by deleting the turns after the displayed one (i.e. "
+                     "turns \"in the future\").");
     QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), msg,
-                                QMessageBox::Ok | QMessageBox::Cancel, this);
+                                QMessageBox::Yes | QMessageBox::No, this);
     confirmationBox.setInformativeText(_q("Do you want to continue?"));
+    confirmationBox.setDefaultButton(QMessageBox::Yes);
+    confirmationBox.setEscapeButton(QMessageBox::No);
     int ret = confirmationBox.exec();
-    if (ret != QMessageBox::Ok)
+    if (ret != QMessageBox::Yes)
         return;
 
+    unsigned int currTurn = m_game->getCurrTurn();
     m_game->clearFuture();
     emit gameUpdated();
-    displayInfoMsg(_q("Future turns deleted"));
+    displayInfoMsg(_q("Replaying from turn %1").arg(currTurn));
 }
 
