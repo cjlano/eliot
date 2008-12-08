@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>401</width>
-    <height>432</height>
+    <width>404</width>
+    <height>437</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -60,6 +60,16 @@
         </property>
         <property name="text" >
          <string>_("Align the rack and the solution in history")</string>
+        </property>
+        <property name="checked" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxIntfWarnReplayTurn" >
+        <property name="text" >
+         <string>_("Warn before replaying a turn")</string>
         </property>
         <property name="checked" >
          <bool>true</bool>

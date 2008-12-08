@@ -843,18 +843,22 @@ void MainWindow::onHistoryReplayTurn()
     if (m_game == NULL)
         return;
 
-    // Ask for a confirmation, because this may lead to data loss
-    QString msg = _q("Replaying this turn will modify the game history "
-                     "by deleting the turns after the displayed one (i.e. "
-                     "turns \"in the future\").");
-    QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), msg,
-                                QMessageBox::Yes | QMessageBox::No, this);
-    confirmationBox.setInformativeText(_q("Do you want to continue?"));
-    confirmationBox.setDefaultButton(QMessageBox::Yes);
-    confirmationBox.setEscapeButton(QMessageBox::No);
-    int ret = confirmationBox.exec();
-    if (ret != QMessageBox::Yes)
-        return;
+    QSettings settings(ORGANIZATION, PACKAGE_NAME);
+    QVariant warn = settings.value(PrefsDialog::kINTF_WARN_REPLAY_TURN);
+    if (warn.isNull() || warn.toBool()) {
+        // Ask for a confirmation, because this may lead to data loss
+        QString msg = _q("Replaying this turn will modify the game history "
+                         "by deleting the turns after the displayed one (i.e. "
+                         "turns \"in the future\").");
+        QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), msg,
+                                    QMessageBox::Yes | QMessageBox::No, this);
+        confirmationBox.setInformativeText(_q("Do you want to continue?"));
+        confirmationBox.setDefaultButton(QMessageBox::Yes);
+        confirmationBox.setEscapeButton(QMessageBox::No);
+        int ret = confirmationBox.exec();
+        if (ret != QMessageBox::Yes)
+            return;
+    }
 
     unsigned int currTurn = m_game->getCurrTurn();
     m_game->clearFuture();

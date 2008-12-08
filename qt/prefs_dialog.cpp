@@ -31,6 +31,7 @@
 
 const QString PrefsDialog::kINTF_ALIGN_HISTORY = "Interface/AlignHistory";
 const QString PrefsDialog::kINTF_DIC_PATH = "Interface/DicPath";
+const QString PrefsDialog::kINTF_WARN_REPLAY_TURN = "Interface/WarnReplayTurn";
 
 
 PrefsDialog::PrefsDialog(QWidget *iParent)
@@ -42,8 +43,10 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     {
         // Interface settings
         QSettings qs(ORGANIZATION, PACKAGE_NAME);
-        checkBoxIntfAlignHistory->setChecked(qs.value(kINTF_ALIGN_HISTORY).toBool());
         lineEditIntfDicPath->setText(qs.value(kINTF_DIC_PATH, "").toString());
+        checkBoxIntfAlignHistory->setChecked(qs.value(kINTF_ALIGN_HISTORY).toBool());
+        QVariant warnReplayTurn = qs.value(kINTF_WARN_REPLAY_TURN);
+        checkBoxIntfWarnReplayTurn->setChecked(warnReplayTurn.isNull() || warnReplayTurn.toBool());
 
         // Duplicate settings
         checkBoxDuplRefuseInvalid->setChecked(Settings::Instance().getBool("duplicate.reject-invalid"));
@@ -92,13 +95,14 @@ void PrefsDialog::updateSettings()
     {
         // Interface settings
         QSettings qs(ORGANIZATION, PACKAGE_NAME);
+        qs.setValue(kINTF_DIC_PATH, lineEditIntfDicPath->text());
         if (qs.value(kINTF_ALIGN_HISTORY).toBool() != checkBoxIntfAlignHistory->isChecked())
         {
             // We need to redraw the history widget
             shouldEmitUpdate = true;
             qs.setValue(kINTF_ALIGN_HISTORY, checkBoxIntfAlignHistory->isChecked());
         }
-        qs.setValue(kINTF_DIC_PATH, lineEditIntfDicPath->text());
+        qs.setValue(kINTF_WARN_REPLAY_TURN, checkBoxIntfWarnReplayTurn->isChecked());
 
         // Duplicate settings
         Settings::Instance().setBool("duplicate.reject-invalid",
