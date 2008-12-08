@@ -1,6 +1,5 @@
 ICONV_VERSION = 1.12
 LIBCONFIG_VERSION = 1.3.1
-WX_VERSION = 2.6.4
 BOOST_VERSION = 1_34_1
 QT_VERSION = 4.4.1
 
@@ -15,7 +14,7 @@ CONFIGURE = CC="$(CC)" CXX="$(CXX)" CPPFLAGS="$(CPPFLAGS)" ./configure --host=i5
 
 .PHONY: help all
 
-all: .iconv .wxWidgets .boost .qt .libconfig
+all: .iconv .boost .qt .libconfig
 
 help:
 	@echo "Usage: make all"
@@ -46,23 +45,6 @@ $(LIBCONFIG_DIR):
 
 .libconfig: $(LIBCONFIG_DIR)
 	(cd $< && CFLAGS=-DLIBCONFIG_STATIC CXXFLAGS=-DLIBCONFIG_STATIC $(CONFIGURE) --enable-static --disable-shared && make && make install)
-	touch $@
-
-
-### wxWidgets ###
-
-WX_ARCHIVE = wxMSW-$(WX_VERSION).zip
-WX_DIR = wxWidgets-$(WX_VERSION)
-WX_DOS_FILES = config* *.sh install-sh mkinstalldirs
-
-$(WX_DIR):
-	$(WGET) http://heanet.dl.sourceforge.net/sourceforge/wxwindows/$(WX_ARCHIVE)
-	unzip $(WX_ARCHIVE)
-
-.wxWidgets: $(WX_DIR)
-	(cd $< && dos2unix $(WX_DOS_FILES) && chmod +x $(WX_DOS_FILES))
-	(cd $< && $(CONFIGURE) --disable-shared --enable-optimise --disable-debug --enable-unicode --without-libtiff --without-expat --without-zlib --without-libpng --without-libjpeg --without-regex --disable-mediactrl && make && make install)
-	dos2unix $(PREFIX)/bin/wx-config
 	touch $@
 
 

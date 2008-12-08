@@ -28,14 +28,12 @@ See below for more details on the available interfaces.
 There are in fact several interfaces to Eliot:
  - one in text mode: mostly useful to debug Eliot
  - one using the ncursesw library: nice and complete, but not really graphical
- - a wxWidgets interface: working, but it does not allow multiplayer
-   modes, only training mode. This interface will disappear in version 1.8.
  - a Qt interface: the best interface to use, it supports all the features.
    This one is enabled by default if Qt development files are detected, but
    you can force it with --enable-qt
 
 These interfaces can be enabled or disabled at configuration time. Example:
-    ./configure --disable-text --enable-ncurses --disable-wxwidgets --enable-qt
+    ./configure --disable-text --enable-ncurses --enable-qt
 
 
 
@@ -58,7 +56,7 @@ Here are the steps for the cross-compilation:
 
     cd extras/contrib && make all
 
-  Eliot dependencies (libiconv, boost, wxWidgets and Qt) will be downloaded
+  Eliot dependencies (libiconv, boost, and Qt) will be downloaded
   and cross-compiled (except Qt, which is already compiled).
   The dependencies are installed in 'extras/contrib/inst'
 
@@ -80,7 +78,6 @@ Here are the steps for the cross-compilation:
             CPPFLAGS=-I${INST}/include LDFLAGS=-L${INST}/lib \
             CC=i586-mingw32msvc-gcc CXX=i586-mingw32msvc-g++ \
             ./configure --host=i586-mingw32msvc --build=i386-linux \
-            --enable-wxwidgets --with-wx-config=${INST}/bin/wx-config \
             --with-boost=${INST}
 
     - to compile, run 'make', possibly followed with 'make install'

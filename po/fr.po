@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-16 10:29+0100\n"
+"POT-Creation-Date: 2008-12-08 22:07+0100\n"
 "PO-Revision-Date: 2008-11-16 10:35+0100\n"
 "Last-Translator: Olivier Teulière <ipkiss@via.ecp.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -285,78 +285,83 @@ msgstr "Entrer une expression régulière :"
 msgid "result:"
 msgstr "résultat :"
 
-#: dic/regexpmain.cpp:108 wxwin/searchpanel.cc:296
+#: dic/regexpmain.cpp:108
 msgid "Invalid regular expression: "
 msgstr "Expression régulière invalide : "
 
-#: game/game.cpp:468
+#: game/game.cpp:232
 msgid "The bag is empty"
 msgstr "Le sac est vide"
 
-#: game/game.cpp:475 game/game.cpp:485
+#: game/game.cpp:239 game/game.cpp:249
 msgid "Not enough vowels or consonants to complete the rack"
 msgstr "Pas assez de voyelles ou de consonnes pour compléter le tirage"
 
-#: game/training.cpp:49 qt/new_game.cpp:97 qt/new_game.cpp:105
-#: qt/new_game.cpp:140 qt/ui/new_game.ui:46
+#: game/game_factory.cpp:148
+#, fuzzy, c-format
+msgid "Player %u"
+msgstr "Joueur %1"
+
+#: game/training.cpp:52 qt/new_game.cpp:98 qt/new_game.cpp:107
+#: qt/new_game.cpp:142 qt/ui/new_game.ui:46
 msgid "Training"
 msgstr "Entraînement"
 
-#: utils/ncurses.cpp:282
+#: utils/ncurses.cpp:283
 msgid "Scores"
 msgstr "Scores"
 
-#: utils/ncurses.cpp:286 utils/ncurses.cpp:291
+#: utils/ncurses.cpp:287 utils/ncurses.cpp:293
 #, c-format
 msgid "%s: %d"
 msgstr "%s : %d"
 
-#: utils/ncurses.cpp:303
+#: utils/ncurses.cpp:305
 msgid "Racks"
 msgstr "Tirages"
 
-#: utils/ncurses.cpp:307 utils/ncurses.cpp:313
+#: utils/ncurses.cpp:309 utils/ncurses.cpp:315
 #, c-format
 msgid "%s: %ls"
 msgstr "%s : %ls"
 
-#: utils/ncurses.cpp:327 utils/ncurses.cpp:330
+#: utils/ncurses.cpp:329 utils/ncurses.cpp:332
 msgid "Search complete"
 msgstr "Recherche terminée"
 
-#: utils/ncurses.cpp:340 qt/ui/training_widget.ui:71
+#: utils/ncurses.cpp:341 qt/ui/training_widget.ui:71
 msgid "Search results"
 msgstr "Résultats de la recherche"
 
-#: utils/ncurses.cpp:369
+#: utils/ncurses.cpp:370
 msgid "History of the game"
 msgstr "Historique de la partie"
 
-#: utils/ncurses.cpp:375
+#: utils/ncurses.cpp:376
 msgid " N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS"
 msgstr " N |  TIRAGE  |    SOLUTION     | REF | PTS | J | BONUS"
 
-#: utils/ncurses.cpp:414 qt/history_widget.cpp:143 qt/main_window.cpp:553
+#: utils/ncurses.cpp:415 qt/history_widget.cpp:143 qt/main_window.cpp:616
 msgid "(PASS)"
 msgstr "(PASSE)"
 
-#: utils/ncurses.cpp:440
+#: utils/ncurses.cpp:441
 msgid "Help"
 msgstr "Aide"
 
-#: utils/ncurses.cpp:444
+#: utils/ncurses.cpp:445
 msgid "[Global]"
 msgstr "[Général]"
 
-#: utils/ncurses.cpp:445
+#: utils/ncurses.cpp:446
 msgid "   h, H, ?          Show/hide help box"
 msgstr "   h, H, ?          Afficher/cacher la boîte d'aide"
 
-#: utils/ncurses.cpp:446
+#: utils/ncurses.cpp:447
 msgid "   y, Y             Show/hide history of the game"
 msgstr "   y, Y             Afficher/cacher l'historique de la partie"
 
-#: utils/ncurses.cpp:447
+#: utils/ncurses.cpp:448
 msgid ""
 "   b, B             Show/hide contents of the bag (including letters of the "
 "racks)"
@@ -364,99 +369,98 @@ msgstr ""
 "   b, B             Afficher/cacher le contenu du sac (avec les lettres des "
 "tirages)"
 
-#: utils/ncurses.cpp:448
+#: utils/ncurses.cpp:449
 msgid "   e, E             Show/hide dots on empty squares of the board"
 msgstr ""
 "   e, E             Afficher/cacher les points sur les cases vides du "
 "plateau de jeu"
 
-#: utils/ncurses.cpp:449
+#: utils/ncurses.cpp:450
 msgid "   d, D             Check the existence of a word in the dictionary"
 msgstr "   d, D             Vérifier l'existence d'un mot dans le dictionnaire"
 
-#: utils/ncurses.cpp:450
+#: utils/ncurses.cpp:451
 msgid "   j, J             Play a word"
 msgstr "   j, J             Jouer un mot"
 
-#: utils/ncurses.cpp:451
+#: utils/ncurses.cpp:452
 msgid "   s, S             Save the game"
 msgstr "   s, S             Sauvegarder la partie"
 
-#: utils/ncurses.cpp:452
+#: utils/ncurses.cpp:453
 msgid "   l, L             Load a game"
 msgstr "   l, L             Charger une partie"
 
-#: utils/ncurses.cpp:453
+#: utils/ncurses.cpp:454
 msgid "   q, Q             Quit"
 msgstr "   q, Q             Quitter"
 
-#: utils/ncurses.cpp:456
+#: utils/ncurses.cpp:457
 msgid "[Training mode]"
 msgstr "[Mode entraînement]"
 
-#: utils/ncurses.cpp:457
+#: utils/ncurses.cpp:458
 msgid "   *                Take a random rack"
 msgstr "   *                Tirage aléatoire"
 
-#: utils/ncurses.cpp:458
+#: utils/ncurses.cpp:459
 msgid "   +                Complete the current rack randomly"
 msgstr "   +                Compléter le tirage courant de manière aléatoire"
 
-#: utils/ncurses.cpp:459
+#: utils/ncurses.cpp:460
 msgid "   t, T             Set the rack manually"
 msgstr "   t, T             Entrer le tirage manuellement"
 
-#: utils/ncurses.cpp:460
+#: utils/ncurses.cpp:461
 msgid "   c, C             Compute all the possible words"
 msgstr "   c, C             Calculer tous les mots possibles"
 
-#: utils/ncurses.cpp:461
+#: utils/ncurses.cpp:462
 msgid "   r, R             Show/hide search results"
 msgstr "   r, R             Afficher/cacher les résultats de la recherche"
 
-#: utils/ncurses.cpp:464
+#: utils/ncurses.cpp:465
 msgid "[Duplicate mode]"
 msgstr "[Mode duplicate]"
 
-#: utils/ncurses.cpp:465
+#: utils/ncurses.cpp:466
 msgid "   n, N             Switch to the next human player"
 msgstr "   n, N             Passer au joueur humain suivant"
 
-#: utils/ncurses.cpp:468
+#: utils/ncurses.cpp:469
 msgid "[Free game mode]"
 msgstr "[Mode partie libre]"
 
-#: utils/ncurses.cpp:469
+#: utils/ncurses.cpp:470
 msgid "   p, P             Pass your turn (with or without changing letters)"
 msgstr ""
 "   p, P             Passer son tour (en changeant ou pas certaines lettres)"
 
-#: utils/ncurses.cpp:472
+#: utils/ncurses.cpp:473
 msgid "[Miscellaneous]"
 msgstr "[Divers]"
 
-#: utils/ncurses.cpp:473
+#: utils/ncurses.cpp:474
 msgid "   <up>, <down>     Navigate in a box line by line"
 msgstr "   <haut>, <bas>    Naviguer dans une boîte ligne par ligne"
 
-#: utils/ncurses.cpp:474
+#: utils/ncurses.cpp:475
 msgid "   <pgup>, <pgdown> Navigate in a box page by page"
 msgstr "   <pgup>, <pgdown> Naviguer dans une boîte page par page"
 
-#: utils/ncurses.cpp:475
+#: utils/ncurses.cpp:476
 msgid "   Ctrl-l           Refresh the screen"
 msgstr "   Ctrl-l           Rafraîchir l'écran"
 
-#: utils/ncurses.cpp:486 wxwin/auxframes.cc:147 qt/main_window.cpp:636
-#: qt/ui/main_window.ui:94
+#: utils/ncurses.cpp:487 qt/main_window.cpp:712 qt/ui/main_window.ui:91
 msgid "Bag"
 msgstr "Sac"
 
-#: utils/ncurses.cpp:493
+#: utils/ncurses.cpp:494
 msgid " LETTER | POINTS | FREQUENCY | REMAINING"
 msgstr " LETTRE | POINTS | FREQUENCE | RESTANT"
 
-#: utils/ncurses.cpp:546
+#: utils/ncurses.cpp:547
 msgid "Play a word"
 msgstr "Jouer un mot"
 
@@ -464,787 +468,116 @@ msgstr "Jouer un mot"
 #. "Coordinates:". For example:
 #. Pl. word   :
 #. Coordinates:
-#: utils/ncurses.cpp:547 utils/ncurses.cpp:555
+#: utils/ncurses.cpp:548 utils/ncurses.cpp:556
 msgid "Played word:"
 msgstr "Mot joué    :"
 
-#: utils/ncurses.cpp:548 utils/ncurses.cpp:556
+#: utils/ncurses.cpp:549 utils/ncurses.cpp:557
 msgid "Coordinates:"
 msgstr "Coordonnées :"
 
-#: utils/ncurses.cpp:570
+#: utils/ncurses.cpp:571
 msgid "Incorrect or misplaced word"
 msgstr "Mot incorrect ou mal placé"
 
-#: utils/ncurses.cpp:580
+#: utils/ncurses.cpp:581
 msgid "Dictionary"
 msgstr "Dictionnaire"
 
-#: utils/ncurses.cpp:581
+#: utils/ncurses.cpp:582
 msgid "Enter the word to check:"
 msgstr "Entrer le mot à vérifier:"
 
-#: utils/ncurses.cpp:590
+#: utils/ncurses.cpp:591
 #, c-format
 msgid "The word '%ls' exists"
 msgstr "Le mot '%ls' existe"
 
-#: utils/ncurses.cpp:592
+#: utils/ncurses.cpp:593
 #, c-format
 msgid "The word '%ls' does not exist"
 msgstr "Le mot '%ls' n'existe pas"
 
-#: utils/ncurses.cpp:602 wxwin/mainframe.cc:475 wxwin/mainframe.cc:483
+#: utils/ncurses.cpp:603
 msgid "Save the game"
 msgstr "Sauvegarder la partie"
 
-#: utils/ncurses.cpp:603 utils/ncurses.cpp:633
+#: utils/ncurses.cpp:604 utils/ncurses.cpp:634
 msgid "Enter the file name:"
 msgstr "Entrer le nom du fichier :"
 
-#: utils/ncurses.cpp:613
+#: utils/ncurses.cpp:614
 #, c-format
 msgid "Cannot open file %ls for writing"
 msgstr "Impossible d'ouvrir le fichier %ls en écriture"
 
-#: utils/ncurses.cpp:621
+#: utils/ncurses.cpp:622
 #, c-format
 msgid "Game saved in '%ls'"
 msgstr "Partie sauvée dans '%ls'"
 
-#: utils/ncurses.cpp:632 wxwin/mainframe.cc:275 wxwin/mainframe.cc:405
-#: wxwin/mainframe.cc:429 qt/main_window.cpp:398
+#: utils/ncurses.cpp:633 qt/main_window.cpp:460
 msgid "Load a game"
 msgstr "Charger une partie"
 
-#: utils/ncurses.cpp:643
+#: utils/ncurses.cpp:644
 #, c-format
 msgid "Cannot open file '%ls' for reading"
 msgstr "Impossible d'ouvrir le fichier '%ls' en lecture"
 
-#: utils/ncurses.cpp:651
+#: utils/ncurses.cpp:652
 #, c-format
 msgid "Invalid saved game"
 msgstr "Partie sauvée invalide"
 
-#: utils/ncurses.cpp:656 qt/main_window.cpp:412
+#: utils/ncurses.cpp:657 qt/main_window.cpp:475
 #, c-format
 msgid "Game loaded"
 msgstr "Partie chargée"
 
-#: utils/ncurses.cpp:671
+#: utils/ncurses.cpp:673
 msgid "Pass your turn"
 msgstr "Passer son tour"
 
-#: utils/ncurses.cpp:672
+#: utils/ncurses.cpp:674
 msgid "Enter the letters to change:"
 msgstr "Entrer les lettres à changer:"
 
-#: utils/ncurses.cpp:681
+#: utils/ncurses.cpp:683
 msgid "Cannot pass the turn"
 msgstr "Impossible de passer le tour"
 
-#: utils/ncurses.cpp:691
+#: utils/ncurses.cpp:693
 msgid "Set rack"
 msgstr "Choix du tirage"
 
-#: utils/ncurses.cpp:692
+#: utils/ncurses.cpp:694
 msgid "Enter the new letters:"
 msgstr "Entrer les nouvelles lettres:"
 
-#: utils/ncurses.cpp:701
+#: utils/ncurses.cpp:703
 msgid "Cannot take these letters from the bag"
 msgstr "Impossible de retirer ces lettres du sac"
 
-#: utils/ncurses.cpp:1095 qt/main_window.cpp:214 qt/ui/prefs_dialog.ui:181
+#: utils/ncurses.cpp:1112 qt/main_window.cpp:241 qt/ui/prefs_dialog.ui:191
 msgid "Training mode"
 msgstr "Mode entraînement"
 
-#: utils/ncurses.cpp:1097 qt/ui/prefs_dialog.ui:162
+#: utils/ncurses.cpp:1114 qt/ui/prefs_dialog.ui:172
 msgid "Free game mode"
 msgstr "Mode partie libre"
 
-#: utils/ncurses.cpp:1099 qt/ui/prefs_dialog.ui:75
+#: utils/ncurses.cpp:1116 qt/ui/prefs_dialog.ui:85
 msgid "Duplicate mode"
 msgstr "Mode duplicate"
 
-#: utils/ncurses.cpp:1102 qt/ui/new_game.ui:67
+#: utils/ncurses.cpp:1119 qt/ui/new_game.ui:67
 msgid "Joker game"
 msgstr "Partie joker"
 
-#: utils/ncurses.cpp:1103
+#: utils/ncurses.cpp:1120
 msgid "[h for help]"
 msgstr "[h pour l'aide]"
-
-#: wxwin/auxframes.cc:122
-msgid "Grid"
-msgstr "Grille"
-
-#: wxwin/auxframes.cc:202 qt/ui/training_widget.ui:52
-msgid "Search"
-msgstr "Recherche"
-
-#: wxwin/auxframes.cc:233 qt/ui/dic_tools_widget.ui:31
-msgid "Check"
-msgstr "Vérification"
-
-#: wxwin/auxframes.cc:238
-msgid "Word to check"
-msgstr "Mot à vérifier"
-
-#: wxwin/auxframes.cc:256 wxwin/configdb.cc:203 wxwin/searchpanel.cc:107
-msgid "No dictionary"
-msgstr "Pas de dictionnaire"
-
-#: wxwin/auxframes.cc:260
-msgid "exists"
-msgstr "existe"
-
-#: wxwin/auxframes.cc:262
-msgid "doesn't exist"
-msgstr "n'existe pas"
-
-#: wxwin/auxframes.cc:303
-msgid "Copy"
-msgstr "Copier"
-
-#: wxwin/auxframes.cc:347 wxwin/mainframe.cc:502 wxwin/mainframe.cc:522
-#: wxwin/mainframe.cc:553
-msgid "No on going game"
-msgstr "Pas de partie en cours"
-
-#: wxwin/auxframes.cc:362 wxwin/searchpanel.cc:119
-msgid "No result"
-msgstr "Pas de résultat"
-
-#: wxwin/auxframes.cc:372
-msgid "Rack + 1"
-msgstr "Tirage + 1"
-
-#: wxwin/auxframes.cc:414
-msgid "Rack: "
-msgstr "Tirage :"
-
-#: wxwin/auxframes.cc:435
-msgid "Benjamins"
-msgstr "Benjamins"
-
-#: wxwin/auxframes.cc:476
-msgid "Extensions"
-msgstr "Raccords"
-
-#: wxwin/auxframes.cc:542 wxwin/mainframe.cc:325
-msgid "Game history"
-msgstr "Historique de la partie"
-
-#: wxwin/auxframes.cc:574 wxwin/mainframe.cc:327
-msgid "Results"
-msgstr "Résultats"
-
-#: wxwin/confdimdlg.cc:62
-msgid "left"
-msgstr "gauche"
-
-#: wxwin/confdimdlg.cc:63
-msgid "centered"
-msgstr "centré"
-
-#: wxwin/confdimdlg.cc:64
-msgid "right"
-msgstr "droite"
-
-#: wxwin/confdimdlg.cc:118
-msgid "Alignment"
-msgstr "Justification"
-
-#: wxwin/confdimdlg.cc:120
-msgid "Spacing"
-msgstr "Espacement"
-
-#: wxwin/confdimdlg.cc:124 wxwin/confdimdlg.cc:135
-msgid "Font..."
-msgstr "Police..."
-
-#: wxwin/confdimdlg.cc:129
-msgid "Title column "
-msgstr "titre colomne "
-
-#: wxwin/confdimdlg.cc:140
-msgid "Text column "
-msgstr "Texte colomne "
-
-#: wxwin/confdimdlg.cc:150
-msgid "Column heading"
-msgstr "Titre de la colomne"
-
-#: wxwin/confdimdlg.cc:154
-msgid "Alignment of the column heading"
-msgstr "Justification du titre de la colomne"
-
-#: wxwin/confdimdlg.cc:158
-msgid "Spacing of the heading characters"
-msgstr "Espacement des caractères du titre"
-
-#: wxwin/confdimdlg.cc:167
-msgid "Inner dimension of the column (in mm)"
-msgstr "Dimension interne de la colomne (en mm)"
-
-#: wxwin/confdimdlg.cc:176
-msgid "Alignment of the column text"
-msgstr "Justification du texte de la colomne"
-
-#: wxwin/confdimdlg.cc:180
-msgid "Characters spacing"
-msgstr "Espacement des caractères"
-
-#: wxwin/confdimdlg.cc:231
-msgid "Title spc. top"
-msgstr "Titre esp. haut"
-
-#: wxwin/confdimdlg.cc:233
-msgid "Text spc. top"
-msgstr "Texte esp. haut"
-
-#: wxwin/confdimdlg.cc:235
-msgid "Text spc. left"
-msgstr "Texte esp. gauche"
-
-#: wxwin/confdimdlg.cc:252
-msgid "Title spc. bot."
-msgstr "Titre esp. bas"
-
-#: wxwin/confdimdlg.cc:254
-msgid "Text spc. bot."
-msgstr "Texte esp. bas"
-
-#: wxwin/confdimdlg.cc:256
-msgid "Text spc. right"
-msgstr "Text esp. droite"
-
-#: wxwin/confdimdlg.cc:286
-msgid "Printer"
-msgstr "Imprimante"
-
-#: wxwin/confdimdlg.cc:288
-msgid "Configure the printer"
-msgstr "Configuration de l'imprimante"
-
-#: wxwin/confdimdlg.cc:290
-msgid "Page"
-msgstr "Page"
-
-#: wxwin/confdimdlg.cc:292
-msgid "Configure the dimensions of the page"
-msgstr "Configuration des dimensions de la page"
-
-#: wxwin/confdimdlg.cc:298
-msgid "Cancel the last changes"
-msgstr "Annuler les derniers changements"
-
-#: wxwin/confdimdlg.cc:304 wxwin/confsearch.cc:42
-msgid "Save the changes"
-msgstr "Sauvegarder les changements"
-
-#: wxwin/configdb.cc:322
-msgid "Nb"
-msgstr "Num"
-
-#: wxwin/configdb.cc:323 wxwin/mainframe.cc:174 qt/history_widget.cpp:52
-msgid "Rack"
-msgstr "Tirage"
-
-#: wxwin/configdb.cc:324
-msgid "Solution"
-msgstr "Solution"
-
-#: wxwin/configdb.cc:325 wxwin/gfxresult.cc:69
-msgid "Pos"
-msgstr "Pos"
-
-#: wxwin/configdb.cc:326 wxwin/gfxresult.cc:70
-msgid "Pts"
-msgstr "Pts"
-
-#: wxwin/confsearch.cc:36
-msgid "Search on joker in 7+1 panel"
-msgstr "Rechercher sur joker dans la fenêtre 7+1"
-
-#: wxwin/confsearch.cc:37
-msgid "Check rack validity"
-msgstr "Vérifier la validité du tirage"
-
-#: wxwin/confsearch.cc:40
-msgid "Cancel last changes"
-msgstr "Annuler les derniers changements"
-
-#: wxwin/gfxresult.cc:67 qt/history_widget.cpp:53 qt/training_widget.cpp:59
-msgid "Word"
-msgstr "Mot"
-
-#: wxwin/gfxresult.cc:71
-msgid "Results of the search"
-msgstr "Résultats de la recherche"
-
-#: wxwin/mainframe.cc:188
-msgid " Rack "
-msgstr " Tirage "
-
-#: wxwin/mainframe.cc:189
-msgid " Complement "
-msgstr " Complément "
-
-#: wxwin/mainframe.cc:190
-msgid " Search "
-msgstr " Rechercher "
-
-#: wxwin/mainframe.cc:191
-msgid " Back "
-msgstr " Arrière "
-
-#: wxwin/mainframe.cc:192
-msgid " Play "
-msgstr " Jouer "
-
-#: wxwin/mainframe.cc:194
-msgid "Random rack"
-msgstr "Tirage aléatoire"
-
-#: wxwin/mainframe.cc:196
-msgid "Random complement of the rack"
-msgstr "Complément aléatoire du tirage"
-
-#: wxwin/mainframe.cc:198
-msgid "Search with the current rack"
-msgstr "Recherche sur le tirage courant"
-
-#: wxwin/mainframe.cc:200
-msgid "Go back one turn"
-msgstr "Revenir un coup en arrière"
-
-#: wxwin/mainframe.cc:202
-msgid "Play the selected word"
-msgstr "Jouer le mot selectionné"
-
-#: wxwin/mainframe.cc:272
-msgid "&New game\tCtrl+N"
-msgstr "&Nouvelle partie\tCtrl+N"
-
-#: wxwin/mainframe.cc:272 qt/main_window.cpp:316
-msgid "Start a new game"
-msgstr "Démarrer une nouvelle partie"
-
-#: wxwin/mainframe.cc:273
-msgid "New &joker game\tCtrl+J"
-msgstr "Nouvelle partie &joker\tCtrl+J"
-
-#: wxwin/mainframe.cc:273
-msgid "Start a new joker game"
-msgstr "Démarrer une nouvelle partie joker"
-
-#: wxwin/mainframe.cc:275
-msgid "&Load...\tCtrl+L"
-msgstr "&Charger...\tCtrl+O"
-
-#: wxwin/mainframe.cc:276
-msgid "&Save as...\tCtrl+S"
-msgstr "&Enregistrer sous...\tCtrl+S"
-
-#: wxwin/mainframe.cc:276 qt/main_window.cpp:321
-msgid "Save the current game"
-msgstr "Sauvegarder la partie en cours"
-
-#: wxwin/mainframe.cc:278
-msgid "&Print...\tCtrl+P"
-msgstr "&Imprimer...\tCtrl+P"
-
-#: wxwin/mainframe.cc:278
-msgid "Print this game"
-msgstr "Imprimer la partie en cours"
-
-#: wxwin/mainframe.cc:279
-msgid "Print pre&view..."
-msgstr "&Aperçu avant impression..."
-
-#: wxwin/mainframe.cc:279
-msgid "Print preview of the game"
-msgstr "Aperçu avant impression de la partie"
-
-#: wxwin/mainframe.cc:281
-msgid "Print in PostS&cript..."
-msgstr "Imprimer au format &PostScript..."
-
-#: wxwin/mainframe.cc:281
-msgid "Print in a PostScript file"
-msgstr "Imprimer dans un fichier PostScript"
-
-#: wxwin/mainframe.cc:284
-msgid "&Quit\tCtrl+Q"
-msgstr "&Quitter\tCtrl+Q"
-
-#: wxwin/mainframe.cc:284 qt/main_window.cpp:327
-msgid "Quit Eliot"
-msgstr "Quitter Eliot"
-
-#: wxwin/mainframe.cc:287
-msgid "&Dictionary...\tCtrl+D"
-msgstr "&Dictionnaire...\tCtrl+D"
-
-#: wxwin/mainframe.cc:287 wxwin/mainframe.cc:604 qt/main_window.cpp:603
-msgid "Choose a dictionary"
-msgstr "Choisir un dictionnaire"
-
-#: wxwin/mainframe.cc:288
-msgid "&Search..."
-msgstr "&Recherche..."
-
-#: wxwin/mainframe.cc:288
-msgid "Search options"
-msgstr "Options de recherche"
-
-#: wxwin/mainframe.cc:291
-msgid "&Background..."
-msgstr "&Fond..."
-
-#: wxwin/mainframe.cc:291
-msgid "Background color"
-msgstr "Couleur de fond"
-
-#: wxwin/mainframe.cc:292
-msgid "L&ines..."
-msgstr "L&ignes..."
-
-#: wxwin/mainframe.cc:292
-msgid "Color of the lines"
-msgstr "Couleur des lignes"
-
-#: wxwin/mainframe.cc:294
-msgid "&Played letters..."
-msgstr "Lettres &jouées..."
-
-#: wxwin/mainframe.cc:294
-msgid "Color of the letters played on the board"
-msgstr "Couleur des lettres jouées sur la grille"
-
-#: wxwin/mainframe.cc:295
-msgid "&Temporary letters..."
-msgstr "Lettres &temporaires..."
-
-#: wxwin/mainframe.cc:295
-msgid "Color of the letters of the temporary word"
-msgstr "Couleur des lettres du mot temporaire"
-
-#: wxwin/mainframe.cc:296
-msgid "B&ackground of played letters..."
-msgstr "Fo&nd des lettres jouées..."
-
-#: wxwin/mainframe.cc:296
-msgid "Background color of the letters played on the board"
-msgstr "Couleur de fond des lettres jouées sur la grille"
-
-#: wxwin/mainframe.cc:297
-msgid "Ba&ckground of temporary letters..."
-msgstr "Fon&d des lettres temporaires..."
-
-#: wxwin/mainframe.cc:297
-msgid "Background color of the temporary letters on the board"
-msgstr "Couleur de fond des lettres temporaires sur la grille"
-
-#: wxwin/mainframe.cc:299
-msgid "Double &letter..."
-msgstr "&Lettre compte double..."
-
-#: wxwin/mainframe.cc:299
-msgid "Color of the \"double letter\" squares"
-msgstr "Couleur des cases \"mot compte double\""
-
-#: wxwin/mainframe.cc:300
-msgid "Triple l&etter..."
-msgstr "L&ettre compte triple..."
-
-#: wxwin/mainframe.cc:300
-msgid "Color of the \"triple letter\" squares"
-msgstr "Couleur des cases \"mot compte triple\""
-
-#: wxwin/mainframe.cc:301
-msgid "Double &word..."
-msgstr "&Mot compte double..."
-
-#: wxwin/mainframe.cc:301
-msgid "Color of the \"double word\" squares"
-msgstr "Couleur des cases \"mot compte double\""
-
-#: wxwin/mainframe.cc:302
-msgid "Triple w&ord..."
-msgstr "M&ot compte triple..."
-
-#: wxwin/mainframe.cc:302
-msgid "Color of the \"triple word\" squares"
-msgstr "Couleur des cases \"mot compte triple\""
-
-#: wxwin/mainframe.cc:304
-msgid "&Default colors"
-msgstr "&Couleurs d'origine"
-
-#: wxwin/mainframe.cc:304
-msgid "Restore the default colors"
-msgstr "Restaurer les couleurs d'origine"
-
-#: wxwin/mainframe.cc:307
-msgid "&Search letters..."
-msgstr "&Lettres de recherche..."
-
-#: wxwin/mainframe.cc:307
-msgid "Font for the search"
-msgstr "Police de caractères pour la recherche"
-
-#: wxwin/mainframe.cc:310 wxwin/mainframe.cc:334 qt/history_widget.cpp:177
-#: qt/main_window.cpp:314
-msgid "&Game"
-msgstr "&Partie"
-
-#: wxwin/mainframe.cc:310
-msgid "Configuration of the game"
-msgstr "Configuration de la partie"
-
-#: wxwin/mainframe.cc:311
-msgid "&Fonts"
-msgstr "P&olices de caractères"
-
-#: wxwin/mainframe.cc:311
-msgid "Configuration of the fonts"
-msgstr "Configuration des polices de caractères"
-
-#: wxwin/mainframe.cc:312
-msgid "&Colors"
-msgstr "&Couleurs"
-
-#: wxwin/mainframe.cc:312
-msgid "Configuration of the colors"
-msgstr "Configuration des couleurs"
-
-#: wxwin/mainframe.cc:313
-msgid "&Printing..."
-msgstr "&Impression..."
-
-#: wxwin/mainframe.cc:313
-msgid "Configuration of the printing parameters"
-msgstr "Configuration des paramètres d'impression"
-
-#: wxwin/mainframe.cc:316
-msgid "&Board"
-msgstr "&Grille"
-
-#: wxwin/mainframe.cc:316
-msgid "Game board"
-msgstr "Plateau de jeu"
-
-#: wxwin/mainframe.cc:317
-msgid "Ba&g\tCtrl+B"
-msgstr "&Sac\tCtrl-B"
-
-#: wxwin/mainframe.cc:317
-msgid "Remaining letters in the bag"
-msgstr "Lettres restantes dans le sac"
-
-#: wxwin/mainframe.cc:318
-msgid "&Check"
-msgstr "&Vérification"
-
-#: wxwin/mainframe.cc:318
-msgid "Check a word in the dictionary"
-msgstr "Vérifier l'existence d'un mot dans le dictionnaire"
-
-#: wxwin/mainframe.cc:319
-msgid "&Search"
-msgstr "&Recherche"
-
-#: wxwin/mainframe.cc:319
-msgid "Search in the dictionary"
-msgstr "Recherche dans le dictionnaire"
-
-#: wxwin/mainframe.cc:321
-msgid "&Rack + 1"
-msgstr "&Tirage + 1"
-
-#: wxwin/mainframe.cc:321
-msgid "Letters of the rack plus one"
-msgstr "Lettres du tirage plus une"
-
-#: wxwin/mainframe.cc:322
-msgid "&Extensions"
-msgstr "&Raccords"
-
-#: wxwin/mainframe.cc:322
-msgid "One-letter extensions on a word of the search"
-msgstr "Raccords d'une lettre sur un mot de la recherche"
-
-#: wxwin/mainframe.cc:323
-msgid "&Benjamins"
-msgstr "&Benjamins"
-
-#: wxwin/mainframe.cc:323
-msgid "Benjamins (3-letter extensions) on a word of the search"
-msgstr "Benjamins (préfixes de 3 lettres) sur un mot de la recherche"
-
-#: wxwin/mainframe.cc:325
-msgid "Game &history\tCtrl+H"
-msgstr "&Historique de la partie\tCtrl+H"
-
-#: wxwin/mainframe.cc:327
-msgid "R&esults"
-msgstr "Ré&sultats"
-
-#: wxwin/mainframe.cc:331 qt/main_window.cpp:352
-msgid "&About..."
-msgstr "À &propos..."
-
-#: wxwin/mainframe.cc:331 wxwin/mainframe.cc:733 qt/main_window.cpp:353
-#: qt/main_window.cpp:714
-msgid "About Eliot"
-msgstr "À propos d'Eliot"
-
-#: wxwin/mainframe.cc:335 qt/main_window.cpp:331
-msgid "&Settings"
-msgstr "Para&mètres"
-
-#: wxwin/mainframe.cc:336 qt/main_window.cpp:339
-msgid "&Windows"
-msgstr "&Fenêtres"
-
-#: wxwin/mainframe.cc:337 qt/main_window.cpp:351
-msgid "&Help"
-msgstr "&Aide"
-
-#: wxwin/mainframe.cc:361 wxwin/mainframe.cc:408
-msgid "No dictionary selected"
-msgstr "Pas de dictionnaire sélectionné"
-
-#: wxwin/mainframe.cc:361 wxwin/mainframe.cc:408 wxwin/mainframe.cc:502
-#: wxwin/mainframe.cc:522 wxwin/mainframe.cc:553
-msgid "Eliot: error"
-msgstr "Eliot : erreur"
-
-#: wxwin/mainframe.cc:428
-msgid "Cannot open "
-msgstr "Impossible d'ouvrir "
-
-#: wxwin/mainframe.cc:440 wxwin/mainframe.cc:449 qt/main_window.cpp:405
-msgid "Error while loading the game"
-msgstr "Erreur pendant le chargement de la partie"
-
-#: wxwin/mainframe.cc:441
-msgid "Invalid game"
-msgstr "Partie invalide"
-
-#: wxwin/mainframe.cc:450
-msgid "The game is empty"
-msgstr "La partie est vide"
-
-#: wxwin/mainframe.cc:482
-msgid "Cannot create "
-msgstr "Impossible de créer "
-
-#: wxwin/mainframe.cc:511 wxwin/mainframe.cc:575
-msgid "Printing not done"
-msgstr "Impression non effectuée"
-
-#: wxwin/mainframe.cc:511 wxwin/mainframe.cc:539
-msgid "Printing"
-msgstr "Impression"
-
-#: wxwin/mainframe.cc:534
-msgid "Print preview problem.\n"
-msgstr "Problème avec l'aperçu avant impression.\n"
-
-#: wxwin/mainframe.cc:535
-msgid "The printer may not be correctly initialized"
-msgstr "Il se peut que l'imprimante soit mal initialisée"
-
-#: wxwin/mainframe.cc:536
-msgid "Print preview"
-msgstr "Aperçu avant impression"
-
-#: wxwin/mainframe.cc:557
-msgid "Print to a PostScript file"
-msgstr "Imprimer dans un fichier PostScript"
-
-#: wxwin/mainframe.cc:576 wxwin/mainframe.cc:582
-msgid "PostScript printing"
-msgstr "Impression PostScript"
-
-#: wxwin/mainframe.cc:581
-msgid "Cannot initialize PostScript printer"
-msgstr "Impossible d'initialiser l'impression PostScript"
-
-#: wxwin/mainframe.cc:729
-msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version."
-msgstr ""
-"Ce programme est un logiciel libre ; vous pouvez le redistribuer et/ou le "
-"modifier selon les termes de la licence \"GNU General Public License\" "
-"publiée par la Free Software Fundation ; soit la version 2 de la Licence, "
-"soit (comme vous le préférez), n'importe quelle version ultérieure."
-
-#: wxwin/mainframe.cc:927
-msgid "turn:"
-msgstr "coup :"
-
-#: wxwin/mainframe.cc:928
-msgid "points:"
-msgstr "points :"
-
-#: wxwin/mainframe.cc:963
-msgid ""
-"The bag doesn't contain enough letters\n"
-"for a new rack."
-msgstr ""
-"Le sac ne contient pas assez de lettres\n"
-"pour un nouveau tirage."
-
-#: wxwin/mainframe.cc:964 wxwin/mainframe.cc:968 wxwin/mainframe.cc:972
-msgid "Rack validation"
-msgstr "Validation du tirage"
-
-#: wxwin/mainframe.cc:967
-msgid "The rack must contain at least 2 consonants and 2 vowels."
-msgstr "Le tirage doit contenir au moins 2 consonnes et 2 voyelles."
-
-#: wxwin/mainframe.cc:971
-msgid "The rack contains invalid letters for the current dictionary"
-msgstr ""
-"Le tirage contient des lettres incorrectes pour le dictionnaire courant"
-
-#: wxwin/mainframe.cc:975
-msgid "The rack has been modified manually"
-msgstr "Le tirage a été modifié manuellement"
-
-#: wxwin/searchpanel.cc:146 wxwin/searchpanel.cc:190
-#, c-format
-msgid "The search is limited to %d letters"
-msgstr "La recherche est limitée à %d lettres"
-
-#: wxwin/searchpanel.cc:249
-msgid "Minimum length"
-msgstr "Longueur minimum"
-
-#: wxwin/searchpanel.cc:251
-msgid "Maximum length"
-msgstr "Longueur maximum"
-
-#: wxwin/searchpanel.cc:320
-msgid "Cross words"
-msgstr "Mots croisés"
-
-#: wxwin/searchpanel.cc:321 qt/ui/dic_tools_widget.ui:69
-msgid "Plus 1"
-msgstr "Plus 1"
-
-#: wxwin/searchpanel.cc:322 qt/ui/dic_tools_widget.ui:94
-msgid "Regular expressions"
-msgstr "Expressions régulières"
 
 #: qt/bag_widget.cpp:50 qt/dic_tools_widget.cpp:100
 msgid "Letter"
@@ -1313,6 +646,14 @@ msgstr "Non"
 msgid "Turn"
 msgstr "Coup"
 
+#: qt/history_widget.cpp:52
+msgid "Rack"
+msgstr "Tirage"
+
+#: qt/history_widget.cpp:53 qt/training_widget.cpp:59
+msgid "Word"
+msgstr "Mot"
+
 #: qt/history_widget.cpp:54 qt/training_widget.cpp:60
 msgid "Ref"
 msgstr "Ref"
@@ -1321,11 +662,15 @@ msgstr "Ref"
 msgid "Player"
 msgstr "Joueur"
 
-#: qt/main_window.cpp:109 qt/main_window.cpp:654 qt/ui/main_window.ui:40
+#: qt/history_widget.cpp:177 qt/main_window.cpp:347
+msgid "&Game"
+msgstr "&Partie"
+
+#: qt/main_window.cpp:112 qt/main_window.cpp:730 qt/ui/main_window.ui:32
 msgid "Board"
 msgstr "Grille"
 
-#: qt/main_window.cpp:164
+#: qt/main_window.cpp:167
 msgid ""
 "Cannot load dictionary '%1' indicated in the preferences.\n"
 "Reason: %2"
@@ -1333,207 +678,335 @@ msgstr ""
 "Impossible de charger le dictionnaire '%1' indiqué dans les préférences.\n"
 "Raison : %2"
 
-#: qt/main_window.cpp:206
+#: qt/main_window.cpp:233
 msgid "No game"
 msgstr "Pas de partie en cours"
 
-#: qt/main_window.cpp:219
+#: qt/main_window.cpp:246
 msgid "Duplicate game"
 msgstr "Partie duplicate"
 
-#: qt/main_window.cpp:224 qt/new_game.cpp:99 qt/new_game.cpp:165
+#: qt/main_window.cpp:251 qt/new_game.cpp:100 qt/new_game.cpp:167
 #: qt/ui/new_game.ui:41
 msgid "Free game"
 msgstr "Partie libre"
 
-#: qt/main_window.cpp:236
+#: qt/main_window.cpp:263
 msgid "Dictionary: %1"
 msgstr "Dictionnaire : %1"
 
-#: qt/main_window.cpp:245
+#: qt/main_window.cpp:272
 msgid "Eliot - Error"
 msgstr "Eliot - erreur"
 
-#: qt/main_window.cpp:315
+#: qt/main_window.cpp:348
 msgid "&New..."
 msgstr "&Nouvelle partie..."
 
-#: qt/main_window.cpp:315
+#: qt/main_window.cpp:348
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: qt/main_window.cpp:318
+#: qt/main_window.cpp:349
+msgid "Start a new game"
+msgstr "Démarrer une nouvelle partie"
+
+#: qt/main_window.cpp:351
 msgid "&Load..."
 msgstr "&Charger..."
 
-#: qt/main_window.cpp:318
+#: qt/main_window.cpp:351
 msgid "Ctrl+O"
 msgstr "Ctrl+O"
 
-#: qt/main_window.cpp:319
+#: qt/main_window.cpp:352
 msgid "Load an existing game"
 msgstr "Charger une partie existante"
 
-#: qt/main_window.cpp:320
+#: qt/main_window.cpp:353
 msgid "&Save as..."
 msgstr "&Enregistrer sous..."
 
-#: qt/main_window.cpp:320
+#: qt/main_window.cpp:353
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
 
-#: qt/main_window.cpp:323
+#: qt/main_window.cpp:354
+msgid "Save the current game"
+msgstr "Sauvegarder la partie en cours"
+
+#: qt/main_window.cpp:356
 msgid "&Print..."
 msgstr "Im&primer..."
 
-#: qt/main_window.cpp:323
+#: qt/main_window.cpp:356
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
-#: qt/main_window.cpp:324
+#: qt/main_window.cpp:357
 msgid "Print the current game"
 msgstr "Imprimer la partie en cours"
 
-#: qt/main_window.cpp:326
+#: qt/main_window.cpp:359
 msgid "&Quit"
 msgstr "&Quitter"
 
-#: qt/main_window.cpp:326
+#: qt/main_window.cpp:359
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: qt/main_window.cpp:332
-msgid "&Choose dictionary..."
-msgstr "Choisir un &dictionnaire..."
+#: qt/main_window.cpp:360
+msgid "Quit Eliot"
+msgstr "Quitter Eliot"
 
-#: qt/main_window.cpp:332
-msgid "Ctrl+C"
-msgstr "Ctrl+C"
-
-#: qt/main_window.cpp:333
-msgid "Select a new dictionary"
-msgstr "Choisir un nouveau dictionnaire"
-
-#: qt/main_window.cpp:334
-msgid "&Preferences..."
-msgstr "&Préférences..."
-
-#: qt/main_window.cpp:334
-msgid "Ctrl+F"
-msgstr "Ctrl+F"
-
-#: qt/main_window.cpp:335
-msgid "Edit the preferences"
-msgstr "Modifier les préférences"
-
-#: qt/main_window.cpp:340
-msgid "&Bag"
-msgstr "&Sac"
-
-#: qt/main_window.cpp:340
-msgid "Ctrl+B"
-msgstr "Ctrl+B"
-
-#: qt/main_window.cpp:341 qt/ui/main_window.ui:97
-msgid "Show/hide the remaining tiles in the bag"
-msgstr "Afficher/cacher les lettres restantes dans le sac"
-
-#: qt/main_window.cpp:342
-msgid "&External board"
-msgstr "&Plateau de jeu externe"
-
-#: qt/main_window.cpp:342
-msgid "Ctrl+E"
-msgstr "Ctrl+E"
-
-#: qt/main_window.cpp:343 qt/ui/main_window.ui:111
-msgid "Show/hide the external board"
-msgstr "Afficher/cacher le plateau de jeu externe"
-
-#: qt/main_window.cpp:344
+#: qt/main_window.cpp:364 qt/main_window.cpp:406
 msgid "&History"
 msgstr "&Historique"
 
-#: qt/main_window.cpp:344
+#: qt/main_window.cpp:365
+msgid "&First turn"
+msgstr ""
+
+#: qt/main_window.cpp:365
+#, fuzzy
+msgid "Ctrl+Home"
+msgstr "Ctrl+H"
+
+#: qt/main_window.cpp:366
+#, fuzzy
+msgid "Go to the first turn of the game"
+msgstr "Configuration de la partie"
+
+#: qt/main_window.cpp:368
+msgid "&Previous turn"
+msgstr ""
+
+#: qt/main_window.cpp:368
+#, fuzzy
+msgid "Ctrl+Left"
+msgstr "Ctrl+N"
+
+#: qt/main_window.cpp:369
+#, fuzzy
+msgid "Go to the previous turn of the game"
+msgstr "Aperçu avant impression de la partie"
+
+#: qt/main_window.cpp:371
+msgid "&Next turn"
+msgstr ""
+
+#: qt/main_window.cpp:371
+#, fuzzy
+msgid "Ctrl+Right"
+msgstr "droite"
+
+#: qt/main_window.cpp:372
+#, fuzzy
+msgid "Go to the next turn of the game"
+msgstr "Configuration de la partie"
+
+#: qt/main_window.cpp:374
+msgid "&Last turn"
+msgstr ""
+
+#: qt/main_window.cpp:374
+#, fuzzy
+msgid "Ctrl+End"
+msgstr "Ctrl+E"
+
+#: qt/main_window.cpp:375
+#, fuzzy
+msgid "Go to the last turn of the game"
+msgstr "Historique de la partie"
+
+#: qt/main_window.cpp:377
+msgid "&Replay turn"
+msgstr ""
+
+#: qt/main_window.cpp:377
+#, fuzzy
+msgid "Ctrl+R"
+msgstr "Ctrl+N"
+
+#: qt/main_window.cpp:378
+msgid ""
+"Play the game from the current position, replacing what was really played"
+msgstr ""
+
+#: qt/main_window.cpp:390
+msgid "&Settings"
+msgstr "Para&mètres"
+
+#: qt/main_window.cpp:391
+msgid "&Choose dictionary..."
+msgstr "Choisir un &dictionnaire..."
+
+#: qt/main_window.cpp:391
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
+
+#: qt/main_window.cpp:392
+msgid "Select a new dictionary"
+msgstr "Choisir un nouveau dictionnaire"
+
+#: qt/main_window.cpp:393
+msgid "&Preferences..."
+msgstr "&Préférences..."
+
+#: qt/main_window.cpp:393
+msgid "Ctrl+F"
+msgstr "Ctrl+F"
+
+#: qt/main_window.cpp:394
+msgid "Edit the preferences"
+msgstr "Modifier les préférences"
+
+#: qt/main_window.cpp:398
+msgid "&Windows"
+msgstr "&Fenêtres"
+
+#: qt/main_window.cpp:399
+msgid "&Toolbar"
+msgstr ""
+
+#: qt/main_window.cpp:399
+#, fuzzy
+msgid "Ctrl+T"
+msgstr "Ctrl+N"
+
+#: qt/main_window.cpp:400
+#, fuzzy
+msgid "Show/hide the toolbar"
+msgstr "Afficher/cacher le plateau de jeu externe"
+
+#: qt/main_window.cpp:402
+msgid "&Bag"
+msgstr "&Sac"
+
+#: qt/main_window.cpp:402
+msgid "Ctrl+B"
+msgstr "Ctrl+B"
+
+#: qt/main_window.cpp:403 qt/ui/main_window.ui:94
+msgid "Show/hide the remaining tiles in the bag"
+msgstr "Afficher/cacher les lettres restantes dans le sac"
+
+#: qt/main_window.cpp:404
+msgid "&External board"
+msgstr "&Plateau de jeu externe"
+
+#: qt/main_window.cpp:404
+msgid "Ctrl+E"
+msgstr "Ctrl+E"
+
+#: qt/main_window.cpp:405 qt/ui/main_window.ui:108
+msgid "Show/hide the external board"
+msgstr "Afficher/cacher le plateau de jeu externe"
+
+#: qt/main_window.cpp:406
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: qt/main_window.cpp:345 qt/ui/main_window.ui:125
+#: qt/main_window.cpp:407 qt/ui/main_window.ui:122
 msgid "Show/hide the game history"
 msgstr "Afficher/cacher l'historique de la partie"
 
-#: qt/main_window.cpp:346
+#: qt/main_window.cpp:408
 msgid "&Dictionary tools"
 msgstr "Outils du &dictionnaire"
 
-#: qt/main_window.cpp:346
+#: qt/main_window.cpp:408
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
 
-#: qt/main_window.cpp:347 qt/ui/main_window.ui:139
+#: qt/main_window.cpp:409 qt/ui/main_window.ui:136
 msgid "Show/hide the dictionary tools"
 msgstr "Afficher/cacher les outils de recherche dans le dictionnaire"
 
-#: qt/main_window.cpp:352
+#: qt/main_window.cpp:413
+msgid "&Help"
+msgstr "&Aide"
+
+#: qt/main_window.cpp:414
+msgid "&About..."
+msgstr "À &propos..."
+
+#: qt/main_window.cpp:414
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
-#: qt/main_window.cpp:361 qt/main_window.cpp:394
+#: qt/main_window.cpp:415 qt/main_window.cpp:789
+msgid "About Eliot"
+msgstr "À propos d'Eliot"
+
+#: qt/main_window.cpp:423 qt/main_window.cpp:456
 msgid "You have to select a dictionary first!"
 msgstr "Vous devez d'abord choisir un dictionnaire !"
 
-#: qt/main_window.cpp:386
+#: qt/main_window.cpp:448
 msgid "Game started"
 msgstr "Partie démarrée"
 
-#: qt/main_window.cpp:422
+#: qt/main_window.cpp:467
+msgid "Error while loading the game"
+msgstr "Erreur pendant le chargement de la partie"
+
+#: qt/main_window.cpp:485
 msgid "Save a game"
 msgstr "Sauvegarder la partie"
 
-#: qt/main_window.cpp:427
+#: qt/main_window.cpp:490
 msgid "Game saved"
 msgstr "Partie enregistrée"
 
-#: qt/main_window.cpp:461
+#: qt/main_window.cpp:524
 msgid "N."
 msgstr "N."
 
-#: qt/main_window.cpp:461
+#: qt/main_window.cpp:524
 msgid "RACK"
 msgstr "TIRAGE"
 
-#: qt/main_window.cpp:461
+#: qt/main_window.cpp:524
 msgid "SOLUTION"
 msgstr "SOLUTION"
 
-#: qt/main_window.cpp:461
+#: qt/main_window.cpp:524
 msgid "REF"
 msgstr "REF"
 
-#: qt/main_window.cpp:461
+#: qt/main_window.cpp:524
 msgid "PTS"
 msgstr "PTS"
 
-#: qt/main_window.cpp:594
-msgid "Stop current game?"
-msgstr "Arrêter la partie en cours ?"
-
-#: qt/main_window.cpp:595
-msgid ""
-"Loading a dictionary will stop the current game. Do you want to continue?"
+#: qt/main_window.cpp:657
+#, fuzzy
+msgid "Loading a dictionary will stop the current game."
 msgstr ""
 "Charger un dictionnaire arrêtera la partie en cours. Voulez-vous continuer ?"
 
-#: qt/main_window.cpp:672 qt/ui/main_window.ui:53 qt/ui/main_window.ui:122
+#: qt/main_window.cpp:658 qt/main_window.cpp:859 qt/new_game.cpp:56
+msgid "Eliot"
+msgstr "Eliot"
+
+#: qt/main_window.cpp:660 qt/main_window.cpp:861
+msgid "Do you want to continue?"
+msgstr ""
+
+#: qt/main_window.cpp:669
+msgid "Choose a dictionary"
+msgstr "Choisir un dictionnaire"
+
+#: qt/main_window.cpp:748 qt/ui/main_window.ui:45 qt/ui/main_window.ui:119
 msgid "History"
 msgstr "Historique"
 
-#: qt/main_window.cpp:689 qt/ui/dic_tools_widget.ui:13
-#: qt/ui/main_window.ui:136
+#: qt/main_window.cpp:765 qt/ui/dic_tools_widget.ui:13
+#: qt/ui/main_window.ui:133
 msgid "Dictionary tools"
 msgstr "Outils du dictionnaire"
 
-#: qt/main_window.cpp:706
+#: qt/main_window.cpp:782
 msgid ""
 "Copyright (C) 1999-2008 - Antoine Fraboulet & Olivier Teuliere\n"
 "\n"
@@ -1549,40 +1022,51 @@ msgstr ""
 "publiée par la Free Software Fundation ; soit la version 2 de la Licence, "
 "soit (comme vous le préférez), n'importe quelle version ultérieure."
 
-#: qt/new_game.cpp:38 qt/ui/new_game.ui:117
+#: qt/main_window.cpp:804 qt/main_window.cpp:817 qt/main_window.cpp:830
+#: qt/main_window.cpp:843
+msgid "Turn %1/%2"
+msgstr ""
+
+#: qt/main_window.cpp:856
+msgid ""
+"Replaying this turn will modify the game history by deleting the turns after "
+"the displayed one (i.e. turns \"in the future\")."
+msgstr ""
+
+#: qt/main_window.cpp:872
+msgid "Replaying from turn %1"
+msgstr ""
+
+#: qt/new_game.cpp:39 qt/ui/new_game.ui:117
 msgid "Human"
 msgstr "Humain"
 
-#: qt/new_game.cpp:39 qt/ui/new_game.ui:122
+#: qt/new_game.cpp:40 qt/ui/new_game.ui:122
 msgid "Computer"
 msgstr "Ordinateur"
 
-#: qt/new_game.cpp:46 qt/new_game.cpp:53 qt/new_game.cpp:112
-#: qt/new_game.cpp:201 qt/new_game.cpp:204
+#: qt/new_game.cpp:47 qt/new_game.cpp:54 qt/new_game.cpp:114
+#: qt/new_game.cpp:203 qt/new_game.cpp:206
 msgid "Player %1"
 msgstr "Joueur %1"
 
-#: qt/new_game.cpp:50
+#: qt/new_game.cpp:51
 msgid "Name"
 msgstr "Nom"
 
-#: qt/new_game.cpp:51
+#: qt/new_game.cpp:52
 msgid "Type"
 msgstr "Type"
 
-#: qt/new_game.cpp:52
+#: qt/new_game.cpp:53
 msgid "Level"
 msgstr "Niveau"
 
-#: qt/new_game.cpp:55
-msgid "Eliot"
-msgstr "Eliot"
-
-#: qt/new_game.cpp:164 qt/ui/new_game.ui:36
+#: qt/new_game.cpp:166 qt/ui/new_game.ui:36
 msgid "Duplicate"
 msgstr "Duplicate"
 
-#: qt/player_widget.cpp:82
+#: qt/player_widget.cpp:80
 msgid ""
 "Enter the word to play (case-insensitive).\n"
 "A joker from the rack must be written in parentheses.\n"
@@ -1592,7 +1076,7 @@ msgstr ""
 "Un joker provenant du chevalet doit être écrit entre parenthèses.\n"
 "Ex. : m(o)( ou M(O)T"
 
-#: qt/player_widget.cpp:85
+#: qt/player_widget.cpp:83
 msgid ""
 "Enter the coordinates of the word.\n"
 "Specify the row before the column for horizontal words,\n"
@@ -1604,72 +1088,72 @@ msgstr ""
 "et la colonne avant la rangée pour les mots verticaux.\n"
 "Ex. : H4 ou 4H"
 
-#: qt/player_widget.cpp:183
+#: qt/player_widget.cpp:190
 msgid "Cannot play word: misplaced parentheses"
 msgstr "Impossible de jouer le mot : parenthèses mal placées"
 
-#: qt/player_widget.cpp:205
+#: qt/player_widget.cpp:212
 msgid "Cannot play '%1' at position '%2':\n"
 msgstr "Impossible de jouer '%1' en '%2' :\n"
 
-#: qt/player_widget.cpp:210
+#: qt/player_widget.cpp:217
 msgid "Some letters are not valid for the current dictionary"
 msgstr ""
 "Le tirage contient des lettres incorrectes pour le dictionnaire courant"
 
-#: qt/player_widget.cpp:213
+#: qt/player_widget.cpp:220
 msgid "Invalid coordinates"
 msgstr "Coordonnées invalides"
 
-#: qt/player_widget.cpp:216
+#: qt/player_widget.cpp:223
 msgid "The word does not exist"
 msgstr "Le mot n'existe pas"
 
-#: qt/player_widget.cpp:219
+#: qt/player_widget.cpp:226
 msgid "The rack doesn't contain the letters needed to play this word"
 msgstr "Le chevalet ne contient pas les lettres permettant de jouer ce mot"
 
-#: qt/player_widget.cpp:222
+#: qt/player_widget.cpp:229
 msgid "The word is part of a longer one"
 msgstr "Le mot fait partie d'un autre mot plus long"
 
-#: qt/player_widget.cpp:225
+#: qt/player_widget.cpp:232
 msgid "The word tries to replace an existing letter"
 msgstr "Le mot remplace une lettre existante"
 
-#: qt/player_widget.cpp:228
+#: qt/player_widget.cpp:235
 msgid "An orthogonal word is not valid"
 msgstr "Un mot perpendiculaire est invalide"
 
-#: qt/player_widget.cpp:231
+#: qt/player_widget.cpp:238
 msgid "The word is already present on the board at these coordinates"
 msgstr "Le mot est déjà présent sur la grille à cette position"
 
-#: qt/player_widget.cpp:234
+#: qt/player_widget.cpp:241
 msgid "A word cannot be isolated (not connected to the placed words)"
 msgstr "Un mot ne peut pas être isolé (non connecté aux autres mots placés)"
 
-#: qt/player_widget.cpp:237
+#: qt/player_widget.cpp:244
 msgid "The first word of the game must be horizontal"
 msgstr "Le premier mot de la partie doit être horizontal"
 
-#: qt/player_widget.cpp:240
+#: qt/player_widget.cpp:247
 msgid "The first word of the game must cover the H8 square"
 msgstr "Le premier mot de la partie doit couvrir la case H8"
 
-#: qt/player_widget.cpp:243
+#: qt/player_widget.cpp:250
 msgid "The word is going out of the board"
 msgstr "Le mot sort de la grille"
 
-#: qt/player_widget.cpp:246
+#: qt/player_widget.cpp:253
 msgid "Incorrect or misplaced word (%1)"
 msgstr "Mot incorrect ou mal placé (%1)"
 
-#: qt/player_widget.cpp:270
+#: qt/player_widget.cpp:276
 msgid "Cannot pass turn (%1)"
 msgstr "Impossible de passer le tour (%1)"
 
-#: qt/player_widget.cpp:272
+#: qt/player_widget.cpp:278
 msgid "Cannot change letters '%1' (%2)"
 msgstr "Impossible de changer les lettres '%1' (%2)"
 
@@ -1677,17 +1161,29 @@ msgstr "Impossible de changer les lettres '%1' (%2)"
 msgid "Score"
 msgstr "Score"
 
-#: qt/training_widget.cpp:200
+#: qt/training_widget.cpp:203
 msgid "Warning: Cannot set the rack to '%1'"
 msgstr "Attention : Impossible de choisir le tirage '%1'"
 
-#: qt/training_widget.cpp:239
+#: qt/training_widget.cpp:242
 msgid "Searching with rack '%1'..."
 msgstr "Recherche en cours pour le tirage '%1'..."
 
-#: qt/training_widget.cpp:241
+#: qt/training_widget.cpp:244
 msgid "Search done"
 msgstr "Recherche terminée"
+
+#: qt/ui/dic_tools_widget.ui:31
+msgid "Check"
+msgstr "Vérification"
+
+#: qt/ui/dic_tools_widget.ui:69
+msgid "Plus 1"
+msgstr "Plus 1"
+
+#: qt/ui/dic_tools_widget.ui:94
+msgid "Regular expressions"
+msgstr "Expressions régulières"
 
 #: qt/ui/dic_tools_widget.ui:105
 msgid "Minimum length:"
@@ -1717,11 +1213,11 @@ msgstr "Lettres:"
 msgid "Number of words:"
 msgstr "Nombre de mots :"
 
-#: qt/ui/main_window.ui:62 qt/ui/new_game.ui:77
+#: qt/ui/main_window.ui:54 qt/ui/new_game.ui:77
 msgid "Players"
 msgstr "Joueurs"
 
-#: qt/ui/main_window.ui:108
+#: qt/ui/main_window.ui:105
 msgid "External board"
 msgstr "Plateau de jeu externe"
 
@@ -1851,7 +1347,11 @@ msgstr ""
 msgid "Align the rack and the solution in history"
 msgstr "Aligner tirages et solutions dans l'historique"
 
-#: qt/ui/prefs_dialog.ui:81 qt/ui/prefs_dialog.ui:168
+#: qt/ui/prefs_dialog.ui:72
+msgid "Warn before replaying a turn"
+msgstr ""
+
+#: qt/ui/prefs_dialog.ui:91 qt/ui/prefs_dialog.ui:178
 msgid ""
 "If checked, playing an invalid or misplaced word will not be possible. If "
 "unchecked, you will get 0 point and lose your turn"
@@ -1859,23 +1359,23 @@ msgstr ""
 "Si la case est cochée, jouer un mot invalide ou mal placé sera impossible. "
 "Sinon, un tel mot apportera 0 point et vous perdrez votre tour"
 
-#: qt/ui/prefs_dialog.ui:84 qt/ui/prefs_dialog.ui:171
+#: qt/ui/prefs_dialog.ui:94 qt/ui/prefs_dialog.ui:181
 msgid "Refuse to play invalid moves"
 msgstr "Refuser de jouer des mots invalides"
 
-#: qt/ui/prefs_dialog.ui:93
+#: qt/ui/prefs_dialog.ui:103
 msgid "Min. players for a solo:"
 msgstr "Nombre minimal de joueurs pour un solo :"
 
-#: qt/ui/prefs_dialog.ui:113
+#: qt/ui/prefs_dialog.ui:123
 msgid "Minimum number of players needed to take into account the solo bonus"
 msgstr "Nombre minimal de joueurs pour prendre en compte la prime de solo"
 
-#: qt/ui/prefs_dialog.ui:127
+#: qt/ui/prefs_dialog.ui:137
 msgid "Solo value:"
 msgstr "Valeur du solo :"
 
-#: qt/ui/prefs_dialog.ui:147
+#: qt/ui/prefs_dialog.ui:157
 msgid "Value of the solo bonus. Set it to 0 if you don't want solo bonus"
 msgstr ""
 "Valeur de la prime de solo. Mettez 0 pour désactiver les primes de solo."
@@ -1887,6 +1387,455 @@ msgstr "Nouveau tirage"
 #: qt/ui/training_widget.ui:42
 msgid "Complement"
 msgstr "Complément"
+
+#: qt/ui/training_widget.ui:52
+msgid "Search"
+msgstr "Recherche"
+
+#~ msgid "Grid"
+#~ msgstr "Grille"
+
+#~ msgid "Word to check"
+#~ msgstr "Mot à vérifier"
+
+#~ msgid "No dictionary"
+#~ msgstr "Pas de dictionnaire"
+
+#~ msgid "exists"
+#~ msgstr "existe"
+
+#~ msgid "doesn't exist"
+#~ msgstr "n'existe pas"
+
+#~ msgid "Copy"
+#~ msgstr "Copier"
+
+#~ msgid "No on going game"
+#~ msgstr "Pas de partie en cours"
+
+#~ msgid "No result"
+#~ msgstr "Pas de résultat"
+
+#~ msgid "Rack + 1"
+#~ msgstr "Tirage + 1"
+
+#~ msgid "Rack: "
+#~ msgstr "Tirage :"
+
+#~ msgid "Benjamins"
+#~ msgstr "Benjamins"
+
+#~ msgid "Extensions"
+#~ msgstr "Raccords"
+
+#~ msgid "Game history"
+#~ msgstr "Historique de la partie"
+
+#~ msgid "Results"
+#~ msgstr "Résultats"
+
+#~ msgid "left"
+#~ msgstr "gauche"
+
+#~ msgid "centered"
+#~ msgstr "centré"
+
+#~ msgid "Alignment"
+#~ msgstr "Justification"
+
+#~ msgid "Spacing"
+#~ msgstr "Espacement"
+
+#~ msgid "Font..."
+#~ msgstr "Police..."
+
+#~ msgid "Title column "
+#~ msgstr "titre colomne "
+
+#~ msgid "Text column "
+#~ msgstr "Texte colomne "
+
+#~ msgid "Column heading"
+#~ msgstr "Titre de la colomne"
+
+#~ msgid "Alignment of the column heading"
+#~ msgstr "Justification du titre de la colomne"
+
+#~ msgid "Spacing of the heading characters"
+#~ msgstr "Espacement des caractères du titre"
+
+#~ msgid "Inner dimension of the column (in mm)"
+#~ msgstr "Dimension interne de la colomne (en mm)"
+
+#~ msgid "Alignment of the column text"
+#~ msgstr "Justification du texte de la colomne"
+
+#~ msgid "Characters spacing"
+#~ msgstr "Espacement des caractères"
+
+#~ msgid "Title spc. top"
+#~ msgstr "Titre esp. haut"
+
+#~ msgid "Text spc. top"
+#~ msgstr "Texte esp. haut"
+
+#~ msgid "Text spc. left"
+#~ msgstr "Texte esp. gauche"
+
+#~ msgid "Title spc. bot."
+#~ msgstr "Titre esp. bas"
+
+#~ msgid "Text spc. bot."
+#~ msgstr "Texte esp. bas"
+
+#~ msgid "Text spc. right"
+#~ msgstr "Text esp. droite"
+
+#~ msgid "Printer"
+#~ msgstr "Imprimante"
+
+#~ msgid "Configure the printer"
+#~ msgstr "Configuration de l'imprimante"
+
+#~ msgid "Page"
+#~ msgstr "Page"
+
+#~ msgid "Configure the dimensions of the page"
+#~ msgstr "Configuration des dimensions de la page"
+
+#~ msgid "Cancel the last changes"
+#~ msgstr "Annuler les derniers changements"
+
+#~ msgid "Save the changes"
+#~ msgstr "Sauvegarder les changements"
+
+#~ msgid "Nb"
+#~ msgstr "Num"
+
+#~ msgid "Solution"
+#~ msgstr "Solution"
+
+#~ msgid "Pos"
+#~ msgstr "Pos"
+
+#~ msgid "Pts"
+#~ msgstr "Pts"
+
+#~ msgid "Search on joker in 7+1 panel"
+#~ msgstr "Rechercher sur joker dans la fenêtre 7+1"
+
+#~ msgid "Check rack validity"
+#~ msgstr "Vérifier la validité du tirage"
+
+#~ msgid "Cancel last changes"
+#~ msgstr "Annuler les derniers changements"
+
+#~ msgid "Results of the search"
+#~ msgstr "Résultats de la recherche"
+
+#~ msgid " Rack "
+#~ msgstr " Tirage "
+
+#~ msgid " Complement "
+#~ msgstr " Complément "
+
+#~ msgid " Search "
+#~ msgstr " Rechercher "
+
+#~ msgid " Back "
+#~ msgstr " Arrière "
+
+#~ msgid " Play "
+#~ msgstr " Jouer "
+
+#~ msgid "Random rack"
+#~ msgstr "Tirage aléatoire"
+
+#~ msgid "Random complement of the rack"
+#~ msgstr "Complément aléatoire du tirage"
+
+#~ msgid "Search with the current rack"
+#~ msgstr "Recherche sur le tirage courant"
+
+#~ msgid "Go back one turn"
+#~ msgstr "Revenir un coup en arrière"
+
+#~ msgid "Play the selected word"
+#~ msgstr "Jouer le mot selectionné"
+
+#~ msgid "&New game\tCtrl+N"
+#~ msgstr "&Nouvelle partie\tCtrl+N"
+
+#~ msgid "New &joker game\tCtrl+J"
+#~ msgstr "Nouvelle partie &joker\tCtrl+J"
+
+#~ msgid "Start a new joker game"
+#~ msgstr "Démarrer une nouvelle partie joker"
+
+#~ msgid "&Load...\tCtrl+L"
+#~ msgstr "&Charger...\tCtrl+O"
+
+#~ msgid "&Save as...\tCtrl+S"
+#~ msgstr "&Enregistrer sous...\tCtrl+S"
+
+#~ msgid "&Print...\tCtrl+P"
+#~ msgstr "&Imprimer...\tCtrl+P"
+
+#~ msgid "Print this game"
+#~ msgstr "Imprimer la partie en cours"
+
+#~ msgid "Print pre&view..."
+#~ msgstr "&Aperçu avant impression..."
+
+#~ msgid "Print in PostS&cript..."
+#~ msgstr "Imprimer au format &PostScript..."
+
+#~ msgid "Print in a PostScript file"
+#~ msgstr "Imprimer dans un fichier PostScript"
+
+#~ msgid "&Quit\tCtrl+Q"
+#~ msgstr "&Quitter\tCtrl+Q"
+
+#~ msgid "&Dictionary...\tCtrl+D"
+#~ msgstr "&Dictionnaire...\tCtrl+D"
+
+#~ msgid "&Search..."
+#~ msgstr "&Recherche..."
+
+#~ msgid "Search options"
+#~ msgstr "Options de recherche"
+
+#~ msgid "&Background..."
+#~ msgstr "&Fond..."
+
+#~ msgid "Background color"
+#~ msgstr "Couleur de fond"
+
+#~ msgid "L&ines..."
+#~ msgstr "L&ignes..."
+
+#~ msgid "Color of the lines"
+#~ msgstr "Couleur des lignes"
+
+#~ msgid "&Played letters..."
+#~ msgstr "Lettres &jouées..."
+
+#~ msgid "Color of the letters played on the board"
+#~ msgstr "Couleur des lettres jouées sur la grille"
+
+#~ msgid "&Temporary letters..."
+#~ msgstr "Lettres &temporaires..."
+
+#~ msgid "Color of the letters of the temporary word"
+#~ msgstr "Couleur des lettres du mot temporaire"
+
+#~ msgid "B&ackground of played letters..."
+#~ msgstr "Fo&nd des lettres jouées..."
+
+#~ msgid "Background color of the letters played on the board"
+#~ msgstr "Couleur de fond des lettres jouées sur la grille"
+
+#~ msgid "Ba&ckground of temporary letters..."
+#~ msgstr "Fon&d des lettres temporaires..."
+
+#~ msgid "Background color of the temporary letters on the board"
+#~ msgstr "Couleur de fond des lettres temporaires sur la grille"
+
+#~ msgid "Double &letter..."
+#~ msgstr "&Lettre compte double..."
+
+#~ msgid "Color of the \"double letter\" squares"
+#~ msgstr "Couleur des cases \"mot compte double\""
+
+#~ msgid "Triple l&etter..."
+#~ msgstr "L&ettre compte triple..."
+
+#~ msgid "Color of the \"triple letter\" squares"
+#~ msgstr "Couleur des cases \"mot compte triple\""
+
+#~ msgid "Double &word..."
+#~ msgstr "&Mot compte double..."
+
+#~ msgid "Color of the \"double word\" squares"
+#~ msgstr "Couleur des cases \"mot compte double\""
+
+#~ msgid "Triple w&ord..."
+#~ msgstr "M&ot compte triple..."
+
+#~ msgid "Color of the \"triple word\" squares"
+#~ msgstr "Couleur des cases \"mot compte triple\""
+
+#~ msgid "&Default colors"
+#~ msgstr "&Couleurs d'origine"
+
+#~ msgid "Restore the default colors"
+#~ msgstr "Restaurer les couleurs d'origine"
+
+#~ msgid "&Search letters..."
+#~ msgstr "&Lettres de recherche..."
+
+#~ msgid "Font for the search"
+#~ msgstr "Police de caractères pour la recherche"
+
+#~ msgid "&Fonts"
+#~ msgstr "P&olices de caractères"
+
+#~ msgid "Configuration of the fonts"
+#~ msgstr "Configuration des polices de caractères"
+
+#~ msgid "&Colors"
+#~ msgstr "&Couleurs"
+
+#~ msgid "Configuration of the colors"
+#~ msgstr "Configuration des couleurs"
+
+#~ msgid "&Printing..."
+#~ msgstr "&Impression..."
+
+#~ msgid "Configuration of the printing parameters"
+#~ msgstr "Configuration des paramètres d'impression"
+
+#~ msgid "&Board"
+#~ msgstr "&Grille"
+
+#~ msgid "Game board"
+#~ msgstr "Plateau de jeu"
+
+#~ msgid "Ba&g\tCtrl+B"
+#~ msgstr "&Sac\tCtrl-B"
+
+#~ msgid "Remaining letters in the bag"
+#~ msgstr "Lettres restantes dans le sac"
+
+#~ msgid "&Check"
+#~ msgstr "&Vérification"
+
+#~ msgid "Check a word in the dictionary"
+#~ msgstr "Vérifier l'existence d'un mot dans le dictionnaire"
+
+#~ msgid "&Search"
+#~ msgstr "&Recherche"
+
+#~ msgid "Search in the dictionary"
+#~ msgstr "Recherche dans le dictionnaire"
+
+#~ msgid "&Rack + 1"
+#~ msgstr "&Tirage + 1"
+
+#~ msgid "Letters of the rack plus one"
+#~ msgstr "Lettres du tirage plus une"
+
+#~ msgid "&Extensions"
+#~ msgstr "&Raccords"
+
+#~ msgid "One-letter extensions on a word of the search"
+#~ msgstr "Raccords d'une lettre sur un mot de la recherche"
+
+#~ msgid "&Benjamins"
+#~ msgstr "&Benjamins"
+
+#~ msgid "Benjamins (3-letter extensions) on a word of the search"
+#~ msgstr "Benjamins (préfixes de 3 lettres) sur un mot de la recherche"
+
+#~ msgid "Game &history\tCtrl+H"
+#~ msgstr "&Historique de la partie\tCtrl+H"
+
+#~ msgid "R&esults"
+#~ msgstr "Ré&sultats"
+
+#~ msgid "No dictionary selected"
+#~ msgstr "Pas de dictionnaire sélectionné"
+
+#~ msgid "Eliot: error"
+#~ msgstr "Eliot : erreur"
+
+#~ msgid "Cannot open "
+#~ msgstr "Impossible d'ouvrir "
+
+#~ msgid "Invalid game"
+#~ msgstr "Partie invalide"
+
+#~ msgid "The game is empty"
+#~ msgstr "La partie est vide"
+
+#~ msgid "Cannot create "
+#~ msgstr "Impossible de créer "
+
+#~ msgid "Printing not done"
+#~ msgstr "Impression non effectuée"
+
+#~ msgid "Printing"
+#~ msgstr "Impression"
+
+#~ msgid "Print preview problem.\n"
+#~ msgstr "Problème avec l'aperçu avant impression.\n"
+
+#~ msgid "The printer may not be correctly initialized"
+#~ msgstr "Il se peut que l'imprimante soit mal initialisée"
+
+#~ msgid "Print preview"
+#~ msgstr "Aperçu avant impression"
+
+#~ msgid "Print to a PostScript file"
+#~ msgstr "Imprimer dans un fichier PostScript"
+
+#~ msgid "PostScript printing"
+#~ msgstr "Impression PostScript"
+
+#~ msgid "Cannot initialize PostScript printer"
+#~ msgstr "Impossible d'initialiser l'impression PostScript"
+
+#~ msgid ""
+#~ "This program is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the "
+#~ "Free Software Foundation; either version 2 of the License, or (at your "
+#~ "option) any later version."
+#~ msgstr ""
+#~ "Ce programme est un logiciel libre ; vous pouvez le redistribuer et/ou le "
+#~ "modifier selon les termes de la licence \"GNU General Public License\" "
+#~ "publiée par la Free Software Fundation ; soit la version 2 de la Licence, "
+#~ "soit (comme vous le préférez), n'importe quelle version ultérieure."
+
+#~ msgid "turn:"
+#~ msgstr "coup :"
+
+#~ msgid "points:"
+#~ msgstr "points :"
+
+#~ msgid ""
+#~ "The bag doesn't contain enough letters\n"
+#~ "for a new rack."
+#~ msgstr ""
+#~ "Le sac ne contient pas assez de lettres\n"
+#~ "pour un nouveau tirage."
+
+#~ msgid "Rack validation"
+#~ msgstr "Validation du tirage"
+
+#~ msgid "The rack must contain at least 2 consonants and 2 vowels."
+#~ msgstr "Le tirage doit contenir au moins 2 consonnes et 2 voyelles."
+
+#~ msgid "The rack contains invalid letters for the current dictionary"
+#~ msgstr ""
+#~ "Le tirage contient des lettres incorrectes pour le dictionnaire courant"
+
+#~ msgid "The rack has been modified manually"
+#~ msgstr "Le tirage a été modifié manuellement"
+
+#~ msgid "The search is limited to %d letters"
+#~ msgstr "La recherche est limitée à %d lettres"
+
+#~ msgid "Minimum length"
+#~ msgstr "Longueur minimum"
+
+#~ msgid "Maximum length"
+#~ msgstr "Longueur maximum"
+
+#~ msgid "Cross words"
+#~ msgstr "Mots croisés"
+
+#~ msgid "Stop current game?"
+#~ msgstr "Arrêter la partie en cours ?"
 
 #~ msgid "Unknown (old format)"
 #~ msgstr "Inconnu (vieux format)"

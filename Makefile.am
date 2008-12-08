@@ -1,4 +1,4 @@
-SUBDIRS = intl dic game utils wxwin qt po extras
+SUBDIRS = intl dic game utils qt po extras
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -18,7 +18,7 @@ package-win32-zip:
 	mkdir -p $(WIN32_PACKAGE_DIR)
 
 # Copy the binaries and strip them
-	cp $(top_builddir)/wxwin/wxeliot$(EXEEXT) $(top_builddir)/dic/compdic$(EXEEXT) $(top_builddir)/dic/listdic$(EXEEXT) $(top_builddir)/qt/eliot$(EXEEXT) $(WIN32_PACKAGE_DIR)
+	cp $(top_builddir)/dic/compdic$(EXEEXT) $(top_builddir)/dic/listdic$(EXEEXT) $(top_builddir)/qt/eliot$(EXEEXT) $(WIN32_PACKAGE_DIR)
 	$(STRIP) $(WIN32_PACKAGE_DIR)/*
 
 # Copy the i18n files
