@@ -337,6 +337,11 @@ QAction * MainWindow::addMenuAction(QMenu *menu, QString iText,
 
 void MainWindow::createMenu()
 {
+    // Decide whether to show the toolbar
+    QSettings qs(ORGANIZATION, PACKAGE_NAME);
+    bool showToolBar = qs.value(PrefsDialog::kINTF_SHOW_TOOLBAR, true).toBool();
+    m_ui.toolBar->setVisible(showToolBar);
+
     QMenu *menuFile = new QMenu(m_ui.menubar);
     m_ui.menubar->addAction(menuFile->menuAction());
     menuFile->setTitle(_q("&Game"));
@@ -393,7 +398,7 @@ void MainWindow::createMenu()
     menuWindows->setTitle(_q("&Windows"));
     m_actionWindowsToolbar = addMenuAction(menuWindows, _q("&Toolbar"), _q("Ctrl+T"),
                   _q("Show/hide the toolbar"), SLOT(onWindowsToolbar()), true);
-    m_actionWindowsToolbar->setChecked(true);
+    m_actionWindowsToolbar->setChecked(showToolBar);
     m_actionWindowsBag = addMenuAction(menuWindows, _q("&Bag"), _q("Ctrl+B"),
                   _q("Show/hide the remaining tiles in the bag"), SLOT(onWindowsBag()), true);
     m_actionWindowsBoard = addMenuAction(menuWindows, _q("&External board"), _q("Ctrl+E"),
@@ -676,7 +681,6 @@ void MainWindow::onSettingsChooseDic()
 
             // Save the location of the dictionary in the preferences
             QSettings qs(ORGANIZATION, PACKAGE_NAME);
-            QString dicPath = qs.value(PrefsDialog::kINTF_DIC_PATH, "").toString();
             qs.setValue(PrefsDialog::kINTF_DIC_PATH, fileName);
         }
         catch (std::exception &e)
@@ -693,6 +697,8 @@ void MainWindow::onWindowsToolbar()
         m_ui.toolBar->hide();
     else
         m_ui.toolBar->show();
+    QSettings qs(ORGANIZATION, PACKAGE_NAME);
+    qs.setValue(PrefsDialog::kINTF_SHOW_TOOLBAR, m_ui.toolBar->isVisible());
 }
 
 
@@ -844,8 +850,8 @@ void MainWindow::onHistoryReplayTurn()
         return;
 
     QSettings settings(ORGANIZATION, PACKAGE_NAME);
-    QVariant warn = settings.value(PrefsDialog::kINTF_WARN_REPLAY_TURN);
-    if (warn.isNull() || warn.toBool()) {
+    bool warn = settings.value(PrefsDialog::kINTF_WARN_REPLAY_TURN, true).toBool();
+    if (warn) {
         // Ask for a confirmation, because this may lead to data loss
         QString msg = _q("Replaying this turn will modify the game history "
                          "by deleting the turns after the displayed one (i.e. "

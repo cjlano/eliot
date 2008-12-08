@@ -32,6 +32,7 @@
 const QString PrefsDialog::kINTF_ALIGN_HISTORY = "Interface/AlignHistory";
 const QString PrefsDialog::kINTF_DIC_PATH = "Interface/DicPath";
 const QString PrefsDialog::kINTF_WARN_REPLAY_TURN = "Interface/WarnReplayTurn";
+const QString PrefsDialog::kINTF_SHOW_TOOLBAR = "Interface/ShowToolBar";
 
 
 PrefsDialog::PrefsDialog(QWidget *iParent)
@@ -45,8 +46,8 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         QSettings qs(ORGANIZATION, PACKAGE_NAME);
         lineEditIntfDicPath->setText(qs.value(kINTF_DIC_PATH, "").toString());
         checkBoxIntfAlignHistory->setChecked(qs.value(kINTF_ALIGN_HISTORY).toBool());
-        QVariant warnReplayTurn = qs.value(kINTF_WARN_REPLAY_TURN);
-        checkBoxIntfWarnReplayTurn->setChecked(warnReplayTurn.isNull() || warnReplayTurn.toBool());
+        bool warnReplayTurn = qs.value(kINTF_WARN_REPLAY_TURN, true).toBool();
+        checkBoxIntfWarnReplayTurn->setChecked(warnReplayTurn);
 
         // Duplicate settings
         checkBoxDuplRefuseInvalid->setChecked(Settings::Instance().getBool("duplicate.reject-invalid"));
