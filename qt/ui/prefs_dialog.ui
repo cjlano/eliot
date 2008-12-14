@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>404</width>
-    <height>437</height>
+    <width>508</width>
+    <height>442</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -68,6 +68,9 @@
       </item>
       <item>
        <widget class="QCheckBox" name="checkBoxIntfWarnReplayTurn" >
+        <property name="toolTip" >
+         <string>_("If checked, a confirmation will be requested before replaying the game from a given turn. If unchecked, the action is performed without confirmation.")</string>
+        </property>
         <property name="text" >
          <string>_("Warn before replaying a turn")</string>
         </property>
@@ -190,11 +193,14 @@
      <property name="title" >
       <string>_("Training mode")</string>
      </property>
-     <layout class="QVBoxLayout" >
+     <layout class="QVBoxLayout" name="verticalLayout" >
       <item>
-       <widget class="QLabel" name="label" >
+       <widget class="QCheckBox" name="checkBoxIntfLinkTraining7P1" >
+        <property name="toolTip" >
+         <string>_("If checked, any change to the player rack in training mode will update the 'Plus 1' tab of the 'Dictionary tools' window")</string>
+        </property>
         <property name="text" >
-         <string>Nothing yet</string>
+         <string>_("Copy rack to the 'Plus 1' dictionary tool")</string>
         </property>
        </widget>
       </item>

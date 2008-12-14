@@ -87,6 +87,7 @@ signals:
     void gameUpdated();
     void notifyProblem(QString iMsg);
     void notifyInfo(QString iMsg);
+    void trainingRackUpdated(const QString &iRack);
 
 private slots:
     void changeCurrentPlayer(int);

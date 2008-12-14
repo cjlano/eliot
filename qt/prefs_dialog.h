@@ -38,13 +38,14 @@ public:
     static const QString kINTF_DIC_PATH;
     static const QString kINTF_WARN_REPLAY_TURN;
     static const QString kINTF_SHOW_TOOLBAR;
+    static const QString kINTF_LINK_TRAINING_7P1;
 
 public slots:
     /// Update the settings when the user selects "OK"
     virtual void accept();
 
 signals:
-    void gameUpdated();
+    void prefsUpdated();
 
 private slots:
     void on_pushButtonIntfDicBrowse_clicked();

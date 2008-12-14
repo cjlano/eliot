@@ -39,6 +39,7 @@ public:
 
 public slots:
     void setDic(const Dictionary *iDic);
+    void setPlus1Rack(const QString &iRack);
 
 private:
     /// Dictionary in which the searches are done

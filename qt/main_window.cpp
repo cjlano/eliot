@@ -130,16 +130,16 @@ MainWindow::MainWindow(QWidget *iParent)
 
     // Players racks
     m_ui.groupBoxPlayers->hide();
-    PlayerTabWidget *players = new PlayerTabWidget(NULL);
-    m_ui.groupBoxPlayers->layout()->addWidget(players);
+    m_playersWidget = new PlayerTabWidget(NULL);
+    m_ui.groupBoxPlayers->layout()->addWidget(m_playersWidget);
     QObject::connect(this, SIGNAL(gameChangedNonConst(PublicGame*)),
-                     players, SLOT(setGame(PublicGame*)));
-    QObject::connect(this, SIGNAL(gameUpdated()), players, SLOT(refresh()));
+                     m_playersWidget, SLOT(setGame(PublicGame*)));
+    QObject::connect(this, SIGNAL(gameUpdated()), m_playersWidget, SLOT(refresh()));
 
-    QObject::connect(players, SIGNAL(gameUpdated()), this, SIGNAL(gameUpdated()));
-    QObject::connect(players, SIGNAL(notifyProblem(QString)),
+    QObject::connect(m_playersWidget, SIGNAL(gameUpdated()), this, SIGNAL(gameUpdated()));
+    QObject::connect(m_playersWidget, SIGNAL(notifyProblem(QString)),
                      this, SLOT(displayErrorMsg(QString)));
-    QObject::connect(players, SIGNAL(notifyInfo(QString)),
+    QObject::connect(m_playersWidget, SIGNAL(notifyInfo(QString)),
                      this, SLOT(displayInfoMsg(QString)));
 
     // Players score
@@ -216,6 +216,30 @@ void MainWindow::refresh()
         m_game->printTurns();
 #endif
     }
+}
+
+
+void MainWindow::prefsUpdated()
+{
+    // Disconnect the training rack updates from the "Plus 1" tab of the
+    // dictionary tools
+    m_playersWidget->disconnect(SIGNAL(trainingRackUpdated(const QString&)));
+    // Reconnect it only if needed
+    if (m_dicToolsWindow != NULL)
+    {
+        QSettings qs(ORGANIZATION, PACKAGE_NAME);
+        if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
+        {
+            QObject::connect(m_playersWidget,
+                             SIGNAL(trainingRackUpdated(const QString&)),
+                             &m_dicToolsWindow->getWidget(),
+                             SLOT(setPlus1Rack(const QString&)));
+        }
+    }
+
+    // Probably useless in most cases (currently only used for
+    // the History alignment)
+    emit gameUpdated();
 }
 
 
@@ -643,8 +667,8 @@ void MainWindow::onSettingsPreferences()
     if (m_prefsDialog == NULL)
     {
         m_prefsDialog = new PrefsDialog(this);
-        QObject::connect(m_prefsDialog, SIGNAL(gameUpdated()),
-                         this, SIGNAL(gameUpdated()));
+        QObject::connect(m_prefsDialog, SIGNAL(prefsUpdated()),
+                         this, SLOT(prefsUpdated()));
     }
     m_prefsDialog->exec();
 }
@@ -766,6 +790,14 @@ void MainWindow::onWindowsDicTools()
                                     m_actionWindowsDicTools);
         QObject::connect(this, SIGNAL(dicChanged(const Dictionary*)),
                          dicTools, SLOT(setDic(const Dictionary*)));
+        // Link the training rack with the "Plus 1" one
+        QSettings qs(ORGANIZATION, PACKAGE_NAME);
+        if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
+        {
+            QObject::connect(m_playersWidget,
+                             SIGNAL(trainingRackUpdated(const QString&)),
+                             dicTools, SLOT(setPlus1Rack(const QString&)));
+        }
         // Fake a dictionary selection
         dicTools->setDic(m_dic);
         dicTools->setFocus();

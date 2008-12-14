@@ -127,6 +127,13 @@ void DicToolsWidget::setDic(const Dictionary *iDic)
 }
 
 
+void DicToolsWidget::setPlus1Rack(const QString &iRack)
+{
+    lineEditPlus1->setText(iRack);
+    refreshPlus1();
+}
+
+
 void DicToolsWidget::refreshCheck()
 {
     QLineEdit *rack = lineEditCheck;

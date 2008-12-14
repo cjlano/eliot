@@ -416,6 +416,8 @@ void PlayerTabWidget::setGame(PublicGame *iGame)
                              this, SIGNAL(notifyInfo(QString)));
             QObject::connect(trWidget, SIGNAL(gameUpdated()),
                              this, SIGNAL(gameUpdated()));
+            QObject::connect(trWidget, SIGNAL(rackUpdated(const QString&)),
+                             this, SIGNAL(trainingRackUpdated(const QString&)));
             addTab(trWidget, qfw(player.getName()));
         }
         else

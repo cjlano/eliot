@@ -33,6 +33,7 @@ class History;
 class PublicGame;
 class NewGame;
 class PrefsDialog;
+class PlayerTabWidget;
 class AuxWindow;
 class QLabel;
 class QAction;
@@ -83,6 +84,9 @@ private slots:
     /** Perform some updates when the game is updated */
     void refresh();
 
+    /** Perform work when the preferences were updated */
+    void prefsUpdated();
+
     /**
      * Perform several updates when the game changes (title bar, status bar,
      * grey out some menu items, ...)
@@ -107,6 +111,9 @@ private:
 
     /// Dialog for the preferences
     PrefsDialog *m_prefsDialog;
+
+    /// Widget for the players
+    PlayerTabWidget *m_playersWidget;
 
     /// Actions enabled or disabled depending on the game state
     QAction *m_actionGamePrint;

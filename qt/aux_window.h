@@ -47,7 +47,9 @@ public:
      */
     AuxWindow(QWidget &iWidget, QString iWindowTitle,
               QString iWindowName, QAction *iAction = NULL);
-    ~AuxWindow();
+    virtual ~AuxWindow();
+
+    const QWidget & getWidget() const { return m_widget; }
 
     void toggleVisibility();
 

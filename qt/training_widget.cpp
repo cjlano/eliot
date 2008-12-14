@@ -78,6 +78,9 @@ TrainingWidget::TrainingWidget(QWidget *parent)
 
     m_validator = new RackValidator(this);
     lineEditRack->setValidator(m_validator);
+    // Notify that the rack changed
+    QObject::connect(lineEditRack, SIGNAL(textChanged(const QString&)),
+                     this, SIGNAL(rackUpdated(const QString&)));
 
     refresh();
 }

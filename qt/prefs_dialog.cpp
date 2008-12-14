@@ -33,6 +33,7 @@ const QString PrefsDialog::kINTF_ALIGN_HISTORY = "Interface/AlignHistory";
 const QString PrefsDialog::kINTF_DIC_PATH = "Interface/DicPath";
 const QString PrefsDialog::kINTF_WARN_REPLAY_TURN = "Interface/WarnReplayTurn";
 const QString PrefsDialog::kINTF_SHOW_TOOLBAR = "Interface/ShowToolBar";
+const QString PrefsDialog::kINTF_LINK_TRAINING_7P1 = "Interface/LinkTrainingRackWith7P1";
 
 
 PrefsDialog::PrefsDialog(QWidget *iParent)
@@ -48,24 +49,25 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         checkBoxIntfAlignHistory->setChecked(qs.value(kINTF_ALIGN_HISTORY).toBool());
         bool warnReplayTurn = qs.value(kINTF_WARN_REPLAY_TURN, true).toBool();
         checkBoxIntfWarnReplayTurn->setChecked(warnReplayTurn);
+        bool linkTraining7P1 = qs.value(kINTF_LINK_TRAINING_7P1, false).toBool();
+        checkBoxIntfLinkTraining7P1->setChecked(linkTraining7P1);
 
         // Duplicate settings
         checkBoxDuplRefuseInvalid->setChecked(Settings::Instance().getBool("duplicate.reject-invalid"));
         spinBoxDuplSoloPlayers->setValue(Settings::Instance().getInt("duplicate.solo-players"));
         spinBoxDuplSoloValue->setValue(Settings::Instance().getInt("duplicate.solo-value"));
+
+        // Freegame settings
+        checkBoxFreeRefuseInvalid->setChecked(Settings::Instance().getBool("freegame.reject-invalid"));
+
+        // Training settings
+
     }
     catch (GameException &e)
     {
         QMessageBox::warning(this, _q("%1 error").arg(PACKAGE_NAME),
                              _q("Cannot load preferences: %1").arg(e.what()));
     }
-
-    // Freegame settings
-    checkBoxFreeRefuseInvalid->setChecked(Settings::Instance().getBool("freegame.reject-invalid"));
-
-    // Training settings
-    // XXX: Hide them until there is something to show
-    groupBoxTraining->hide();
 
     // Resize the dialog so that it gets its minimal size
     resize(10, 10);
@@ -104,6 +106,13 @@ void PrefsDialog::updateSettings()
             qs.setValue(kINTF_ALIGN_HISTORY, checkBoxIntfAlignHistory->isChecked());
         }
         qs.setValue(kINTF_WARN_REPLAY_TURN, checkBoxIntfWarnReplayTurn->isChecked());
+        if (qs.value(kINTF_LINK_TRAINING_7P1).toBool() != checkBoxIntfLinkTraining7P1->isChecked())
+        {
+            // We need to (dis)connect the training widget with the dictionary
+            // tools window
+            shouldEmitUpdate = true;
+            qs.setValue(kINTF_LINK_TRAINING_7P1, checkBoxIntfLinkTraining7P1->isChecked());
+        }
 
         // Duplicate settings
         Settings::Instance().setBool("duplicate.reject-invalid",
@@ -127,7 +136,7 @@ void PrefsDialog::updateSettings()
     }
 
     if (shouldEmitUpdate)
-        emit gameUpdated();
+        emit prefsUpdated();
 }
 
 

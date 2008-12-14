@@ -45,6 +45,7 @@ signals:
     void gameUpdated();
     void notifyProblem(QString iMsg);
     void notifyInfo(QString iMsg);
+    void rackUpdated(const QString &iRack);
 
 protected:
     /// Define a default size
@@ -54,7 +55,7 @@ private slots:
     void enablePlayButton(const QItemSelection &, const QItemSelection &);
     void showPreview(const QItemSelection &, const QItemSelection &);
 
-    // These slots are automatocally connected
+    // These slots are automatically connected
     void on_lineEditRack_textEdited(const QString &iText);
     void on_pushButtonRack_clicked();
     void on_pushButtonComplement_clicked();
