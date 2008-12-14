@@ -118,6 +118,7 @@ MainWindow::MainWindow(QWidget *iParent)
 
     m_ui.groupBoxTest->setLayout(hlayout);
 
+#if 1
     // History
     HistoryTabWidget *historyTab = new HistoryTabWidget;
     QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
@@ -127,6 +128,9 @@ MainWindow::MainWindow(QWidget *iParent)
     QHBoxLayout *hlayout2 = new QHBoxLayout;
     hlayout2->addWidget(historyTab);
     m_ui.groupBoxHistory->setLayout(hlayout2);
+#else
+    m_ui.groupBoxHistory->hide();
+#endif
 
     // Players racks
     m_ui.groupBoxPlayers->hide();
@@ -378,30 +382,32 @@ void MainWindow::createMenu()
                   _q("Save the current game"), SLOT(onGameSaveAs()));
     menuFile->addSeparator();
     m_actionGamePrint = addMenuAction(menuFile, _q("&Print..."), _q("Ctrl+P"),
-                  _q("Print the current game"), SLOT(onGamePrint()));
+                  _q("Print the current game"), SLOT(onGamePrint()),
+                  false, QIcon(":/images/printer.png"));
     menuFile->addSeparator();
     addMenuAction(menuFile, _q("&Quit"), _q("Ctrl+Q"),
-                  _q("Quit Eliot"), SLOT(close()));
+                  _q("Quit Eliot"), SLOT(close()),
+                  false, QIcon(":/images/quit_16px.png"));
 
     QMenu *menuHistory = new QMenu(m_ui.menubar);
     m_ui.menubar->addAction(menuHistory->menuAction());
     menuHistory->setTitle(_q("&History"));
     m_actionHistoryFirstTurn = addMenuAction(menuHistory, _q("&First turn"), _q("Ctrl+Home"),
                   _q("Go to the first turn of the game"), SLOT(onHistoryFirstTurn()),
-                  false, QIcon(":/images/first.xpm"));
+                  false, QIcon(":/images/go-first.png"));
     m_actionHistoryPrevTurn = addMenuAction(menuHistory, _q("&Previous turn"), _q("Ctrl+Left"),
                   _q("Go to the previous turn of the game"), SLOT(onHistoryPrevTurn()),
-                  false, QIcon(":/images/prev.xpm"));
+                  false, QIcon(":/images/go-previous.png"));
     m_actionHistoryNextTurn = addMenuAction(menuHistory, _q("&Next turn"), _q("Ctrl+Right"),
                   _q("Go to the next turn of the game"), SLOT(onHistoryNextTurn()),
-                  false, QIcon(":/images/next.xpm"));
+                  false, QIcon(":/images/go-next.png"));
     m_actionHistoryLastTurn = addMenuAction(menuHistory, _q("&Last turn"), _q("Ctrl+End"),
                   _q("Go to the last turn of the game"), SLOT(onHistoryLastTurn()),
-                  false, QIcon(":/images/last.xpm"));
+                  false, QIcon(":/images/go-last.png"));
     m_actionHistoryReplayTurn = addMenuAction(menuHistory, _q("&Replay turn"), _q("Ctrl+R"),
                   _q("Play the game from the current position, "
                      "replacing what was really played"), SLOT(onHistoryReplayTurn()),
-                  false, QIcon(":/images/replay.xpm"));
+                  false, QIcon(":/images/go-jump.png"));
     // Add actions to the toolbar
     m_ui.toolBar->addAction(m_actionHistoryFirstTurn);
     m_ui.toolBar->addAction(m_actionHistoryPrevTurn);
@@ -415,7 +421,8 @@ void MainWindow::createMenu()
     addMenuAction(menuSettings, _q("&Choose dictionary..."), _q("Ctrl+C"),
                   _q("Select a new dictionary"), SLOT(onSettingsChooseDic()));
     addMenuAction(menuSettings, _q("&Preferences..."), _q("Ctrl+F"),
-                  _q("Edit the preferences"), SLOT(onSettingsPreferences()));
+                  _q("Edit the preferences"), SLOT(onSettingsPreferences()),
+                  false, QIcon(":/images/preferences.png"));
 
     QMenu *menuWindows = new QMenu(m_ui.menubar);
     m_ui.menubar->addAction(menuWindows->menuAction());
@@ -428,15 +435,17 @@ void MainWindow::createMenu()
     m_actionWindowsBoard = addMenuAction(menuWindows, _q("&External board"), _q("Ctrl+E"),
                   _q("Show/hide the external board"), SLOT(onWindowsBoard()), true);
     m_actionWindowsHistory = addMenuAction(menuWindows, _q("&History"), _q("Ctrl+H"),
-                  _q("Show/hide the game history"), SLOT(onWindowsHistory()), true);
+                  _q("Show/hide the game history"), SLOT(onWindowsHistory()),
+                  true, QIcon(":/images/playlist_16px.png"));
     m_actionWindowsDicTools = addMenuAction(menuWindows, _q("&Dictionary tools"), _q("Ctrl+D"),
                   _q("Show/hide the dictionary tools"), SLOT(onWindowsDicTools()), true);
 
     QMenu *menuHelp = new QMenu(m_ui.menubar);
     m_ui.menubar->addAction(menuHelp->menuAction());
     menuHelp->setTitle(_q("&Help"));
-    addMenuAction(menuHelp, _q("&About..."), _q("Ctrl+A"),
-                  _q("About Eliot"), SLOT(onHelpAbout()));
+    addMenuAction(menuHelp, _q("&About..."), QString(""),
+                  _q("About Eliot"), SLOT(onHelpAbout()),
+                  false, QIcon(":/images/info_16px.png"));
 }
 
 

@@ -1,10 +1,15 @@
 <RCC>
   <qresource>
+    <file>images/go-first.png</file>
+    <file>images/go-previous.png</file>
+    <file>images/go-next.png</file>
+    <file>images/go-last.png</file>
+    <file>images/go-jump.png</file>
+    <file>images/printer.png</file>
+    <file>images/preferences.png</file>
+    <file>images/playlist_16px.png</file>
+    <file>images/info_16px.png</file>
+    <file>images/quit_16px.png</file>
     <file>images/eliot.xpm</file>
-    <file>images/first.xpm</file>
-    <file>images/last.xpm</file>
-    <file>images/prev.xpm</file>
-    <file>images/next.xpm</file>
-    <file>images/replay.xpm</file>
   </qresource>
 </RCC>
