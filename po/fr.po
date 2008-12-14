@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-13 18:30+0100\n"
+"POT-Creation-Date: 2008-12-13 18:57+0100\n"
 "PO-Revision-Date: 2008-11-16 10:35+0100\n"
 "Last-Translator: Olivier Teulière <ipkiss@via.ecp.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -298,9 +298,9 @@ msgid "Not enough vowels or consonants to complete the rack"
 msgstr "Pas assez de voyelles ou de consonnes pour compléter le tirage"
 
 #: game/game_factory.cpp:148
-#, fuzzy, c-format
+#, c-format
 msgid "Player %u"
-msgstr "Joueur %1"
+msgstr "Joueur %u"
 
 #: game/training.cpp:52 qt/new_game.cpp:98 qt/new_game.cpp:107
 #: qt/new_game.cpp:142 qt/ui/new_game.ui:46
@@ -765,73 +765,66 @@ msgstr "&Historique"
 
 #: qt/main_window.cpp:389
 msgid "&First turn"
-msgstr ""
+msgstr "&Premier tour"
 
 #: qt/main_window.cpp:389
-#, fuzzy
 msgid "Ctrl+Home"
-msgstr "Ctrl+H"
+msgstr "Ctrl+Début"
 
 #: qt/main_window.cpp:390
-#, fuzzy
 msgid "Go to the first turn of the game"
-msgstr "Configuration de la partie"
+msgstr "Aller au premier tour de la partie"
 
 #: qt/main_window.cpp:392
 msgid "&Previous turn"
-msgstr ""
+msgstr "Tour &précédent"
 
 #: qt/main_window.cpp:392
-#, fuzzy
 msgid "Ctrl+Left"
-msgstr "Ctrl+N"
+msgstr "Ctrl+Gauche"
 
 #: qt/main_window.cpp:393
-#, fuzzy
 msgid "Go to the previous turn of the game"
-msgstr "Aperçu avant impression de la partie"
+msgstr "Aller au tour précédent de la partie"
 
 #: qt/main_window.cpp:395
 msgid "&Next turn"
-msgstr ""
+msgstr "Tour &suivant"
 
 #: qt/main_window.cpp:395
-#, fuzzy
 msgid "Ctrl+Right"
-msgstr "droite"
+msgstr "Ctrl+Droite"
 
 #: qt/main_window.cpp:396
-#, fuzzy
 msgid "Go to the next turn of the game"
-msgstr "Configuration de la partie"
+msgstr "Aller au tour suivant de la partie"
 
 #: qt/main_window.cpp:398
 msgid "&Last turn"
-msgstr ""
+msgstr "&Dernier tour"
 
 #: qt/main_window.cpp:398
-#, fuzzy
 msgid "Ctrl+End"
-msgstr "Ctrl+E"
+msgstr "Ctrl+Fin"
 
 #: qt/main_window.cpp:399
-#, fuzzy
 msgid "Go to the last turn of the game"
-msgstr "Historique de la partie"
+msgstr "Aller au dernier tour de la partie"
 
 #: qt/main_window.cpp:401
 msgid "&Replay turn"
-msgstr ""
+msgstr "&Rejouer ce tour"
 
 #: qt/main_window.cpp:401
-#, fuzzy
 msgid "Ctrl+R"
-msgstr "Ctrl+N"
+msgstr "Ctrl+R"
 
 #: qt/main_window.cpp:402
 msgid ""
 "Play the game from the current position, replacing what was really played"
 msgstr ""
+"Jouer la partie depuis la position courante, en remplaçant ce qui a vraiment "
+"été joué"
 
 #: qt/main_window.cpp:414
 msgid "&Settings"
@@ -867,17 +860,15 @@ msgstr "&Fenêtres"
 
 #: qt/main_window.cpp:423
 msgid "&Toolbar"
-msgstr ""
+msgstr "&Barre d'outils"
 
 #: qt/main_window.cpp:423
-#, fuzzy
 msgid "Ctrl+T"
-msgstr "Ctrl+N"
+msgstr "Ctrl+T"
 
 #: qt/main_window.cpp:424
-#, fuzzy
 msgid "Show/hide the toolbar"
-msgstr "Afficher/cacher le plateau de jeu externe"
+msgstr "Afficher/cacher la barre d'outils"
 
 #: qt/main_window.cpp:426
 msgid "&Bag"
@@ -980,10 +971,8 @@ msgid "PTS"
 msgstr "PTS"
 
 #: qt/main_window.cpp:681
-#, fuzzy
 msgid "Loading a dictionary will stop the current game."
-msgstr ""
-"Charger un dictionnaire arrêtera la partie en cours. Voulez-vous continuer ?"
+msgstr "Charger un dictionnaire arrêtera la partie en cours."
 
 #: qt/main_window.cpp:682 qt/main_window.cpp:891 qt/new_game.cpp:56
 msgid "Eliot"
@@ -991,7 +980,7 @@ msgstr "Eliot"
 
 #: qt/main_window.cpp:684 qt/main_window.cpp:893
 msgid "Do you want to continue?"
-msgstr ""
+msgstr "Voulez-vous continuer ?"
 
 #: qt/main_window.cpp:693
 msgid "Choose a dictionary"
@@ -1025,17 +1014,19 @@ msgstr ""
 #: qt/main_window.cpp:836 qt/main_window.cpp:849 qt/main_window.cpp:862
 #: qt/main_window.cpp:875
 msgid "Turn %1/%2"
-msgstr ""
+msgstr "Tour %1/%2"
 
 #: qt/main_window.cpp:888
 msgid ""
 "Replaying this turn will modify the game history by deleting the turns after "
 "the displayed one (i.e. turns \"in the future\")."
 msgstr ""
+"Rejouer ce tour va modifier l'historique de la partie en effaçant les tours "
+"après celui qui est affiché (i.e. les tours \"dans le futur\")."
 
 #: qt/main_window.cpp:904
 msgid "Replaying from turn %1"
-msgstr ""
+msgstr "Reprise à partir du tour %1"
 
 #: qt/new_game.cpp:39 qt/ui/new_game.ui:117
 msgid "Human"
@@ -1340,7 +1331,7 @@ msgid ""
 "If checked, the game and player histories will display the rack and the "
 "corresponding solution on the same line"
 msgstr ""
-"Si la case est cochée, les historiques de la partie et des joueurs "
+"Si la case est cochée, les historiques de la partie et des joueurs\n"
 "afficheront le tirage et la solution correspondante sur la même ligne"
 
 #: qt/ui/prefs_dialog.ui:62
@@ -1352,17 +1343,20 @@ msgid ""
 "If checked, a confirmation will be requested before replaying the game from "
 "a given turn. If unchecked, the action is performed without confirmation."
 msgstr ""
+"Si la case est cochée, une confirmation sera demandée avant de rejouer la "
+"partie à partir du tour courant.\n"
+"Sinon, l'action sera effectuée sans demander de confirmation."
 
 #: qt/ui/prefs_dialog.ui:75
 msgid "Warn before replaying a turn"
-msgstr ""
+msgstr "Avertir avant de rejouer un coup"
 
 #: qt/ui/prefs_dialog.ui:94 qt/ui/prefs_dialog.ui:181
 msgid ""
 "If checked, playing an invalid or misplaced word will not be possible. If "
 "unchecked, you will get 0 point and lose your turn"
 msgstr ""
-"Si la case est cochée, jouer un mot invalide ou mal placé sera impossible. "
+"Si la case est cochée, jouer un mot invalide ou mal placé sera impossible.\n"
 "Sinon, un tel mot apportera 0 point et vous perdrez votre tour"
 
 #: qt/ui/prefs_dialog.ui:97 qt/ui/prefs_dialog.ui:184
@@ -1384,17 +1378,22 @@ msgstr "Valeur du solo :"
 #: qt/ui/prefs_dialog.ui:160
 msgid "Value of the solo bonus. Set it to 0 if you don't want solo bonus"
 msgstr ""
-"Valeur de la prime de solo. Mettez 0 pour désactiver les primes de solo."
+"Valeur de la prime de solo.\n"
+"Mettez 0 pour désactiver les primes de solo."
 
 #: qt/ui/prefs_dialog.ui:200
 msgid ""
 "If checked, any change to the player rack in training mode will update the "
 "'Plus 1' tab of the 'Dictionary tools' window"
 msgstr ""
+"Si la case est cochée, tout changement du tirage du joueur en mode "
+"entraînement \n"
+"sera répercuté sur l'onglet \"Plus 1\" de la fenêtre \"Outils du dictionnaire"
+"\""
 
 #: qt/ui/prefs_dialog.ui:203
 msgid "Copy rack to the 'Plus 1' dictionary tool"
-msgstr ""
+msgstr "Copier le tirage vers l'outil \"Plus 1\" du dictionnaire"
 
 #: qt/ui/training_widget.ui:35
 msgid "New rack"
