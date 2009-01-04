@@ -21,8 +21,10 @@
 #include <math.h>
 #include <QtGui/QPainter>
 #include <QtGui/QPaintEvent>
+#include <QtCore/QSettings>
 
 #include "board_widget.h"
+#include "prefs_dialog.h"
 #include "qtcommon.h"
 #include "public_game.h"
 #include "tile.h"
@@ -71,16 +73,22 @@ QSize BoardWidget::sizeHint() const
     return QSize(400, 400);
 }
 
-
 void BoardWidget::paintEvent(QPaintEvent *)
 {
-    int size = std::min(width(), height());
-    int squareSize = (int)floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2));
+    const int size = std::min(width(), height());
+    const int squareSize = (int)floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2));
 
     // The font must grow with the square size
-    QFont f = font();
-    f.setPixelSize(squareSize * 2 / 3);
-    setFont(f);
+    QFont letterFont = font();
+    letterFont.setPixelSize(squareSize * 2 / 3);
+
+    QFont pointsFont = font();
+    const double pointsCoeff = 8. / 25.;
+    pointsFont.setPixelSize(squareSize * pointsCoeff);
+
+    // Should we display the tiles points?
+    QSettings qs(ORGANIZATION, PACKAGE_NAME);
+    bool showPoints = qs.value(PrefsDialog::kINTF_SHOW_TILES_POINTS, true).toBool();
 
     // XXX: Naive implementation: we repaint everything every time
     QPainter painter(this);
@@ -117,18 +125,32 @@ void BoardWidget::paintEvent(QPaintEvent *)
                 wchar_t chr = m_game->getBoard().getTile(row, col).toChar();
                 if (m_game->getBoard().getCharAttr(row, col) & ATTR_JOKER)
                     painter.setPen(JokerColour);
+                painter.setFont(letterFont);
                 painter.drawText((col - BOARD_MIN + 1) * squareSize,
                                  (row - BOARD_MIN + 1) * squareSize + 1,
                                  squareSize, squareSize,
                                  Qt::AlignCenter,
                                  qfw(wstring(1, chr)));
                 painter.setPen(NormalColour);
+
+                // Draw the points of the tile
+                if (showPoints &&
+                    !m_game->getBoard().getCharAttr(row, col) & ATTR_JOKER)
+                {
+                    painter.setFont(pointsFont);
+                    painter.drawText((col - BOARD_MIN + 1) * squareSize + squareSize * (1 - pointsCoeff),
+                                     (row - BOARD_MIN + 1) * squareSize + squareSize * (1 - pointsCoeff) + 1,
+                                     squareSize * pointsCoeff, squareSize * pointsCoeff + 3,
+                                     Qt::AlignRight | Qt::AlignBottom,
+                                     QString("%1").arg(m_game->getBoard().getTile(row, col).getPoints()));
+                }
             }
         }
     }
     // Draw the coordinates
     for (unsigned x = 1; x <= BOARD_MAX - BOARD_MIN + 1; ++x)
     {
+        painter.setFont(letterFont);
         painter.drawText(x * squareSize, 1,
                          squareSize, squareSize,
                          Qt::AlignCenter,

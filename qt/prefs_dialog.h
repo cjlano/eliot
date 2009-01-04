@@ -36,6 +36,7 @@ public:
 
     static const QString kINTF_ALIGN_HISTORY;
     static const QString kINTF_DIC_PATH;
+    static const QString kINTF_SHOW_TILES_POINTS;
     static const QString kINTF_WARN_REPLAY_TURN;
     static const QString kINTF_SHOW_TOOLBAR;
     static const QString kINTF_LINK_TRAINING_7P1;

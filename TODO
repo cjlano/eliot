@@ -1,33 +1,29 @@
+TODO
+====
 
-* ==================
-* Next Eliot version
-* ==================
-
+ - unit tests for the navigation handling, in each mode
  - Improve error handling (use exceptions more)
  - Correct game save/load functions: Advanced format
    file saving for freegames and duplicate need a serious
    rewrite. We need to specify a file format that can handle
    all the information contained in a multiplayer game.
- - rack shuffling
- - new wxWidgets or QT interface
-   - support of the different modes
-   - ability to choose the number and type of the players
-   - ability to display the history and score of all the players
-     -- partly done: history is now a separate class
+ - getopt support for all the interfaces (only ncurses is done)?
  - detection of blocked positions?
- - getopt support for all the interfaces (only ncurses is done)
+ - distinguish misplaced and incorrect words?
 
-* =============
-* Not so urgent
-* =============
+Implementation details
+======================
 
- - network support
+ - game.h included in board.cpp!
+ - board.h included in coord.cpp!
+ - use Boost.Format?
+ - compile with -ansi -pedantic by default?
+
+Not so urgent
+=============
+
  - add timers
+ - network support
  - implement the dictionary as a GADDAG:
    http://www.cs.ubc.ca/local/reading/proceedings/spe91-95/spe/vol24/issue2/spe880.pdf
-
-
-%%% Local Variables:
-%%% mode: outline
-%%% End:
 

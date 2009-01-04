@@ -31,6 +31,7 @@
 
 const QString PrefsDialog::kINTF_ALIGN_HISTORY = "Interface/AlignHistory";
 const QString PrefsDialog::kINTF_DIC_PATH = "Interface/DicPath";
+const QString PrefsDialog::kINTF_SHOW_TILES_POINTS = "Interface/ShowTilesPoints";
 const QString PrefsDialog::kINTF_WARN_REPLAY_TURN = "Interface/WarnReplayTurn";
 const QString PrefsDialog::kINTF_SHOW_TOOLBAR = "Interface/ShowToolBar";
 const QString PrefsDialog::kINTF_LINK_TRAINING_7P1 = "Interface/LinkTrainingRackWith7P1";
@@ -47,6 +48,8 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         QSettings qs(ORGANIZATION, PACKAGE_NAME);
         lineEditIntfDicPath->setText(qs.value(kINTF_DIC_PATH, "").toString());
         checkBoxIntfAlignHistory->setChecked(qs.value(kINTF_ALIGN_HISTORY).toBool());
+        bool showPoints = qs.value(kINTF_SHOW_TILES_POINTS, true).toBool();
+        checkBoxIntfShowPoints->setChecked(showPoints);
         bool warnReplayTurn = qs.value(kINTF_WARN_REPLAY_TURN, true).toBool();
         checkBoxIntfWarnReplayTurn->setChecked(warnReplayTurn);
         bool linkTraining7P1 = qs.value(kINTF_LINK_TRAINING_7P1, false).toBool();
@@ -68,9 +71,6 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         QMessageBox::warning(this, _q("%1 error").arg(PACKAGE_NAME),
                              _q("Cannot load preferences: %1").arg(e.what()));
     }
-
-    // Resize the dialog so that it gets its minimal size
-    resize(10, 10);
 }
 
 
@@ -99,14 +99,20 @@ void PrefsDialog::updateSettings()
         // Interface settings
         QSettings qs(ORGANIZATION, PACKAGE_NAME);
         qs.setValue(kINTF_DIC_PATH, lineEditIntfDicPath->text());
-        if (qs.value(kINTF_ALIGN_HISTORY).toBool() != checkBoxIntfAlignHistory->isChecked())
+        if (qs.value(kINTF_ALIGN_HISTORY, true).toBool() != checkBoxIntfAlignHistory->isChecked())
         {
             // We need to redraw the history widget
             shouldEmitUpdate = true;
             qs.setValue(kINTF_ALIGN_HISTORY, checkBoxIntfAlignHistory->isChecked());
         }
+        if (qs.value(kINTF_SHOW_TILES_POINTS, true).toBool() != checkBoxIntfShowPoints->isChecked())
+        {
+            // We need to redraw the board
+            shouldEmitUpdate = true;
+            qs.setValue(kINTF_SHOW_TILES_POINTS, checkBoxIntfShowPoints->isChecked());
+        }
         qs.setValue(kINTF_WARN_REPLAY_TURN, checkBoxIntfWarnReplayTurn->isChecked());
-        if (qs.value(kINTF_LINK_TRAINING_7P1).toBool() != checkBoxIntfLinkTraining7P1->isChecked())
+        if (qs.value(kINTF_LINK_TRAINING_7P1, false).toBool() != checkBoxIntfLinkTraining7P1->isChecked())
         {
             // We need to (dis)connect the training widget with the dictionary
             // tools window

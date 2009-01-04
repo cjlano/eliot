@@ -1,14 +1,6 @@
 <ui version="4.0" >
  <class>PrefsDialog</class>
  <widget class="QDialog" name="PrefsDialog" >
-  <property name="geometry" >
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>508</width>
-    <height>442</height>
-   </rect>
-  </property>
   <property name="windowTitle" >
    <string>_("Preferences")</string>
   </property>
@@ -18,7 +10,7 @@
      <property name="title" >
       <string>_("Interface")</string>
      </property>
-     <layout class="QVBoxLayout" >
+     <layout class="QVBoxLayout" name="verticalLayout_2" >
       <item>
        <layout class="QHBoxLayout" >
         <item>
@@ -32,7 +24,7 @@
          <widget class="QLineEdit" name="lineEditIntfDicPath" >
           <property name="minimumSize" >
            <size>
-            <width>130</width>
+            <width>140</width>
             <height>0</height>
            </size>
           </property>
@@ -52,6 +44,19 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxIntfShowPoints" >
+        <property name="toolTip" >
+         <string>_("Show/hide the tiles points on the board.")</string>
+        </property>
+        <property name="text" >
+         <string>_("Display tiles points")</string>
+        </property>
+        <property name="checked" >
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QCheckBox" name="checkBoxIntfAlignHistory" >
@@ -87,8 +92,8 @@
      <property name="title" >
       <string>_("Duplicate mode")</string>
      </property>
-     <layout class="QVBoxLayout" >
-      <item>
+     <layout class="QGridLayout" name="gridLayout" >
+      <item row="0" column="0" colspan="2" >
        <widget class="QCheckBox" name="checkBoxDuplRefuseInvalid" >
         <property name="toolTip" >
          <string>_("If checked, playing an invalid or misplaced word will not be possible. If unchecked, you will get 0 point and lose your turn")</string>
@@ -98,75 +103,60 @@
         </property>
        </widget>
       </item>
-      <item>
-       <layout class="QHBoxLayout" >
-        <item>
-         <widget class="QLabel" name="label_2" >
-          <property name="text" >
-           <string>_("Min. players for a solo:")</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer>
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0" >
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBoxDuplSoloPlayers" >
-          <property name="toolTip" >
-           <string>_("Minimum number of players needed to take into account the solo bonus")</string>
-          </property>
-          <property name="value" >
-           <number>16</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
+      <item row="2" column="0" >
+       <widget class="QLabel" name="label_2" >
+        <property name="text" >
+         <string>_("Min. players for a solo:")</string>
+        </property>
+       </widget>
       </item>
-      <item>
-       <layout class="QHBoxLayout" >
-        <item>
-         <widget class="QLabel" name="label_3" >
-          <property name="text" >
-           <string>_("Solo value:")</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer>
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0" >
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBoxDuplSoloValue" >
-          <property name="toolTip" >
-           <string>_("Value of the solo bonus. Set it to 0 if you don't want solo bonus")</string>
-          </property>
-          <property name="value" >
-           <number>10</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
+      <item row="3" column="0" >
+       <widget class="QLabel" name="label_3" >
+        <property name="text" >
+         <string>_("Solo value:")</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" >
+       <widget class="QSpinBox" name="spinBoxDuplSoloValue" >
+        <property name="toolTip" >
+         <string>_("Value of the solo bonus. Set it to 0 if you don't want solo bonus")</string>
+        </property>
+        <property name="value" >
+         <number>10</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2" >
+       <spacer name="horizontalSpacer" >
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0" >
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="2" column="1" >
+       <widget class="QSpinBox" name="spinBoxDuplSoloPlayers" >
+        <property name="toolTip" >
+         <string>_("Minimum number of players needed to take into account the solo bonus")</string>
+        </property>
+        <property name="value" >
+         <number>16</number>
+        </property>
+       </widget>
       </item>
      </layout>
+     <zorder>checkBoxDuplRefuseInvalid</zorder>
+     <zorder>label_2</zorder>
+     <zorder>label_3</zorder>
+     <zorder>spinBoxDuplSoloValue</zorder>
+     <zorder>horizontalSpacer</zorder>
+     <zorder>spinBoxDuplSoloPlayers</zorder>
     </widget>
    </item>
    <item>
@@ -220,11 +210,16 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>lineEditIntfDicPath</tabstop>
+  <tabstop>pushButtonIntfDicBrowse</tabstop>
+  <tabstop>checkBoxIntfShowPoints</tabstop>
   <tabstop>checkBoxIntfAlignHistory</tabstop>
+  <tabstop>checkBoxIntfWarnReplayTurn</tabstop>
   <tabstop>checkBoxDuplRefuseInvalid</tabstop>
   <tabstop>spinBoxDuplSoloPlayers</tabstop>
   <tabstop>spinBoxDuplSoloValue</tabstop>
   <tabstop>checkBoxFreeRefuseInvalid</tabstop>
+  <tabstop>checkBoxIntfLinkTraining7P1</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
