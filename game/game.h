@@ -206,7 +206,7 @@ public:
      * Setting the rack
      ***************/
 
-    enum set_rack_mode {RACK_ALL, RACK_NEW, RACK_MANUAL};
+    enum set_rack_mode {RACK_ALL, RACK_NEW};
 
     void addPoints(int iPoints) { m_points += iPoints; }
 

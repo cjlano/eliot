@@ -118,9 +118,6 @@ void Game::realBag(Bag &ioBag) const
 PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
                                      bool iCheck, set_rack_mode mode) const
 {
-    // FIXME: RACK_MANUAL shouldn't be in the enum
-    ASSERT(mode != RACK_MANUAL, "Invalid rack mode");
-
     // When iCheck is true, we must make sure that there are at least 2 vowels
     // and 2 consonants in the rack up to the 15th turn, and at least one of
     // each starting from the 16th turn.

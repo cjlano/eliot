@@ -84,25 +84,6 @@ int Training::setRackManual(bool iCheck, const wstring &iLetters)
 }
 
 
-int Training::setRack(set_rack_mode iMode, bool iCheck, const wstring &iLetters)
-{
-    int res = 0;
-    switch(iMode)
-    {
-        case RACK_MANUAL:
-            res = setRackManual(iCheck, iLetters);
-            break;
-        case RACK_ALL:
-            setRackRandom(iCheck, iMode);
-            break;
-        case RACK_NEW:
-            setRackRandom(iCheck, iMode);
-            break;
-    }
-    return res;
-}
-
-
 int Training::play(const wstring &iCoord, const wstring &iWord)
 {
     // Perform all the validity checks, and fill a round

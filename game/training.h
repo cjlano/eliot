@@ -70,11 +70,6 @@ public:
 
     int setRackManual(bool iCheck, const wstring &iLetters);
 
-    /**
-     * @Deprecated: use setRackRandom() or setRackManual() instead.
-     */
-    int setRack(set_rack_mode iMode, bool iCheck, const wstring &iLetters);
-
     /*************************
      * Override the default behaviour of addPlayer(), because in training
      * mode we only want a human player

@@ -97,6 +97,9 @@ void BoardWidget::paintEvent(QPaintEvent *)
     {
         for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
         {
+            const unsigned int xPos = (col - BOARD_MIN + 1) * squareSize;
+            const unsigned int yPos = (row - BOARD_MIN + 1) * squareSize;
+
             // Set the brush color
             if (m_game != NULL && !m_game->getBoard().getTile(row, col).isEmpty())
             {
@@ -115,9 +118,7 @@ void BoardWidget::paintEvent(QPaintEvent *)
                 painter.setBrush(L2Colour);
             else
                 painter.setBrush(EmptyColour);
-            painter.drawRect((col - BOARD_MIN + 1) * squareSize,
-                             (row - BOARD_MIN + 1) * squareSize,
-                             squareSize, squareSize);
+            painter.drawRect(xPos, yPos, squareSize, squareSize);
 
             // Draw the letter
             if (m_game != NULL && !m_game->getBoard().getTile(row, col).isEmpty())
@@ -126,11 +127,8 @@ void BoardWidget::paintEvent(QPaintEvent *)
                 if (m_game->getBoard().getCharAttr(row, col) & ATTR_JOKER)
                     painter.setPen(JokerColour);
                 painter.setFont(letterFont);
-                painter.drawText((col - BOARD_MIN + 1) * squareSize,
-                                 (row - BOARD_MIN + 1) * squareSize + 1,
-                                 squareSize, squareSize,
-                                 Qt::AlignCenter,
-                                 qfw(wstring(1, chr)));
+                painter.drawText(xPos, yPos + 1, squareSize, squareSize,
+                                 Qt::AlignCenter, qfw(wstring(1, chr)));
                 painter.setPen(NormalColour);
 
                 // Draw the points of the tile
@@ -138,8 +136,8 @@ void BoardWidget::paintEvent(QPaintEvent *)
                     !m_game->getBoard().getCharAttr(row, col) & ATTR_JOKER)
                 {
                     painter.setFont(pointsFont);
-                    painter.drawText((col - BOARD_MIN + 1) * squareSize + squareSize * (1 - pointsCoeff),
-                                     (row - BOARD_MIN + 1) * squareSize + squareSize * (1 - pointsCoeff) + 1,
+                    painter.drawText(xPos + squareSize * (1 - pointsCoeff),
+                                     yPos + squareSize * (1 - pointsCoeff) + 1,
                                      squareSize * pointsCoeff, squareSize * pointsCoeff + 3,
                                      Qt::AlignRight | Qt::AlignBottom,
                                      QString("%1").arg(m_game->getBoard().getTile(row, col).getPoints()));
@@ -148,9 +146,9 @@ void BoardWidget::paintEvent(QPaintEvent *)
         }
     }
     // Draw the coordinates
+    painter.setFont(letterFont);
     for (unsigned x = 1; x <= BOARD_MAX - BOARD_MIN + 1; ++x)
     {
-        painter.setFont(letterFont);
         painter.drawText(x * squareSize, 1,
                          squareSize, squareSize,
                          Qt::AlignCenter,
