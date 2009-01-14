@@ -84,7 +84,8 @@ public:
     enum GameVariant
     {
         kNONE,      // Normal game rules
-        kJOKER      // Joker game
+        kJOKER,     // Joker game
+        kEXPLOSIVE  // "Explosive" game
     };
 
     /**

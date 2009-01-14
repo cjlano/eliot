@@ -75,7 +75,8 @@ public:
     enum GameVariant
     {
         kNONE,      // Normal game rules
-        kJOKER      // Joker game
+        kJOKER,     // Joker game
+        kEXPLOSIVE  // "Explosive" game
     };
 
     /**
@@ -95,7 +96,7 @@ public:
      * You should never create a new dictionary object while a Game
      * object still exists
      */
-    const Dictionary & getDic() const   { return m_dic; }
+    const Dictionary & getDic() const { return m_dic; }
 
     /// Get the board
     const Board& getBoard() const { return m_board; }

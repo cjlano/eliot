@@ -59,6 +59,8 @@ void PublicGame::setVariant(GameVariant iVariant)
 {
     if (iVariant == kJOKER)
         m_game.setVariant(Game::kJOKER);
+    else if (iVariant == kEXPLOSIVE)
+        m_game.setVariant(Game::kEXPLOSIVE);
     else
         m_game.setVariant(Game::kNONE);
 }

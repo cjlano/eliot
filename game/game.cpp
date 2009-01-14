@@ -183,7 +183,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
 
     bool jokerAdded = false;
     // Are we dealing with a normal game or a joker game?
-    if (m_variant == kJOKER)
+    if (m_variant == kJOKER || m_variant == kEXPLOSIVE)
     {
         // 1) Is there already a joker in the remaining letters of the rack?
         bool jokerFound = false;
@@ -205,7 +205,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
         }
 
         // 3) Remove all the jokers from the bag, to avoid taking another one
-        for (unsigned int i = 0; i < bag.in(Tile::Joker()); ++i)
+        while (bag.in(Tile::Joker()))
         {
             bag.takeTile(Tile::Joker());
         }
@@ -323,6 +323,63 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
         }
     }
 
+    // In explosive games, we have to perform a search, then replace the
+    // joker with the letter providing the best score
+    // A joker coming from a previous rack is not replaced
+    if (m_variant == kEXPLOSIVE && jokerAdded)
+    {
+        Rack rack;
+        pld.getRack(rack);
+
+        Results res;
+        res.search(getDic(), getBoard(), rack,  getHistory().beforeFirstRound());
+        if (res.size())
+        {
+            PlayedRack pldCopy = pld;
+
+            // Get the best word
+            const Round & bestRound = res.get(0);
+#ifdef DEBUG
+                    cout << "helperSetRackRandom(): initial rack: "
+                         << convertToMb(pld.toString()) << " (best word: "
+                         << convertToMb(bestRound.getWord()) << ")" << endl;
+#endif
+            // Identify the joker
+            for (unsigned int i = 0; i < bestRound.getWordLen(); ++i)
+            {
+                if (bestRound.isJoker(i) && bestRound.isPlayedFromRack(i))
+                {
+                    const Tile &jokerTile = bestRound.getTile(i);
+                    Tile replacingTile(towupper(jokerTile.toChar()));
+#ifdef DEBUG
+                    cout << "helperSetRackRandom(): replacing Joker with "
+                         << convertToMb(replacingTile.toChar()) << endl;
+#endif
+                    // If the bag does not contain this letter anymore,
+                    // simply keep the joker in the rack.
+                    if (bag.in(replacingTile))
+                    {
+                        // The bag contains the replacing letter
+                        // We need to swap the joker (it is necessarily in the
+                        // new tiles, because jokerAdded is true)
+                        Rack tmpRack;
+                        pld.getNew(tmpRack);
+                        ASSERT(tmpRack.in(Tile::Joker()),
+                               "No joker found in the new tiles!");
+                        tmpRack.remove(Tile::Joker());
+                        tmpRack.add(replacingTile);
+                        pld.setNew(tmpRack);
+
+                        // Make sure the invariant is still correct, otherwise we keep the joker
+                        if (!pld.checkRack(min, min))
+                            pld = pldCopy;
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
     // Shuffle the new tiles, to hide the order we imposed (joker first in a
     // joker game, then needed vowels, then needed consonants, and rest of the
     // rack)
@@ -330,12 +387,6 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
 
     // Post-condition check. This should never fail, of course :)
     ASSERT(pld.checkRack(min, min), "helperSetRackRandom() is buggy!");
-
-#if 0
-    // Until now we didn't modify anything except local variables.
-    // Let's "commit" the changes
-    m_players[p]->setCurrentRack(pld);
-#endif
 
     return pld;
 }

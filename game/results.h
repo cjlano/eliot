@@ -35,8 +35,9 @@ class Rack;
 /**
  * This class allows to perform a search on the board for a given rack,
  * and it offers accessors to the resulting rounds.
- * The rounds are sorted by decreasing number of points (but there is no
- * other ordering between 2 rounds with the same number of points).
+ * The rounds are sorted by decreasing number of points, then by alphabetical
+ * order (case insensitive), then by coordinates, then by alphabetical orderi
+ * again (case sensitive this time).
  */
 class Results
 {
