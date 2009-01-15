@@ -17,10 +17,16 @@
     <normaloff>:/images/eliot.xpm</normaloff>:/images/eliot.xpm</iconset>
   </property>
   <widget class="QWidget" name="centralwidget" >
-   <layout class="QVBoxLayout" >
+   <layout class="QVBoxLayout" name="verticalLayout_2" >
     <item>
-     <layout class="QHBoxLayout" >
-      <item>
+     <widget class="QSplitter" name="splitterHoriz" >
+      <property name="orientation" >
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QSplitter" name="splitterVert" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
        <widget class="QGroupBox" name="groupBoxTest" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
@@ -32,8 +38,6 @@
          <string>_("Board")</string>
         </property>
        </widget>
-      </item>
-      <item>
        <widget class="QGroupBox" name="groupBoxHistory" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
@@ -45,18 +49,17 @@
          <string>_("History")</string>
         </property>
        </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QGroupBox" name="groupBoxPlayers" >
-      <property name="title" >
-       <string>_("Players")</string>
-      </property>
-      <layout class="QHBoxLayout" />
+      </widget>
+      <widget class="QGroupBox" name="groupBoxPlayers" >
+       <property name="title" >
+        <string>_("Players")</string>
+       </property>
+       <layout class="QHBoxLayout" />
+      </widget>
      </widget>
     </item>
    </layout>
+   <zorder>splitterHoriz</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar" >
    <property name="geometry" >

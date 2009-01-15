@@ -331,6 +331,8 @@ void MainWindow::writeSettings() const
     settings.beginGroup(m_windowName);
     settings.setValue("size", size());
     settings.setValue("pos", pos());
+    settings.setValue("splitterHoriz", m_ui.splitterHoriz->saveState());
+    settings.setValue("splitterVert", m_ui.splitterVert->saveState());
     settings.endGroup();
 }
 
@@ -343,6 +345,8 @@ void MainWindow::readSettings()
     if (size.isValid())
         resize(size);
     move(settings.value("pos", QPoint(200, 200)).toPoint());
+    m_ui.splitterHoriz->restoreState(settings.value("splitterHoriz").toByteArray());
+    m_ui.splitterVert->restoreState(settings.value("splitterVert").toByteArray());
     settings.endGroup();
 }
 

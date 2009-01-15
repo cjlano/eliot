@@ -242,18 +242,6 @@ rack, but it usually gives much higher scores than in a normal game.")</string>
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>buttonBox</tabstop>
-  <tabstop>comboBoxMode</tabstop>
-  <tabstop>checkBoxJoker</tabstop>
-  <tabstop>checkBoxExplosive</tabstop>
-  <tabstop>treeViewPlayers</tabstop>
-  <tabstop>lineEditName</tabstop>
-  <tabstop>comboBoxType</tabstop>
-  <tabstop>spinBoxLevel</tabstop>
-  <tabstop>pushButtonAdd</tabstop>
-  <tabstop>pushButtonRemove</tabstop>
- </tabstops>
  <resources/>
  <connections>
   <connection>
