@@ -145,6 +145,8 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
     // Joker game?
     if (checkBoxJoker->isChecked())
         game->setVariant(PublicGame::kJOKER);
+    if (checkBoxExplosive->isChecked())
+        game->setVariant(PublicGame::kEXPLOSIVE);
 
     return game;
 }
@@ -216,6 +218,18 @@ void NewGame::on_pushButtonRemove_clicked()
     m_model->removeRow(indexList.front().row());
 }
 
+void NewGame::on_checkBoxJoker_stateChanged(int newState)
+{
+    if (newState == Qt::Checked)
+        checkBoxExplosive->setChecked(false);
+}
+
+
+void NewGame::on_checkBoxExplosive_stateChanged(int newState)
+{
+    if (newState == Qt::Checked)
+        checkBoxJoker->setChecked(false);
+}
 
 
 PlayersTypeDelegate::PlayersTypeDelegate(QObject *parent)

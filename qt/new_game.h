@@ -57,6 +57,8 @@ private slots:
     void on_comboBoxMode_activated(int);
     void on_pushButtonAdd_clicked();
     void on_pushButtonRemove_clicked();
+    void on_checkBoxJoker_stateChanged(int);
+    void on_checkBoxExplosive_stateChanged(int);
 
 private:
     /// Model of the players
