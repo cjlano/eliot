@@ -94,6 +94,9 @@ wchar_t *rl_gets()
     cout << "commande> ";
     string line;
     std::getline(cin, line);
+    // Echo the input, to behave like readline and allow playing the
+    // non-regression tests
+    cout << line << endl;
 
     // Get the needed length (we _can't_ use string::size())
     size_t len = mbstowcs(NULL, line.c_str(), 0);
