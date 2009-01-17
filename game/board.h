@@ -23,8 +23,8 @@
 #define _BOARD_H_
 
 #include <string>
-#include <vector>
 
+#include "matrix.h"
 #include "tile.h"
 #include "cross.h"
 
@@ -39,24 +39,6 @@ using namespace std;
 #define BOARD_MAX 15
 #define BOARD_DIM 15
 #define BOARD_REALDIM (BOARD_DIM + 2)
-
-
-// Template matrix class for convenience.
-template <class T>
-class Matrix: public vector<vector<T> >
-{
-public:
-    // Construct a matrix with an initial value
-    Matrix(int iSize1, int iSize2, const T &iValue)
-    {
-        resize(iSize1, vector<T>(iSize2, iValue));
-    }
-    // Construct a square matrix with an initial value
-    Matrix(int iSize, const T &iValue)
-    {
-        resize(iSize, vector<T>(iSize, iValue));
-    }
-};
 
 
 class Board

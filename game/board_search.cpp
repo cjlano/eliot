@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 1999-2007 Antoine Fraboulet & Olivier Teulière
+ * Copyright (C) 1999-2009 Antoine Fraboulet & Olivier Teulière
  * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *          Olivier Teulière <ipkiss @@ gmail.com>
  *
@@ -19,25 +19,225 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <dic.h>
+#include "dic.h"
+
+#include "board_search.h"
+#include "board.h"
 #include "tile.h"
 #include "rack.h"
 #include "round.h"
 #include "results.h"
-#include "board.h"
-#include "encoding.h"
-#include "debug.h"
+// FIXME: should not be included here
 #include "game.h"
 
+
+BoardSearch::BoardSearch(const Dictionary &iDic,
+                         const Matrix<Tile> &iTilesMx,
+                         const Matrix<Cross> &iCrossMx,
+                         const Matrix<int> &iPointsMx,
+                         const Matrix<bool> &iJokerMx,
+                         bool isFirstTurn)
+    : m_dic(iDic), m_tilesMx(iTilesMx), m_crossMx(iCrossMx),
+      m_pointsMx(iPointsMx), m_jokerMx(iJokerMx), m_firstTurn(isFirstTurn)
+{
+}
+
+
+void BoardSearch::search(Rack &iRack, Results &oResults, Coord::Direction iDir) const
+{
+    // Handle the first turn specifically
+    if (m_firstTurn)
+    {
+        const int row = 8, col = 8;
+        Round tmpRound;
+        tmpRound.accessCoord().setRow(row);
+        tmpRound.accessCoord().setCol(col);
+        tmpRound.accessCoord().setDir(Coord::HORIZONTAL);
+        leftPart(iRack, tmpRound, oResults, m_dic.getRoot(),
+                 row, col, iRack.getNbTiles() - 1);
+        return;
+    }
+
+
+    vector<Tile> rackTiles;
+    iRack.getTiles(rackTiles);
+    vector<Tile>::const_iterator it;
+    Round partialWord;
+
+    for (int row = 1; row <= BOARD_DIM; row++)
+    {
+        partialWord.init();
+        partialWord.accessCoord().setDir(iDir);
+        partialWord.accessCoord().setRow(row);
+        int lastanchor = 0;
+        for (int col = 1; col <= BOARD_DIM; col++)
+        {
+            if (m_tilesMx[row][col].isEmpty() &&
+                (!m_tilesMx[row][col - 1].isEmpty() ||
+                 !m_tilesMx[row][col + 1].isEmpty() ||
+                 !m_tilesMx[row - 1][col].isEmpty() ||
+                 !m_tilesMx[row + 1][col].isEmpty()))
+            {
+#ifdef DONT_USE_SEARCH_OPTIMIZATION
+                if (!m_tilesMx[row][col - 1].isEmpty())
+                {
+                    partialWord.accessCoord().setCol(lastanchor + 1);
+                    extendRight(iRack, partialWord, oResults,
+                                Dic_root(m_dic), row, lastanchor + 1, col);
+                }
+                else
+                {
+                    partialWord.accessCoord().setCol(col);
+                    leftPart(iRack, partialWord, oResults,
+                             Dic_root(m_dic), row, col, col - lastanchor - 1);
+                }
+                lastanchor = col;
+#else
+                // Optimization compared to the original Appel & Jacobson
+                // algorithm: skip leftPart if none of the tiles of the rack
+                // matches the cross mask for the current anchor
+                bool match = false;
+                for (it = rackTiles.begin(); it != rackTiles.end(); it++)
+                {
+                    if (m_crossMx[row][col].check(*it))
+                    {
+                        match = true;
+                        break;
+                    }
+                }
+                if (match)
+                {
+                    if (!m_tilesMx[row][col - 1].isEmpty())
+                    {
+                        partialWord.accessCoord().setCol(lastanchor + 1);
+                        extendRight(iRack, partialWord, oResults,
+                                    m_dic.getRoot(), row, lastanchor + 1, col);
+                    }
+                    else
+                    {
+                        partialWord.accessCoord().setCol(col);
+                        leftPart(iRack, partialWord, oResults,
+                                 m_dic.getRoot(), row, col, col - lastanchor - 1);
+                    }
+                }
+                lastanchor = col;
+#endif
+            }
+        }
+    }
+}
+
+
+void BoardSearch::leftPart(Rack &iRack, Round &ioPartialWord,
+                           Results &oResults, int n, int iRow,
+                           int iAnchor, int iLimit) const
+{
+    extendRight(iRack, ioPartialWord, oResults, n, iRow, iAnchor, iAnchor);
+
+    if (iLimit > 0)
+    {
+        Tile l;
+        bool hasJokerInRack = iRack.in(Tile::Joker());
+        for (unsigned int succ = m_dic.getSucc(n); succ; succ = m_dic.getNext(succ))
+        {
+            l = Tile(m_dic.getChar(succ));
+            if (iRack.in(l))
+            {
+                iRack.remove(l);
+                ioPartialWord.addRightFromRack(l, false);
+                ioPartialWord.accessCoord().setCol(ioPartialWord.getCoord().getCol() - 1);
+                leftPart(iRack, ioPartialWord, oResults,
+                         succ, iRow, iAnchor, iLimit - 1);
+                ioPartialWord.accessCoord().setCol(ioPartialWord.getCoord().getCol() + 1);
+                ioPartialWord.removeRightToRack(l, false);
+                iRack.add(l);
+            }
+            if (hasJokerInRack)
+            {
+                iRack.remove(Tile::Joker());
+                ioPartialWord.addRightFromRack(l, true);
+                ioPartialWord.accessCoord().setCol(ioPartialWord.getCoord().getCol() - 1);
+                leftPart(iRack, ioPartialWord, oResults,
+                         succ, iRow, iAnchor, iLimit - 1);
+                ioPartialWord.accessCoord().setCol(ioPartialWord.getCoord().getCol() + 1);
+                ioPartialWord.removeRightToRack(l, true);
+                iRack.add(Tile::Joker());
+            }
+        }
+    }
+}
+
+
+void BoardSearch::extendRight(Rack &iRack, Round &ioPartialWord,
+                              Results &oResults, unsigned int iNode,
+                              int iRow, int iCol, int iAnchor) const
+{
+    Tile l;
+
+    if (m_tilesMx[iRow][iCol].isEmpty())
+    {
+        if (m_dic.isEndOfWord(iNode) && iCol > iAnchor)
+        {
+            evalMove(oResults, ioPartialWord);
+        }
+
+        // Optimization: avoid entering the for loop if no tile can match
+        if (m_crossMx[iRow][iCol].isNone())
+            return;
+
+        bool hasJokerInRack = iRack.in(Tile::Joker());
+        for (unsigned int succ = m_dic.getSucc(iNode); succ; succ = m_dic.getNext(succ))
+        {
+            l = Tile(m_dic.getChar(succ));
+            if (m_crossMx[iRow][iCol].check(l))
+            {
+                if (iRack.in(l))
+                {
+                    iRack.remove(l);
+                    ioPartialWord.addRightFromRack(l, false);
+                    extendRight(iRack, ioPartialWord, oResults,
+                                succ, iRow, iCol + 1, iAnchor);
+                    ioPartialWord.removeRightToRack(l, false);
+                    iRack.add(l);
+                }
+                if (hasJokerInRack)
+                {
+                    iRack.remove(Tile::Joker());
+                    ioPartialWord.addRightFromRack(l, true);
+                    extendRight(iRack, ioPartialWord, oResults,
+                                succ, iRow, iCol + 1, iAnchor);
+                    ioPartialWord.removeRightToRack(l, true);
+                    iRack.add(Tile::Joker());
+                }
+            }
+        }
+    }
+    else
+    {
+        l = m_tilesMx[iRow][iCol];
+        wint_t upperChar = towupper(l.toChar());
+        for (unsigned int succ = m_dic.getSucc(iNode); succ ; succ = m_dic.getNext(succ))
+        {
+            if ((wint_t)m_dic.getChar(succ) == upperChar)
+            {
+                ioPartialWord.addRightFromBoard(l);
+                extendRight(iRack, ioPartialWord,
+                            oResults, succ, iRow, iCol + 1, iAnchor);
+                ioPartialWord.removeRightToBoard(l);
+                // The letter will be present only once in the dictionary,
+                // so we can stop looping
+                break;
+            }
+        }
+    }
+}
+
+
 /*
- * computes the score of a word, coordinates may be changed to reflect
+ * Computes the score of a word, coordinates may be changed to reflect
  * the real direction of the word
  */
-static void BoardSearchEvalMove(const Board &iBoard,
-                                const Matrix<Tile> &iTilesMx,
-                                const Matrix<int> &iPointsMx,
-                                const Matrix<bool> &iJokerMx,
-                                Results &iResults, Round &iWord)
+void BoardSearch::evalMove(Results &oResults, Round &iWord) const
 {
     unsigned int fromrack = 0;
     int pts      = 0;
@@ -51,9 +251,9 @@ static void BoardSearchEvalMove(const Board &iBoard,
 
     for (unsigned int i = 0; i < len; i++)
     {
-        if (!iTilesMx[row][col+i].isEmpty())
+        if (!m_tilesMx[row][col+i].isEmpty())
         {
-            if (!iJokerMx[row][col+i])
+            if (!m_jokerMx[row][col+i])
                 pts += iWord.getTile(i).getPoints();
         }
         else
@@ -61,15 +261,15 @@ static void BoardSearchEvalMove(const Board &iBoard,
             int l;
             if (!iWord.isJoker(i))
                 l = iWord.getTile(i).getPoints() *
-                    iBoard.GetLetterMultiplier(row, col + i);
+                    Board::GetLetterMultiplier(row, col + i);
             else
                 l = 0;
             pts += l;
-            wordmul *= iBoard.GetWordMultiplier(row, col + i);
+            wordmul *= Board::GetWordMultiplier(row, col + i);
 
-            int t = iPointsMx[row][col+i];
+            int t = m_pointsMx[row][col+i];
             if (t >= 0)
-                ptscross += (t + l) * iBoard.GetWordMultiplier(row, col + i);
+                ptscross += (t + l) * Board::GetWordMultiplier(row, col + i);
             fromrack++;
         }
     }
@@ -83,262 +283,11 @@ static void BoardSearchEvalMove(const Board &iBoard,
         // Exchange the coordinates temporarily
         iWord.accessCoord().swap();
     }
-    iResults.add(iWord);
+    oResults.add(iWord);
     if (iWord.getCoord().getDir() == Coord::VERTICAL)
     {
         // Restore the coordinates
         iWord.accessCoord().swap();
     }
-}
-
-
-static void ExtendRight(const Board &iBoard,
-                        const Dictionary &iDic,
-                        const Matrix<Tile> &iTilesMx,
-                        const Matrix<Cross> &iCrossMx,
-                        const Matrix<int> &iPointsMx,
-                        const Matrix<bool> &iJokerMx,
-                        Rack &iRack, Round &ioPartialWord,
-                        Results &iResults, unsigned int iNode,
-                        int iRow, int iCol, int iAnchor)
-{
-    Tile l;
-    unsigned int succ;
-
-    if (iTilesMx[iRow][iCol].isEmpty())
-    {
-        if (iDic.isEndOfWord(iNode) && iCol > iAnchor)
-        {
-            BoardSearchEvalMove(iBoard, iTilesMx, iPointsMx, iJokerMx,
-                                iResults, ioPartialWord);
-        }
-
-        // Optimization: avoid entering the for loop if no tile can match
-        if (iCrossMx[iRow][iCol].isNone())
-            return;
-
-        bool hasJokerInRack = iRack.in(Tile::Joker());
-        for (succ = iDic.getSucc(iNode); succ; succ = iDic.getNext(succ))
-        {
-            l = Tile(iDic.getChar(succ));
-            if (iCrossMx[iRow][iCol].check(l))
-            {
-                if (iRack.in(l))
-                {
-                    iRack.remove(l);
-                    ioPartialWord.addRightFromRack(l, false);
-                    ExtendRight(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
-                                iJokerMx, iRack, ioPartialWord, iResults,
-                                succ, iRow, iCol + 1, iAnchor);
-                    ioPartialWord.removeRightToRack(l, false);
-                    iRack.add(l);
-                }
-                if (hasJokerInRack)
-                {
-                    iRack.remove(Tile::Joker());
-                    ioPartialWord.addRightFromRack(l, true);
-                    ExtendRight(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
-                                iJokerMx, iRack, ioPartialWord, iResults,
-                                succ, iRow, iCol + 1, iAnchor);
-                    ioPartialWord.removeRightToRack(l, true);
-                    iRack.add(Tile::Joker());
-                }
-            }
-        }
-    }
-    else
-    {
-        l = iTilesMx[iRow][iCol];
-        wint_t upperChar = towupper(l.toChar());
-        for (succ = iDic.getSucc(iNode); succ ; succ = iDic.getNext(succ))
-        {
-            if ((wint_t)iDic.getChar(succ) == upperChar)
-            {
-                ioPartialWord.addRightFromBoard(l);
-                ExtendRight(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
-                            iJokerMx, iRack, ioPartialWord,
-                            iResults, succ, iRow, iCol + 1, iAnchor);
-                ioPartialWord.removeRightToBoard(l);
-                // The letter will be present only once in the dictionary,
-                // so we can stop looping
-                break;
-            }
-        }
-    }
-}
-
-
-static void LeftPart(const Board &iBoard,
-                     const Dictionary &iDic,
-                     const Matrix<Tile> &iTilesMx,
-                     const Matrix<Cross> &iCrossMx,
-                     const Matrix<int> &iPointsMx,
-                     const Matrix<bool> &iJokerMx,
-                     Rack &iRack, Round &ioPartialWord,
-                     Results &iResults, int n, int iRow,
-                     int iAnchor, int iLimit)
-{
-    Tile l;
-    int succ;
-
-    ExtendRight(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx, iJokerMx, iRack,
-                ioPartialWord, iResults, n, iRow, iAnchor, iAnchor);
-
-    if (iLimit > 0)
-    {
-        bool hasJokerInRack = iRack.in(Tile::Joker());
-        for (succ = iDic.getSucc(n); succ; succ = iDic.getNext(succ))
-        {
-            l = Tile(iDic.getChar(succ));
-            if (iRack.in(l))
-            {
-                iRack.remove(l);
-                ioPartialWord.addRightFromRack(l, false);
-                ioPartialWord.accessCoord().setCol(ioPartialWord.getCoord().getCol() - 1);
-                LeftPart(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
-                         iJokerMx, iRack, ioPartialWord, iResults,
-                         succ, iRow, iAnchor, iLimit - 1);
-                ioPartialWord.accessCoord().setCol(ioPartialWord.getCoord().getCol() + 1);
-                ioPartialWord.removeRightToRack(l, false);
-                iRack.add(l);
-            }
-            if (hasJokerInRack)
-            {
-                iRack.remove(Tile::Joker());
-                ioPartialWord.addRightFromRack(l, true);
-                ioPartialWord.accessCoord().setCol(ioPartialWord.getCoord().getCol() - 1);
-                LeftPart(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
-                         iJokerMx, iRack, ioPartialWord, iResults,
-                         succ, iRow, iAnchor, iLimit - 1);
-                ioPartialWord.accessCoord().setCol(ioPartialWord.getCoord().getCol() + 1);
-                ioPartialWord.removeRightToRack(l, true);
-                iRack.add(Tile::Joker());
-            }
-        }
-    }
-}
-
-
-static void BoardSearchAux(const Board &iBoard,
-                           const Dictionary &iDic,
-                           const Matrix<Tile> &iTilesMx,
-                           const Matrix<Cross> &iCrossMx,
-                           const Matrix<int> &iPointsMx,
-                           const Matrix<bool> &iJokerMx,
-                           Rack &iRack, Results &iResults,
-                           Coord::Direction iDir)
-{
-    int row, col, lastanchor;
-    Round partialword;
-
-    vector<Tile> rackTiles;
-    iRack.getTiles(rackTiles);
-    vector<Tile>::const_iterator it;
-    vector<Tile>::const_iterator itEnd;
-
-    for (row = 1; row <= BOARD_DIM; row++)
-    {
-        partialword.init();
-        partialword.accessCoord().setDir(iDir);
-        partialword.accessCoord().setRow(row);
-        lastanchor = 0;
-        for (col = 1; col <= BOARD_DIM; col++)
-        {
-            if (iTilesMx[row][col].isEmpty() &&
-                (!iTilesMx[row][col - 1].isEmpty() ||
-                 !iTilesMx[row][col + 1].isEmpty() ||
-                 !iTilesMx[row - 1][col].isEmpty() ||
-                 !iTilesMx[row + 1][col].isEmpty()))
-            {
-#if defined(DONT_USE_SEARCH_OPTIMIZATION)
-                if (!iTilesMx[row][col - 1].isEmpty())
-                {
-                    partialword.accessCoord().setCol(lastanchor + 1);
-                    ExtendRight(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
-                                iJokerMx, iRack, partialword, iResults,
-                                Dic_root(iDic), row, lastanchor + 1, col);
-                }
-                else
-                {
-                    partialword.accessCoord().setCol(col);
-                    LeftPart(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
-                             iJokerMx, iRack, partialword, iResults,
-                             Dic_root(iDic), row, col, col -
-                             lastanchor - 1);
-                }
-                lastanchor = col;
-#else
-                // Optimization compared to the original Appel & Jacobson
-                // algorithm: skip Leftpart if none of the tiles of the rack
-                // matches the cross mask for the current anchor
-                bool match = false;
-                for (it = rackTiles.begin(); it != rackTiles.end(); it++)
-                {
-                    if (iCrossMx[row][col].check(*it))
-                    {
-                        match = true;
-                        break;
-                    }
-                }
-                if (match)
-                {
-                    if (!iTilesMx[row][col - 1].isEmpty())
-                    {
-                        partialword.accessCoord().setCol(lastanchor + 1);
-                        ExtendRight(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
-                                    iJokerMx, iRack, partialword, iResults,
-                                    iDic.getRoot(), row, lastanchor + 1, col);
-                    }
-                    else
-                    {
-                        partialword.accessCoord().setCol(col);
-                        LeftPart(iBoard, iDic, iTilesMx, iCrossMx, iPointsMx,
-                                 iJokerMx, iRack, partialword, iResults,
-                                 iDic.getRoot(), row, col, col -
-                                 lastanchor - 1);
-                    }
-                }
-                lastanchor = col;
-#endif
-            }
-        }
-    }
-}
-
-
-void Board::search(const Dictionary &iDic,
-                   const Rack &iRack,
-                   Results &oResults) const
-{
-    // Create a copy of the rack to avoid modifying the given one
-    Rack copyRack = iRack;
-
-    BoardSearchAux(*this, iDic, m_tilesRow, m_crossRow,
-                   m_pointRow, m_jokerRow,
-                   copyRack, oResults, Coord::HORIZONTAL);
-
-    BoardSearchAux(*this, iDic, m_tilesCol, m_crossCol,
-                   m_pointCol, m_jokerCol,
-                   copyRack, oResults, Coord::VERTICAL);
-}
-
-
-void Board::searchFirst(const Dictionary &iDic,
-                        const Rack &iRack,
-                        Results &oResults) const
-{
-    int row = 8, col = 8;
-
-    // Create a copy of the rack to avoid modifying the given one
-    Rack copyRack = iRack;
-
-    Round partialword;
-    partialword.accessCoord().setRow(row);
-    partialword.accessCoord().setCol(col);
-    partialword.accessCoord().setDir(Coord::HORIZONTAL);
-    LeftPart(*this, iDic, m_tilesRow, m_crossRow,
-             m_pointRow, m_jokerRow,
-             copyRack, partialword, oResults, iDic.getRoot(), row, col,
-             copyRack.getNbTiles() - 1);
 }
 

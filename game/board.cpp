@@ -20,13 +20,17 @@
  *****************************************************************************/
 
 #include <wctype.h>
+
 #include "dic.h"
+
+#include "board.h"
+#include "board_search.h"
 #include "tile.h"
 #include "round.h"
 #include "rack.h"
 #include "results.h"
-#include "board.h"
 #include "debug.h"
+// FIXME: should not be included here
 #include "game.h"
 
 #define oo 0
@@ -509,23 +513,45 @@ void Board::checkDouble()
         {
             if (m_tilesRow[row][col] != m_tilesCol[col][row])
                 printf("tiles diff %d %d\n", row, col);
-
-            // The crossckecks and the points have no reason to be the same
-            // in both directions
-            /*
-            if (m_crossRow[row][col] != m_crossCol[col][row])
-            {
-                printf("cross diff %d %d\n",row,col);
-            }
-
-            if (m_pointRow[row][col] != m_pointCol[col][row])
-                printf("point diff %d %d\n",row,col);
-            */
-
             if (m_jokerRow[row][col] != m_jokerCol[col][row])
                 printf("joker diff %d %d\n", row, col);
+            // The crossckecks and the points have no reason to be the same
+            // in both directions
         }
     }
 }
 #endif
+
+
+void Board::search(const Dictionary &iDic,
+                   const Rack &iRack,
+                   Results &oResults) const
+{
+    // Create a copy of the rack to avoid modifying the given one
+    Rack copyRack = iRack;
+
+    // Search horizontal words
+    BoardSearch horizSearch(iDic, m_tilesRow, m_crossRow,
+                            m_pointRow, m_jokerRow);
+    horizSearch.search(copyRack, oResults, Coord::HORIZONTAL);
+
+    // Search vertical words
+    BoardSearch vertSearch(iDic, m_tilesCol, m_crossCol,
+                            m_pointCol, m_jokerCol);
+    vertSearch.search(copyRack, oResults, Coord::VERTICAL);
+}
+
+
+void Board::searchFirst(const Dictionary &iDic,
+                        const Rack &iRack,
+                        Results &oResults) const
+{
+    // Create a copy of the rack to avoid modifying the given one
+    Rack copyRack = iRack;
+
+    // Search horizontal words
+    BoardSearch horizSearch(iDic, m_tilesRow, m_crossRow,
+                            m_pointRow, m_jokerRow, true);
+    horizSearch.search(copyRack, oResults, Coord::HORIZONTAL);
+}
 
