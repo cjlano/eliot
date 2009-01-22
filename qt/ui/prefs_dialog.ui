@@ -214,9 +214,7 @@
         <item>
          <widget class="QSpinBox" name="spinBoxTrainSearchLimit" >
           <property name="toolTip" >
-           <string>_("Maximum number of results returned by a search. The returned
-results will always be the best ones. Use 0 to disable the limit (warning:
-searches yielding many results can be extremely slow in this case!).")</string>
+           <string>_("Maximum number of results returned by a search. The returned results will always be the best ones. Use 0 to disable the limit (warning: searches yielding many results can be extremely slow in this case!).")</string>
           </property>
           <property name="maximum" >
            <number>100000</number>

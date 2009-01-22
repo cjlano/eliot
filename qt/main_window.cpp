@@ -331,7 +331,10 @@ void MainWindow::writeSettings() const
     settings.beginGroup(m_windowName);
     settings.setValue("size", size());
     settings.setValue("pos", pos());
-    settings.setValue("splitterHoriz", m_ui.splitterHoriz->saveState());
+    // Do not save this splitter when no game is present, because the players
+    // group is hidden and the splitter is not in its normal place
+    if (m_game)
+        settings.setValue("splitterHoriz", m_ui.splitterHoriz->saveState());
     settings.setValue("splitterVert", m_ui.splitterVert->saveState());
     settings.endGroup();
 }
