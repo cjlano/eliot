@@ -331,7 +331,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
         Rack rack;
         pld.getRack(rack);
 
-        Results res;
+        BestResults res;
         res.search(getDic(), getBoard(), rack,  getHistory().beforeFirstRound());
         if (res.size())
         {

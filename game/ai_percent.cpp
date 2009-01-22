@@ -29,29 +29,39 @@
 
 
 AIPercent::AIPercent(float iPercent)
-    : m_percent(iPercent)
 {
-    // Ensure the decimal value of the percentage is between 0 and 1
-    if (m_percent < 0)
-        m_percent = 0;
-    if (m_percent > 1)
-        m_percent = 1;
+    if (iPercent < 0)
+        iPercent = 0;
+    if (iPercent > 1)
+        iPercent = 1;
+
+    // Use BestResults to be slightly faster when the percentage is 100%
+    if (iPercent == 1)
+        m_results = new BestResults;
+    else
+        m_results = new PercentResults(iPercent);
+}
+
+
+AIPercent::~AIPercent()
+{
+    delete m_results;
 }
 
 
 void AIPercent::compute(const Dictionary &iDic, const Board &iBoard, bool iFirstWord)
 {
-    m_results.clear();
+    m_results->clear();
 
     Rack rack;
     getCurrentRack().getRack(rack);
-    m_results.search(iDic, iBoard, rack, iFirstWord);
+    m_results->search(iDic, iBoard, rack, iFirstWord);
 }
 
 
 Move AIPercent::getMove() const
 {
-    if (m_results.size() == 0)
+    if (m_results->size() == 0)
     {
         // If there is no result, pass the turn.
         // XXX: it is forbidden in duplicate mode (even passing is forbidden),
@@ -60,25 +70,7 @@ Move AIPercent::getMove() const
     }
     else
     {
-        // If there are results, apply the algorithm
-        double wantedScore = m_percent * m_results.get(0).getPoints();
-        // Look for the first round giving at least 'wantedScore' points
-        // Browse the results 10 by 10 (a dichotomy would be better, but this
-        // is not performance critical)
-        unsigned int index = 0;
-        while (index < m_results.size() &&
-               m_results.get(index).getPoints() > wantedScore)
-        {
-            index += 10;
-        }
-        // Now the wanted round is in the last 10 indices
-        if (index >= m_results.size())
-            index = m_results.size() - 1;
-        while (m_results.get(index).getPoints() < wantedScore)
-        {
-            --index;
-        }
-        return Move(m_results.get(index));
+        return Move(m_results->get(0));
     }
 }
 

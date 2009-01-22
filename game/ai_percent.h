@@ -40,7 +40,7 @@ class AIPercent: public AIPlayer
 public:
     /// Constructor, taking the percentage (0.0 <= iPercent <= 1.0)
     AIPercent(float iPercent);
-    virtual ~AIPercent() {}
+    virtual ~AIPercent();
 
     /**
      * This method does the actual computation. It will be called before any
@@ -52,11 +52,8 @@ public:
     virtual Move getMove() const;
 
 private:
-    /// Percentage used for this player
-    float m_percent;
-
     /// Container for all the found solutions
-    Results m_results;
+    Results *m_results;
 };
 
 #endif

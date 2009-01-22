@@ -1,5 +1,6 @@
 Using seed: 0
 [?] pour l'aide
+commande> s i training.search-limit 1000
 commande> e
 mode entraînement
 [?] pour l'aide

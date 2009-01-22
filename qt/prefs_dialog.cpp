@@ -64,7 +64,7 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         checkBoxFreeRefuseInvalid->setChecked(Settings::Instance().getBool("freegame.reject-invalid"));
 
         // Training settings
-
+        spinBoxTrainSearchLimit->setValue(Settings::Instance().getInt("training.search-limit"));
     }
     catch (GameException &e)
     {
@@ -133,7 +133,8 @@ void PrefsDialog::updateSettings()
                                      checkBoxFreeRefuseInvalid->isChecked());
 
         // Training settings
-
+        Settings::Instance().setInt("training.search-limit",
+                                    spinBoxTrainSearchLimit->value());
     }
     catch (GameException &e)
     {

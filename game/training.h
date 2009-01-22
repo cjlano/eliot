@@ -97,8 +97,8 @@ private:
 
     void endTurn();
 
-    /// Search results, with all the possible rounds
-    Results m_results;
+    /// Search results, with all the possible rounds up to a predefined limit
+    LimitResults m_results;
 
     /// Round corresponding to the last test play (if any)
     Round m_testRound;

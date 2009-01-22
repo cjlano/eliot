@@ -23,6 +23,7 @@
 #define _RESULTS_H_
 
 #include <vector>
+#include <map>
 #include "round.h"
 
 using namespace std;
@@ -33,31 +34,104 @@ class Rack;
 
 
 /**
- * This class allows to perform a search on the board for a given rack,
- * and it offers accessors to the resulting rounds.
- * The rounds are sorted by decreasing number of points, then by alphabetical
- * order (case insensitive), then by coordinates, then by alphabetical orderi
- * again (case sensitive this time).
+ * This abstract class defines the interface to perform a search on the board
+ * for a given rack, and it offers accessors to the resulting rounds.
+ * Not all the rounds found by the search are necessarily kept, it depends
+ * on the implementation (see below in the file for the various
+ * implementations).
+ *
+ * After the search, the rounds are sorted by decreasing number of points,
+ * then by alphabetical order (case insensitive), then by coordinates,
+ * then by alphabetical order again (case sensitive this time).
  */
 class Results
 {
 public:
-    unsigned int size() const    { return m_rounds.size(); }
-    void clear()        { m_rounds.clear(); }
+    unsigned int size() const { return m_rounds.size(); }
     const Round & get(unsigned int) const;
 
-    /// Perform a search on the board
-    void search(const Dictionary &iDic, const Board &iBoard,
-                const Rack &iRack, bool iFirstWord);
+    /**
+     * Perform a search on the board. Every time a word is found,
+     * the add() method will be called. At the end of the search,
+     * results are sorted.
+     */
+    virtual void search(const Dictionary &iDic, const Board &iBoard,
+                        const Rack &iRack, bool iFirstWord) = 0;
 
-    // FIXME: This method is used to fill the container with the rounds,
-    // but it should not be part of the public interface
-    void add(const Round &iRound)   { m_rounds.push_back(iRound); }
+    /** Add a round */
+    virtual void add(const Round &iRound) = 0;
+
+    /** Clear the stored rounds, and get ready for a new search */
+    virtual void clear() = 0;
+
+protected:
+    vector<Round> m_rounds;
+    void sort();
+};
+
+/**
+ * This implementation keeps only the rounds corresponding to the best score.
+ * If there are several rounds with the same score, they are all kept.
+ * All other rounds are ignored.
+ */
+class BestResults: public Results
+{
+public:
+    BestResults();
+    virtual void search(const Dictionary &iDic, const Board &iBoard,
+                        const Rack &iRack, bool iFirstWord);
+    virtual void clear();
+    virtual void add(const Round &iRound);
 
 private:
-    vector<Round> m_rounds;
+    int m_bestScore;
+};
 
-    void sortByPoints();
+/**
+ * This implementation finds the best score possible, and keeps only
+ * the rounds whose score is closest to (but not lower than) the given
+ * percentage of the best score.
+ * All the rounds with this closest score are kept, rounds with a different
+ * score are ignored.
+ */
+class PercentResults: public Results
+{
+public:
+    /** The percentage is given as a float between 0 (0%) and 1 (100%) */
+    PercentResults(float iPercent);
+    virtual void search(const Dictionary &iDic, const Board &iBoard,
+                        const Rack &iRack, bool iFirstWord);
+    virtual void clear();
+    virtual void add(const Round &iRound);
+
+private:
+    const float m_percent;
+    int m_bestScore;
+    int m_minScore;
+};
+
+/**
+ * This implementation keeps the N best rounds, N being the given limit.
+ * All other rounds are ignored.
+ * In the special case where the limit is 0, all rounds are kept (but you can
+ * expect the sorting of the rounds to be much slower...)
+ */
+class LimitResults: public Results
+{
+public:
+    LimitResults(int iLimit);
+    virtual void search(const Dictionary &iDic, const Board &iBoard,
+                        const Rack &iRack, bool iFirstWord);
+    virtual void clear();
+    virtual void add(const Round &iRound);
+
+    void setLimit(int iNewLimit) { m_limit = iNewLimit; }
+
+private:
+    int m_limit;
+    map<int, int> m_scoresCount;
+    int m_total;
+    int m_minScore;
 };
 
 #endif

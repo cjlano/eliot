@@ -119,6 +119,18 @@ namespace
 #endif
         return fileName;
     }
+
+
+    template<typename T>
+    void copySetting(const Config &srcConf, Config &dstConf, const char *path)
+    {
+        if (srcConf.exists(path))
+        {
+            T t;
+            srcConf.lookupValue(path, t);
+            dstConf.lookup(path) = t;
+        }
+    }
 }
 
 
@@ -131,6 +143,10 @@ Settings::Settings()
     // ============== General options ==============
 
     // ============== Training mode options ==============
+    Setting &training = m_conf->getRoot().add("training", Setting::TypeGroup);
+
+    // Number of search results kept in a search
+    training.add("search-limit", Setting::TypeInt) = 100;
 
     // ============== Duplicate mode options ==============
     Setting &dupli = m_conf->getRoot().add("duplicate", Setting::TypeGroup);
@@ -159,7 +175,16 @@ Settings::Settings()
     // Try to read the values from the configuration file
     try
     {
-        m_conf->readFile(m_fileName.c_str());
+        // We cannot call readFile() on m_conf, as it removes the previous
+        // settings. So we create a temporary config, and copy the settings
+        // one by one...
+        Config tmpConf;
+        tmpConf.readFile(m_fileName.c_str());
+        copySetting<int>(tmpConf, *m_conf, "training.search-limit");
+        copySetting<int>(tmpConf, *m_conf, "duplicate.solo-players");
+        copySetting<int>(tmpConf, *m_conf, "duplicate.solo-value");
+        copySetting<bool>(tmpConf, *m_conf, "duplicate.reject-invalid");
+        copySetting<bool>(tmpConf, *m_conf, "freegame.reject-invalid");
     }
     catch (...)
     {
@@ -236,9 +261,11 @@ int Settings::getInt(const string &iName) const
     }
 #else
     // Dummy implementation
-    if (iName == "duplicate.solo-players")
+    if (iName == "training.search-limit")
+        return 100;
+    else if (iName == "duplicate.solo-players")
         return 16;
-    else if (iName == "duplicate.solo-bonus")
+    else if (iName == "duplicate.solo-value")
         return 10;
     return 0;
 #endif

@@ -19,9 +19,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <boost/foreach.hpp>
 #include <algorithm>
 #include <functional>
 #include <cwctype>
+#include <cmath>
 
 #include "tile.h"
 #include "round.h"
@@ -98,27 +100,204 @@ const Round & Results::get(unsigned int i) const
 }
 
 
-void Results::search(const Dictionary &iDic, const Board &iBoard,
-                     const Rack &iRack, bool iFirstWord)
+void Results::sort()
+{
+    less_points lp;
+    std::sort(m_rounds.begin(), m_rounds.end(), lp);
+}
+
+
+BestResults::BestResults()
+    : m_bestScore(0)
+{
+}
+
+
+void BestResults::search(const Dictionary &iDic, const Board &iBoard,
+                         const Rack &iRack, bool iFirstWord)
 {
     clear();
 
     if (iFirstWord)
-    {
         iBoard.searchFirst(iDic, iRack, *this);
-    }
     else
-    {
         iBoard.search(iDic, iRack, *this);
-    }
 
-    sortByPoints();
+    sort();
 }
 
 
-void Results::sortByPoints()
+void BestResults::add(const Round &iRound)
 {
-    less_points lp;
-    std::sort(m_rounds.begin(), m_rounds.end(), lp);
+    // Ignore too low scores
+    if (m_bestScore > iRound.getPoints())
+        return;
+
+    if (m_bestScore < iRound.getPoints())
+    {
+        // New best score: clear the stored results
+        m_bestScore = iRound.getPoints();
+        m_rounds.clear();
+    }
+    m_rounds.push_back(iRound);
+}
+
+
+void BestResults::clear()
+{
+    m_rounds.clear();
+    m_bestScore = 0;
+}
+
+
+
+PercentResults::PercentResults(float iPercent)
+    : m_percent(iPercent)
+{
+}
+
+class Predicate
+{
+public:
+    Predicate(int iPoints) : m_chosenPoints(iPoints) {}
+    bool operator()(const Round &iRound) const
+    {
+        return iRound.getPoints() != m_chosenPoints;
+    }
+
+private:
+    const int m_chosenPoints;
+};
+
+
+void PercentResults::search(const Dictionary &iDic, const Board &iBoard,
+                            const Rack &iRack, bool iFirstWord)
+{
+    clear();
+
+    if (iFirstWord)
+        iBoard.searchFirst(iDic, iRack, *this);
+    else
+        iBoard.search(iDic, iRack, *this);
+
+    if (m_rounds.empty())
+        return;
+
+    // At this point, add() has been called, so the best score is valid
+
+    // Find the lowest score at least equal to the min_score
+    int chosenPoints = m_bestScore;
+    BOOST_FOREACH(const Round &iRound, m_rounds)
+    {
+        int points = iRound.getPoints();
+        if (points >= m_minScore && points < chosenPoints)
+        {
+            chosenPoints = points;
+        }
+    }
+
+    // Keep only the rounds with the "chosenPoints" score
+    std::remove_if(m_rounds.begin(), m_rounds.end(), Predicate(chosenPoints));
+    ASSERT(!m_rounds.empty(), "Bug in PercentResults");
+
+    // Sort the remaining rounds
+    sort();
+}
+
+
+void PercentResults::add(const Round &iRound)
+{
+    // Ignore too low scores
+    if (m_minScore > iRound.getPoints())
+        return;
+
+    if (m_bestScore < iRound.getPoints())
+    {
+        m_bestScore = iRound.getPoints();
+        m_minScore = (int)ceil(m_bestScore * m_percent);
+    }
+    m_rounds.push_back(iRound);
+}
+
+
+void PercentResults::clear()
+{
+    m_rounds.clear();
+    m_bestScore = 0;
+    m_minScore = 0;
+}
+
+
+
+LimitResults::LimitResults(int iLimit)
+    : m_limit(iLimit), m_total(0), m_minScore(-1)
+{
+}
+
+
+void LimitResults::search(const Dictionary &iDic, const Board &iBoard,
+                          const Rack &iRack, bool iFirstWord)
+{
+    clear();
+
+    if (iFirstWord)
+        iBoard.searchFirst(iDic, iRack, *this);
+    else
+        iBoard.search(iDic, iRack, *this);
+
+    if (m_rounds.empty())
+        return;
+
+    // Sort the rounds
+    sort();
+
+    // Truncate the results to respect the limit
+    if (m_limit != 0 && m_rounds.size() > (unsigned int) m_limit)
+        m_rounds.resize(m_limit);
+}
+
+
+void LimitResults::add(const Round &iRound)
+{
+    // If we ignore the limit, simply add the round
+    if (m_limit == 0)
+    {
+        m_rounds.push_back(iRound);
+        return;
+    }
+
+    // Ignore too low scores
+    if (m_minScore >= iRound.getPoints())
+        return;
+
+    // Add the round
+    m_rounds.push_back(iRound);
+    ++m_total;
+    ++m_scoresCount[iRound.getPoints()];
+
+    // Can we increase the minimum score required?
+    if (m_total - m_scoresCount[m_minScore] >= m_limit)
+    {
+        // Yes! "Forget" the rounds of score m_minScore
+        // They are still present in m_rounds, but they will be removed
+        // for real later in the search() method
+        m_total -= m_scoresCount[m_minScore];
+        m_scoresCount.erase(m_minScore);
+
+        // Find the new min score
+        map<int, int>::const_iterator it =
+            m_scoresCount.lower_bound(m_minScore);
+        ASSERT(it != m_scoresCount.end(), "Bug in LimitResults::add())");
+        m_minScore = it->first;
+    }
+}
+
+
+void LimitResults::clear()
+{
+    m_rounds.clear();
+    m_scoresCount.clear();
+    m_minScore = -1;
+    m_total = 0;
 }
 

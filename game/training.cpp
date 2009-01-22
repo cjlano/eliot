@@ -28,8 +28,10 @@
 #   define _(String) String
 #endif
 
+#include "training.h"
 #include "dic.h"
 #include "tile.h"
+#include "settings.h"
 #include "rack.h"
 #include "round.h"
 #include "move.h"
@@ -38,14 +40,13 @@
 #include "player_move_cmd.h"
 #include "player_rack_cmd.h"
 #include "game_move_cmd.h"
-#include "training.h"
 #include "encoding.h"
 
 #include "debug.h"
 
 
 Training::Training(const Dictionary &iDic)
-    : Game(iDic)
+    : Game(iDic), m_results(1000)
 {
     // Training mode implicitly uses 1 human player
     Game::addPlayer(new HumanPlayer);
@@ -147,6 +148,8 @@ void Training::search()
     // Search for the current player
     Rack r;
     m_players[m_currPlayer]->getCurrentRack().getRack(r);
+    int limit = Settings::Instance().getInt("training.search-limit");
+    m_results.setLimit(limit);
     m_results.search(getDic(), getBoard(), r, getHistory().beforeFirstRound());
 }
 
