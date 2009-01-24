@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 2005 Eliot
- * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2005-2008 Antoine Fraboulet & Olivier Teulière
+ * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -380,12 +381,21 @@ void commonCommands(PublicGame &iGame, const vector<wstring> &tokens)
     else if (tokens[0][0] == L'h')
     {
         const wstring &action = checkAlphaToken(tokens, 1);
+        wstring count = checkNumToken(tokens, 2);
+        if (count == L"")
+            count = L"1";
         if (action == L"" || action.size() != 1)
             return;
         if (action[0] == L'p')
-            iGame.prevTurn();
+        {
+            for (int i = 0; i < _wtoi(count.c_str()); ++i)
+                iGame.prevTurn();
+        }
         else if (action[0] == L'n')
-            iGame.nextTurn();
+        {
+            for (int i = 0; i < _wtoi(count.c_str()); ++i)
+                iGame.nextTurn();
+        }
         else if (action[0] == L'f')
             iGame.firstTurn();
         else if (action[0] == L'l')
@@ -624,20 +634,8 @@ void loopTraining(PublicGame &iGame)
                         {
                             int n = _wtoi(num.c_str());
                             if (n <= 0)
-                            {
-                                if (n == 0)
-                                    n = -1;
-                                if ((unsigned int)-n > iGame.getHistory().getSize())
-                                    throw GameException("Cannot go back that far");
-                                for (int i = 0; i < -n; ++i)
-                                    iGame.prevTurn();
-                                iGame.clearFuture();
-                            }
-                            else
-                            {
-                                if (iGame.trainingPlayResult(--n))
-                                    printf("mauvais argument\n");
-                            }
+                                printf("mauvais argument\n");
+                            iGame.trainingPlayResult(n - 1);
                         }
                     }
                     break;
@@ -1018,24 +1016,18 @@ void mainLoop(const Dictionary &iDic)
 
 int main(int argc, char *argv[])
 {
-    string dicPath;
-
     // Let the user choose the locale
     setlocale(LC_ALL, "");
 
     if (argc != 2 && argc != 3)
     {
-        fprintf(stdout, "Usage: eliot /chemin/vers/ods4.dawg [random_seed]\n");
+        fprintf(stdout, "Usage: eliot /chemin/vers/ods5.dawg [random_seed]\n");
         exit(1);
-    }
-    else
-    {
-        dicPath = argv[1];
     }
 
     try
     {
-        Dictionary dic(dicPath);
+        Dictionary dic(argv[1]);
 
         unsigned int seed;
         if (argc == 3)

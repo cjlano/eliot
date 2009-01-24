@@ -3,7 +3,8 @@ Using seed: 0
 commande> c rosace
 mode entraînement
 [?] pour l'aide
-commande> n -13
+commande> h p 13
+commande> h r
 commande> a P
 Eliot
 

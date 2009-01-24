@@ -72,7 +72,8 @@ commande> a gd         # c2
  Nc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
  Oc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
 commande> 
-commande> n -1
+commande> h p
+commande> h r
 commande> a gd         # c3
  Ar [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
  Br [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
@@ -214,7 +215,8 @@ commande> a gd         # c6
  Nc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
  Oc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
 commande> 
-commande> n -1
+commande> h p
+commande> h r
 commande> a gd         # c7
  Ar [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
  Br [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
