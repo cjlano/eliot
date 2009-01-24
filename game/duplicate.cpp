@@ -21,6 +21,14 @@
 #include <boost/foreach.hpp>
 #include <sstream>
 
+#include "config.h"
+#if ENABLE_NLS
+#   include <libintl.h>
+#   define _(String) gettext(String)
+#else
+#   define _(String) String
+#endif
+
 #include "duplicate.h"
 #include "game_exception.h"
 #include "dic.h"
@@ -273,16 +281,19 @@ void Duplicate::endGame()
 }
 
 
-int Duplicate::setPlayer(unsigned int p)
+void Duplicate::setPlayer(unsigned int p)
 {
     ASSERT(p < getNPlayers(), "Wrong player number");
 
     // Forbid switching to an AI player
     if (!m_players[p]->isHuman())
-        return 1;
+        throw GameException(_("Cannot switch to a non-human player"));
+
+    // Forbid switching back to a player who has already played
+    if (hasPlayed(p))
+        throw GameException(_("Cannot switch to a player who has already played"));
 
     m_currPlayer = p;
-    return 0;
 }
 
 

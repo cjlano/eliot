@@ -79,13 +79,13 @@ public:
 
     /**
      * Set the current player, given its ID.
-     * The given player ID must correspond to a human player, which did not
+     * The given player ID must correspond to a human player, who did not
      * play yet for this turn.
-     * Possible return values:
-     *  0: everything went fine
-     *  1: the player is not human
+     * @param p: ID of the player
+     * @exception GameException: Thrown if the player is not human or if
+     *      he has already played
      */
-    int setPlayer(unsigned int p);
+    void setPlayer(unsigned int p);
 
     /// Return true if the player has played for the current turn
     virtual bool hasPlayed(unsigned int iPlayerId) const;

@@ -226,9 +226,9 @@ static Duplicate & getDuplicateGame(Game &iGame)
 }
 
 
-int PublicGame::duplicateSetPlayer(unsigned int p)
+void PublicGame::duplicateSetPlayer(unsigned int p)
 {
-    return getDuplicateGame(m_game).setPlayer(p);
+    getDuplicateGame(m_game).setPlayer(p);
 }
 
 /***************************/

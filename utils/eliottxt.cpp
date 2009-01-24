@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <boost/foreach.hpp>
+#include <boost/tokenizer.hpp>
 #include <wchar.h>
 #include <fstream>
 #include <iostream>
@@ -48,6 +50,11 @@
 #include "game_exception.h"
 #include "settings.h"
 
+
+// Use a more friendly type name for the tokenizer
+typedef boost::tokenizer<boost::char_separator<wchar_t>,
+        std::wstring::const_iterator,
+        std::wstring> Tokenizer;
 
 /* A static variable for holding the line. */
 static wchar_t *wline_read = NULL;
@@ -111,105 +118,91 @@ wchar_t *rl_gets()
 }
 
 
-wchar_t * next_token_alpha(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
+wstring checkAlphaToken(const vector<wstring> &tokens, uint8_t index)
 {
-    wchar_t *token = _wcstok(cmd, delim, state);
-    if (token == NULL)
-        return NULL;
-    int i;
-    for (i = 0; token[i] && iswalpha(token[i]); i++)
-        ;
-    token[i] = L'\0';
-    return token;
-}
-
-
-wchar_t * next_token_alphanum(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
-{
-    wchar_t *token = _wcstok(cmd, delim, state);
-    if (token == NULL)
-        return NULL;
-    int i;
-    for (i = 0; token[i] && iswalnum(token[i]); i++)
-        ;
-    token[i] = L'\0';
-    return token;
-}
-
-
-wchar_t * next_token_alphaplusjoker(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
-{
-    wchar_t *token = _wcstok(cmd, delim, state);
-    if (token == NULL)
-        return NULL;
-    int i;
-    for (i = 0; token[i] && (iswalpha(token[i]) ||
-                             token[i] == L'?'   ||
-                             token[i] == L'+');
-         i++)
-        ;
-    token[i] = L'\0';
-    return token;
-}
-
-
-wchar_t * next_token_digit(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
-{
-    wchar_t *token = _wcstok(cmd, delim, state);
-    if (token == NULL)
-        return NULL;
-    int i;
-    for (i = 0; token[i] && (iswdigit(token[i]) || token[i] == L'-'); i++)
-        ;
-    token[i] = L'\0';
-    return token;
-}
-
-
-wchar_t * next_token_cross(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
-{
-    wchar_t *token = _wcstok(cmd, delim, state);
-    if (token == NULL)
-        return NULL;
-    int i;
-    for (i = 0; token[i] &&
-         (iswalpha(token[i]) || token[i] == L'.');
-         i++)
-        ;
-    token[i] = L'\0';
-    return token;
-}
-
-
-wchar_t * next_token_filename(wchar_t *cmd, const wchar_t *delim, wchar_t **state)
-{
-    wchar_t *token = _wcstok(cmd, delim, state);
-    if (token == NULL)
-        return NULL;
-    int i;
-    for (i = 0; token[i] && (iswalnum(token[i]) ||
-                             token[i] == L'.' ||
-                             token[i] == L'_'); i++)
-        ;
-    token[i] = L'\0';
-    return token;
-}
-
-
-void eliottxt_get_cross(const Dictionary &iDic, const wstring &iCros)
-{
-    vector<wstring> wordList;
-    iDic.searchCross(iCros, wordList);
-
-    vector<wstring>::const_iterator it;
-    for (it = wordList.begin(); it != wordList.end(); it++)
+    if (tokens.size() <= index)
+        return L"";
+    const wstring &wstr = tokens[index];
+    BOOST_FOREACH(wchar_t wch, wstr)
     {
-        printf("  %s\n", convertToMb(*it).c_str());
+        if (!iswalpha(wch))
+            return L"";
     }
+    return wstr;
 }
 
 
-void help_training()
+wstring checkAlphaNumToken(const vector<wstring> &tokens, uint8_t index)
+{
+    if (tokens.size() <= index)
+        return L"";
+    const wstring &wstr = tokens[index];
+    BOOST_FOREACH(wchar_t wch, wstr)
+    {
+        if (!iswalnum(wch))
+            return L"";
+    }
+    return wstr;
+}
+
+
+wstring checkAlphaPlusJokerToken(const vector<wstring> &tokens, uint8_t index)
+{
+    if (tokens.size() <= index)
+        return L"";
+    const wstring &wstr = tokens[index];
+    BOOST_FOREACH(wchar_t wch, wstr)
+    {
+        if (!iswalpha(wch) && wch != L'+' && wch != L'?')
+            return L"";
+    }
+    return wstr;
+}
+
+
+wstring checkNumToken(const vector<wstring> &tokens, uint8_t index)
+{
+    if (tokens.size() <= index)
+        return L"";
+    const wstring &wstr = tokens[index];
+    BOOST_FOREACH(wchar_t wch, wstr)
+    {
+        if (!iswdigit(wch) && wch != L'-')
+            return L"";
+    }
+    return wstr;
+}
+
+
+wstring checkFileNameToken(const vector<wstring> &tokens, uint8_t index)
+{
+    if (tokens.size() <= index)
+        return L"";
+    const wstring &wstr = tokens[index];
+    BOOST_FOREACH(wchar_t wch, wstr)
+    {
+        if (!iswalpha(wch) && wch != L'.' && wch != L'_')
+            return L"";
+    }
+    return wstr;
+}
+
+
+wstring checkCrossToken(const vector<wstring> &tokens, uint8_t index)
+{
+    if (tokens.size() <= index)
+        return L"";
+    const wstring &wstr = tokens[index];
+    BOOST_FOREACH(wchar_t wch, wstr)
+    {
+        if (!iswalpha(wch) && wch != L'.')
+            return L"";
+    }
+    return wstr;
+}
+
+
+void helpTraining()
 {
     printf("  ?    : aide -- cette page\n");
     printf("  a [g|l|p|r|t] : afficher :\n");
@@ -243,7 +236,7 @@ void help_training()
 }
 
 
-void help_freegame()
+void helpFreegame()
 {
     printf("  ?    : aide -- cette page\n");
     printf("  a [g|l|p|s|t] : afficher :\n");
@@ -268,7 +261,7 @@ void help_freegame()
 }
 
 
-void help_duplicate()
+void helpDuplicate()
 {
     printf("  ?    : aide -- cette page\n");
     printf("  a [g|l|p|s|t] : afficher :\n");
@@ -314,555 +307,130 @@ void help()
 }
 
 
-void display_data(const PublicGame &iGame, const wchar_t *delim, wchar_t **state)
+void displayData(const PublicGame &iGame, const vector<wstring> &tokens)
 {
-    const wchar_t *token;
-
-    token = next_token_alpha(NULL, delim, state);
-    if (token == NULL)
+    const wstring &displayType = checkAlphaNumToken(tokens, 1);
+    if (displayType == L"")
     {
         cout << "commande incomplète\n";
         return;
     }
-    switch (token[0])
+    if (displayType == L"g")
+        GameIO::printBoard(cout, iGame);
+    else if (displayType == L"gd")
+        GameIO::printBoardDebug(cout, iGame);
+    else if (displayType == L"gj")
+        GameIO::printBoardJoker(cout, iGame);
+    else if (displayType == L"gm")
+        GameIO::printBoardMultipliers(cout, iGame);
+    else if (displayType == L"gn")
+        GameIO::printBoardMultipliers2(cout, iGame);
+    else if (displayType == L"j")
+        cout << "Joueur " << iGame.getCurrentPlayer().getId() << endl;
+    else if (displayType == L"l")
+        GameIO::printNonPlayed(cout, iGame);
+    else if (displayType == L"p")
+        iGame.save(cout, PublicGame::kFILE_FORMAT_ADVANCED);
+    else if (displayType == L"pd")
+        GameIO::printGameDebug(cout, iGame);
+    else if (displayType == L"P")
+        iGame.save(cout, PublicGame::kFILE_FORMAT_STANDARD);
+    else if (displayType == L"r")
     {
-        case L'g':
-            switch (token[1])
-            {
-                case L'\0':
-                    GameIO::printBoard(cout, iGame);
-                    break;
-                case L'd':
-                    GameIO::printBoardDebug(cout, iGame);
-                    break;
-                case L'j':
-                    GameIO::printBoardJoker(cout, iGame);
-                    break;
-                case L'm':
-                    GameIO::printBoardMultipliers(cout, iGame);
-                    break;
-                case L'n':
-                    GameIO::printBoardMultipliers2(cout, iGame);
-                    break;
-                default:
-                    printf("commande inconnue\n");
-                    break;
-            }
-            break;
-        case L'j':
-            cout << "Joueur " << iGame.getCurrentPlayer().getId() << endl;
-            break;
-        case L'l':
-            GameIO::printNonPlayed(cout, iGame);
-            break;
-        case L'p':
-            switch (token[1])
-                {
-                case '\0':
-                    iGame.save(cout,PublicGame::kFILE_FORMAT_ADVANCED);
-                    break;
-                case 'd':
-                    GameIO::printGameDebug(cout, iGame);
-                    break;
-                default:
-                    printf("commande inconnue\n");
-                }
-            break;
-        case L'P':
-            iGame.save(cout,PublicGame::kFILE_FORMAT_STANDARD);
-            break;
-        case L'r':
-            token = next_token_digit(NULL, delim, state);
-            if (token == NULL)
-                GameIO::printSearchResults(cout,
-                                           iGame.trainingGetResults(),
-                                           10);
+        const wstring &limit = checkNumToken(tokens, 2);
+        if (limit == L"")
+            GameIO::printSearchResults(cout,
+                                       iGame.trainingGetResults(),
+                                       10);
+        else
+            GameIO::printSearchResults(cout,
+                                       iGame.trainingGetResults(),
+                                       _wtoi(limit.c_str()));
+    }
+    else if (displayType == L"s")
+        GameIO::printPoints(cout, iGame);
+    else if (displayType == L"S")
+        GameIO::printAllPoints(cout, iGame);
+    else if (displayType == L"t")
+        GameIO::printPlayedRack(cout, iGame, iGame.getHistory().getSize());
+    else if (displayType == L"T")
+        GameIO::printAllRacks(cout, iGame);
+    else
+        cout << "commande inconnue\n";
+}
+
+
+void commonCommands(PublicGame &iGame, const vector<wstring> &tokens)
+{
+    if (tokens[0][0] == L'a')
+        displayData(iGame, tokens);
+    else if (tokens[0][0] == L'd')
+    {
+        const wstring &word = checkAlphaToken(tokens, 1);
+        if (word == L"")
+            helpDuplicate();
+        else
+        {
+            if (iGame.getDic().searchWord(word))
+                printf("le mot -%s- existe\n", convertToMb(word).c_str());
             else
-                GameIO::printSearchResults(cout,
-                                           iGame.trainingGetResults(),
-                                           _wtoi(token));
-            break;
-        case L's':
-            GameIO::printPoints(cout, iGame);
-            break;
-        case L'S':
-            GameIO::printAllPoints(cout, iGame);
-            break;
-        case L't':
-            GameIO::printPlayedRack(cout, iGame, iGame.getHistory().getSize());
-            break;
-        case L'T':
-            GameIO::printAllRacks(cout, iGame);
-            break;
-        default:
-            cout << "commande inconnue\n";
-            break;
+                printf("le mot -%s- n'existe pas\n", convertToMb(word).c_str());
+        }
     }
-}
-
-
-void handleNavigation(PublicGame &iGame, wchar_t iChar)
-{
-    switch (iChar)
+    else if (tokens[0][0] == L'h')
     {
-        case L'p':
+        const wstring &action = checkAlphaToken(tokens, 1);
+        if (action == L"" || action.size() != 1)
+            return;
+        if (action[0] == L'p')
             iGame.prevTurn();
-            break;
-        case L'n':
+        else if (action[0] == L'n')
             iGame.nextTurn();
-            break;
-        case L'f':
+        else if (action[0] == L'f')
             iGame.firstTurn();
-            break;
-        case L'l':
+        else if (action[0] == L'l')
             iGame.lastTurn();
-            break;
-        case L'r':
+        else if (action[0] == L'r')
             iGame.clearFuture();
-            break;
     }
-}
-
-
-void loop_training(PublicGame &iGame)
-{
-    const wchar_t *token;
-    wchar_t *state;
-    wchar_t *commande = NULL;
-    wchar_t delim[] = L" \t";
-    int quit = 0;
-
-    cout << "mode entraînement\n";
-    cout << "[?] pour l'aide\n";
-    while (quit == 0)
+    else if (tokens[0][0] == L'j')
     {
-        commande = rl_gets();
-        token = _wcstok(commande, delim, &state);
-        if (token)
+        const wstring &word = checkAlphaToken(tokens, 1);
+        if (word == L"")
+            helpDuplicate();
+        else
         {
-            try
+            const wstring &coord = checkAlphaNumToken(tokens, 2);
+            if (coord == L"")
             {
-                switch (token[0])
-                {
-                    case L'?':
-                        help_training();
-                        break;
-                    case L'a':
-                        display_data(iGame, delim, &state);
-                        break;
-                    case L'b':
-                        token = next_token_alpha(NULL, delim, &state);
-                        if (token == NULL)
-                            help_training();
-                        else
-                        {
-                            const wchar_t *word = next_token_alpha(NULL, delim, &state);
-                            if (word == NULL)
-                                help_training();
-                            else
-                            {
-                                switch (token[0])
-                                {
-                                    case L'b':
-                                        {
-                                            vector<wstring> wordList;
-                                            iGame.getDic().searchBenj(word, wordList);
-                                            vector<wstring>::const_iterator it;
-                                            for (it = wordList.begin(); it != wordList.end(); ++it)
-                                                cout << convertToMb(*it) << endl;
-                                            break;
-                                        }
-                                    case L'p':
-                                        {
-                                            map<wchar_t, vector<wstring> > wordMap;
-                                            iGame.getDic().search7pl1(word, wordMap, false);
-                                            map<wchar_t, vector<wstring> >::const_iterator it;
-                                            for (it = wordMap.begin(); it != wordMap.end(); ++it)
-                                            {
-                                                if (it->first)
-                                                    cout << "+" << convertToMb(it->first) << endl;
-                                                vector<wstring>::const_iterator itWord;;
-                                                for (itWord = it->second.begin(); itWord != it->second.end(); itWord++)
-                                                {
-                                                    cout << "  " << convertToMb(*itWord) << endl;
-                                                }
-                                            }
-                                            break;
-                                        }
-                                    case L'r':
-                                        {
-                                            vector<wstring> wordList;
-                                            iGame.getDic().searchRacc(word, wordList);
-                                            vector<wstring>::const_iterator it;
-                                            for (it = wordList.begin(); it != wordList.end(); ++it)
-                                                cout << convertToMb(*it) << endl;
-                                            break;
-                                        }
-                                }
-                            }
-                        }
-                        break;
-                    case L'd':
-                        token = next_token_alpha(NULL, delim, &state);
-                        if (token == NULL)
-                            help_training();
-                        else
-                        {
-                            if (iGame.getDic().searchWord(token))
-                            {
-                                printf("le mot -%s- existe\n",
-                                       convertToMb(token).c_str());
-                            }
-                            else
-                            {
-                                printf("le mot -%s- n'existe pas\n",
-                                       convertToMb(token).c_str());
-                            }
-                        }
-                        break;
-                    case L'j':
-                        token = next_token_alpha(NULL, delim, &state);
-                        if (token == NULL)
-                            help_training();
-                        else
-                        {
-                            int res;
-                            wchar_t *coord = next_token_alphanum(NULL, delim, &state);
-                            if (coord == NULL)
-                            {
-                                help_training();
-                                break;
-                            }
-                            if ((res = iGame.play(token, coord)) != 0)
-                            {
-                                fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
-                                        res);
-                                break;
-                            }
-                        }
-                        break;
-                    case L'n':
-                        token = next_token_digit(NULL, delim, &state);
-                        if (token == NULL)
-                            help_training();
-                        else
-                        {
-                            int n = _wtoi(token);
-                            if (n <= 0)
-                            {
-                                if (n == 0)
-                                    n = -1;
-                                if ((unsigned int)-n > iGame.getHistory().getSize())
-                                    throw GameException("Cannot go back that far");
-                                for (int i = 0; i < -n; ++i)
-                                    iGame.prevTurn();
-                                iGame.clearFuture();
-                            }
-                            else
-                            {
-                                if (iGame.trainingPlayResult(--n))
-                                    printf("mauvais argument\n");
-                            }
-                        }
-                        break;
-                    case L'r':
-                        iGame.trainingSearch();
-                        break;
-                    case L't':
-                        token = next_token_alphaplusjoker(NULL, delim, &state);
-                        if (token == NULL)
-                            help_training();
-                        else
-                            iGame.trainingSetRackManual(0, token);
-                        break;
-                    case L'x':
-                        token = next_token_cross(NULL, delim, &state);
-                        if (token == NULL)
-                            help_training();
-                        else
-                            eliottxt_get_cross(iGame.getDic(), token);
-                        break;
-                    case L'*':
-                        iGame.trainingSetRackRandom(false, PublicGame::kRACK_ALL);
-                        break;
-                    case L'+':
-                        iGame.trainingSetRackRandom(false, PublicGame::kRACK_NEW);
-                        break;
-                    case L's':
-                        token = next_token_filename(NULL, delim, &state);
-                        if (token != NULL)
-                        {
-                            string filename = convertToMb(token);
-                            ofstream fout(filename.c_str());
-                            if (fout.rdstate() == ios::failbit)
-                            {
-                                printf("impossible d'ouvrir %s\n",
-                                       filename.c_str());
-                                break;
-                            }
-                            iGame.save(fout);
-                            fout.close();
-                        }
-                        break;
-                    case L'h':
-                        token = next_token_alpha(NULL, delim, &state);
-                        if (token != NULL)
-                            handleNavigation(iGame, token[0]);
-                        break;
-                    case L'q':
-                        quit = 1;
-                        break;
-                    default:
-                        printf("commande inconnue\n");
-                        break;
-                }
+                helpDuplicate();
+                return;
             }
-            catch (GameException &e)
-            {
-                printf("%s\n", e.what());
-            }
+            int res = iGame.play(word, coord);
+            if (res != 0)
+                printf("Mot incorrect ou mal placé (%i)\n", res);
         }
     }
-    printf("fin du mode entraînement\n");
-}
-
-
-void loop_freegame(PublicGame &iGame)
-{
-    const wchar_t *token;
-    wchar_t *state;
-    wchar_t *commande = NULL;
-    wchar_t delim[] = L" \t";
-    int quit = 0;
-
-    printf("mode partie libre\n");
-    printf("[?] pour l'aide\n");
-    while (quit == 0)
+    else if (tokens[0][0] == L's')
     {
-        commande = rl_gets();
-        token = _wcstok(commande, delim, &state);
-        if (token)
+        const wstring &word = checkFileNameToken(tokens, 1);
+        if (word != L"")
         {
-            try
+            string filename = convertToMb(word);
+            ofstream fout(filename.c_str());
+            if (fout.rdstate() == ios::failbit)
             {
-                switch (token[0])
-                {
-                    case L'?':
-                        help_freegame();
-                        break;
-                    case L'a':
-                        display_data(iGame, delim, &state);
-                        break;
-                    case L'd':
-                        token = next_token_alpha(NULL, delim, &state);
-                        if (token == NULL)
-                            help_freegame();
-                        else
-                        {
-                            if (iGame.getDic().searchWord(token))
-                            {
-                                printf("le mot -%s- existe\n",
-                                       convertToMb(token).c_str());
-                            }
-                            else
-                            {
-                                printf("le mot -%s- n'existe pas\n",
-                                       convertToMb(token).c_str());
-                            }
-                        }
-                        break;
-                    case L'j':
-                        token = next_token_alpha(NULL, delim, &state);
-                        if (token == NULL)
-                            help_freegame();
-                        else
-                        {
-                            int res;
-                            wchar_t *coord = next_token_alphanum(NULL, delim, &state);
-                            if (coord == NULL)
-                            {
-                                help_freegame();
-                                break;
-                            }
-                            if ((res = iGame.play(token, coord)) != 0)
-                            {
-                                fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
-                                        res);
-                                break;
-                            }
-                        }
-                        break;
-                    case L'p':
-                        token = next_token_alpha(NULL, delim, &state);
-                        /* You can pass your turn without changing any letter */
-                        if (token == NULL)
-                            token = L"";
-
-                        if (iGame.freeGamePass(token) != 0)
-                            break;
-                        break;
-                    case L's':
-                        token = next_token_filename(NULL, delim, &state);
-                        if (token != NULL)
-                        {
-                            string filename = convertToMb(token);
-                            ofstream fout(filename.c_str());
-                            if (fout.rdstate() == ios::failbit)
-                            {
-                                printf("impossible d'ouvrir %s\n",
-                                       filename.c_str());
-                                break;
-                            }
-                            iGame.save(fout);
-                            fout.close();
-                        }
-                        break;
-                    case L'h':
-                        token = next_token_alpha(NULL, delim, &state);
-                        if (token != NULL)
-                            handleNavigation(iGame, token[0]);
-                        break;
-                    case L'q':
-                        quit = 1;
-                        break;
-                    default:
-                        printf("commande inconnue\n");
-                        break;
-                }
+                printf("impossible d'ouvrir %s\n", filename.c_str());
+                return;
             }
-            catch (GameException &e)
-            {
-                printf("%s\n", e.what());
-            }
+            iGame.save(fout);
+            fout.close();
         }
     }
-    printf("fin du mode partie libre\n");
 }
 
 
-void loop_duplicate(PublicGame &iGame)
-{
-    const wchar_t *token;
-    wchar_t *state;
-    wchar_t *commande = NULL;
-    wchar_t delim[] = L" \t";
-    int quit = 0;
-
-    printf("mode duplicate\n");
-    printf("[?] pour l'aide\n");
-    while (quit == 0)
-    {
-        commande = rl_gets();
-        token = _wcstok(commande, delim, &state);
-        if (token)
-        {
-            try
-            {
-                switch (token[0])
-                {
-                    case L'?':
-                        help_duplicate();
-                        break;
-                    case L'a':
-                        display_data(iGame, delim, &state);
-                        break;
-                    case L'd':
-                        token = next_token_alpha(NULL, delim, &state);
-                        if (token == NULL)
-                            help_duplicate();
-                        else
-                        {
-                            if (iGame.getDic().searchWord(token))
-                            {
-                                printf("le mot -%s- existe\n",
-                                       convertToMb(token).c_str());
-                            }
-                            else
-                            {
-                                printf("le mot -%s- n'existe pas\n",
-                                       convertToMb(token).c_str());
-                            }
-                        }
-                        break;
-                    case L'j':
-                        token = next_token_alpha(NULL, delim, &state);
-                        if (token == NULL)
-                            help_duplicate();
-                        else
-                        {
-                            int res;
-                            wchar_t *coord = next_token_alphanum(NULL, delim, &state);
-                            if (coord == NULL)
-                            {
-                                help_duplicate();
-                                break;
-                            }
-                            if ((res = iGame.play(token, coord)) != 0)
-                            {
-                                fprintf(stdout, "Mot incorrect ou mal placé (%i)\n",
-                                        res);
-                                break;
-                            }
-                        }
-                        break;
-                    case L'n':
-                        token = next_token_digit(NULL, delim, &state);
-                        if (token == NULL)
-                            help_duplicate();
-                        else
-                        {
-                            int n = _wtoi(token);
-                            if (n < 0 || n >= (int)iGame.getNbPlayers())
-                            {
-                                fprintf(stderr, "Numéro de joueur invalide\n");
-                                break;
-                            }
-                            int res = iGame.duplicateSetPlayer(_wtoi(token));
-                            if (res == 1)
-                                fprintf(stderr, "Impossible de choisir un joueur non humain\n");
-                        }
-                        break;
-                    case L's':
-                        token = next_token_filename(NULL, delim, &state);
-                        if (token != NULL)
-                        {
-                            string filename = convertToMb(token);
-                            ofstream fout(filename.c_str());
-                            if (fout.rdstate() == ios::failbit)
-                            {
-                                printf("impossible d'ouvrir %s\n",
-                                       filename.c_str());
-                                break;
-                            }
-                            iGame.save(fout);
-                            fout.close();
-                        }
-                        break;
-                    case L'h':
-                        token = next_token_alpha(NULL, delim, &state);
-                        if (token != NULL)
-                            handleNavigation(iGame, token[0]);
-                        break;
-                    case L'q':
-                        quit = 1;
-                        break;
-                    default:
-                        printf("commande inconnue\n");
-                        break;
-                }
-            }
-            catch (GameException &e)
-            {
-                printf("%s\n", e.what());
-            }
-        }
-    }
-    printf("fin du mode duplicate\n");
-}
-
-
-void eliot_regexp(const Dictionary& iDic,
-                  const wchar_t *delim, wchar_t **state)
+void handleRegexp(const Dictionary& iDic, const vector<wstring> &tokens)
 {
     /*
     printf("  x [] {1} {2} {3} : expressions rationnelles\n");
@@ -872,22 +440,27 @@ void eliot_regexp(const Dictionary& iDic,
     printf("          {3} longueur maximum d'un mot\n");
     */
 
-    wchar_t *regexp = _wcstok(NULL, delim, state);
-    wchar_t *cnres = _wcstok(NULL, delim, state);
-    wchar_t *clmin = _wcstok(NULL, delim, state);
-    wchar_t *clmax = _wcstok(NULL, delim, state);
-
-    if (regexp == NULL)
+    if (tokens.size() < 2 || tokens.size() > 5)
     {
+        printf("Invalid number of parameters\n");
         return;
     }
-    unsigned int nres = cnres ? _wtoi(cnres) : 50;
-    unsigned int lmin = clmin ? _wtoi(clmin) : 1;
-    unsigned int lmax = clmax ? _wtoi(clmax) : DIC_WORD_MAX - 1;
+
+    const wstring &regexp = tokens[1];
+    const wstring &cnres = checkNumToken(tokens, 2);
+    const wstring &clmin = checkNumToken(tokens, 3);
+    const wstring &clmax = checkNumToken(tokens, 4);
+
+    if (regexp == L"")
+        return;
+
+    unsigned int nres = (cnres != L"") ? _wtoi(cnres.c_str()) : 50;
+    unsigned int lmin = (clmin != L"") ? _wtoi(clmin.c_str()) : 1;
+    unsigned int lmax = (clmax != L"") ? _wtoi(clmax.c_str()) : DIC_WORD_MAX - 1;
 
     if (lmax > (DIC_WORD_MAX - 1) || lmin < 1 || lmin > lmax)
     {
-        printf("bad length -%s,%s-\n", (const char*)clmin, (const char*)clmax);
+        printf("bad length -%ls,%ls-\n", clmin.c_str(), clmax.c_str());
         return;
     }
 
@@ -905,46 +478,41 @@ void eliot_regexp(const Dictionary& iDic,
         return;
     }
 
-    vector<wstring>::const_iterator it;
-    for (it = wordList.begin(); it != wordList.end(); it++)
+    BOOST_FOREACH(const wstring &wstr, wordList)
     {
-        printf("%s\n", convertToMb(*it).c_str());
+        printf("%s\n", convertToMb(wstr).c_str());
     }
     printf("%d printed results\n", wordList.size());
 }
 
 
-void set_setting(const wchar_t *delim, wchar_t **state)
+void setSetting(const vector<wstring> &tokens)
 {
-    wchar_t *type = next_token_alpha(NULL, delim, state);
-    if (type == NULL || (*type != L'b' && *type != L'i'))
+    if (tokens.size() != 4)
+    {
+        printf("Invalid number of parameters\n");
+        return;
+    }
+    const wstring &type = checkAlphaToken(tokens, 1);
+    if (type == L"" || type.size() != 1 ||
+        (type[0] != L'b' && type[0] != L'i'))
     {
         printf("Invalid type\n");
         return;
     }
-    wchar_t *settingWide = _wcstok(NULL, delim, state);
-    if (settingWide == NULL)
-    {
-        printf("Invalid setting name\n");
-        return;
-    }
-    wchar_t *value = _wcstok(NULL, delim, state);
-    if (value == NULL)
-    {
-        printf("Invalid value\n");
-        return;
-    }
+    const wstring &settingWide = tokens[2];
+    const wstring &value = tokens[3];
 
     try
     {
         string setting = convertToMb(settingWide);
-        if (*type == L'i')
+        if (type == L"i")
         {
-            Settings::Instance().setInt(setting, _wtoi(value));
+            Settings::Instance().setInt(setting, _wtoi(value.c_str()));
         }
-        else if (*type == L'b')
+        else if (type == L"b")
         {
-            Settings::Instance().setBool(setting, _wtoi(value));
+            Settings::Instance().setBool(setting, _wtoi(value.c_str()));
         }
     }
     catch (GameException &e)
@@ -953,161 +521,484 @@ void set_setting(const wchar_t *delim, wchar_t **state)
         printf("%s", msg.c_str());
         return;
     }
-
 }
 
 
-void main_loop(const Dictionary &iDic)
+void loopTraining(PublicGame &iGame)
 {
-    const wchar_t *token;
-    wchar_t *state;
-    wchar_t *commande = NULL;
-    wchar_t delim[] = L" \t";
-    int quit = 0;
+    cout << "mode entraînement" << endl;
+    cout << "[?] pour l'aide" << endl;
 
-    printf("[?] pour l'aide\n");
-    while (quit == 0)
+    bool quit = 0;
+    while (!quit)
     {
-        commande = rl_gets();
-        token = _wcstok(commande, delim, &state);
-        if (token)
+        wstring command = rl_gets();
+        // Split the command
+        vector<wstring> tokens;
+        boost::char_separator<wchar_t> sep(L" ");
+        Tokenizer tok(command, sep);
+        BOOST_FOREACH(const wstring &wstr, tok)
         {
-            switch (token[0])
+            tokens.push_back(wstr);
+        }
+
+        if (tokens.empty())
+            continue;
+        if (tokens[0].size() > 1)
+        {
+            printf("%s\n", "Invalid command");
+            continue;
+        }
+
+        try
+        {
+            switch (tokens[0][0])
+            {
+                case L'?':
+                    helpTraining();
+                    break;
+                case L'a':
+                case L'd':
+                case L'h':
+                case L'j':
+                case L's':
+                    commonCommands(iGame, tokens);
+                    break;
+                case L'b':
+                    {
+                        const wstring &type = checkAlphaToken(tokens, 1);
+                        if (type == L"")
+                            helpTraining();
+                        else
+                        {
+                            const wstring &word = checkAlphaToken(tokens, 2);
+                            if (word == L"")
+                                helpTraining();
+                            else
+                            {
+                                switch (type[0])
+                                {
+                                    case L'b':
+                                        {
+                                            vector<wstring> wordList;
+                                            iGame.getDic().searchBenj(word, wordList);
+                                            BOOST_FOREACH(const wstring &wstr, wordList)
+                                                cout << convertToMb(wstr) << endl;
+                                        }
+                                        break;
+                                    case L'p':
+                                        {
+                                            map<wchar_t, vector<wstring> > wordMap;
+                                            iGame.getDic().search7pl1(word, wordMap, false);
+                                            map<wchar_t, vector<wstring> >::const_iterator it;
+                                            for (it = wordMap.begin(); it != wordMap.end(); ++it)
+                                            {
+                                                if (it->first)
+                                                    cout << "+" << convertToMb(it->first) << endl;
+                                                BOOST_FOREACH(const wstring &wstr, it->second)
+                                                {
+                                                    cout << "  " << convertToMb(wstr) << endl;
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case L'r':
+                                        {
+                                            vector<wstring> wordList;
+                                            iGame.getDic().searchRacc(word, wordList);
+                                            BOOST_FOREACH(const wstring &wstr, wordList)
+                                                cout << convertToMb(wstr) << endl;
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case L'n':
+                    {
+                        const wstring &num = checkNumToken(tokens, 1);
+                        if (num == L"")
+                            helpTraining();
+                        else
+                        {
+                            int n = _wtoi(num.c_str());
+                            if (n <= 0)
+                            {
+                                if (n == 0)
+                                    n = -1;
+                                if ((unsigned int)-n > iGame.getHistory().getSize())
+                                    throw GameException("Cannot go back that far");
+                                for (int i = 0; i < -n; ++i)
+                                    iGame.prevTurn();
+                                iGame.clearFuture();
+                            }
+                            else
+                            {
+                                if (iGame.trainingPlayResult(--n))
+                                    printf("mauvais argument\n");
+                            }
+                        }
+                    }
+                    break;
+                case L'r':
+                    iGame.trainingSearch();
+                    break;
+                case L't':
+                    {
+                        const wstring &letters = checkAlphaPlusJokerToken(tokens, 1);
+                        if (letters == L"")
+                            helpTraining();
+                        else
+                            iGame.trainingSetRackManual(false, letters);
+                    }
+                    break;
+                case L'x':
+                    {
+                        const wstring &cross = checkCrossToken(tokens, 1);
+                        if (cross == L"")
+                            helpTraining();
+                        else
+                        {
+                            vector<wstring> wordList;
+                            iGame.getDic().searchCross(cross, wordList);
+                            BOOST_FOREACH(const wstring &wstr, wordList)
+                            {
+                                printf("  %s\n", convertToMb(wstr).c_str());
+                            }
+                        }
+                    }
+                    break;
+                case L'*':
+                    iGame.trainingSetRackRandom(false, PublicGame::kRACK_ALL);
+                    break;
+                case L'+':
+                    iGame.trainingSetRackRandom(false, PublicGame::kRACK_NEW);
+                    break;
+                case L'q':
+                    quit = true;
+                    break;
+                default:
+                    printf("commande inconnue\n");
+                    break;
+            }
+        }
+        catch (GameException &e)
+        {
+            printf("%s\n", e.what());
+        }
+    }
+    printf("fin du mode entraînement\n");
+}
+
+
+void loopFreegame(PublicGame &iGame)
+{
+    printf("mode partie libre\n");
+    printf("[?] pour l'aide\n");
+
+    bool quit = 0;
+    while (!quit)
+    {
+        wstring command = rl_gets();
+        // Split the command
+        vector<wstring> tokens;
+        boost::char_separator<wchar_t> sep(L" ");
+        Tokenizer tok(command, sep);
+        BOOST_FOREACH(const wstring &wstr, tok)
+        {
+            tokens.push_back(wstr);
+        }
+
+        if (tokens.empty())
+            continue;
+        if (tokens[0].size() > 1)
+        {
+            printf("%s\n", "Invalid command");
+            continue;
+        }
+
+        try
+        {
+            switch (tokens[0][0])
+            {
+                case L'?':
+                    helpFreegame();
+                    break;
+                case L'a':
+                case L'd':
+                case L'h':
+                case L'j':
+                case L's':
+                    commonCommands(iGame, tokens);
+                    break;
+                case L'p':
+                    {
+                        wstring letters = L"";
+                        /* You can pass your turn without changing any letter */
+                        if (tokens.size() > 1)
+                        {
+                            letters = checkAlphaToken(tokens, 1);
+                            if (letters == L"")
+                                fprintf(stderr, "Invalid letters\n");
+                        }
+                        // XXX
+                        if (iGame.freeGamePass(letters) != 0)
+                            break;
+                    }
+                    break;
+                case L'q':
+                    quit = true;
+                    break;
+                default:
+                    printf("commande inconnue\n");
+                    break;
+            }
+        }
+        catch (GameException &e)
+        {
+            printf("%s\n", e.what());
+        }
+    }
+    printf("fin du mode partie libre\n");
+}
+
+
+void loopDuplicate(PublicGame &iGame)
+{
+    printf("mode duplicate\n");
+    printf("[?] pour l'aide\n");
+
+    bool quit = false;
+    while (!quit)
+    {
+        wstring command = rl_gets();
+        // Split the command
+        vector<wstring> tokens;
+        boost::char_separator<wchar_t> sep(L" ");
+        Tokenizer tok(command, sep);
+        BOOST_FOREACH(const wstring &wstr, tok)
+        {
+            tokens.push_back(wstr);
+        }
+
+        if (tokens.empty())
+            continue;
+        if (tokens[0].size() > 1)
+        {
+            printf("%s\n", "Invalid command");
+            continue;
+        }
+
+        try
+        {
+            switch (tokens[0][0])
+            {
+                case L'?':
+                    helpDuplicate();
+                    break;
+                case L'a':
+                case L'd':
+                case L'h':
+                case L'j':
+                case L's':
+                    commonCommands(iGame, tokens);
+                    break;
+                case L'n':
+                    {
+                        const wstring &id = checkNumToken(tokens, 1);
+                        if (id == L"")
+                            helpDuplicate();
+                        else
+                        {
+                            int n = _wtoi(id.c_str());
+                            if (n < 0 || n >= (int)iGame.getNbPlayers())
+                            {
+                                fprintf(stderr, "Numéro de joueur invalide\n");
+                                break;
+                            }
+                            iGame.duplicateSetPlayer(n);
+                        }
+                    }
+                    break;
+                case L'q':
+                    quit = true;
+                    break;
+                default:
+                    printf("commande inconnue\n");
+                    break;
+            }
+        }
+        catch (GameException &e)
+        {
+            printf("%s\n", e.what());
+        }
+    }
+    printf("fin du mode duplicate\n");
+}
+
+
+void mainLoop(const Dictionary &iDic)
+{
+    printf("[?] pour l'aide\n");
+
+    bool quit = false;
+    while (!quit)
+    {
+        wstring command = rl_gets();
+        // Split the command
+        vector<wstring> tokens;
+        boost::char_separator<wchar_t> sep(L" ");
+        Tokenizer tok(command, sep);
+        BOOST_FOREACH(const wstring &wstr, tok)
+        {
+            tokens.push_back(wstr);
+        }
+
+        if (tokens.empty())
+            continue;
+        if (tokens[0].size() > 1)
+        {
+            printf("%s\n", "Invalid command");
+            continue;
+        }
+
+        try
+        {
+            switch (tokens[0][0])
             {
                 case L'?':
                     help();
                     break;
                 case L'c':
-                    token = next_token_filename(NULL, delim, &state);
-                    if (token == NULL)
-                    {}
-                    else
                     {
-                        string filename = convertToMb(token);
-                        Game *tmpGame = GameFactory::Instance()->load(filename, iDic);
-                        if (tmpGame == NULL)
+                        const wstring &wfileName = checkFileNameToken(tokens, 1);
+                        if (wfileName != L"")
                         {
-                            printf("erreur pendant le chargement de la partie\n");
-                        }
-                        else
-                        {
-                            PublicGame *game = new PublicGame(*tmpGame);
-                            switch (game->getMode())
+                            string filename = convertToMb(wfileName);
+                            Game *tmpGame = GameFactory::Instance()->load(filename, iDic);
+                            if (tmpGame == NULL)
+                            {
+                                printf("erreur pendant le chargement de la partie\n");
+                            }
+                            else
+                            {
+                                PublicGame *game = new PublicGame(*tmpGame);
+                                switch (game->getMode())
                                 {
-                                case PublicGame::kTRAINING:
-                                    loop_training(*game);
-                                    break;
-                                case PublicGame::kFREEGAME:
-                                    loop_freegame(*game);
-                                    break;
-                                case PublicGame::kDUPLICATE:
-                                    loop_duplicate(*game);
-                                    break;
+                                    case PublicGame::kTRAINING:
+                                        loopTraining(*game);
+                                        break;
+                                    case PublicGame::kFREEGAME:
+                                        loopFreegame(*game);
+                                        break;
+                                    case PublicGame::kDUPLICATE:
+                                        loopDuplicate(*game);
+                                        break;
                                 }
-                            //GameFactory::Instance()->releaseGame(*game);
-                            delete game;
+                                //GameFactory::Instance()->releaseGame(*game);
+                                delete game;
+                            }
                         }
                     }
                     break;
                 case L'e':
-                {
-                    // New training game
-                    Training *tmpGame = GameFactory::Instance()->createTraining(iDic);
-                    PublicGame *game = new PublicGame(*tmpGame);
-                    game->start();
-                    loop_training(*game);
-                    //GameFactory::Instance()->releaseGame(*game);
-                    delete game;
+                    {
+                        // New training game
+                        Training *tmpGame = GameFactory::Instance()->createTraining(iDic);
+                        PublicGame *game = new PublicGame(*tmpGame);
+                        game->start();
+                        loopTraining(*game);
+                        //GameFactory::Instance()->releaseGame(*game);
+                        delete game;
+                    }
                     break;
-                }
                 case L'd':
-                {
-                    int i;
-                    // New duplicate game
-                    token = next_token_digit(NULL, delim, &state);
-                    if (token == NULL)
                     {
-                        help();
-                        break;
+                        if (tokens.size() != 3)
+                        {
+                            help();
+                            break;
+                        }
+                        const wstring &nbHuman = checkNumToken(tokens, 1);
+                        const wstring &nbAI = checkNumToken(tokens, 2);
+                        if (nbHuman == L"" || nbAI == L"")
+                        {
+                            help();
+                            break;
+                        }
+                        // New duplicate game
+                        Duplicate *tmpGame = GameFactory::Instance()->createDuplicate(iDic);
+                        PublicGame *game = new PublicGame(*tmpGame);
+                        for (int i = 0; i < _wtoi(nbHuman.c_str()); ++i)
+                            game->addPlayer(new HumanPlayer);
+                        for (int i = 0; i < _wtoi(nbAI.c_str()); ++i)
+                            game->addPlayer(new AIPercent(1));
+                        game->start();
+                        loopDuplicate(*game);
+                        //GameFactory::Instance()->releaseGame(*game);
+                        delete game;
                     }
-                    Duplicate *tmpGame = GameFactory::Instance()->createDuplicate(iDic);
-                    PublicGame *game = new PublicGame(*tmpGame);
-                    for (i = 0; i < _wtoi(token); i++)
-                        game->addPlayer(new HumanPlayer);
-                    token = next_token_digit(NULL, delim, &state);
-                    if (token == NULL)
-                    {
-                        help();
-                        break;
-                    }
-                    for (i = 0; i < _wtoi(token); i++)
-                        game->addPlayer(new AIPercent(1));
-                    game->start();
-                    loop_duplicate(*game);
-                    //GameFactory::Instance()->releaseGame(*game);
-                    delete game;
                     break;
-                }
                 case L'l':
-                {
-                    int i;
-                    // New free game
-                    token = next_token_digit(NULL, delim, &state);
-                    if (token == NULL)
                     {
-                        help();
-                        break;
+                        if (tokens.size() != 3)
+                        {
+                            help();
+                            break;
+                        }
+                        const wstring &nbHuman = checkNumToken(tokens, 1);
+                        const wstring &nbAI = checkNumToken(tokens, 2);
+                        if (nbHuman == L"" || nbAI == L"")
+                        {
+                            help();
+                            break;
+                        }
+                        // New free game
+                        FreeGame *tmpGame = GameFactory::Instance()->createFreeGame(iDic);
+                        PublicGame *game = new PublicGame(*tmpGame);
+                        for (int i = 0; i < _wtoi(nbHuman.c_str()); i++)
+                            game->addPlayer(new HumanPlayer);
+                        for (int i = 0; i < _wtoi(nbAI.c_str()); i++)
+                            game->addPlayer(new AIPercent(1));
+                        game->start();
+                        loopFreegame(*game);
+                        //GameFactory::Instance()->releaseGame(*game);
+                        delete game;
                     }
-                    FreeGame *tmpGame = GameFactory::Instance()->createFreeGame(iDic);
-                    PublicGame *game = new PublicGame(*tmpGame);
-                    for (i = 0; i < _wtoi(token); i++)
-                        game->addPlayer(new HumanPlayer);
-                    token = next_token_digit(NULL, delim, &state);
-                    if (token == NULL)
-                    {
-                        help();
-                        break;
-                    }
-                    for (i = 0; i < _wtoi(token); i++)
-                        game->addPlayer(new AIPercent(1));
-                    game->start();
-                    loop_freegame(*game);
-                    //GameFactory::Instance()->releaseGame(*game);
-                    delete game;
                     break;
-                }
                 case L'D':
-                {
-                    // New duplicate game
-                    Duplicate *tmpGame = GameFactory::Instance()->createDuplicate(iDic);
-                    PublicGame *game = new PublicGame(*tmpGame);
-                    game->addPlayer(new HumanPlayer);
-                    game->addPlayer(new AIPercent(1));
-                    game->start();
-                    loop_duplicate(*game);
-                    //GameFactory::Instance()->releaseGame(*game);
-                    delete game;
-                    break;
-                }
+                    {
+                        // New duplicate game
+                        Duplicate *tmpGame = GameFactory::Instance()->createDuplicate(iDic);
+                        PublicGame *game = new PublicGame(*tmpGame);
+                        game->addPlayer(new HumanPlayer);
+                        game->addPlayer(new AIPercent(1));
+                        game->start();
+                        loopDuplicate(*game);
+                        //GameFactory::Instance()->releaseGame(*game);
+                        delete game;
+                        break;
+                    }
                 case L'L':
-                {
-                    // New free game
-                    FreeGame *tmpGame = GameFactory::Instance()->createFreeGame(iDic);
-                    PublicGame *game = new PublicGame(*tmpGame);
-                    game->addPlayer(new HumanPlayer);
-                    game->addPlayer(new AIPercent(1));
-                    game->start();
-                    loop_freegame(*game);
-                    //GameFactory::Instance()->releaseGame(*game);
-                    delete game;
-                    break;
-                }
+                    {
+                        // New free game
+                        FreeGame *tmpGame = GameFactory::Instance()->createFreeGame(iDic);
+                        PublicGame *game = new PublicGame(*tmpGame);
+                        game->addPlayer(new HumanPlayer);
+                        game->addPlayer(new AIPercent(1));
+                        game->start();
+                        loopFreegame(*game);
+                        //GameFactory::Instance()->releaseGame(*game);
+                        delete game;
+                        break;
+                    }
                 case L'x':
                     // Regular expression tests
-                    eliot_regexp(iDic, delim, &state);
+                    handleRegexp(iDic, tokens);
                     break;
                 case L's':
-                    set_setting(delim, &state);
+                    setSetting(tokens);
                     break;
                 case L'q':
                     quit = 1;
@@ -1116,6 +1007,10 @@ void main_loop(const Dictionary &iDic)
                     printf("commande inconnue\n");
                     break;
             }
+        }
+        catch (GameException &e)
+        {
+            printf("%s\n", e.what());
         }
     }
 }
@@ -1150,7 +1045,7 @@ int main(int argc, char *argv[])
         srand(seed);
         cerr << "Using seed: " << seed << endl;
 
-        main_loop(dic);
+        mainLoop(dic);
         GameFactory::Destroy();
 
         // Free the readline static variable
