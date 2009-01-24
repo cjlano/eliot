@@ -1,0 +1,544 @@
+Using seed: 10
+[?] pour l'aide
+commande> l 1 2
+mode partie libre
+[?] pour l'aide
+commande> a T
+Joueur 0: NONTEEL
+Joueur 1: NBZEUAU
+Joueur 2: NUDATMG
+commande> j TONNE h4
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  M  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  A  A  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  T  U  -  -  -  -  -  -  -  -  -
+ H   -  -  -  T  O  N  N  E  -  -  -  -  -  -  -
+ I   -  -  -  -  N  E  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  Z  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  NONTEEL | TONNE           |  H4 |  12 | 0 |  
+    2 |  NBZEUAU | AUNEZ           |  6F |  36 | 1 |  
+    3 |  NUDATMG | MATON           |  5E |  18 | 2 |  
+
+   Total: 66
+
+Rack 0: EL+HI?WE
+Rack 1: BNU+FYTE
+Rack 2: DGU+IDVA
+commande> j WELcHE 3c
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  W  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  E  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  L  -  M  -  -  -  -  -  -  -  -  -  -
+ F   -  -  c  -  A  A  -  -  -  -  -  -  -  -  -
+ G   -  -  H  -  T  U  -  -  -  -  -  -  -  -  -
+ H   -  B  E  T  O  N  N  E  -  -  -  -  -  -  -
+ I   V  E  -  -  N  E  -  -  -  -  -  -  -  -  -
+ J   A  Y  -  -  -  Z  -  -  -  -  -  -  -  -  -
+ K   G  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   I  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  NONTEEL | TONNE           |  H4 |  12 | 0 |  
+    2 |  NBZEUAU | AUNEZ           |  6F |  36 | 1 |  
+    3 |  NUDATMG | MATON           |  5E |  18 | 2 |  
+    4 | EL+HI?WE | WELcHE          |  3C |  48 | 0 |  
+    5 | BNU+FYTE | BEY             |  2H |  43 | 1 |  
+    6 | DGU+IDVA | VAGI            |  1I |  25 | 2 |  
+
+   Total: 182
+
+Rack 0: I+SSPRNS
+Rack 1: FNTU+FIA
+Rack 2: DDU+?ERA
+commande> h p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  W  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  E  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  L  -  M  -  -  -  -  -  -  -  -  -  -
+ F   -  -  c  -  A  A  -  -  -  -  -  -  -  -  -
+ G   -  -  H  -  T  U  -  -  -  -  -  -  -  -  -
+ H   -  B  E  T  O  N  N  E  -  -  -  -  -  -  -
+ I   -  E  -  -  N  E  -  -  -  -  -  -  -  -  -
+ J   -  Y  -  -  -  Z  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  NONTEEL | TONNE           |  H4 |  12 | 0 |  
+    2 |  NBZEUAU | AUNEZ           |  6F |  36 | 1 |  
+    3 |  NUDATMG | MATON           |  5E |  18 | 2 |  
+    4 | EL+HI?WE | WELcHE          |  3C |  48 | 0 |  
+    5 | BNU+FYTE | BEY             |  2H |  43 | 1 |  
+
+   Total: 157
+
+Rack 0: I+SSPRNS
+Rack 1: FNTU+FIA
+Rack 2: DGU+IDVA
+commande> h p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  W  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  E  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  L  -  M  -  -  -  -  -  -  -  -  -  -
+ F   -  -  c  -  A  A  -  -  -  -  -  -  -  -  -
+ G   -  -  H  -  T  U  -  -  -  -  -  -  -  -  -
+ H   -  -  E  T  O  N  N  E  -  -  -  -  -  -  -
+ I   -  -  -  -  N  E  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  Z  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  NONTEEL | TONNE           |  H4 |  12 | 0 |  
+    2 |  NBZEUAU | AUNEZ           |  6F |  36 | 1 |  
+    3 |  NUDATMG | MATON           |  5E |  18 | 2 |  
+    4 | EL+HI?WE | WELcHE          |  3C |  48 | 0 |  
+
+   Total: 114
+
+Rack 0: I+SSPRNS
+Rack 1: BNU+FYTE
+Rack 2: DGU+IDVA
+commande> h r
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  NONTEEL | TONNE           |  H4 |  12 | 0 |  
+    2 |  NBZEUAU | AUNEZ           |  6F |  36 | 1 |  
+    3 |  NUDATMG | MATON           |  5E |  18 | 2 |  
+    4 | EL+HI?WE | WELcHE          |  3C |  48 | 0 |  
+    5 | BNU+FYTE | BEY             |  2H |  43 | 1 |  
+    6 | DGU+IDVA | VAGI            |  1I |  25 | 2 |  
+
+   Total: 182
+
+Rack 0: I+SSPRNS
+Rack 1: FNTU+FIA
+Rack 2: DDU+?ERA
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  W  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  E  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  L  -  M  -  -  -  -  -  -  -  -  -  -
+ F   -  -  c  -  A  A  -  -  -  -  -  -  -  -  -
+ G   -  -  H  -  T  U  -  -  -  -  -  -  -  -  -
+ H   -  B  E  T  O  N  N  E  -  -  -  -  -  -  -
+ I   V  E  -  -  N  E  -  -  -  -  -  -  -  -  -
+ J   A  Y  -  -  -  Z  -  -  -  -  -  -  -  -  -
+ K   G  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   I  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> h f
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+
+   Total: 0
+
+Rack 0: NONTEEL
+Rack 1: NBZEUAU
+Rack 2: NUDATMG
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ H   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> h n
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ H   -  -  -  T  O  N  N  E  -  -  -  -  -  -  -
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  NONTEEL | TONNE           |  H4 |  12 | 0 |  
+
+   Total: 12
+
+Rack 0: EL+HI?WE
+Rack 1: NBZEUAU
+Rack 2: NUDATMG
+commande> h n
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  A  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  U  -  -  -  -  -  -  -  -  -
+ H   -  -  -  T  O  N  N  E  -  -  -  -  -  -  -
+ I   -  -  -  -  -  E  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  Z  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  NONTEEL | TONNE           |  H4 |  12 | 0 |  
+    2 |  NBZEUAU | AUNEZ           |  6F |  36 | 1 |  
+
+   Total: 48
+
+Rack 0: EL+HI?WE
+Rack 1: BNU+FYTE
+Rack 2: NUDATMG
+commande> h r
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  M  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  A  A  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  T  U  -  -  -  -  -  -  -  -  -
+ H   -  -  -  T  O  N  N  E  -  -  -  -  -  -  -
+ I   -  -  -  -  N  E  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  Z  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  NONTEEL | TONNE           |  H4 |  12 | 0 |  
+    2 |  NBZEUAU | AUNEZ           |  6F |  36 | 1 |  
+    3 |  NUDATMG | MATON           |  5E |  18 | 2 |  
+
+   Total: 66
+
+Rack 0: EL+HI?WE
+Rack 1: BNU+FYTE
+Rack 2: DGU+IDVA
+commande> h n
+commande> j aWELE 3f
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  M  -  -  -  -  -  -  -  -  -  -
+ F   -  -  a  -  A  A  -  -  -  -  -  -  -  -  -
+ G   -  -  W  -  T  U  -  -  B  -  -  -  -  -  -
+ H   -  -  E  T  O  N  N  E  E  -  -  -  -  -  -
+ I   -  -  L  -  N  E  -  -  Y  -  -  -  -  -  -
+ J   -  V  E  -  -  Z  -  -  -  -  -  -  -  -  -
+ K   -  A  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  G  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  I  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  NONTEEL | TONNE           |  H4 |  12 | 0 |  
+    2 |  NBZEUAU | AUNEZ           |  6F |  36 | 1 |  
+    3 |  NUDATMG | MATON           |  5E |  18 | 2 |  
+    4 | EL+HI?WE | aWELE           |  3F |  30 | 0 |  
+    5 | BNU+FYTE | BEY             |  9G |  34 | 1 |  
+    6 | DGU+IDVA | VAGI            |  2J |  29 | 2 |  
+
+   Total: 159
+
+Rack 0: HI+CEEEP
+Rack 1: FNTU+FSR
+Rack 2: DDU+OREE
+commande> p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  M  -  -  -  -  -  -  -  -  -  -
+ F   -  -  a  -  A  A  -  -  -  -  -  -  -  -  -
+ G   -  -  W  -  T  U  -  -  B  -  -  -  -  -  -
+ H   -  -  E  T  O  N  N  E  E  -  -  -  -  -  -
+ I   -  -  L  -  N  E  -  -  Y  -  -  -  -  -  -
+ J   -  V  E  R  -  Z  -  -  -  -  -  -  -  -  -
+ K   -  A  -  E  -  -  -  -  -  -  -  -  -  -  -
+ L   -  G  -  D  -  -  -  -  -  -  -  -  -  -  -
+ M   -  I  -  O  -  -  -  -  -  -  -  -  -  -  -
+ N   -  T  U  R  F  S  -  -  -  -  -  -  -  -  -
+ O   -  -  -  E  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  NONTEEL | TONNE           |  H4 |  12 | 0 |  
+    2 |  NBZEUAU | AUNEZ           |  6F |  36 | 1 |  
+    3 |  NUDATMG | MATON           |  5E |  18 | 2 |  
+    4 | EL+HI?WE | aWELE           |  3F |  30 | 0 |  
+    5 | BNU+FYTE | BEY             |  9G |  34 | 1 |  
+    6 | DGU+IDVA | VAGI            |  2J |  29 | 2 |  
+    7 | HI+CEEEP | (PASS)          |  -  |   0 | 0 |
+    8 | FNTU+FSR | TURFS           |  N2 |  38 | 1 |  
+    9 | DDU+OREE | REDORE          |  4J |  22 | 2 |  
+
+   Total: 219
+
+Rack 0: CEEEHIP
+Rack 1: FN+IIGIA
+Rack 2: DU+LRIUS
+commande> h f
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ H   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+
+   Total: 0
+
+Rack 0: NONTEEL
+Rack 1: NBZEUAU
+Rack 2: NUDATMG
+commande> h n
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ H   -  -  -  T  O  N  N  E  -  -  -  -  -  -  -
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  NONTEEL | TONNE           |  H4 |  12 | 0 |  
+
+   Total: 12
+
+Rack 0: EL+HI?WE
+Rack 1: NBZEUAU
+Rack 2: NUDATMG
+commande> h l
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  M  -  -  -  -  -  -  -  -  -  -
+ F   -  -  a  -  A  A  -  -  -  -  -  -  -  -  -
+ G   -  -  W  -  T  U  -  -  B  -  -  -  -  -  -
+ H   -  -  E  T  O  N  N  E  E  -  -  -  -  -  -
+ I   -  -  L  -  N  E  -  -  Y  -  -  -  -  -  -
+ J   -  V  E  R  -  Z  -  -  -  -  -  -  -  -  -
+ K   -  A  -  E  -  -  -  -  -  -  -  -  -  -  -
+ L   -  G  -  D  -  -  -  -  -  -  -  -  -  -  -
+ M   -  I  -  O  -  -  -  -  -  -  -  -  -  -  -
+ N   -  T  U  R  F  S  -  -  -  -  -  -  -  -  -
+ O   -  -  -  E  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+Player 2: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  NONTEEL | TONNE           |  H4 |  12 | 0 |  
+    2 |  NBZEUAU | AUNEZ           |  6F |  36 | 1 |  
+    3 |  NUDATMG | MATON           |  5E |  18 | 2 |  
+    4 | EL+HI?WE | aWELE           |  3F |  30 | 0 |  
+    5 | BNU+FYTE | BEY             |  9G |  34 | 1 |  
+    6 | DGU+IDVA | VAGI            |  2J |  29 | 2 |  
+    7 | HI+CEEEP | (PASS)          |  -  |   0 | 0 |
+    8 | FNTU+FSR | TURFS           |  N2 |  38 | 1 |  
+    9 | DDU+OREE | REDORE          |  4J |  22 | 2 |  
+
+   Total: 219
+
+Rack 0: CEEEHIP
+Rack 1: FN+IIGIA
+Rack 2: DU+LRIUS
+commande> q
+fin du mode partie libre
+commande> q

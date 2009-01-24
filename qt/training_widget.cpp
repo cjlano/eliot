@@ -195,15 +195,18 @@ void TrainingWidget::showPreview(const QItemSelection &iSelected,
 void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
 {
     // FIXME: first parameter is hardcoded
-    int res = m_game->trainingSetRackManual(false, qtw(iText));
-    if (res == 0)
+    m_game->trainingRemoveTestPlay();
+    try
     {
+        m_game->trainingSetRackManual(false, qtw(iText));
         pushButtonSearch->setEnabled(m_model->rowCount() == 0 &&
                                      lineEditRack->text() != "");
         emit gameUpdated();
     }
-    else
+    catch (GameException &e)
+    {
         emit notifyProblem(_q("Warning: Cannot set the rack to '%1'").arg(iText));
+    }
 }
 
 

@@ -42,6 +42,7 @@
 #include "player.h"
 #include "history.h"
 #include "turn.h"
+#include "game_exception.h"
 #include "encoding.h"
 
 using namespace std;
@@ -697,10 +698,13 @@ void CursesIntf::setRack(WINDOW *win, int y, int x, PublicGame &iGame)
     wstring letters;
     if (readString(win, y + 2, x + 2, 7, letters, kJOKER))
     {
-        int res = iGame.trainingSetRackManual(false, letters);
-        if (res)
+        try
         {
-            drawStatus(win, _("Cannot take these letters from the bag"));
+            iGame.trainingSetRackManual(false, letters);
+        }
+        catch (GameException &e)
+        {
+            drawStatus(win, _("Cannot take these letters from the bag:"));
         }
     }
     m_state = DEFAULT;

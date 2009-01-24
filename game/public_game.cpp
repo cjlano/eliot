@@ -190,9 +190,9 @@ void PublicGame::trainingSetRackRandom(bool iCheck, RackMode iRackMode)
 }
 
 
-int PublicGame::trainingSetRackManual(bool iCheck, const wstring &iLetters)
+void PublicGame::trainingSetRackManual(bool iCheck, const wstring &iLetters)
 {
-    return getTrainingGame(m_game).setRackManual(iCheck, iLetters);
+    getTrainingGame(m_game).setRackManual(iCheck, iLetters);
 }
 
 

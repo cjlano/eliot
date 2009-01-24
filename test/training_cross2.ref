@@ -155,18 +155,6 @@ commande> a gd
  Mc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
  Nc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
  Oc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
-commande> r
-commande> a r
-  1: FUMEE              26 H4
-  2: FOUEE              24 H4
-  3: FOUIE              24 H4
-  4: MEFIE              22 H4
-  5: FUMEE              20 H8
-  6: MEFIE              20 H8
-  7: FOUEE              18 H8
-  8: FOUIE              18 H8
-  9: FUMEE              18 H5
- 10: FUMEE              18 H6
 commande> q
 fin du mode entraînement
 commande> q

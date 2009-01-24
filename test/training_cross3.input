@@ -9,6 +9,7 @@ a gd         # c2
 n -1
 a gd         # c3
 
+t EUOFMIE
 r
 n 1
 a gd         # c4

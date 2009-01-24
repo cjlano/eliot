@@ -28,10 +28,10 @@ training_racc       0  # randseed unused
 training_7pl1       0  # randseed unused
 # Several ways of getting a rack and playing a word
 training_play       0  # randseed unused
-# Training rack+search+play+back
-training_back       0  # randseed unused
 # Joker problem on game search
 training_rosace     0
+# Navigation in the game history
+training_navigation 0
 
 # Board cross off by one score
 training_cross      0
@@ -63,6 +63,8 @@ duplicate_1_player  8
 duplicate_invalid_turn 9
 # Turn where the only valid move has 0 point
 duplicate_no_point 68 # For 2 jokers in the rack
+# Navigation in the game history
+duplicate_navigation 11
 
 #################
 # Free game mode
@@ -76,6 +78,8 @@ freegame_passing    1
 freegame_change     3
 # Three AI players
 freegame_3_ai       2
+# Navigation in the game history
+freegame_navigation 10
 
 ##############
 # Load / Save

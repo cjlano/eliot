@@ -23,6 +23,7 @@
 
 #include "navigation.h"
 #include "turn_cmd.h"
+#include "game_exception.h"
 #include "debug.h"
 #include "encoding.h"
 
@@ -53,9 +54,11 @@ void Navigation::newTurn()
 
 void Navigation::addAndExecute(Command *iCmd)
 {
-    ASSERT(isLastTurn(), "Trying to add a command to an old turn!");
-    ASSERT(m_currTurn >= 1, "Bug in the turns vector");
-    ASSERT(m_currTurn - 1 < m_turnCommands.size(), "Bug in the turns vector");
+    if (!isLastTurn())
+        throw GameException("Cannot add a command to an old turn");
+
+    ASSERT(m_currTurn >= 1, "Bug in the turns vector (1)");
+    ASSERT(m_currTurn - 1 < m_turnCommands.size(), "Bug in the turns vector (2)");
     m_turnCommands[m_currTurn - 1]->addAndExecute(iCmd);
 }
 

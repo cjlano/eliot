@@ -25,16 +25,6 @@
 #include <string>
 
 class Game;
-#if 0
-#include <vector>
-#include <iostream>
-#include "bag.h"
-#include "board.h"
-#include "history.h"
-#include "navigation.h"
-#include "command.h"
-#endif
-
 class Dictionary;
 class Bag;
 class Board;
@@ -200,7 +190,7 @@ public:
      */
     void trainingSetRackRandom(bool iCheck, RackMode iRackMode);
 
-    int trainingSetRackManual(bool iCheck, const wstring &iLetters);
+    void trainingSetRackManual(bool iCheck, const wstring &iLetters);
 
     /// Place a temporary word on the board for preview purposes
     void trainingTestPlay(unsigned int iResultIndex);

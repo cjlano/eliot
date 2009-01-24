@@ -238,7 +238,7 @@ void help_training()
     printf("  n [] : jouer le résultat numéro []\n");
     printf("  r    : rechercher les meilleurs résultats\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
-    printf("  h [p|n|f|l] : naviguer dans l'historique (prev, next, first, last\n");
+    printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay\n");
     printf("  q    : quitter le mode entraînement\n");
 }
 
@@ -263,7 +263,7 @@ void help_freegame()
     printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
     printf("  p [] : passer son tour en changeant les lettres []\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
-    printf("  h [p|n|f|l] : naviguer dans l'historique (prev, next, first, last\n");
+    printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay\n");
     printf("  q    : quitter le mode partie libre\n");
 }
 
@@ -287,7 +287,7 @@ void help_duplicate()
     printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
     printf("  n [] : passer au joueur n°[]\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
-    printf("  h [p|n|f|l] : naviguer dans l'historique (prev, next, first, last\n");
+    printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay\n");
     printf("  q    : quitter le mode duplicate\n");
 }
 
@@ -396,6 +396,29 @@ void display_data(const PublicGame &iGame, const wchar_t *delim, wchar_t **state
             break;
         default:
             cout << "commande inconnue\n";
+            break;
+    }
+}
+
+
+void handleNavigation(PublicGame &iGame, wchar_t iChar)
+{
+    switch (iChar)
+    {
+        case L'p':
+            iGame.prevTurn();
+            break;
+        case L'n':
+            iGame.nextTurn();
+            break;
+        case L'f':
+            iGame.firstTurn();
+            break;
+        case L'l':
+            iGame.lastTurn();
+            break;
+        case L'r':
+            iGame.clearFuture();
             break;
     }
 }
@@ -550,8 +573,7 @@ void loop_training(PublicGame &iGame)
                         if (token == NULL)
                             help_training();
                         else
-                            if (iGame.trainingSetRackManual(0, token))
-                                printf("le sac ne contient pas assez de lettres\n");
+                            iGame.trainingSetRackManual(0, token);
                         break;
                     case L'x':
                         token = next_token_cross(NULL, delim, &state);
@@ -585,23 +607,7 @@ void loop_training(PublicGame &iGame)
                     case L'h':
                         token = next_token_alpha(NULL, delim, &state);
                         if (token != NULL)
-                        {
-                            switch (token[0])
-                            {
-                                case L'p':
-                                    iGame.prevTurn();
-                                    break;
-                                case L'n':
-                                    iGame.nextTurn();
-                                    break;
-                                case L'f':
-                                    iGame.firstTurn();
-                                    break;
-                                case L'l':
-                                    iGame.lastTurn();
-                                    break;
-                            }
-                        }
+                            handleNavigation(iGame, token[0]);
                         break;
                     case L'q':
                         quit = 1;
@@ -714,23 +720,7 @@ void loop_freegame(PublicGame &iGame)
                     case L'h':
                         token = next_token_alpha(NULL, delim, &state);
                         if (token != NULL)
-                        {
-                            switch (token[0])
-                            {
-                                case L'p':
-                                    iGame.prevTurn();
-                                    break;
-                                case L'n':
-                                    iGame.nextTurn();
-                                    break;
-                                case L'f':
-                                    iGame.firstTurn();
-                                    break;
-                                case L'l':
-                                    iGame.lastTurn();
-                                    break;
-                            }
-                        }
+                            handleNavigation(iGame, token[0]);
                         break;
                     case L'q':
                         quit = 1;
@@ -851,23 +841,7 @@ void loop_duplicate(PublicGame &iGame)
                     case L'h':
                         token = next_token_alpha(NULL, delim, &state);
                         if (token != NULL)
-                        {
-                            switch (token[0])
-                            {
-                                case L'p':
-                                    iGame.prevTurn();
-                                    break;
-                                case L'n':
-                                    iGame.nextTurn();
-                                    break;
-                                case L'f':
-                                    iGame.firstTurn();
-                                    break;
-                                case L'l':
-                                    iGame.lastTurn();
-                                    break;
-                            }
-                        }
+                            handleNavigation(iGame, token[0]);
                         break;
                     case L'q':
                         quit = 1;

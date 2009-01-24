@@ -68,7 +68,12 @@ public:
      */
     void setRackRandom(bool iCheck, set_rack_mode iRackMode);
 
-    int setRackManual(bool iCheck, const wstring &iLetters);
+    /**
+     * Set the rack with the given letters
+     * @exception EndGameException if the game is over
+     * @exception GameException if any other error occurs
+     */
+    void setRackManual(bool iCheck, const wstring &iLetters);
 
     /*************************
      * Override the default behaviour of addPlayer(), because in training

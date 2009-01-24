@@ -170,7 +170,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
     }
     else
     {
-        throw GameException("Not a random mode");
+        throw GameException(_("Not a random mode"));
     }
 
     // Get the tiles remaining on the rack
@@ -403,12 +403,10 @@ bool Game::rackInBag(const Rack &iRack, const Bag &iBag) const
 }
 
 
-int Game::helperSetRackManual(unsigned int p, bool iCheck, const wstring &iLetters)
+PlayedRack Game::helperSetRackManual(bool iCheck, const wstring &iLetters) const
 {
-    ASSERT(p < getNPlayers(), "Wrong player number");
-
     if (!m_dic.validateLetters(iLetters, L"+-"))
-        return 3;
+        throw GameException(_("Some letters are invalid for the current dictionary"));
 
     PlayedRack pld;
     pld.setManual(iLetters);
@@ -417,7 +415,7 @@ int Game::helperSetRackManual(unsigned int p, bool iCheck, const wstring &iLette
     pld.getRack(rack);
     if (!rackInBag(rack, m_bag))
     {
-        return 1;
+        throw GameException(_("The bag does not contain all these letters"));
     }
 
     if (iCheck)
@@ -430,13 +428,10 @@ int Game::helperSetRackManual(unsigned int p, bool iCheck, const wstring &iLette
             min = 1;
         if (!pld.checkRack(min, min))
         {
-            return 2;
+            throw GameException(_("Not enough vowels or consonants in this rack"));
         }
     }
-
-    m_players[p]->setCurrentRack(pld);
-
-    return 0;
+    return pld;
 }
 
 /*********************************************************

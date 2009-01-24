@@ -296,13 +296,10 @@ protected:
                                    bool iCheck, set_rack_mode mode) const;
 
     /**
-     * Set the rack for the player p with the given letters
-     * Possible return values:
-     *  0: everything went fine
-     *  1: the bag doesn't have the wanted letters
-     *  2: the rack was checked for vowels/consonants and was not correct
+     * Return a rack for the given letters, after performing some checks.
+     * The '+' and '-' signs are accepted in the letters but ignored.
      */
-    int helperSetRackManual(unsigned int p, bool iCheck, const wstring &iLetters);
+    PlayedRack helperSetRackManual(bool iCheck, const wstring &iLetters) const;
 
     void firstPlayer();
     void prevPlayer();

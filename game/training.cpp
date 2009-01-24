@@ -65,7 +65,7 @@ void Training::setRackRandom(bool iCheck, set_rack_mode mode)
 }
 
 
-int Training::setRackManual(bool iCheck, const wstring &iLetters)
+void Training::setRackManual(bool iCheck, const wstring &iLetters)
 {
     // Letters can be lowercase or uppercase as they are
     // coming from user input. We do not consider a lowercase
@@ -74,14 +74,12 @@ int Training::setRackManual(bool iCheck, const wstring &iLetters)
     wstring upperLetters = iLetters;
     std::transform(upperLetters.begin(), upperLetters.end(),
                    upperLetters.begin(), towupper);
-    int res = helperSetRackManual(m_currPlayer, iCheck, upperLetters);
-    // 0: ok
-    // 1: not enough tiles
-    // 2: check failed (number of vowels before round 15)
-    // 3: letters not in the dictionary
-    if (res == 0)
-        m_results.clear();
-    return res;
+    const PlayedRack &newRack = helperSetRackManual(iCheck, upperLetters);
+    Command *pCmd = new PlayerRackCmd(*m_players[m_currPlayer], newRack);
+    pCmd->setAutoExecution(false);
+    accessNavigation().addAndExecute(pCmd);
+    // Clear the results if everything went well
+    m_results.clear();
 }
 
 
