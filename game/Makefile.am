@@ -42,7 +42,8 @@ libgame_a_SOURCES= \
     cross.cpp cross.h \
     board.cpp board.h \
     board_cross.cpp \
-    board_search.cpp \
+    matrix.h \
+    board_search.cpp board_search.h \
     settings.cpp settings.h \
     navigation.cpp navigation.h \
     game.cpp game.h \
