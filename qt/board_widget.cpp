@@ -123,7 +123,7 @@ void BoardWidget::paintEvent(QPaintEvent *)
             // Draw the letter
             if (m_game != NULL && !m_game->getBoard().getTile(row, col).isEmpty())
             {
-                wchar_t chr = m_game->getBoard().getTile(row, col).toChar();
+                wchar_t chr = towupper(m_game->getBoard().getTile(row, col).toChar());
                 if (m_game->getBoard().getCharAttr(row, col) & ATTR_JOKER)
                     painter.setPen(JokerColour);
                 painter.setFont(letterFont);

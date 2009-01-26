@@ -95,10 +95,10 @@ void Box::printDataLine(int n, int x, const char *fmt, ...) const
     va_list vl_args;
     char *buf = NULL;
     va_start(vl_args, fmt);
-    vasprintf(&buf, fmt, vl_args);
+    int res = vasprintf(&buf, fmt, vl_args);
     va_end(vl_args);
 
-    if (buf == NULL)
+    if (buf == NULL || res == -1)
     {
         return;
     }
