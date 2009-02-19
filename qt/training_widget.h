@@ -25,20 +25,20 @@
 #include "ui/training_widget.ui.h"
 
 
-class PublicGame;
-class RackValidator;
 class QStandardItemModel;
 class QString;
+class CoordModel;
+class PlayWordMediator;
+class PublicGame;
 
 class TrainingWidget: public QWidget, private Ui::TrainingWidget
 {
     Q_OBJECT;
 
 public:
-    explicit TrainingWidget(QWidget *parent = 0);
+    explicit TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicGame *iGame);
 
 public slots:
-    void setGame(PublicGame *iGame);
     void refresh();
 
 signals:
@@ -60,7 +60,7 @@ private slots:
     void on_pushButtonRack_clicked();
     void on_pushButtonComplement_clicked();
     void on_pushButtonSearch_clicked();
-    void on_pushButtonPlay_clicked();
+    void on_pushButtonPlaySelected_clicked();
     void on_treeViewResults_doubleClicked(const QModelIndex &iIndex);
 
 private:
@@ -70,8 +70,8 @@ private:
     /// Model of the search results
     QStandardItemModel *m_model;
 
-    /// Validator for the rack edition
-    RackValidator *m_validator;
+    /// Mediator for the "play word" controls
+    PlayWordMediator *m_mediator;
 
     /// Force synchronizing the model with the contents of the search results
     void updateModel();

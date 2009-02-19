@@ -21,6 +21,7 @@
 #include <math.h>
 #include <QtGui/QPainter>
 #include <QtGui/QPaintEvent>
+#include <QtGui/QMouseEvent>
 #include <QtCore/QSettings>
 
 #include "board_widget.h"
@@ -29,6 +30,7 @@
 #include "public_game.h"
 #include "tile.h"
 #include "board.h"
+#include "coord_model.h"
 
 using namespace std;
 
@@ -42,22 +44,35 @@ const QColor BoardWidget::TileColour(255, 235, 205);
 const QColor BoardWidget::PreviewColour(183, 183, 123);
 const QColor BoardWidget::NormalColour(0, 0, 0);
 const QColor BoardWidget::JokerColour(255, 0, 0);
+const QColor BoardWidget::ArrowColour(10, 10, 10);
 
 
-BoardWidget::BoardWidget(QWidget *parent)
-    : QFrame(parent), m_game(NULL)
+BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
+    : QFrame(parent), m_game(NULL), m_coordModel(iCoordModel)
 {
     setFrameStyle(QFrame::Panel);
     // Use as much space as possible
     QSizePolicy policy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setSizePolicy(policy);
     setMinimumSize(200, 200);
+
+    // Listen to changes in the coordinates
+    QObject::connect(&m_coordModel, SIGNAL(coordChanged(const Coord&)),
+                     this, SLOT(updateArrow(const Coord&)));
 }
 
 
 void BoardWidget::setGame(const PublicGame *iGame)
 {
     m_game = iGame;
+    refresh();
+}
+
+
+void BoardWidget::updateArrow(const Coord &)
+{
+    // Refresh everything
+    // We could actually refresh only the 2 involved squares...
     refresh();
 }
 
@@ -157,6 +172,65 @@ void BoardWidget::paintEvent(QPaintEvent *)
                          squareSize, squareSize,
                          Qt::AlignCenter,
                          QString(1, 'A' + x - 1));
+    }
+    // Draw the arrow
+    const Coord &markCoord = m_coordModel.getCoord();
+    if (m_game != NULL && markCoord.isValid())
+    {
+        const unsigned int xPos = (markCoord.getCol() - BOARD_MIN + 1) * squareSize + 1;
+        const unsigned int yPos = (markCoord.getRow() - BOARD_MIN + 1) * squareSize + 1;
+        painter.setPen(QPen(ArrowColour, 0));
+        painter.setBrush(ArrowColour);
+        const int mid = squareSize / 2;
+        const int fifth = squareSize / 5;
+        const int width = squareSize / 16;
+        painter.translate(xPos + mid, yPos + mid);
+        if (markCoord.getDir() == Coord::VERTICAL)
+            painter.rotate(90);
+        const QPoint points[] =
+        {
+            QPoint(-mid + fifth, -width),
+            QPoint(-mid + 3*fifth, -width),
+            QPoint(-mid + 3*fifth, -fifth),
+            QPoint(-mid + 4*fifth, 0),
+            QPoint(-mid + 3*fifth, fifth),
+            QPoint(-mid + 3*fifth, width),
+            QPoint(-mid + fifth, width)
+        };
+        painter.drawPolygon(points, 7);
+
+        painter.setPen(QPen());
+        painter.setBrush(NormalColour);
+    }
+}
+
+
+void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
+{
+    if (m_game == NULL)
+    {
+        m_coordModel.clear();
+        return;
+    }
+
+    if (iEvent->button() == Qt::LeftButton)
+    {
+        // Find the coordinates
+        const int size = std::min(width(), height());
+        const int squareSize = (int)floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2));
+        int row = iEvent->y() / squareSize;
+        int col = iEvent->x() / squareSize;
+        // Change the direction if this is exactly the same as the current one
+        Coord coord(row, col, Coord::HORIZONTAL);
+        if (m_coordModel.getCoord() == coord)
+            coord.setDir(Coord::VERTICAL);
+        // Take into acount the new coordinates
+        m_coordModel.setCoord(coord);
+    }
+    else if (iEvent->button() == Qt::RightButton)
+    {
+        // On a right click anywhere on the board, remove the arrow
+        m_coordModel.clear();
     }
 }
 

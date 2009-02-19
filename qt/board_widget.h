@@ -24,15 +24,17 @@
 #include <QtGui/QFrame>
 
 
-class PublicGame;
 class QTreeView;
+class PublicGame;
+class CoordModel;
+class Coord;
 
 class BoardWidget: public QFrame
 {
     Q_OBJECT;
 
 public:
-    explicit BoardWidget(QWidget *parent = 0);
+    explicit BoardWidget(CoordModel &iCoordModel, QWidget *parent = 0);
 
 public slots:
     void setGame(const PublicGame *iGame);
@@ -43,10 +45,18 @@ protected:
     virtual QSize sizeHint() const;
     /// Paint the board
     virtual void paintEvent(QPaintEvent *iEvent);
+    /// Catch mouse clicks on the board
+    virtual void mousePressEvent(QMouseEvent *iEvent);
+
+private slots:
+    void updateArrow(const Coord &iCoord);
 
 private:
     /// Encapsulated game, can be NULL
     const PublicGame *m_game;
+
+    /// Coordinates of the next word to play
+    CoordModel &m_coordModel;
 
     /// Define a few background colours
     //@{
@@ -59,6 +69,7 @@ private:
     static const QColor PreviewColour;
     static const QColor NormalColour;
     static const QColor JokerColour;
+    static const QColor ArrowColour;
     //@}
 };
 

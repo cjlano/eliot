@@ -45,11 +45,22 @@ bool Coord::isValid() const
             m_col >= BOARD_MIN && m_col <= BOARD_MAX);
 }
 
+/*
 void Coord::operator=(const Coord &iOther)
 {
     m_dir = iOther.m_dir;
     m_row = iOther.m_row;
     m_col = iOther.m_col;
+}
+*/
+
+bool Coord::operator==(const Coord &iOther) const
+{
+    if (!isValid() && !iOther.isValid())
+        return true;
+    return m_row == iOther.m_row
+        && m_col == iOther.m_col
+        && m_dir == iOther.m_dir;
 }
 
 void Coord::swap()

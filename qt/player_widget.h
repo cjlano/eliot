@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef RACK_WIDGET_H_
-#define RACK_WIDGET_H_
+#ifndef PLAYER_WIDGET_H_
+#define PLAYER_WIDGET_H_
 
 #include <QtGui/QWidget>
 #include <QtGui/QTabWidget>
@@ -28,13 +28,17 @@
 
 class QLineEdit;
 class PublicGame;
+class PlayWordMediator;
+class CoordModel;
+class Coord;
 
 class PlayerWidget: public QWidget, private Ui::PlayerWidget
 {
     Q_OBJECT;
 
 public:
-    explicit PlayerWidget(QWidget *parent = 0,
+    explicit PlayerWidget(QWidget *parent,
+                          CoordModel &iCoordModel,
                           unsigned int iPlayerNb = 0,
                           PublicGame *iGame = NULL);
 
@@ -51,19 +55,17 @@ protected:
 
 private slots:
     void on_pushButtonShuffle_clicked();
-    void on_pushButtonPlay_clicked() { on_lineEditPlay_returnPressed(); }
     void on_pushButtonChange_clicked() { on_lineEditChange_returnPressed(); }
     void on_pushButtonPass_clicked() { on_lineEditChange_returnPressed(); }
-    void on_lineEditPlay_textChanged();
-    void on_lineEditCoords_textChanged() { on_lineEditPlay_textChanged(); }
     void on_lineEditChange_textChanged();
-    void on_lineEditPlay_returnPressed();
-    void on_lineEditCoords_returnPressed() { on_lineEditPlay_returnPressed(); }
     void on_lineEditChange_returnPressed();
 
 private:
     /// Encapsulated game, can be NULL
     PublicGame *m_game;
+
+    /// Mediator for the "play word" controls
+    PlayWordMediator *m_mediator;
 
     /// Encapsulated player, valid iff m_game is not NULL
     unsigned int m_player;
@@ -76,7 +78,7 @@ class PlayerTabWidget: public QTabWidget
     Q_OBJECT;
 
 public:
-    explicit PlayerTabWidget(QWidget *parent = 0);
+    explicit PlayerTabWidget(CoordModel &iCoordModel, QWidget *parent = 0);
 
 public slots:
     void setGame(PublicGame *iGame);
@@ -95,6 +97,9 @@ private slots:
 private:
     /// Encapsulated game, can be NULL
     PublicGame *m_game;
+
+    /// Model for the word coordinates
+    CoordModel &m_coordModel;
 };
 
 #endif

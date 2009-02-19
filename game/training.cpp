@@ -88,6 +88,8 @@ int Training::play(const wstring &iCoord, const wstring &iWord)
     // Perform all the validity checks, and fill a round
     Round round;
 
+    removeTestPlay();
+
     int res = checkPlayedWord(iCoord, iWord, round);
     if (res != 0)
     {

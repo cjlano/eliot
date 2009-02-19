@@ -24,6 +24,7 @@
 #include <QMainWindow>
 
 #include <ui/main_window.ui.h>
+#include "coord_model.h"
 
 
 class Dictionary;
@@ -139,8 +140,11 @@ private:
     AuxWindow *m_dicToolsWindow;
     //@}
 
-    /// Label indicationg the name of the current dictionary
+    /// Label indicating the name of the current dictionary
     QLabel *m_dicNameLabel;
+
+    /// Model for the coordinates of the word to play
+    CoordModel m_coordModel;
 
     /// Save window state
     void writeSettings() const;

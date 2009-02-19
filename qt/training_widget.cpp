@@ -23,6 +23,8 @@
 
 #include "training_widget.h"
 #include "qtcommon.h"
+#include "play_word_mediator.h"
+
 #include "dic.h"
 #include "bag.h"
 #include "public_game.h"
@@ -37,20 +39,26 @@ using namespace std;
 class RackValidator: public QValidator
 {
 public:
-    explicit RackValidator(QObject *parent);
+    explicit RackValidator(QObject *parent, const Bag *iBag);
     virtual State validate(QString &input, int &pos) const;
-
-    void setBag(const Bag *iBag) { m_bag = iBag; }
 
 private:
     const Bag *m_bag;
 };
 
 
-TrainingWidget::TrainingWidget(QWidget *parent)
-    : QWidget(parent), m_game(NULL)
+TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicGame *iGame)
+    : QWidget(parent), m_game(iGame)
 {
     setupUi(this);
+
+    // Use the mediator
+    m_mediator = new PlayWordMediator(this, *lineEditPlay, *lineEditCoords,
+                                      *pushButtonPlay, iCoordModel, m_game);
+    QObject::connect(m_mediator, SIGNAL(gameUpdated()),
+                     this, SIGNAL(gameUpdated()));
+    QObject::connect(m_mediator, SIGNAL(notifyProblem(QString)),
+                     this, SIGNAL(notifyProblem(QString)));
 
     // Associate the model to the view
     m_model = new QStandardItemModel(this);
@@ -76,23 +84,13 @@ TrainingWidget::TrainingWidget(QWidget *parent)
                      this,
                      SLOT(showPreview(const QItemSelection&, const QItemSelection&)));
 
-    m_validator = new RackValidator(this);
-    lineEditRack->setValidator(m_validator);
+    if (m_game)
+        lineEditRack->setValidator(new RackValidator(this, &m_game->getBag()));
+
     // Notify that the rack changed
     QObject::connect(lineEditRack, SIGNAL(textChanged(const QString&)),
                      this, SIGNAL(rackUpdated(const QString&)));
 
-    refresh();
-}
-
-
-void TrainingWidget::setGame(PublicGame *iGame)
-{
-    m_game = iGame;
-    if (m_game != NULL)
-        m_validator->setBag(&m_game->getBag());
-    else
-        m_validator->setBag(NULL);
     refresh();
 }
 
@@ -115,6 +113,8 @@ void TrainingWidget::refresh()
         // Update the rack only if it is needed, to avoid losing cursor position
         if (qfw(rack) != lineEditRack->text())
             lineEditRack->setText(qfw(rack));
+        lineEditPlay->clear();
+        lineEditCoords->clear();
         lineEditRack->setEnabled(true);
         pushButtonRack->setEnabled(true);
         pushButtonComplement->setEnabled(true);
@@ -171,9 +171,9 @@ void TrainingWidget::updateModel()
 void TrainingWidget::enablePlayButton(const QItemSelection &iSelected,
                                       const QItemSelection &)
 {
-    // Enable the "Play" button iff at least one line in the tree view
-    // is selected
-    pushButtonPlay->setEnabled(!iSelected.indexes().empty());
+    // Enable the "Play selected" button iff at least one line
+    // in the tree view is selected
+    pushButtonPlaySelected->setEnabled(!iSelected.indexes().empty());
 }
 
 
@@ -252,7 +252,7 @@ void TrainingWidget::on_pushButtonSearch_clicked()
 }
 
 
-void TrainingWidget::on_pushButtonPlay_clicked()
+void TrainingWidget::on_pushButtonPlaySelected_clicked()
 {
     QModelIndexList indexList = treeViewResults->selectionModel()->selectedIndexes();
     if (indexList.empty())
@@ -281,8 +281,8 @@ QSize TrainingWidget::sizeHint() const
 
 
 
-RackValidator::RackValidator(QObject *parent)
-    : QValidator(parent)
+RackValidator::RackValidator(QObject *parent, const Bag *iBag)
+    : QValidator(parent), m_bag(iBag)
 {
 }
 

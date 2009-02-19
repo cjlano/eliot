@@ -99,7 +99,7 @@ MainWindow::MainWindow(QWidget *iParent)
                      this, SLOT(updateStatusBar(const Dictionary*)));
 
     // Board
-    BoardWidget *boardWidget = new BoardWidget;
+    BoardWidget *boardWidget = new BoardWidget(m_coordModel);
     QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
                      boardWidget, SLOT(setGame(const PublicGame*)));
     QObject::connect(this, SIGNAL(gameUpdated()),
@@ -134,7 +134,7 @@ MainWindow::MainWindow(QWidget *iParent)
 
     // Players racks
     m_ui.groupBoxPlayers->hide();
-    m_playersWidget = new PlayerTabWidget(NULL);
+    m_playersWidget = new PlayerTabWidget(m_coordModel, NULL);
     m_ui.groupBoxPlayers->layout()->addWidget(m_playersWidget);
     QObject::connect(this, SIGNAL(gameChangedNonConst(PublicGame*)),
                      m_playersWidget, SLOT(setGame(PublicGame*)));
@@ -765,7 +765,7 @@ void MainWindow::onWindowsBoard()
     if (m_boardWindow == NULL)
     {
         // Create the window
-        BoardWidget *board = new BoardWidget(NULL);
+        BoardWidget *board = new BoardWidget(m_coordModel, NULL);
         board->setGame(m_game);
         m_boardWindow = new AuxWindow(*board, _q("Board"), "BoardWindow",
                                       m_actionWindowsBoard);

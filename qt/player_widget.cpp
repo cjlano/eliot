@@ -25,11 +25,13 @@
 
 #include "player_widget.h"
 #include "training_widget.h"
+#include "play_word_mediator.h"
 #include "qtcommon.h"
 #include "public_game.h"
 #include "player.h"
 #include "pldrack.h"
 #include "coord.h"
+#include "coord_model.h"
 #include "dic.h"
 #include "debug.h"
 
@@ -49,47 +51,22 @@ private:
 };
 
 
-/// Validator used for the "play word" line edit
-class PlayWordValidator: public QValidator
-{
-public:
-    explicit PlayWordValidator(QObject *parent,
-                               const Dictionary &iDic);
-    virtual State validate(QString &input, int &pos) const;
-
-private:
-    const Dictionary &m_dic;
-};
-
-
-/// Validator used for the "coords" line edit
-class CoordsValidator: public QValidator
-{
-public:
-    explicit CoordsValidator(QObject *parent);
-    virtual State validate(QString &input, int &pos) const;
-};
-
-
-PlayerWidget::PlayerWidget(QWidget *parent, unsigned int iPlayerNb, PublicGame *iGame)
+PlayerWidget::PlayerWidget(QWidget *parent, CoordModel &iCoordModel,
+                           unsigned int iPlayerNb, PublicGame *iGame)
     : QWidget(parent), m_game(iGame), m_player(iPlayerNb)
 {
     setupUi(this);
-    lineEditPlay->setFocus();
-    // These strings cannot be in the .ui file, because of the newlines
-    lineEditPlay->setToolTip(_q("Enter the word to play (case-insensitive).\n"
-            "A joker from the rack must be written in parentheses.\n"
-            "E.g.: w(o)rd or W(O)RD"));
-    lineEditCoords->setToolTip(_q("Enter the coordinates of the word.\n"
-            "Specify the row before the column for horizontal words,\n"
-            "and the column before the row for vertical words.\n"
-            "E.g.: H4 or 4H"));
+
+    // Use the mediator
+    m_mediator = new PlayWordMediator(this, *lineEditPlay, *lineEditCoords,
+                                      *pushButtonPlay, iCoordModel, iGame);
+    QObject::connect(m_mediator, SIGNAL(gameUpdated()),
+                     this, SIGNAL(gameUpdated()));
+    QObject::connect(m_mediator, SIGNAL(notifyProblem(QString)),
+                     this, SIGNAL(notifyProblem(QString)));
 
     if (m_game)
     {
-        lineEditPlay->setValidator(new PlayWordValidator(this, m_game->getDic()));
-        lineEditCoords->setValidator(new CoordsValidator(this));
-
         // Do not allow messing with AI players
         if (!m_game->getPlayer(m_player).isHuman())
             setEnabled(false);
@@ -156,105 +133,11 @@ void PlayerWidget::on_pushButtonShuffle_clicked()
 }
 
 
-void PlayerWidget::on_lineEditPlay_textChanged()
-{
-    pushButtonPlay->setEnabled(lineEditPlay->hasAcceptableInput() &&
-                               lineEditCoords->hasAcceptableInput());
-}
-
-
 void PlayerWidget::on_lineEditChange_textChanged()
 {
     pushButtonChange->setEnabled(lineEditChange->hasAcceptableInput() &&
                                  lineEditChange->text() != "");
     pushButtonPass->setEnabled(lineEditChange->text() == "");
-}
-
-
-void PlayerWidget::on_lineEditPlay_returnPressed()
-{
-    if (!lineEditPlay->hasAcceptableInput() ||
-        !lineEditCoords->hasAcceptableInput())
-        return;
-
-    // Convert the jokers to lowercase
-    QString word = lineEditPlay->text().toUpper();
-    int pos;
-    while ((pos = word.indexOf('(')) != -1)
-    {
-        if (word.size() < pos + 3 || word[pos + 2] != ')' ||
-            !m_game->getDic().validateLetters(qtw(QString(word[pos + 1]))))
-        {
-            // Bug in validate()!
-            // This should never happen
-            QString msg = _q("Cannot play word: misplaced parentheses");
-            emit notifyProblem(msg);
-            break;
-        }
-        else
-        {
-            QChar chr = word[pos + 1].toLower();
-            word.remove(pos, 3);
-            word.insert(pos, chr);
-        }
-    }
-
-    QString coords = lineEditCoords->text();
-    int res = m_game->play(qtw(word), qtw(coords));
-    if (res == 0)
-    {
-        emit gameUpdated();
-        lineEditPlay->setFocus();
-    }
-    else
-    {
-        // Try to be as explicit as possible concerning the error
-        QString msg = _q("Cannot play '%1' at position '%2':\n")
-            .arg(lineEditPlay->text()).arg(coords);
-        switch (res)
-        {
-            case 1:
-                msg += _q("Some letters are not valid for the current dictionary");
-                break;
-            case 2:
-                msg += _q("Invalid coordinates");
-                break;
-            case 3:
-                msg += _q("The word does not exist");
-                break;
-            case 4:
-                msg += _q("The rack doesn't contain the letters needed to play this word");
-                break;
-            case 5:
-                msg += _q("The word is part of a longer one");
-                break;
-            case 6:
-                msg += _q("The word tries to replace an existing letter");
-                break;
-            case 7:
-                msg += _q("An orthogonal word is not valid");
-                break;
-            case 8:
-                msg += _q("The word is already present on the board at these coordinates");
-                break;
-            case 9:
-                msg += _q("A word cannot be isolated (not connected to the placed words)");
-                break;
-            case 10:
-                msg += _q("The first word of the game must be horizontal");
-                break;
-            case 11:
-                msg += _q("The first word of the game must cover the H8 square");
-                break;
-            case 12:
-                msg += _q("The word is going out of the board");
-                break;
-            default:
-                msg += _q("Incorrect or misplaced word (%1)").arg(1);
-        }
-        // FIXME: the error is too generic
-        emit notifyProblem(msg);
-    }
 }
 
 
@@ -308,76 +191,8 @@ QValidator::State ChangeValidator::validate(QString &input, int &) const
 
 
 
-PlayWordValidator::PlayWordValidator(QObject *parent,
-                                     const Dictionary &iDic)
-    : QValidator(parent), m_dic(iDic)
-{
-}
-
-
-QValidator::State PlayWordValidator::validate(QString &input, int &) const
-{
-    if (input == "")
-        return Intermediate;
-
-    QString copy(input);
-    // Strip parentheses
-    copy.remove('(');
-    copy.remove(')');
-    // The string is invalid if it contains characters not present
-    // in the dictionary
-    if (!m_dic.validateLetters(qtw(copy)) || copy.contains('?'))
-        return Invalid;
-
-    // Check the parentheses pairs
-    copy = input;
-    int pos;
-    while ((pos = copy.indexOf('(')) != -1)
-    {
-        if (copy.size() < pos + 3 || copy[pos + 2] != ')' ||
-            !m_dic.validateLetters(qtw(QString(copy[pos + 1]))))
-        {
-            return Intermediate;
-        }
-        else
-        {
-            copy.remove(pos, 3);
-        }
-    }
-    if (copy.indexOf(')') != -1)
-        return Intermediate;
-
-    return Acceptable;
-}
-
-
-
-CoordsValidator::CoordsValidator(QObject *parent)
-    : QValidator(parent)
-{
-}
-
-
-QValidator::State CoordsValidator::validate(QString &input, int &) const
-{
-    // Only authorize characters part of a valid coordinate
-    wstring copy = qtw(input.toUpper());
-    wstring authorized = L"ABCDEFGHIJKLMNO1234567890";
-    if (copy.find_first_not_of(authorized) != wstring::npos)
-        return Invalid;
-
-    // Check coordinates
-    Coord c(qtw(input));
-    if (!c.isValid())
-        return Intermediate;
-
-    return Acceptable;
-}
-
-
-
-PlayerTabWidget::PlayerTabWidget(QWidget *parent)
-    : QTabWidget(parent)
+PlayerTabWidget::PlayerTabWidget(CoordModel &iCoordModel, QWidget *parent)
+    : QTabWidget(parent), m_coordModel(iCoordModel)
 {
     QObject::connect(this, SIGNAL(currentChanged(int)),
                      this, SLOT(changeCurrentPlayer(int)));
@@ -405,8 +220,7 @@ void PlayerTabWidget::setGame(PublicGame *iGame)
         if (iGame->getMode() == PublicGame::kTRAINING)
         {
             const Player &player = iGame->getPlayer(0);
-            TrainingWidget *trWidget = new TrainingWidget;
-            trWidget->setGame(iGame);
+            TrainingWidget *trWidget = new TrainingWidget(NULL, m_coordModel, iGame);
             QObject::connect(this, SIGNAL(refreshSignal()),
                              trWidget, SLOT(refresh()));
             // Forward signals to the outside
@@ -426,7 +240,7 @@ void PlayerTabWidget::setGame(PublicGame *iGame)
             for (unsigned int i = 0; i < iGame->getNbPlayers(); ++i)
             {
                 const Player &player = iGame->getPlayer(i);
-                PlayerWidget *p = new PlayerWidget(NULL, i, iGame);
+                PlayerWidget *p = new PlayerWidget(NULL, m_coordModel, i, iGame);
                 QObject::connect(this, SIGNAL(refreshSignal()), p, SLOT(refresh()));
                 // Forward signals to the outside
                 QObject::connect(p, SIGNAL(notifyProblem(QString)),
@@ -459,6 +273,8 @@ void PlayerTabWidget::changeCurrentPlayer(int p)
     // after a FreeGame one. The next line avoids crashing in this case...
     if (m_game == NULL)
         return;
+
+    m_coordModel.clear();
 
     // Change the active player when the active tab changes
     // (only in duplicate mode)

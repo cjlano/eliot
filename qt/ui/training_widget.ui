@@ -5,14 +5,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>415</width>
-    <height>371</height>
+    <width>511</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout" name="verticalLayout" >
    <item>
     <layout class="QHBoxLayout" >
      <item>
@@ -23,7 +23,81 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEditRack" />
+      <widget class="QLineEdit" name="lineEditRack" >
+       <property name="minimumSize" >
+        <size>
+         <width>60</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2" >
+       <property name="text" >
+        <string>_("Play a word:")</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditPlay" >
+       <property name="minimumSize" >
+        <size>
+         <width>60</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="toolTip" >
+        <string>_("Enter the word to play (case-insensitive).
+A joker from the rack must be written in parentheses.
+E.g.: w(o)rd or W(O)RD")</string>
+       </property>
+       <property name="statusTip" >
+        <string>_("Enter the word to play (case-insensitive). A joker from the rack must be written in parentheses. E.g.: w(o)rd or W(O)RD")</string>
+       </property>
+       <property name="text" >
+        <string>dummy</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3" >
+       <property name="text" >
+        <string>_("Ref.:")</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditCoords" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>45</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip" >
+        <string>_("Enter the coordinates of the word.
+Specify the row before the column for horizontal words,
+ and the column before the row for vertical words.
+E.g.: H4 or 4H")</string>
+       </property>
+       <property name="statusTip" >
+        <string>_("Enter the coordinates of the word. Specify the row before the column for horizontal words, and the column before the row for vertical words. E.g.: H4 or 4H")</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonPlay" >
+       <property name="text" >
+        <string>_("Play")</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -54,12 +128,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButtonPlay" >
+      <widget class="QPushButton" name="pushButtonPlaySelected" >
        <property name="enabled" >
         <bool>false</bool>
        </property>
        <property name="text" >
-        <string>_("Play")</string>
+        <string>_("Play selected")</string>
        </property>
       </widget>
      </item>
@@ -82,6 +156,7 @@
        </widget>
       </item>
      </layout>
+     <zorder>treeViewResults</zorder>
     </widget>
    </item>
   </layout>

@@ -24,6 +24,8 @@ AM_CPPFLAGS = -I$(top_srcdir)/dic -I../intl -I$(top_srcdir)/intl @LIBCONFIG_CFLA
 libgame_a_SOURCES= \
     game_exception.cpp game_exception.h \
     command.h command.cpp \
+    coord.cpp coord.h \
+    cross.cpp cross.h \
     rack.cpp rack.h \
     pldrack.cpp pldrack.h \
     round.cpp round.h \
@@ -38,8 +40,6 @@ libgame_a_SOURCES= \
     player_rack_cmd.cpp player_rack_cmd.h \
     ai_player.h \
     ai_percent.cpp ai_percent.h \
-    coord.cpp coord.h \
-    cross.cpp cross.h \
     board.cpp board.h \
     board_cross.cpp \
     matrix.h \

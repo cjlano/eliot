@@ -50,7 +50,7 @@ public:
     Direction getDir() const    { return m_dir; }
 
     bool isValid() const;
-    void operator=(const Coord &iOther);
+    bool operator==(const Coord &iOther) const;
 
     // Swap the coordinates (without changing the direction)
     void swap();

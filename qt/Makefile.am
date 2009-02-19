@@ -47,12 +47,14 @@ BUILT_SOURCES = \
     ui/training_widget.ui.h \
     ui/prefs_dialog.ui.h \
     ui/dic_tools_widget.ui.h \
+    coord_model.moc.cpp \
     new_game.moc.cpp \
     dic_tools_widget.moc.cpp \
     bag_widget.moc.cpp \
     score_widget.moc.cpp \
     board_widget.moc.cpp \
     history_widget.moc.cpp \
+    play_word_mediator.moc.cpp \
     player_widget.moc.cpp \
     training_widget.moc.cpp \
     prefs_dialog.moc.cpp \
@@ -62,12 +64,14 @@ BUILT_SOURCES = \
 
 eliot_SOURCES = \
     qtcommon.h \
+    coord_model.h coord_model.cpp \
     bag_widget.cpp bag_widget.h \
     dic_tools_widget.cpp dic_tools_widget.h \
     new_game.cpp new_game.h \
     score_widget.cpp score_widget.h \
     board_widget.cpp board_widget.h \
     history_widget.cpp history_widget.h \
+    play_word_mediator.cpp play_word_mediator.h \
     training_widget.cpp training_widget.h \
     player_widget.cpp player_widget.h \
     prefs_dialog.cpp prefs_dialog.h \
