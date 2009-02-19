@@ -107,13 +107,13 @@ void GameMoveCmd::playRound()
             if (m_round.isPlayedFromRack(i) && m_round.isJoker(i))
             {
                 // Get the real bag
-                Bag bag(m_game.getDic());
-                m_game.realBag(bag);
+                Bag tmpBag(m_game.getDic());
+                m_game.realBag(tmpBag);
 
                 // Is the represented letter still available in the bag?
                 // XXX: this way to get the represented letter sucks...
                 Tile t(towupper(m_round.getTile(i).toChar()));
-                if (bag.in(t))
+                if (tmpBag.in(t))
                 {
                     bag.replaceTile(Tile::Joker());
                     bag.takeTile(t);
