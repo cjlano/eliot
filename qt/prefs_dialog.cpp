@@ -84,7 +84,7 @@ void PrefsDialog::accept()
     catch (GameException &e)
     {
         QMessageBox::warning(this, _q("%1 error").arg(PACKAGE_NAME),
-                             _q("Cannot save the preferences: %1").arg(e.what()));
+                             _q("Cannot save preferences: %1").arg(e.what()));
     }
     QDialog::accept();
 }
