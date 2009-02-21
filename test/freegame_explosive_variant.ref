@@ -1,0 +1,137 @@
+Using seed: 17
+[?] pour l'aide
+commande> le 1 1
+helperSetRackRandom(): initial rack: ?NADUTE (best word: ADUlENT)
+helperSetRackRandom(): replacing Joker with L
+helperSetRackRandom(): initial rack: ?EHSRMI (best word: cHRISME)
+helperSetRackRandom(): replacing Joker with C
+mode partie libre
+[?] pour l'aide
+commande> a T
+Joueur 0: ETUDALN
+Joueur 1: HMIRCES
+commande> j ADULENT h3
+helperSetRackRandom(): initial rack: ?TALEXE (best word: EXALTErA)
+helperSetRackRandom(): replacing Joker with R
+helperSetRackRandom(): initial rack: ?QNNIKE (best word: INuK)
+helperSetRackRandom(): replacing Joker with U
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  C  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  H  -  -  -  -  -  -  -  -  -  -  -  -
+ H   -  -  A  D  U  L  E  N  T  -  -  -  -  -  -
+ I   -  -  R  -  -  -  -  -  -  -  -  -  -  -  -
+ J   -  -  I  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  S  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  M  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  E  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a T
+Joueur 0: XRAETEL
+Joueur 1: UEQNIKN
+commande> j EXULTERA 5f
+helperSetRackRandom(): initial rack: ?TESATD (best word: EDiTATES)
+helperSetRackRandom(): replacing Joker with I
+helperSetRackRandom(): initial rack: KN+?JERP (best word: JERKEr)
+helperSetRackRandom(): replacing Joker with R
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  C  -  E  -  -  -  -  -  -  -  -  -  -
+ G   -  -  H  -  X  -  -  -  -  -  -  -  -  -  -
+ H   -  -  A  D  U  L  E  N  T  -  -  -  -  -  -
+ I   -  -  R  -  L  -  -  -  -  -  -  -  -  -  -
+ J   -  -  I  -  T  -  -  -  -  -  -  -  -  -  -
+ K   -  -  S  -  E  -  -  -  -  -  -  -  -  -  -
+ L   -  -  M  -  R  -  -  -  -  -  -  -  -  -  -
+ M   -  -  E  -  A  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  N  I  Q  U  E  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a T
+Joueur 0: DITTSAE
+Joueur 1: KNPRRJE
+commande> j EDITATES F5
+helperSetRackRandom(): initial rack: ?RGSEMI (best word: EGERMaIS)
+helperSetRackRandom(): replacing Joker with A
+helperSetRackRandom(): initial rack: NP+?RVON (best word: PReVOT)
+helperSetRackRandom(): replacing Joker with E
+commande> a gm
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   @  -  -  +  -  -  -  @  -  -  -  +  -  -  @
+ B   -  #  -  -  -  *  -  -  -  *  -  -  -  #  -
+ C   -  -  #  -  -  -  +  -  +  -  -  -  #  -  -
+ D   +  -  -  #  -  -  -  +  -  -  -  #  -  -  +
+ E   -  -  -  -  #  -  -  -  -  -  #  -  -  -  -
+ F   -  *  C  -  E  D  I  T  A  T  E  S  -  *  -
+ G   -  -  H  -  X  -  +  -  +  -  -  -  +  -  -
+ H   @  -  A  D  U  L  E  N  T  -  -  +  -  -  @
+ I   -  -  R  -  L  -  +  -  +  -  -  -  +  -  -
+ J   -  *  I  -  T  *  -  J  -  *  -  -  -  *  -
+ K   -  -  S  -  E  -  -  E  -  -  #  -  -  -  -
+ L   +  -  M  #  R  -  -  R  -  -  -  #  -  -  +
+ M   -  -  E  -  A  -  +  K  +  -  -  -  #  -  -
+ N   -  #  -  N  I  Q  U  E  -  *  -  -  -  #  -
+ O   @  -  -  +  -  -  -  R  -  -  -  +  -  -  @
+commande> a T
+Joueur 0: ERIMASG
+Joueur 1: NPVRNOE
+commande> j EGERMAIS 11d
+helperSetRackRandom(): initial rack: ?NBIAID (best word: BlINDAI)
+helperSetRackRandom(): replacing Joker with L
+helperSetRackRandom(): initial rack: NN+?UGEI (best word: RUGINENt)
+helperSetRackRandom(): replacing Joker with T
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  P  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  R  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  E  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  V  -  -  E  -  -  -  -
+ E   -  -  -  -  -  -  -  O  -  -  G  -  -  -  -
+ F   -  -  C  -  E  D  I  T  A  T  E  S  -  -  -
+ G   -  -  H  -  X  -  -  -  -  -  R  -  -  -  -
+ H   -  -  A  D  U  L  E  N  T  -  M  -  -  -  -
+ I   -  -  R  -  L  -  -  -  -  -  A  -  -  -  -
+ J   -  -  I  -  T  -  -  J  -  -  I  -  -  -  -
+ K   -  -  S  -  E  -  -  E  -  -  S  -  -  -  -
+ L   -  -  M  -  R  -  -  R  -  -  -  -  -  -  -
+ M   -  -  E  -  A  -  -  K  -  -  -  -  -  -  -
+ N   -  -  -  N  I  Q  U  E  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  R  -  -  -  -  -  -  -
+commande> a S
+Joueur 0:  309
+Joueur 1:  248
+commande> a p
+Eliot 1.5
+
+Game type: Free game
+Player 0: Human
+Player 1: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  ETUDALN | ADULENT         |  H3 |  70 | 0 | *
+    2 |  HMIRCES | CHARISME        |  3F |  88 | 1 | *
+    3 |  XRAETEL | EXULTERA        |  5F |  84 | 0 | *
+    4 |  UEQNIKN | NIQUE           |  N4 |  46 | 1 |  
+    5 |  DITTSAE | EDITATES        |  F5 |  65 | 0 | *
+    6 | KN+PRRJE | JERKER          |  8J |  69 | 1 |  
+    7 |  ERIMASG | EGERMAIS        | 11D |  90 | 0 | *
+    8 | NP+VRNOE | PREVOT          |  8A |  45 | 1 |  
+
+   Total: 557
+
+Rack 0: LANBDII
+Rack 1: NN+ITEGU
+commande> q
+fin du mode partie libre
+commande> q

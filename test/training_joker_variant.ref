@@ -1,0 +1,190 @@
+Using seed: 12
+[?] pour l'aide
+commande> ej
+mode entraînement
+[?] pour l'aide
+commande> *
+commande> a t
+ICDSPT?
+commande> *
+commande> a t
+DAILE?O
+commande> *
+commande> a t
+E?ESAVP
+commande> j PAVEuSE h2
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ H   -  P  A  V  E  U  S  E  -  -  -  -  -  -  -
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> +
+commande> a t
+IAPV?IG
+commande> t WHISKYS
+commande> r
+commande> a r
+  1: WHISKEYS        * 126 5C
+  2: WHISKYS         * 114 9B
+  3: WHISKYS         * 111 9E
+  4: WHISKEYS        *  92 8C
+  5: WHISKEY            74 5C
+  6: WHISKY             60 9E
+  7: WHISKYS            51 7B
+  8: WHISKYS            48 7E
+  9: HUSKYS             47 6G
+ 10: WHISKY             47 7E
+commande> n 1
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  W  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  H  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  I  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  S  -  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  K  -  -  -  -  -  -  -  -  -  -
+ H   -  P  A  V  E  U  S  E  -  -  -  -  -  -  -
+ I   -  -  -  -  Y  -  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  S  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> +
+commande> a s
+206
+commande> a t
+NII?NAX
+commande> j kA 3G
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  W  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  H  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  I  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  S  -  -  -  -  -  -  -  -  -  -
+ G   -  -  k  -  K  -  -  -  -  -  -  -  -  -  -
+ H   -  P  A  V  E  U  S  E  -  -  -  -  -  -  -
+ I   -  -  -  -  Y  -  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  S  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> t ??ABCDE
+The bag does not contain all these letters
+commande> a t
+AIINNX
+commande> +
+commande> a t
+AIINNX?
+commande> j kAS j3
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  W  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  H  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  I  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  S  -  -  -  -  -  -  -  -  -  -
+ G   -  -  k  -  K  -  -  -  -  -  -  -  -  -  -
+ H   -  P  A  V  E  U  S  E  -  -  -  -  -  -  -
+ I   -  -  -  -  Y  -  -  -  -  -  -  -  -  -  -
+ J   -  -  k  A  S  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a l
+ A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
+ 7 2 2 3 13 2 2 1 7 1 0 5 3 6 6 1 1 6 3 6 5 1 0 1 0 1 0
+commande> a p
+Eliot 1.5
+
+Game type: Training
+Player 0: Human
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  E?ESAVP | PAVEuSE         |  H2 |  80 | 0 | *
+    2 |  WHISKYS | WHISKEYS        |  5C | 126 | 0 | *
+    3 |  NII?NAX | kA              |  3G |   1 | 0 |  
+    4 | AIINNX+? | kAS             |  J3 |   2 | 0 |  
+
+   Total: 209
+
+Rack 0: IINNX
+commande> h p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  W  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  H  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  I  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  S  -  -  -  -  -  -  -  -  -  -
+ G   -  -  k  -  K  -  -  -  -  -  -  -  -  -  -
+ H   -  P  A  V  E  U  S  E  -  -  -  -  -  -  -
+ I   -  -  -  -  Y  -  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  S  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a t
+AIINNX
+commande> a l
+ A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
+ 8 2 2 3 13 2 2 1 7 1 0 5 3 6 6 1 1 6 3 6 5 1 0 1 0 1 1
+commande> h p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  W  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  H  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  I  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  S  -  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  K  -  -  -  -  -  -  -  -  -  -
+ H   -  P  A  V  E  U  S  E  -  -  -  -  -  -  -
+ I   -  -  -  -  Y  -  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  S  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a l
+ A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
+ 8 2 2 3 13 2 2 1 7 1 0 5 3 6 6 1 1 6 3 6 5 1 0 1 0 1 2
+commande> h r
+commande> *
+commande> a t
+AE?IUGB
+commande> *
+commande> a t
+DINO?EB
+commande> *
+commande> a t
+REX?GOE
+commande> q
+fin du mode entraînement
+commande> q

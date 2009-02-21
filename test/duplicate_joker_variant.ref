@@ -1,0 +1,235 @@
+Using seed: 14
+[?] pour l'aide
+commande> dj 1 1
+mode duplicate
+[?] pour l'aide
+commande> a t
+AK?EZEN
+commande> j gENEZ h8
+commande> a S
+Joueur 0:   46
+Joueur 1:   48
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ H   -  -  A  K  E  N  E  S  -  -  -  -  -  -  -
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a l
+ A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
+ 8 2 2 3 13 2 2 2 8 1 0 5 3 5 6 2 1 6 5 6 6 2 1 1 1 1 2
+commande> a p
+Eliot 1.5
+
+Game type: Duplicate
+Player 0: Human
+Player 1: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  AK?EZEN | AKENEs          |  H3 |  48 | 1 |  
+
+   Total: 48
+
+Rack 0: Z+IL?ENT
+Rack 1: Z+IL?ENT
+commande> j pLANTIEZ 3f
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  P  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  L  -  -  -  -  -  -  -  -  -  -  -  -
+ H   -  -  A  K  E  N  E  S  -  -  -  -  -  -  -
+ I   -  -  N  -  -  -  -  -  -  -  -  -  -  -  -
+ J   -  -  T  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  I  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  E  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  Z  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a l
+ A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
+ 8 2 2 3 12 2 2 2 7 1 0 4 3 4 6 1 1 6 5 5 6 2 1 1 1 0 2
+commande> a p
+Eliot 1.5
+
+Game type: Duplicate
+Player 0: Human
+Player 1: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  AK?EZEN | AKENEs          |  H3 |  48 | 1 |  
+    2 | Z+IL?ENT | pLANTIEZ        |  3F |  86 | 0 | *
+
+   Total: 134
+
+Rack 0: DEDOTC?
+Rack 1: DEDOTC?
+commande> j DECODaT g5
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  P  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  L  -  D  E  C  O  D  A  T  -  -  -  -
+ H   -  -  A  K  E  N  E  S  -  -  -  -  -  -  -
+ I   -  -  N  -  -  -  -  -  -  -  -  -  -  -  -
+ J   -  -  T  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  I  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  E  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  Z  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a l
+ A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
+ 7 2 1 1 11 2 2 2 7 1 0 4 3 4 5 1 1 6 5 4 6 2 1 1 1 0 2
+commande> a p
+Eliot 1.5
+
+Game type: Duplicate
+Player 0: Human
+Player 1: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  AK?EZEN | AKENEs          |  H3 |  48 | 1 |  
+    2 | Z+IL?ENT | pLANTIEZ        |  3F |  86 | 0 | *
+    3 |  DEDOTC? | DECODaT         |  G5 |  79 | 0 | *
+
+   Total: 213
+
+Rack 0: RABEGE?
+Rack 1: RABEGE?
+commande> j dEPLANTIEZ 3d
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  P  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  L  -  D  E  C  O  D  A  T  -  -  -  -
+ H   -  -  A  K  E  N  E  S  -  -  -  -  -  -  -
+ I   -  -  N  -  -  -  -  -  -  -  -  -  -  -  -
+ J   -  -  T  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  I  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  H  E  B  E  R  G  E  A  -  -  -  -  -  -
+ M   -  -  Z  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a l
+ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
+ 6 1 1 1 9 2 1 1 7 1 0 4 3 4 5 1 1 5 5 4 6 2 1 1 1 0 2
+commande> a p
+Eliot 1.5
+
+Game type: Duplicate
+Player 0: Human
+Player 1: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  AK?EZEN | AKENEs          |  H3 |  48 | 1 |  
+    2 | Z+IL?ENT | pLANTIEZ        |  3F |  86 | 0 | *
+    3 |  DEDOTC? | DECODaT         |  G5 |  79 | 0 | *
+    4 |  RABEGE? | hEBERGEA        |  L2 |  72 | 1 | *
+
+   Total: 285
+
+Rack 0: X?MFETR
+Rack 1: X?MFETR
+commande> h p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  P  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  L  -  D  E  C  O  D  A  T  -  -  -  -
+ H   -  -  A  K  E  N  E  S  -  -  -  -  -  -  -
+ I   -  -  N  -  -  -  -  -  -  -  -  -  -  -  -
+ J   -  -  T  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  I  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  E  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  Z  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Duplicate
+Player 0: Human
+Player 1: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  AK?EZEN | AKENEs          |  H3 |  48 | 1 |  
+    2 | Z+IL?ENT | pLANTIEZ        |  3F |  86 | 0 | *
+    3 |  DEDOTC? | DECODaT         |  G5 |  79 | 0 | *
+
+   Total: 213
+
+Rack 0: RABEGE?
+Rack 1: RABEGE?
+commande> h p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ F   -  -  P  -  -  -  -  -  -  -  -  -  -  -  -
+ G   -  -  L  -  -  -  -  -  -  -  -  -  -  -  -
+ H   -  -  A  K  E  N  E  S  -  -  -  -  -  -  -
+ I   -  -  N  -  -  -  -  -  -  -  -  -  -  -  -
+ J   -  -  T  -  -  -  -  -  -  -  -  -  -  -  -
+ K   -  -  I  -  -  -  -  -  -  -  -  -  -  -  -
+ L   -  -  E  -  -  -  -  -  -  -  -  -  -  -  -
+ M   -  -  Z  -  -  -  -  -  -  -  -  -  -  -  -
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+commande> a p
+Eliot 1.5
+
+Game type: Duplicate
+Player 0: Human
+Player 1: Computer
+
+    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
+   ===|==========|=================|=====|=====|===|======
+    1 |  AK?EZEN | AKENEs          |  H3 |  48 | 1 |  
+    2 | Z+IL?ENT | pLANTIEZ        |  3F |  86 | 0 | *
+
+   Total: 134
+
+Rack 0: DEDOTC?
+Rack 1: DEDOTC?
+commande> a l
+ A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
+ 8 2 2 3 12 2 2 2 7 1 0 4 3 4 6 1 1 6 5 5 6 2 1 1 1 0 2
+commande> q
+fin du mode duplicate
+commande> q

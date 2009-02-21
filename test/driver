@@ -32,6 +32,10 @@ training_play       0  # randseed unused
 training_rosace     0
 # Navigation in the game history
 training_navigation 0
+# Joker game
+training_joker_variant 12
+# Explosive game
+training_explosive_variant 13
 
 # Board cross off by one score
 training_cross      0
@@ -65,6 +69,10 @@ duplicate_invalid_turn 9
 duplicate_no_point 68 # For 2 jokers in the rack
 # Navigation in the game history
 duplicate_navigation 11
+# Joker game
+duplicate_joker_variant 14
+# Explosive game
+duplicate_explosive_variant 15
 
 #################
 # Free game mode
@@ -80,6 +88,10 @@ freegame_change     3
 freegame_3_ai       2
 # Navigation in the game history
 freegame_navigation 10
+# Joker game
+freegame_joker_variant 16
+# Explosive game
+freegame_explosive_variant 17
 
 ##############
 # Load / Save
@@ -90,9 +102,9 @@ load_game           0
 # save and reload a training game, standard format
 load_saved_game     0  # randseed unused
 # load a training game with advanced format (test.elt)
-# load_test_adv       0 # We need to specifie a much more complete file format
+# load_test_adv       0 # We need to specify a much more complete file format
                         # before we can handle load/save on duplicate and
-			# freegame games
+                        # freegame games
 
 #####################
 # Regular Expression

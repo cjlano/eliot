@@ -106,14 +106,10 @@ void GameMoveCmd::playRound()
         {
             if (m_round.isPlayedFromRack(i) && m_round.isJoker(i))
             {
-                // Get the real bag
-                Bag tmpBag(m_game.getDic());
-                m_game.realBag(tmpBag);
-
                 // Is the represented letter still available in the bag?
                 // XXX: this way to get the represented letter sucks...
                 Tile t(towupper(m_round.getTile(i).toChar()));
-                if (tmpBag.in(t))
+                if (bag.in(t))
                 {
                     bag.replaceTile(Tile::Joker());
                     bag.takeTile(t);
@@ -121,6 +117,8 @@ void GameMoveCmd::playRound()
                     // FIXME: This shouldn't be necessary, this is only
                     // needed because of the stupid way of handling jokers in
                     // rounds
+                    // This is also needed for the unplayRound() method
+                    // to work correctly
                     m_round.setJoker(i, false);
                 }
 

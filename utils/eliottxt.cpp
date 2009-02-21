@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2005-2008 Antoine Fraboulet & Olivier Teulière
+ * Copyright (C) 2005-2009 Antoine Fraboulet & Olivier Teulière
  * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *          Olivier Teulière <ipkiss @@ gmail.com>
  *
@@ -288,23 +288,31 @@ void helpDuplicate()
 
 void help()
 {
-    printf("  ?       : aide -- cette page\n");
-    printf("  e       : démarrer le mode entraînement\n");
-    printf("  c []    : charger la partie du fichier []\n");
-    printf("  d [] {} : démarrer une partie duplicate avec\n");
+    printf("  ?        : aide -- cette page\n");
+    printf("  e        : démarrer le mode entraînement\n");
+    printf("  ej       : démarrer le mode entraînement en partie joker\n");
+    printf("  ee       : démarrer le mode entraînement en partie détonante\n");
+    printf("  d [] {}  : démarrer une partie duplicate avec\n");
     printf("                [] joueurs humains et {} joueurs IA\n");
-    printf("  l [] {} : démarrer une partie libre avec\n");
+    printf("  dj [] {} : démarrer une partie duplicate avec\n");
+    printf("                [] joueurs humains et {} joueurs IA (partie joker)\n");
+    printf("  de [] {} : démarrer une partie duplicate avec\n");
+    printf("                [] joueurs humains et {} joueurs IA (partie détonante)\n");
+    printf("  l [] {}  : démarrer une partie libre avec\n");
     printf("                [] joueurs humains et {} joueurs IA\n");
-    printf("  D       : raccourci pour d 1 1\n");
-    printf("  L       : raccourci pour l 1 1\n");
+    printf("  lj [] {} : démarrer une partie libre avec\n");
+    printf("                [] joueurs humains et {} joueurs IA (partie joker)\n");
+    printf("  le [] {} : démarrer une partie libre avec\n");
+    printf("                [] joueurs humains et {} joueurs IA (partie détonante)\n");
+    printf("  c []     : charger la partie du fichier []\n");
     printf("  x [] {1} {2} {3} : expressions rationnelles\n");
     printf("          [] expression à rechercher\n");
     printf("          {1} nombre de résultats à afficher\n");
     printf("          {2} longueur minimum d'un mot\n");
     printf("          {3} longueur maximum d'un mot\n");
     printf("  s [b|i] {1} {2} : définir la valeur {2} pour l'option {1},\n");
-    printf("                    qui est de type (b)ool ou (i)nt}\n");
-    printf("  q       : quitter\n");
+    printf("                    qui est de type (b)ool ou (i)nt\n");
+    printf("  q        : quitter\n");
 }
 
 
@@ -855,7 +863,7 @@ void mainLoop(const Dictionary &iDic)
 
         if (tokens.empty())
             continue;
-        if (tokens[0].size() > 1)
+        if (tokens[0].size() > 2)
         {
             printf("%s\n", "Invalid command");
             continue;
@@ -905,6 +913,14 @@ void mainLoop(const Dictionary &iDic)
                         // New training game
                         Training *tmpGame = GameFactory::Instance()->createTraining(iDic);
                         PublicGame *game = new PublicGame(*tmpGame);
+                        // Set the variant
+                        if (tokens[0].size() > 1)
+                        {
+                            if (tokens[0][1] == L'j')
+                                game->setVariant(PublicGame::kJOKER);
+                            else if (tokens[0][1] == L'e')
+                                game->setVariant(PublicGame::kEXPLOSIVE);
+                        }
                         game->start();
                         loopTraining(*game);
                         //GameFactory::Instance()->releaseGame(*game);
@@ -932,6 +948,14 @@ void mainLoop(const Dictionary &iDic)
                             game->addPlayer(new HumanPlayer);
                         for (int i = 0; i < _wtoi(nbAI.c_str()); ++i)
                             game->addPlayer(new AIPercent(1));
+                        // Set the variant
+                        if (tokens[0].size() > 1)
+                        {
+                            if (tokens[0][1] == L'j')
+                                game->setVariant(PublicGame::kJOKER);
+                            else if (tokens[0][1] == L'e')
+                                game->setVariant(PublicGame::kEXPLOSIVE);
+                        }
                         game->start();
                         loopDuplicate(*game);
                         //GameFactory::Instance()->releaseGame(*game);
@@ -959,38 +983,20 @@ void mainLoop(const Dictionary &iDic)
                             game->addPlayer(new HumanPlayer);
                         for (int i = 0; i < _wtoi(nbAI.c_str()); i++)
                             game->addPlayer(new AIPercent(1));
+                        // Set the variant
+                        if (tokens[0].size() > 1)
+                        {
+                            if (tokens[0][1] == L'j')
+                                game->setVariant(PublicGame::kJOKER);
+                            else if (tokens[0][1] == L'e')
+                                game->setVariant(PublicGame::kEXPLOSIVE);
+                        }
                         game->start();
                         loopFreegame(*game);
                         //GameFactory::Instance()->releaseGame(*game);
                         delete game;
                     }
                     break;
-                case L'D':
-                    {
-                        // New duplicate game
-                        Duplicate *tmpGame = GameFactory::Instance()->createDuplicate(iDic);
-                        PublicGame *game = new PublicGame(*tmpGame);
-                        game->addPlayer(new HumanPlayer);
-                        game->addPlayer(new AIPercent(1));
-                        game->start();
-                        loopDuplicate(*game);
-                        //GameFactory::Instance()->releaseGame(*game);
-                        delete game;
-                        break;
-                    }
-                case L'L':
-                    {
-                        // New free game
-                        FreeGame *tmpGame = GameFactory::Instance()->createFreeGame(iDic);
-                        PublicGame *game = new PublicGame(*tmpGame);
-                        game->addPlayer(new HumanPlayer);
-                        game->addPlayer(new AIPercent(1));
-                        game->start();
-                        loopFreegame(*game);
-                        //GameFactory::Instance()->releaseGame(*game);
-                        delete game;
-                        break;
-                    }
                 case L'x':
                     // Regular expression tests
                     handleRegexp(iDic, tokens);
