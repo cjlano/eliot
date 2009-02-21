@@ -213,6 +213,10 @@ void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
         return;
     }
 
+#if 0
+    // First version:
+    //  - a left click toggles between horizontal and vertical arrows
+    //  - a right click clears any arrow
     if (iEvent->button() == Qt::LeftButton)
     {
         // Find the coordinates
@@ -232,5 +236,71 @@ void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
         // On a right click anywhere on the board, remove the arrow
         m_coordModel.clear();
     }
+#endif
+#if 1
+    // Second version:
+    //  - a left click cycles between horizontal arrow, vertical arrow and no arrow
+    //  - a right click clears any arrow
+    if (iEvent->button() == Qt::LeftButton)
+    {
+        // Find the coordinates
+        const int size = std::min(width(), height());
+        const int squareSize = (int)floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2));
+        int row = iEvent->y() / squareSize;
+        int col = iEvent->x() / squareSize;
+        // Change the direction if this is exactly the same as the current one
+        Coord coord(row, col, Coord::HORIZONTAL);
+        if (m_coordModel.getCoord().getRow() == coord.getRow() &&
+            m_coordModel.getCoord().getCol() == coord.getCol())
+        {
+            if (m_coordModel.getCoord().getDir() == Coord::VERTICAL)
+            {
+                // Third click: clear the arrow
+                m_coordModel.clear();
+                return;
+            }
+            coord.setDir(Coord::VERTICAL);
+        }
+        // Take into acount the new coordinates
+        m_coordModel.setCoord(coord);
+    }
+    else if (iEvent->button() == Qt::RightButton)
+    {
+        // On a right click anywhere on the board, remove the arrow
+        m_coordModel.clear();
+    }
+#endif
+#if 0
+    // Third version:
+    //  - a left click toggles between horizontal arrow and no arrow
+    //  - a right click toggles between vertical arrow and no arrow
+    // Find the coordinates
+    const int size = std::min(width(), height());
+    const int squareSize = (int)floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2));
+    int row = iEvent->y() / squareSize;
+    int col = iEvent->x() / squareSize;
+    if (iEvent->button() == Qt::LeftButton)
+    {
+        Coord coord(row, col, Coord::HORIZONTAL);
+        // Remove the coordinates if they are exactly the same as the current ones,
+        // otherwise set the coordinates;
+        if (m_coordModel.getCoord() == coord)
+            m_coordModel.clear();
+        else
+            m_coordModel.setCoord(coord);
+    }
+    else if (iEvent->button() == Qt::RightButton)
+    {
+        Coord coord(row, col, Coord::VERTICAL);
+        // Remove the coordinates if they are exactly the same as the current ones,
+        // otherwise set the coordinates;
+        if (m_coordModel.getCoord() == coord)
+            m_coordModel.clear();
+        else
+            m_coordModel.setCoord(coord);
+    }
+    else
+        m_coordModel.clear();
+#endif
 }
 
