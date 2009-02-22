@@ -1,7 +1,6 @@
 TODO
 ====
 
- - unit tests for the navigation handling, in each mode
  - Improve error handling (use exceptions more)
  - Correct game save/load functions: Advanced format
    file saving for freegames and duplicate need a serious
@@ -11,6 +10,14 @@ TODO
  - detection of blocked positions?
  - distinguish misplaced and incorrect words?
 
+Requested by users
+==================
+
+ - Save/load games (03/02/09)
+ - Drag & drop? (03/02/09)
+ - Continue a real game on Eliot (03/02/09)
+ - In duplicate mode, display the rack in the External board (19/02/09)
+
 Implementation details
 ======================
 
@@ -18,6 +25,8 @@ Implementation details
  - board.h included in coord.cpp!
  - use Boost.Format?
  - compile with -ansi -pedantic by default?
+ - use Boost.Unorderedinstead of the custom hash map, when Boost 1.36
+   is in Ubuntu
 
 Not so urgent
 =============
