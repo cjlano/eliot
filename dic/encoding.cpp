@@ -85,6 +85,7 @@ int _swprintf(wchar_t *wcs, size_t maxlen, const wchar_t *format, ...)
     va_start(argp, format);
 #ifdef WIN32
     // Mingw32 does not take the maxlen argument
+    (void)maxlen;
     res = vswprintf(wcs, format, argp);
 #else
     res = vswprintf(wcs, maxlen, format, argp);
@@ -98,6 +99,7 @@ wchar_t *_wcstok(wchar_t *wcs, const wchar_t *delim, wchar_t **ptr)
 {
 #ifdef WIN32
     // Mingw32 does not take the third argument
+    (void)ptr;
     return wcstok(wcs, delim);
 #else
     return wcstok(wcs, delim, ptr);

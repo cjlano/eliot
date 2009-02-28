@@ -76,7 +76,7 @@ using namespace std;
 
 const wchar_t* load_uncompressed(const string &iFileName, unsigned int &ioDicSize)
 {
-    ifstream file(iFileName.c_str());
+    ifstream file(iFileName.c_str(), ios::in | ios::binary);
     if (!file.is_open())
         throw DicException("Could not open file " + iFileName);
 
@@ -578,6 +578,5 @@ int main(int argc, char* argv[])
         cerr << e.what() << endl;
         return 1;
     }
-
 }
 
