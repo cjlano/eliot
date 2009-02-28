@@ -449,7 +449,7 @@ void MainWindow::createMenu()
 
     QMenu *menuHelp = new QMenu(m_ui.menubar);
     m_ui.menubar->addAction(menuHelp->menuAction());
-    menuHelp->setTitle(_q("&Help"));
+    menuHelp->setTitle(_q("Hel&p"));
     addMenuAction(menuHelp, _q("&About..."), QString(""),
                   _q("About Eliot"), SLOT(onHelpAbout()),
                   false, QIcon(":/images/info_16px.png"));
@@ -460,7 +460,10 @@ void MainWindow::onGameNew()
 {
     if (m_dic == NULL)
     {
-        displayErrorMsg(_q("You have to select a dictionary first!"));
+        displayErrorMsg(_q("You have to select a dictionary (.dawg file) "
+                           "before starting a game. This can be done in the "
+                           "\"Settings\" menu."
+                           "\n\nYou can download dictionary files on Eliot web site."));
         return;
     }
 
@@ -832,6 +835,8 @@ void MainWindow::onHelpAbout()
         "modify it under the terms of the GNU General Public License as " \
         "published by the Free Software Foundation; either version 2 of " \
         "the License, or (at your option) any later version.");
+    msg += "\n\n";
+    msg += _q("Web site: http://www.nongnu.org/eliot/en/");
     // QMessageBox::about() doesn't add the nice information icon, so we create
     // the box manually (not much work...)
     QMessageBox aboutBox(QMessageBox::Information, _q("About Eliot"),

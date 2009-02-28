@@ -221,7 +221,7 @@ void TrainingWidget::on_pushButtonRack_clicked()
     }
     catch (GameException &e)
     {
-        emit notifyProblem(e.what());
+        emit notifyProblem(_q(e.what()));
     }
 }
 
@@ -237,7 +237,7 @@ void TrainingWidget::on_pushButtonComplement_clicked()
     }
     catch (GameException &e)
     {
-        emit notifyProblem(e.what());
+        emit notifyProblem(_q(e.what()));
     }
 }
 
