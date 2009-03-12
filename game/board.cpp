@@ -353,8 +353,12 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
     if (isolated && !m_isEmpty)
         return 5;
     // The first word must be horizontal
+    // Deactivated, as a vertical first word is allowed in free games,
+    // and possibly in duplicate games as well (it depends on the sources)
+#if 0
     if (m_isEmpty && iRound.getCoord().getDir() == Coord::VERTICAL)
         return 6;
+#endif
     // The first word must cover the H8 square
     if (m_isEmpty
         && (row != 8 || col > 8 || col + iRound.getWordLen() <= 8))
