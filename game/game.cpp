@@ -543,6 +543,12 @@ int Game::checkPlayedWord(const wstring &iCoord,
     int res = m_board.checkRound(oRound);
     if (res != 0)
         return res + 4;
+    // In duplicate mode, the first word must be horizontal
+    if (getMode() == kDUPLICATE && m_board.isVacant(8, 8))
+    {
+        if (oRound.getCoord().getDir() == Coord::VERTICAL)
+            return 10;
+    }
 
     // Check that the word can be formed with the tiles in the rack:
     // we first create a copy of the rack, then we remove the tiles
