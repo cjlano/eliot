@@ -159,7 +159,7 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
                 break;
 
             //debug("%s)", token);
-            strncat(pos, token, sizeof(pos));
+            strncat(pos, token, sizeof(pos) - strlen(pos) - 1);
 
             if ((ret = pGame->play(convertToWc(pos), convertToWc(word))))
             {
