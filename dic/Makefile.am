@@ -42,8 +42,7 @@ bin_PROGRAMS = \
 	listdic \
 	regexp
 
-compdic_SOURCES=compdic.cpp \
-	hashtable.h hashtable.cpp hashtable.i
+compdic_SOURCES=compdic.cpp
 compdic_CPPFLAGS=$(AM_CPPFLAGS) @BOOST_CPPFLAGS@
 compdic_LDADD=libdic.a @LIBINTL@
 

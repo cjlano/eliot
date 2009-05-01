@@ -105,7 +105,8 @@ dnl Checks for libraries.
 dnl --------------------------------------------------------------
 
 dnl Check for the Boost libraries (in fact we only need the headers)
-AX_BOOST_BASE([1.33.1])
+dnl We need at least version 1.36, for Boost.Unordered
+AX_BOOST_BASE([1.36.0])
 
 PKG_CHECK_MODULES(LIBCONFIG, [libconfig++],
                   [has_libconfig=1

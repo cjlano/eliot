@@ -27,6 +27,8 @@
 #include <vector>
 #include <map>
 #include <boost/tokenizer.hpp>
+#include <boost/unordered_map.hpp>
+#include <boost/functional/hash.hpp>
 #include <getopt.h>
 #include <ctime>
 #include <sys/types.h>
@@ -60,7 +62,6 @@
 #   include <windows.h>
 #endif
 
-#include "hashtable.h"
 #include "encoding.h"
 #include "header.h"
 #include "dic_internals.h"
@@ -247,15 +248,13 @@ void write_node(uint32_t *ioEdges, unsigned int num, ostream &outfile)
 
 // Hashing function for a vector of DicEdge, based on the hashing function
 // of the HashTable
-struct HashVector
+size_t hash_value(const DicEdge &iEdge)
 {
-    unsigned int operator()(const vector<DicEdge> &iKey) const
-    {
-        if (iKey.empty())
-            return 0;
-        return HashPtr(&iKey.front(), iKey.size() * sizeof(DicEdge));
-    }
-};
+    const uint32_t *num = reinterpret_cast<const uint32_t*>(&iEdge);
+    size_t seed = 0;
+    boost::hash_combine(seed, *num);
+    return seed;
+}
 
 #ifdef CHECK_RECURSION
 class IncDec
@@ -280,7 +279,9 @@ int max_rec = 0;
 #endif
 
 /* global variables */
-HashTable<vector<DicEdge>, unsigned int, HashVector> *global_hashtable;
+typedef boost::unordered_map<vector<DicEdge>, unsigned int> HashMap;
+
+HashMap *global_hashmap;
 
 wchar_t  global_stringbuf[MAX_STRING_LENGTH]; /* Space for current string */
 wchar_t* global_endstring;                    /* Marks END of current string */
@@ -373,18 +374,18 @@ unsigned int makenode(const wchar_t *iPrefix, ostream &outfile,
     // Mark the last edge
     edges.back().last = 1;
 
-    const unsigned int *saved_position = global_hashtable->find(edges);
-    if (saved_position)
+    HashMap::const_iterator itMap = global_hashmap->find(edges);
+    if (itMap != global_hashmap->end())
     {
         ioHeaderInfo.edgessaved += numedges;
         ioHeaderInfo.nodessaved++;
 
-        return *saved_position;
+        return itMap->second;
     }
     else
     {
         unsigned int node_pos = ioHeaderInfo.edgesused;
-        global_hashtable->add(edges, ioHeaderInfo.edgesused);
+        (*global_hashmap)[edges] = ioHeaderInfo.edgesused;
         ioHeaderInfo.edgesused += numedges;
         ioHeaderInfo.nodesused++;
         write_node(reinterpret_cast<uint32_t*>(&edges.front()),
@@ -530,9 +531,7 @@ int main(int argc, char* argv[])
         global_input = uncompressed;
         global_endofinput = global_input + dicsize;
 
-#define SCALE 0.6
-        global_hashtable = new HashTable<vector<DicEdge>, unsigned int, HashVector>((unsigned int)(dicsize * SCALE));
-#undef SCALE
+        global_hashmap = new HashMap();
 
         headerInfo.dawg = true;
         Header tempHeader = skip_init_header(outfile, headerInfo);
@@ -562,7 +561,7 @@ int main(int argc, char* argv[])
         Header aHeader(headerInfo);
         aHeader.print();
 
-        delete global_hashtable;
+        delete global_hashmap;
         delete[] uncompressed;
         outfile.close();
 
