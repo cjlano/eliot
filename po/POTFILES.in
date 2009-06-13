@@ -12,8 +12,6 @@ dic/encoding.cpp
 dic/encoding.h
 dic/grammar.cpp
 dic/grammar.h
-dic/hashtable.cpp
-dic/hashtable.h
 dic/header.cpp
 dic/header.h
 dic/listdic.cpp

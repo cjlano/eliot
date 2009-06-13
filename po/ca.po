@@ -1,154 +1,169 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Eliot
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Catalan translations for eliot package
+# Copyright (C) 2009 Eliot
+# This file is distributed under the same license as the Eliot package.
+# Joan Montané <joan---sense spam---montane.cat>
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: eliot 1.9\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-14 00:02+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-06-03 22:11+0100\n"
+"Last-Translator: Joan Montané <joan---sense spam---montane.cat>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: dic/compdic.cpp:395
 msgid "Mandatory options:"
-msgstr ""
+msgstr "Opcions obligatòries:"
 
 #: dic/compdic.cpp:396
 msgid "  -d, --dicname <string>  Set the dictionary name and version"
-msgstr ""
+msgstr "  -d, --dicname <text>  Estableix el nom i la versió del diccionari"
 
 #: dic/compdic.cpp:397
 msgid ""
 "  -l, --letters <string>  Path to the file containing the letters (see below)"
 msgstr ""
+"  -l, --letters <text>  Camí al fitxer que conté la distribució de fitxes "
+"(vegeu més avall)"
 
 #: dic/compdic.cpp:398
 msgid ""
 "  -i, --input <string>    Path to the uncompressed dictionary file (encoded "
 "in UTF-8)"
 msgstr ""
+"  -i, --input <text>    Camí al fitxer del diccionari descomprimit "
+"(codificat en UTF-8)"
 
 #: dic/compdic.cpp:399
 msgid ""
 "                          The words must be in alphabetical order, without "
 "duplicates"
 msgstr ""
+"                          Les paraules han de trobar-se en ordre alfabètic, "
+"sense duplicats"
 
 #: dic/compdic.cpp:400
 msgid ""
 "  -o, --output <string    Path to the generated compressed dictionary file"
-msgstr ""
+msgstr "  -o, --output <text>    Camí al fitxer de diccionari comprimit"
 
 #: dic/compdic.cpp:401
 msgid "Other options:"
-msgstr ""
+msgstr "Altres opcions:"
 
 #: dic/compdic.cpp:402
 msgid "  -h, --help              Print this help and exit"
-msgstr ""
+msgstr "  -h, --help              Mostra aqueta ajuda i surt"
 
 #: dic/compdic.cpp:403
 msgid "Example:"
-msgstr ""
+msgstr "Exemple:"
 
 #: dic/compdic.cpp:404
 msgid " -d 'ODS 5.0' -l letters.txt -i ods5.txt -o ods5.dawg"
-msgstr ""
+msgstr " -d 'ODS 5.0' -l letters.txt -i ods5.txt -o ods5.dawg"
 
 #: dic/compdic.cpp:406
 msgid ""
 "The file containing the letters (--letters switch) must be UTF-8 encoded."
 msgstr ""
+"El fitxer que conté la distribució de fitxes (paràmetre --letters), ha "
+"d'estar en codificació UTF-8."
 
 #: dic/compdic.cpp:407
 msgid ""
 "Each line corresponds to one letter, and must contain 5 fields separated "
 "with "
 msgstr ""
+"Cada línia correspont a una fitxa (lletra), i ha de tenir 5 camps separats "
+"per"
 
 #: dic/compdic.cpp:408
 msgid "one or more space(s)."
-msgstr ""
+msgstr "un o més espais."
 
 #: dic/compdic.cpp:409
 msgid " - 1st field: the letter itself"
-msgstr ""
+msgstr " - 1r camp: la fitxa pròpiament dita"
 
 #: dic/compdic.cpp:410
 msgid " - 2nd field: the points of the letter"
-msgstr ""
+msgstr " - 2n camp: els punts de la fitxa, el valor facial."
 
 #: dic/compdic.cpp:411
 msgid ""
 " - 3rd field: the frequency of the letter (how many letters of this kind in "
 "the game)"
 msgstr ""
+" - 3r camp: la freqüència de la fitxa (quantes fitxes d'aquest tipus té el "
+"joc de fitxes)"
 
 #: dic/compdic.cpp:412
 msgid ""
 " - 4th field: 1 if the letter is considered as a vowel in Scrabble game, 0 "
 "otherwise"
 msgstr ""
+" - 4t camp: 1 si es considera que la fitxa és una vocal a l'Scrabble, 0 en "
+"cas contrari"
 
 #: dic/compdic.cpp:413
 msgid ""
 " - 5th field: 1 if the letter is considered as a consonant in Scrabble game, "
 "0 otherwise"
 msgstr ""
+" - 5è camp: 1 si es considera que la fitxa és una consonant a l'Scrabble, 0 "
+"en cas contrari"
 
 #: dic/compdic.cpp:414
 msgid "Example for french:"
-msgstr ""
+msgstr "Exemple pel francès:"
 
 #: dic/compdic.cpp:415
 msgid "A 1 9 1 0"
-msgstr ""
+msgstr "A 1 9 1 0"
 
 #: dic/compdic.cpp:416
 msgid "[...]"
-msgstr ""
+msgstr "[...]"
 
 #: dic/compdic.cpp:417
 msgid "Z 10 1 0 1"
-msgstr ""
+msgstr "Z 10 1 0 1"
 
 #: dic/compdic.cpp:418
 msgid "? 0 2 1 1"
-msgstr ""
+msgstr "? 0 2 1 1"
 
 #: dic/compdic.cpp:499
 msgid "A mandatory option is missing"
-msgstr ""
+msgstr "Manca alguna opció obligatòria"
 
 #: dic/compdic.cpp:507
+#, fuzzy
 msgid "Cannot stat uncompressed dictionary "
-msgstr ""
+msgstr "No es pot stat un diccionari descomprimit"
 
 #: dic/compdic.cpp:515
 msgid "Cannot open output file "
-msgstr ""
+msgstr "No es pot obrir el fitxer de sortida"
 
 #: dic/compdic.cpp:558
 #, c-format
 msgid " Load time: %.3f s\n"
-msgstr ""
+msgstr " Temps de càrrega: %.3f s\n"
 
 #: dic/compdic.cpp:559
 #, c-format
 msgid " Compression time: %.3f s\n"
-msgstr ""
+msgstr " Temps de compressió: %.3f s\n"
 
 #: dic/compdic.cpp:561
 #, c-format
 msgid " Maximum recursion level reached: %d\n"
-msgstr ""
+msgstr " Nivell màxim de recursivitat aconseguit: %d\n"
 
 #: dic/header.cpp:278
 msgid ""
@@ -156,510 +171,517 @@ msgid ""
 "1.8. You can create dictionaries in the new format with the 'compdic' tool "
 "provided with Eliot (since version 1.6)."
 msgstr ""
+"Format de diccionari molt vell. Aquest format no es fa servir més des de la "
+"versió 1.8 de l'Eliot. Podeu crear diccionaris en el format nou amb l'eina "
+"'compdic' distribuïda amb l'Eliot (des de la versió 1.6)."
 
 #: dic/header.cpp:420
 #, c-format
 msgid "dictionary name: %s\n"
-msgstr ""
+msgstr "nom del diccioanri: %s\n"
 
 #: dic/header.cpp:423
 #, c-format
 msgid "compressed on: %s\n"
-msgstr ""
+msgstr "comprimit en: %s\n"
 
 #: dic/header.cpp:424
-#, c-format
+#, fuzzy, c-format
 msgid "compressed using a binary compiled by: %s\n"
-msgstr ""
+msgstr "comprimit fent ser un compilat binari per: %s\n"
 
 #: dic/header.cpp:425
 #, c-format
 msgid "dictionary type: %s\n"
-msgstr ""
+msgstr "tipus de diccionari: %s\n"
 
 #: dic/header.cpp:426
 #, c-format
 msgid "letters: %s\n"
-msgstr ""
+msgstr "fitxes: %s\n"
 
 #: dic/header.cpp:427
 #, c-format
 msgid "number of letters: %lu\n"
-msgstr ""
+msgstr "nombre de fitxes: %lu\n"
 
 #: dic/header.cpp:428
 #, c-format
 msgid "number of words: %d\n"
-msgstr ""
+msgstr "nombre de paraules: %d\n"
 
 #: dic/header.cpp:430
 #, c-format
 msgid "header size: %lu bytes\n"
-msgstr ""
+msgstr "mida de la capçalera: %lu bytes\n"
 
 #: dic/header.cpp:431
 #, c-format
 msgid "root: %d (edge)\n"
-msgstr ""
+msgstr "arrel: %d (aresta)\n"
 
 #: dic/header.cpp:432
 #, c-format
 msgid "nodes: %d used + %d saved\n"
-msgstr ""
+msgstr "nodes: %d usats + %d desats\n"
 
 #: dic/header.cpp:433
 #, c-format
 msgid "edges: %d used + %d saved\n"
-msgstr ""
+msgstr "arestes: %d usades + %d desades\n"
 
 #: dic/header.cpp:435
 #, c-format
 msgid "letter | points | frequency | vowel | consonant\n"
-msgstr ""
+msgstr "fitxa | punts | freqüència | vocal | consonant\n"
 
 #: dic/listdic.cpp:94
 #, c-format
 msgid "offset binary   | structure\n"
-msgstr ""
+msgstr "offset binari   | estructura\n"
 
 #: dic/listdic.cpp:103
 #, c-format
 msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
-msgstr ""
+msgstr "ús: %s [-a|-h|-l|-x] diccionari\n"
 
 #: dic/listdic.cpp:104
 #, c-format
 msgid "  -a: print all\n"
-msgstr ""
+msgstr "  -a: imprimeix-ho tot\n"
 
 #: dic/listdic.cpp:105
 #, c-format
 msgid "  -h: print header\n"
-msgstr ""
+msgstr "  -h: imprimeix la capçalera\n"
 
 #: dic/listdic.cpp:106
 #, c-format
 msgid "  -l: print dictionary word list\n"
-msgstr ""
+msgstr "  -l: imprimeix la llistra de paraules del diccionari\n"
 
 #: dic/listdic.cpp:107
 #, c-format
 msgid "  -x: print dictionary in hex\n"
-msgstr ""
+msgstr "  -x: imprimeix el diccionari en hexadecimal\n"
 
 #: dic/regexpmain.cpp:46
 #, c-format
 msgid "usage: %s dictionary"
-msgstr ""
+msgstr "ús: %s diccionari"
 
 #: dic/regexpmain.cpp:47
 msgid "   dictionary: path to eliot dawg dictionary"
-msgstr ""
+msgstr "   diccionari: camí a un diccionari dawg de l'eliot"
 
 #: dic/regexpmain.cpp:88 dic/regexpmain.cpp:112
 msgid "Enter a regular expression:"
-msgstr ""
+msgstr "Introduïu una expressió regular:"
 
 #: dic/regexpmain.cpp:99
 msgid "result:"
-msgstr ""
+msgstr "resultat:"
 
 #: dic/regexpmain.cpp:108
 msgid "Invalid regular expression: "
-msgstr ""
+msgstr "Expressió regular no vàlida: "
 
 #: game/duplicate.cpp:290
 msgid "Cannot switch to a non-human player"
-msgstr ""
+msgstr "No puc canviar a un jugar no-humà"
 
 #: game/duplicate.cpp:294
 msgid "Cannot switch to a player who has already played"
-msgstr ""
+msgstr "No puc canviar a un jugador que ja ha jugat"
 
 #: game/game.cpp:174
 msgid "Not a random mode"
-msgstr ""
+msgstr "No és possible en mode aleatori"
 
 #: game/game.cpp:230
 msgid "The bag is empty"
-msgstr ""
+msgstr "El sac és buit"
 
 #: game/game.cpp:237 game/game.cpp:247
 msgid "Not enough vowels or consonants to complete the rack"
-msgstr ""
+msgstr "No hi ha suficients vocals o consonants per a completar un faristol"
 
 #: game/game.cpp:410
 msgid "Some letters are invalid for the current dictionary"
-msgstr ""
+msgstr "Algunes fitxes no són vàlides per al diccionari actual"
 
 #: game/game.cpp:419
 msgid "The bag does not contain all these letters"
-msgstr ""
+msgstr "El sac no conté tote aquestes fitxes"
 
 #: game/game.cpp:432
 msgid "Not enough vowels or consonants in this rack"
-msgstr ""
+msgstr "No hi ha suficients vocals o consonants al faristol"
 
 #: game/game_factory.cpp:148
 #, c-format
 msgid "Player %u"
-msgstr ""
+msgstr "Jugador %u"
 
 #: game/training.cpp:53 qt/new_game.cpp:98 qt/new_game.cpp:107
 #: qt/new_game.cpp:142 qt/ui/new_game.ui:52
 msgid "Training"
-msgstr ""
+msgstr "Entrenament"
 
 #: qt/bag_widget.cpp:50 qt/dic_tools_widget.cpp:100
 msgid "Letter"
-msgstr ""
+msgstr "Fitxa"
 
 #: qt/bag_widget.cpp:51 qt/dic_tools_widget.cpp:101 qt/history_widget.cpp:55
 #: qt/training_widget.cpp:69
 msgid "Points"
-msgstr ""
+msgstr "Punts"
 
 #: qt/dic_tools_widget.cpp:90 qt/dic_tools_widget.cpp:95
 #: qt/ui/player_widget.ui:16 qt/ui/training_widget.ui:21
 msgid "Rack:"
-msgstr ""
+msgstr "Faristol:"
 
 #: qt/dic_tools_widget.cpp:102
 msgid "Frequency"
-msgstr ""
+msgstr "Freqüència"
 
 #: qt/dic_tools_widget.cpp:103
 msgid "Vowel?"
-msgstr ""
+msgstr "És una vocal?"
 
 #: qt/dic_tools_widget.cpp:104
 msgid "Consonant?"
-msgstr ""
+msgstr "És una consonant?"
 
 #: qt/dic_tools_widget.cpp:142 qt/dic_tools_widget.cpp:175
 #: qt/dic_tools_widget.cpp:228
 msgid "Please select a dictionary"
-msgstr ""
+msgstr "Seleccioneu un diccionari"
 
 #: qt/dic_tools_widget.cpp:153
 msgid "The word '%1' exists"
-msgstr ""
+msgstr "La paraula  '%1' existeix"
 
 #: qt/dic_tools_widget.cpp:158
 msgid "The word '%1' does not exist"
-msgstr ""
+msgstr "La paraula '%1' no existeix"
 
 #: qt/dic_tools_widget.cpp:182
 msgid "Rack: %1"
-msgstr ""
+msgstr "Faristol: %1"
 
 #: qt/dic_tools_widget.cpp:201
 msgid "Anagrams"
-msgstr ""
+msgstr "Anagrames"
 
 #: qt/dic_tools_widget.cpp:235
 msgid "Regular expression: %1"
-msgstr ""
+msgstr "Expressió regular: %1"
 
 #: qt/dic_tools_widget.cpp:258
 msgid "Invalid regular expression: %1"
-msgstr ""
+msgstr "Expressió regular no vàlida: %1"
 
 #: qt/dic_tools_widget.cpp:307 qt/dic_tools_widget.cpp:309
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 #: qt/dic_tools_widget.cpp:307 qt/dic_tools_widget.cpp:309
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: qt/history_widget.cpp:51
 msgid "Turn"
-msgstr ""
+msgstr "Torn"
 
 #: qt/history_widget.cpp:52
 msgid "Rack"
-msgstr ""
+msgstr "Faristol"
 
 #: qt/history_widget.cpp:53 qt/training_widget.cpp:67
 msgid "Word"
-msgstr ""
+msgstr "Paraula"
 
 #: qt/history_widget.cpp:54 qt/training_widget.cpp:68
 msgid "Ref"
-msgstr ""
+msgstr "Ref"
 
 #: qt/history_widget.cpp:87 qt/score_widget.cpp:46
 msgid "Player"
-msgstr ""
+msgstr "Jugador"
 
 #: qt/history_widget.cpp:143 qt/main_window.cpp:659 utils/ncurses.cpp:416
 msgid "(PASS)"
-msgstr ""
+msgstr "(PASSA)"
 
 #: qt/history_widget.cpp:177 qt/main_window.cpp:382
 msgid "&Game"
-msgstr ""
+msgstr "&Partida"
 
 #: qt/main_window.cpp:112 qt/main_window.cpp:773 qt/ui/main_window.ui:38
 msgid "Board"
-msgstr ""
+msgstr "Tauler"
 
 #: qt/main_window.cpp:171
 msgid ""
 "Cannot load dictionary '%1' indicated in the preferences.\n"
 "Reason: %2"
 msgstr ""
+"No es pot carregar el diccionari '%1' indicat a les preferències.\n"
+"Motiu: %2"
 
 #: qt/main_window.cpp:261
 msgid "No game"
-msgstr ""
+msgstr "Cap partida"
 
 #: qt/main_window.cpp:269 qt/ui/prefs_dialog.ui:192 utils/ncurses.cpp:1116
 msgid "Training mode"
-msgstr ""
+msgstr "Mode d'entrenament"
 
 #: qt/main_window.cpp:274
 msgid "Duplicate game"
-msgstr ""
+msgstr "Partida duplicada"
 
 #: qt/main_window.cpp:279 qt/new_game.cpp:100 qt/new_game.cpp:169
 #: qt/ui/new_game.ui:47
 msgid "Free game"
-msgstr ""
+msgstr "Partida lliure"
 
 #: qt/main_window.cpp:291
 msgid "Dictionary: %1"
-msgstr ""
+msgstr "Diccionari: %1"
 
 #: qt/main_window.cpp:300
 msgid "Eliot - Error"
-msgstr ""
+msgstr "Eliot - Error"
 
 #: qt/main_window.cpp:383
 msgid "&New..."
-msgstr ""
+msgstr "Partida &nova..."
 
 #: qt/main_window.cpp:383
 msgid "Ctrl+N"
-msgstr ""
+msgstr "Ctrl+N"
 
 #: qt/main_window.cpp:384
 msgid "Start a new game"
-msgstr ""
+msgstr "Inicia una partida nova"
 
 #: qt/main_window.cpp:386
 msgid "&Load..."
-msgstr ""
+msgstr "&Carrega..."
 
 #: qt/main_window.cpp:386
 msgid "Ctrl+O"
-msgstr ""
+msgstr "Ctrl+O"
 
 #: qt/main_window.cpp:387
 msgid "Load an existing game"
-msgstr ""
+msgstr "Carrega una partida prèvia"
 
 #: qt/main_window.cpp:388
 msgid "&Save as..."
-msgstr ""
+msgstr "Anomena i de&sa..."
 
 #: qt/main_window.cpp:388
 msgid "Ctrl+S"
-msgstr ""
+msgstr "Ctrl+S"
 
 #: qt/main_window.cpp:389
 msgid "Save the current game"
-msgstr ""
+msgstr "Desa la partida actual"
 
 #: qt/main_window.cpp:391
 msgid "&Print..."
-msgstr ""
+msgstr "&Imprimeix..."
 
 #: qt/main_window.cpp:391
 msgid "Ctrl+P"
-msgstr ""
+msgstr "Ctrl+P"
 
 #: qt/main_window.cpp:392
 msgid "Print the current game"
-msgstr ""
+msgstr "Imprimeix la partida actual"
 
 #: qt/main_window.cpp:395
 msgid "&Quit"
-msgstr ""
+msgstr "&Surt"
 
 #: qt/main_window.cpp:395
 msgid "Ctrl+Q"
-msgstr ""
+msgstr "Ctrl+Q"
 
 #: qt/main_window.cpp:396
 msgid "Quit Eliot"
-msgstr ""
+msgstr "Surt de l'Eliot"
 
 #: qt/main_window.cpp:401 qt/main_window.cpp:444
 msgid "&History"
-msgstr ""
+msgstr "&Historial"
 
 #: qt/main_window.cpp:402
 msgid "&First turn"
-msgstr ""
+msgstr "&Primer torn"
 
 #: qt/main_window.cpp:402
 msgid "Ctrl+Home"
-msgstr ""
+msgstr "Ctrl+Inici"
 
 #: qt/main_window.cpp:403
 msgid "Go to the first turn of the game"
-msgstr ""
+msgstr "Vés al primer torn de la partida"
 
 #: qt/main_window.cpp:405
 msgid "&Previous turn"
-msgstr ""
+msgstr "Torn &anterior"
 
 #: qt/main_window.cpp:405
 msgid "Ctrl+Left"
-msgstr ""
+msgstr "Ctrl+Esquerra"
 
 #: qt/main_window.cpp:406
 msgid "Go to the previous turn of the game"
-msgstr ""
+msgstr "Vés al torn anterior de la partida"
 
 #: qt/main_window.cpp:408
 msgid "&Next turn"
-msgstr ""
+msgstr "Torn &següent"
 
 #: qt/main_window.cpp:408
 msgid "Ctrl+Right"
-msgstr ""
+msgstr "Ctrl+Dreta"
 
 #: qt/main_window.cpp:409
 msgid "Go to the next turn of the game"
-msgstr ""
+msgstr "Vés al torn següent de la partida"
 
 #: qt/main_window.cpp:411
 msgid "&Last turn"
-msgstr ""
+msgstr "&Darrer torn"
 
 #: qt/main_window.cpp:411
 msgid "Ctrl+End"
-msgstr ""
+msgstr "Ctrl+Final"
 
 #: qt/main_window.cpp:412
 msgid "Go to the last turn of the game"
-msgstr ""
+msgstr "Vés al darrer torn de la partida"
 
 #: qt/main_window.cpp:414
 msgid "&Replay turn"
-msgstr ""
+msgstr "To&rna a jugar el torn"
 
 #: qt/main_window.cpp:414
 msgid "Ctrl+R"
-msgstr ""
+msgstr "Ctrl+R"
 
 #: qt/main_window.cpp:415
 msgid ""
 "Play the game from the current position, replacing what was really played"
 msgstr ""
+"Juga la partida des la posició actula, substituint tot allò que s'ha jugat."
 
 #: qt/main_window.cpp:427
 msgid "&Settings"
-msgstr ""
+msgstr "&Paràmetres"
 
 #: qt/main_window.cpp:428
 msgid "&Choose dictionary..."
-msgstr ""
+msgstr "&Indiqueu un diccionari"
 
 #: qt/main_window.cpp:428
 msgid "Ctrl+C"
-msgstr ""
+msgstr "Ctrl+C"
 
 #: qt/main_window.cpp:429
 msgid "Select a new dictionary"
-msgstr ""
+msgstr "Selecciona un diccionari"
 
 #: qt/main_window.cpp:430
 msgid "&Preferences..."
-msgstr ""
+msgstr "&Preferències..."
 
 #: qt/main_window.cpp:430
 msgid "Ctrl+F"
-msgstr ""
+msgstr "Ctrl+F"
 
 #: qt/main_window.cpp:431
 msgid "Edit the preferences"
-msgstr ""
+msgstr "Edita les preferències"
 
 #: qt/main_window.cpp:436
 msgid "&Windows"
-msgstr ""
+msgstr "&Finestres"
 
 #: qt/main_window.cpp:437
 msgid "&Toolbar"
-msgstr ""
+msgstr "&Barra d'eines"
 
 #: qt/main_window.cpp:437
 msgid "Ctrl+T"
-msgstr ""
+msgstr "Ctrl+T"
 
 #: qt/main_window.cpp:438
 msgid "Show/hide the toolbar"
-msgstr ""
+msgstr "Mostra/amaga la barra d'eines"
 
 #: qt/main_window.cpp:440
 msgid "&Bag"
-msgstr ""
+msgstr "&Sac"
 
 #: qt/main_window.cpp:440
 msgid "Ctrl+B"
-msgstr ""
+msgstr "Ctrl+B"
 
 #: qt/main_window.cpp:441 qt/ui/main_window.ui:97
 msgid "Show/hide the remaining tiles in the bag"
-msgstr ""
+msgstr "Mostra/amaga els fitxes romanents al sac"
 
 #: qt/main_window.cpp:442
 msgid "&External board"
-msgstr ""
+msgstr "Tauler &extern"
 
 #: qt/main_window.cpp:442
 msgid "Ctrl+E"
-msgstr ""
+msgstr "Ctrl+E"
 
 #: qt/main_window.cpp:443 qt/ui/main_window.ui:111
 msgid "Show/hide the external board"
-msgstr ""
+msgstr "Mostra/amaga el tauler extern"
 
 #: qt/main_window.cpp:444
 msgid "Ctrl+H"
-msgstr ""
+msgstr "Ctrl+H"
 
 #: qt/main_window.cpp:445 qt/ui/main_window.ui:125
 msgid "Show/hide the game history"
-msgstr ""
+msgstr "Mostra/amaga l'historial de la partida"
 
 #: qt/main_window.cpp:447
 msgid "&Dictionary tools"
-msgstr ""
+msgstr "Eines del &dictionari"
 
 #: qt/main_window.cpp:447
 msgid "Ctrl+D"
-msgstr ""
+msgstr "Ctrl+D"
 
 #: qt/main_window.cpp:448 qt/ui/main_window.ui:139
 msgid "Show/hide the dictionary tools"
-msgstr ""
+msgstr "Mostra/amga les eines del diccionari"
 
 #: qt/main_window.cpp:452
+#, fuzzy
 msgid "Hel&p"
-msgstr ""
+msgstr "Ajuda"
 
 #: qt/main_window.cpp:453
 msgid "&About..."
-msgstr ""
+msgstr "&Quant a..."
 
 #: qt/main_window.cpp:454 qt/main_window.cpp:842
 msgid "About Eliot"
-msgstr ""
+msgstr "Quan a l'Eliot"
 
 #: qt/main_window.cpp:463
 msgid ""
@@ -671,81 +693,81 @@ msgstr ""
 
 #: qt/main_window.cpp:491
 msgid "Game started"
-msgstr ""
+msgstr "Partida iniciada"
 
 #: qt/main_window.cpp:499
 msgid "You have to select a dictionary first!"
-msgstr ""
+msgstr "Primer heu de seleccionar un diccionari!"
 
 #: qt/main_window.cpp:503 utils/ncurses.cpp:634
 msgid "Load a game"
-msgstr ""
+msgstr "Carrega una partida"
 
 #: qt/main_window.cpp:510
 msgid "Error while loading the game"
-msgstr ""
+msgstr "S'ha produït un error en carregar la partida"
 
 #: qt/main_window.cpp:518 utils/ncurses.cpp:658
 #, c-format
 msgid "Game loaded"
-msgstr ""
+msgstr "Partida carregada"
 
 #: qt/main_window.cpp:528
 msgid "Save a game"
-msgstr ""
+msgstr "Desa una partida"
 
 #: qt/main_window.cpp:533
 msgid "Game saved"
-msgstr ""
+msgstr "Partida desada"
 
 #: qt/main_window.cpp:567
 msgid "N."
-msgstr ""
+msgstr "N."
 
 #: qt/main_window.cpp:567
 msgid "RACK"
-msgstr ""
+msgstr "FARISTOL"
 
 #: qt/main_window.cpp:567
 msgid "SOLUTION"
-msgstr ""
+msgstr "SOLUCIÓ"
 
 #: qt/main_window.cpp:567
 msgid "REF"
-msgstr ""
+msgstr "REF"
 
 #: qt/main_window.cpp:567
 msgid "PTS"
-msgstr ""
+msgstr "PTS"
 
 #: qt/main_window.cpp:700
 msgid "Loading a dictionary will stop the current game."
-msgstr ""
+msgstr "Si carregueu un diccionari, finalitzareu la partida."
 
 #: qt/main_window.cpp:701 qt/main_window.cpp:912 qt/new_game.cpp:56
 msgid "Eliot"
-msgstr ""
+msgstr "Eliot"
 
 #: qt/main_window.cpp:703 qt/main_window.cpp:914
 msgid "Do you want to continue?"
-msgstr ""
+msgstr "Voleu continuar?"
 
 #: qt/main_window.cpp:712 qt/prefs_dialog.cpp:153
 msgid "Choose a dictionary"
-msgstr ""
+msgstr "Seleccioneu un diccionari"
 
 #: qt/main_window.cpp:755 qt/ui/main_window.ui:94 utils/ncurses.cpp:488
 msgid "Bag"
-msgstr ""
+msgstr "Sac"
 
 #: qt/main_window.cpp:791 qt/ui/main_window.ui:49 qt/ui/main_window.ui:122
 msgid "History"
-msgstr ""
+msgstr "Historial"
 
 #: qt/main_window.cpp:808 qt/ui/dic_tools_widget.ui:13
 #: qt/ui/main_window.ui:136
 msgid "Dictionary tools"
-msgstr ""
+msgstr "Eines del diccionari"
 
 #: qt/main_window.cpp:833
 msgid ""
@@ -756,6 +778,12 @@ msgid ""
 "Software Foundation; either version 2 of the License, or (at your option) "
 "any later version."
 msgstr ""
+"Copyright (C) 1999-2009 - Antoine Fraboulet & Olivier Teuliere\n"
+"\n"
+"Aquest programa és programari lliure; podeu distribuir-lo i/o modificar-lo "
+"en el termes de la Llicència Pública General GNU publicada per la Free "
+"Software Foundation; en la versió 2 de la Llicència, o (a opció vostra) "
+"qualsevol versió posterior."
 
 #: qt/main_window.cpp:839
 msgid "Web site: http://www.nongnu.org/eliot/en/"
@@ -764,46 +792,48 @@ msgstr ""
 #: qt/main_window.cpp:857 qt/main_window.cpp:870 qt/main_window.cpp:883
 #: qt/main_window.cpp:896
 msgid "Turn %1/%2"
-msgstr ""
+msgstr "Torn %1/%2"
 
 #: qt/main_window.cpp:909
 msgid ""
 "Replaying this turn will modify the game history by deleting the turns after "
 "the displayed one (i.e. turns \"in the future\")."
 msgstr ""
+"Si torneu a jugar aquest torn, modificareu l'historial de la partida i se "
+"suprimiran els torns posterior a aquest (això és, els torns \"del futur\")."
 
 #: qt/main_window.cpp:925
 msgid "Replaying from turn %1"
-msgstr ""
+msgstr "S'està tornat a jugar el torn %1"
 
 #: qt/new_game.cpp:39 qt/ui/new_game.ui:153
 msgid "Human"
-msgstr ""
+msgstr "Humà"
 
 #: qt/new_game.cpp:40 qt/ui/new_game.ui:158
 msgid "Computer"
-msgstr ""
+msgstr "Ordinador"
 
 #: qt/new_game.cpp:47 qt/new_game.cpp:54 qt/new_game.cpp:114
 #: qt/new_game.cpp:205 qt/new_game.cpp:208
 msgid "Player %1"
-msgstr ""
+msgstr "Jugador %1"
 
 #: qt/new_game.cpp:51
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: qt/new_game.cpp:52
 msgid "Type"
-msgstr ""
+msgstr "Tipus"
 
 #: qt/new_game.cpp:53
 msgid "Level"
-msgstr ""
+msgstr "Nivell"
 
 #: qt/new_game.cpp:168 qt/ui/new_game.ui:42
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplicada"
 
 #: qt/play_word_mediator.cpp:66
 msgid ""
@@ -811,6 +841,9 @@ msgid ""
 "A joker from the rack must be written in parentheses.\n"
 "E.g.: w(o)rd or W(O)RD"
 msgstr ""
+"Indiqueu la paraula a jugar.\n"
+"Els escarrassos del faristol s'ha d'escriure entre parèntesis.\n"
+"Ex.: para(u)la o PARA(U)LA"
 
 #: qt/play_word_mediator.cpp:69
 msgid ""
@@ -819,166 +852,172 @@ msgid ""
 "and the column before the row for vertical words.\n"
 "E.g.: H4 or 4H"
 msgstr ""
+"Indiqueu les coordenades de la jugada.\n"
+"Especifiqueu la fila abans de la columna per a paraules horitzontals,\n"
+"i la columna abans de la fila per a paraules verticals.\n"
+"Ex.: H4 o 4H"
 
 #: qt/play_word_mediator.cpp:120
 msgid "Cannot play word: misplaced parentheses"
-msgstr ""
+msgstr "No es pot jugar la paraula: els parèntesis no estan ben col·locats"
 
 #: qt/play_word_mediator.cpp:142
 msgid "Cannot play '%1' at position '%2':\n"
-msgstr ""
+msgstr "No es pot jugar '%1' a la posició '%2':\n"
 
 #: qt/play_word_mediator.cpp:147
 msgid "Some letters are not valid for the current dictionary"
-msgstr ""
+msgstr "Algunes fitxes no són vàlides al diccionari actual"
 
 #: qt/play_word_mediator.cpp:150
 msgid "Invalid coordinates"
-msgstr ""
+msgstr "Coordenades no vàlides"
 
 #: qt/play_word_mediator.cpp:153
 msgid "The word does not exist"
-msgstr ""
+msgstr "La paraula no existeix"
 
 #: qt/play_word_mediator.cpp:156
 msgid "The rack doesn't contain the letters needed to play this word"
-msgstr ""
+msgstr "El faristol no té les fitxes necessàries per jugar aquesta paraula"
 
 #: qt/play_word_mediator.cpp:159
 msgid "The word is part of a longer one"
-msgstr ""
+msgstr "La paraula és part d'una altra més llarga"
 
 #: qt/play_word_mediator.cpp:162
 msgid "The word tries to replace an existing letter"
-msgstr ""
+msgstr "La jugada intenta substituir una fitxa ja existent"
 
 #: qt/play_word_mediator.cpp:165
 msgid "An orthogonal word is not valid"
-msgstr ""
+msgstr "Una paraula secundària no és vàlida"
 
 #: qt/play_word_mediator.cpp:168
 msgid "The word is already present on the board at these coordinates"
-msgstr ""
+msgstr "La paraula ja es troba present al tauler amb aquestes coordenades"
 
 #: qt/play_word_mediator.cpp:171
 msgid "A word cannot be isolated (not connected to the placed words)"
 msgstr ""
+"Una paraula no pots estar aillada (sense connectar a alguna paraula del "
+"tauler)"
 
 #: qt/play_word_mediator.cpp:174
 msgid "The first word of the game must be horizontal"
-msgstr ""
+msgstr "La primera paraula de la partida ha de ser horitzontal"
 
 #: qt/play_word_mediator.cpp:177
 msgid "The first word of the game must cover the H8 square"
-msgstr ""
+msgstr "La primera paraula de la partida ha de cobrir la casella H8"
 
 #: qt/play_word_mediator.cpp:180
 msgid "The word is going out of the board"
-msgstr ""
+msgstr "La paraula surt fora del tauler"
 
 #: qt/play_word_mediator.cpp:183
 msgid "Incorrect or misplaced word (%1)"
-msgstr ""
+msgstr "Paraula incorrecta o en posició errònia (%1)"
 
 #: qt/player_widget.cpp:159
 msgid "Cannot pass turn (%1)"
-msgstr ""
+msgstr "No es pot passar el torn (%1)"
 
 #: qt/player_widget.cpp:161
 msgid "Cannot change letters '%1' (%2)"
-msgstr ""
+msgstr "NO es poden canviar les fitxes '%1' (%2)"
 
 #: qt/prefs_dialog.cpp:71 qt/prefs_dialog.cpp:86 qt/prefs_dialog.cpp:141
 msgid "%1 error"
-msgstr ""
+msgstr "Error %1"
 
 #: qt/prefs_dialog.cpp:72
 msgid "Cannot load preferences: %1"
-msgstr ""
+msgstr "No es poden carregar les preferències: %1"
 
 #: qt/prefs_dialog.cpp:87 qt/prefs_dialog.cpp:142
 msgid "Cannot save preferences: %1"
-msgstr ""
+msgstr "No es poden desar les preferències: %1"
 
 #: qt/score_widget.cpp:47
 msgid "Score"
-msgstr ""
+msgstr "Puntuació"
 
 #: qt/training_widget.cpp:208
 msgid "Warning: Cannot set the rack to '%1'"
-msgstr ""
+msgstr "Atenció: No es pot posar el faristol a '%1'"
 
 #: qt/training_widget.cpp:248
 msgid "Searching with rack '%1'..."
-msgstr ""
+msgstr "S'està cercant amb el faristol '%1'..."
 
 #: qt/training_widget.cpp:250
 msgid "Search done"
-msgstr ""
+msgstr "Cerca feta"
 
 #: qt/ui/dic_tools_widget.ui:31
 msgid "Check"
-msgstr ""
+msgstr "Comprova"
 
 #: qt/ui/dic_tools_widget.ui:69
 msgid "Plus 1"
-msgstr ""
+msgstr "Més 1"
 
 #: qt/ui/dic_tools_widget.ui:94
 msgid "Regular expressions"
-msgstr ""
+msgstr "Expressions regulars"
 
 #: qt/ui/dic_tools_widget.ui:105
 msgid "Minimum length:"
-msgstr ""
+msgstr "Longitud mínima:"
 
 #: qt/ui/dic_tools_widget.ui:122
 msgid "Maximum length:"
-msgstr ""
+msgstr "Longitud màxima:"
 
 #: qt/ui/dic_tools_widget.ui:157
 msgid "Note: only the 1000 first results have been displayed"
-msgstr ""
+msgstr "Nota: només es mostraran els primers 1.000 resultats"
 
 #: qt/ui/dic_tools_widget.ui:168
 msgid "Dic. info."
-msgstr ""
+msgstr "Informació del diccionari"
 
 #: qt/ui/dic_tools_widget.ui:174
 msgid "Dictionary name:"
-msgstr ""
+msgstr "Nom del diccionari:"
 
 #: qt/ui/dic_tools_widget.ui:188
 msgid "Letters:"
-msgstr ""
+msgstr "Fitxes:"
 
 #: qt/ui/dic_tools_widget.ui:202
 msgid "Number of words:"
-msgstr ""
+msgstr "Nombre de paraules:"
 
 #: qt/ui/main_window.ui:55 qt/ui/new_game.ui:113
 msgid "Players"
-msgstr ""
+msgstr "Jugadors"
 
 #: qt/ui/main_window.ui:108
 msgid "External board"
-msgstr ""
+msgstr "Tauler extern"
 
 #: qt/ui/new_game.ui:13
 msgid "New game"
-msgstr ""
+msgstr "Partida nova"
 
 #: qt/ui/new_game.ui:22
 msgid "Game type"
-msgstr ""
+msgstr "Tipus de partida"
 
 #: qt/ui/new_game.ui:34
 msgid "Mode:"
-msgstr ""
+msgstr "Mode:"
 
 #: qt/ui/new_game.ui:73
 msgid "Variant:"
-msgstr ""
+msgstr "Variant:"
 
 #: qt/ui/new_game.ui:88
 msgid ""
@@ -989,10 +1028,16 @@ msgid ""
 "variant, particularly interesting in Duplicate mode, is good to train using "
 "the joker."
 msgstr ""
+"En una partida amb escarràs, cada faristol té un escarràs. Quan és juga una "
+"paraula fent servir l'escarràs al tauler, se substitueix l'escarràs per la "
+"fitxa corresponent, prenent-la del sac, i l'escarràs es manté al faristol. "
+"Quan la fitxa necessària no es troba al sac, l'escarràs roman al tauler. "
+"Aquesta variant és particularment interesant en el mode Duplicat, és bo "
+"entrenar emprant l'escarràs"
 
 #: qt/ui/new_game.ui:91 utils/ncurses.cpp:1123
 msgid "Joker game"
-msgstr ""
+msgstr "Partida amb escarràs"
 
 #: qt/ui/new_game.ui:98
 msgid ""
@@ -1003,68 +1048,77 @@ msgid ""
 "unlike the joker game, allows playing with a normal-looking rack, but it "
 "usually gives much higher scores than in a normal game."
 msgstr ""
+"Una partida explosiva s'assembla a una partida amb escarràs, excepte que "
+"quan l'ordinador selecciona el faristol (que conté un escarràs), cerca i "
+"troba la millor paraula del faristol. Aleshores, si és possible, substituiex "
+"l'escarràs del faristol per la fitxa que permet aquesta millor jugada. "
+"Aquesta variant, al contrari que la partida amb escarràs, permet jugar amb "
+"un faristol amb aparença normal, però habitualment s'aconsegueixen "
+"puntuacions molt més elevades que en una partida duplicada normal."
 
 #: qt/ui/new_game.ui:101
 msgid "Explosive game"
-msgstr ""
+msgstr "Partida explosiva"
 
 #: qt/ui/new_game.ui:131
 msgid "Name:"
-msgstr ""
+msgstr "Nom:"
 
 #: qt/ui/new_game.ui:145
 msgid "Type:"
-msgstr ""
+msgstr "Tipus:"
 
 #: qt/ui/new_game.ui:166
 msgid "Level:"
-msgstr ""
+msgstr "Nivell:"
 
 #: qt/ui/new_game.ui:190
 msgid "Add player"
-msgstr ""
+msgstr "Afegeix el jugador"
 
 #: qt/ui/new_game.ui:213
 msgid "Remove player"
-msgstr ""
+msgstr "Suprimeix el jugador"
 
 #: qt/ui/player_widget.ui:30
 msgid "Shuffle"
-msgstr ""
+msgstr "Remena"
 
 #: qt/ui/player_widget.ui:37
 msgid "Change letters:"
-msgstr ""
+msgstr "Canvia fitxes:"
 
 #: qt/ui/player_widget.ui:44
 msgid "Enter the letters you want to change"
-msgstr ""
+msgstr "Indiqueules fitxes que voleu canviar"
 
 #: qt/ui/player_widget.ui:54
 msgid "Change"
-msgstr ""
+msgstr "Canvia"
 
 #: qt/ui/player_widget.ui:61
 msgid "Pass"
-msgstr ""
+msgstr "Passa"
 
 #: qt/ui/player_widget.ui:68 qt/ui/training_widget.ui:66
 msgid "Ref.:"
-msgstr ""
+msgstr "Ref.:"
 
 #: qt/ui/player_widget.ui:75 qt/ui/training_widget.ui:38
 msgid "Play a word:"
-msgstr ""
+msgstr "Juga una paraula:"
 
 #: qt/ui/player_widget.ui:87 qt/ui/training_widget.ui:56
 msgid ""
 "Enter the word to play (case-insensitive). A joker from the rack must be "
 "written in parentheses. E.g.: w(o)rd or W(O)RD"
 msgstr ""
+"Indiqueu la paraula que voleu jugar. Per indicar el valor de l'escarràs, feu-"
+"ho escrivint el valor entre parèntesis. Ex: para(u)la o PARA(U)LA"
 
 #: qt/ui/player_widget.ui:97 qt/ui/training_widget.ui:98
 msgid "Play"
-msgstr ""
+msgstr "Juga"
 
 #: qt/ui/player_widget.ui:122 qt/ui/training_widget.ui:91
 msgid ""
@@ -1072,114 +1126,129 @@ msgid ""
 "horizontal words, and the column before the row for vertical words. E.g.: H4 "
 "or 4H"
 msgstr ""
+"Indiqueu les coordenades de la jugada. Especifiqueu la fila abans de la "
+"columna per a paraules horitzontals, i la columna abans de la fila per a "
+"paraules verticals. Ex.: H4 o 4H"
 
 #: qt/ui/player_widget.ui:116 qt/ui/training_widget.ui:85
 msgid "Enter the coordinates of the word."
-msgstr ""
+msgstr "Indiqueu les coordenades de la paraula."
 
 #: qt/ui/player_widget.ui:82 qt/ui/training_widget.ui:51
 msgid "Enter the word to play (case-insensitive)."
-msgstr ""
+msgstr "Indiqueu la paraula (no es distingueix entre majúscules o minúscules)"
 
 #: qt/ui/prefs_dialog.ui:13
 msgid "Preferences"
-msgstr ""
+msgstr "Preferències"
 
 #: qt/ui/prefs_dialog.ui:19
 msgid "Interface"
-msgstr ""
+msgstr "Interfície"
 
 #: qt/ui/prefs_dialog.ui:27
 msgid "Dictionary path:"
-msgstr ""
+msgstr "Camí al diccionari:"
 
 #: qt/ui/prefs_dialog.ui:40
 msgid "Enter the dictionary path (mandatory to start a game)"
 msgstr ""
+"Indiqueu el camí al diccionari (això és obligatori per a poder iniciar una "
+"partida)"
 
 #: qt/ui/prefs_dialog.ui:47
 msgid "Open a browser window to choose the dictionary"
-msgstr ""
+msgstr "Obre una finestra de l'explorar per a seleccionar un diccionari"
 
 #: qt/ui/prefs_dialog.ui:50
 msgid "Browse..."
-msgstr ""
+msgstr "Explora..."
 
 #: qt/ui/prefs_dialog.ui:59
 msgid "Show/hide the tiles points on the board."
-msgstr ""
+msgstr "Mostra/amaga el valor facial de les fitxes al tauler."
 
 #: qt/ui/prefs_dialog.ui:62
 msgid "Display tiles points"
-msgstr ""
+msgstr "Mostra el valor de les fitxes"
 
 #: qt/ui/prefs_dialog.ui:72
 msgid ""
 "If checked, the game and player histories will display the rack and the "
 "corresponding solution on the same line"
 msgstr ""
+"Si està marcat, els historials de partida i jugador mostraran el faristol i "
+"la solució corresponent en la mateixa línia"
 
 #: qt/ui/prefs_dialog.ui:75
 msgid "Align the rack and the solution in history"
-msgstr ""
+msgstr "Alinia el faristol i la solució a l'historial"
 
 #: qt/ui/prefs_dialog.ui:85
 msgid ""
 "If checked, a confirmation will be requested before replaying the game from "
 "a given turn. If unchecked, the action is performed without confirmation."
 msgstr ""
+"Si està marcat, se us farà demanarà confirmació abans de tornar a jugar un "
+"torn tancat. Si està desmarcat, els canvis es realitzen sense confirmació."
 
 #: qt/ui/prefs_dialog.ui:88
 msgid "Warn before replaying a turn"
-msgstr ""
+msgstr "Avisa abans de tornar a jugar un torn"
 
 #: qt/ui/prefs_dialog.ui:101 utils/ncurses.cpp:1120
 msgid "Duplicate mode"
-msgstr ""
+msgstr "Mode duplicat"
 
 #: qt/ui/prefs_dialog.ui:107 qt/ui/prefs_dialog.ui:179
 msgid ""
 "If checked, playing an invalid or misplaced word will not be possible. If "
 "unchecked, you will get 0 point and lose your turn"
 msgstr ""
+"Si està marcat, no és possible jugar una paraula invàlida o amb coordenades "
+"errònies. Si està desmarcat, obtindreu 0 punts i perdreu el torn"
 
 #: qt/ui/prefs_dialog.ui:110 qt/ui/prefs_dialog.ui:182
 msgid "Refuse to play invalid moves"
-msgstr ""
+msgstr "Rebutja fer jugades no vàlides"
 
 #: qt/ui/prefs_dialog.ui:117
 msgid "Min. players for a solo:"
-msgstr ""
+msgstr "Mínim per a jug. única:"
 
 #: qt/ui/prefs_dialog.ui:124
 msgid "Solo value:"
-msgstr ""
+msgstr "Valor de jugada única:"
 
 #: qt/ui/prefs_dialog.ui:131
 msgid "Value of the solo bonus. Set it to 0 if you don't want solo bonus"
-msgstr ""
+msgstr "Valor de la bonifació per jugada única. "
 
 #: qt/ui/prefs_dialog.ui:154
 msgid "Minimum number of players needed to take into account the solo bonus"
 msgstr ""
+"Nombre mínim de jugadors necessar per a tenir en compte la bonifiació de "
+"jugada única"
 
 #: qt/ui/prefs_dialog.ui:173 utils/ncurses.cpp:1118
 msgid "Free game mode"
-msgstr ""
+msgstr "Mode de partida lliure"
 
 #: qt/ui/prefs_dialog.ui:198
 msgid ""
 "If checked, any change to the player rack in training mode will update the "
 "'Plus 1' tab of the 'Dictionary tools' window"
 msgstr ""
+"Si està marcat, qualsevol cani al faristol del jugador en mode d'entremanet "
+"actualitzarà la pestanya 'Més 1' de la finestra d'eines de diccionari"
 
 #: qt/ui/prefs_dialog.ui:201
 msgid "Copy rack to the 'Plus 1' dictionary tool"
-msgstr ""
+msgstr "Copia el faristol a l'eina de diccionari 'Més 1'"
 
 #: qt/ui/prefs_dialog.ui:210
 msgid "Search results limit:"
-msgstr ""
+msgstr "Límit de resultats de cerca:"
 
 #: qt/ui/prefs_dialog.ui:217
 msgid ""
@@ -1187,166 +1256,172 @@ msgid ""
 "always be the best ones. Use 0 to disable the limit (warning: searches "
 "yielding many results can be extremely slow in this case!)."
 msgstr ""
+"Nombre màxim de resultats per a una cerca. Els resultats retornats seran "
+"sempre els millors. Poseu 0 per deshabilitar el límit (avís: les cerques que "
+"donen masses resultats poden ser extremadament lentes en aquest cas!)"
 
 #: qt/ui/training_widget.ui:109
 msgid "New rack"
-msgstr ""
+msgstr "Faristol nou"
 
 #: qt/ui/training_widget.ui:116
 msgid "Complement"
-msgstr ""
+msgstr "Complement"
 
 #: qt/ui/training_widget.ui:126
 msgid "Search"
-msgstr ""
+msgstr "Cerca"
 
 #: qt/ui/training_widget.ui:136
 msgid "Play selected"
-msgstr ""
+msgstr "Jugada seleccionada"
 
 #: qt/ui/training_widget.ui:145 utils/ncurses.cpp:342
 msgid "Search results"
-msgstr ""
+msgstr "Resultats de la cerca"
 
 #: utils/ncurses.cpp:284
 msgid "Scores"
-msgstr ""
+msgstr "Puntuacions"
 
 #: utils/ncurses.cpp:288 utils/ncurses.cpp:294
 #, c-format
 msgid "%s: %d"
-msgstr ""
+msgstr "%s: %d"
 
 #: utils/ncurses.cpp:306
 msgid "Racks"
-msgstr ""
+msgstr "Faristols"
 
 #: utils/ncurses.cpp:310 utils/ncurses.cpp:316
 #, c-format
 msgid "%s: %ls"
-msgstr ""
+msgstr "%s: %ls"
 
 #: utils/ncurses.cpp:330 utils/ncurses.cpp:333
 msgid "Search complete"
-msgstr ""
+msgstr "Cerca completa"
 
 #: utils/ncurses.cpp:371
 msgid "History of the game"
-msgstr ""
+msgstr "Historial de la partida"
 
 #: utils/ncurses.cpp:377
 msgid " N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS"
-msgstr ""
+msgstr " N |  FARISTOL |     SOLUCIÓ     | REF | PTS | P | BONIFICACIÓ"
 
 #: utils/ncurses.cpp:442
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
 #: utils/ncurses.cpp:446
 msgid "[Global]"
-msgstr ""
+msgstr "[Global]"
 
 #: utils/ncurses.cpp:447
 msgid "   h, H, ?          Show/hide help box"
-msgstr ""
+msgstr "   h, H, ?          Mostra/amaga la finestra d'ajuda"
 
 #: utils/ncurses.cpp:448
 msgid "   y, Y             Show/hide history of the game"
-msgstr ""
+msgstr "   y, Y             Mostra/amaga l'historial de la partida"
 
 #: utils/ncurses.cpp:449
 msgid ""
 "   b, B             Show/hide contents of the bag (including letters of the "
 "racks)"
 msgstr ""
+"   b, B             Mostra/amaga es contingut del sac (incloent-hi les "
+"fitxes dels faristols)"
 
 #: utils/ncurses.cpp:450
 msgid "   e, E             Show/hide dots on empty squares of the board"
 msgstr ""
+"   e, E             Mostra/amaga els punts de les caselles buides del tauler "
 
 #: utils/ncurses.cpp:451
 msgid "   d, D             Check the existence of a word in the dictionary"
-msgstr ""
+msgstr "   d, D             Comprova l'existència d'una paraula al diccionari"
 
 #: utils/ncurses.cpp:452
 msgid "   j, J             Play a word"
-msgstr ""
+msgstr "   j, J             Juga una paraula"
 
 #: utils/ncurses.cpp:453
 msgid "   s, S             Save the game"
-msgstr ""
+msgstr "   s, S             Desa la partida"
 
 #: utils/ncurses.cpp:454
 msgid "   l, L             Load a game"
-msgstr ""
+msgstr "   l, L             Carrega la partida"
 
 #: utils/ncurses.cpp:455
 msgid "   q, Q             Quit"
-msgstr ""
+msgstr "   q, Q             Surt"
 
 #: utils/ncurses.cpp:458
 msgid "[Training mode]"
-msgstr ""
+msgstr "[Mode entrenament]"
 
 #: utils/ncurses.cpp:459
 msgid "   *                Take a random rack"
-msgstr ""
+msgstr "   *                Pren un faristol aleatori"
 
 #: utils/ncurses.cpp:460
 msgid "   +                Complete the current rack randomly"
-msgstr ""
+msgstr "   +                Completa el faristol actual de forma aleatòria"
 
 #: utils/ncurses.cpp:461
 msgid "   t, T             Set the rack manually"
-msgstr ""
+msgstr "   t, T             Indica el faristol manualment"
 
 #: utils/ncurses.cpp:462
 msgid "   c, C             Compute all the possible words"
-msgstr ""
+msgstr "   c, C             Calcula totes la paraules possibles"
 
 #: utils/ncurses.cpp:463
 msgid "   r, R             Show/hide search results"
-msgstr ""
+msgstr "   r, R             Mostra/amaga els resultat de la cerca"
 
 #: utils/ncurses.cpp:466
 msgid "[Duplicate mode]"
-msgstr ""
+msgstr "[Mode duplicada]"
 
 #: utils/ncurses.cpp:467
 msgid "   n, N             Switch to the next human player"
-msgstr ""
+msgstr "   n, N             Canvia al següent jugador humà"
 
 #: utils/ncurses.cpp:470
 msgid "[Free game mode]"
-msgstr ""
+msgstr "[Mode partida lliure]"
 
 #: utils/ncurses.cpp:471
 msgid "   p, P             Pass your turn (with or without changing letters)"
-msgstr ""
+msgstr "   p, P             Passa el vostre torn (amb o sense canvi de fitxes)"
 
 #: utils/ncurses.cpp:474
 msgid "[Miscellaneous]"
-msgstr ""
+msgstr "[Miscel·lània]"
 
 #: utils/ncurses.cpp:475
 msgid "   <up>, <down>     Navigate in a box line by line"
-msgstr ""
+msgstr "   <amunt>, <avall>     Navega línia per línia en una caixa"
 
 #: utils/ncurses.cpp:476
 msgid "   <pgup>, <pgdown> Navigate in a box page by page"
-msgstr ""
+msgstr "   <RePàg>, <AvPàg> Navega per pàgines en una caixa"
 
 #: utils/ncurses.cpp:477
 msgid "   Ctrl-l           Refresh the screen"
-msgstr ""
+msgstr "   Ctrl-l           Actualitza la pantalla"
 
 #: utils/ncurses.cpp:495
 msgid " LETTER | POINTS | FREQUENCY | REMAINING"
-msgstr ""
+msgstr " FITXA | PUNTS | FREQÜENCIA | ROMANENT"
 
 #: utils/ncurses.cpp:548
 msgid "Play a word"
-msgstr ""
+msgstr "Juga una paraula"
 
 #. TRANSLATORS: Align the : when translating "Played word:" and
 #. "Coordinates:". For example:
@@ -1354,86 +1429,89 @@ msgstr ""
 #. Coordinates:
 #: utils/ncurses.cpp:549 utils/ncurses.cpp:557
 msgid "Played word:"
-msgstr ""
+msgstr "Paraula jugada:"
 
 #: utils/ncurses.cpp:550 utils/ncurses.cpp:558
 msgid "Coordinates:"
-msgstr ""
+msgstr "Coordenades:"
 
 #: utils/ncurses.cpp:572
 msgid "Incorrect or misplaced word"
-msgstr ""
+msgstr "Paraula incorrecta o en mala posició"
 
 #: utils/ncurses.cpp:582
 msgid "Dictionary"
-msgstr ""
+msgstr "Diccionari"
 
 #: utils/ncurses.cpp:583
 msgid "Enter the word to check:"
-msgstr ""
+msgstr "Indiqueu la paraula a comprovar:"
 
 #: utils/ncurses.cpp:592
 #, c-format
 msgid "The word '%ls' exists"
-msgstr ""
+msgstr "La paraula '%ls' existeix"
 
 #: utils/ncurses.cpp:594
 #, c-format
 msgid "The word '%ls' does not exist"
-msgstr ""
+msgstr "La paraula '%ls' no existeix"
 
 #: utils/ncurses.cpp:604
 msgid "Save the game"
-msgstr ""
+msgstr "Desa la partida"
 
 #: utils/ncurses.cpp:605 utils/ncurses.cpp:635
 msgid "Enter the file name:"
-msgstr ""
+msgstr "Indiqueu el nom de fitxer:"
 
 #: utils/ncurses.cpp:615
 #, c-format
 msgid "Cannot open file %ls for writing"
-msgstr ""
+msgstr "No es pot obrir per a escriptura el fitxer '%ls'"
 
 #: utils/ncurses.cpp:623
 #, c-format
 msgid "Game saved in '%ls'"
-msgstr ""
+msgstr "S'ha desat la partida a '%ls'"
 
 #: utils/ncurses.cpp:645
 #, c-format
 msgid "Cannot open file '%ls' for reading"
-msgstr ""
+msgstr "No es pot obrir per a lectura el fitxer '%ls'"
 
 #: utils/ncurses.cpp:653
 #, c-format
 msgid "Invalid saved game"
-msgstr ""
+msgstr "La partida desada no és vàlida"
 
 #: utils/ncurses.cpp:674
 msgid "Pass your turn"
-msgstr ""
+msgstr "Passa el torn"
 
 #: utils/ncurses.cpp:675
 msgid "Enter the letters to change:"
-msgstr ""
+msgstr "Indiqueu les fitxes a canviar:"
 
 #: utils/ncurses.cpp:684
 msgid "Cannot pass the turn"
-msgstr ""
+msgstr "El torn no es pot passar"
 
 #: utils/ncurses.cpp:694
 msgid "Set rack"
-msgstr ""
+msgstr "Indiqueu el faristol"
 
 #: utils/ncurses.cpp:695
 msgid "Enter the new letters:"
-msgstr ""
+msgstr "Indiqueu les fitxes noves:"
 
 #: utils/ncurses.cpp:707
 msgid "Cannot take these letters from the bag:"
-msgstr ""
+msgstr "No es poden agafar aquestes fitxes del sac:"
 
 #: utils/ncurses.cpp:1124
 msgid "[h for help]"
-msgstr ""
+msgstr "[h per a l'ajuda]"
+
+#~ msgid "&Help"
+#~ msgstr "&Ajuda"
