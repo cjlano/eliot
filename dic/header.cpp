@@ -49,22 +49,7 @@
 #include "dic_exception.h"
 
 
-// Note: swap4 is duplicated in dic.cpp
 #if defined(WORDS_BIGENDIAN)
-static uint32_t swap4(uint32_t v)
-{
-    uint32_t r;
-    uint8_t *pv = (uint8_t*)&v;
-    uint8_t *pr = (uint8_t*)&r;
-
-    pr[0] = pv[3];
-    pr[1] = pv[2];
-    pr[2] = pv[1];
-    pr[3] = pv[0];
-
-    return r;
-}
-
 // Nothing to do on big-endian machines
 #   define ntohll(x) (x)
 #   define htonll(x) (x)

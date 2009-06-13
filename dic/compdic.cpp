@@ -69,9 +69,7 @@
 
 using namespace std;
 
-//#define DEBUG_LIST
 //#define DEBUG_OUTPUT
-//#define DEBUG_OUTPUT_L2
 #define CHECK_RECURSION
 
 
@@ -214,7 +212,7 @@ void fix_header(ostream &outfile, DictHeaderInfo &ioHeaderInfo)
 }
 
 
-// Change endianness of the pointes edges, and write them to the given ostream
+// Change endianness of the pointed edges, and write them to the given ostream
 void write_node(uint32_t *ioEdges, unsigned int num, ostream &outfile)
 {
     // Handle endianness
@@ -227,11 +225,6 @@ void write_node(uint32_t *ioEdges, unsigned int num, ostream &outfile)
     printf("writing %d edges\n", num);
     for (int i = 0; i < num; i++)
     {
-#ifdef DEBUG_OUTPUT_L2
-        printf("ptr=%2d t=%d l=%d chr=%2d (%c)\n",
-               ioEdges[i].ptr, ioEdges[i].term, ioEdges[i].last,
-               ioEdges[i].chr, ioEdges[i].chr -1 +'a');
-#endif
         outfile.write((char*)(ioEdges + i), sizeof(DicEdge));
     }
 #else
@@ -278,10 +271,10 @@ int current_rec = 0;
 int max_rec = 0;
 #endif
 
-/* global variables */
 typedef boost::unordered_map<vector<DicEdge>, unsigned int> HashMap;
 
-HashMap *global_hashmap;
+/* global variables */
+HashMap global_hashmap;
 
 wchar_t  global_stringbuf[MAX_STRING_LENGTH]; /* Space for current string */
 wchar_t* global_endstring;                    /* Marks END of current string */
@@ -374,8 +367,8 @@ unsigned int makenode(const wchar_t *iPrefix, ostream &outfile,
     // Mark the last edge
     edges.back().last = 1;
 
-    HashMap::const_iterator itMap = global_hashmap->find(edges);
-    if (itMap != global_hashmap->end())
+    HashMap::const_iterator itMap = global_hashmap.find(edges);
+    if (itMap != global_hashmap.end())
     {
         ioHeaderInfo.edgessaved += numedges;
         ioHeaderInfo.nodessaved++;
@@ -385,7 +378,7 @@ unsigned int makenode(const wchar_t *iPrefix, ostream &outfile,
     else
     {
         unsigned int node_pos = ioHeaderInfo.edgesused;
-        (*global_hashmap)[edges] = ioHeaderInfo.edgesused;
+        global_hashmap[edges] = ioHeaderInfo.edgesused;
         ioHeaderInfo.edgesused += numedges;
         ioHeaderInfo.nodesused++;
         write_node(reinterpret_cast<uint32_t*>(&edges.front()),
@@ -531,8 +524,6 @@ int main(int argc, char* argv[])
         global_input = uncompressed;
         global_endofinput = global_input + dicsize;
 
-        global_hashmap = new HashMap();
-
         headerInfo.dawg = true;
         Header tempHeader = skip_init_header(outfile, headerInfo);
 
@@ -561,7 +552,6 @@ int main(int argc, char* argv[])
         Header aHeader(headerInfo);
         aHeader.print();
 
-        delete global_hashmap;
         delete[] uncompressed;
         outfile.close();
 
