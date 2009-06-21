@@ -30,7 +30,7 @@ package-win32-zip:
 	cp $(QT4LOCALEDIR)/*.qm $(WIN32_PACKAGE_DIR)/locale/qt4/ || true
 
 # Copy relevant text files
-	for i in AUTHORS COPYING NEWS; do \
+	for i in AUTHORS COPYING NEWS THANKS; do \
 		cp $(top_srcdir)/$$i $(WIN32_PACKAGE_DIR)/$$i.txt; \
 		unix2dos $(WIN32_PACKAGE_DIR)/$$i.txt; \
 	done
