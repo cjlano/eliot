@@ -250,8 +250,10 @@ unsigned int Header::getCodeFromChar(wchar_t iChar) const
         m_mapCodeFromChar.find(iChar);
     if (pair == m_mapCodeFromChar.end())
     {
-        throw DicException("Header::getCodeFromChar: No code for letter " +
-                           convertToMb(iChar));
+        char s[5];
+        sprintf(s, "%d", iChar);
+        throw DicException("Header::getCodeFromChar: No code for letter '" +
+                           convertToMb(iChar) + "' (val=" + string(s) + ")");
     }
     return pair->second;
 }

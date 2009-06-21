@@ -324,7 +324,19 @@ unsigned int makenode(const wchar_t *iPrefix, ostream &outfile,
         newEdge.ptr  = 0;
         newEdge.term = 0;
         newEdge.last = 0;
-        newEdge.chr = iHeader.getCodeFromChar(*global_endstring++ = *global_input++);
+        try
+        {
+            newEdge.chr = iHeader.getCodeFromChar(*global_endstring++ = *global_input++);
+        }
+        catch (DicException &e)
+        {
+            // If an invalid character is found, be specific about the problem
+            ostringstream oss;
+            oss << "Error on line " << 1 + ioHeaderInfo.nwords
+                << ", col " << global_endstring - global_stringbuf
+                << ": " << e.what() << endl;
+            throw DicException(oss.str());
+        }
         edges.push_back(newEdge);
 
         // End of a word?
