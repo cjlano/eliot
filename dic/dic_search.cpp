@@ -75,14 +75,28 @@ bool Dictionary::searchWord(const wstring &iWord) const
 
 struct params_7plus1_t
 {
-    wchar_t added_char;
-    map<wchar_t, vector<wstring> > *results;
+    wchar_t added_code;
+    wdstring added_display;
+    map<wdstring, vector<wdstring> > *results;
     int search_len;
     wchar_t search_wordtst[DIC_WORD_MAX];
     char search_letters[63];
 };
 
-void Dictionary::searchWordByLen(struct params_7plus1_t *params,
+wdstring convertToDisplay(const Header &iHeader, const wstring &iWord)
+{
+    wdstring dispStr;
+    dispStr.reserve(iWord.size());
+    for (unsigned int i = 0; i < iWord.size(); ++i)
+    {
+        const wdstring &chr =
+            iHeader.getDisplayStr(iHeader.getCodeFromChar(iWord[i]));
+        dispStr += chr;
+    }
+    return dispStr;
+}
+
+void Dictionary::searchWordByLen(struct params_7plus1_t &params,
                                  int i, const DicEdge *edgeptr) const
 {
     /* depth first search in the dictionary */
@@ -92,49 +106,49 @@ void Dictionary::searchWordByLen(struct params_7plus1_t *params,
         if (edgeptr->chr)
         {
             /* is the letter available in search_letters */
-            if (params->search_letters[edgeptr->chr])
+            if (params.search_letters[edgeptr->chr])
             {
-                params->search_wordtst[i] = getHeader().getCharFromCode(edgeptr->chr);
-                params->search_letters[edgeptr->chr] --;
-                if (i == params->search_len)
+                params.search_wordtst[i] = getHeader().getCharFromCode(edgeptr->chr);
+                params.search_letters[edgeptr->chr] --;
+                if (i == params.search_len)
                 {
                     if (edgeptr->term)
                     {
                         // Add the solution
-                        vector<wstring> &sols = (*params->results)[params->added_char];
-                        if (sols.empty() || sols.back() != params->search_wordtst)
-                            sols.push_back(params->search_wordtst);
+                        vector<wdstring> &sols = (*params.results)[params.added_display];
+                        if (sols.empty() || sols.back() != params.search_wordtst)
+                            sols.push_back(convertToDisplay(getHeader(), params.search_wordtst));
                     }
                 }
                 else
                 {
                     searchWordByLen(params, i + 1, getEdgeAt(edgeptr->ptr));
                 }
-                params->search_letters[edgeptr->chr] ++;
-                params->search_wordtst[i] = L'\0';
+                params.search_letters[edgeptr->chr] ++;
+                params.search_wordtst[i] = L'\0';
             }
 
             /* the letter is of course available if we have a joker available */
-            if (params->search_letters[0])
+            if (params.search_letters[0])
             {
-                params->search_wordtst[i] = getHeader().getCharFromCode(edgeptr->chr);
-                params->search_letters[0] --;
-                if (i == params->search_len)
+                params.search_wordtst[i] = getHeader().getCharFromCode(edgeptr->chr);
+                params.search_letters[0] --;
+                if (i == params.search_len)
                 {
                     if (edgeptr->term)
                     {
                         // Add the solution
-                        vector<wstring> &sols = (*params->results)[params->added_char];
-                        if (sols.empty() || sols.back() != params->search_wordtst)
-                            sols.push_back(params->search_wordtst);
+                        vector<wdstring> &sols = (*params.results)[params.added_display];
+                        if (sols.empty() || sols.back() != params.search_wordtst)
+                            sols.push_back(convertToDisplay(getHeader(), params.search_wordtst));
                     }
                 }
                 else
                 {
                     searchWordByLen(params, i + 1, getEdgeAt(edgeptr->ptr));
                 }
-                params->search_letters[0] ++;
-                params->search_wordtst[i] = L'\0';
+                params.search_letters[0] ++;
+                params.search_wordtst[i] = L'\0';
             }
         }
     } while (! (*edgeptr++).last);
@@ -142,7 +156,7 @@ void Dictionary::searchWordByLen(struct params_7plus1_t *params,
 
 
 void Dictionary::search7pl1(const wstring &iRack,
-                            map<wchar_t, vector<wstring> > &oWordList,
+                            map<wdstring, vector<wdstring> > &oWordList,
                             bool joker) const
 {
     if (iRack == L"" || iRack.size() > DIC_WORD_MAX)
@@ -189,10 +203,11 @@ void Dictionary::search7pl1(const wstring &iRack,
     params.results = &oWordList;
 
     /* search for all the words that can be done with the letters */
-    params.added_char = L'\0';
+    params.added_code = 0;
+    params.added_display = L"";
     params.search_len = wordlen - 1;
     params.search_wordtst[wordlen] = L'\0';
-    searchWordByLen(&params, 0, root_edge);
+    searchWordByLen(params, 0, root_edge);
 
     /* search for all the words that can be done with the letters +1 */
     params.search_len = wordlen;
@@ -200,11 +215,12 @@ void Dictionary::search7pl1(const wstring &iRack,
     const wstring &letters = getHeader().getLetters();
     for (unsigned int i = 0; i < letters.size(); i++)
     {
-        params.added_char = letters[i];
         unsigned int code = getHeader().getCodeFromChar(letters[i]);
+        params.added_code = code;
+        params.added_display = getHeader().getDisplayStr(code);
         params.search_letters[code]++;
 
-        searchWordByLen(&params, 0, root_edge);
+        searchWordByLen(params, 0, root_edge);
 
         params.search_letters[code]--;
     }
@@ -214,7 +230,7 @@ void Dictionary::search7pl1(const wstring &iRack,
 /****************************************/
 
 void Dictionary::searchRacc(const wstring &iWord,
-                            vector<wstring> &oWordList,
+                            vector<wdstring> &oWordList,
                             unsigned int iMaxResults) const
 {
     if (iWord == L"")
@@ -226,31 +242,28 @@ void Dictionary::searchRacc(const wstring &iWord,
     else
         oWordList.reserve(DEFAULT_VECT_ALLOC);
 
+    // Transform the given word to make it suitable for display
+    const wdstring &displayWord = convertToDisplay(getHeader(), iWord);
+
     // Try to add a letter at the front
-    wchar_t wordtst[DIC_WORD_MAX];
-    wcscpy(wordtst + 1, iWord.c_str());
     const wstring &letters = getHeader().getLetters();
     for (unsigned int i = 0; i <= letters.size(); i++)
     {
-        wordtst[0] = letters[i];
-        if (searchWord(wordtst))
-            oWordList.push_back(wordtst);
+        if (searchWord(letters[i] + iWord))
+        {
+            const wdstring &chr =
+                getHeader().getDisplayStr(getHeader().getCodeFromChar(letters[i]));
+            oWordList.push_back(chr + displayWord);
+        }
         if (iMaxResults && oWordList.size() >= iMaxResults)
             return;
     }
 
     // Try to add a letter at the end
-    int i;
-    for (i = 0; iWord[i]; i++)
-        wordtst[i] = iWord[i];
-
-    wordtst[i  ] = '\0';
-    wordtst[i+1] = '\0';
-
     const DicEdge *edge_seek =
         seekEdgePtr(iWord.c_str(), getEdgeAt(getRoot()));
 
-    /* points to what the next letter can be */
+    // Point to what the next letter can be
     const DicEdge *edge = getEdgeAt(edge_seek->ptr);
 
     if (edge != getEdgeAt(0))
@@ -259,8 +272,7 @@ void Dictionary::searchRacc(const wstring &iWord,
         {
             if (edge->term)
             {
-                wordtst[i] = getHeader().getCharFromCode(edge->chr);
-                oWordList.push_back(wordtst);
+                oWordList.push_back(displayWord + getHeader().getDisplayStr(edge->chr));
                 if (iMaxResults && oWordList.size() >= iMaxResults)
                     return;
             }
@@ -271,7 +283,7 @@ void Dictionary::searchRacc(const wstring &iWord,
 /****************************************/
 /****************************************/
 
-void Dictionary::searchBenj(const wstring &iWord, vector<wstring> &oWordList,
+void Dictionary::searchBenj(const wstring &iWord, vector<wdstring> &oWordList,
                             unsigned int iMaxResults) const
 {
     if (iWord == L"")
@@ -283,26 +295,27 @@ void Dictionary::searchBenj(const wstring &iWord, vector<wstring> &oWordList,
     else
         oWordList.reserve(DEFAULT_VECT_ALLOC);
 
-    wchar_t wordtst[DIC_WORD_MAX];
-    wcscpy(wordtst + 3, iWord.c_str());
+    // Transform the given word to make it suitable for display
+    const wdstring &displayWord = convertToDisplay(getHeader(), iWord);
+
     const DicEdge *edge0, *edge1, *edge2, *edgetst;
     edge0 = getEdgeAt(getRoot());
     edge0 = getEdgeAt(edge0->ptr);
     do
     {
-        wordtst[0] = getHeader().getCharFromCode(edge0->chr);
+        const wdstring &chr0 = getHeader().getDisplayStr(edge0->chr);
         edge1 = getEdgeAt(edge0->ptr);
         do
         {
-            wordtst[1] = getHeader().getCharFromCode(edge1->chr);
+            const wdstring &chr1 = getHeader().getDisplayStr(edge1->chr);
             edge2 = getEdgeAt(edge1->ptr);
             do
             {
                 edgetst = seekEdgePtr(iWord.c_str(), edge2);
                 if (edgetst->term)
                 {
-                    wordtst[2] = getHeader().getCharFromCode(edge2->chr);
-                    oWordList.push_back(wordtst);
+                    const wdstring &chr2 = getHeader().getDisplayStr(edge2->chr);
+                    oWordList.push_back(chr0 + chr1 + chr2 + displayWord);
                     if (iMaxResults && oWordList.size() >= iMaxResults)
                         return;
                 }
@@ -314,121 +327,33 @@ void Dictionary::searchBenj(const wstring &iWord, vector<wstring> &oWordList,
 /****************************************/
 /****************************************/
 
-struct params_cross_t
-{
-    int wordlen;
-    wchar_t mask[DIC_WORD_MAX];
-};
-
-
-void Dictionary::searchCrossRec(struct params_cross_t *params,
-                                vector<wstring> &oWordList,
-                                const DicEdge *edgeptr,
-                                unsigned int iMaxResults) const
-{
-    if (iMaxResults && oWordList.size() >= iMaxResults)
-        return;
-
-    const DicEdge *current = getEdgeAt(edgeptr->ptr);
-
-    if (params->mask[params->wordlen] == '\0')
-    {
-        if (edgeptr->term)
-            oWordList.push_back(params->mask);
-    }
-    else if (current->chr == 0)
-    {
-        // Do not go on recursion if we are on the sink
-        return;
-    }
-    else if (params->mask[params->wordlen] == '.')
-    {
-        do
-        {
-            params->mask[params->wordlen] = getHeader().getCharFromCode(current->chr);
-            params->wordlen ++;
-            searchCrossRec(params, oWordList, current, iMaxResults);
-            params->wordlen --;
-            params->mask[params->wordlen] = '.';
-        }
-        while (!(*current++).last);
-    }
-    else
-    {
-        do
-        {
-            if (current->chr == getHeader().getCodeFromChar(params->mask[params->wordlen]))
-            {
-                params->wordlen ++;
-                searchCrossRec(params, oWordList, current, iMaxResults);
-                params->wordlen --;
-                break;
-            }
-        }
-        while (!(*current++).last);
-    }
-}
-
-
-void Dictionary::searchCross(const wstring &iMask, vector<wstring> &oWordList,
-                             unsigned int iMaxResults) const
-{
-    if (iMask == L"")
-        return;
-
-    // Allocate room for all the results
-    if (iMaxResults)
-        oWordList.reserve(iMaxResults);
-    else
-        oWordList.reserve(DEFAULT_VECT_ALLOC);
-
-    struct params_cross_t params;
-
-    int i;
-    for (i = 0; i < DIC_WORD_MAX && iMask[i]; i++)
-    {
-        if (iswalpha(iMask[i]))
-            params.mask[i] = towupper(iMask[i]);
-        else
-            params.mask[i] = '.';
-    }
-    params.mask[i] = '\0';
-
-    params.wordlen = 0;
-    searchCrossRec(&params, oWordList, getEdgeAt(getRoot()), iMaxResults);
-}
-
-/****************************************/
-/****************************************/
-
 struct params_regexp_t
 {
-    int minlength;
-    int maxlength;
+    unsigned int minlength;
+    unsigned int maxlength;
     Automaton *automaton_field;
-    wchar_t word[DIC_WORD_MAX];
-    int wordlen;
 };
 
 
-void Dictionary::searchRegexpRec(struct params_regexp_t *params,
+void Dictionary::searchRegexpRec(const struct params_regexp_t &params,
                                  int state,
                                  const DicEdge *edgeptr,
-                                 vector<wstring> &oWordList,
-                                 unsigned int iMaxResults) const
+                                 vector<wdstring> &oWordList,
+                                 unsigned int iMaxResults,
+                                 const wdstring &iCurrWord,
+                                 unsigned int iNbChars) const
 {
     if (iMaxResults && oWordList.size() >= iMaxResults)
         return;
 
     int next_state;
     /* if we have a valid word we store it */
-    if (params->automaton_field->accept(state) && edgeptr->term)
+    if (params.automaton_field->accept(state) && edgeptr->term)
     {
-        int l = wcslen(params->word);
-        if (params->minlength <= l &&
-            params->maxlength >= l)
+        if (params.minlength <= iNbChars &&
+            params.maxlength >= iNbChars)
         {
-            oWordList.push_back(params->word);
+            oWordList.push_back(iCurrWord);
         }
     }
     /* we now drive the search by exploring the dictionary */
@@ -436,16 +361,12 @@ void Dictionary::searchRegexpRec(struct params_regexp_t *params,
     do
     {
         /* the current letter is current->chr */
-        next_state = params->automaton_field->getNextState(state, current->chr);
+        next_state = params.automaton_field->getNextState(state, current->chr);
         /* 1: the letter appears in the automaton as is */
         if (next_state)
         {
-            params->word[params->wordlen] =
-                getHeader().getCharFromCode(current->chr);
-            params->wordlen ++;
-            searchRegexpRec(params, next_state, current, oWordList, iMaxResults);
-            params->wordlen --;
-            params->word[params->wordlen] = L'\0';
+            searchRegexpRec(params, next_state, current, oWordList, iMaxResults,
+                            iCurrWord + getHeader().getDisplayStr(current->chr), iNbChars + 1);
         }
     } while (!(*current++).last);
 }
@@ -453,7 +374,6 @@ void Dictionary::searchRegexpRec(struct params_regexp_t *params,
 
 /**
  * Initialize the lists of letters with pre-defined lists
- 
  * 0: all tiles
  * 1: vowels
  * 2: consonants
@@ -489,7 +409,7 @@ static void initLetterLists(const Dictionary &iDic,
 
 
 bool Dictionary::searchRegExp(const wstring &iRegexp,
-                              vector<wstring> &oWordList,
+                              vector<wdstring> &oWordList,
                               unsigned int iMinLength,
                               unsigned int iMaxLength,
                               unsigned int iMaxResults) const
@@ -542,9 +462,7 @@ bool Dictionary::searchRegExp(const wstring &iRegexp,
         params.minlength = iMinLength;
         params.maxlength = iMaxLength;
         params.automaton_field = a;
-        memset(params.word, L'\0', sizeof(params.word));
-        params.wordlen = 0;
-        searchRegexpRec(&params, a->getInitId(),
+        searchRegexpRec(params, a->getInitId(),
                         getEdgeAt(getRoot()), oWordList,
                         iMaxResults ? iMaxResults + 1 : 0);
         delete a;

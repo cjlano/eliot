@@ -18,6 +18,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <algorithm> // For std::transform
 #include <math.h>
 #include <QtGui/QPainter>
 #include <QtGui/QPaintEvent>
@@ -138,12 +139,14 @@ void BoardWidget::paintEvent(QPaintEvent *)
             // Draw the letter
             if (m_game != NULL && !m_game->getBoard().getTile(row, col).isEmpty())
             {
-                wchar_t chr = towupper(m_game->getBoard().getTile(row, col).toChar());
+                wstring chr = m_game->getBoard().getTile(row, col).getDisplayStr();
+                // Make the display char in upper case
+                std::transform(chr.begin(), chr.end(), chr.begin(), towupper);
                 if (m_game->getBoard().getCharAttr(row, col) & ATTR_JOKER)
                     painter.setPen(JokerColour);
                 painter.setFont(letterFont);
                 painter.drawText(xPos, yPos + 1, squareSize, squareSize,
-                                 Qt::AlignCenter, qfw(wstring(1, chr)));
+                                 Qt::AlignCenter, qfw(chr));
                 painter.setPen(NormalColour);
 
                 // Draw the points of the tile

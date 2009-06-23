@@ -44,6 +44,17 @@ struct params_7plus1_t;
 struct params_regexp_t;
 class DicEdge;
 
+/**
+ * A wdstring is a display string, i.e. it can contains more chars thani
+ * the represented string. The difference arises in languages such as Catalan,
+ * where for example "QU" is made of 2 real characters, but corresponds to a
+ * single tile.
+ *
+ * The wdstring type has no particular interest other than signaling
+ * a bit more precisely the type of contents of the string.
+ */
+typedef wstring wdstring;
+
 class Dictionary
 {
 public:
@@ -182,7 +193,7 @@ public:
      * @param oWordList: results
      * @param iMaxResults: maximum number of returned results (0 means no limit)
      */
-    void searchBenj(const wstring &iWord, vector<wstring> &oWordList,
+    void searchBenj(const wstring &iWord, vector<wdstring> &oWordList,
                     unsigned int iMaxResults = 0) const;
 
     /**
@@ -191,27 +202,18 @@ public:
      * @param oWordList: results
      * @param iMaxResults: maximum number of returned results (0 means no limit)
      */
-    void searchRacc(const wstring &iWord, vector<wstring> &oWordList,
+    void searchRacc(const wstring &iWord, vector<wdstring> &oWordList,
                     unsigned int iMaxResults = 0) const;
-
-    /**
-     * Search for crosswords
-     * @param iMask: letters
-     * @param oWordList: results
-     * @param iMaxResults: maximum number of returned results (0 means no limit)
-     */
-    void searchCross(const wstring &iMask, vector<wstring> &oWordList,
-                     unsigned int iMaxResults = 0) const;
 
     /**
      * Search for all feasible word with "rack" plus one letter
      * @param iRack: letters
-     * @param oWordlist: results
+     * @param oWordlist: results (grouped by added character)
      * @param joker: true if the search must be performed when a joker is in the rack
      * @param iMaxResults: maximum number of returned results (0 means no limit)
      */
     void search7pl1(const wstring &iRack,
-                    map<wchar_t, vector<wstring> > &oWordList,
+                    map<wstring, vector<wdstring> > &oWordList,
                     bool joker) const;
 
     /**
@@ -226,7 +228,7 @@ public:
      * @throw InvalidRegexpException When the regular expression cannot be parsed
      */
     bool searchRegExp(const wstring &iRegexp,
-                      vector<wstring> &oWordList,
+                      vector<wdstring> &oWordList,
                       unsigned int iMinLength,
                       unsigned int iMaxLength,
                       unsigned int iMaxResults = 0) const;
@@ -257,22 +259,18 @@ private:
      */
     const DicEdge * seekEdgePtr(const wchar_t *s, const DicEdge *eptr) const;
 
-    /// Helper for searchCross()
-    void searchCrossRec(struct params_cross_t *params,
-                        vector<wstring> &oWordList,
-                        const DicEdge *edgeptr,
-                        unsigned int iMaxResults) const;
-
     /// Helper for search7pl1()
-    void searchWordByLen(struct params_7plus1_t *params,
+    void searchWordByLen(struct params_7plus1_t &params,
                          int i, const DicEdge *edgeptr) const;
 
     /// Helper for searchRegExp()
-    void searchRegexpRec(struct params_regexp_t *params,
+    void searchRegexpRec(const struct params_regexp_t &params,
                          int state,
                          const DicEdge *edgeptr,
-                         vector<wstring> &oWordList,
-                         unsigned int iMaxResults) const;
+                         vector<wdstring> &oWordList,
+                         unsigned int iMaxResults,
+                         const wdstring &iCurrWord = L"",
+                         unsigned int iNbChars = 0) const;
 };
 
 #endif /* _DIC_H_ */

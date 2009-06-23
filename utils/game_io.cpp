@@ -187,7 +187,7 @@ void GameIO::printNonPlayed(ostream &out, const PublicGame &iGame)
     {
         if (bag.in(tile) > 9)
             out << " ";
-        out << setw(2) << convertToMb(tile.toChar());
+        out << setw(2) << convertToMb(tile.getDisplayStr());
     }
     out << endl;
 

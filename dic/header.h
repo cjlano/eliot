@@ -122,6 +122,11 @@ public:
     unsigned int getCodeFromChar(wchar_t iChar) const;
 
     /**
+     * Return the display stirng corresponding to the given code
+     */
+    wstring getDisplayStr(unsigned int iCode) const;
+
+    /**
      * Print a readable summary of the header on standard output
      */
     void print() const;

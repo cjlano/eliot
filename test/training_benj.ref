@@ -4,12 +4,12 @@ commande> e
 mode entraînement
 [?] pour l'aide
 commande> b b maison
-PLUmaison
+PLUMAISON
 commande> b b animal
 commande> b b jures
-CONjures
-GOUjures
-PARjures
+CONJURES
+GOUJURES
+PARJURES
 commande> q
 fin du mode entraînement
 commande> q

@@ -21,6 +21,7 @@
 
 #include <string>
 #include <sstream>
+#include <algorithm> // For std::transform
 #include <wctype.h>
 #include "tile.h"
 #include "round.h"
@@ -137,15 +138,14 @@ void Round::removeRightToRack(Tile __UNUSED__ c, bool __UNUSED__ iJoker)
 
 wstring Round::getWord() const
 {
-    wchar_t c;
     wstring s;
 
     for (unsigned int i = 0; i < getWordLen(); i++)
     {
-        c = getTile(i).toChar();
+        wstring chr = getTile(i).getDisplayStr();
         if (isJoker(i))
-            c = towlower(c);
-        s += c;
+            std::transform(chr.begin(), chr.end(), chr.begin(), towlower);
+        s += chr;
     }
     return s;
 }

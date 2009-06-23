@@ -185,18 +185,18 @@ void DicToolsWidget::refreshPlus1()
 
     if (rack->text() != "")
     {
-        map<wchar_t, vector<wstring> > wordList;
+        map<wstring, vector<wstring> > wordList;
         m_dic->search7pl1(qtw(rack->text()), wordList, true);
 
         int rowNum = 0;
-        map<wchar_t, vector<wstring> >::const_iterator it;
+        map<wstring, vector<wstring> >::const_iterator it;
         for (it = wordList.begin(); it != wordList.end(); it++)
         {
             // Create the header line
             model->insertRow(rowNum);
             const QModelIndex &index = model->index(rowNum, 0);
-            if (it->first)
-                model->setData(index, qfw(wstring(1, it->first)));
+            if (it->first != L"")
+                model->setData(index, qfw(it->first));
             else
                 model->setData(index, _q("Anagrams"));
             treeView->setExpanded(index, true);
@@ -300,7 +300,7 @@ void DicToolsWidget::refreshDicInfo()
         {
             model->insertRow(rowNum);
             model->setData(model->index(rowNum, 0),
-                           qfw(wstring(1, it->toChar())));
+                           qfw(it->getDisplayStr()));
             model->setData(model->index(rowNum, 1), it->getPoints());
             model->setData(model->index(rowNum, 2), it->maxNumber());
             model->setData(model->index(rowNum, 3),

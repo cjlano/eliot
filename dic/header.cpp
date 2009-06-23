@@ -236,9 +236,9 @@ wchar_t Header::getCharFromCode(unsigned int iCode) const
     // Safety check
     if (iCode == 0 || iCode > m_letters.size())
     {
-        ostringstream ss;
-        ss << iCode;
-        throw DicException("Header::getCharFromCode: no letter for code " + ss.str());
+        ostringstream oss;
+        oss << iCode;
+        throw DicException("Header::getCharFromCode: no letter for code " + oss.str());
     }
     return m_letters[iCode - 1];
 }
@@ -256,6 +256,20 @@ unsigned int Header::getCodeFromChar(wchar_t iChar) const
                            convertToMb(iChar) + "' (val=" + string(s) + ")");
     }
     return pair->second;
+}
+
+
+wstring Header::getDisplayStr(unsigned int iCode) const
+{
+    // Safety check
+    if (iCode == 0 || iCode > m_letters.size())
+    {
+        ostringstream oss;
+        oss << iCode;
+        throw DicException("Header::getDisplayStr: No code for letter '" + oss.str());
+    }
+    // TODO: return a const wstring & instead of a wstring
+    return wstring(1, m_letters[iCode - 1]);
 }
 
 

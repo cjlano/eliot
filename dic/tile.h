@@ -24,6 +24,7 @@
 
 #include <list>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -57,6 +58,7 @@ public:
     unsigned int getPoints() const;
     wchar_t toChar() const;
     unsigned int toCode() const;
+    wstring getDisplayStr() const;
 
     static const Tile &Joker()  { return m_TheJoker; }
 

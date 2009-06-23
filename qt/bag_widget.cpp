@@ -79,10 +79,14 @@ void BagWidget::updateModel()
         unsigned int nb = bag.in(tile);
         if (nb != 0)
         {
+            // Concatenate the display char nb times
+            wdstring str;
+            for (unsigned int i = 0; i < nb; ++i)
+                str += tile.getDisplayStr();
+
             int rowNum = m_model->rowCount();
             m_model->insertRow(rowNum);
-            m_model->setData(m_model->index(rowNum, 0),
-                             qfw(wstring(nb, tile.toChar())));
+            m_model->setData(m_model->index(rowNum, 0), qfw(str));
             m_model->setData(m_model->index(rowNum, 1), tile.getPoints());
         }
     }

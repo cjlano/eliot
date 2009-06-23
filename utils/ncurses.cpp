@@ -244,19 +244,22 @@ void CursesIntf::drawBoard(WINDOW *win, int y, int x) const
             mvwprintw(win, y + row + 1, x + 3 * col + 1, "   ");
 
             // Now add the letter
-            wchar_t c = m_game->getBoard().getChar(row, col);
-            if (c)
+            const Tile &t = m_game->getBoard().getTile(row, col);
+            if (!t.isEmpty())
             {
-                cchar_t cc;
-                if (iswlower(c))
+                const wstring &chr = t.getDisplayStr();
+                int offset = 0;
+                if (chr.size() > 1)
+                    offset = -1;
+                if (m_game->getBoard().isJoker(row, col))
                 {
-                    setcchar(&cc, &c, A_BOLD, COLOR_GREEN, NULL);
-                    mvwadd_wch(win, y + row + 1, x + 3 * col + 2, &cc);
+                    wattron(win, A_BOLD | COLOR_PAIR(COLOR_GREEN));
+                    mvwprintw(win, y + row + 1, x + 3 * col + 2 + offset, convertToMb(chr).c_str());
+                    wattroff(win, A_BOLD);
                 }
                 else
                 {
-                    setcchar(&cc, &c, 0, 0, NULL);
-                    mvwadd_wch(win, y + row + 1, x + 3 * col + 2, &cc);
+                    mvwprintw(win, y + row + 1, x + 3 * col + 2 + offset, convertToMb(chr).c_str());
                 }
             }
             else
@@ -374,7 +377,7 @@ void CursesIntf::drawHistory(Box &ioBox) const
     int y = ioBox.getTop();
 
     // Heading
-    string heading = truncString(_(" N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS"),
+    string heading = truncString(_(" N |      RACK      |    SOLUTION     | REF | PTS | P | BONUS"),
                                  ioBox.getWidth() - 1);
     mvwprintw(m_win, y, x + 1, "%s", heading.c_str());
     mvwhline(m_win, y + 1, x + 1, ACS_HLINE, heading.size());
@@ -392,7 +395,7 @@ void CursesIntf::drawHistory(Box &ioBox) const
             wstring coord = r.getCoord().toString();
             ioBox.printDataLine(i, x,
                 " %2d   %s   %s   %s   %3d   %1d   %c",
-                i + 1, padAndConvert(t.getPlayedRack().toString(), 8).c_str(),
+                i + 1, padAndConvert(t.getPlayedRack().toString(), 14, false).c_str(),
                 padAndConvert(r.getWord(), 15, false).c_str(),
                 padAndConvert(coord, 3).c_str(), r.getPoints(),
                 t.getPlayer(), r.getBonus() ? '*' : ' ');
@@ -403,7 +406,7 @@ void CursesIntf::drawHistory(Box &ioBox) const
             wstring invWord = L"<" + m.getBadWord() + L">";
             ioBox.printDataLine(i, x,
                 " %2d   %s   %s   %s   %3d   %1d",
-                i + 1, padAndConvert(t.getPlayedRack().toString(), 8).c_str(),
+                i + 1, padAndConvert(t.getPlayedRack().toString(), 14, false).c_str(),
                 padAndConvert(invWord, 15, false).c_str(),
                 padAndConvert(m.getBadCoord(), 3).c_str(), m.getScore(),
                 t.getPlayer());
@@ -419,7 +422,7 @@ void CursesIntf::drawHistory(Box &ioBox) const
 
             ioBox.printDataLine(i, x,
                 " %2d   %s   %s   %s   %3d   %1d",
-                i + 1, padAndConvert(t.getPlayedRack().toString(), 8).c_str(),
+                i + 1, padAndConvert(t.getPlayedRack().toString(), 14, false).c_str(),
                 padAndConvert(action, 15, false).c_str(),
                 " - ", m.getScore(), t.getPlayer());
         }
@@ -427,11 +430,11 @@ void CursesIntf::drawHistory(Box &ioBox) const
     int nbLines = min(i + 2 - ioBox.getFirstLine(),
                       ioBox.getLastLine() - ioBox.getFirstLine() + 2);
     mvwvline(m_win, y, x + 4,  ACS_VLINE, nbLines);
-    mvwvline(m_win, y, x + 15, ACS_VLINE, nbLines);
-    mvwvline(m_win, y, x + 33, ACS_VLINE, nbLines);
+    mvwvline(m_win, y, x + 21, ACS_VLINE, nbLines);
     mvwvline(m_win, y, x + 39, ACS_VLINE, nbLines);
     mvwvline(m_win, y, x + 45, ACS_VLINE, nbLines);
-    mvwvline(m_win, y, x + 49, ACS_VLINE, nbLines);
+    mvwvline(m_win, y, x + 51, ACS_VLINE, nbLines);
+    mvwvline(m_win, y, x + 55, ACS_VLINE, nbLines);
 }
 
 
@@ -500,13 +503,16 @@ void CursesIntf::drawBag(Box &ioBox) const
     int i;
     for (i = ioBox.getFirstLine(); i < (int)allTiles.size() && i < ioBox.getLastLine(); i++)
     {
+        const wstring &chr = allTiles[i].getDisplayStr();
+        wstring str;
+        for (unsigned int j = 0; j < m_game->getBag().in(allTiles[i]); ++j)
+             str += chr;
         ioBox.printDataLine(i, ioBox.getLeft() + 1,
                             "  %s        %2d        %2d       %s",
-                            padAndConvert(wstring(1, allTiles[i].toChar()), 2).c_str(),
+                            padAndConvert(allTiles[i].getDisplayStr(), 2).c_str(),
                             allTiles[i].getPoints(),
                             allTiles[i].maxNumber(),
-                            convertToMb(wstring(m_game->getBag().in(allTiles[i]),
-                                                allTiles[i].toChar())).c_str());
+                            convertToMb(str).c_str());
     }
 
     int nbLines = min(i + 2 - ioBox.getFirstLine(),

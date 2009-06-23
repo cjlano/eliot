@@ -203,7 +203,7 @@ wstring PlayedRack::toString(display_mode mode) const
 
     BOOST_FOREACH(const Tile &tile, m_oldTiles)
     {
-        s += tile.toChar();
+        s += tile.getDisplayStr();
     }
 
     if (mode > RACK_SIMPLE && getNbOld() > 0 && getNbNew() > 0)
@@ -213,7 +213,7 @@ wstring PlayedRack::toString(display_mode mode) const
 
     BOOST_FOREACH(const Tile &tile, m_newTiles)
     {
-        s += tile.toChar();
+        s += tile.getDisplayStr();
     }
 
     return s;

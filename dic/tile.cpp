@@ -21,6 +21,7 @@
 
 #include <sstream>
 #include <string>
+#include <algorithm>
 #include <wctype.h>
 #include "tile.h"
 #include "header.h"
@@ -92,6 +93,20 @@ unsigned int Tile::getPoints() const
     if (m_code == 0)
         throw DicException("Tile::getPoints: Invalid tile");
     return m_header->getPoints(m_code);
+}
+
+
+wstring Tile::getDisplayStr() const
+{
+    if (m_code == 0)
+        throw DicException("Tile::getDisplayStr: Invalid tile");
+    if (m_joker && iswalpha(m_char))
+    {
+        wstring str = m_header->getDisplayStr(m_code);
+        std::transform(str.begin(), str.end(), str.begin(), towlower);
+        return str;
+    }
+    return m_header->getDisplayStr(m_code);
 }
 
 

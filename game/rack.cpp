@@ -34,7 +34,7 @@ Rack::Rack()
 void Rack::remove(const Tile &t)
 {
     ASSERT(in(t),
-           "The rack does not contain the letter " + convertToMb(t.toChar()));
+           "The rack does not contain the letter " + convertToMb(t.getDisplayStr()));
     m_tiles[t.toCode()]--;
     m_ntiles--;
 }
@@ -67,7 +67,11 @@ wstring Rack::toString() const
     for (unsigned int i = 1; i < m_tiles.size(); i++)
     {
         // Append m_tiles[i] copies of the char
-        rs.append(m_tiles[i], Dictionary::GetDic().getTileFromCode(i).toChar());
+        const wstring &chr = Dictionary::GetDic().getTileFromCode(i).getDisplayStr();
+        for (unsigned int j = 0; j < m_tiles[i]; ++j)
+        {
+            rs += chr;
+        }
     }
     return rs;
 }

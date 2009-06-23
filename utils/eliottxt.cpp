@@ -485,7 +485,7 @@ void handleRegexp(const Dictionary& iDic, const vector<wstring> &tokens)
     printf("search for %s (%d,%d,%d)\n", convertToMb(regexp).c_str(),
            nres, lmin, lmax);
 
-    vector<wstring> wordList;
+    vector<wdstring> wordList;
     try
     {
         iDic.searchRegExp(regexp, wordList, lmin, lmax, nres);
@@ -496,7 +496,7 @@ void handleRegexp(const Dictionary& iDic, const vector<wstring> &tokens)
         return;
     }
 
-    BOOST_FOREACH(const wstring &wstr, wordList)
+    BOOST_FOREACH(const wdstring &wstr, wordList)
     {
         printf("%s\n", convertToMb(wstr).c_str());
     }
@@ -598,22 +598,22 @@ void loopTraining(PublicGame &iGame)
                                 {
                                     case L'b':
                                         {
-                                            vector<wstring> wordList;
+                                            vector<wdstring> wordList;
                                             iGame.getDic().searchBenj(word, wordList);
-                                            BOOST_FOREACH(const wstring &wstr, wordList)
+                                            BOOST_FOREACH(const wdstring &wstr, wordList)
                                                 cout << convertToMb(wstr) << endl;
                                         }
                                         break;
                                     case L'p':
                                         {
-                                            map<wchar_t, vector<wstring> > wordMap;
+                                            map<wdstring, vector<wdstring> > wordMap;
                                             iGame.getDic().search7pl1(word, wordMap, false);
-                                            map<wchar_t, vector<wstring> >::const_iterator it;
+                                            map<wdstring, vector<wdstring> >::const_iterator it;
                                             for (it = wordMap.begin(); it != wordMap.end(); ++it)
                                             {
-                                                if (it->first)
+                                                if (it->first != L"")
                                                     cout << "+" << convertToMb(it->first) << endl;
-                                                BOOST_FOREACH(const wstring &wstr, it->second)
+                                                BOOST_FOREACH(const wdstring &wstr, it->second)
                                                 {
                                                     cout << "  " << convertToMb(wstr) << endl;
                                                 }
@@ -622,9 +622,9 @@ void loopTraining(PublicGame &iGame)
                                         break;
                                     case L'r':
                                         {
-                                            vector<wstring> wordList;
+                                            vector<wdstring> wordList;
                                             iGame.getDic().searchRacc(word, wordList);
-                                            BOOST_FOREACH(const wstring &wstr, wordList)
+                                            BOOST_FOREACH(const wdstring &wstr, wordList)
                                                 cout << convertToMb(wstr) << endl;
                                         }
                                         break;
@@ -657,22 +657,6 @@ void loopTraining(PublicGame &iGame)
                             helpTraining();
                         else
                             iGame.trainingSetRackManual(false, letters);
-                    }
-                    break;
-                case L'x':
-                    {
-                        const wstring &cross = checkCrossToken(tokens, 1);
-                        if (cross == L"")
-                            helpTraining();
-                        else
-                        {
-                            vector<wstring> wordList;
-                            iGame.getDic().searchCross(cross, wordList);
-                            BOOST_FOREACH(const wstring &wstr, wordList)
-                            {
-                                printf("  %s\n", convertToMb(wstr).c_str());
-                            }
-                        }
                     }
                     break;
                 case L'*':
