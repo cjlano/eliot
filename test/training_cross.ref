@@ -20,21 +20,21 @@ commande> a r
 commande> n 1
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- H   -  -  -  F  U  M  E  E  -  -  -  -  -  -  -
- I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  F  U  M  E  E  -  -  -  -  -  -  - 
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a t
 IO
 commande> a s
@@ -59,21 +59,21 @@ commande> a r
 commande> n 1
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  -
- H   -  -  -  F  U  M  E  E  -  -  -  -  -  -  -
- I   -  -  -  -  -  O  -  -  -  -  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  -  -  -  -  -  -
- K   -  -  -  -  -  O  -  -  -  -  -  -  -  -  -
- L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  F  U  M  E  E  -  -  -  -  -  -  - 
+ I   -  -  -  -  -  O  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  O  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a s
 64
 commande> a l
@@ -96,21 +96,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  -
- H   -  -  -  F  U  M  E  E  -  -  -  -  -  -  -
- I   -  -  -  -  -  O  -  -  -  -  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  -  -  -  -  -  -
- K   -  -  -  -  -  O  -  -  -  -  -  -  -  -  -
- L   -  -  -  W  E  S  T  I  E  -  -  -  -  -  -
- M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  F  U  M  E  E  -  -  -  -  -  -  - 
+ I   -  -  -  -  -  O  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  O  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  W  E  S  T  I  E  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a s
 113
 commande> a l
@@ -133,21 +133,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  -
- H   -  -  -  F  U  M  E  E  -  L  -  -  -  -  -
- I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  -
- K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  -
- M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  -
- N   -  -  -  -  -  -  -  -  -  E  -  -  -  -  -
- O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  F  U  M  E  E  -  L  -  -  -  -  - 
+ I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  - 
+ K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  E  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a s
 199
 commande> a l
@@ -170,21 +170,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  -
- H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  -
- K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  -
- M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  -
- N   -  -  -  -  -  -  -  -  -  E  -  -  -  -  -
- O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  - 
+ K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  E  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a s
 262
 commande> a l
@@ -207,21 +207,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  -
- H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  -
- K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  -
- M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  -
- N   -  -  -  -  -  -  -  -  -  E  -  -  -  -  -
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  -
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  - 
+ K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  E  -  -  -  -  - 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  - 
 commande> a s
 356
 commande> a l
@@ -244,21 +244,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  -
- H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  -
- K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  -
- M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  -
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  -
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  - 
+ K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  - 
 commande> a s
 408
 commande> a l
@@ -281,21 +281,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  -
- G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  -
- H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  K  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  I  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 468
 commande> a l
@@ -318,21 +318,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
- C   -  -  -  -  -  -  -  -  -  -  -  -  V  -  -
- D   -  -  -  -  -  -  -  -  -  -  -  -  A  -  -
- E   -  -  -  -  -  -  -  -  -  -  -  -  I  -  -
- F   -  -  -  -  -  K  -  -  -  -  -  -  N  -  -
- G   -  -  -  -  -  I  -  -  -  -  -  -  C  -  -
- H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  V  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  A  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  I  -  - 
+ F   -  -  -  -  -  K  -  -  -  -  -  -  N  -  - 
+ G   -  -  -  -  -  I  -  -  -  -  -  -  C  -  - 
+ H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 496
 commande> a l
@@ -355,21 +355,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  E  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  S  -  -  -  -  -  -  -
- C   -  -  -  -  -  -  -  S  -  -  -  -  V  -  -
- D   -  -  -  -  -  -  -  O  -  -  -  -  A  -  -
- E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  -
- F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  -
- G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  -
- H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   -  -  -  -  -  -  -  E  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  S  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  S  -  -  -  -  V  -  - 
+ D   -  -  -  -  -  -  -  O  -  -  -  -  A  -  - 
+ E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  - 
+ F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  - 
+ G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  - 
+ H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   -  -  -  -  -  O  -  -  -  A  -  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 576
 commande> a l
@@ -392,21 +392,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  E  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  S  -  -  -  -  -  -  -
- C   -  -  -  -  -  -  -  S  -  -  -  -  V  -  -
- D   -  -  -  -  -  -  -  O  -  -  -  -  A  -  -
- E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  -
- F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  -
- G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  -
- H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   -  -  -  -  J  O  U  R  -  A  -  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   -  -  -  -  -  -  -  E  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  S  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  S  -  -  -  -  V  -  - 
+ D   -  -  -  -  -  -  -  O  -  -  -  -  A  -  - 
+ E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  - 
+ F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  - 
+ G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  - 
+ H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   -  -  -  -  J  O  U  R  -  A  -  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 620
 commande> a l
@@ -429,21 +429,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  E  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  S  -  -  -  -  -  -  -
- C   -  -  D  I  A  L  Y  S  E  -  -  -  V  -  -
- D   -  -  -  -  -  -  -  O  -  -  -  -  A  -  -
- E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  -
- F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  -
- G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  -
- H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   -  -  -  -  J  O  U  R  -  A  -  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   -  -  -  -  -  -  -  E  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  S  -  -  -  -  -  -  - 
+ C   -  -  D  I  A  L  Y  S  E  -  -  -  V  -  - 
+ D   -  -  -  -  -  -  -  O  -  -  -  -  A  -  - 
+ E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  - 
+ F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  - 
+ G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  - 
+ H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   -  -  -  -  J  O  U  R  -  A  -  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 676
 commande> a l
@@ -466,21 +466,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  E  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  -
- C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  -
- D   -  -  -  -  -  -  -  O  -  U  -  -  A  -  -
- E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  -
- F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  -
- G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  -
- H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   -  -  -  -  J  O  U  R  -  A  -  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   -  -  -  -  -  -  -  E  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  - 
+ C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  - 
+ D   -  -  -  -  -  -  -  O  -  U  -  -  A  -  - 
+ E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  - 
+ F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  - 
+ G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  - 
+ H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   -  -  -  -  J  O  U  R  -  A  -  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 708
 commande> a l
@@ -503,21 +503,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  E  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  -
- C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  -
- D   C  I  E  L  -  -  -  O  -  U  -  -  A  -  -
- E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  -
- F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  -
- G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  -
- H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   -  -  -  -  J  O  U  R  -  A  -  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   -  -  -  -  -  -  -  E  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  - 
+ C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  - 
+ D   C  I  E  L  -  -  -  O  -  U  -  -  A  -  - 
+ E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  - 
+ F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  - 
+ G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  - 
+ H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   -  -  -  -  J  O  U  R  -  A  -  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 733
 commande> a l
@@ -540,21 +540,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  -
- C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  -
- D   C  I  E  L  -  -  -  O  -  U  -  -  A  -  -
- E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  -
- F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  -
- G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  -
- H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   -  -  -  -  J  O  U  R  -  A  -  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  - 
+ C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  - 
+ D   C  I  E  L  -  -  -  O  -  U  -  -  A  -  - 
+ E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  - 
+ F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  - 
+ G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  - 
+ H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   -  -  -  -  J  O  U  R  -  A  -  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  -  -  -  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 819
 commande> a l
@@ -577,21 +577,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  -
- C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  -
- D   C  I  E  L  -  -  -  O  -  U  -  -  A  -  -
- E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  -
- F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  -
- G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  -
- H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   -  -  -  -  J  O  U  R  -  A  -  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  D  U  T  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  - 
+ C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  - 
+ D   C  I  E  L  -  -  -  O  -  U  -  -  A  -  - 
+ E   -  -  -  -  -  -  -  R  -  -  -  -  I  -  - 
+ F   -  -  -  -  -  K  -  A  -  -  -  -  N  -  - 
+ G   -  -  -  -  -  I  -  G  -  -  -  -  C  -  - 
+ H   -  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   -  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   -  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   -  -  -  -  J  O  U  R  -  A  -  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  D  U  T  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 848
 commande> a l
@@ -614,21 +614,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  -
- C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  -
- D   C  I  E  L  -  -  -  O  -  U  -  -  A  -  -
- E   E  -  -  -  -  -  -  R  -  -  -  -  I  -  -
- F   R  -  -  -  -  K  -  A  -  -  -  -  N  -  -
- G   c  -  -  -  -  I  -  G  -  -  -  -  C  -  -
- H   L  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   A  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   G  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   E  -  -  -  J  O  U  R  -  A  -  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  D  U  T  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  - 
+ C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  - 
+ D   C  I  E  L  -  -  -  O  -  U  -  -  A  -  - 
+ E   E  -  -  -  -  -  -  R  -  -  -  -  I  -  - 
+ F   R  -  -  -  -  K  -  A  -  -  -  -  N  -  - 
+ G   c  -  -  -  -  I  -  G  -  -  -  -  C  -  - 
+ H   L  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   A  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   G  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   E  -  -  -  J  O  U  R  -  A  -  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  D  U  T  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 928
 commande> a l
@@ -651,21 +651,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  -
- C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  -
- D   C  I  E  L  -  -  -  O  -  U  -  -  A  -  -
- E   E  -  -  -  -  -  -  R  -  -  -  -  I  -  -
- F   R  -  -  -  -  K  -  A  -  -  -  -  N  -  -
- G   c  -  -  -  -  I  -  G  -  -  -  -  C  -  -
- H   L  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   A  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   G  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   E  -  -  -  J  O  U  R  N  A  L  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  D  U  T  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  - 
+ C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  - 
+ D   C  I  E  L  -  -  -  O  -  U  -  -  A  -  - 
+ E   E  -  -  -  -  -  -  R  -  -  -  -  I  -  - 
+ F   R  -  -  -  -  K  -  A  -  -  -  -  N  -  - 
+ G   c  -  -  -  -  I  -  G  -  -  -  -  C  -  - 
+ H   L  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   A  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   G  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   E  -  -  -  J  O  U  R  N  A  L  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  D  U  T  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 958
 commande> a l
@@ -688,21 +688,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  -
- C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  -
- D   C  I  E  L  -  -  -  O  -  U  -  M  A  T  H
- E   E  -  -  -  -  -  -  R  -  -  -  -  I  -  -
- F   R  -  -  -  -  K  -  A  -  -  -  -  N  -  -
- G   c  -  -  -  -  I  -  G  -  -  -  -  C  -  -
- H   L  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   A  -  -  -  -  O  -  -  -  A  -  -  -  -  -
- J   G  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   E  -  -  -  J  O  U  R  N  A  L  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  D  U  T  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  - 
+ C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  - 
+ D   C  I  E  L  -  -  -  O  -  U  -  M  A  T  H 
+ E   E  -  -  -  -  -  -  R  -  -  -  -  I  -  - 
+ F   R  -  -  -  -  K  -  A  -  -  -  -  N  -  - 
+ G   c  -  -  -  -  I  -  G  -  -  -  -  C  -  - 
+ H   L  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   A  -  -  -  -  O  -  -  -  A  -  -  -  -  - 
+ J   G  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   E  -  -  -  J  O  U  R  N  A  L  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  D  U  T  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 982
 commande> a l
@@ -725,21 +725,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  -
- C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  -
- D   C  I  E  L  -  -  -  O  -  U  -  M  A  T  H
- E   E  -  -  -  -  -  -  R  -  -  -  -  I  -  -
- F   R  -  -  -  -  K  -  A  -  -  -  -  N  -  -
- G   c  -  -  -  -  I  -  G  -  -  -  -  C  -  -
- H   L  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   A  -  F  A  N  O  N  -  -  A  -  -  -  -  -
- J   G  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   E  -  -  -  J  O  U  R  N  A  L  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  D  U  T  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  - 
+ C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  - 
+ D   C  I  E  L  -  -  -  O  -  U  -  M  A  T  H 
+ E   E  -  -  -  -  -  -  R  -  -  -  -  I  -  - 
+ F   R  -  -  -  -  K  -  A  -  -  -  -  N  -  - 
+ G   c  -  -  -  -  I  -  G  -  -  -  -  C  -  - 
+ H   L  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   A  -  F  A  N  O  N  -  -  A  -  -  -  -  - 
+ J   G  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   E  -  -  -  J  O  U  R  N  A  L  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  D  U  T  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 1005
 commande> a l
@@ -762,21 +762,21 @@ commande> a r
 commande> n 1 
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  -
- B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  -
- C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  -
- D   C  I  E  L  -  -  -  O  -  U  -  M  A  T  H
- E   E  -  -  -  -  -  -  R  -  -  -  -  I  -  -
- F   R  -  -  -  -  K  -  A  -  -  -  -  N  -  -
- G   c  -  -  -  -  I  -  G  -  -  -  -  C  -  -
- H   L  -  -  F  U  M  E  E  -  L  O  Q  U  E  T
- I   A  -  F  A  N  O  N  -  -  A  -  -  E  T  -
- J   G  -  -  -  -  N  -  -  -  V  -  -  -  -  T
- K   E  -  -  -  J  O  U  R  N  A  L  -  -  -  O
- L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P
- M   -  -  D  U  T  -  -  -  -  S  -  -  -  -  A
- N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z
- O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E
+ A   B  R  A  D  e  R  I  E  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  S  -  H  -  -  -  -  - 
+ C   -  -  D  I  A  L  Y  S  E  E  -  -  V  -  - 
+ D   C  I  E  L  -  -  -  O  -  U  -  M  A  T  H 
+ E   E  -  -  -  -  -  -  R  -  -  -  -  I  -  - 
+ F   R  -  -  -  -  K  -  A  -  -  -  -  N  -  - 
+ G   c  -  -  -  -  I  -  G  -  -  -  -  C  -  - 
+ H   L  -  -  F  U  M  E  E  -  L  O  Q  U  E  T 
+ I   A  -  F  A  N  O  N  -  -  A  -  -  E  T  - 
+ J   G  -  -  -  -  N  -  -  -  V  -  -  -  -  T 
+ K   E  -  -  -  J  O  U  R  N  A  L  -  -  -  O 
+ L   -  -  -  W  E  S  T  I  E  S  -  -  -  -  P 
+ M   -  -  D  U  T  -  -  -  -  S  -  -  -  -  A 
+ N   -  -  -  -  -  -  -  -  -  E  X  P  I  E  Z 
+ O   -  -  -  O  M  N  I  B  U  S  -  -  -  -  E 
 commande> a s
 1023
 commande> a l

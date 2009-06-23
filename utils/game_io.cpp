@@ -47,13 +47,13 @@ void GameIO::printBoard(ostream &out, const PublicGame &iGame)
     out << endl;
     for (row = BOARD_MIN; row <= BOARD_MAX; row++)
     {
-        out << " " << (char)(row - BOARD_MIN + 'A') << " ";
+        out << " " << (char)(row - BOARD_MIN + 'A') << "  ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
             if (iGame.getBoard().isVacant(row, col))
-                out << "  -";
+                out << " - ";
             else
-                out << padAndConvert(iGame.getBoard().getDisplayStr(row, col), 3);
+                out << centerAndConvert(iGame.getBoard().getDisplayStr(row, col), 3);
         }
         out << endl;
     }

@@ -279,6 +279,40 @@ string padAndConvert(const wstring &iWstr, unsigned int iLength,
 }
 
 
+string centerAndConvert(const wstring &iWstr, unsigned int iLength, char c)
+{
+    int width = 0;
+    for (unsigned int i = 0; i < iWstr.size(); ++i)
+    {
+        int n = wcwidth(iWstr[i]);
+        if (n == -1)
+        {
+            ostringstream ss;
+            ss << "padAndConvert: non printable character: " << iWstr[i];
+            // XXX: Should we throw an exception instead? Just ignore the problem?
+            cerr << ss.str() << endl;;
+            //throw DicException(ss.str());
+            return convertToMb(iWstr);
+        }
+        width += n;
+    }
+
+    if ((unsigned int)width >= iLength)
+        return convertToMb(iWstr);
+    else
+    {
+        // Padding is needed
+        string s((iLength - width) / 2, c);
+        string res = s + convertToMb(iWstr) + s;
+        // If the string cannot be centered perfectly, pad again on the right
+        // (arbitrary; if needed, we could take the iLeftPad argument)
+        if (res.size() != iLength)
+            s.append(1, c);
+        return res;
+    }
+}
+
+
 unsigned int readFromUTF8(wchar_t *oString, unsigned int iWideSize,
                           const char *iBuffer, unsigned int iBufSize,
                           const string &iContext)

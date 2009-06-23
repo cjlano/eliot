@@ -75,6 +75,15 @@ string padAndConvert(const wstring &iWstr, unsigned int iLength,
                      bool iLeftPad = true, char c = ' ');
 
 /**
+ * Convert the given string into a multi-byte one. If the number of columns
+ * needed to display the resulting string is less than iLength, pad it with
+ * the given character (defaulting to space) on both left and right, trying
+ * to keep the string centered
+ */
+string centerAndConvert(const wstring &iWstr, unsigned int iLength,
+                        char c = ' ');
+
+/**
  * Utility function to convert a char* buffer encoded in UTF-8 into a
  * wchar_t* string
  * @param oString: where to write the converted string
