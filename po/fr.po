@@ -166,7 +166,7 @@ msgstr " Temps de compression : %.3f s\n"
 #: dic/compdic.cpp:561
 #, c-format
 msgid " Maximum recursion level reached: %d\n"
-msgstr " Niveau maximum de rcursion atteint : %d\n"
+msgstr " Niveau maximum de récursion atteint : %d\n"
 
 #: dic/header.cpp:278
 msgid ""
