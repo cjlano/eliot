@@ -83,19 +83,6 @@ struct params_7plus1_t
     char search_letters[63];
 };
 
-wdstring convertToDisplay(const Header &iHeader, const wstring &iWord)
-{
-    wdstring dispStr;
-    dispStr.reserve(iWord.size());
-    for (unsigned int i = 0; i < iWord.size(); ++i)
-    {
-        const wdstring &chr =
-            iHeader.getDisplayStr(iHeader.getCodeFromChar(iWord[i]));
-        dispStr += chr;
-    }
-    return dispStr;
-}
-
 void Dictionary::searchWordByLen(struct params_7plus1_t &params,
                                  int i, const DicEdge *edgeptr) const
 {
@@ -117,7 +104,7 @@ void Dictionary::searchWordByLen(struct params_7plus1_t &params,
                         // Add the solution
                         vector<wdstring> &sols = (*params.results)[params.added_display];
                         if (sols.empty() || sols.back() != params.search_wordtst)
-                            sols.push_back(convertToDisplay(getHeader(), params.search_wordtst));
+                            sols.push_back(getHeader().convertToDisplay(params.search_wordtst));
                     }
                 }
                 else
@@ -140,7 +127,7 @@ void Dictionary::searchWordByLen(struct params_7plus1_t &params,
                         // Add the solution
                         vector<wdstring> &sols = (*params.results)[params.added_display];
                         if (sols.empty() || sols.back() != params.search_wordtst)
-                            sols.push_back(convertToDisplay(getHeader(), params.search_wordtst));
+                            sols.push_back(getHeader().convertToDisplay(params.search_wordtst));
                     }
                 }
                 else
@@ -243,7 +230,7 @@ void Dictionary::searchRacc(const wstring &iWord,
         oWordList.reserve(DEFAULT_VECT_ALLOC);
 
     // Transform the given word to make it suitable for display
-    const wdstring &displayWord = convertToDisplay(getHeader(), iWord);
+    const wdstring &displayWord = getHeader().convertToDisplay(iWord);
 
     // Try to add a letter at the front
     const wstring &letters = getHeader().getLetters();
@@ -296,7 +283,7 @@ void Dictionary::searchBenj(const wstring &iWord, vector<wdstring> &oWordList,
         oWordList.reserve(DEFAULT_VECT_ALLOC);
 
     // Transform the given word to make it suitable for display
-    const wdstring &displayWord = convertToDisplay(getHeader(), iWord);
+    const wdstring &displayWord = getHeader().convertToDisplay(iWord);
 
     const DicEdge *edge0, *edge1, *edge2, *edgetst;
     edge0 = getEdgeAt(getRoot());

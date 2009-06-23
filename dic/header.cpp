@@ -273,6 +273,23 @@ wstring Header::getDisplayStr(unsigned int iCode) const
 }
 
 
+wdstring Header::convertToDisplay(const wstring &iWord) const
+{
+    // TODO: if we had a flag saying that the current dictionary is
+    // such that all the display strings are equal to the internal
+    // characters themselves (which would be the case for most languages),
+    // we could simply return the given string without further processing.
+    wdstring dispStr;
+    dispStr.reserve(iWord.size());
+    for (unsigned int i = 0; i < iWord.size(); ++i)
+    {
+        const wdstring &chr = getDisplayStr(getCodeFromChar(iWord[i]));
+        dispStr += chr;
+    }
+    return dispStr;
+}
+
+
 void Header::read(istream &iStream)
 {
     Dict_header_old aHeader;

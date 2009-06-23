@@ -28,6 +28,9 @@
 
 using namespace std;
 
+// XXX: duplicated typedef (also present in dic.h)
+typedef wstring wdstring;
+
 
 /**
  * Structure used to create a Header object.
@@ -122,9 +125,15 @@ public:
     unsigned int getCodeFromChar(wchar_t iChar) const;
 
     /**
-     * Return the display stirng corresponding to the given code
+     * Return the display string corresponding to the given code
      */
     wstring getDisplayStr(unsigned int iCode) const;
+
+    /**
+     * Convert the given string (made of internal characters)
+     * into a string suitable for display
+     */
+    wdstring convertToDisplay(const wstring &iWord) const;
 
     /**
      * Print a readable summary of the header on standard output
