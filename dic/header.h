@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2007 Olivier Teulière
+ * Copyright (C) 2007-2009 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -30,6 +30,7 @@ using namespace std;
 
 // XXX: duplicated typedef (also present in dic.h)
 typedef wstring wdstring;
+typedef wstring wistring;
 
 
 /**
@@ -127,13 +128,22 @@ public:
     /**
      * Return the display string corresponding to the given code
      */
-    wstring getDisplayStr(unsigned int iCode) const;
+    wdstring getDisplayStr(unsigned int iCode) const;
 
     /**
      * Convert the given string (made of internal characters)
      * into a string suitable for display
      */
     wdstring convertToDisplay(const wstring &iWord) const;
+
+    /**
+     * Convert the given string (direct user input)
+     * into a string suitable for internal use in Eliot.
+     * For example, in Catalan, it will convert the L.L substring
+     * into the W character (because it is the internal character
+     * associated to the input string "L.L").
+     */
+    wstring convertFromInput(const wistring &iWord) const;
 
     /**
      * Print a readable summary of the header on standard output

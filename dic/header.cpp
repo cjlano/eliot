@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2007 Olivier Teulière
+ * Copyright (C) 2007-2009 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -259,7 +259,7 @@ unsigned int Header::getCodeFromChar(wchar_t iChar) const
 }
 
 
-wstring Header::getDisplayStr(unsigned int iCode) const
+wdstring Header::getDisplayStr(unsigned int iCode) const
 {
     // Safety check
     if (iCode == 0 || iCode > m_letters.size())
@@ -287,6 +287,13 @@ wdstring Header::convertToDisplay(const wstring &iWord) const
         dispStr += chr;
     }
     return dispStr;
+}
+
+
+wstring Header::convertFromInput(const wistring &iWord) const
+{
+    // TODO: do something useful
+    return iWord;
 }
 
 

@@ -39,6 +39,7 @@
 
 #include "dic.h"
 #include "dic_exception.h"
+#include "header.h"
 #include "game_io.h"
 #include "game_factory.h"
 #include "public_game.h"
@@ -133,6 +134,15 @@ wstring checkAlphaToken(const vector<wstring> &tokens, uint8_t index)
 }
 
 
+wstring checkLettersToken(const vector<wstring> &tokens, uint8_t index,
+                          const Dictionary &iDic)
+{
+    if (tokens.size() <= index)
+        return L"";
+    return iDic.getHeader().convertFromInput(tokens[index]);
+}
+
+
 wstring checkAlphaNumToken(const vector<wstring> &tokens, uint8_t index)
 {
     if (tokens.size() <= index)
@@ -141,20 +151,6 @@ wstring checkAlphaNumToken(const vector<wstring> &tokens, uint8_t index)
     BOOST_FOREACH(wchar_t wch, wstr)
     {
         if (!iswalnum(wch))
-            return L"";
-    }
-    return wstr;
-}
-
-
-wstring checkAlphaPlusJokerToken(const vector<wstring> &tokens, uint8_t index)
-{
-    if (tokens.size() <= index)
-        return L"";
-    const wstring &wstr = tokens[index];
-    BOOST_FOREACH(wchar_t wch, wstr)
-    {
-        if (!iswalpha(wch) && wch != L'+' && wch != L'?')
             return L"";
     }
     return wstr;
@@ -375,7 +371,7 @@ void commonCommands(PublicGame &iGame, const vector<wstring> &tokens)
         displayData(iGame, tokens);
     else if (tokens[0][0] == L'd')
     {
-        const wstring &word = checkAlphaToken(tokens, 1);
+        const wstring &word = checkLettersToken(tokens, 1, iGame.getDic());
         if (word == L"")
             helpDuplicate();
         else
@@ -413,7 +409,7 @@ void commonCommands(PublicGame &iGame, const vector<wstring> &tokens)
     }
     else if (tokens[0][0] == L'j')
     {
-        const wstring &word = checkAlphaToken(tokens, 1);
+        const wstring &word = checkLettersToken(tokens, 1, iGame.getDic());
         if (word == L"")
             helpDuplicate();
         else
@@ -512,7 +508,7 @@ void setSetting(const vector<wstring> &tokens)
         return;
     }
     const wstring &type = checkAlphaToken(tokens, 1);
-    if (type == L"" || type.size() != 1 ||
+    if (type.size() != 1 ||
         (type[0] != L'b' && type[0] != L'i'))
     {
         printf("Invalid type\n");
@@ -589,7 +585,7 @@ void loopTraining(PublicGame &iGame)
                             helpTraining();
                         else
                         {
-                            const wstring &word = checkAlphaToken(tokens, 2);
+                            const wstring &word = checkLettersToken(tokens, 2, iGame.getDic());
                             if (word == L"")
                                 helpTraining();
                             else
@@ -652,7 +648,8 @@ void loopTraining(PublicGame &iGame)
                     break;
                 case L't':
                     {
-                        const wstring &letters = checkAlphaPlusJokerToken(tokens, 1);
+                        const wstring &letters =
+                            checkLettersToken(tokens, 1, iGame.getDic());
                         if (letters == L"")
                             helpTraining();
                         else
@@ -728,7 +725,7 @@ void loopFreegame(PublicGame &iGame)
                         /* You can pass your turn without changing any letter */
                         if (tokens.size() > 1)
                         {
-                            letters = checkAlphaToken(tokens, 1);
+                            letters = checkLettersToken(tokens, 1, iGame.getDic());
                             if (letters == L"")
                                 fprintf(stderr, "Invalid letters\n");
                         }

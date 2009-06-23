@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2002-2007 Antoine Fraboulet & Olivier Teulière
+ * Copyright (C) 2002-2009 Antoine Fraboulet & Olivier Teulière
  * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *          Olivier Teulière <ipkiss @@ gmail.com>
  *
@@ -45,7 +45,7 @@ struct params_regexp_t;
 class DicEdge;
 
 /**
- * A wdstring is a display string, i.e. it can contains more chars thani
+ * A wdstring is a display string, i.e. it can contain more chars than
  * the represented string. The difference arises in languages such as Catalan,
  * where for example "QU" is made of 2 real characters, but corresponds to a
  * single tile.
