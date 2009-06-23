@@ -94,7 +94,7 @@ Board::Board():
     m_crossCol(BOARD_REALDIM, Cross()),
     m_pointRow(BOARD_REALDIM, -1),
     m_pointCol(BOARD_REALDIM, -1),
-    m_testsRow(BOARD_REALDIM, 0),
+    m_testsRow(BOARD_REALDIM, false),
     m_isEmpty(true)
 {
     // No cross check allowed around the board
@@ -123,13 +123,6 @@ wchar_t Board::getChar(int iRow, int iCol) const
             letter = towlower(letter);
     }
     return letter;
-}
-
-int Board::getCharAttr(int iRow, int iCol) const
-{
-    int t = getTestChar(iRow, iCol);
-    int j = isJoker(iRow, iCol);
-    return  (t << 1) | j;
 }
 
 
@@ -414,7 +407,7 @@ void Board::testRound(const Round &iRound)
                 t = iRound.getTile(i);
                 m_tilesRow[row][col + i] = t;
                 m_jokerRow[row][col + i] = iRound.isJoker(i);
-                m_testsRow[row][col + i] = 1;
+                m_testsRow[row][col + i] = true;
 
                 m_tilesCol[col + i][row] = t;
                 m_jokerCol[col + i][row] = iRound.isJoker(i);
@@ -430,7 +423,7 @@ void Board::testRound(const Round &iRound)
                 t = iRound.getTile(i);
                 m_tilesRow[row + i][col] = t;
                 m_jokerRow[row + i][col] = iRound.isJoker(i);
-                m_testsRow[row + i][col] = 1;
+                m_testsRow[row + i][col] = true;
 
                 m_tilesCol[col][row + i] = t;
                 m_jokerCol[col][row + i] = iRound.isJoker(i);
@@ -449,7 +442,7 @@ void Board::removeTestRound()
             if (m_testsRow[row][col])
             {
                 m_tilesRow[row][col] = Tile();
-                m_testsRow[row][col] = 0;
+                m_testsRow[row][col] = false;
                 m_jokerRow[row][col] = false;
 
                 m_tilesCol[col][row] = Tile();
@@ -460,7 +453,7 @@ void Board::removeTestRound()
 }
 
 
-char Board::getTestChar(int iRow, int iCol) const
+bool Board::isTestChar(int iRow, int iCol) const
 {
     return m_testsRow[iRow][iCol];
 }

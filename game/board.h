@@ -41,29 +41,23 @@ using namespace std;
 #define BOARD_REALDIM (BOARD_DIM + 2)
 
 
+/**
+ * Representation of the board.
+ *
+ * In all the methods, the given coordinates
+ * have to be BOARD_MIN <= int <= BOARD_MAX.
+ */
 class Board
 {
 public:
     Board();
 
-    /*************************
-     * Coordinates have to be BOARD_MIN <= int <= BOARD_MAX
-     *
-     * getChar returns an upper case letter for normal tiles and a
+    /**
+     * Return an upper case letter for normal tiles and a
      * lower case letter for jokers.
-     *
-     * getCharAttr tells the attributes of the tile
-     *   0 : normal played tile
-     *   1 : joker tile
-     *   2 : test tile for preview purpose
-     * Attributes can be combined with the or (|) operator
-     *************************/
-#define ATTR_NORMAL 0
-#define ATTR_JOKER  1
-#define ATTR_TEST   2
-
-    wchar_t getChar    (int iRow, int iCol) const;
-    int     getCharAttr(int iRow, int iCol) const;
+     * For an empty square, 0 is returned.
+     */
+    wchar_t getChar(int iRow, int iCol) const;
 
     const Tile& getTile(int iRow, int iCol) const;
     bool isJoker(int iRow, int iCol) const;
@@ -76,9 +70,9 @@ public:
     /**
      *
      */
+    bool isTestChar(int iRow, int iCol) const;
     void testRound(const Round &iRound);
     void removeTestRound();
-    char getTestChar(int iRow, int iCol) const;
 
     /**
      * board_search.c
@@ -117,7 +111,7 @@ private:
     Matrix<int> m_pointRow;
     Matrix<int> m_pointCol;
 
-    Matrix<char> m_testsRow;
+    Matrix<bool> m_testsRow;
 
     /// Flag indicating if the board is empty or if it has letters
     bool m_isEmpty;

@@ -102,7 +102,7 @@ void GameIO::printBoardJoker(ostream &out, const PublicGame &iGame)
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
             wchar_t l = iGame.getBoard().getChar(row, col);
-            bool j = (iGame.getBoard().getCharAttr(row, col) & ATTR_JOKER);
+            bool j = iGame.getBoard().isJoker(row, col);
 
             if (l == 0)
                 out << " " << (j ? "." : "--");

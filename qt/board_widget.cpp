@@ -119,7 +119,7 @@ void BoardWidget::paintEvent(QPaintEvent *)
             // Set the brush color
             if (m_game != NULL && !m_game->getBoard().getTile(row, col).isEmpty())
             {
-                if (m_game->getBoard().getCharAttr(row, col) & ATTR_TEST)
+                if (m_game->getBoard().isTestChar(row, col))
                     painter.setBrush(PreviewColour);
                 else
                     painter.setBrush(TileColour);
@@ -142,7 +142,7 @@ void BoardWidget::paintEvent(QPaintEvent *)
                 wstring chr = m_game->getBoard().getTile(row, col).getDisplayStr();
                 // Make the display char in upper case
                 std::transform(chr.begin(), chr.end(), chr.begin(), towupper);
-                if (m_game->getBoard().getCharAttr(row, col) & ATTR_JOKER)
+                if (m_game->getBoard().isJoker(row, col))
                     painter.setPen(JokerColour);
                 painter.setFont(letterFont);
                 painter.drawText(xPos, yPos + 1, squareSize, squareSize,
@@ -150,8 +150,7 @@ void BoardWidget::paintEvent(QPaintEvent *)
                 painter.setPen(NormalColour);
 
                 // Draw the points of the tile
-                if (showPoints &&
-                    !m_game->getBoard().getCharAttr(row, col) & ATTR_JOKER)
+                if (showPoints && !m_game->getBoard().isJoker(row, col))
                 {
                     painter.setFont(pointsFont);
                     painter.drawText(xPos + squareSize * (1 - pointsCoeff),
