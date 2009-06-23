@@ -20,6 +20,7 @@
  *****************************************************************************/
 
 #include <wctype.h>
+#include <algorithm>
 
 #include "dic.h"
 
@@ -112,23 +113,20 @@ Board::Board():
 }
 
 
-wchar_t Board::getChar(int iRow, int iCol) const
-{
-    wchar_t letter = 0;
-    Tile tile = getTile(iRow, iCol);
-    if (!tile.isEmpty())
-    {
-        letter = tile.toChar();
-        if (isJoker(iRow, iCol))
-            letter = towlower(letter);
-    }
-    return letter;
-}
-
-
 const Tile& Board::getTile(int iRow, int iCol) const
 {
     return m_tilesRow[iRow][iCol];
+}
+
+
+wstring Board::getDisplayStr(int iRow, int iCol) const
+{
+    ASSERT(!isVacant(iRow, iCol),
+           "Trying to get the display string on an empty board square");
+    wstring str = getTile(iRow, iCol).getDisplayStr();
+    if (isJoker(iRow, iCol))
+        std::transform(str.begin(), str.end(), str.begin(), towlower);
+    return str;
 }
 
 

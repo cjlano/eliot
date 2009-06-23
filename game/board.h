@@ -52,16 +52,11 @@ class Board
 public:
     Board();
 
-    /**
-     * Return an upper case letter for normal tiles and a
-     * lower case letter for jokers.
-     * For an empty square, 0 is returned.
-     */
-    wchar_t getChar(int iRow, int iCol) const;
-
-    const Tile& getTile(int iRow, int iCol) const;
     bool isJoker(int iRow, int iCol) const;
     bool isVacant(int iRow, int iCol) const;
+
+    const Tile& getTile(int iRow, int iCol) const;
+    wstring getDisplayStr(int iRow, int iCol) const;
 
     void addRound(const Dictionary &iDic, const Round &iRound);
     void removeRound(const Dictionary &iDic, const Round &iRound);

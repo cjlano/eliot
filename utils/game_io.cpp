@@ -50,11 +50,10 @@ void GameIO::printBoard(ostream &out, const PublicGame &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            wchar_t l = iGame.getBoard().getChar(row, col);
-            if (l == 0)
+            if (iGame.getBoard().isVacant(row, col))
                 out << "  -";
             else
-                out << padAndConvert(wstring(1, l), 3);
+                out << padAndConvert(iGame.getBoard().getDisplayStr(row, col), 3);
         }
         out << endl;
     }
@@ -101,13 +100,14 @@ void GameIO::printBoardJoker(ostream &out, const PublicGame &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            wchar_t l = iGame.getBoard().getChar(row, col);
-            bool j = iGame.getBoard().isJoker(row, col);
-
-            if (l == 0)
-                out << " " << (j ? "." : "--");
+            if (iGame.getBoard().isVacant(row, col))
+                out << " --";
             else
-                out << " " << (j ? "." : " ") << convertToMb(l);
+            {
+                bool j = iGame.getBoard().isJoker(row, col);
+                out << (j ? " ." : "  ")
+                    << convertToMb(iGame.getBoard().getDisplayStr(row, col));
+            }
         }
         out << endl;
     }
@@ -128,9 +128,8 @@ void GameIO::printBoardMultipliers(ostream &out, const PublicGame &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            wchar_t l = iGame.getBoard().getChar(row, col);
-            if (l != 0)
-                out << padAndConvert(wstring(1, l), 3);
+            if (!iGame.getBoard().isVacant(row, col))
+                out << padAndConvert(iGame.getBoard().getDisplayStr(row, col), 3);
             else
             {
                 int wm = iGame.getBoard().GetWordMultiplier(row, col);
@@ -163,7 +162,6 @@ void GameIO::printBoardMultipliers2(ostream &out, const PublicGame &iGame)
         out << " " << (char)(row - BOARD_MIN + 'A') << " ";
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            wchar_t l = iGame.getBoard().getChar(row, col);
             int wm = iGame.getBoard().GetWordMultiplier(row, col);
             int tm = iGame.getBoard().GetLetterMultiplier(row, col);
 
@@ -173,7 +171,10 @@ void GameIO::printBoardMultipliers2(ostream &out, const PublicGame &iGame)
                 out << " " << ((tm == 3) ? '*' : '+');
             else
                 out << " -";
-            out << (l ? convertToMb(l) : "-");
+            if (iGame.getBoard().isVacant(row, col))
+                out << "-";
+            else
+                out << convertToMb(iGame.getBoard().getDisplayStr(row, col));
         }
         out << endl;
     }
