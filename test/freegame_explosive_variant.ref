@@ -1,20 +1,12 @@
 Using seed: 17
 [?] pour l'aide
 commande> le 1 1
-helperSetRackRandom(): initial rack: ?NADUTE (best word: ADUlENT)
-helperSetRackRandom(): replacing Joker with L
-helperSetRackRandom(): initial rack: ?EHSRMI (best word: cHRISME)
-helperSetRackRandom(): replacing Joker with C
 mode partie libre
 [?] pour l'aide
 commande> a T
 Joueur 0: ETUDALN
 Joueur 1: HMIRCES
 commande> j ADULENT h3
-helperSetRackRandom(): initial rack: ?TALEXE (best word: EXALTErA)
-helperSetRackRandom(): replacing Joker with R
-helperSetRackRandom(): initial rack: ?QNNIKE (best word: INuK)
-helperSetRackRandom(): replacing Joker with U
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
@@ -36,10 +28,6 @@ commande> a T
 Joueur 0: XRAETEL
 Joueur 1: UEQNIKN
 commande> j EXULTERA 5f
-helperSetRackRandom(): initial rack: ?TESATD (best word: EDiTATES)
-helperSetRackRandom(): replacing Joker with I
-helperSetRackRandom(): initial rack: KN+?JERP (best word: JERKEr)
-helperSetRackRandom(): replacing Joker with R
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
@@ -61,10 +49,6 @@ commande> a T
 Joueur 0: DITTSAE
 Joueur 1: KNPRRJE
 commande> j EDITATES F5
-helperSetRackRandom(): initial rack: ?RGSEMI (best word: EGERMaIS)
-helperSetRackRandom(): replacing Joker with A
-helperSetRackRandom(): initial rack: NP+?RVON (best word: PReVOT)
-helperSetRackRandom(): replacing Joker with E
 commande> a gm
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   @  -  -  +  -  -  -  @  -  -  -  +  -  -  @
@@ -86,10 +70,6 @@ commande> a T
 Joueur 0: ERIMASG
 Joueur 1: NPVRNOE
 commande> j EGERMAIS 11d
-helperSetRackRandom(): initial rack: ?NBIAID (best word: BlINDAI)
-helperSetRackRandom(): replacing Joker with L
-helperSetRackRandom(): initial rack: NN+?UGEI (best word: RUGINENt)
-helperSetRackRandom(): replacing Joker with T
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   -  -  -  -  -  -  -  P  -  -  -  -  -  -  -

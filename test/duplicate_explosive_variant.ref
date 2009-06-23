@@ -1,26 +1,6 @@
 Using seed: 15
 [?] pour l'aide
 commande> de 0 1
-helperSetRackRandom(): initial rack: ?HPLEYS (best word: gLYPHES)
-helperSetRackRandom(): replacing Joker with G
-helperSetRackRandom(): initial rack: ?WREFOI (best word: FERIa)
-helperSetRackRandom(): replacing Joker with A
-helperSetRackRandom(): initial rack: OW+?HBAG (best word: BOGHeY)
-helperSetRackRandom(): replacing Joker with E
-helperSetRackRandom(): initial rack: AW+?EDKE (best word: KWAs)
-helperSetRackRandom(): replacing Joker with S
-helperSetRackRandom(): initial rack: DEE+?ASI (best word: SpEEDAIS)
-helperSetRackRandom(): replacing Joker with P
-helperSetRackRandom(): initial rack: ?IDAEAO (best word: WEBrADIO)
-helperSetRackRandom(): replacing Joker with R
-helperSetRackRandom(): initial rack: A+?UTENZ (best word: ATtENUEZ)
-helperSetRackRandom(): replacing Joker with T
-helperSetRackRandom(): initial rack: ?EINECU (best word: GENICUlE)
-helperSetRackRandom(): replacing Joker with L
-helperSetRackRandom(): initial rack: ?TREVRT (best word: TREViRAT)
-helperSetRackRandom(): replacing Joker with I
-helperSetRackRandom(): initial rack: ?UNCNXS (best word: CEUX)
-helperSetRackRandom(): initial rack: ?NOAFUA (best word: FAUX)
 mode duplicate
 [?] pour l'aide
 commande> a g
