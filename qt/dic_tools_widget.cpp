@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2008 Olivier Teulière
+ * Copyright (C) 2008-2009 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -148,14 +148,16 @@ void DicToolsWidget::refreshCheck()
     else
     {
         bool res = m_dic->searchWord(qtw(rack->text()));
+        const wdstring &dispStr =
+            m_dic->getHeader().convertToDisplay(qtw(rack->text().toUpper()));
         if (res)
         {
-            labelCheck->setText(_q("The word '%1' exists").arg(rack->text().toUpper()));
+            labelCheck->setText(_q("The word '%1' exists").arg(qfw(dispStr)));
             labelCheck->setPalette(greenPalette);
         }
         else
         {
-            labelCheck->setText(_q("The word '%1' does not exist").arg(rack->text().toUpper()));
+            labelCheck->setText(_q("The word '%1' does not exist").arg(qfw(dispStr)));
             labelCheck->setPalette(redPalette);
         }
     }
@@ -288,7 +290,7 @@ void DicToolsWidget::refreshDicInfo()
     {
         const Header &header = m_dic->getHeader();
         lineEditName->setText(qfw(header.getName()));
-        lineEditLetters->setText(qfw(header.getLetters()));
+        lineEditLetters->setText(qfw(header.convertToDisplay(header.getLetters())));
         spinBoxWords->setValue(header.getNbWords());
 
         QStandardItemModel *model = m_dicInfoModel;
