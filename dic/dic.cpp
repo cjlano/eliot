@@ -81,6 +81,11 @@ Dictionary::Dictionary(const string &iPath)
     std::transform(lower.begin(), lower.end(), lower.begin(), towlower);
     m_allLetters = m_header->getLetters() + lower;
 
+    // Same for the input characters
+    lower = m_header->getInputChars();
+    std::transform(lower.begin(), lower.end(), lower.begin(), towlower);
+    m_allInputChars = m_header->getInputChars() + lower;
+
     m_dic = this;
 }
 
@@ -121,6 +126,14 @@ bool Dictionary::validateLetters(const wstring &iLetters,
 {
     return iLetters.empty()
         || iLetters.find_first_not_of(m_allLetters + iAccepted) == string::npos;
+}
+
+
+bool Dictionary::validateInputChars(const wistring &iLetters,
+                                    const wistring &iAccepted) const
+{
+    return iLetters.empty()
+        || iLetters.find_first_not_of(m_allInputChars + iAccepted) == string::npos;
 }
 
 

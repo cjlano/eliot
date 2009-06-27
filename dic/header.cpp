@@ -211,6 +211,8 @@ Header::Header(const DictHeaderInfo &iInfo)
     m_type = iInfo.dawg ? kDAWG : kGADDAG;
     m_dicName = iInfo.dicName;
     m_letters = iInfo.letters;
+    // FIXME: it should be more than that!
+    m_inputChars = iInfo.letters + L"<>|";
     m_points = iInfo.points;
     m_frequency = iInfo.frequency;
     m_vowels = iInfo.vowels;
@@ -281,6 +283,9 @@ wdstring Header::convertToDisplay(const wstring &iWord) const
     // we could simply return the given string without further processing.
     wdstring dispStr;
     dispStr.reserve(iWord.size());
+    // TODO: change the implementation, to avoid throwing an exception
+    // if there is a character not part of the dictionary (this can happen
+    // with regular expressions, at least...)
     for (unsigned int i = 0; i < iWord.size(); ++i)
     {
         const wdstring &chr = getDisplayStr(getCodeFromChar(iWord[i]));
@@ -369,6 +374,8 @@ void Header::read(istream &iStream)
     {
         throw DicException("Header::read: inconsistent header");
     }
+    // FIXME: it should be more than that!
+    m_inputChars = m_letters + L"<>|";
 
     // Letters points and frequency
     for (unsigned int i = 0; i < m_letters.size(); ++i)

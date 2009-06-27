@@ -73,6 +73,12 @@ private:
     /// Mediator for the "play word" controls
     PlayWordMediator *m_mediator;
 
+    /// Palette to write text in red
+    QPalette redPalette;
+
+    /// Palette to write text in black
+    QPalette blackPalette;
+
     /// Force synchronizing the model with the contents of the search results
     void updateModel();
 };

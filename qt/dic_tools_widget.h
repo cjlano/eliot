@@ -54,6 +54,8 @@ private:
 
     /// Palette to write text in red
     QPalette redPalette;
+    /// Palette to write text in yellow
+    QPalette darkYellowPalette;
     /// Palette to write text in green
     QPalette greenPalette;
 

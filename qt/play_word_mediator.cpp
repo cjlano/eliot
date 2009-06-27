@@ -28,6 +28,7 @@
 #include "public_game.h"
 #include "coord.h"
 #include "dic.h"
+#include "header.h"
 #include "debug.h"
 
 
@@ -108,7 +109,10 @@ void PlayWordMediator::lineEditPlay_returnPressed()
         return;
 
     // Convert the jokers to lowercase
-    QString word = m_lineEditPlay.text().toUpper();
+    const wistring &inputWord = qtw(m_lineEditPlay.text().toUpper());
+    // Convert to internal representation, then back to QString
+    QString word = qfw(m_game->getDic().getHeader().convertFromInput(inputWord));
+
     int pos;
     while ((pos = word.indexOf('(')) != -1)
     {
@@ -129,8 +133,12 @@ void PlayWordMediator::lineEditPlay_returnPressed()
         }
     }
 
+    // Convert the input string into an internal one
+    const wstring intWord =
+        m_game->getDic().getHeader().convertFromInput(qtw(word));
+
     QString coords = m_lineEditCoord.text();
-    int res = m_game->play(qtw(word), qtw(coords));
+    int res = m_game->play(intWord, qtw(coords));
     if (res == 0)
     {
         emit gameUpdated();
@@ -221,31 +229,34 @@ QValidator::State PlayWordValidator::validate(QString &input, int &) const
     if (input == "")
         return Intermediate;
 
-    QString copy(input);
-    // Strip parentheses
-    copy.remove('(');
-    copy.remove(')');
-    // The string is invalid if it contains characters not present
-    // in the dictionary
-    if (!m_dic.validateLetters(qtw(copy)) || copy.contains('?'))
+    const wistring &winput = qtw(input);
+    // The string is invalid if it contains invalid input characters
+    if (!m_dic.validateInputChars(winput, L"()") || input.contains('?'))
         return Invalid;
 
+    // Convert the string to internal letters
+    const wstring &intInput = m_dic.getHeader().convertFromInput(winput);
+    // The string is invalid if it contains characters not present
+    // in the dictionary (ignoring parentheses)
+    if (!m_dic.validateLetters(intInput, L"()"))
+        return Intermediate;
+
     // Check the parentheses pairs
-    copy = input;
+    QString qintInput = qfw(intInput);
     int pos;
-    while ((pos = copy.indexOf('(')) != -1)
+    while ((pos = qintInput.indexOf('(')) != -1)
     {
-        if (copy.size() < pos + 3 || copy[pos + 2] != ')' ||
-            !m_dic.validateLetters(qtw(QString(copy[pos + 1]))))
+        if (qintInput.size() < pos + 3 || qintInput[pos + 2] != ')' ||
+            !m_dic.validateLetters(qtw(QString(qintInput[pos + 1]))))
         {
             return Intermediate;
         }
         else
         {
-            copy.remove(pos, 3);
+            qintInput.remove(pos, 3);
         }
     }
-    if (copy.indexOf(')') != -1)
+    if (qintInput.indexOf(')') != -1)
         return Intermediate;
 
     return Acceptable;

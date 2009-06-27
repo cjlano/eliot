@@ -109,6 +109,7 @@ public:
     wstring      getName()         const { return m_dicName; }
     DictType     getType()         const { return m_type; }
     wstring      getLetters()      const { return m_letters; }
+    wstring      getInputChars()   const { return m_inputChars; }
     uint8_t      getPoints(unsigned int iCode) const { return m_points[iCode - 1]; }
     uint8_t      getFrequency(unsigned int iCode) const { return m_frequency[iCode - 1]; }
     bool         isVowel(unsigned int iCode) const { return m_vowels[iCode - 1]; }
@@ -177,8 +178,11 @@ private:
     /// Dictionary name (e.g.: ODS 5.0)
     wstring m_dicName;
 
-    /// The letters constituting the words of the dictionary
+    /// (Internal) letters constituting the words of the dictionary
     wstring m_letters;
+
+    /// Characters usable to input the dictionary letters
+    wstring m_inputChars;
 
     /// Points of the letters
     vector<uint8_t> m_points;

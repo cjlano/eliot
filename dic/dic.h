@@ -93,6 +93,15 @@ public:
     bool validateLetters(const wstring &iLetters,
                          const wstring &iAccepted = L"") const;
 
+    /**
+     * Check whether all the given characters can be part of an input
+     * form for one or more dictionary letter, or are one of the other
+     * accepted letters.
+     * Return true if this is the case, false otherwise
+     */
+    bool validateInputChars(const wstring &iLetters,
+                            const wstring &iAccepted = L"") const;
+
     /** Return a vector containing one of each possible tile */
     const vector<Tile>& getAllTiles() const { return m_tilesVect; }
 
@@ -241,8 +250,17 @@ private:
     Header *m_header;
     uint32_t *m_dawg;
 
-    /** Letters of the dictionary, both in uppercase and lowercase */
+    /**
+     * Letters of the dictionary, both in uppercase and lowercase
+     * (internal representation)
+     */
     wstring m_allLetters;
+
+    /**
+     * All the possible characters possibly used to input letters of
+     * the dictionary, both in uppercase and lowercase
+     */
+    wstring m_allInputChars;
 
     /// Vector of available tiles
     vector<Tile> m_tilesVect;

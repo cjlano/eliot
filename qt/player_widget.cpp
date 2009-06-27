@@ -33,6 +33,7 @@
 #include "coord.h"
 #include "coord_model.h"
 #include "dic.h"
+#include "header.h"
 #include "debug.h"
 
 #include "encoding.h"
@@ -43,11 +44,13 @@ class ChangeValidator: public QValidator
 {
 public:
     explicit ChangeValidator(QObject *parent,
-                             const QLineEdit &iLineEdit);
+                             const QLineEdit &iLineEdit,
+                             const Dictionary &iDic);
     virtual State validate(QString &input, int &pos) const;
 
 private:
     const QLineEdit &m_lineEdit;
+    const Dictionary &m_dic;
 };
 
 
@@ -84,7 +87,8 @@ PlayerWidget::PlayerWidget(QWidget *parent, CoordModel &iCoordModel,
     }
     else
     {
-        lineEditChange->setValidator(new ChangeValidator(this, *lineEditRack));
+        lineEditChange->setValidator(new ChangeValidator(this, *lineEditRack,
+                                                         m_game->getDic()));
     }
 
     refresh();
@@ -146,19 +150,22 @@ void PlayerWidget::on_lineEditChange_returnPressed()
     ASSERT(m_game->getMode() == PublicGame::kFREEGAME,
            "Trying to pass or change letters while not in free game mode");
 
+    QString inputLetters = lineEditChange->text();
+    // Convert the input string into an internal one
+    const wstring &letters =
+        m_game->getDic().getHeader().convertFromInput(qtw(inputLetters));
     // Pass the turn (and possibly change letters)
-    QString letters = lineEditChange->text();
-    int res = m_game->freeGamePass(qtw(letters));
+    int res = m_game->freeGamePass(letters);
     if (res == 0)
         emit gameUpdated();
     else
     {
         // FIXME: the error is too generic
         QString msg;
-        if (letters == "")
+        if (inputLetters == "")
             msg = _q("Cannot pass turn (%1)").arg(res);
         else
-            msg = _q("Cannot change letters '%1' (%2)").arg(letters).arg(res);
+            msg = _q("Cannot change letters '%1' (%2)").arg(inputLetters).arg(res);
         emit notifyProblem(msg);
     }
 }
@@ -166,22 +173,39 @@ void PlayerWidget::on_lineEditChange_returnPressed()
 
 
 ChangeValidator::ChangeValidator(QObject *parent,
-                                 const QLineEdit &iLineEdit)
-    : QValidator(parent), m_lineEdit(iLineEdit)
+                                 const QLineEdit &iLineEdit,
+                                 const Dictionary &iDic)
+    : QValidator(parent), m_lineEdit(iLineEdit), m_dic(iDic)
 {
 }
 
 
 QValidator::State ChangeValidator::validate(QString &input, int &) const
 {
-    QString rack = m_lineEdit.text();
-    if (input.size() > rack.size())
+    // The string is invalid if it contains invalid input characters
+    const wistring &winput = qtw(input);
+    if (!m_dic.validateInputChars(winput))
+        return Invalid;
+
+    // Convert the string to internal letters
+    const wstring &intInput = m_dic.getHeader().convertFromInput(winput);
+    // The string is invalid if it contains characters not present
+    // in the dictionary
+    if (!m_dic.validateLetters(intInput))
+        return Intermediate;
+
+    const wstring &rack = m_dic.getHeader().convertFromInput(qtw(m_lineEdit.text()));
+    if (intInput.size() > rack.size())
         return Intermediate;
     // The letters to change must be in the rack
-    for (int i = 0; i < input.size(); ++i)
+    // We convert back to QString objects, because their count() method is
+    // very practical...
+    QString qrack = qfw(rack);
+    QString qinput = qfw(intInput);
+    for (int i = 0; i < qinput.size(); ++i)
     {
-        if (input.count(input[i], Qt::CaseInsensitive) >
-            rack.count(input[i], Qt::CaseInsensitive))
+        if (qinput.count(qinput[i], Qt::CaseInsensitive) >
+            qrack.count(qinput[i], Qt::CaseInsensitive))
         {
             return Intermediate;
         }

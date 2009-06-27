@@ -22,6 +22,7 @@
 
 #include <map>
 #include <vector>
+#include <algorithm>
 #include <QtGui/QTreeView>
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QVBoxLayout>
@@ -73,6 +74,8 @@ DicToolsWidget::DicToolsWidget(QWidget *parent)
 
     redPalette = labelCheck->palette();
     redPalette.setColor(QPalette::Foreground, Qt::red);
+    darkYellowPalette = labelCheck->palette();
+    darkYellowPalette.setColor(QPalette::Foreground, Qt::darkYellow);
     greenPalette = labelCheck->palette();
     greenPalette.setColor(QPalette::Foreground, Qt::darkGreen);
 
@@ -147,9 +150,18 @@ void DicToolsWidget::refreshCheck()
         labelCheck->setText("");
     else
     {
-        bool res = m_dic->searchWord(qtw(rack->text()));
-        const wdstring &dispStr =
-            m_dic->getHeader().convertToDisplay(qtw(rack->text().toUpper()));
+        if (!rack->hasAcceptableInput())
+        {
+            labelCheck->setText(_q("Invalid or incomplete characters"));
+            labelCheck->setPalette(darkYellowPalette);
+            return;
+        }
+
+        wstring input = m_dic->getHeader().convertFromInput(qtw(rack->text()));
+        bool res = m_dic->searchWord(input);
+        // Convert the input to uppercase
+        std::transform(input.begin(), input.end(), input.begin(), towupper);
+        const wdstring &dispStr = m_dic->getHeader().convertToDisplay(input);
         if (res)
         {
             labelCheck->setText(_q("The word '%1' exists").arg(qfw(dispStr)));
@@ -174,21 +186,21 @@ void DicToolsWidget::refreshPlus1()
     if (m_dic == NULL)
     {
         model->setHeaderData(0, Qt::Horizontal,
-                               _q("Please select a dictionary"),
-                               Qt::DisplayRole);
+                             _q("Please select a dictionary"),
+                             Qt::DisplayRole);
         return;
     }
-    else
-    {
-        model->setHeaderData(0, Qt::Horizontal,
-                               _q("Rack: %1").arg(rack->text().toUpper()),
-                               Qt::DisplayRole);
-    }
 
-    if (rack->text() != "")
+    const wstring &input = m_dic->getHeader().convertFromInput(qtw(rack->text().toUpper()));
+    const wdstring &disp = m_dic->getHeader().convertToDisplay(input);
+    model->setHeaderData(0, Qt::Horizontal,
+                         _q("Rack: %1").arg(qfw(disp)),
+                         Qt::DisplayRole);
+
+    if (input != L"")
     {
         map<wstring, vector<wstring> > wordList;
-        m_dic->search7pl1(qtw(rack->text()), wordList, true);
+        m_dic->search7pl1(input, wordList, true);
 
         int rowNum = 0;
         map<wstring, vector<wstring> >::const_iterator it;
@@ -231,14 +243,14 @@ void DicToolsWidget::refreshRegexp()
                                Qt::DisplayRole);
         return;
     }
-    else
-    {
-        model->setHeaderData(0, Qt::Horizontal,
-                               _q("Regular expression: %1").arg(rack->text().toUpper()),
-                               Qt::DisplayRole);
-    }
 
-    if (rack->text() != "")
+    const wstring &input = m_dic->getHeader().convertFromInput(qtw(rack->text().toUpper()));
+    const wdstring &disp = m_dic->getHeader().convertToDisplay(input);
+    model->setHeaderData(0, Qt::Horizontal,
+                         _q("Regular expression: %1").arg(qfw(disp)),
+                         Qt::DisplayRole);
+
+    if (input != L"")
     {
         unsigned lmin = spinBoxMinLength->value();
         unsigned lmax = spinBoxMaxLength->value();
@@ -250,8 +262,7 @@ void DicToolsWidget::refreshRegexp()
         int rowNum = 0;
         try
         {
-            res = m_dic->searchRegExp(qtw(rack->text()), wordList,
-                                      lmin, lmax, limit);
+            res = m_dic->searchRegExp(input, wordList, lmin, lmax, limit);
         }
         catch (InvalidRegexpException &e)
         {
@@ -337,12 +348,19 @@ QValidator::State DicRackValidator::validate(QString &input, int &) const
     if (input == "")
         return Intermediate;
 
-    //input = input.toUpper();
-
-    // The string is invalid if it contains characters not present
-    // in the dictionary or if it contains a '?'
-    if (!m_dic->validateLetters(qtw(input)))
+    // The string is invalid if it contains invalid input characters
+    const wistring &winput = qtw(input);
+    if (!m_dic->validateInputChars(winput))
         return Invalid;
+
+    // Convert the string to internal letters
+    const wstring &intInput = m_dic->getHeader().convertFromInput(winput);
+    // The string is invalid if it contains characters not present
+    // in the dictionary
+    if (!m_dic->validateLetters(intInput))
+        return Intermediate;
+
+    // A '?' may not be acceptable
     if (!m_acceptJoker && input.contains('?'))
         return Invalid;
     // Do not accept more than 2 jokers
@@ -368,18 +386,20 @@ QValidator::State RegexpValidator::validate(QString &input, int &) const
     if (input == "")
         return Intermediate;
 
-    // Strip regular expression characters
-    QString copy(input);
-    QString authorizedChars = ".[]()*+?:^";
-    for (int i = 0; i < authorizedChars.size(); ++i)
-    {
-        copy.remove(authorizedChars[i]);
-    }
+    wstring authorizedChars = L".[]()*+?:^";
 
+    // The string is invalid if it contains invalid input characters
+    const wistring &winput = qtw(input);
+    if (!m_dic->validateInputChars(winput, authorizedChars))
+        return Invalid;
+
+    // Convert the string to internal letters
+    const wstring &intInput = m_dic->getHeader().convertFromInput(winput);
     // The string is invalid if it contains characters not present
     // in the dictionary
-    if (!m_dic->validateLetters(qtw(copy)))
-        return Invalid;
+    if (!m_dic->validateLetters(intInput, authorizedChars))
+        return Intermediate;
+
     return Acceptable;
 }
 

@@ -26,6 +26,7 @@
 #include "play_word_mediator.h"
 
 #include "dic.h"
+#include "header.h"
 #include "bag.h"
 #include "public_game.h"
 #include "game_exception.h"
@@ -51,6 +52,11 @@ TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicG
     : QWidget(parent), m_game(iGame)
 {
     setupUi(this);
+
+    redPalette = lineEditRack->palette();
+    redPalette.setColor(QPalette::Text, Qt::red);
+    blackPalette = lineEditRack->palette();
+    blackPalette.setColor(QPalette::Text, Qt::black);
 
     // Use the mediator
     m_mediator = new PlayWordMediator(this, *lineEditPlay, *lineEditCoords,
@@ -196,15 +202,24 @@ void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
 {
     // FIXME: first parameter is hardcoded
     m_game->trainingRemoveTestPlay();
+    if (!lineEditRack->hasAcceptableInput())
+    {
+        lineEditRack->setPalette(redPalette);
+        return;
+    }
     try
     {
-        m_game->trainingSetRackManual(false, qtw(iText));
+        lineEditRack->setPalette(blackPalette);
+        const Header &header = m_game->getDic().getHeader();
+        const wstring &input = header.convertFromInput(qtw(iText));
+        m_game->trainingSetRackManual(false, input);
         pushButtonSearch->setEnabled(m_model->rowCount() == 0 &&
                                      lineEditRack->text() != "");
         emit gameUpdated();
     }
     catch (GameException &e)
     {
+        lineEditRack->setPalette(redPalette);
         emit notifyProblem(_q("Warning: Cannot set the rack to '%1'").arg(iText));
     }
 }
@@ -212,10 +227,10 @@ void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
 
 void TrainingWidget::on_pushButtonRack_clicked()
 {
-    // FIXME: first parameter is hardcoded
     m_game->trainingRemoveTestPlay();
     try
     {
+        // FIXME: first parameter is hardcoded
         m_game->trainingSetRackRandom(true, PublicGame::kRACK_ALL);
         emit gameUpdated();
     }
@@ -228,10 +243,10 @@ void TrainingWidget::on_pushButtonRack_clicked()
 
 void TrainingWidget::on_pushButtonComplement_clicked()
 {
-    // FIXME: first parameter is hardcoded
     m_game->trainingRemoveTestPlay();
     try
     {
+        // FIXME: first parameter is hardcoded
         m_game->trainingSetRackRandom(true, PublicGame::kRACK_NEW);
         emit gameUpdated();
     }
@@ -296,14 +311,26 @@ QValidator::State RackValidator::validate(QString &input, int &) const
 
     input = input.toUpper();
 
-    if (!m_bag->getDic().validateLetters(qtw(input)))
+    const Dictionary &dic = m_bag->getDic();
+
+    // The string is invalid if it contains invalid input characters
+    const wistring &winput = qtw(input);
+    if (!dic.validateInputChars(winput))
         return Invalid;
 
+    // Convert the string to internal letters
+    const wstring &intInput = dic.getHeader().convertFromInput(winput);
+    // The string is invalid if it contains characters not present
+    // in the dictionary
+    if (!dic.validateLetters(intInput))
+        return Intermediate;
+
+    QString qinput = qfw(intInput);
     // The letters must be in the bag
-    for (int i = 0; i < input.size(); ++i)
+    for (int i = 0; i < qinput.size(); ++i)
     {
-        if ((unsigned int)input.count(input[i], Qt::CaseInsensitive) >
-            m_bag->in(qtw(input.mid(i, 1))[0]))
+        if ((unsigned int)qinput.count(qinput[i], Qt::CaseInsensitive) >
+            m_bag->in(qtw(qinput.mid(i, 1))[0]))
         {
             return Invalid;
         }
