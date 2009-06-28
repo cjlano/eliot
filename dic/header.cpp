@@ -24,6 +24,9 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <boost/foreach.hpp>
+#include <boost/format.hpp>
+#include <boost/tokenizer.hpp>
 
 // For ntohl & Co.
 #ifdef WIN32
@@ -47,6 +50,9 @@
 #include "header.h"
 #include "encoding.h"
 #include "dic_exception.h"
+
+using boost::format;
+using boost::wformat;
 
 
 #if defined(WORDS_BIGENDIAN)
@@ -79,7 +85,7 @@ struct Dict_header_old
     char ident[sizeof(_COMPIL_KEYWORD_)];
     /// Version of the serialization format
     uint8_t version;
-    /// Unused at the moment, reserved for further use
+    /// Unused at the moment, reserved for future use
     char unused;
     uint32_t root;
     uint32_t nwords;
@@ -98,8 +104,9 @@ struct Dict_header_old
 #define _MAX_DIC_NAME_SIZE_ 30
 #define _MAX_LETTERS_NB_ 63
 #define _MAX_LETTERS_SIZE_ 80
+#define _MAX_DISPLAY_INPUT_SIZE_ 112
 
-/** Extension of the old format (used in version 1)*/
+/** Extension of the old format (used in version 1) */
 struct Dict_header_ext
 {
     // Time when the dictionary was compressed
@@ -152,6 +159,18 @@ struct Dict_header_ext
     // --- we have a multiple of 64 bytes here
 };
 
+/** Extension of the extension :-) (used in version 2) */
+struct Dict_header_ext_2
+{
+    // Additional information concerning the display strings and the
+    // alternative input strings of the letters
+    char displayAndInput[_MAX_DISPLAY_INPUT_SIZE_];
+    // Size taken by the display/input data
+    uint16_t displayAndInputSize;
+
+    // --- we have a multiple of 64 bytes here
+};
+
 
 Header::Header(istream &iStream)
     : m_root(0), m_nbWords(0), m_nodesUsed(0), m_edgesUsed(0),
@@ -161,14 +180,14 @@ Header::Header(istream &iStream)
     // The code is not moved here because I find it more natural to have a
     // read() method symmetrical to the write() one
     read(iStream);
-    buildMapCodeFromChar();
+    buildCaches();
 }
 
 
 Header::Header(const DictHeaderInfo &iInfo)
 {
     // Use the latest serialization format
-    m_version = 1;
+    m_version = 2;
 
     // Sanity checks
     if (iInfo.letters.size() > _MAX_LETTERS_NB_)
@@ -211,24 +230,77 @@ Header::Header(const DictHeaderInfo &iInfo)
     m_type = iInfo.dawg ? kDAWG : kGADDAG;
     m_dicName = iInfo.dicName;
     m_letters = iInfo.letters;
-    // FIXME: it should be more than that!
-    m_inputChars = iInfo.letters + L"<>|";
     m_points = iInfo.points;
     m_frequency = iInfo.frequency;
     m_vowels = iInfo.vowels;
     m_consonants = iInfo.consonants;
+    m_displayAndInputData = iInfo.displayInputData;
 
-    buildMapCodeFromChar();
+    buildCaches();
 }
 
 
-void Header::buildMapCodeFromChar()
+void Header::buildCaches()
 {
+    // Build the char --> code mapping
     for (unsigned int i = 0; i < m_letters.size(); ++i)
     {
         // We don't differentiate uppercase and lowercase letters
         m_mapCodeFromChar[towlower(m_letters[i])] = i + 1;
         m_mapCodeFromChar[towupper(m_letters[i])] = i + 1;
+    }
+
+    // Build the cache for the convertToDisplay() and convertFromInput()
+    // methods. Also ensure that the strings in m_displayAndInputData
+    // are all in uppercase.
+    map<wchar_t, vector<wstring> >::iterator it;
+    for (it = m_displayAndInputData.begin();
+         it != m_displayAndInputData.end(); ++it)
+    {
+        BOOST_FOREACH(wstring &str, it->second)
+        {
+            // Make sure the string is in uppercase
+            std::transform(str.begin(), str.end(), str.begin(), towupper);
+            // Make a lowercase copy
+            wstring lower = str;
+            std::transform(lower.begin(), lower.end(), lower.begin(), towlower);
+            // Fill the cache
+            m_displayInputCache[it->first].push_back(str);
+            m_displayInputCache[towlower(it->first)].push_back(lower);
+        }
+    }
+
+    // Build the display strings cache
+    m_displayCache.assign(m_letters.size() + 1, L"");
+    for (unsigned int i = 0; i < m_letters.size(); ++i)
+    {
+        map<wchar_t, vector<wstring> >::const_iterator it =
+            m_displayAndInputData.find(m_letters[i]);
+        if (it == m_displayAndInputData.end())
+            m_displayCache[i + 1].append(1, m_letters[i]);
+        else
+            m_displayCache[i + 1] = it->second[0];
+    }
+
+    // Create a string with all the characters possibly used
+    m_inputChars.reserve(m_letters.size());
+    BOOST_FOREACH(wchar_t wch, m_letters)
+    {
+        map<wchar_t, vector<wstring> >::const_iterator it =
+            m_displayAndInputData.find(wch);
+        if (it == m_displayAndInputData.end())
+            m_inputChars.append(1, wch);
+        else
+        {
+            BOOST_FOREACH(const wstring &str, it->second)
+            {
+                BOOST_FOREACH(wchar_t chr, str)
+                {
+                    if (m_inputChars.find(towupper(chr)) == string::npos)
+                        m_inputChars.append(1, towupper(chr));
+                }
+            }
+        }
     }
 }
 
@@ -261,35 +333,39 @@ unsigned int Header::getCodeFromChar(wchar_t iChar) const
 }
 
 
-wdstring Header::getDisplayStr(unsigned int iCode) const
+const wdstring & Header::getDisplayStr(unsigned int iCode) const
 {
     // Safety check
-    if (iCode == 0 || iCode > m_letters.size())
+    if (iCode == 0 || iCode > m_displayCache.size())
     {
         ostringstream oss;
         oss << iCode;
         throw DicException("Header::getDisplayStr: No code for letter '" + oss.str());
     }
-    // TODO: return a const wstring & instead of a wstring
-    return wstring(1, m_letters[iCode - 1]);
+    return m_displayCache[iCode];
 }
 
 
 wdstring Header::convertToDisplay(const wstring &iWord) const
 {
-    // TODO: if we had a flag saying that the current dictionary is
-    // such that all the display strings are equal to the internal
-    // characters themselves (which would be the case for most languages),
-    // we could simply return the given string without further processing.
-    wdstring dispStr;
-    dispStr.reserve(iWord.size());
-    // TODO: change the implementation, to avoid throwing an exception
-    // if there is a character not part of the dictionary (this can happen
-    // with regular expressions, at least...)
-    for (unsigned int i = 0; i < iWord.size(); ++i)
+    // Optimization for dictionaries without display nor input chars,
+    // which is the case in most languages.
+    if (m_displayInputCache.empty())
+        return iWord;
+
+    wdstring dispStr = iWord;
+    map<wchar_t, vector<wstring> >::const_iterator it;
+    for (it = m_displayInputCache.begin();
+         it != m_displayInputCache.end(); ++it)
     {
-        const wdstring &chr = getDisplayStr(getCodeFromChar(iWord[i]));
-        dispStr += chr;
+        const wstring &disp = it->second[0];
+        string::size_type pos = 0;
+        while (pos < dispStr.size() &&
+               (pos = dispStr.find(it->first, pos)) != string::npos)
+        {
+            dispStr.replace(pos, 1, disp);
+            pos += disp.size();
+        }
     }
     return dispStr;
 }
@@ -297,8 +373,28 @@ wdstring Header::convertToDisplay(const wstring &iWord) const
 
 wstring Header::convertFromInput(const wistring &iWord) const
 {
-    // TODO: do something useful
-    return iWord;
+    // Optimization for dictionaries without display nor input chars,
+    // which is the case in most languages.
+    if (m_displayInputCache.empty())
+        return iWord;
+
+    wstring str = iWord;
+    map<wchar_t, vector<wstring> >::const_iterator it;
+    for (it = m_displayInputCache.begin();
+         it != m_displayInputCache.end(); ++it)
+    {
+        BOOST_FOREACH(const wstring &input, it->second)
+        {
+            string::size_type pos = 0;
+            while (pos < str.size() &&
+                   (pos = str.find(input, pos)) != string::npos)
+            {
+                str.replace(pos, input.size(), wstring(1, it->first));
+                pos += input.size();
+            }
+        }
+    }
+    return str;
 }
 
 
@@ -374,8 +470,6 @@ void Header::read(istream &iStream)
     {
         throw DicException("Header::read: inconsistent header");
     }
-    // FIXME: it should be more than that!
-    m_inputChars = m_letters + L"<>|";
 
     // Letters points and frequency
     for (unsigned int i = 0; i < m_letters.size(); ++i)
@@ -389,6 +483,26 @@ void Header::read(istream &iStream)
     {
         m_vowels.push_back(aHeaderExt.vowels & (1 << i));
         m_consonants.push_back(aHeaderExt.consonants & (1 << i));
+    }
+
+    // Read the additional display/input data
+    if (m_version >= 2)
+    {
+        // Read the extension of the extension...
+        Dict_header_ext_2 aHeaderExt2;
+        iStream.read((char*)&aHeaderExt2, sizeof(Dict_header_ext_2));
+        if (iStream.gcount() != sizeof(Dict_header_ext_2))
+            throw DicException("Header::read: expected to read more bytes (ext2)");
+
+        // Handle endianness
+        aHeaderExt2.displayAndInputSize = ntohs(aHeaderExt2.displayAndInputSize);
+
+        // Convert the dictionary letters from UTF-8 to wchar_t*
+        wstring serialized = readFromUTF8(aHeaderExt2.displayAndInput,
+                                          aHeaderExt2.displayAndInputSize,
+                                          "display and input data");
+        // Parse this string and structure the data
+        readDisplayAndInput(serialized);
     }
 }
 
@@ -459,34 +573,158 @@ void Header::write(ostream &oStream) const
     oStream.write((char*)&aHeaderExt, sizeof(Dict_header_ext));
     if (!oStream.good())
         throw DicException("Header::write: error when writing to file");
+
+    // Write the second extension
+    Dict_header_ext_2 aHeaderExt2;
+    const wstring &serialized = writeDisplayAndInput();
+
+    // Convert the serialized data to UTF-8
+    aHeaderExt2.displayAndInputSize =
+        writeInUTF8(serialized, aHeaderExt2.displayAndInput,
+                    _MAX_DISPLAY_INPUT_SIZE_, "display and input data");
+
+    // Handle endianness
+    aHeaderExt2.displayAndInputSize = htons(aHeaderExt2.displayAndInputSize);
+
+    // Write the extension
+    oStream.write((char*)&aHeaderExt2, sizeof(Dict_header_ext_2));
+    if (!oStream.good())
+        throw DicException("Header::write: error when writing to file (ext2)");
+}
+
+
+void Header::readDisplayAndInput(const wstring &serialized)
+{
+    // The format is the following:
+    // "X|DISPX|INP1|INP2|INP3 Y|DISPY Z|DISPZ|INP4|INP5"
+    // where X, Y and Z are internal chars (i.e. chars of m_letters),
+    // DISPX, DISPY and DISPZ are the corresponding display strings,
+    // and the INP* are input strings (in addition to the display string,
+    // which is always considered as an input string)
+
+    // Use a more friendly type name
+    typedef boost::tokenizer<boost::char_separator<wchar_t>,
+            std::wstring::const_iterator,
+            std::wstring> Tokenizer;
+
+    // Split the string on double spaces
+    static const boost::char_separator<wchar_t> sep1(L" ");
+    static const boost::char_separator<wchar_t> sep2(L"|");
+    Tokenizer tok(serialized, sep1);
+    Tokenizer::iterator it;
+    for (it = tok.begin(); it != tok.end(); ++it)
+    {
+        // Split the token on single space
+        Tokenizer tok2(*it, sep2);
+        vector<wstring> pieces(tok2.begin(), tok2.end());
+        // Some sanity checks...
+        if (pieces.size() < 2)
+            throw DicException("Header::readDisplayAndInput: no display "
+                               "string. Corrupted dictionary?");
+        // The first piece must be a single char, present in m_letters
+        if (pieces[0].size() != 1 ||
+            m_letters.find(pieces[0][0]) == wstring::npos)
+        {
+            throw DicException("Header::readDisplayAndInput: invalid internal"
+                               " letter. Corrupted dictionary?");
+        }
+        wchar_t chr = pieces[0][0];
+        if (m_displayAndInputData.find(chr) != m_displayAndInputData.end())
+        {
+            throw DicException("Header::readDisplayAndInput: found 2 display"
+                               " data sections for the same letter. Corrupted"
+                               " dictionary?");
+        }
+        // OK, save the data
+        pieces.erase(pieces.begin());
+        m_displayAndInputData[chr] = pieces;
+    }
+}
+
+
+wstring Header::writeDisplayAndInput() const
+{
+    wstring serialized;
+    bool first = true;
+    map<wchar_t, vector<wstring> >::const_iterator it;
+    for (it = m_displayAndInputData.begin();
+         it != m_displayAndInputData.end(); ++it)
+    {
+        if (first)
+            first = false;
+        else
+            serialized += L" ";
+        serialized.append(1, it->first);
+        BOOST_FOREACH(const wstring &str, it->second)
+        {
+            // Make sure the string is uppercase
+            wstring upStr = str;
+            std::transform(upStr.begin(), upStr.end(), upStr.begin(), towupper);
+            serialized += L"|" + upStr;
+        }
+    }
+    return serialized;
 }
 
 
 void Header::print() const
 {
-    printf(_("dictionary name: %s\n"), convertToMb(m_dicName).c_str());
-    char buf[50];
+#define fmt(x) format(_(x))
+    cout << fmt("Dictionary name: %1%") % convertToMb(m_dicName) << endl;
+    char buf[150];
     strftime(buf, sizeof(buf), "%c", gmtime(&m_compressDate));
-    printf(_("compressed on: %s\n"), buf);
-    printf(_("compressed using a binary compiled by: %s\n"), convertToMb(m_userHost).c_str());
-    printf(_("dictionary type: %s\n"), m_type == kDAWG ? "DAWG" : "GADDAG");
-    printf(_("letters: %s\n"), convertToMb(m_letters).c_str());
-    printf(_("number of letters: %lu\n"), (long unsigned int)m_letters.size());
-    printf(_("number of words: %d\n"), m_nbWords);
-    long unsigned int size = sizeof(Dict_header_old) + sizeof(Dict_header_ext);
-    printf(_("header size: %lu bytes\n"), size);
-    printf(_("root: %d (edge)\n"), m_root);
-    printf(_("nodes: %d used + %d saved\n"), m_nodesUsed, m_nodesSaved);
-    printf(_("edges: %d used + %d saved\n"), m_edgesUsed, m_edgesSaved);
-    printf("===============================================\n");
-    printf(_("letter | points | frequency | vowel | consonant\n"));
-    printf("-------+--------+-----------+-------+----------\n");
+    cout << fmt("Compressed on: %1%") % buf << endl;
+    cout << fmt("Compressed using a binary compiled by: %1%") % convertToMb(m_userHost) << endl;
+    cout << fmt("Dictionary type: %1%") % (m_type == kDAWG ? "DAWG" : "GADDAG") << endl;
+    cout << fmt("Letters: %1%") % convertToMb(m_letters) << endl;
+    cout << fmt("Number of letters: %1%") % m_letters.size() << endl;
+    cout << fmt("Number of words: %1%") % m_nbWords << endl;
+    long unsigned int size = sizeof(Dict_header_old) +
+        sizeof(Dict_header_ext) + sizeof(Dict_header_ext_2);
+    cout << fmt("Header size: %1% bytes") % size << endl;
+    cout << fmt("Root: %1% (edge)") % m_root << endl;
+    cout << fmt("Nodes: %1% used + %2% saved") % m_nodesUsed % m_nodesSaved << endl;
+    cout << fmt("Edges: %1% used + %2% saved") % m_edgesUsed % m_edgesSaved << endl;
+#undef fmt
+    cout << "===============================================================" << endl;
+    cout << format("%1% | %2% | %3% | %4% | %5% | %6% | %7%")
+        % _("letter") % _("points") % _("frequency") % _("vowel")
+        % _("consonant") % _("disp.") % _("input") << endl;
+    cout << "-------+--------+-----------+-------+-----------+-------+------" << endl;
+#define sz(x) strlen(_(x))
     for (unsigned int i = 0; i < m_letters.size(); ++i)
     {
-        printf("  %s   |   %2d   |    %2d     |   %d   |    %d\n",
-               padAndConvert(wstring(1, m_letters[i]), 2).c_str(),
-               m_points[i], m_frequency[i], m_vowels[i], m_consonants[i]);
+        format fmter("%1% | %2% | %3% | %4% | %5% | %6% | %7%");
+        fmter % centerAndConvert(wstring(1, m_letters[i]), sz("letter"));
+        fmter % centerAndConvert(str(wformat(L"%1%") % m_points[i]), sz("points"));
+        fmter % centerAndConvert(str(wformat(L"%1%") % m_frequency[i]), sz("frequency"));
+        fmter % centerAndConvert(str(wformat(L"%1%") % m_vowels[i]), sz("vowel"));
+        fmter % centerAndConvert(str(wformat(L"%1%") % m_consonants[i]), sz("consonant"));
+        map<wchar_t, vector<wstring> >::const_iterator it =
+            m_displayAndInputData.find(m_letters[i]);
+        if (it != m_displayAndInputData.end())
+        {
+            const vector<wstring> &inputs = it->second;
+            fmter % centerAndConvert(str(wformat(L"%1%") % inputs[0]), sz("disp."));
+            bool first = true;
+            string s;
+            for (uint8_t j = 1; j < inputs.size(); ++j)
+            {
+                if (first)
+                    first = false;
+                else
+                    s += " ";
+                s += convertToMb(inputs[j]);
+            }
+            fmter % s;
+        }
+        else
+        {
+            fmter % string(sz("disp."), ' ') % string(sz("input"), ' ');
+        }
+        cout << fmter.str() << endl;
     }
-    printf("===============================================\n");
+#undef sz
+    cout << "===============================================================" << endl;
 }
 

@@ -73,6 +73,14 @@ using namespace std;
 #define CHECK_RECURSION
 
 
+unsigned int getFileSize(const string &iFileName)
+{
+    struct stat stat_buf;
+    if (stat(iFileName.c_str(), &stat_buf) < 0)
+        throw DicException(_("Cannot stat file ") + iFileName);
+    return (unsigned int)stat_buf.st_size;
+}
+
 const wchar_t* load_uncompressed(const string &iFileName, unsigned int &ioDicSize)
 {
     ifstream file(iFileName.c_str(), ios::in | ios::binary);
@@ -88,12 +96,11 @@ const wchar_t* load_uncompressed(const string &iFileName, unsigned int &ioDicSiz
     // Buffer for the wide characters (it will use at most as many characters
     // as the utf-8 version)
     wchar_t *wideBuf = new wchar_t[ioDicSize];
-    unsigned int number;
 
     try
     {
-        number = readFromUTF8(wideBuf, ioDicSize, &buffer.front(),
-                              ioDicSize, "load_uncompressed");
+        unsigned int number = readFromUTF8(wideBuf, ioDicSize, &buffer.front(),
+                                           ioDicSize, "load_uncompressed");
         ioDicSize = number;
         return wideBuf;
     }
@@ -106,14 +113,16 @@ const wchar_t* load_uncompressed(const string &iFileName, unsigned int &ioDicSiz
 }
 
 
-void readLetters(const char *iFileName, DictHeaderInfo &ioHeaderInfo)
+void readLetters(const string &iFileName, DictHeaderInfo &ioHeaderInfo)
 {
-    ifstream in(iFileName);
+    ifstream in(iFileName.c_str());
     if (!in.is_open())
         throw DicException("Could not open file " + string(iFileName));
 
     // Use a more friendly type name
-    typedef boost::tokenizer<boost::char_separator<char> > Tokenizer;
+    typedef boost::tokenizer<boost::char_separator<wchar_t>,
+            std::wstring::const_iterator,
+            std::wstring> Tokenizer;
 
     int lineNb = 1;
     string line;
@@ -123,32 +132,25 @@ void readLetters(const char *iFileName, DictHeaderInfo &ioHeaderInfo)
         if (line == "" || line == "\r" || line == "\n")
             continue;
 
+        // Convert the line to a wstring
+        const wstring &wline = readFromUTF8(line.c_str(), line.size(), "readLetters (1)");
         // Split the lines on space characters
-        vector<string> tokens;
-        boost::char_separator<char> sep(" ");
-        Tokenizer tok(line, sep);
+        boost::char_separator<wchar_t> sep(L" ");
+        Tokenizer tok(wline, sep);
         Tokenizer::iterator it;
-        for (it = tok.begin(); it != tok.end(); ++it)
-        {
-            tokens.push_back(*it);
-        }
+        vector<wstring> tokens(tok.begin(), tok.end());
 
-        // We expect 5 fields on the line, and the first one is a letter, so
-        // it cannot exceed 4 bytes
-        if (tokens.size() != 5 || tokens[0].size() > 4)
+        // We expect at least 5 fields on the line
+        if (tokens.size() < 5)
         {
             ostringstream ss;
-            ss << "readLetters: Invalid line in " << iFileName;
+            ss << "readLetters: Not enough fields in " << iFileName;
             ss << " (line " << lineNb << ")";
             throw DicException(ss.str());
         }
 
-#define MAX_SIZE 4
-        char buff[MAX_SIZE];
-        strncpy(buff, tokens[0].c_str(), MAX_SIZE);
-
-        wstring letter = readFromUTF8(buff, tokens[0].size(), "readLetters");
-
+        // The first field is a single character
+        wstring letter = tokens[0];
         if (letter.size() != 1)
         {
             // On the first line, there could be the BOM...
@@ -164,17 +166,24 @@ void readLetters(const char *iFileName, DictHeaderInfo &ioHeaderInfo)
             {
                 ostringstream ss;
                 ss << "readLetters: Invalid letter at line " << lineNb;
+                ss << " (only one character allowed)";
                 throw DicException(ss.str());
             }
         }
-#undef MAX_SIZE
 
-        ioHeaderInfo.letters += towupper(letter[0]);
+        wchar_t upChar = towupper(letter[0]);
+        ioHeaderInfo.letters += upChar;
 
-        ioHeaderInfo.points.push_back(atoi(tokens[1].c_str()));
-        ioHeaderInfo.frequency.push_back(atoi(tokens[2].c_str()));
-        ioHeaderInfo.vowels.push_back(atoi(tokens[3].c_str()));
-        ioHeaderInfo.consonants.push_back(atoi(tokens[4].c_str()));
+        ioHeaderInfo.points.push_back(_wtoi(tokens[1].c_str()));
+        ioHeaderInfo.frequency.push_back(_wtoi(tokens[2].c_str()));
+        ioHeaderInfo.vowels.push_back(_wtoi(tokens[3].c_str()));
+        ioHeaderInfo.consonants.push_back(_wtoi(tokens[4].c_str()));
+
+        if (tokens.size() > 5)
+        {
+            ioHeaderInfo.displayInputData[upChar] =
+                vector<wstring>(tokens.begin() + 5, tokens.end());
+        }
 
         ++lineNb;
     }
@@ -416,18 +425,31 @@ void printUsage(const string &iBinaryName)
          << "  " << iBinaryName << _(" -d 'ODS 5.0' -l letters.txt -i ods5.txt -o ods5.dawg") << endl
          << endl
          << _("The file containing the letters (--letters switch) must be UTF-8 encoded.") << endl
-         << _("Each line corresponds to one letter, and must contain 5 fields separated with ") << endl
-         << _("one or more space(s).") << endl
-         << _(" - 1st field: the letter itself") << endl
+         << _("Each line corresponds to one letter, and must contain at least 5 fields separated with "
+              "one or more space(s).") << endl
+         << _(" - 1st field: the letter itself, as stored in the input file (single character)") << endl
          << _(" - 2nd field: the points of the letter") << endl
          << _(" - 3rd field: the frequency of the letter (how many letters of this kind in the game)") << endl
          << _(" - 4th field: 1 if the letter is considered as a vowel in Scrabble game, 0 otherwise") << endl
          << _(" - 5th field: 1 if the letter is considered as a consonant in Scrabble game, 0 otherwise") << endl
+         << _(" - 6th field (optional): display string for the letter (default: the letter itself)") << endl
+         << _(" - other fields (optional): input strings for the letter, in addition to the display string") << endl
+         << endl
          << _("Example for french:") << endl
-         << _("A 1 9 1 0") << endl
-         << _("[...]") << endl
-         << _("Z 10 1 0 1") << endl
-         << _("? 0 2 1 1") << endl;
+         << "A 1 9 1 0" << endl
+         << "[...]" << endl
+         << "Z 10 1 0 1" << endl
+         << "? 0 2 1 1" << endl
+         << endl
+         << _("Example for catalan:") << endl
+         << "A 1 12 1 0" << endl
+         << "[...]" << endl
+         // Translators: the first "L.L" must be translated "L·L",
+         // and the last one translated "ĿL"
+         << _("W 10 1 0 1 L.L L.L L-L L.L") << endl
+         << "X 10 1 0 1" << endl
+         << "Y 10 1 0 1 NY" << endl
+         << "[...]" << endl;
 }
 
 
@@ -513,13 +535,7 @@ int main(int argc, char* argv[])
             exit(1);
         }
 
-        struct stat stat_buf;
-        if (stat(inFileName.c_str(), &stat_buf) < 0)
-        {
-            cerr << _("Cannot stat uncompressed dictionary ") << inFileName << endl;
-            exit(1);
-        }
-        unsigned int dicsize = (unsigned int)stat_buf.st_size;
+        unsigned int dicSize = getFileSize(inFileName);
 
         ofstream outfile(outFileName.c_str(), ios::out | ios::binary | ios::trunc);
         if (!outfile.is_open())
@@ -530,11 +546,11 @@ int main(int argc, char* argv[])
 
         clock_t startLoadTime = clock();
         // FIXME: not exception safe
-        const wchar_t *uncompressed = load_uncompressed(inFileName, dicsize);
+        const wchar_t *uncompressed = load_uncompressed(inFileName, dicSize);
         clock_t endLoadTime = clock();
 
         global_input = uncompressed;
-        global_endofinput = global_input + dicsize;
+        global_endofinput = global_input + dicSize;
 
         headerInfo.dawg = true;
         Header tempHeader = skip_init_header(outfile, headerInfo);

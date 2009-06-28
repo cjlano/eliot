@@ -53,6 +53,7 @@ struct DictHeaderInfo
     vector<uint8_t> frequency;
     vector<bool> vowels;
     vector<bool> consonants;
+    map<wchar_t, vector<wstring> > displayInputData;
 };
 
 
@@ -129,7 +130,7 @@ public:
     /**
      * Return the display string corresponding to the given code
      */
-    wdstring getDisplayStr(unsigned int iCode) const;
+    const wdstring & getDisplayStr(unsigned int iCode) const;
 
     /**
      * Convert the given string (made of internal characters)
@@ -196,7 +197,17 @@ private:
     /// Consonants
     vector<bool> m_consonants;
 
+    /// Additional display and input strings for some letters
+    map<wchar_t, vector<wstring> > m_displayAndInputData;
+
+    /// Cache for the char --> code associations
     map<wchar_t, unsigned int> m_mapCodeFromChar;
+
+    /// Cache for the display string of each code
+    vector<wdstring> m_displayCache;
+
+    /// Same as m_displayAndInputData, but also contains lowercase mappings
+    map<wchar_t, vector<wstring> > m_displayInputCache;
 
     /**
      * Load the header from a file
@@ -205,8 +216,20 @@ private:
      */
     void read(istream &iStream);
 
-    /** Build m_mapCodeFromChar */
-    void buildMapCodeFromChar();
+    /** Build various caches */
+    void buildCaches();
+
+    /**
+     * Fill the m_displayAndInputData field from the serialized data
+     * of the given string
+     */
+    void readDisplayAndInput(const wstring &serialized);
+
+    /**
+     * Return a serialized version of the data contained in the
+     * m_displayAndInputData field
+     */
+    wstring writeDisplayAndInput() const;
 };
 
 #endif /* _HEADER_H */

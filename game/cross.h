@@ -32,6 +32,7 @@ using namespace std;
  *
  *************************/
 
+// TODO: implement using the bitset class
 class Cross
 {
 public:

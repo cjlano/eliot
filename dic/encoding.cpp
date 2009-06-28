@@ -304,10 +304,17 @@ string centerAndConvert(const wstring &iWstr, unsigned int iLength, char c)
         // Padding is needed
         string s((iLength - width) / 2, c);
         string res = s + convertToMb(iWstr) + s;
-        // If the string cannot be centered perfectly, pad again on the right
-        // (arbitrary; if needed, we could take the iLeftPad argument)
-        if (res.size() != iLength)
-            s.append(1, c);
+        // If the string cannot be centered perfectly, pad again
+        // (on the left if iLength is even, on the right otherwise:
+        //  this tends to align numbers of 1 or 2 digits in a nice way)
+        // Note: if needed, we could add the iLeftPad argument
+        if ((iLength - width) % 2)
+        {
+            if (iLength % 2)
+                res.append(1, c);
+            else
+                res.insert(res.begin(), c);
+        }
         return res;
     }
 }
