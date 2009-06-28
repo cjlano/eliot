@@ -336,13 +336,35 @@ unsigned int Header::getCodeFromChar(wchar_t iChar) const
 const wdstring & Header::getDisplayStr(unsigned int iCode) const
 {
     // Safety check
-    if (iCode == 0 || iCode > m_displayCache.size())
+    if (iCode == 0 || iCode > m_letters.size())
     {
         ostringstream oss;
         oss << iCode;
         throw DicException("Header::getDisplayStr: No code for letter '" + oss.str());
     }
     return m_displayCache[iCode];
+}
+
+
+vector<wistring> Header::getInputStr(unsigned int iCode) const
+{
+    // Safety check
+    if (iCode == 0 || iCode > m_letters.size())
+    {
+        ostringstream oss;
+        oss << iCode;
+        throw DicException("Header::getInputStr: No code for letter '" + oss.str());
+    }
+    map<wchar_t, vector<wstring> >::const_iterator it =
+        m_displayAndInputData.find(m_letters[iCode - 1]);
+    if (it == m_displayAndInputData.end())
+    {
+        vector<wistring> vect;
+        vect.push_back(m_displayCache[iCode]);
+        return vect;
+    }
+    else
+        return it->second;
 }
 
 

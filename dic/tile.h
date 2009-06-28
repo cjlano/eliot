@@ -59,6 +59,7 @@ public:
     wchar_t toChar() const;
     unsigned int toCode() const;
     wstring getDisplayStr() const;
+    vector<wstring> getInputStr() const;
 
     static const Tile &Joker()  { return m_TheJoker; }
 

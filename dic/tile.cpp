@@ -110,6 +110,15 @@ wstring Tile::getDisplayStr() const
 }
 
 
+vector<wistring> Tile::getInputStr() const
+{
+    if (m_code == 0)
+        throw DicException("Tile::getInputStr: Invalid tile");
+    // We always return uppercase strings
+    return m_header->getInputStr(m_code);
+}
+
+
 wchar_t Tile::toChar() const
 {
     if (m_joker)

@@ -1,52 +1,45 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>DicToolsWidget</class>
- <widget class="QWidget" name="DicToolsWidget" >
-  <property name="geometry" >
+ <widget class="QWidget" name="DicToolsWidget">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>431</width>
+    <width>435</width>
     <height>354</height>
    </rect>
   </property>
-  <property name="windowTitle" >
-   <string>_("Dictionary tools")</string>
+  <property name="windowTitle">
+   <string>_(&quot;Dictionary tools&quot;)</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" >
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTabWidget" name="tabWidget" >
-     <property name="currentIndex" >
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tabCheck" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>409</width>
-        <height>308</height>
-       </rect>
-      </property>
-      <attribute name="title" >
-       <string>_("Check")</string>
+     <widget class="QWidget" name="tabCheck">
+      <attribute name="title">
+       <string>_(&quot;Check&quot;)</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_5" >
+      <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
-        <widget class="QLineEdit" name="lineEditCheck" />
+        <widget class="QLineEdit" name="lineEditCheck"/>
        </item>
        <item>
-        <widget class="QLabel" name="labelCheck" >
-         <property name="text" >
+        <widget class="QLabel" name="labelCheck">
+         <property name="text">
           <string/>
          </property>
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer" >
-         <property name="orientation" >
+        <spacer name="verticalSpacer">
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>40</height>
@@ -56,82 +49,66 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabPlus1" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>409</width>
-        <height>308</height>
-       </rect>
-      </property>
-      <attribute name="title" >
-       <string>_("Plus 1")</string>
+     <widget class="QWidget" name="tabPlus1">
+      <attribute name="title">
+       <string>_(&quot;Plus 1&quot;)</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_3" >
+      <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QLineEdit" name="lineEditPlus1" />
+        <widget class="QLineEdit" name="lineEditPlus1"/>
        </item>
        <item>
-        <widget class="QTreeView" name="treeViewPlus1" >
-         <property name="editTriggers" >
+        <widget class="QTreeView" name="treeViewPlus1">
+         <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabRegexp" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>409</width>
-        <height>308</height>
-       </rect>
-      </property>
-      <attribute name="title" >
-       <string>_("Regular expressions")</string>
+     <widget class="QWidget" name="tabRegexp">
+      <attribute name="title">
+       <string>_(&quot;Regular expressions&quot;)</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_2" >
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QLineEdit" name="lineEditRegexp" />
+        <widget class="QLineEdit" name="lineEditRegexp"/>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout" >
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QLabel" name="label" >
-           <property name="text" >
-            <string>_("Minimum length:")</string>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>_(&quot;Minimum length:&quot;)</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBoxMinLength" >
-           <property name="minimum" >
+          <widget class="QSpinBox" name="spinBoxMinLength">
+           <property name="minimum">
             <number>1</number>
            </property>
-           <property name="maximum" >
+           <property name="maximum">
             <number>15</number>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_2" >
-           <property name="text" >
-            <string>_("Maximum length:")</string>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>_(&quot;Maximum length:&quot;)</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBoxMaxLength" >
-           <property name="minimum" >
+          <widget class="QSpinBox" name="spinBoxMaxLength">
+           <property name="minimum">
             <number>1</number>
            </property>
-           <property name="maximum" >
+           <property name="maximum">
             <number>15</number>
            </property>
-           <property name="value" >
+           <property name="value">
             <number>15</number>
            </property>
           </widget>
@@ -139,95 +116,98 @@
         </layout>
        </item>
        <item>
-        <widget class="QTreeView" name="treeViewRegexp" >
-         <property name="editTriggers" >
+        <widget class="QTreeView" name="treeViewRegexp">
+         <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
-         <property name="rootIsDecorated" >
+         <property name="rootIsDecorated">
           <bool>false</bool>
          </property>
-         <property name="uniformRowHeights" >
+         <property name="uniformRowHeights">
           <bool>true</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="labelLimitReached" >
-         <property name="text" >
-          <string>_("Note: only the 1000 first results have been displayed")</string>
+        <widget class="QLabel" name="labelLimitReached">
+         <property name="text">
+          <string>_(&quot;Note: only the 1000 first results have been displayed&quot;)</string>
          </property>
-         <property name="wordWrap" >
+         <property name="wordWrap">
           <bool>true</bool>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabDicInfo" >
-      <attribute name="title" >
-       <string>_("Dic. info.")</string>
+     <widget class="QWidget" name="tabDicInfo">
+      <attribute name="title">
+       <string>_(&quot;Dic. info.&quot;)</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_2" >
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_3" >
-         <property name="text" >
-          <string>_("Dictionary name:")</string>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>_(&quot;Dictionary name:&quot;)</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" >
-        <widget class="QLineEdit" name="lineEditName" >
-         <property name="readOnly" >
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEditName">
+         <property name="readOnly">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" >
-        <widget class="QLabel" name="label_4" >
-         <property name="text" >
-          <string>_("Letters:")</string>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>_(&quot;Letters:&quot;)</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" >
-        <widget class="QLineEdit" name="lineEditLetters" >
-         <property name="readOnly" >
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineEditLetters">
+         <property name="readOnly">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" >
-        <widget class="QLabel" name="label_5" >
-         <property name="text" >
-          <string>_("Number of words:")</string>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>_(&quot;Number of words:&quot;)</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1" >
-        <widget class="QSpinBox" name="spinBoxWords" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+       <item row="2" column="1">
+        <widget class="QSpinBox" name="spinBoxWords">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>90</width>
            <height>0</height>
           </size>
          </property>
-         <property name="readOnly" >
+         <property name="readOnly">
           <bool>true</bool>
          </property>
-         <property name="maximum" >
+         <property name="maximum">
           <number>100000000</number>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2" >
-        <widget class="QTreeView" name="treeViewDicLetters" >
-         <property name="rootIsDecorated" >
+       <item row="3" column="0" colspan="2">
+        <widget class="QTreeView" name="treeViewDicLetters">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="rootIsDecorated">
           <bool>false</bool>
          </property>
         </widget>
@@ -237,7 +217,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>tabWidget</zorder>
  </widget>
  <resources/>
  <connections/>

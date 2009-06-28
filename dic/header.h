@@ -133,6 +133,11 @@ public:
     const wdstring & getDisplayStr(unsigned int iCode) const;
 
     /**
+     * Return all the accepted input strings corresponding to the given code
+     */
+    vector<wistring> getInputStr(unsigned int iCode) const;
+
+    /**
      * Convert the given string (made of internal characters)
      * into a string suitable for display
      */

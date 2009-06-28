@@ -99,12 +99,13 @@ DicToolsWidget::DicToolsWidget(QWidget *parent)
 
     m_dicInfoModel = new QStandardItemModel(this);
     treeViewDicLetters->setModel(m_dicInfoModel);
-    m_dicInfoModel->setColumnCount(5);
+    m_dicInfoModel->setColumnCount(6);
     m_dicInfoModel->setHeaderData(0, Qt::Horizontal, _q("Letter"), Qt::DisplayRole);
     m_dicInfoModel->setHeaderData(1, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
     m_dicInfoModel->setHeaderData(2, Qt::Horizontal, _q("Frequency"), Qt::DisplayRole);
     m_dicInfoModel->setHeaderData(3, Qt::Horizontal, _q("Vowel?"), Qt::DisplayRole);
     m_dicInfoModel->setHeaderData(4, Qt::Horizontal, _q("Consonant?"), Qt::DisplayRole);
+    m_dicInfoModel->setHeaderData(5, Qt::Horizontal, _q("Alternative input"), Qt::DisplayRole);
 }
 
 
@@ -320,6 +321,13 @@ void DicToolsWidget::refreshDicInfo()
                            it->isVowel() ? _q("Yes") : _q("No"));
             model->setData(model->index(rowNum, 4),
                            it->isConsonant() ? _q("Yes") : _q("No"));
+            const vector<wistring> &inputVect = it->getInputStr();
+            wstring tmp;
+            for (unsigned int i = 1; i < inputVect.size(); ++i)
+            {
+                tmp += inputVect[i] + L"  ";
+            }
+            model->setData(model->index(rowNum, 5), qfw(tmp));
             ++rowNum;
         }
         treeViewDicLetters->resizeColumnToContents(0);
