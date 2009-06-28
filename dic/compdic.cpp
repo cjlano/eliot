@@ -444,7 +444,7 @@ void printUsage(const string &iBinaryName)
          << _("Example for catalan:") << endl
          << "A 1 12 1 0" << endl
          << "[...]" << endl
-         // Translators: the first "L.L" must be translated "L·L",
+         // TRANSLATORS: the first "L.L" must be translated "L·L",
          // and the last one translated "ĿL"
          << _("W 10 1 0 1 L.L L.L L-L L.L") << endl
          << "X 10 1 0 1" << endl

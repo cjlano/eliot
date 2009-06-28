@@ -105,7 +105,7 @@ DicToolsWidget::DicToolsWidget(QWidget *parent)
     m_dicInfoModel->setHeaderData(2, Qt::Horizontal, _q("Frequency"), Qt::DisplayRole);
     m_dicInfoModel->setHeaderData(3, Qt::Horizontal, _q("Vowel?"), Qt::DisplayRole);
     m_dicInfoModel->setHeaderData(4, Qt::Horizontal, _q("Consonant?"), Qt::DisplayRole);
-    m_dicInfoModel->setHeaderData(5, Qt::Horizontal, _q("Alternative input"), Qt::DisplayRole);
+    m_dicInfoModel->setHeaderData(5, Qt::Horizontal, _q("Alternative inputs"), Qt::DisplayRole);
 }
 
 
@@ -153,7 +153,7 @@ void DicToolsWidget::refreshCheck()
     {
         if (!rack->hasAcceptableInput())
         {
-            labelCheck->setText(_q("Invalid or incomplete characters"));
+            labelCheck->setText(_q("Invalid or incomplete letters"));
             labelCheck->setPalette(darkYellowPalette);
             return;
         }

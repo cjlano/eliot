@@ -708,26 +708,26 @@ void Header::print() const
     cout << fmt("Nodes: %1% used + %2% saved") % m_nodesUsed % m_nodesSaved << endl;
     cout << fmt("Edges: %1% used + %2% saved") % m_edgesUsed % m_edgesSaved << endl;
 #undef fmt
-    cout << "===============================================================" << endl;
+    cout << "====================================================================" << endl;
     cout << format("%1% | %2% | %3% | %4% | %5% | %6% | %7%")
-        % _("letter") % _("points") % _("frequency") % _("vowel")
-        % _("consonant") % _("disp.") % _("input") << endl;
+        % _("Letter") % _("Points") % _("Frequency") % _("Vowel")
+        % _("Consonant") % _("Display") % _("Alt. input") << endl;
     cout << "-------+--------+-----------+-------+-----------+-------+------" << endl;
 #define sz(x) strlen(_(x))
     for (unsigned int i = 0; i < m_letters.size(); ++i)
     {
         format fmter("%1% | %2% | %3% | %4% | %5% | %6% | %7%");
-        fmter % centerAndConvert(wstring(1, m_letters[i]), sz("letter"));
-        fmter % centerAndConvert(str(wformat(L"%1%") % m_points[i]), sz("points"));
-        fmter % centerAndConvert(str(wformat(L"%1%") % m_frequency[i]), sz("frequency"));
-        fmter % centerAndConvert(str(wformat(L"%1%") % m_vowels[i]), sz("vowel"));
-        fmter % centerAndConvert(str(wformat(L"%1%") % m_consonants[i]), sz("consonant"));
+        fmter % centerAndConvert(wstring(1, m_letters[i]), sz("Letter"));
+        fmter % centerAndConvert(str(wformat(L"%1%") % m_points[i]), sz("Points"));
+        fmter % centerAndConvert(str(wformat(L"%1%") % m_frequency[i]), sz("Frequency"));
+        fmter % centerAndConvert(str(wformat(L"%1%") % m_vowels[i]), sz("Vowel"));
+        fmter % centerAndConvert(str(wformat(L"%1%") % m_consonants[i]), sz("Consonant"));
         map<wchar_t, vector<wstring> >::const_iterator it =
             m_displayAndInputData.find(m_letters[i]);
         if (it != m_displayAndInputData.end())
         {
             const vector<wstring> &inputs = it->second;
-            fmter % centerAndConvert(str(wformat(L"%1%") % inputs[0]), sz("disp."));
+            fmter % centerAndConvert(str(wformat(L"%1%") % inputs[0]), sz("Display"));
             bool first = true;
             string s;
             for (uint8_t j = 1; j < inputs.size(); ++j)
@@ -742,11 +742,11 @@ void Header::print() const
         }
         else
         {
-            fmter % string(sz("disp."), ' ') % string(sz("input"), ' ');
+            fmter % string(sz("Display"), ' ') % string(sz("Alt. input"), ' ');
         }
         cout << fmter.str() << endl;
     }
 #undef sz
-    cout << "===============================================================" << endl;
+    cout << "====================================================================" << endl;
 }
 
