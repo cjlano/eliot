@@ -75,6 +75,7 @@ public:
     unsigned int getWordLen() const { return m_word.size(); }
     int getPoints() const           { return m_points; }
     int getBonus()  const           { return m_bonus; }
+    const vector<Tile> &getTiles() const { return m_word; }
 
     /*************************
      * Coordinates

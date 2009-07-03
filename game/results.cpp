@@ -32,9 +32,9 @@
 #include "debug.h"
 
 
-bool wcharCompare(wchar_t c1, wchar_t c2)
+bool tileCompare(const Tile &t1, const Tile &t2)
 {
-    return towlower(c1) < towlower(c2);
+    return t1.toCode() < t2.toCode();
 }
 
 struct less_points : public binary_function<const Round&, const Round&, bool>
@@ -48,23 +48,23 @@ struct less_points : public binary_function<const Round&, const Round&, bool>
             return false;
         else
         {
-            // If the scores are equal, sort alphabetically, ignoring
-            // the case
+            // If the scores are equal, sort alphabetically (i.e. in the
+            // order of the letters in the dictionary), ignoring the case
             const wstring &s1 = r1.getWord();
             const wstring &s2 = r2.getWord();
-            if (std::lexicographical_compare(s1.begin(),
-                                             s1.end(),
-                                             s2.begin(),
-                                             s2.end(),
-                                             wcharCompare))
+            if (std::lexicographical_compare(r1.getTiles().begin(),
+                                             r1.getTiles().end(),
+                                             r2.getTiles().begin(),
+                                             r2.getTiles().end(),
+                                             tileCompare))
             {
                 return true;;
             }
-            else if (std::lexicographical_compare(s2.begin(),
-                                                  s2.end(),
-                                                  s1.begin(),
-                                                  s1.end(),
-                                                  wcharCompare))
+            else if (std::lexicographical_compare(r2.getTiles().begin(),
+                                                  r2.getTiles().end(),
+                                                  r1.getTiles().begin(),
+                                                  r1.getTiles().end(),
+                                                  tileCompare))
             {
                 return false;
             }
