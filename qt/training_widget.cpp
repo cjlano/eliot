@@ -26,7 +26,6 @@
 #include "play_word_mediator.h"
 
 #include "dic.h"
-#include "header.h"
 #include "bag.h"
 #include "public_game.h"
 #include "game_exception.h"
@@ -210,8 +209,7 @@ void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
     try
     {
         lineEditRack->setPalette(blackPalette);
-        const Header &header = m_game->getDic().getHeader();
-        const wstring &input = header.convertFromInput(qtw(iText));
+        const wstring &input = m_game->getDic().convertFromInput(qtw(iText));
         m_game->trainingSetRackManual(false, input);
         pushButtonSearch->setEnabled(m_model->rowCount() == 0 &&
                                      lineEditRack->text() != "");
@@ -319,7 +317,7 @@ QValidator::State RackValidator::validate(QString &input, int &) const
         return Invalid;
 
     // Convert the string to internal letters
-    const wstring &intInput = dic.getHeader().convertFromInput(winput);
+    const wstring &intInput = dic.convertFromInput(winput);
     // The string is invalid if it contains characters not present
     // in the dictionary
     if (!dic.validateLetters(intInput))

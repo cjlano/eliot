@@ -73,8 +73,10 @@ int Duplicate::play(const wstring &iCoord, const wstring &iWord)
     }
     else
     {
+        // Convert the invalid word for display
+        const wdstring &dispWord = getDic().convertToDisplay(iWord);
         // Record the invalid move of the player
-        recordPlayerMove(Move(iWord, iCoord), currPlayer, true);
+        recordPlayerMove(Move(dispWord, iCoord), currPlayer, true);
     }
 
     // Little hack to handle duplicate games with only AI players.

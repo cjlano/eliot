@@ -57,6 +57,7 @@ class Move
          * Constructor taking a word and its coordinates, corresponding
          * to an invalid move by the player (invalid word, invalid coordinates,
          * letters not corresponding to the rack, ...)
+         * Note: the invalid word must be given in the display form.
          */
         explicit Move(const wstring &iWord, const wstring &iCoord);
 

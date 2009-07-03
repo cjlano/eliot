@@ -54,6 +54,7 @@ class DicEdge;
  * a bit more precisely the type of contents of the string.
  */
 typedef wstring wdstring;
+typedef wstring wistring;
 
 class Dictionary
 {
@@ -101,6 +102,21 @@ public:
      */
     bool validateInputChars(const wstring &iLetters,
                             const wstring &iAccepted = L"") const;
+
+    /**
+     * Convert the given string (made of internal characters)
+     * into a string suitable for display
+     */
+    wdstring convertToDisplay(const wstring &iWord) const;
+
+    /**
+     * Convert the given string (direct user input)
+     * into a string suitable for internal use in Eliot.
+     * For example, in Catalan, it will convert the L.L substring
+     * into the W character (because it is the internal character
+     * associated to the input string "L.L").
+     */
+    wstring convertFromInput(const wistring &iWord) const;
 
     /** Return a vector containing one of each possible tile */
     const vector<Tile>& getAllTiles() const { return m_tilesVect; }
@@ -264,6 +280,25 @@ private:
 
     /// Vector of available tiles
     vector<Tile> m_tilesVect;
+
+    /**
+     * Associate to some internal chars (both the lower case and
+     * upper case versions) all the corresponding input strings.
+     * The first one is always the display string.
+     *
+     * Note: only the chars which have more than 1 input string,
+     * or which have a display string different from the internal char,
+     * are present in the map.
+     */
+    map<wchar_t, vector<wstring> > m_displayInputCache;
+
+    /**
+     * True if at least one display strings is different from the internal
+     * char, false otherwise. This flag is more precise than checking the size
+     * of m_displayInputCache, because a tile can have input strings even if
+     * its display string is equal to the internal char.
+     */
+    bool m_hasDisplay;
 
     static const Dictionary *m_dic;
 

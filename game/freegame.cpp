@@ -71,7 +71,10 @@ int FreeGame::play(const wstring &iCoord, const wstring &iWord)
     }
     else
     {
-        Move move(iWord, iCoord);
+        // Convert the invalid word for display
+        const wdstring &dispWord = getDic().convertToDisplay(iWord);
+
+        Move move(dispWord, iCoord);
 
         // Record the invalid move of the player
         recordPlayerMove(move, *m_players[m_currPlayer], true);

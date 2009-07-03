@@ -39,7 +39,6 @@
 
 #include "dic.h"
 #include "dic_exception.h"
-#include "header.h"
 #include "game_io.h"
 #include "game_factory.h"
 #include "public_game.h"
@@ -139,7 +138,7 @@ wstring checkLettersToken(const vector<wstring> &tokens, uint8_t index,
 {
     if (tokens.size() <= index)
         return L"";
-    return iDic.getHeader().convertFromInput(tokens[index]);
+    return iDic.convertFromInput(tokens[index]);
 }
 
 

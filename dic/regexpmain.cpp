@@ -37,7 +37,6 @@
 
 #include "dic.h"
 #include "dic_exception.h"
-#include "header.h"
 #include "encoding.h"
 
 

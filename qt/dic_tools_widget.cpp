@@ -158,11 +158,11 @@ void DicToolsWidget::refreshCheck()
             return;
         }
 
-        wstring input = m_dic->getHeader().convertFromInput(qtw(rack->text()));
+        wstring input = m_dic->convertFromInput(qtw(rack->text()));
         bool res = m_dic->searchWord(input);
         // Convert the input to uppercase
         std::transform(input.begin(), input.end(), input.begin(), towupper);
-        const wdstring &dispStr = m_dic->getHeader().convertToDisplay(input);
+        const wdstring &dispStr = m_dic->convertToDisplay(input);
         if (res)
         {
             labelCheck->setText(_q("The word '%1' exists").arg(qfw(dispStr)));
@@ -192,8 +192,8 @@ void DicToolsWidget::refreshPlus1()
         return;
     }
 
-    const wstring &input = m_dic->getHeader().convertFromInput(qtw(rack->text().toUpper()));
-    const wdstring &disp = m_dic->getHeader().convertToDisplay(input);
+    const wstring &input = m_dic->convertFromInput(qtw(rack->text().toUpper()));
+    const wdstring &disp = m_dic->convertToDisplay(input);
     model->setHeaderData(0, Qt::Horizontal,
                          _q("Rack: %1").arg(qfw(disp)),
                          Qt::DisplayRole);
@@ -245,8 +245,8 @@ void DicToolsWidget::refreshRegexp()
         return;
     }
 
-    const wstring &input = m_dic->getHeader().convertFromInput(qtw(rack->text().toUpper()));
-    const wdstring &disp = m_dic->getHeader().convertToDisplay(input);
+    const wstring &input = m_dic->convertFromInput(qtw(rack->text().toUpper()));
+    const wdstring &disp = m_dic->convertToDisplay(input);
     model->setHeaderData(0, Qt::Horizontal,
                          _q("Regular expression: %1").arg(qfw(disp)),
                          Qt::DisplayRole);
@@ -302,7 +302,7 @@ void DicToolsWidget::refreshDicInfo()
     {
         const Header &header = m_dic->getHeader();
         lineEditName->setText(qfw(header.getName()));
-        lineEditLetters->setText(qfw(header.convertToDisplay(header.getLetters())));
+        lineEditLetters->setText(qfw(m_dic->convertToDisplay(header.getLetters())));
         spinBoxWords->setValue(header.getNbWords());
 
         QStandardItemModel *model = m_dicInfoModel;
@@ -362,7 +362,7 @@ QValidator::State DicRackValidator::validate(QString &input, int &) const
         return Invalid;
 
     // Convert the string to internal letters
-    const wstring &intInput = m_dic->getHeader().convertFromInput(winput);
+    const wstring &intInput = m_dic->convertFromInput(winput);
     // The string is invalid if it contains characters not present
     // in the dictionary
     if (!m_dic->validateLetters(intInput))
@@ -402,7 +402,7 @@ QValidator::State RegexpValidator::validate(QString &input, int &) const
         return Invalid;
 
     // Convert the string to internal letters
-    const wstring &intInput = m_dic->getHeader().convertFromInput(winput);
+    const wstring &intInput = m_dic->convertFromInput(winput);
     // The string is invalid if it contains characters not present
     // in the dictionary
     if (!m_dic->validateLetters(intInput, authorizedChars))

@@ -250,26 +250,6 @@ void Header::buildCaches()
         m_mapCodeFromChar[towupper(m_letters[i])] = i + 1;
     }
 
-    // Build the cache for the convertToDisplay() and convertFromInput()
-    // methods. Also ensure that the strings in m_displayAndInputData
-    // are all in uppercase.
-    map<wchar_t, vector<wstring> >::iterator it;
-    for (it = m_displayAndInputData.begin();
-         it != m_displayAndInputData.end(); ++it)
-    {
-        BOOST_FOREACH(wstring &str, it->second)
-        {
-            // Make sure the string is in uppercase
-            std::transform(str.begin(), str.end(), str.begin(), towupper);
-            // Make a lowercase copy
-            wstring lower = str;
-            std::transform(lower.begin(), lower.end(), lower.begin(), towlower);
-            // Fill the cache
-            m_displayInputCache[it->first].push_back(str);
-            m_displayInputCache[towlower(it->first)].push_back(lower);
-        }
-    }
-
     // Build the display strings cache
     m_displayCache.assign(m_letters.size() + 1, L"");
     for (unsigned int i = 0; i < m_letters.size(); ++i)
@@ -365,58 +345,6 @@ vector<wistring> Header::getInputStr(unsigned int iCode) const
     }
     else
         return it->second;
-}
-
-
-wdstring Header::convertToDisplay(const wstring &iWord) const
-{
-    // Optimization for dictionaries without display nor input chars,
-    // which is the case in most languages.
-    if (m_displayInputCache.empty())
-        return iWord;
-
-    wdstring dispStr = iWord;
-    map<wchar_t, vector<wstring> >::const_iterator it;
-    for (it = m_displayInputCache.begin();
-         it != m_displayInputCache.end(); ++it)
-    {
-        const wstring &disp = it->second[0];
-        string::size_type pos = 0;
-        while (pos < dispStr.size() &&
-               (pos = dispStr.find(it->first, pos)) != string::npos)
-        {
-            dispStr.replace(pos, 1, disp);
-            pos += disp.size();
-        }
-    }
-    return dispStr;
-}
-
-
-wstring Header::convertFromInput(const wistring &iWord) const
-{
-    // Optimization for dictionaries without display nor input chars,
-    // which is the case in most languages.
-    if (m_displayInputCache.empty())
-        return iWord;
-
-    wstring str = iWord;
-    map<wchar_t, vector<wstring> >::const_iterator it;
-    for (it = m_displayInputCache.begin();
-         it != m_displayInputCache.end(); ++it)
-    {
-        BOOST_FOREACH(const wstring &input, it->second)
-        {
-            string::size_type pos = 0;
-            while (pos < str.size() &&
-                   (pos = str.find(input, pos)) != string::npos)
-            {
-                str.replace(pos, input.size(), wstring(1, it->first));
-                pos += input.size();
-            }
-        }
-    }
-    return str;
 }
 
 

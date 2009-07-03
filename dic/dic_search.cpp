@@ -23,6 +23,7 @@
 #include <cstring>
 #include <cwchar>
 #include <cwctype>
+#include <algorithm>
 
 #include "dic_internals.h"
 #include "dic_exception.h"
@@ -104,7 +105,7 @@ void Dictionary::searchWordByLen(struct params_7plus1_t &params,
                         // Add the solution
                         vector<wdstring> &sols = (*params.results)[params.added_display];
                         if (sols.empty() || sols.back() != params.search_wordtst)
-                            sols.push_back(getHeader().convertToDisplay(params.search_wordtst));
+                            sols.push_back(convertToDisplay(params.search_wordtst));
                     }
                 }
                 else
@@ -127,7 +128,7 @@ void Dictionary::searchWordByLen(struct params_7plus1_t &params,
                         // Add the solution
                         vector<wdstring> &sols = (*params.results)[params.added_display];
                         if (sols.empty() || sols.back() != params.search_wordtst)
-                            sols.push_back(getHeader().convertToDisplay(params.search_wordtst));
+                            sols.push_back(convertToDisplay(params.search_wordtst));
                     }
                 }
                 else
@@ -230,7 +231,10 @@ void Dictionary::searchRacc(const wstring &iWord,
         oWordList.reserve(DEFAULT_VECT_ALLOC);
 
     // Transform the given word to make it suitable for display
-    const wdstring &displayWord = getHeader().convertToDisplay(iWord);
+    wdstring displayWord = convertToDisplay(iWord);
+    // Make it uppercase
+    std::transform(displayWord.begin(), displayWord.end(),
+                   displayWord.begin(), towupper);
 
     // Try to add a letter at the front
     const wstring &letters = getHeader().getLetters();
@@ -238,8 +242,7 @@ void Dictionary::searchRacc(const wstring &iWord,
     {
         if (searchWord(letters[i] + iWord))
         {
-            const wdstring &chr =
-                getHeader().getDisplayStr(getHeader().getCodeFromChar(letters[i]));
+            const wdstring &chr = getHeader().getDisplayStr(getHeader().getCodeFromChar(letters[i]));
             oWordList.push_back(chr + displayWord);
         }
         if (iMaxResults && oWordList.size() >= iMaxResults)
@@ -283,7 +286,10 @@ void Dictionary::searchBenj(const wstring &iWord, vector<wdstring> &oWordList,
         oWordList.reserve(DEFAULT_VECT_ALLOC);
 
     // Transform the given word to make it suitable for display
-    const wdstring &displayWord = getHeader().convertToDisplay(iWord);
+    wdstring displayWord = convertToDisplay(iWord);
+    // Make it uppercase
+    std::transform(displayWord.begin(), displayWord.end(),
+                   displayWord.begin(), towupper);
 
     const DicEdge *edge0, *edge1, *edge2, *edgetst;
     edge0 = getEdgeAt(getRoot());

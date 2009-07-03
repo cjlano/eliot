@@ -22,10 +22,10 @@
 #include "turn.h"
 
 
-// FIXME: move set to an invalid value. It would be better to get rid of this
+// FIXME: move set to an arbitrary one (pass). It would be better to get rid of this
 // constructor completely
 Turn::Turn()
-    : m_playerId(0), m_move(L"", L"")
+    : m_playerId(0), m_move(L"")
 {
 }
 

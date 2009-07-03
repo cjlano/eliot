@@ -27,6 +27,7 @@
 #include <cstring>
 #include <cerrno>
 #include <cctype>
+#include <boost/foreach.hpp>
 
 // For ntohl & Co.
 #ifdef WIN32
@@ -51,7 +52,7 @@ const Dictionary *Dictionary::m_dic = NULL;
 
 
 Dictionary::Dictionary(const string &iPath)
-    : m_dawg(NULL)
+    : m_dawg(NULL), m_hasDisplay(false)
 {
     ifstream file(iPath.c_str(), ios::in | ios::binary);
 
@@ -85,6 +86,31 @@ Dictionary::Dictionary(const string &iPath)
     lower = m_header->getInputChars();
     std::transform(lower.begin(), lower.end(), lower.begin(), towlower);
     m_allInputChars = m_header->getInputChars() + lower;
+
+    // Build the cache for the convertToDisplay() and convertFromInput()
+    // methods.
+    map<wchar_t, vector<wstring> >::const_iterator it;
+    for (it = m_header->getDisplayInputData().begin();
+         it != m_header->getDisplayInputData().end(); ++it)
+    {
+        // Save both the upper case and lower case versions
+        BOOST_FOREACH(wstring str, it->second)
+        {
+            // Make sure the string is in uppercase
+            std::transform(str.begin(), str.end(), str.begin(), towupper);
+            // Make a lowercase copy
+            wstring lower = str;
+            std::transform(lower.begin(), lower.end(), lower.begin(), towlower);
+            // Fill the cache
+            m_displayInputCache[towupper(it->first)].push_back(str);
+            m_displayInputCache[towlower(it->first)].push_back(lower);
+        }
+
+        // Update the m_hasDisplay flag
+        if (!m_hasDisplay && it->second[0] != wstring(1, it->first))
+            m_hasDisplay = true;
+    }
+
 
     m_dic = this;
 }
@@ -134,6 +160,58 @@ bool Dictionary::validateInputChars(const wistring &iLetters,
 {
     return iLetters.empty()
         || iLetters.find_first_not_of(m_allInputChars + iAccepted) == string::npos;
+}
+
+
+wdstring Dictionary::convertToDisplay(const wstring &iWord) const
+{
+    // Optimization for dictionaries without display nor input chars,
+    // which is the case in most languages.
+    if (!m_hasDisplay)
+        return iWord;
+
+    wdstring dispStr = iWord;
+    map<wchar_t, vector<wstring> >::const_iterator it;
+    for (it = m_displayInputCache.begin();
+         it != m_displayInputCache.end(); ++it)
+    {
+        const wstring &disp = it->second[0];
+        string::size_type pos = 0;
+        while (pos < dispStr.size() &&
+               (pos = dispStr.find(it->first, pos)) != string::npos)
+        {
+            dispStr.replace(pos, 1, disp);
+            pos += disp.size();
+        }
+    }
+    return dispStr;
+}
+
+
+wstring Dictionary::convertFromInput(const wistring &iWord) const
+{
+    // Optimization for dictionaries without display nor input chars,
+    // which is the case in most languages.
+    if (m_displayInputCache.empty())
+        return iWord;
+
+    wstring str = iWord;
+    map<wchar_t, vector<wstring> >::const_iterator it;
+    for (it = m_displayInputCache.begin();
+         it != m_displayInputCache.end(); ++it)
+    {
+        BOOST_FOREACH(const wstring &input, it->second)
+        {
+            string::size_type pos = 0;
+            while (pos < str.size() &&
+                   (pos = str.find(input, pos)) != string::npos)
+            {
+                str.replace(pos, input.size(), wstring(1, it->first));
+                pos += input.size();
+            }
+        }
+    }
+    return str;
 }
 
 

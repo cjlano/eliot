@@ -28,7 +28,6 @@
 #include "public_game.h"
 #include "coord.h"
 #include "dic.h"
-#include "header.h"
 #include "debug.h"
 
 
@@ -111,7 +110,7 @@ void PlayWordMediator::lineEditPlay_returnPressed()
     // Convert the jokers to lowercase
     const wistring &inputWord = qtw(m_lineEditPlay.text().toUpper());
     // Convert to internal representation, then back to QString
-    QString word = qfw(m_game->getDic().getHeader().convertFromInput(inputWord));
+    QString word = qfw(m_game->getDic().convertFromInput(inputWord));
 
     int pos;
     while ((pos = word.indexOf('(')) != -1)
@@ -135,7 +134,7 @@ void PlayWordMediator::lineEditPlay_returnPressed()
 
     // Convert the input string into an internal one
     const wstring intWord =
-        m_game->getDic().getHeader().convertFromInput(qtw(word));
+        m_game->getDic().convertFromInput(qtw(word));
 
     QString coords = m_lineEditCoord.text();
     int res = m_game->play(intWord, qtw(coords));
@@ -235,7 +234,7 @@ QValidator::State PlayWordValidator::validate(QString &input, int &) const
         return Invalid;
 
     // Convert the string to internal letters
-    const wstring &intInput = m_dic.getHeader().convertFromInput(winput);
+    const wstring &intInput = m_dic.convertFromInput(winput);
     // The string is invalid if it contains characters not present
     // in the dictionary (ignoring parentheses)
     if (!m_dic.validateLetters(intInput, L"()"))

@@ -117,6 +117,8 @@ public:
     bool         isConsonant(unsigned int iCode) const { return m_consonants[iCode - 1]; }
     //@}
 
+    const map<wchar_t, vector<wstring> > & getDisplayInputData() const { return m_displayAndInputData; }
+
     /**
      * Return the letter corresponding to the given code
      */
@@ -136,21 +138,6 @@ public:
      * Return all the accepted input strings corresponding to the given code
      */
     vector<wistring> getInputStr(unsigned int iCode) const;
-
-    /**
-     * Convert the given string (made of internal characters)
-     * into a string suitable for display
-     */
-    wdstring convertToDisplay(const wstring &iWord) const;
-
-    /**
-     * Convert the given string (direct user input)
-     * into a string suitable for internal use in Eliot.
-     * For example, in Catalan, it will convert the L.L substring
-     * into the W character (because it is the internal character
-     * associated to the input string "L.L").
-     */
-    wstring convertFromInput(const wistring &iWord) const;
 
     /**
      * Print a readable summary of the header on standard output
@@ -210,9 +197,6 @@ private:
 
     /// Cache for the display string of each code
     vector<wdstring> m_displayCache;
-
-    /// Same as m_displayAndInputData, but also contains lowercase mappings
-    map<wchar_t, vector<wstring> > m_displayInputCache;
 
     /**
      * Load the header from a file
