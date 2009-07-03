@@ -26,6 +26,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <boost/foreach.hpp>
 #include <boost/tokenizer.hpp>
 #include <boost/unordered_map.hpp>
 #include <boost/functional/hash.hpp>
@@ -181,8 +182,20 @@ void readLetters(const string &iFileName, DictHeaderInfo &ioHeaderInfo)
 
         if (tokens.size() > 5)
         {
-            ioHeaderInfo.displayInputData[upChar] =
-                vector<wstring>(tokens.begin() + 5, tokens.end());
+            vector<wstring> inputs(tokens.begin() + 5, tokens.end());
+            // Ensure the input strings are in upper case
+            BOOST_FOREACH(wstring &str, inputs)
+            {
+                std::transform(str.begin(), str.end(), str.begin(), towupper);
+            }
+
+            // If the display stirng is identical to the internal char and if
+            // there is no other input, no need to save this information, as
+            // it is already the default.
+            if (inputs.size() != 1 || inputs[0] != wstring(1, upChar))
+            {
+                ioHeaderInfo.displayInputData[upChar] = inputs;
+            }
         }
 
         ++lineNb;
