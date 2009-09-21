@@ -38,6 +38,7 @@
 #endif
 
 #include "dic.h"
+#include "header.h"
 #include "dic_exception.h"
 #include "game_io.h"
 #include "game_factory.h"
@@ -601,13 +602,13 @@ void loopTraining(PublicGame &iGame)
                                         break;
                                     case L'p':
                                         {
-                                            map<wdstring, vector<wdstring> > wordMap;
+                                            map<unsigned int, vector<wdstring> > wordMap;
                                             iGame.getDic().search7pl1(word, wordMap, false);
-                                            map<wdstring, vector<wdstring> >::const_iterator it;
+                                            map<unsigned int, vector<wdstring> >::const_iterator it;
                                             for (it = wordMap.begin(); it != wordMap.end(); ++it)
                                             {
-                                                if (it->first != L"")
-                                                    cout << "+" << convertToMb(it->first) << endl;
+                                                if (it->first != 0)
+                                                    cout << "+" << convertToMb(iGame.getDic().getHeader().getDisplayStr(it->first)) << endl;
                                                 BOOST_FOREACH(const wdstring &wstr, it->second)
                                                 {
                                                     cout << "  " << convertToMb(wstr) << endl;

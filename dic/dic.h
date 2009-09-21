@@ -232,13 +232,18 @@ public:
 
     /**
      * Search for all feasible word with "rack" plus one letter
+     * XXX: the key in the map is the internal code, because it allows an easy
+     * iteration in the map in the order of the dictionary letters.
+     * Maybe a more powerful structure should be provided, to hide the internal
+     * chars to the caller.
+     *
      * @param iRack: letters
-     * @param oWordlist: results (grouped by added character)
+     * @param oWordlist: results (grouped by code of the added character)
      * @param joker: true if the search must be performed when a joker is in the rack
      * @param iMaxResults: maximum number of returned results (0 means no limit)
      */
     void search7pl1(const wstring &iRack,
-                    map<wstring, vector<wdstring> > &oWordList,
+                    map<unsigned int, vector<wdstring> > &oWordList,
                     bool joker) const;
 
     /**

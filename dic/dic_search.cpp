@@ -76,9 +76,9 @@ bool Dictionary::searchWord(const wstring &iWord) const
 
 struct params_7plus1_t
 {
-    wchar_t added_code;
+    unsigned int added_code;
     wdstring added_display;
-    map<wdstring, vector<wdstring> > *results;
+    map<unsigned int, vector<wdstring> > *results;
     int search_len;
     wchar_t search_wordtst[DIC_WORD_MAX];
     char search_letters[63];
@@ -103,7 +103,7 @@ void Dictionary::searchWordByLen(struct params_7plus1_t &params,
                     if (edgeptr->term)
                     {
                         // Add the solution
-                        vector<wdstring> &sols = (*params.results)[params.added_display];
+                        vector<wdstring> &sols = (*params.results)[params.added_code];
                         if (sols.empty() || sols.back() != params.search_wordtst)
                             sols.push_back(convertToDisplay(params.search_wordtst));
                     }
@@ -126,7 +126,7 @@ void Dictionary::searchWordByLen(struct params_7plus1_t &params,
                     if (edgeptr->term)
                     {
                         // Add the solution
-                        vector<wdstring> &sols = (*params.results)[params.added_display];
+                        vector<wdstring> &sols = (*params.results)[params.added_code];
                         if (sols.empty() || sols.back() != params.search_wordtst)
                             sols.push_back(convertToDisplay(params.search_wordtst));
                     }
@@ -144,7 +144,7 @@ void Dictionary::searchWordByLen(struct params_7plus1_t &params,
 
 
 void Dictionary::search7pl1(const wstring &iRack,
-                            map<wdstring, vector<wdstring> > &oWordList,
+                            map<unsigned int, vector<wdstring> > &oWordList,
                             bool joker) const
 {
     if (iRack == L"" || iRack.size() > DIC_WORD_MAX)
@@ -407,7 +407,6 @@ bool Dictionary::searchRegExp(const wstring &iRegexp,
                               unsigned int iMaxLength,
                               unsigned int iMaxResults) const
 {
-    // XXX: throw an exception?
     if (iRegexp == L"")
         return true;
 
