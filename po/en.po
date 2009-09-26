@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-28 14:06+0200\n"
+"POT-Creation-Date: 2009-09-26 11:09+0200\n"
 "PO-Revision-Date: 2009-06-28 14:06+0200\n"
 "Last-Translator: Olivier Teulière <ipkiss @@ via.ecp.fr>\n"
 "Language-Team: English <LL@li.org>\n"
@@ -15,177 +15,177 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: dic/compdic.cpp:80
+#: dic/compdic.cpp:81
 msgid "Cannot stat file "
 msgstr ""
 
-#: dic/compdic.cpp:416
+#: dic/compdic.cpp:429
 msgid "Mandatory options:"
 msgstr ""
 
-#: dic/compdic.cpp:417
+#: dic/compdic.cpp:430
 msgid "  -d, --dicname <string>  Set the dictionary name and version"
 msgstr ""
 
-#: dic/compdic.cpp:418
+#: dic/compdic.cpp:431
 msgid ""
 "  -l, --letters <string>  Path to the file containing the letters (see below)"
 msgstr ""
 
-#: dic/compdic.cpp:419
+#: dic/compdic.cpp:432
 msgid ""
 "  -i, --input <string>    Path to the uncompressed dictionary file (encoded "
 "in UTF-8)"
 msgstr ""
 
-#: dic/compdic.cpp:420
+#: dic/compdic.cpp:433
 msgid ""
 "                          The words must be in alphabetical order, without "
 "duplicates"
 msgstr ""
 
-#: dic/compdic.cpp:421
+#: dic/compdic.cpp:434
 msgid ""
 "  -o, --output <string    Path to the generated compressed dictionary file"
 msgstr ""
 
-#: dic/compdic.cpp:422
+#: dic/compdic.cpp:435
 msgid "Other options:"
 msgstr ""
 
-#: dic/compdic.cpp:423
+#: dic/compdic.cpp:436
 msgid "  -h, --help              Print this help and exit"
 msgstr ""
 
-#: dic/compdic.cpp:424
+#: dic/compdic.cpp:437
 msgid "Example:"
 msgstr ""
 
-#: dic/compdic.cpp:425
+#: dic/compdic.cpp:438
 msgid " -d 'ODS 5.0' -l letters.txt -i ods5.txt -o ods5.dawg"
 msgstr ""
 
-#: dic/compdic.cpp:427
+#: dic/compdic.cpp:440
 msgid ""
 "The file containing the letters (--letters switch) must be UTF-8 encoded."
 msgstr ""
 
-#: dic/compdic.cpp:428
+#: dic/compdic.cpp:441
 msgid ""
 "Each line corresponds to one letter, and must contain at least 5 fields "
 "separated with one or more space(s)."
 msgstr ""
 
-#: dic/compdic.cpp:430
+#: dic/compdic.cpp:443
 msgid ""
 " - 1st field: the letter itself, as stored in the input file (single "
 "character)"
 msgstr ""
 
-#: dic/compdic.cpp:431
+#: dic/compdic.cpp:444
 msgid " - 2nd field: the points of the letter"
 msgstr ""
 
-#: dic/compdic.cpp:432
+#: dic/compdic.cpp:445
 msgid ""
 " - 3rd field: the frequency of the letter (how many letters of this kind in "
 "the game)"
 msgstr ""
 
-#: dic/compdic.cpp:433
+#: dic/compdic.cpp:446
 msgid ""
 " - 4th field: 1 if the letter is considered as a vowel in Scrabble game, 0 "
 "otherwise"
 msgstr ""
 
-#: dic/compdic.cpp:434
+#: dic/compdic.cpp:447
 msgid ""
 " - 5th field: 1 if the letter is considered as a consonant in Scrabble game, "
 "0 otherwise"
 msgstr ""
 
-#: dic/compdic.cpp:435
+#: dic/compdic.cpp:448
 msgid ""
 " - 6th field (optional): display string for the letter (default: the letter "
 "itself)"
 msgstr ""
 
-#: dic/compdic.cpp:436
+#: dic/compdic.cpp:449
 msgid ""
 " - other fields (optional): input strings for the letter, in addition to the "
 "display string"
 msgstr ""
 
-#: dic/compdic.cpp:438
+#: dic/compdic.cpp:451
 msgid "Example for french:"
 msgstr ""
 
-#: dic/compdic.cpp:444
+#: dic/compdic.cpp:457
 msgid "Example for catalan:"
 msgstr ""
 
 #. TRANSLATORS: the first "L.L" must be translated "L·L",
 #. and the last one translated "ĿL"
-#: dic/compdic.cpp:449
+#: dic/compdic.cpp:462
 msgid "W 10 1 0 1 L.L L.L L-L L.L"
 msgstr "W 10 1 0 1 L·L L.L L-L ĿL"
 
-#: dic/compdic.cpp:533
+#: dic/compdic.cpp:546
 msgid "A mandatory option is missing"
 msgstr ""
 
-#: dic/compdic.cpp:543
+#: dic/compdic.cpp:556
 msgid "Cannot open output file "
 msgstr ""
 
-#: dic/compdic.cpp:586
+#: dic/compdic.cpp:599
 #, c-format
 msgid " Load time: %.3f s\n"
 msgstr ""
 
-#: dic/compdic.cpp:587
+#: dic/compdic.cpp:600
 #, c-format
 msgid " Compression time: %.3f s\n"
 msgstr ""
 
-#: dic/compdic.cpp:589
+#: dic/compdic.cpp:602
 #, c-format
 msgid " Maximum recursion level reached: %d\n"
 msgstr ""
 
-#: dic/header.cpp:441
+#: dic/header.cpp:369
 msgid ""
 "Too old dictionary format. This format is not supported anymore since Eliot "
 "1.8. You can create dictionaries in the new format with the 'compdic' tool "
 "provided with Eliot (since version 1.6)."
 msgstr ""
 
-#: dic/header.cpp:713 qt/bag_widget.cpp:50 qt/dic_tools_widget.cpp:103
+#: dic/header.cpp:641 qt/bag_widget.cpp:50 qt/dic_tools_widget.cpp:103
 msgid "Letter"
 msgstr ""
 
-#: dic/header.cpp:713 qt/bag_widget.cpp:51 qt/dic_tools_widget.cpp:104
-#: qt/history_widget.cpp:55 qt/training_widget.cpp:75
+#: dic/header.cpp:641 qt/bag_widget.cpp:51 qt/dic_tools_widget.cpp:104
+#: qt/history_widget.cpp:55 qt/training_widget.cpp:74
 msgid "Points"
 msgstr ""
 
-#: dic/header.cpp:713 qt/dic_tools_widget.cpp:105
+#: dic/header.cpp:641 qt/dic_tools_widget.cpp:105
 msgid "Frequency"
 msgstr ""
 
-#: dic/header.cpp:713
+#: dic/header.cpp:641
 msgid "Vowel"
 msgstr ""
 
-#: dic/header.cpp:714
+#: dic/header.cpp:642
 msgid "Consonant"
 msgstr ""
 
-#: dic/header.cpp:714
+#: dic/header.cpp:642
 msgid "Display"
 msgstr ""
 
-#: dic/header.cpp:714
+#: dic/header.cpp:642
 msgid "Alt. input"
 msgstr ""
 
@@ -219,32 +219,32 @@ msgstr ""
 msgid "  -x: print dictionary in hex\n"
 msgstr ""
 
-#: dic/regexpmain.cpp:46
+#: dic/regexpmain.cpp:45
 #, c-format
 msgid "usage: %s dictionary"
 msgstr ""
 
-#: dic/regexpmain.cpp:47
+#: dic/regexpmain.cpp:46
 msgid "   dictionary: path to eliot dawg dictionary"
 msgstr ""
 
-#: dic/regexpmain.cpp:88 dic/regexpmain.cpp:112
+#: dic/regexpmain.cpp:87 dic/regexpmain.cpp:111
 msgid "Enter a regular expression:"
 msgstr ""
 
-#: dic/regexpmain.cpp:99
+#: dic/regexpmain.cpp:98
 msgid "result:"
 msgstr ""
 
-#: dic/regexpmain.cpp:108
+#: dic/regexpmain.cpp:107
 msgid "Invalid regular expression: "
 msgstr ""
 
-#: game/duplicate.cpp:290
+#: game/duplicate.cpp:292
 msgid "Cannot switch to a non-human player"
 msgstr ""
 
-#: game/duplicate.cpp:294
+#: game/duplicate.cpp:296
 msgid "Cannot switch to a player who has already played"
 msgstr ""
 
@@ -348,11 +348,11 @@ msgstr ""
 msgid "Rack"
 msgstr ""
 
-#: qt/history_widget.cpp:53 qt/training_widget.cpp:73
+#: qt/history_widget.cpp:53 qt/training_widget.cpp:72
 msgid "Word"
 msgstr ""
 
-#: qt/history_widget.cpp:54 qt/training_widget.cpp:74
+#: qt/history_widget.cpp:54 qt/training_widget.cpp:73
 msgid "Ref"
 msgstr ""
 
@@ -771,14 +771,14 @@ msgstr ""
 msgid "Duplicate"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:67
+#: qt/play_word_mediator.cpp:66
 msgid ""
 "Enter the word to play (case-insensitive).\n"
 "A joker from the rack must be written in parentheses.\n"
 "E.g.: w(o)rd or W(O)RD"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:70
+#: qt/play_word_mediator.cpp:69
 msgid ""
 "Enter the coordinates of the word.\n"
 "Specify the row before the column for horizontal words,\n"
@@ -786,71 +786,71 @@ msgid ""
 "E.g.: H4 or 4H"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:124
+#: qt/play_word_mediator.cpp:123
 msgid "Cannot play word: misplaced parentheses"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:150
+#: qt/play_word_mediator.cpp:149
 msgid "Cannot play '%1' at position '%2':\n"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:155
+#: qt/play_word_mediator.cpp:154
 msgid "Some letters are not valid for the current dictionary"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:158
+#: qt/play_word_mediator.cpp:157
 msgid "Invalid coordinates"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:161
+#: qt/play_word_mediator.cpp:160
 msgid "The word does not exist"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:164
+#: qt/play_word_mediator.cpp:163
 msgid "The rack doesn't contain the letters needed to play this word"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:167
+#: qt/play_word_mediator.cpp:166
 msgid "The word is part of a longer one"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:170
+#: qt/play_word_mediator.cpp:169
 msgid "The word tries to replace an existing letter"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:173
+#: qt/play_word_mediator.cpp:172
 msgid "An orthogonal word is not valid"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:176
+#: qt/play_word_mediator.cpp:175
 msgid "The word is already present on the board at these coordinates"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:179
+#: qt/play_word_mediator.cpp:178
 msgid "A word cannot be isolated (not connected to the placed words)"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:182
+#: qt/play_word_mediator.cpp:181
 msgid "The first word of the game must be horizontal"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:185
+#: qt/play_word_mediator.cpp:184
 msgid "The first word of the game must cover the H8 square"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:188
+#: qt/play_word_mediator.cpp:187
 msgid "The word is going out of the board"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:191
+#: qt/play_word_mediator.cpp:190
 msgid "Incorrect or misplaced word (%1)"
 msgstr ""
 
-#: qt/player_widget.cpp:166
+#: qt/player_widget.cpp:165
 msgid "Cannot pass turn (%1)"
 msgstr ""
 
-#: qt/player_widget.cpp:168
+#: qt/player_widget.cpp:167
 msgid "Cannot change letters '%1' (%2)"
 msgstr ""
 
@@ -870,15 +870,15 @@ msgstr ""
 msgid "Score"
 msgstr ""
 
-#: qt/training_widget.cpp:223
+#: qt/training_widget.cpp:221
 msgid "Warning: Cannot set the rack to '%1'"
 msgstr ""
 
-#: qt/training_widget.cpp:263
+#: qt/training_widget.cpp:261
 msgid "Searching with rack '%1'..."
 msgstr ""
 
-#: qt/training_widget.cpp:265
+#: qt/training_widget.cpp:263
 msgid "Search done"
 msgstr ""
 
