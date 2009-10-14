@@ -671,7 +671,7 @@ msgstr ""
 "Vous devez choisir un dictionnaire (fichier .dawg) avant de démarrer une "
 "partie. Cela peut se faire à partir du menu \"Paramètres\".\n"
 "\n"
-"Vous pouvez télécharger des fichiers de dictionnaire sur le site zeb d'eliot."
+"Vous pouvez télécharger des fichiers de dictionnaire sur le site web d'eliot."
 
 #: qt/main_window.cpp:491
 msgid "Game started"
