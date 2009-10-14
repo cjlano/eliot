@@ -111,6 +111,8 @@ wchar_t *_wcstok(wchar_t *wcs, const wchar_t *delim, wchar_t **ptr)
 wstring convertToWc(const string& iStr)
 {
 #ifdef WIN32
+    if (iStr.empty())
+        return L"";
     // XXX: Assume the input is in UTF-8
     return readFromUTF8(iStr.c_str(), iStr.size(), "convertToWc");
 #else
