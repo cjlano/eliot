@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-26 11:09+0200\n"
+"POT-Creation-Date: 2009-10-23 22:16+0200\n"
 "PO-Revision-Date: 2009-06-28 10:35+0100\n"
 "Last-Translator: Olivier Teulière <ipkiss @@ via.ecp.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -737,6 +737,10 @@ msgstr "Voulez-vous continuer ?"
 #: qt/main_window.cpp:712 qt/prefs_dialog.cpp:153
 msgid "Choose a dictionary"
 msgstr "Choisir un dictionnaire"
+
+#: qt/main_window.cpp:723
+msgid "Loaded dictionary '%1'"
+msgstr "Dictionnaire '%1' chargé"
 
 #: qt/main_window.cpp:755 qt/ui/main_window.ui:94 utils/ncurses.cpp:491
 msgid "Bag"
@@ -1573,9 +1577,6 @@ msgstr "[h pour l'aide]"
 
 #~ msgid "Word to check"
 #~ msgstr "Mot à vérifier"
-
-#~ msgid "No dictionary"
-#~ msgstr "Pas de dictionnaire"
 
 #~ msgid "exists"
 #~ msgstr "existe"

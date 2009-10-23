@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-26 11:09+0200\n"
+"POT-Creation-Date: 2009-10-23 22:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -700,6 +700,10 @@ msgstr ""
 
 #: qt/main_window.cpp:712 qt/prefs_dialog.cpp:153
 msgid "Choose a dictionary"
+msgstr ""
+
+#: qt/main_window.cpp:723
+msgid "Loaded dictionary '%1'"
 msgstr ""
 
 #: qt/main_window.cpp:755 qt/ui/main_window.ui:94 utils/ncurses.cpp:491

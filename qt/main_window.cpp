@@ -720,7 +720,7 @@ void MainWindow::onSettingsChooseDic()
             delete m_dic;
             m_dic = dic;
             emit dicChanged(m_dic);
-            displayInfoMsg(QString("Loaded dictionary '%1'").arg(fileName));
+            displayInfoMsg(_q("Loaded dictionary '%1'").arg(fileName));
 
             // Save the location of the dictionary in the preferences
             QSettings qs(ORGANIZATION, PACKAGE_NAME);
