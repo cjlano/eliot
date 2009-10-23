@@ -46,7 +46,6 @@ static string GetWin32Error()
 {
     char *lpMsgBuf;
     DWORD dw = GetLastError();
-    cerr << dw << endl;
     FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
                   FORMAT_MESSAGE_FROM_SYSTEM |
                   FORMAT_MESSAGE_IGNORE_INSERTS,
@@ -113,8 +112,22 @@ wstring convertToWc(const string& iStr)
 #ifdef WIN32
     if (iStr.empty())
         return L"";
-    // XXX: Assume the input is in UTF-8
-    return readFromUTF8(iStr.c_str(), iStr.size(), "convertToWc");
+
+    const unsigned int bufSize = iStr.size();
+    // Temporary buffer for output
+    // We will have at most as many characters as in the UTF-8 string
+    wchar_t *wideBuf = new wchar_t[bufSize];
+    int number = MultiByteToWideChar(CP_OEMCP, MB_ERR_INVALID_CHARS,
+                                     iStr.c_str(), bufSize, wideBuf, bufSize);
+    wstring res(wideBuf, number);
+    delete[] wideBuf;
+    if (number == 0)
+    {
+        // Retrieve the system error message for the last-error code
+        throw DicException("convertToWc: MultiByteToWideChar failed:" +
+                           GetWin32Error());
+    }
+    return res;
 #else
     // Get the needed length (we _can't_ use string::size())
     size_t len = mbstowcs(NULL, iStr.c_str(), 0);
@@ -148,9 +161,15 @@ string convertToMb(const wstring& iWStr)
     if (size == 0)
         return "";
     char buf[size];
-    // XXX: Assume the output is in UTF-8
-    int nb = writeInUTF8(iWStr, buf, size, "convertToMb");
-    return string(buf, nb);
+    int res = WideCharToMultiByte(CP_OEMCP, 0, iWStr.c_str(), iWStr.size(),
+                                  buf, size, NULL, NULL);
+    if (res == 0)
+    {
+        // Retrieve the system error message for the last-error code
+        throw DicException("convertToMb: WideCharToMultiByte failed: " +
+                           GetWin32Error());
+    }
+    return string(buf, res);
 #else
     // Get the needed length (we _can't_ use wstring::size())
     size_t len = wcstombs(NULL, iWStr.c_str(), 0);
@@ -391,8 +410,6 @@ unsigned int writeInUTF8(const wstring &iWString, char *oBuffer,
                                   oBuffer, iBufSize, NULL, NULL);
     if (res == 0)
     {
-        DWORD dw = GetLastError();
-        cerr << dw << endl;
         // Retrieve the system error message for the last-error code
         throw DicException("writeInUTF8: WideCharToMultiByte failed (" +
                            iContext + "): " + GetWin32Error());
