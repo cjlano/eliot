@@ -23,7 +23,9 @@
 #include "training.h"
 #include "duplicate.h"
 #include "freegame.h"
+#include "game_factory.h"
 #include "game_exception.h"
+#include "xml_writer.h"
 
 
 PublicGame::PublicGame(Game &iGame)
@@ -70,6 +72,8 @@ PublicGame::GameVariant PublicGame::getVariant() const
 {
     if (m_game.getVariant() == Game::kJOKER)
         return kJOKER;
+    else if (m_game.getVariant() == Game::kEXPLOSIVE)
+        return kEXPLOSIVE;
     else
         return kNONE;
 }
@@ -251,21 +255,16 @@ int PublicGame::freeGamePass(const wstring &iToChange)
 
 /***************************/
 
-PublicGame *PublicGame::load(FILE *fin, const Dictionary &iDic)
+PublicGame *PublicGame::load(const string &iFileName, const Dictionary &iDic)
 {
-    Game *game = Game::load(fin, iDic);
-    if (game == NULL)
-        return NULL;
+    Game *game = GameFactory::Instance()->load(iFileName, iDic);
     return new PublicGame(*game);
 }
 
 
-void PublicGame::save(ostream &out, GameFileFormat format) const
+void PublicGame::save(const string &iFileName) const
 {
-    if (format == kFILE_FORMAT_ADVANCED)
-        m_game.save(out, Game::FILE_FORMAT_ADVANCED);
-    else
-        m_game.save(out, Game::FILE_FORMAT_STANDARD);
+    XmlWriter::write(m_game, iFileName);
 }
 
 /***************************/

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _DIC_AUTOMATON_H_
-#define _DIC_AUTOMATON_H_
+#ifndef DIC_AUTOMATON_H_
+#define DIC_AUTOMATON_H_
 
 class AutomatonHelper;
 struct searchRegExpLists;

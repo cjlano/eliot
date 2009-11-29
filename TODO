@@ -2,10 +2,6 @@ TODO
 ====
 
  - Improve error handling (use exceptions more)
- - Correct game save/load functions: Advanced format
-   file saving for freegames and duplicate need a serious
-   rewrite. We need to specify a file format that can handle
-   all the information contained in a multiplayer game.
  - getopt support for all the interfaces (only ncurses is done)?
  - detection of blocked positions?
  - distinguish misplaced and incorrect words?
@@ -13,10 +9,10 @@ TODO
 Requested by users
 ==================
 
- - Save/load games (03/02/09)
  - Drag & drop? (03/02/09)
  - Continue a real game on Eliot (03/02/09)
  - In duplicate mode, display the rack in the External board (19/02/09)
+ - Tiles on the rack more similar to the ones on the board (http://www.prise2tete.fr/forum/viewtopic.php?id=4956)
 
 Implementation details
 ======================
@@ -25,8 +21,6 @@ Implementation details
  - board.h included in coord.cpp!
  - use Boost.Format?
  - compile with -ansi -pedantic by default?
- - use Boost.Unorderedinstead of the custom hash map, when Boost 1.36
-   is in Ubuntu
 
 Not so urgent
 =============

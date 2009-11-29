@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _GAME_FACTORY_H_
-#define _GAME_FACTORY_H_
+#ifndef GAME_FACTORY_H_
+#define GAME_FACTORY_H_
 
 #include <string>
 #include <vector>

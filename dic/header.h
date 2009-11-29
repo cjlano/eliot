@@ -18,13 +18,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _HEADER_H
-#define _HEADER_H
+#ifndef HEADER_H_
+#define HEADER_H_
 
 #include <iosfwd>
 #include <map>
 #include <vector>
 #include <time.h>
+#include <stdint.h>
 
 using namespace std;
 

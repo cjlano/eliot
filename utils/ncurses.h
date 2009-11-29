@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _NCURSES_H_
-#define _NCURSES_H_
+#ifndef NCURSES_H_
+#define NCURSES_H_
 
 #include <ncursesw/curses.h>
 #include <string>

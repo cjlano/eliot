@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _TURN_H
-#define _TURN_H
+#ifndef TURN_H_
+#define TURN_H_
 
 #include <string>
 #include "pldrack.h"

@@ -9,48 +9,46 @@ ILERERU
 commande> j RELIEUR 8E
 commande> j ERROR H2
 commande> a T
-Joueur 0: EEILRRU
-Joueur 1: EEILRRU
+Rack 0: EEILRRU
+Rack 1: EEILRRU
 commande> a S
-Joueur 0:    0
-Joueur 1:    0
+Score 0:    0
+Score 1:    0
 commande> a p
-Eliot 1.5
+Game: player 1 out of 2
+Game: mode=Duplicate
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
 
-Game type: Duplicate
-Player 0: Human
-Player 1: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-
-   Total: 0
 
 Rack 0: EEILRRU
 Rack 1: EEILRRU
+Score 0:    0
+Score 1:    0
 commande> j RELIURE h4
 commande> j RELIEUR h4
 commande> a S
-Joueur 0:   66
-Joueur 1:   66
+Score 0:   66
+Score 1:   66
 commande> a T
-Joueur 0: GUAUVBP
-Joueur 1: GUAUVBP
+Rack 0: GUAUVBP
+Rack 1: GUAUVBP
 commande> a p
-Eliot 1.5
+Game: player 1 out of 2
+Game: mode=Duplicate
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  EEILRRU | RELIURE        |  H4 |  66 | *
 
-Game type: Duplicate
-Player 0: Human
-Player 1: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  EEILRRU | RELIURE         |  H4 |  66 | 0 | *
-
-   Total: 66
 
 Rack 0: GUAUVBP
 Rack 1: GUAUVBP
+Score 0:   66
+Score 1:   66
 commande> q
 fin du mode duplicate
 commande> q

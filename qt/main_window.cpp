@@ -21,7 +21,6 @@
 #include "config.h"
 
 #include <iostream>
-#include <fstream>
 #include <QtGui/QLabel>
 #include <QtGui/QMessageBox>
 #include <QtGui/QFileDialog>
@@ -263,19 +262,17 @@ void MainWindow::updateForGame(const PublicGame *iGame)
     else
     {
         m_actionGamePrint->setEnabled(true);
+        m_actionGameSaveAs->setEnabled(true);
         if (iGame->getMode() == PublicGame::kTRAINING)
         {
-            m_actionGameSaveAs->setEnabled(true);
             setWindowTitle(_q("Training mode") + " - Eliot");
         }
         else if (iGame->getMode() == PublicGame::kDUPLICATE)
         {
-            m_actionGameSaveAs->setEnabled(false);
             setWindowTitle(_q("Duplicate game") + " - Eliot");
         }
         else
         {
-            m_actionGameSaveAs->setEnabled(false);
             setWindowTitle(_q("Free game") + " - Eliot");
         }
     }
@@ -503,14 +500,17 @@ void MainWindow::onGameLoad()
     QString fileName = QFileDialog::getOpenFileName(this, _q("Load a game"));
     if (fileName != "")
     {
-        destroyCurrentGame();
-        Game *tmpGame = GameFactory::Instance()->load(qtl(fileName), *m_dic);
-        if (tmpGame == NULL)
+        try
         {
-            displayErrorMsg(_q("Error while loading the game"));
+            PublicGame *tmpGame = PublicGame::load(qtl(fileName), *m_dic);
+            destroyCurrentGame();
+            m_game = tmpGame;
+        }
+        catch (std::exception &e)
+        {
+            displayErrorMsg(_q("Error while loading the game:\n") + e.what());
             return;
         }
-        m_game = new PublicGame(*tmpGame);
         m_ui.groupBoxPlayers->show();
         emit gameChangedNonConst(m_game);
         emit gameChanged(m_game);
@@ -528,9 +528,15 @@ void MainWindow::onGameSaveAs()
     QString fileName = QFileDialog::getSaveFileName(this, _q("Save a game"));
     if (fileName != "")
     {
-        ofstream fout(qtl(fileName));
-        m_game->save(fout);
-        displayInfoMsg(_q("Game saved"));
+        try
+        {
+            m_game->save(qtl(fileName));
+            displayInfoMsg(_q("Game saved"));
+        }
+        catch (std::exception &e)
+        {
+            displayErrorMsg(_q("Error saving game: %1").arg(e.what()));
+        }
     }
 }
 

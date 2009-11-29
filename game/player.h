@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _PLAYER_H_
-#define _PLAYER_H_
+#ifndef PLAYER_H_
+#define PLAYER_H_
 
 #include <vector>
 #include <string>

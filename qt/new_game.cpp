@@ -139,7 +139,7 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
     }
     else
     {
-        const_cast<Player *>(&game->getPlayer(0))->setName(qtw(_q("Training")));
+        game->addPlayer(new HumanPlayer);
     }
 
     // Joker game?

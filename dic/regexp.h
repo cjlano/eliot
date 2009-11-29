@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _REGEXP_H_
-#define _REGEXP_H_
+#ifndef REGEXP_H_
+#define REGEXP_H_
 
 #include <string>
 

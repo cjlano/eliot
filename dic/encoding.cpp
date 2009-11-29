@@ -223,10 +223,12 @@ string truncAndConvert(const wstring &iWstr, unsigned int iMaxWidth)
         if (n == -1)
         {
             ostringstream ss;
-            ss << "truncAndConvert: non printable character: " << iWstr[pos];
             // XXX: Should we throw an exception instead? Just ignore the problem?
+#if 0
+            ss << "truncAndConvert: non printable character: " << iWstr[pos];
             cerr << ss.str() << endl;;
             //throw DicException(ss.str());
+#endif
             return convertToMb(iWstr);
         }
         if (width + n > iMaxWidth)
@@ -249,10 +251,12 @@ string truncOrPad(const string &iStr, unsigned int iWidth, char iChar)
         if (n == -1)
         {
             ostringstream ss;
-            ss << "truncAndConvert: non printable character: " << wstr[pos];
             // XXX: Should we throw an exception instead? Just ignore the problem?
+#if 0
+            ss << "truncAndConvert: non printable character: " << wstr[pos];
             cerr << ss.str() << endl;;
             //throw DicException(ss.str());
+#endif
             return convertToMb(wstr);
         }
         if (width + n > iWidth)
@@ -277,10 +281,12 @@ string padAndConvert(const wstring &iWstr, unsigned int iLength,
         if (n == -1)
         {
             ostringstream ss;
-            ss << "padAndConvert: non printable character: " << iWstr[i];
             // XXX: Should we throw an exception instead? Just ignore the problem?
+#if 0
+            ss << "padAndConvert: non printable character: " << iWstr[i];
             cerr << ss.str() << endl;;
             //throw DicException(ss.str());
+#endif
             return convertToMb(iWstr);
         }
         width += n;
@@ -309,10 +315,12 @@ string centerAndConvert(const wstring &iWstr, unsigned int iLength, char c)
         if (n == -1)
         {
             ostringstream ss;
-            ss << "padAndConvert: non printable character: " << iWstr[i];
             // XXX: Should we throw an exception instead? Just ignore the problem?
+#if 0
+            ss << "padAndConvert: non printable character: " << iWstr[i];
             cerr << ss.str() << endl;;
             //throw DicException(ss.str());
+#endif
             return convertToMb(iWstr);
         }
         width += n;
@@ -439,5 +447,29 @@ unsigned int writeInUTF8(const wstring &iWString, char *oBuffer,
     // Return the number of written bytes
     return iBufSize - outChars;
 #endif
+}
+
+
+string writeInUTF8(const wstring &iWString, const string &iContext)
+{
+    // Temporary buffer for output
+    // Each character will take at most 4 bytes in the UTF-8 string
+    unsigned int bufSize = iWString.size() * 4;
+    char *buf = new char[bufSize];
+    unsigned int number;
+    try
+    {
+        number = writeInUTF8(iWString, buf, bufSize, iContext);
+    }
+    catch (...)
+    {
+        // Make sure not to leak
+        delete[] buf;
+        throw;
+    }
+    // Copy the string
+    string res(buf, number);
+    delete[] buf;
+    return res;
 }
 

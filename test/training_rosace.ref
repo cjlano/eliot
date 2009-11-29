@@ -54,20 +54,26 @@ commande> a gd # r1
  Nc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][010d714e: 1][00000000:-1][00005040: 1][ffffffff:-1][ffffffff:-1]
  Oc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][00000000:15][00000000:-1][00000000:-1][00000000:-1][00000000:-1]
 commande> t NUU+S?GE
-commande> a P
-Eliot
+commande> a p
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  WAEROSC | ROSACE         |  H8 |  22 |  
+    2 | 0 | W+TSREIN | WESTERN        | 13G |  54 |  
+    3 | 0 | I+RDTVI? | DIVeRTIR       |  8A |  83 | *
+    4 | 0 |  ELMOEAH | AH             |  I8 |  30 |  
+    5 | 0 | EELMO+PI | DIPLOMEE       |  A8 |  89 | *
+    6 | 0 |  OHUMJUI | JOUI           | 12K |  37 |  
+    7 | 0 | HMU+EAUA | HUE            | 14F |  34 |  
+    8 | 0 | AAMU+UBS | SAMBA          | 15H |  57 |  
+    9 | 0 | UU+NYTEP | TYPE           | O12 |  61 |  
 
-   WAEROSC     ROSACE             22  H  8
-   W+TSREIN    WESTERN            54 13  G
-   I+RDTVI?    DIVeRTIR        *  83  8  A
-   ELMOEAH     AH                 30  I  8
-   EELMO+PI    DIPLOMEE        *  89  A  8
-   OHUMJUI     JOUI               37 12  K
-   HMU+EAUA    HUE                34 14  F
-   AAMU+UBS    SAMBA              57 15  H
-   UU+NYTEP    TYPE               61  O 12
 
-   total                         467
+Rack 0: NUU+S?GE
+Score 0:  467
 commande> a t
 NUUS?GE
 commande> a l

@@ -19,9 +19,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _DIC_H_
-#define _DIC_H_
+#ifndef DIC_H_
+#define DIC_H_
 
+#include <stdint.h>
 #include <string>
 #include <vector>
 #include <map>

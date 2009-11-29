@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef GAME_H_
+#define GAME_H_
 
 #include <string>
 #include <vector>
@@ -178,30 +178,13 @@ public:
      ***************/
 
     /**
-     * Possible formats for the saved games
-     */
-    enum game_file_format
-    {
-        FILE_FORMAT_STANDARD,
-        FILE_FORMAT_ADVANCED
-    };
-
-    /**
+     * XXX FIXME XXX: these methods are deprecated, don't use them anymore.
      * load() returns the loaded game, or NULL if there was a problem
      * load() does need some more work to be robust enough to
      * handle "hand written" files
      */
     static Game * load(FILE *fin, const Dictionary &iDic);
-
-    /**
-     * Save a game to a file
-     * Standard format is used for training games so that it is compatible
-     * with previous versions of Eliot.
-     *
-     * Saving can be forced to advanced format for training games by
-     * setting the last parameter to FILE_FORMAT_ADVANCED
-     */
-    void save(ostream &out, game_file_format format = FILE_FORMAT_STANDARD) const;
+    static Game * load(const string &iFileName, const Dictionary &iDic);
 
     /***************
      * Setting the rack
@@ -213,6 +196,19 @@ public:
 
     const Navigation & getNavigation() const { return m_navigation; }
     Navigation & accessNavigation() { return m_navigation; }
+
+    /**
+     * This function checks whether it is legal to play the given word at the
+     * given coordinates. If so, the function fills a Round object, also given
+     * as a parameter.
+     * Possible return values: same as the play() method
+     * If checkRack is false, the return value 4 is impossible to get
+     * (no check is done on the rack letters).
+     */
+    int checkPlayedWord(const wstring &iCoord,
+                        const wstring &iWord,
+                        Round &oRound,
+                        bool checkRack = true) const;
 
 private:
     /// Variant
@@ -318,15 +314,6 @@ protected:
     bool rackInBag(const Rack &iRack, const Bag &iBag) const;
 
     /**
-     * This function checks whether it is legal to play the given word at the
-     * given coordinates. If so, the function fills a Round object, also given
-     * as a parameter.
-     * Possible return values: same as the play() method
-     */
-    int checkPlayedWord(const wstring &iCoord,
-                        const wstring &iWord, Round &oRound) const;
-
-    /**
      * load games from File using the first format.
      * This format is used for Training games
      */
@@ -338,6 +325,7 @@ protected:
      */
     static Game* gameLoadFormat_15(FILE *fin, const Dictionary& iDic);
 
+#if 0
     /**
      * Training games ares saved using the initial Eliot format
      */
@@ -347,6 +335,7 @@ protected:
      * Advanced game file format output
      */
     void gameSaveFormat_15(ostream &out) const;
+#endif
 
 };
 

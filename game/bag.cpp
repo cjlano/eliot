@@ -22,6 +22,7 @@
 #include <boost/foreach.hpp>
 
 #include <string>
+#include <cstdio>
 #include <cstdlib> // For rand()
 
 #include <dic.h>

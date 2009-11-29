@@ -4,38 +4,38 @@ commande> d 2 1
 mode duplicate
 [?] pour l'aide
 commande> a T
-Joueur 0: ATOYDSI
-Joueur 1: ATOYDSI
-Joueur 2: ATOYDSI
+Rack 0: ATOYDSI
+Rack 1: ATOYDSI
+Rack 2: ATOYDSI
 commande> j DOSAIT H4
 commande> j DOSAIT h5
 commande> a S
-Joueur 0:   18
-Joueur 1:   14
-Joueur 2:   30
+Score 0:   18
+Score 1:   14
+Score 2:   30
 commande> a T
-Joueur 0: DIAEINS
-Joueur 1: DIAEINS
-Joueur 2: DIAEINS
+Rack 0: DI+AEINS
+Rack 1: DI+AEINS
+Rack 2: DI+AEINS
 commande> n 1
 commande> j DISAIENT 7A
 commande> a S
-Joueur 0:   18
-Joueur 1:   75
-Joueur 2:   30
+Score 0:   18
+Score 1:   75
+Score 2:   30
 commande> j DESTINAI 7E
 commande> a S
-Joueur 0:   79
-Joueur 1:   75
-Joueur 2:   93
+Score 0:   79
+Score 1:   75
+Score 2:   93
 commande> a t
 P?RBFEG
 commande> j FRaYE 5E
 commande> j BoY 5F
 commande> a S
-Joueur 0:  124
-Joueur 1:   93
-Joueur 2:  138
+Score 0:  124
+Score 1:   93
+Score 2:  138
 commande> a t
 BGPBEET
 commande> a g
@@ -56,24 +56,23 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 3
+Game: mode=Duplicate
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 2 |  ATOYDSI | OYATS          |  H4 |  30 |  
+    2 | 2 | DI+AEINS | DENIAISA       |  6A |  63 | *
+    3 | 0 |  P?RBFEG | FRaYE          |  5E |  45 |  
 
-Game type: Duplicate
-Player 0: Human
-Player 1: Human
-Player 2: Computer
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  ATOYDSI | OYATS           |  H4 |  30 | 2 |  
-    2 | DI+AEINS | DENIAISA        |  6A |  63 | 2 | *
-    3 |  P?RBFEG | FRaYE           |  5E |  45 | 0 |  
-
-   Total: 138
 
 Rack 0: BGP+BEET
 Rack 1: BGP+BEET
 Rack 2: BGP+BEET
+Score 0:  124
+Score 1:   93
+Score 2:  138
 commande> q
 fin du mode duplicate
 commande> q

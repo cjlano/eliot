@@ -20,33 +20,39 @@ commande> a g
  M   -  -  N  O  -  -  -  -  M  -  -  V  A  S  E 
  N   -  -  -  U  -  -  -  -  N  -  -  E  -  -  - 
  O   -  -  E  X  I  G  E  R  A  -  -  C  Z  A  R 
-commande> a P
-Eliot
+commande> a p
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  UTEHJDT | HUTTE          |  H4 |  24 |  
+    2 | 0 | DJ+NGILE | JUNGLE         |  5G |  28 |  
+    3 | 0 | DI+OBURX | DOUX           |  4L |  54 |  
+    4 | 0 | BIR+EEGI | EXIGER         |  O3 |  48 |  
+    5 | 0 | BI+TNE?N | oBTIENNE       |  8A |  80 | *
+    6 | 0 |  AMIEOLE | METEO          |  6F |  28 |  
+    7 | 0 | AIL+NEID | ENLAIDIT       |  C1 |  70 | *
+    8 | 0 |  WABFUNO | BOEUF          |  1A |  33 |  
+    9 | 0 | ANW+OALU | WON            |  3K |  32 |  
+   10 | 0 | AALU+PI? | MANiPULAI      |  F6 |  69 | *
+   11 | 0 |  ELSUICS | CELSIUS        | 15C |  92 | *
+   12 | 0 |  ETFYUSR | FRAYES         |  4A |  44 |  
+   13 | 0 | TU+DEMNH | HAUTE          |  7E |  31 |  
+   14 | 0 | DMNT+ARA | DAMNA          |  9K |  26 |  
+   15 | 0 | RT+SAIVI | SUIVRAIT       | 11E |  94 | *
+   16 | 0 |  ACAOVEP | AVEC           | 12L |  28 |  
+   17 | 0 | AOP+ARZO | CZAR           | O12 |  45 |  
+   18 | 0 | AOOP+REK | POKER          | 14H |  42 |  
+   19 | 0 | AO+TSTEM | MIES           |  9E |  34 |  
+   20 | 0 | AOTT+LEQ | QAT            | J10 |  26 |  
+   21 | 0 | AELOT+RS | VASE           | M12 |  31 |  
+   22 | 0 |     LORT | FORET          |  E1 |  16 |  
 
-   UTEHJDT     HUTTE              24  H  4
-   DJ+NGILE    JUNGLE             28  5  G
-   DI+OBURX    DOUX               54  4  L
-   BIR+EEGI    EXIGER             48  O  3
-   BI+TNE?N    oBTIENNE        *  80  8  A
-   AMIEOLE     METEO              28  6  F
-   AIL+NEID    ENLAIDIT        *  70  C  1
-   WABFUNO     BOEUF              33  1  A
-   ANW+OALU    WON                32  3  K
-   AALU+PI?    MANiPULAI       *  69  F  6
-   ELSUICS     CELSIUS         *  92 15  C
-   ETFYUSR     FRAYES             44  4  A
-   TU+DEMNH    HAUTE              31  7  E
-   DMNT+ARA    DAMNA              26  9  K
-   RT+SAIVI    SUIVRAIT        *  94 11  E
-   ACAOVEP     AVEC               28 12  L
-   AOP+ARZO    CZAR               45  O 12
-   AOOP+REK    POKER              42 14  H
-   AO+TSTEM    MIES               34  9  E
-   AOTT+LEQ    QAT                26  J 10
-   AELOT+RS    VASE               31  M 12
-   LORT        FORET              16  E  1
 
-   total                         975
+Rack 0: L
+Score 0:  975
 commande> q
 fin du mode entraînement
 commande> q

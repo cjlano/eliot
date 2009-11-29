@@ -20,11 +20,11 @@
 
 #include <string>
 #include <stack>
-#include <boost/spirit/core.hpp>
-#include <boost/spirit/utility/chset.hpp>
-#include <boost/spirit/tree/ast.hpp>
+#include <boost/spirit/include/classic_core.hpp>
+#include <boost/spirit/include/classic_chset.hpp>
+#include <boost/spirit/include/classic_ast.hpp>
 #ifdef DEBUG_RE
-#include <boost/spirit/tree/tree_to_xml.hpp>
+#include <boost/spirit/include/classic_tree_to_xml.hpp>
 #include <map>
 #include <iostream>
 #endif
@@ -33,7 +33,7 @@
 #include "header.h"
 #include "regexp.h"
 
-using namespace boost::spirit;
+using namespace boost::spirit::classic;
 using namespace std;
 
 // A few typedefs to simplify things

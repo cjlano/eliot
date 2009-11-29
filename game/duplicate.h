@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _DUPLICATE_H_
-#define _DUPLICATE_H_
+#ifndef DUPLICATE_H_
+#define DUPLICATE_H_
 
 #include "game.h"
 #include "command.h"
@@ -54,6 +54,7 @@ using std::wstring;
 class Duplicate: public Game
 {
     friend class GameFactory;
+    friend class MarkPlayedCmd;
 public:
     virtual GameMode getMode() const { return kDUPLICATE; }
     virtual string getModeAsString() const { return "Duplicate"; }
@@ -132,27 +133,6 @@ private:
 
     /// m_hasPlayed[p] is true iff player p has played for this turn
     map<unsigned int, bool> m_hasPlayed;
-
-    /// Command used internally to change the "has played" flag of a player
-    class MarkPlayedCmd: public Command
-    {
-        public:
-            MarkPlayedCmd(Duplicate &ioDuplicate,
-                          unsigned int iPlayerId,
-                          bool iPlayedFlag);
-
-            virtual wstring toString() const;
-
-        protected:
-            virtual void doExecute();
-            virtual void doUndo();
-
-        private:
-            Duplicate &m_duplicateGame;
-            unsigned int m_playerId;
-            bool m_newPlayedFlag;
-            bool m_oldPlayedFlag;
-    };
 };
 
 #endif /* _DUPLICATE_H_ */

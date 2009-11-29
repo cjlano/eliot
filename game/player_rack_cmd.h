@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _PLAYER_RACK_CMD_H
-#define _PLAYER_RACK_CMD_H
+#ifndef PLAYER_RACK_CMD_H_
+#define PLAYER_RACK_CMD_H_
 
 #include "command.h"
 #include "pldrack.h"
@@ -37,6 +37,10 @@ class PlayerRackCmd: public Command
         PlayerRackCmd(Player &ioPlayer, const PlayedRack &iNewRack);
 
         virtual wstring toString() const;
+
+        // Getters
+        const Player & getPlayer() const { return m_player; }
+        const PlayedRack &getRack() const { return m_newRack; }
 
     protected:
         virtual void doExecute();

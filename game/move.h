@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _MOVE_H
-#define _MOVE_H
+#ifndef MOVE_H_
+#define MOVE_H_
 
 #include <string>
 
@@ -81,7 +81,7 @@ class Move
         Type getType() const { return m_type; }
 
         /// Get the score of this move (0 unless the round is valid)
-        int getScore() const { return m_score; };
+        int getScore() const { return m_score; }
 
         /**
          * Return the round associated with the move, or throw an exception

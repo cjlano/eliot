@@ -2,6 +2,9 @@ ICONV_VERSION = 1.12
 LIBCONFIG_VERSION = 1.3.2
 BOOST_VERSION = 1_39_0
 QT_VERSION = 4.5.3
+LIBXML2_VERSION = 2.7.5
+ARABICA_VERSION = 2009-march
+
 
 PREFIX = $(shell pwd)/inst
 WGET = wget -c
@@ -29,7 +32,7 @@ ICONV_DIR = libiconv-$(ICONV_VERSION)
 ICONV_ARCHIVE = libiconv-$(ICONV_VERSION).tar.gz
 
 $(ICONV_ARCHIVE): $(PREFIX)
-	$(WGET) http://ftp.gnu.org/pub/gnu/libiconv/$(ICONV_ARCHIVE)
+	$(WGET) http://ftp.gnu.org/pub/gnu/libiconv/$@
 
 $(ICONV_DIR): $(ICONV_ARCHIVE)
 	tar xzf $<
@@ -45,7 +48,7 @@ LIBCONFIG_DIR = libconfig-$(LIBCONFIG_VERSION)
 LIBCONFIG_ARCHIVE = libconfig-$(LIBCONFIG_VERSION).tar.gz
 
 $(LIBCONFIG_ARCHIVE): $(PREFIX)
-	$(WGET) http://www.hyperrealm.com/libconfig/$(LIBCONFIG_ARCHIVE)
+	$(WGET) http://www.hyperrealm.com/libconfig/$@
 
 $(LIBCONFIG_DIR): $(LIBCONFIG_ARCHIVE)
 	tar xvf $<
@@ -61,7 +64,7 @@ BOOST_DIR = boost_$(BOOST_VERSION)
 BOOST_ARCHIVE = boost_$(BOOST_VERSION).tar.bz2
 
 $(BOOST_ARCHIVE): $(PREFIX)
-	$(WGET) http://garr.dl.sourceforge.net/sourceforge/boost/$(BOOST_ARCHIVE)
+	$(WGET) http://garr.dl.sourceforge.net/sourceforge/boost/$@
 
 $(BOOST_DIR): $(BOOST_ARCHIVE)
 	tar xjf $<
@@ -81,7 +84,7 @@ QT_ARCHIVE = qt4-$(QT_VERSION)-win32-bin.tar.bz2
 QT_DIR = qt4-$(QT_VERSION)-win32-bin
 
 $(QT_ARCHIVE): $(PREFIX)
-	$(WGET) http://dl.sv.nongnu.org/releases-noredirect/eliot/other/$(QT_ARCHIVE)
+	$(WGET) http://dl.sv.nongnu.org/releases-noredirect/eliot/other/$@
 
 $(QT_DIR): $(QT_ARCHIVE)
 	tar xjf $<
@@ -89,5 +92,39 @@ $(QT_DIR): $(QT_ARCHIVE)
 .qt: $(QT_DIR)
 	#(cd $<; mkdir -p $(PREFIX)/bin; mkdir -p $(PREFIX)/include; mkdir -p $(PREFIX)/lib/pkgconfig; rm -f $(PREFIX)/lib/pkgconfig/Qt*; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtCore.pc.in > $(PREFIX)/lib/pkgconfig/QtCore.pc; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtGui.pc.in > $(PREFIX)/lib/pkgconfig/QtGui.pc; cp -r include/* $(PREFIX)/include; cp lib/*a $(PREFIX)/lib; mkdir -p $(PREFIX)/share/qt4/translations; cp -r share/translations/* $(PREFIX)/share/qt4/translations)
 	(cd $<; cp -r bin include lib share $(PREFIX); sed 's,@@PREFIX@@,$(PREFIX),' $(PREFIX)/lib/pkgconfig/QtCore.pc.in > $(PREFIX)/lib/pkgconfig/QtCore.pc; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtGui.pc.in > $(PREFIX)/lib/pkgconfig/QtGui.pc; rm $(PREFIX)/lib/pkgconfig/*.in)
+	touch $@
+
+
+### LibXML 2 ###
+
+LIBXML2_DIR = libxml2-$(LIBXML2_VERSION)
+LIBXML2_ARCHIVE = libxml2-$(LIBXML2_VERSION).tar.gz
+
+$(LIBXML2_ARCHIVE): $(PREFIX)
+	$(WGET) ftp://xmlsoft.org/libxml2/$@
+
+$(LIBXML2_DIR): $(LIBXML2_ARCHIVE)
+	tar xzf $<
+
+# TODO: add more --without-xxx flags (apparently needed for build: pattern, debug)
+# --with-legacy and --with-html are needed for arabica
+.libxml2: $(LIBXML2_DIR)
+	(cd $< && $(CONFIGURE) --enable-static --disable-shared --with-legacy --without-schematron --without-tree --without-zlib --without-http --without-ftp --without-html --without-python --without-docbook --without-regexps && make install)
+	touch $@
+
+
+### Arabica ###
+
+ARABICA_DIR = arabica-$(ARABICA_VERSION)
+ARABICA_ARCHIVE = arabica-$(ARABICA_VERSION).tar.bz2
+
+$(ARABICA_ARCHIVE): $(PREFIX)
+	$(WGET) http://downloads.sourceforge.net/project/arabica/arabica/March-09/$@?use_mirror=ovh
+
+$(ARABICA_DIR): $(ARABICA_ARCHIVE)
+	tar xjf $<
+
+.arabica: $(ARABICA_DIR)
+	(cd $< && patch -p0 < ../arabica-no-example.patch && $(CONFIGURE) --enable-static --disable-shared --with-parser=libxml2 --with-libxml2=$(PREFIX) --with-boost=$(PREFIX) --with-tests=no --with-dom=no && make install)
 	touch $@
 

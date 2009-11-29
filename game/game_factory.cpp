@@ -42,6 +42,7 @@
 #include "ai_percent.h"
 #include "dic.h"
 #include "encoding.h"
+#include "xml_reader.h"
 
 
 GameFactory *GameFactory::m_factory = NULL;
@@ -227,15 +228,7 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
 
 Game* GameFactory::load(const string &iFileName, const Dictionary &iDic)
 {
-    FILE* fin = fopen(iFileName.c_str(), "r");
-    if (fin == NULL)
-    {
-        printf("Cannot open %s\n", iFileName.c_str());
-        return NULL;
-    }
-    Game *game = Game::load(fin, iDic);
-    fclose(fin);
-    return game;
+    return XmlReader::read(iFileName, iDic);
 }
 
 

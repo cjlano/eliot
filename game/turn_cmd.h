@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _TURN_CMD_H
-#define _TURN_CMD_H
+#ifndef TURN_CMD_H_
+#define TURN_CMD_H_
 
 #include <vector>
 
@@ -45,6 +45,8 @@ class TurnCmd: public Command
         void addAndExecute(Command *iCmd);
 
         bool isEmpty() const { return m_commands.empty(); }
+
+        const vector<Command *> & getCommands() const { return m_commands; }
 
         virtual bool isAutoExecution() const;
 

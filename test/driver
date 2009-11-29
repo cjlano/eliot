@@ -49,10 +49,6 @@ training_cross4     0
 # Joker problem on game load
 training_joker      0
 
-# Joker problem on game search
-# Eliot Rosace coup 10 nuageuse dans la recherche
-training_joker2     0
-
 #################
 # Duplicate mode
 #################

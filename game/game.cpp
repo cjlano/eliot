@@ -501,7 +501,8 @@ void Game::nextPlayer()
 
 
 int Game::checkPlayedWord(const wstring &iCoord,
-                          const wstring &iWord, Round &oRound) const
+                          const wstring &iWord,
+                          Round &oRound, bool checkRack) const
 {
     ASSERT(getNPlayers() != 0, "Expected at least one player");
 
@@ -550,28 +551,31 @@ int Game::checkPlayedWord(const wstring &iCoord,
             return 10;
     }
 
-    // Check that the word can be formed with the tiles in the rack:
-    // we first create a copy of the rack, then we remove the tiles
-    // one by one
-    Rack rack;
-    Player *player = m_players[m_currPlayer];
-    player->getCurrentRack().getRack(rack);
-
-    Tile t;
-    for (unsigned int i = 0; i < oRound.getWordLen(); i++)
+    if (checkRack)
     {
-        if (oRound.isPlayedFromRack(i))
-        {
-            if (oRound.isJoker(i))
-                t = Tile::Joker();
-            else
-                t = oRound.getTile(i);
+        // Check that the word can be formed with the tiles in the rack:
+        // we first create a copy of the rack, then we remove the tiles
+        // one by one
+        Rack rack;
+        Player *player = m_players[m_currPlayer];
+        player->getCurrentRack().getRack(rack);
 
-            if (!rack.in(t))
+        Tile t;
+        for (unsigned int i = 0; i < oRound.getWordLen(); i++)
+        {
+            if (oRound.isPlayedFromRack(i))
             {
-                return 4;
+                if (oRound.isJoker(i))
+                    t = Tile::Joker();
+                else
+                    t = oRound.getTile(i);
+
+                if (!rack.in(t))
+                {
+                    return 4;
+                }
+                rack.remove(t);
             }
-            rack.remove(t);
         }
     }
 

@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2007 Olivier Teulière
+ * Copyright (C) 2009 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -18,48 +18,40 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef GAME_EXCEPTION_H_
-#define GAME_EXCEPTION_H_
+#include <sstream>
+#include "mark_played_cmd.h"
+#include "duplicate.h"
 
-#include <exception>
-#include <string>
+using namespace std;
 
 
-/**
- * Exception class for the Game library.
- * It simply inherits from the standard exception and overrides
- * its what() method.
- */
-class GameException: public std::exception
+MarkPlayedCmd::MarkPlayedCmd(Duplicate &ioDuplicate,
+                             unsigned int iPlayerId,
+                             bool iPlayedFlag)
+    : m_duplicateGame(ioDuplicate), m_playerId(iPlayerId),
+      m_newPlayedFlag(iPlayedFlag)
 {
-    public:
-        GameException(const std::string &iMessage);
-        ~GameException() throw() {}
-        virtual const char *what() const throw();
-
-    private:
-        std::string m_message;
-};
+}
 
 
-class EndGameException: public GameException
+void MarkPlayedCmd::doExecute()
 {
-    public:
-        EndGameException(const std::string &iMessage);
-};
+    m_oldPlayedFlag = m_duplicateGame.hasPlayed(m_playerId);
+    m_duplicateGame.setPlayedFlag(m_playerId, m_newPlayedFlag);
+}
 
 
-class LoadGameException: public GameException
+void MarkPlayedCmd::doUndo()
 {
-    public:
-        LoadGameException(const std::string &iMessage);
-};
+    m_duplicateGame.setPlayedFlag(m_playerId, m_oldPlayedFlag);
+}
 
 
-class SaveGameException: public GameException
+wstring MarkPlayedCmd::toString() const
 {
-    public:
-        SaveGameException(const std::string &iMessage);
-};
+    wostringstream oss;
+    oss << L"MarkPlayedCmd (player " << m_playerId
+        << L" marked " << m_newPlayedFlag << L")";
+    return oss.str();
+}
 
-#endif

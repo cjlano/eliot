@@ -35,6 +35,8 @@ AIPercent::AIPercent(float iPercent)
     if (iPercent > 1)
         iPercent = 1;
 
+    m_percent = iPercent;
+
     // Use BestResults to be slightly faster when the percentage is 100%
     if (iPercent == 1)
         m_results = new BestResults;

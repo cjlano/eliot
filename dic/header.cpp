@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <cstring> // for strcpy
+#include <cstdio> // for snprintf
 #include <string>
 #include <sstream>
 #include <iostream>

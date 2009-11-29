@@ -20,6 +20,7 @@
  *****************************************************************************/
 
 #include <string>
+#include <cstdio>
 #include <wchar.h>
 #include "coord.h"
 #include "board.h" // for BOARD_MIN and BOARD_MAX (TODO: remove this include)

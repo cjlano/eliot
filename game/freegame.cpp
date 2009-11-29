@@ -148,9 +148,7 @@ int FreeGame::endTurn()
 {
     const Move &move = getCurrentPlayer().getLastMove();
     // Update the game
-    Command *pCmd = new GameMoveCmd(*this, move,
-                                    getCurrentPlayer().getLastRack(),
-                                    m_currPlayer);
+    Command *pCmd = new GameMoveCmd(*this, move, m_currPlayer);
     accessNavigation().addAndExecute(pCmd);
 
     // Complete the rack for the player that just played

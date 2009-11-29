@@ -147,7 +147,7 @@ wstring Move::toString() const
     else if (m_type == CHANGE_LETTERS)
         wss << "CHANGE=" << m_letters;
     else if (m_type == INVALID_WORD)
-        wss << "INVALID: word=" << m_round.toString() << "  coords=" << m_coord;
+        wss << "INVALID: word=" << m_word << "  coords=" << m_coord;
     else if (m_type == VALID_ROUND)
         wss << "VALID: word=" << m_round.toString();
     wss << "  score=" << m_score;

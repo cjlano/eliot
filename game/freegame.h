@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _FREEGAME_H_
-#define _FREEGAME_H_
+#ifndef FREEGAME_H_
+#define FREEGAME_H_
 
 #include "game.h"
 

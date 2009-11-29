@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _BAG_H_
-#define _BAG_H_
+#ifndef BAG_H_
+#define BAG_H_
 
 #include <map>
 #include "tile.h"

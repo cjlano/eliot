@@ -21,6 +21,7 @@
 
 #include <cstring>
 #include <cstdlib> // For atoi
+#include <cstdio>
 
 #include "dic.h"
 #include "pldrack.h"
@@ -106,6 +107,7 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
     Game *pGame = NULL;
 
     pGame = GameFactory::Instance()->createTraining(iDic);
+    pGame->addPlayer(new HumanPlayer);
     pGame->start();
 
     /*    rack        word          ?bonus    pts  coord    */
@@ -390,9 +392,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
 //                     pGame->m_players[player]->endTurn(round,num - 1);
 
         // Play the round
-        GameMoveCmd cmd(*pGame, Move(round),
-                        pGame->getCurrentPlayer().getLastRack(),
-                        pGame->m_currPlayer);
+        GameMoveCmd cmd(*pGame, Move(round), pGame->m_currPlayer);
         cmd.execute();
     }
 
@@ -435,172 +435,5 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
     }
 
     return pGame;
-}
-
-/********************************************************
- *
- * Loading games
- *
- ********************************************************/
-
-void Game::save(ostream &out, game_file_format format) const
-{
-    if (getMode() == kTRAINING && format == FILE_FORMAT_STANDARD)
-    {
-        gameSaveFormat_14(out);
-    }
-    else
-    {
-        gameSaveFormat_15(out);
-    }
-}
-
-
-void Game::gameSaveFormat_14(ostream &out) const
-{
-    char line[100];
-    const string decal = "   ";
-    out << IDENT_STRING << endl << endl;
-
-    for (unsigned int i = 0; i < m_history.getSize(); i++)
-    {
-        const Turn& turn = m_history.getTurn(i);
-        wstring rack = turn.getPlayedRack().toString(PlayedRack::RACK_EXTRA);
-        // FIXME: this will not work if the move does not correspond to a played round!
-        const Round &round = turn.getMove().getRound();
-        wstring word = round.getWord();
-        string coord = convertToMb(round.getCoord().toString(Coord::COORD_MODE_LONG));
-
-        // rack [space] word [space] bonus points coord
-        sprintf(line,"%s%s%c%4d %s",
-                padAndConvert(rack, 12, false).c_str(),
-                padAndConvert(word, 16, false).c_str(),
-                round.getBonus() ? '*' : ' ',
-                round.getPoints(),
-                coord.c_str()
-               );
-
-        out << decal << line << endl;
-    }
-
-    out << endl;
-    out << decal << "total" << string(24,' ');
-    sprintf(line, "%4d", getCurrentPlayer().getPoints());
-    out << line << endl;
-}
-
-
-void Game::gameSaveFormat_15(ostream &out) const
-{
-    const string decal = "   ";
-    // "Header" of the game
-    out << IDENT_STRING << " " << IDENT_FORMAT_15 << endl << endl;
-    // Game type
-    out << "Game type: " << getModeAsString() << endl;
-    // Player list
-    for (unsigned int i = 0; i < getNPlayers(); i++)
-    {
-        out << "Player " << i << ": ";
-        if (m_players[i]->isHuman())
-            out << "Human" << endl;
-        else
-            out << "Computer" << endl;
-    }
-    out << endl;
-
-    // Title of the columns
-    char line[100];
-    out << decal << " N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS" << endl;
-    out << decal << "===|==========|=================|=====|=====|===|======" << endl;
-
-    // Print the game itself
-    for (unsigned int i = 0; i < m_history.getSize(); i++)
-    {
-        const Turn& turn = m_history.getTurn(i);
-        wstring rack = turn.getPlayedRack().toString(PlayedRack::RACK_EXTRA);
-        const Move &move = turn.getMove();
-        switch (move.getType())
-        {
-            case Move::VALID_ROUND:
-            {
-                const Round &round = move.getRound();
-                wstring word = round.getWord();
-                string coord = convertToMb(round.getCoord().toString());
-                sprintf(line, "%2d | %s | %s | %3s | %3d | %1d | %c",
-                        i + 1,
-                        padAndConvert(rack, 8).c_str(),             /* pldrack     */
-                        padAndConvert(word, 15, false).c_str(),     /* word        */
-                        coord.c_str(),                              /* coord       */
-                        move.getScore(),
-                        turn.getPlayer(),
-                        round.getBonus() ? '*' : ' ');
-                break;
-            }
-            case Move::INVALID_WORD:
-            {
-                wstring word = move.getBadWord();
-                string coord = convertToMb(move.getBadCoord());
-                sprintf(line, "%2d | %s | %s | %3s | %3d | %1d |",
-                        i + 1,
-                        padAndConvert(rack, 8).c_str(),             /* pldrack     */
-                        padAndConvert(word, 15, false).c_str(),     /* word        */
-                        coord.c_str(),                              /* coord       */
-                        move.getScore(),
-                        turn.getPlayer());
-                break;
-            }
-            case Move::PASS:
-            {
-                string action = "(PASS)";
-                string coord = " - ";
-                sprintf(line, "%2d | %s | %s | %3s | %3d | %1d |",
-                        i + 1,
-                        padAndConvert(rack, 8).c_str(),             /* pldrack     */
-                        truncOrPad(action, 15, ' ').c_str(),        /* word        */
-                        coord.c_str(),                              /* coord       */
-                        move.getScore(),
-                        turn.getPlayer());
-                break;
-            }
-            case Move::CHANGE_LETTERS:
-            {
-                wstring action = L"(-" + move.getChangedLetters() + L")";
-                string coord = " - ";
-                sprintf(line, "%2d | %s | %s | %3s | %3d | %1d |",
-                        i + 1,
-                        padAndConvert(rack, 8).c_str(),             /* pldrack     */
-                        padAndConvert(action, 15, false).c_str(),   /* word        */
-                        coord.c_str(),                              /* coord       */
-                        move.getScore(),
-                        turn.getPlayer());
-                break;
-            }
-
-        }
-
-        out << decal << line << endl;
-    }
-
-    switch (getMode())
-    {
-    case kDUPLICATE:
-        // TODO : we should note the score individualy
-        out << endl << decal << "Total: " << m_points << endl;
-        break;
-    case kFREEGAME:
-        out << endl << decal << "Total: " << m_points << endl;
-        break;
-    case kTRAINING:
-        out << endl << decal << "Total: " << m_points << endl;
-        break;
-    }
-
-    // Print current rack for all the players
-    out << endl;
-    for (unsigned int i = 0; i < getNPlayers(); i++)
-    {
-        wstring rack = m_players[i]->getCurrentRack().toString();
-        out << "Rack " << i << ": " << convertToMb(rack) << endl;
-    }
 }
 

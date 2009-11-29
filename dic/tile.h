@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _TILE_H_
-#define _TILE_H_
+#ifndef TILE_H_
+#define TILE_H_
 
 #include <list>
 #include <vector>

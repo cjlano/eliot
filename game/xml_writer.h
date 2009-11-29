@@ -1,8 +1,6 @@
 /*****************************************************************************
- * Eliot
- * Copyright (C) 2004-2007 Antoine Fraboulet & Olivier Teulière
- * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
- *          Olivier Teulière <ipkiss @@ gmail.com>
+ * Copyright (C) 2009 Eliot
+ * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,34 +17,21 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef DEBUG_H_
-#define DEBUG_H_
+#ifndef XML_WRITER_H_
+#define XML_WRITER_H_
 
-/**********
- * General
- **********/
+#include <iosfwd>
 
-#ifdef DEBUG
-#   include <iostream>
-#   include <cstdlib>
+class Game;
 
-using std::cerr;
-using std::endl;
+using std::string;
 
-// Assertion macro: if the condition is not verified, print a message on stderr
-// and stops execution, otherwise do nothing.
-#   define ASSERT(cond, msg) \
-    { \
-        if (!(cond)) \
-        { \
-            cerr << "ASSERTION FAILED: " << (msg) << " (at " \
-                 << __FILE__ << "#" << __LINE__ << ")\n"; \
-            abort(); \
-        } \
-    }
-#else
-#   define ASSERT(cond, msg)
-#endif
+
+class XmlWriter
+{
+public:
+    static void write(const Game &iGame, const string &iFileName);
+};
 
 #endif
 

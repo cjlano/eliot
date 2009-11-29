@@ -20,6 +20,7 @@
  *****************************************************************************/
 
 #include <string>
+#include <cstdio>
 #include "cross.h"
 
 #define CROSS_MASK 0xFFFFFFFF

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _AI_PERCENT_H_
-#define _AI_PERCENT_H_
+#ifndef AI_PERCENT_H_
+#define AI_PERCENT_H_
 
 #include "ai_player.h"
 #include "results.h"
@@ -42,6 +42,8 @@ public:
     AIPercent(float iPercent);
     virtual ~AIPercent();
 
+    float getPercent() const { return m_percent; }
+
     /**
      * This method does the actual computation. It will be called before any
      * of the following methods, so it must prepare everything for them.
@@ -52,6 +54,7 @@ public:
     virtual Move getMove() const;
 
 private:
+    float m_percent;
     /// Container for all the found solutions
     Results *m_results;
 };

@@ -9,56 +9,53 @@ commande> p
 commande> a t
 AELMNU?
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Free game
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  AMLUNE? | (PASS)         |  -  |   0 |  
 
-Game type: Free game
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  AMLUNE? | (PASS)          |  -  |   0 | 0 |
-
-   Total: 0
 
 Rack 0: AELMNU?
+Score 0:    0
 commande> p
 commande> j MALvENU h4
 commande> a t
 ESEASTU
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Free game
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  AMLUNE? | (PASS)         |  -  |   0 |  
+    2 | 0 |  AELMNU? | (PASS)         |  -  |   0 |  
+    3 | 0 |  AELMNU? | MALvENU        |  H4 |  68 | *
 
-Game type: Free game
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  AMLUNE? | (PASS)          |  -  |   0 | 0 |
-    2 |  AELMNU? | (PASS)          |  -  |   0 | 0 |
-    3 |  AELMNU? | MALvENU         |  H4 |  68 | 0 | *
-
-   Total: 68
 
 Rack 0: ESEASTU
+Score 0:   68
 commande> p
 commande> j SAUTEES 11H
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Free game
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  AMLUNE? | (PASS)         |  -  |   0 |  
+    2 | 0 |  AELMNU? | (PASS)         |  -  |   0 |  
+    3 | 0 |  AELMNU? | MALvENU        |  H4 |  68 | *
+    4 | 0 |  ESEASTU | (PASS)         |  -  |   0 |  
+    5 | 0 |  AEESSTU | SAUTEES        | 11H |  72 | *
 
-Game type: Free game
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  AMLUNE? | (PASS)          |  -  |   0 | 0 |
-    2 |  AELMNU? | (PASS)          |  -  |   0 | 0 |
-    3 |  AELMNU? | MALvENU         |  H4 |  68 | 0 | *
-    4 |  ESEASTU | (PASS)          |  -  |   0 | 0 |
-    5 |  AEESSTU | SAUTEES         | 11H |  72 | 0 | *
-
-   Total: 140
 
 Rack 0: MIWBRAE
+Score 0:  140
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 

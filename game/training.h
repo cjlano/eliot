@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _TRAINING_H_
-#define _TRAINING_H_
+#ifndef TRAINING_H_
+#define TRAINING_H_
 
 #include <string>
 

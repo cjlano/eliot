@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _PLAYEDRACK_H_
-#define _PLAYEDRACK_H_
+#ifndef PLAYEDRACK_H_
+#define PLAYEDRACK_H_
 
 #include <vector>
 #include <string>

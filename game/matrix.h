@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _MATRIX_H_
-#define _MATRIX_H_
+#ifndef MATRIX_H_
+#define MATRIX_H_
 
 #include <vector>
 

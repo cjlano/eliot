@@ -4,48 +4,47 @@ commande> d 0 2
 mode duplicate
 [?] pour l'aide
 commande> a S
-Joueur 0:  929
-Joueur 1:  929
+Score 0:  929
+Score 1:  929
 commande> a T
-Joueur 0: TTV
-Joueur 1: TTV
+Rack 0: TTV
+Rack 1: TTV
 commande> a l
  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
  0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 1 0 2 0 1 0 0 0 0 0
 commande> a p
-Eliot 1.5
+Game: player 1 out of 2
+Game: mode=Duplicate
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  ?EBAAEF | FABAcEE        |  H4 |  80 | *
+    2 | 0 |  KEELIFE | KIEF           | 10F |  36 |  
+    3 | 0 | EEEL+IJX | FIXEE          |  4H |  34 |  
+    4 | 0 | EJL+RANS | JALES          |  J6 |  49 |  
+    5 | 0 | NR+OAHPU | HURON          |  5K |  28 |  
+    6 | 0 | AP+MOEIA | LIPOME         |  8J |  36 |  
+    7 | 0 | AA+SMOND | ADONNAMES      |  O1 |  86 | *
+    8 | 0 |  LEATCYL | CATLEYA        |  5B |  36 |  
+    9 | 0 | L+EARBHO | BROCHA         |  B2 |  42 |  
+   10 | 0 | EL+OSULA | ALLOUES        |  A6 |  81 | *
+   11 | 0 |  DSNIMEN | DEMIS          |  I1 |  28 |  
+   12 | 0 | INN+NQUS | QUINTS         |  D1 |  42 |  
+   13 | 0 | NN+IEUR? | MUNIRENt       |  N8 |  72 | *
+   14 | 0 |  ISITTIE | EDITS          |  1H |  21 |  
+   15 | 0 | IIT+NEOP | POTINIER       | 12G |  72 | *
+   16 | 0 |  DVZEAET | DZETA          | 15K |  72 |  
+   17 | 0 | ETV+RWEV | EWE            |  F5 |  32 |  
+   18 | 0 | ERTVV+TC | YET            |  G5 |  31 |  
+   19 | 0 | CRTVV+UR | REVUE          | M11 |  30 |  
+   20 | 0 | CRTV+TUL | CRUEL          |  2F |  21 |  
 
-Game type: Duplicate
-Player 0: Computer
-Player 1: Computer
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  ?EBAAEF | FABAcEE         |  H4 |  80 | 0 | *
-    2 |  KEELIFE | KIEF            | 10F |  36 | 0 |  
-    3 | EEEL+IJX | FIXEE           |  4H |  34 | 0 |  
-    4 | EJL+RANS | JALES           |  J6 |  49 | 0 |  
-    5 | NR+OAHPU | HURON           |  5K |  28 | 0 |  
-    6 | AP+MOEIA | LIPOME          |  8J |  36 | 0 |  
-    7 | AA+SMOND | ADONNAMES       |  O1 |  86 | 0 | *
-    8 |  LEATCYL | CATLEYA         |  5B |  36 | 0 |  
-    9 | L+EARBHO | BROCHA          |  B2 |  42 | 0 |  
-   10 | EL+OSULA | ALLOUES         |  A6 |  81 | 0 | *
-   11 |  DSNIMEN | DEMIS           |  I1 |  28 | 0 |  
-   12 | INN+NQUS | QUINTS          |  D1 |  42 | 0 |  
-   13 | NN+IEUR? | MUNIRENt        |  N8 |  72 | 0 | *
-   14 |  ISITTIE | EDITS           |  1H |  21 | 0 |  
-   15 | IIT+NEOP | POTINIER        | 12G |  72 | 0 | *
-   16 |  DVZEAET | DZETA           | 15K |  72 | 0 |  
-   17 | ETV+RWEV | EWE             |  F5 |  32 | 0 |  
-   18 | ERTVV+TC | YET             |  G5 |  31 | 0 |  
-   19 | CRTVV+UR | REVUE           | M11 |  30 | 0 |  
-   20 | CRTV+TUL | CRUEL           |  2F |  21 | 0 |  
-
-   Total: 929
 
 Rack 0: TTV
 Rack 1: TTV
+Score 0:  929
+Score 1:  929
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   -  -  -  -  -  A  L  L  O  U  E  S  -  -  - 

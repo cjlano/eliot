@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _PUBLIC_GAME_H_
-#define _PUBLIC_GAME_H_
+#ifndef PUBLIC_GAME_H_
+#define PUBLIC_GAME_H_
 
 #include <string>
 
@@ -241,30 +241,15 @@ public:
      ***************/
 
     /**
-     * Possible formats for the saved games
+     * Return the loaded game, from an XML file.
+     * An exception is thrown in case of problem.
      */
-    enum GameFileFormat
-    {
-        kFILE_FORMAT_STANDARD,
-        kFILE_FORMAT_ADVANCED
-    };
+    static PublicGame * load(const string &iFileName, const Dictionary &iDic);
 
     /**
-     * load() returns the loaded game, or NULL if there was a problem
-     * load() does need some more work to be robust enough to
-     * handle "hand written" files
+     * Save a game to a XML file
      */
-    static PublicGame * load(FILE *fin, const Dictionary &iDic);
-
-    /**
-     * Save a game to a file
-     * Standard format is used for training games so that it is compatible
-     * with previous versions of Eliot.
-     *
-     * Saving can be forced to advanced format for training games by
-     * setting the last parameter to kFILE_FORMAT_ADVANCED
-     */
-    void save(ostream &out, GameFileFormat format = kFILE_FORMAT_STANDARD) const;
+    void save(const string &iFileName) const;
 
     /***************
      * Navigation in the game history

@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _HISTORY_H
-#define _HISTORY_H
+#ifndef HISTORY_H_
+#define HISTORY_H_
 
 #include <string>
 #include <vector>

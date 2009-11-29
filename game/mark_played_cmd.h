@@ -1,6 +1,6 @@
-/*******************************************************************
+/*****************************************************************************
  * Eliot
- * Copyright (C) 2008 Olivier Teulière
+ * Copyright (C) 2009 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -18,46 +18,36 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef PLAYER_MOVE_CMD_H_
-#define PLAYER_MOVE_CMD_H_
+#ifndef MARK_PLAYED_CMD_H_
+#define MARK_PLAYED_CMD_H_
 
 #include "command.h"
-#include "move.h"
-#include "pldrack.h"
 
-class Player;
-class Rack;
+class Duplicate;
 
 
 /**
- * This class implements the Command design pattern.
- * It encapsulates the logic to update the player state when a player
- * plays a move:
- *  - score update
- *  - rack update
- *  - player history update
- *
- * The Move validation must have been done before calling execute().
+ * Command used internally to change the "has played" flag of a player
+ * in a duplicate game.
  */
-class PlayerMoveCmd: public Command
+class MarkPlayedCmd: public Command
 {
     public:
-        PlayerMoveCmd(Player &ioPlayer, const Move &iMove);
+        MarkPlayedCmd(Duplicate &ioDuplicate,
+                      unsigned int iPlayerId,
+                      bool iPlayedFlag);
 
         virtual wstring toString() const;
-
-        // Getters
-        const Player & getPlayer() const { return m_player; }
-        const Move & getMove() const { return m_move; }
 
     protected:
         virtual void doExecute();
         virtual void doUndo();
 
     private:
-        Player &m_player;
-        Move m_move;
-        PlayedRack m_originalRack;
+        Duplicate &m_duplicateGame;
+        unsigned int m_playerId;
+        bool m_newPlayedFlag;
+        bool m_oldPlayedFlag;
 };
 
 #endif

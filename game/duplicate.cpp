@@ -42,6 +42,7 @@
 #include "player_move_cmd.h"
 #include "player_rack_cmd.h"
 #include "game_move_cmd.h"
+#include "mark_played_cmd.h"
 #include "ai_player.h"
 #include "settings.h"
 #include "debug.h"
@@ -254,9 +255,7 @@ void Duplicate::endTurn()
     }
 
     // Play the best word on the board
-    Command *pCmd = new GameMoveCmd(*this, bestMove,
-                                    bestPlayer->getLastRack(),
-                                    bestPlayer->getId());
+    Command *pCmd = new GameMoveCmd(*this, bestMove, bestPlayer->getId());
     accessNavigation().addAndExecute(pCmd);
 
     // Leave the same reliquate to all players
@@ -314,36 +313,4 @@ void Duplicate::setPlayedFlag(unsigned int iPlayerId, bool iNewFlag)
 
     m_hasPlayed[iPlayerId] = iNewFlag;
 }
-
-
-Duplicate::MarkPlayedCmd::MarkPlayedCmd(Duplicate &ioDuplicate,
-                             unsigned int iPlayerId,
-                             bool iPlayedFlag)
-    : m_duplicateGame(ioDuplicate), m_playerId(iPlayerId),
-      m_newPlayedFlag(iPlayedFlag)
-{
-}
-
-
-void Duplicate::MarkPlayedCmd::doExecute()
-{
-    m_oldPlayedFlag = m_duplicateGame.hasPlayed(m_playerId);
-    m_duplicateGame.setPlayedFlag(m_playerId, m_newPlayedFlag);
-}
-
-
-void Duplicate::MarkPlayedCmd::doUndo()
-{
-    m_duplicateGame.setPlayedFlag(m_playerId, m_oldPlayedFlag);
-}
-
-
-wstring Duplicate::MarkPlayedCmd::toString() const
-{
-    wostringstream oss;
-    oss << L"MarkPlayedCmd (player " << m_playerId
-        << L" marked " << m_newPlayedFlag << L")";
-    return oss.str();
-}
-
 

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _AI_PLAYER_H_
-#define _AI_PLAYER_H_
+#ifndef AI_PLAYER_H_
+#define AI_PLAYER_H_
 
 #include "player.h"
 

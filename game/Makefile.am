@@ -19,7 +19,7 @@
 
 noinst_LIBRARIES = libgame.a
 
-AM_CPPFLAGS = -I$(top_srcdir)/dic -I../intl -I$(top_srcdir)/intl @LIBCONFIG_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir)/dic -I../intl -I$(top_srcdir)/intl @LIBCONFIG_CFLAGS@ @ARABICA_CFLAGS@ @LIBXML2_CFLAGS@
 
 libgame_a_SOURCES= \
     game_exception.cpp game_exception.h \
@@ -50,10 +50,13 @@ libgame_a_SOURCES= \
     game_move_cmd.h game_move_cmd.cpp \
     turn_cmd.cpp turn_cmd.h \
     duplicate.cpp duplicate.h \
+    mark_played_cmd.h mark_played_cmd.cpp \
     freegame.cpp freegame.h \
     training.cpp training.h \
     public_game.cpp public_game.h \
     game_factory.cpp game_factory.h \
     game_io.cpp \
+    xml_writer.cpp xml_writer.h \
+    xml_reader.cpp xml_reader.h \
     debug.h
 

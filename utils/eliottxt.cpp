@@ -211,7 +211,6 @@ void helpTraining()
     printf("            l -- lettres non jouées\n");
     printf("            p -- partie\n");
     printf("            pd -- partie (debug)\n");
-    printf("            P -- partie (format standard)\n");
     printf("            r -- recherche\n");
     printf("            s -- score\n");
     printf("            S -- score de tous les joueurs\n");
@@ -244,7 +243,6 @@ void helpFreegame()
     printf("            j -- joueur courant\n");
     printf("            l -- lettres non jouées\n");
     printf("            p -- partie\n");
-    printf("            P -- partie (format standard)\n");
     printf("            s -- score\n");
     printf("            S -- score de tous les joueurs\n");
     printf("            t -- tirage\n");
@@ -269,7 +267,6 @@ void helpDuplicate()
     printf("            j -- joueur courant\n");
     printf("            l -- lettres non jouées\n");
     printf("            p -- partie\n");
-    printf("            P -- partie (format standard)\n");
     printf("            s -- score\n");
     printf("            S -- score de tous les joueurs\n");
     printf("            t -- tirage\n");
@@ -335,11 +332,13 @@ void displayData(const PublicGame &iGame, const vector<wstring> &tokens)
     else if (displayType == L"l")
         GameIO::printNonPlayed(cout, iGame);
     else if (displayType == L"p")
-        iGame.save(cout, PublicGame::kFILE_FORMAT_ADVANCED);
+    {
+        GameIO::printGameDebug(cout, iGame);
+        GameIO::printAllRacks(cout, iGame);
+        GameIO::printAllPoints(cout, iGame);
+    }
     else if (displayType == L"pd")
         GameIO::printGameDebug(cout, iGame);
-    else if (displayType == L"P")
-        iGame.save(cout, PublicGame::kFILE_FORMAT_STANDARD);
     else if (displayType == L"r")
     {
         const wstring &limit = checkNumToken(tokens, 2);
@@ -430,15 +429,15 @@ void commonCommands(PublicGame &iGame, const vector<wstring> &tokens)
         const wstring &word = checkFileNameToken(tokens, 1);
         if (word != L"")
         {
-            string filename = convertToMb(word);
-            ofstream fout(filename.c_str());
-            if (fout.rdstate() == ios::failbit)
+            try
             {
-                printf("impossible d'ouvrir %s\n", filename.c_str());
+                iGame.save(convertToMb(word));
+            }
+            catch (std::exception &e)
+            {
+                printf("Cannot save game to %ls: %s\n", word.c_str(), e.what());
                 return;
             }
-            iGame.save(fout);
-            fout.close();
         }
     }
 }
@@ -863,14 +862,9 @@ void mainLoop(const Dictionary &iDic)
                         if (wfileName != L"")
                         {
                             string filename = convertToMb(wfileName);
-                            Game *tmpGame = GameFactory::Instance()->load(filename, iDic);
-                            if (tmpGame == NULL)
+                            try
                             {
-                                printf("erreur pendant le chargement de la partie\n");
-                            }
-                            else
-                            {
-                                PublicGame *game = new PublicGame(*tmpGame);
+                                PublicGame *game = PublicGame::load(filename, iDic);
                                 switch (game->getMode())
                                 {
                                     case PublicGame::kTRAINING:
@@ -886,6 +880,11 @@ void mainLoop(const Dictionary &iDic)
                                 //GameFactory::Instance()->releaseGame(*game);
                                 delete game;
                             }
+                            catch (const std::exception &e)
+                            {
+                                string msg = string("Error loading the game: ") + e.what();
+                                printf("%s\n", msg.c_str());
+                            }
                         }
                     }
                     break;
@@ -893,6 +892,7 @@ void mainLoop(const Dictionary &iDic)
                     {
                         // New training game
                         Training *tmpGame = GameFactory::Instance()->createTraining(iDic);
+                        tmpGame->addPlayer(new HumanPlayer);
                         PublicGame *game = new PublicGame(*tmpGame);
                         // Set the variant
                         if (tokens[0].size() > 1)

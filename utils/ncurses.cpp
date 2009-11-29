@@ -30,7 +30,6 @@
 
 #include <ctype.h>
 #include <cstring> // For strlen
-#include <fstream>
 #include <algorithm>
 
 #include "ncurses.h"
@@ -614,20 +613,17 @@ void CursesIntf::saveGame(WINDOW *win, int y, int x)
     wstring filename;
     if (readString(win, y + 2, x + 2, 28, filename, kFILENAME))
     {
-        ofstream fout(convertToMb(filename).c_str());
         char s[100];
-        if (fout.rdstate() == ios::failbit)
+        try
         {
-            snprintf(s, 100, _("Cannot open file %ls for writing"),
-                     filename.c_str());
-            drawStatus(win, s);
-        }
-        else
-        {
-            m_game->save(fout, PublicGame::kFILE_FORMAT_ADVANCED);
-            fout.close();
+            m_game->save(convertToMb(filename));
             snprintf(s, 100, _("Game saved in '%ls'"), filename.c_str());
             drawStatus(win, s, false);
+        }
+        catch (std::exception &e)
+        {
+            snprintf(s, 100, _("Error saving game %s:"), e.what());
+            drawStatus(win, s);
         }
     }
     box.clear();
@@ -644,30 +640,19 @@ void CursesIntf::loadGame(WINDOW *win, int y, int x)
     wstring filename;
     if (readString(win, y + 2, x + 2, 28, filename, kFILENAME))
     {
-        char s[100];
-        FILE *fin;
-        if ((fin = fopen(convertToMb(filename).c_str(), "r")) == NULL)
+        try
         {
-            snprintf(s, 100, _("Cannot open file '%ls' for reading"),
-                     filename.c_str());
+            PublicGame *loaded = PublicGame::load(convertToMb(filename), m_game->getDic());
+            //GameFactory::Instance()->releaseGame(*m_game);
+            delete m_game;
+            m_game = loaded;
+            char s[100];
+            snprintf(s, 100, _("Game loaded"));
+            drawStatus(win, s, false);
         }
-        else
+        catch (const GameException &e)
         {
-            PublicGame *loaded = PublicGame::load(fin, m_game->getDic());
-            if (loaded == NULL)
-            {
-                snprintf(s, 100, _("Invalid saved game"));
-                drawStatus(win, s);
-            }
-            else
-            {
-                snprintf(s, 100, _("Game loaded"));
-                //GameFactory::Instance()->releaseGame(*m_game);
-                delete m_game;
-                m_game = loaded;
-                drawStatus(win, s, false);
-            }
-            fclose(fin);
+            drawStatus(win, _("Unable to load game: ") + string(e.what()));
         }
     }
     box.clear();

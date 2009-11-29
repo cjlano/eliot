@@ -9,26 +9,25 @@ ATNE??A
 commande> j XXX a1
 commande> j ay h8
 commande> a T
-Joueur 0: AAENTUL
-Joueur 1: AAENTUL
+Rack 0: AAENT+UL
+Rack 1: AAENT+UL
 commande> a S
-Joueur 0:    0
-Joueur 1:    0
+Score 0:    0
+Score 1:    0
 commande> a p
-Eliot 1.5
+Game: player 1 out of 2
+Game: mode=Duplicate
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 1 |  ATNE??A | ay             |  H8 |   0 |  
 
-Game type: Duplicate
-Player 0: Human
-Player 1: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  ATNE??A | ay              |  H8 |   0 | 1 |  
-
-   Total: 0
 
 Rack 0: AAENT+UL
 Rack 1: AAENT+UL
+Score 0:    0
+Score 1:    0
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 

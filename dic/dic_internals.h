@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _DIC_INTERNALS_H_
-#define _DIC_INTERNALS_H_
+#ifndef DIC_INTERNALS_H_
+#define DIC_INTERNALS_H_
 
 #include <stdint.h>
 #include "config.h"

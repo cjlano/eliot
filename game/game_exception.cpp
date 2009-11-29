@@ -40,3 +40,15 @@ EndGameException::EndGameException(const string &iMessage)
 {
 }
 
+
+LoadGameException::LoadGameException(const string &iMessage)
+    : GameException(iMessage)
+{
+}
+
+
+SaveGameException::SaveGameException(const string &iMessage)
+    : GameException(iMessage)
+{
+}
+

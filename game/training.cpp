@@ -48,9 +48,6 @@
 Training::Training(const Dictionary &iDic)
     : Game(iDic), m_results(1000)
 {
-    // Training mode implicitly uses 1 human player
-    Game::addPlayer(new HumanPlayer);
-    m_players[0]->setName(convertToWc(_("Training")));
 }
 
 
@@ -135,9 +132,7 @@ void Training::endTurn()
 
     // Play the word on the board
     const Move &move = m_players[m_currPlayer]->getLastMove();
-    Command *pCmd = new GameMoveCmd(*this, move,
-                                    getCurrentPlayer().getLastRack(),
-                                    m_currPlayer);
+    Command *pCmd = new GameMoveCmd(*this, move, m_currPlayer);
     accessNavigation().addAndExecute(pCmd);
     accessNavigation().newTurn();
 }
@@ -172,9 +167,11 @@ int Training::playResult(unsigned int n)
 
 void Training::addPlayer(Player *iPlayer)
 {
-    // Override the default behaviour to do nothing
-    // except releasing memory
-    delete iPlayer;
+    ASSERT(getNPlayers() == 0,
+           "Only one player can be added in Training mode");
+    // Force the name of the player
+    iPlayer->setName(convertToWc(_("Training")));
+    Game::addPlayer(iPlayer);
 }
 
 

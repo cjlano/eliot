@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _ENCODING_H_
-#define _ENCODING_H_
+#ifndef ENCODING_H_
+#define ENCODING_H_
 
 #include <string>
 
@@ -119,6 +119,16 @@ wstring readFromUTF8(const char *iBuffer, unsigned int iBufSize,
  */
 unsigned int writeInUTF8(const wstring &iWString, char *oBuffer,
                          unsigned int iBufSize, const string &iContext);
+
+/**
+ * Same as the other writeInUTF8 function, dealing with a string
+ * instead of a char*. Note that it performs an additional copy
+ * of the output string...
+ * @param iWString: the wide string to encode
+ * @param iContext: free text used in case of exception
+ * @return: the converted string
+ */
+string writeInUTF8(const wstring &iWString, const string &iContext);
 
 #endif
 

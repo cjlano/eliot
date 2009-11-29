@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #include <boost/foreach.hpp>
+#include <boost/format.hpp>
 
 #include <iomanip>
 #include <string>
@@ -32,8 +33,16 @@
 #include "results.h"
 #include "player.h"
 #include "encoding.h"
+#include "history.h"
+#include "turn.h"
+#include "move.h"
+#include "round.h"
 
 using namespace std;
+
+using boost::format;
+using boost::wformat;
+
 
 #define __UNUSED__ __attribute__((unused))
 
@@ -210,8 +219,8 @@ void GameIO::printAllRacks(ostream &out, const PublicGame &iGame)
 {
     for (unsigned int j = 0; j < iGame.getNbPlayers(); j++)
     {
-        out << "Joueur " << j << ": ";
-        out << convertToMb(iGame.getPlayer(j).getCurrentRack().toString(PlayedRack::RACK_SIMPLE)) << endl;
+        out << "Rack " << j << ": ";
+        out << convertToMb(iGame.getPlayer(j).getCurrentRack().toString(PlayedRack::RACK_EXTRA)) << endl;
     }
 }
 
@@ -220,7 +229,7 @@ static void searchResultLine(ostream &out, const Results &iResults, int num)
 {
     const Round &r = iResults.get(num);
     const wstring &word = r.getWord();
-    if (word.size() == 0)
+    if (word.empty())
         return;
     out << convertToMb(word) << string(16 - word.size(), ' ')
         << (r.getBonus() ? '*' : ' ')
@@ -250,7 +259,7 @@ void GameIO::printAllPoints(ostream &out, const PublicGame &iGame)
 {
     for (unsigned int i = 0; i < iGame.getNbPlayers(); i++)
     {
-        out << "Joueur " << i << ": "
+        out << "Score " << i << ": "
             << setw(4) << iGame.getPlayer(i).getPoints() << endl;
     }
 }
@@ -258,24 +267,59 @@ void GameIO::printAllPoints(ostream &out, const PublicGame &iGame)
 
 void GameIO::printGameDebug(ostream &out, const PublicGame &iGame)
 {
-    out << "Game:: joueur en cours " << iGame.getCurrentPlayer().getId()
-        << " sur " << iGame.getNbPlayers() << endl;
-    out << "Game:: mode " << iGame.getModeAsString() << endl;
-    out << "Game:: variante ";
+    out << "Game: player " << iGame.getCurrentPlayer().getId() + 1
+        << " out of " << iGame.getNbPlayers() << endl;
+    out << "Game: mode=" << iGame.getModeAsString() << endl;
+    out << "Game: variant=";
     switch (iGame.getVariant())
     {
-        case PublicGame::kNONE:
-            out << "aucune" << endl;
+        case PublicGame::kEXPLOSIVE:
+            out << "explosive" << endl;
             break;
         case PublicGame::kJOKER:
             out << "joker" << endl;
             break;
         default:
-            out << "inconnu" << endl;
+            out << "unknown" << endl;
             break;
     }
-    out << "Game:: history --" << endl;
-    out << convertToMb(iGame.getHistory().toString());
-    out << "--" << endl;
-    out << "" << endl;
+    out << "Game: history:" << endl;
+    out << "    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS" << endl;
+    out << "   ===|===|==========|================|=====|=====|======" << endl;
+    for (unsigned int i = 0; i < iGame.getHistory().getSize(); ++i)
+    {
+        const Turn &turn = iGame.getHistory().getTurn(i);
+        const Move &move = turn.getMove();
+        format fmter("%1% | %2% | %3% | %4% | %5% | %6% | %7%");
+        fmter % padAndConvert(str(wformat(L"%1%") % (i + 1)), 5);
+        fmter % padAndConvert(str(wformat(L"%1%") % turn.getPlayer()), 1);
+        fmter % padAndConvert(turn.getPlayedRack().toString(), 8);
+        if (move.getType() == Move::VALID_ROUND)
+        {
+            const Round &round = move.getRound();
+            fmter % padAndConvert(round.getWord(), 14, false);
+            fmter % padAndConvert(round.getCoord().toString(), 3);
+            fmter % padAndConvert(str(wformat(L"%1%") % round.getPoints()), 3);
+            fmter % padAndConvert(round.getBonus() ? L"*": L"", 1, false);
+        }
+        else
+        {
+            if (move.getType() == Move::INVALID_WORD)
+            {
+                fmter % padAndConvert(L"#" + move.getBadWord() + L"#", 14, false);
+                fmter % padAndConvert(move.getBadCoord(), 3);
+            }
+            else if (move.getType() == Move::CHANGE_LETTERS)
+            {
+                fmter % padAndConvert(L"[" + move.getChangedLetters() + L"]", 14, false) % " - ";
+            }
+            else
+            {
+                fmter % padAndConvert(L"(PASS)", 14, false) % " - ";
+            }
+            fmter % "  0" % " ";
+        }
+        out << fmter.str() << endl;
+    }
+    out << endl << endl;
 }

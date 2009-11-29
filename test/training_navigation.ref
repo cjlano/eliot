@@ -36,20 +36,19 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
+    3 | 0 | ORSU+SCD | SOURDS         |  J6 |  30 |  
 
-Game type: Training
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  SEUTISG | GITES           |  H4 |  16 | 0 |  
-    2 | SU+XULRO | LUX             |  I5 |  47 | 0 |  
-    3 | ORSU+SCD | SOURDS          |  J6 |  30 | 0 |  
-
-   Total: 93
 
 Rack 0: C
+Score 0:   93
 commande> h n
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -69,20 +68,19 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
+    3 | 0 | ORSU+SCD | SOURDS         |  J6 |  30 |  
 
-Game type: Training
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  SEUTISG | GITES           |  H4 |  16 | 0 |  
-    2 | SU+XULRO | LUX             |  I5 |  47 | 0 |  
-    3 | ORSU+SCD | SOURDS          |  J6 |  30 | 0 |  
-
-   Total: 93
 
 Rack 0: C
+Score 0:   93
 commande> h p
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -102,19 +100,18 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
 
-Game type: Training
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  SEUTISG | GITES           |  H4 |  16 | 0 |  
-    2 | SU+XULRO | LUX             |  I5 |  47 | 0 |  
-
-   Total: 63
 
 Rack 0: ORSU
+Score 0:   63
 commande> h p
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -134,18 +131,17 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
 
-Game type: Training
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  SEUTISG | GITES           |  H4 |  16 | 0 |  
-
-   Total: 16
 
 Rack 0: SU
+Score 0:   16
 commande> h p
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -165,17 +161,16 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
 
-Game type: Training
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-
-   Total: 0
 
 Rack 0: 
+Score 0:    0
 commande> h l
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -195,20 +190,19 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
+    3 | 0 | ORSU+SCD | SOURDS         |  J6 |  30 |  
 
-Game type: Training
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  SEUTISG | GITES           |  H4 |  16 | 0 |  
-    2 | SU+XULRO | LUX             |  I5 |  47 | 0 |  
-    3 | ORSU+SCD | SOURDS          |  J6 |  30 | 0 |  
-
-   Total: 93
 
 Rack 0: C
+Score 0:   93
 commande> +
 commande> a t
 C?BETNL
@@ -237,20 +231,19 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
+    3 | 0 | ORSU+SCD | SOURDS         |  J6 |  30 |  
 
-Game type: Training
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  SEUTISG | GITES           |  H4 |  16 | 0 |  
-    2 | SU+XULRO | LUX             |  I5 |  47 | 0 |  
-    3 | ORSU+SCD | SOURDS          |  J6 |  30 | 0 |  
-
-   Total: 93
 
 Rack 0: C
+Score 0:   93
 commande> +
 Cannot add a command to an old turn
 commande> h f
@@ -272,17 +265,16 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
 
-Game type: Training
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-
-   Total: 0
 
 Rack 0: 
+Score 0:    0
 commande> h n
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -302,18 +294,17 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
 
-Game type: Training
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  SEUTISG | GITES           |  H4 |  16 | 0 |  
-
-   Total: 16
 
 Rack 0: SU
+Score 0:   16
 commande> h n
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -333,19 +324,18 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
 
-Game type: Training
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  SEUTISG | GITES           |  H4 |  16 | 0 |  
-    2 | SU+XULRO | LUX             |  I5 |  47 | 0 |  
-
-   Total: 63
 
 Rack 0: ORSU
+Score 0:   63
 commande> *
 Cannot add a command to an old turn
 commande> +
@@ -376,20 +366,19 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
+    3 | 0 |    HELLO | OHE            |  J7 |  18 |  
 
-Game type: Training
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  SEUTISG | GITES           |  H4 |  16 | 0 |  
-    2 | SU+XULRO | LUX             |  I5 |  47 | 0 |  
-    3 |    HELLO | OHE             |  J7 |  18 | 0 |  
-
-   Total: 81
 
 Rack 0: LL
+Score 0:   81
 commande> q
 fin du mode entraînement
 commande> q

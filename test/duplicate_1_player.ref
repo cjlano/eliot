@@ -4,15 +4,15 @@ commande> d 1 0
 mode duplicate
 [?] pour l'aide
 commande> a T
-Joueur 0: UAXEHTS
+Rack 0: UAXEHTS
 commande> j SEAUX H8
 commande> a S
-Joueur 0:   48
+Score 0:   48
 commande> a T
-Joueur 0: HTIUONU
+Rack 0: HT+IUONU
 commande> j HUTIN i9
 commande> a S
-Joueur 0:   85
+Score 0:   85
 commande> a t
 OUNEUNE
 commande> a g
@@ -33,19 +33,18 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Duplicate
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  UAXEHTS | SEAUX          |  H8 |  48 |  
+    2 | 0 | HT+IUONU | HUTIN          |  I9 |  37 |  
 
-Game type: Duplicate
-Player 0: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  UAXEHTS | SEAUX           |  H8 |  48 | 0 |  
-    2 | HT+IUONU | HUTIN           |  I9 |  37 | 0 |  
-
-   Total: 85
 
 Rack 0: OU+NEUNE
+Score 0:   85
 commande> q
 fin du mode duplicate
 commande> q

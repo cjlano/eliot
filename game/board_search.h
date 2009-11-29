@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _BOARD_SEARCH_H_
-#define _BOARD_SEARCH_H_
+#ifndef BOARD_SEARCH_H_
+#define BOARD_SEARCH_H_
 
 #include "coord.h"
 #include "matrix.h"

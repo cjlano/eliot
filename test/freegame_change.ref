@@ -4,46 +4,45 @@ commande> l 2 0
 mode partie libre
 [?] pour l'aide
 commande> a T
-Joueur 0: JNNEDEI
-Joueur 1: TLAEOWA
+Rack 0: JNNEDEI
+Rack 1: TLAEOWA
 commande> p JID
 commande> a T
-Joueur 0: EENNMEN
-Joueur 1: TLAEOWA
+Rack 0: EENN+MEN
+Rack 1: TLAEOWA
 commande> p aowalt
 commande> a T
-Joueur 0: EENNMEN
-Joueur 1: EEEGAIS
+Rack 0: EENN+MEN
+Rack 1: E+EEGAIS
 commande> p MA
 commande> a T
-Joueur 0: EENNMEN
-Joueur 1: EEEGAIS
+Rack 0: EENN+MEN
+Rack 1: E+EEGAIS
 commande> p MN
 commande> a T
-Joueur 0: EEENNER
-Joueur 1: EEEGAIS
+Rack 0: EEENN+ER
+Rack 1: E+EEGAIS
 commande> p SGEEEAI
 commande> a T
-Joueur 0: EEENNER
-Joueur 1: HAAUAUO
+Rack 0: EEENN+ER
+Rack 1: HAAUAUO
 commande> a p
-Eliot 1.5
+Game: player 1 out of 2
+Game: mode=Free game
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  JNNEDEI | [JID]          |  -  |   0 |  
+    2 | 1 |  TLAEOWA | [AOWALT]       |  -  |   0 |  
+    3 | 0 | EENN+MEN | [MN]           |  -  |   0 |  
+    4 | 1 | E+EEGAIS | [SGEEEAI]      |  -  |   0 |  
 
-Game type: Free game
-Player 0: Human
-Player 1: Human
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  JNNEDEI | (-JID)          |  -  |   0 | 0 |
-    2 |  TLAEOWA | (-AOWALT)       |  -  |   0 | 1 |
-    3 | EENN+MEN | (-MN)           |  -  |   0 | 0 |
-    4 | E+EEGAIS | (-SGEEEAI)      |  -  |   0 | 1 |
-
-   Total: 0
 
 Rack 0: EEENN+ER
 Rack 1: HAAUAUO
+Score 0:    0
+Score 1:    0
 commande> q
 fin du mode partie libre
 commande> q

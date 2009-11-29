@@ -4,8 +4,8 @@ commande> lj 1 1
 mode partie libre
 [?] pour l'aide
 commande> a T
-Joueur 0: ?AAUGOE
-Joueur 1: EP?TFTI
+Rack 0: ?AAUGOE
+Rack 1: EP?TFTI
 commande> p
 commande> p
 commande> p
@@ -32,29 +32,28 @@ commande> a l
  A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
  6 0 1 2 11 1 2 2 6 1 1 5 2 5 5 1 1 3 4 4 5 1 0 1 1 1 2
 commande> a p
-Eliot 1.5
+Game: player 1 out of 2
+Game: mode=Free game
+Game: variant=joker
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  ?AAUGOE | (PASS)         |  -  |   0 |  
+    2 | 1 |  EP?TFTI | FrIPE          |  H4 |  26 |  
+    3 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    4 | 1 | TT+EB?AN | BATEReNT       |  5D |  86 | *
+    5 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    6 | 1 |  RCWV?AB | WeB            |  9G |  36 |  
+    7 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    8 | 1 | ACRV+SA? | VAiNCRAS       |  J2 |  91 | *
+    9 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+   10 | 1 |  USOM?DM | MOrDUS         | 10C |  34 |  
 
-Game type: Free game
-Player 0: Human
-Player 1: Computer
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  ?AAUGOE | (PASS)          |  -  |   0 | 0 |
-    2 |  EP?TFTI | FrIPE           |  H4 |  26 | 1 |  
-    3 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-    4 | TT+EB?AN | BATEReNT        |  5D |  86 | 1 | *
-    5 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-    6 |  RCWV?AB | WeB             |  9G |  36 | 1 |  
-    7 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-    8 | ACRV+SA? | VAiNCRAS        |  J2 |  91 | 1 | *
-    9 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-   10 |  USOM?DM | MOrDUS          | 10C |  34 | 1 |  
-
-   Total: 273
 
 Rack 0: AAEGOU?
 Rack 1: M+EEOSQ?
+Score 0:    0
+Score 1:  273
 commande> j VExA 2J
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -74,8 +73,8 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a T
-Joueur 0: AGOU?HD
-Joueur 1: IRLF?DN
+Rack 0: AGOU+?HD
+Rack 1: IRLF?DN
 commande> a l
  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
  5 0 1 2 8 1 2 2 6 1 1 5 1 5 4 1 0 3 3 4 4 1 0 0 1 1 2
@@ -98,42 +97,41 @@ commande> a g
  N   L  I  N  D  O  R  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a T
-Joueur 0: ADGHUVC
-Joueur 1: FUI?ONL
+Rack 0: ADGHU+VC
+Rack 1: F+UI?ONL
 commande> a l
  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
  5 0 1 1 8 1 2 2 5 1 1 4 1 4 2 1 0 2 3 4 4 1 0 0 1 1 1
 commande> p
 commande> a p
-Eliot 1.5
+Game: player 1 out of 2
+Game: mode=Free game
+Game: variant=joker
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  ?AAUGOE | (PASS)         |  -  |   0 |  
+    2 | 1 |  EP?TFTI | FrIPE          |  H4 |  26 |  
+    3 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    4 | 1 | TT+EB?AN | BATEReNT       |  5D |  86 | *
+    5 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    6 | 1 |  RCWV?AB | WeB            |  9G |  36 |  
+    7 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    8 | 1 | ACRV+SA? | VAiNCRAS       |  J2 |  91 | *
+    9 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+   10 | 1 |  USOM?DM | MOrDUS         | 10C |  34 |  
+   11 | 0 |  AAEGOU? | VExA           |  2J |   6 |  
+   12 | 1 | M+EEOSQ? | MORESQuE       |  E8 |  80 | *
+   13 | 0 | AGOU+?HD | ExO            | 15E |   2 |  
+   14 | 1 |  IRLF?DN | LINDoR         |  N1 |  50 |  
+   15 | 0 | ADGHU+VC | (PASS)         |  -  |   0 |  
+   16 | 1 | F+UI?ONL | FLIQUONs       | 13B |  86 | *
 
-Game type: Free game
-Player 0: Human
-Player 1: Computer
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  ?AAUGOE | (PASS)          |  -  |   0 | 0 |
-    2 |  EP?TFTI | FrIPE           |  H4 |  26 | 1 |  
-    3 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-    4 | TT+EB?AN | BATEReNT        |  5D |  86 | 1 | *
-    5 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-    6 |  RCWV?AB | WeB             |  9G |  36 | 1 |  
-    7 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-    8 | ACRV+SA? | VAiNCRAS        |  J2 |  91 | 1 | *
-    9 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-   10 |  USOM?DM | MOrDUS          | 10C |  34 | 1 |  
-   11 |  AAEGOU? | VExA            |  2J |   6 | 0 |  
-   12 | M+EEOSQ? | MORESQuE        |  E8 |  80 | 1 | *
-   13 | AGOU+?HD | ExO             | 15E |   2 | 0 |  
-   14 |  IRLF?DN | LINDoR          |  N1 |  50 | 1 |  
-   15 | ADGHU+VC | (PASS)          |  -  |   0 | 0 |
-   16 | F+UI?ONL | FLIQUONs        | 13B |  86 | 1 | *
-
-   Total: 497
 
 Rack 0: ACDGHUV
 Rack 1: EATLZL?
+Score 0:    8
+Score 1:  489
 commande> a l
  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
  5 0 1 1 8 0 2 2 4 1 1 3 1 3 1 1 0 2 2 4 3 1 0 0 1 1 1
@@ -156,30 +154,29 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 2 out of 2
+Game: mode=Free game
+Game: variant=joker
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  ?AAUGOE | (PASS)         |  -  |   0 |  
+    2 | 1 |  EP?TFTI | FrIPE          |  H4 |  26 |  
+    3 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    4 | 1 | TT+EB?AN | BATEReNT       |  5D |  86 | *
+    5 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    6 | 1 |  RCWV?AB | WeB            |  9G |  36 |  
+    7 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    8 | 1 | ACRV+SA? | VAiNCRAS       |  J2 |  91 | *
+    9 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+   10 | 1 |  USOM?DM | MOrDUS         | 10C |  34 |  
+   11 | 0 |  AAEGOU? | VExA           |  2J |   6 |  
 
-Game type: Free game
-Player 0: Human
-Player 1: Computer
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  ?AAUGOE | (PASS)          |  -  |   0 | 0 |
-    2 |  EP?TFTI | FrIPE           |  H4 |  26 | 1 |  
-    3 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-    4 | TT+EB?AN | BATEReNT        |  5D |  86 | 1 | *
-    5 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-    6 |  RCWV?AB | WeB             |  9G |  36 | 1 |  
-    7 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-    8 | ACRV+SA? | VAiNCRAS        |  J2 |  91 | 1 | *
-    9 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-   10 |  USOM?DM | MOrDUS          | 10C |  34 | 1 |  
-   11 |  AAEGOU? | VExA            |  2J |   6 | 0 |  
-
-   Total: 279
 
 Rack 0: AGOU+?HD
 Rack 1: M+EEOSQ?
+Score 0:    6
+Score 1:  273
 commande> a l
  A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
  5 0 1 2 10 1 2 2 6 1 1 5 2 5 5 1 1 3 4 4 5 1 0 0 1 1 2
@@ -202,29 +199,28 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 2
+Game: mode=Free game
+Game: variant=joker
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  ?AAUGOE | (PASS)         |  -  |   0 |  
+    2 | 1 |  EP?TFTI | FrIPE          |  H4 |  26 |  
+    3 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    4 | 1 | TT+EB?AN | BATEReNT       |  5D |  86 | *
+    5 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    6 | 1 |  RCWV?AB | WeB            |  9G |  36 |  
+    7 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    8 | 1 | ACRV+SA? | VAiNCRAS       |  J2 |  91 | *
+    9 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
+   10 | 1 |  USOM?DM | MOrDUS         | 10C |  34 |  
 
-Game type: Free game
-Player 0: Human
-Player 1: Computer
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  ?AAUGOE | (PASS)          |  -  |   0 | 0 |
-    2 |  EP?TFTI | FrIPE           |  H4 |  26 | 1 |  
-    3 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-    4 | TT+EB?AN | BATEReNT        |  5D |  86 | 1 | *
-    5 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-    6 |  RCWV?AB | WeB             |  9G |  36 | 1 |  
-    7 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-    8 | ACRV+SA? | VAiNCRAS        |  J2 |  91 | 1 | *
-    9 |  AAEGOU? | (PASS)          |  -  |   0 | 0 |
-   10 |  USOM?DM | MOrDUS          | 10C |  34 | 1 |  
-
-   Total: 273
 
 Rack 0: AAEGOU?
 Rack 1: M+EEOSQ?
+Score 0:    0
+Score 1:  273
 commande> a l
  A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
  6 0 1 2 11 1 2 2 6 1 1 5 2 5 5 1 1 3 4 4 5 1 0 1 1 1 2

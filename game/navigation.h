@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _NAVIGATION_H
-#define _NAVIGATION_H
+#ifndef NAVIGATION_H_
+#define NAVIGATION_H_
 
 #include <vector>
 
@@ -52,6 +52,8 @@ class Navigation
          * becoming the last one.
          */
         void clearFuture();
+
+        const vector<TurnCmd *> & getCommands() const;
 
         /**
          * Print the contents of the commands history, to ease debugging

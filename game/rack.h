@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _RACK_H_
-#define _RACK_H_
+#ifndef RACK_H_
+#define RACK_H_
 
 #include <vector>
 #include <string>

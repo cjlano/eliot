@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _PLAYER_POINTS_CMD_H
-#define _PLAYER_POINTS_CMD_H
+#ifndef PLAYER_POINTS_CMD_H_
+#define PLAYER_POINTS_CMD_H_
 
 #include "command.h"
 
@@ -36,6 +36,10 @@ class PlayerPointsCmd: public Command
         PlayerPointsCmd(Player &ioPlayer, int iPoints);
 
         virtual wstring toString() const;
+
+        // Getters
+        const Player & getPlayer() const { return m_player; }
+        int getPoints() const { return m_points; }
 
     protected:
         virtual void doExecute();

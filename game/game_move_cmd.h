@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _GAME_MOVE_CMD_H
-#define _GAME_MOVE_CMD_H
+#ifndef GAME_MOVE_CMD_H_
+#define GAME_MOVE_CMD_H_
 
 #include "command.h"
 #include "move.h"
@@ -44,10 +44,13 @@ class GameMoveCmd: public Command
 {
     public:
         GameMoveCmd(Game &ioGame, const Move &iMove,
-                    const PlayedRack &iMoveRack,
                     unsigned int iPlayerId);
 
         virtual wstring toString() const;
+
+        // Getters
+        const Move & getMove() const { return m_move; }
+        unsigned int getPlayerId() const { return m_playerId; }
 
     protected:
         virtual void doExecute();

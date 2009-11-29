@@ -80,7 +80,7 @@ eliot_SOURCES = \
     main.cpp
 eliot_SOURCES += $(BUILT_SOURCES)
 
-eliot_LDADD = ../game/libgame.a ../dic/libdic.a @QT_LIBS@ @LIBINTL@ @LIBCONFIG_LIBS@
+eliot_LDADD = ../game/libgame.a ../dic/libdic.a @QT_LIBS@ @LIBINTL@ @LIBCONFIG_LIBS@ @ARABICA_LIBS@
 
 # Generate a cpp file from the resources
 resources.cpp: eliot.qrc $(RESOURCES)

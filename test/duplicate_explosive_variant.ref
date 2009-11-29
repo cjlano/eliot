@@ -21,36 +21,35 @@ commande> a g
  N   -  -  -  U  -  -  -  I  -  V  I  D  E  R  - 
  O   F  A  U  X  -  -  -  S  -  -  -  E  -  -  - 
 commande> a p
-Eliot 1.5
+Game: player 1 out of 1
+Game: mode=Duplicate
+Game: variant=explosive
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  HSGPYEL | GLYPHES        |  H2 | 114 | *
+    2 | 0 |  OIAWEFR | FERIA          |  1D | 105 |  
+    3 | 0 | OW+HGBAE | BOGHEY         |  4C |  42 |  
+    4 | 0 | AW+EDESK | KWAS           |  2B |  51 |  
+    5 | 0 | DEE+PISA | SPEEDAIS       |  8H |  89 | *
+    6 | 0 |  OAADEIR | WEBRADIO       |  C2 |  46 |  
+    7 | 0 | A+ZTTNUE | ATTENUEZ       |  K5 | 118 | *
+    8 | 0 |  CEUIELN | GENICULE       |  E4 |  94 | *
+    9 | 0 |  TVIRETR | TREVIRAT       |  M2 |  76 | *
+   10 | 0 |  CSN?UXN | CEUX           |  4L |  50 |  
+   11 | 0 | NNS?+LOT | PLaNTONS       |  I8 |  61 | *
+   12 | 0 |  ?OUANAF | FAUX           |  O1 |  48 |  
+   13 | 0 | ANO?+RTI | NOTeRAIT       | 12B |  77 | *
+   14 | 0 |  MLIEDNO | ZOIDE          | 12K |  32 |  
+   15 | 0 | LMN+AUSE | SUA            |  I4 |  34 |  
+   16 | 0 | ELMN+ARE | LAINEE         | H10 |  31 |  
+   17 | 0 | MR+IVMEL | VIDER          | N10 |  34 |  
+   18 | 0 | LMM+QUEJ | JAUNE          |  6B |  30 |  
+   19 | 0 | LMMQ+OSM | MOS            | 10A |  27 |  
 
-Game type: Duplicate
-Player 0: Computer
-
-    N |   RACK   |    SOLUTION     | REF | PTS | P | BONUS
-   ===|==========|=================|=====|=====|===|======
-    1 |  HSGPYEL | GLYPHES         |  H2 | 114 | 0 | *
-    2 |  OIAWEFR | FERIA           |  1D | 105 | 0 |  
-    3 | OW+HGBAE | BOGHEY          |  4C |  42 | 0 |  
-    4 | AW+EDESK | KWAS            |  2B |  51 | 0 |  
-    5 | DEE+PISA | SPEEDAIS        |  8H |  89 | 0 | *
-    6 |  OAADEIR | WEBRADIO        |  C2 |  46 | 0 |  
-    7 | A+ZTTNUE | ATTENUEZ        |  K5 | 118 | 0 | *
-    8 |  CEUIELN | GENICULE        |  E4 |  94 | 0 | *
-    9 |  TVIRETR | TREVIRAT        |  M2 |  76 | 0 | *
-   10 |  CSN?UXN | CEUX            |  4L |  50 | 0 |  
-   11 | NNS?+LOT | PLaNTONS        |  I8 |  61 | 0 | *
-   12 |  ?OUANAF | FAUX            |  O1 |  48 | 0 |  
-   13 | ANO?+RTI | NOTeRAIT        | 12B |  77 | 0 | *
-   14 |  MLIEDNO | ZOIDE           | 12K |  32 | 0 |  
-   15 | LMN+AUSE | SUA             |  I4 |  34 | 0 |  
-   16 | ELMN+ARE | LAINEE          | H10 |  31 | 0 |  
-   17 | MR+IVMEL | VIDER           | N10 |  34 | 0 |  
-   18 | LMM+QUEJ | JAUNE           |  6B |  30 | 0 |  
-   19 | LMMQ+OSM | MOS             | 10A |  27 | 0 |  
-
-   Total: 1159
 
 Rack 0: LMMQ
+Score 0: 1159
 commande> q
 fin du mode duplicate
 commande> q

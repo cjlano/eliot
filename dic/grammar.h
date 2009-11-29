@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _GRAMMAR_H_
-#define _GRAMMAR_H_
+#ifndef GRAMMAR_H_
+#define GRAMMAR_H_
 
 class Dictionary;
 class Node;

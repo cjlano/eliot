@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef _CROSS_H_
-#define _CROSS_H_
+#ifndef CROSS_H_
+#define CROSS_H_
 
 #include <set>
 #include "tile.h"

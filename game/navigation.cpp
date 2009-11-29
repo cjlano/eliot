@@ -172,12 +172,18 @@ void Navigation::clearFuture()
 }
 
 
+const vector<TurnCmd *> & Navigation::getCommands() const
+{
+    return m_turnCommands;
+}
+
+
 void Navigation::print() const
 {
     cout << "=== Commands history ===" << endl;
-    cout << "Current position right after turn " << m_currTurn  - 1<< endl;
+    cout << "Current position right after turn " << m_currTurn  - 1 << endl;
     int index = 0;
-    BOOST_FOREACH(Command *c, m_turnCommands)
+    BOOST_FOREACH(const Command *c, m_turnCommands)
     {
         cout << index << " " << convertToMb(c->toString()) << endl;
         ++index;

@@ -24,11 +24,13 @@
 #include "player.h"
 #include "game.h"
 #include "rack.h"
+#include "turn.h"
 
 
 GameMoveCmd::GameMoveCmd(Game &ioGame, const Move &iMove,
-                         const PlayedRack &iMoveRack, unsigned int iPlayerId)
-    : m_game(ioGame), m_move(iMove), m_moveRack(iMoveRack),
+                         unsigned int iPlayerId)
+    : m_game(ioGame), m_move(iMove),
+    m_moveRack(ioGame.getPlayer(iPlayerId).getHistory().getPreviousTurn().getPlayedRack()),
     m_playerId(iPlayerId)
 {
 }
