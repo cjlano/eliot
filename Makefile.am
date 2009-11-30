@@ -7,6 +7,8 @@ WIN32_PACKAGE_DIR = $(top_builddir)/eliot-$(VERSION)
 
 .PHONY: package-win32-zip
 
+EXTRA_DIST = COPYING.arabica
+
 package-win32-zip:
 # Check that the working directory is not already there
 	@if test -e $(WIN32_PACKAGE_DIR); then \
@@ -30,7 +32,7 @@ package-win32-zip:
 	cp $(QT4LOCALEDIR)/*.qm $(WIN32_PACKAGE_DIR)/locale/qt4/ || true
 
 # Copy relevant text files
-	for i in AUTHORS COPYING NEWS THANKS; do \
+	for i in AUTHORS COPYING COPYING.arabica NEWS THANKS; do \
 		cp $(top_srcdir)/$$i $(WIN32_PACKAGE_DIR)/$$i.txt; \
 		unix2dos $(WIN32_PACKAGE_DIR)/$$i.txt; \
 	done
