@@ -7,6 +7,7 @@ ARABICA_VERSION = 2009-march
 
 
 PREFIX = $(shell pwd)/inst
+PREFIX_FLAG = $(PREFIX)/.flag
 WGET = wget -c
 
 # XXX: Hardcoded for mingw on linux, at the moment
@@ -17,114 +18,127 @@ CONFIGURE = CC="$(CC)" CXX="$(CXX)" CPPFLAGS="$(CPPFLAGS)" ./configure --host=i5
 
 .PHONY: help all
 
-all: .iconv .boost .qt .libconfig
+all: .iconv .boost .qt .libconfig .libxml2 .arabica
 
 help:
 	@echo "Usage: make all"
 
+$(PREFIX_FLAG):
+	mkdir -p $(PREFIX)
+	touch $@
 
-$(PREFIX):
-	mkdir -p $@
 
 ### iconv ###
 
 ICONV_DIR = libiconv-$(ICONV_VERSION)
+ICONV_DIR_FLAG = $(ICONV_DIR)/.flag
 ICONV_ARCHIVE = libiconv-$(ICONV_VERSION).tar.gz
 
-$(ICONV_ARCHIVE): $(PREFIX)
+$(ICONV_ARCHIVE): $(PREFIX_FLAG)
 	$(WGET) http://ftp.gnu.org/pub/gnu/libiconv/$@
 
-$(ICONV_DIR): $(ICONV_ARCHIVE)
+$(ICONV_DIR_FLAG): $(ICONV_ARCHIVE)
 	tar xzf $<
+	touch $@
 
-.iconv: $(ICONV_DIR)
-	(cd $< && $(CONFIGURE) --enable-static --disable-shared && make && make install)
+.iconv: $(ICONV_DIR_FLAG)
+	(cd $(ICONV_DIR) && $(CONFIGURE) --enable-static --disable-shared && make && make install)
 	touch $@
 
 
 ### libconfig ###
 
 LIBCONFIG_DIR = libconfig-$(LIBCONFIG_VERSION)
+LIBCONFIG_DIR_FLAG = $(LIBCONFIG_DIR)/.flag
 LIBCONFIG_ARCHIVE = libconfig-$(LIBCONFIG_VERSION).tar.gz
 
-$(LIBCONFIG_ARCHIVE): $(PREFIX)
+$(LIBCONFIG_ARCHIVE): $(PREFIX_FLAG)
 	$(WGET) http://www.hyperrealm.com/libconfig/$@
 
-$(LIBCONFIG_DIR): $(LIBCONFIG_ARCHIVE)
+$(LIBCONFIG_DIR_FLAG): $(LIBCONFIG_ARCHIVE)
 	tar xvf $<
+	touch $@
 
-.libconfig: $(LIBCONFIG_DIR)
-	(cd $< && CFLAGS=-DLIBCONFIG_STATIC CXXFLAGS=-DLIBCONFIG_STATIC $(CONFIGURE) --enable-static --disable-shared && make && make install)
+.libconfig: $(LIBCONFIG_DIR_FLAG)
+	(cd $(LIBCONFIG_DIR) && CFLAGS=-DLIBCONFIG_STATIC CXXFLAGS=-DLIBCONFIG_STATIC $(CONFIGURE) --enable-static --disable-shared && make && make install)
 	touch $@
 
 
 ### Boost ###
 
 BOOST_DIR = boost_$(BOOST_VERSION)
+BOOST_DIR_FLAG = $(BOOST_DIR)/.flag
 BOOST_ARCHIVE = boost_$(BOOST_VERSION).tar.bz2
 
-$(BOOST_ARCHIVE): $(PREFIX)
+$(BOOST_ARCHIVE): $(PREFIX_FLAG)
 	$(WGET) http://garr.dl.sourceforge.net/sourceforge/boost/$@
 
-$(BOOST_DIR): $(BOOST_ARCHIVE)
+$(BOOST_DIR_FLAG): $(BOOST_ARCHIVE)
 	tar xjf $<
+	touch $@
 
 # We don't build any library, because we don't need them (and it is really
 # hard to cross-compile with their crappy build system)
-.boost: $(BOOST_DIR)
-	#(cd $< && ./configure --prefix=$(PREFIX) && ./tools/jam/src/bin.linuxx86/bjam --toolset=gcc --prefix=$(PREFIX) --without-date_time --without-filesystem --without-graph --without-iostreams --without-program_options --without-python --without-regex --without-serialization --without-signals --without-test --without-thread --without-wave install)
-	cp -r $</boost $(PREFIX)/include
+.boost: $(BOOST_DIR_FLAG)
+	#(cd $(BOOST_DIR) && ./configure --prefix=$(PREFIX) && ./tools/jam/src/bin.linuxx86/bjam --toolset=gcc --prefix=$(PREFIX) --without-date_time --without-filesystem --without-graph --without-iostreams --without-program_options --without-python --without-regex --without-serialization --without-signals --without-test --without-thread --without-wave install)
+	cp -r $(BOOST_DIR)/boost $(PREFIX)/include
 	touch $@
 
 
 ### Qt ###
 
 # FIXME: No automated way to build it at the moment :-(
-QT_ARCHIVE = qt4-$(QT_VERSION)-win32-bin.tar.bz2
 QT_DIR = qt4-$(QT_VERSION)-win32-bin
+QT_DIR_FLAG = $(QT_DIR)/.flag
+QT_ARCHIVE = qt4-$(QT_VERSION)-win32-bin.tar.bz2
 
-$(QT_ARCHIVE): $(PREFIX)
+$(QT_ARCHIVE): $(PREFIX_FLAG)
 	$(WGET) http://dl.sv.nongnu.org/releases-noredirect/eliot/other/$@
 
-$(QT_DIR): $(QT_ARCHIVE)
+$(QT_DIR_FLAG): $(QT_ARCHIVE)
 	tar xjf $<
+	touch $@
 
-.qt: $(QT_DIR)
+.qt: $(QT_DIR_FLAG)
 	#(cd $<; mkdir -p $(PREFIX)/bin; mkdir -p $(PREFIX)/include; mkdir -p $(PREFIX)/lib/pkgconfig; rm -f $(PREFIX)/lib/pkgconfig/Qt*; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtCore.pc.in > $(PREFIX)/lib/pkgconfig/QtCore.pc; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtGui.pc.in > $(PREFIX)/lib/pkgconfig/QtGui.pc; cp -r include/* $(PREFIX)/include; cp lib/*a $(PREFIX)/lib; mkdir -p $(PREFIX)/share/qt4/translations; cp -r share/translations/* $(PREFIX)/share/qt4/translations)
-	(cd $<; cp -r bin include lib share $(PREFIX); sed 's,@@PREFIX@@,$(PREFIX),' $(PREFIX)/lib/pkgconfig/QtCore.pc.in > $(PREFIX)/lib/pkgconfig/QtCore.pc; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtGui.pc.in > $(PREFIX)/lib/pkgconfig/QtGui.pc; rm $(PREFIX)/lib/pkgconfig/*.in)
+	(cd $(QT_DIR); cp -r bin include lib share $(PREFIX); sed 's,@@PREFIX@@,$(PREFIX),' $(PREFIX)/lib/pkgconfig/QtCore.pc.in > $(PREFIX)/lib/pkgconfig/QtCore.pc; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtGui.pc.in > $(PREFIX)/lib/pkgconfig/QtGui.pc; rm $(PREFIX)/lib/pkgconfig/*.in)
 	touch $@
 
 
 ### LibXML 2 ###
 
 LIBXML2_DIR = libxml2-$(LIBXML2_VERSION)
+LIBXML2_DIR_FLAG = $(LIBXML2_DIR)/.flag
 LIBXML2_ARCHIVE = libxml2-$(LIBXML2_VERSION).tar.gz
 
-$(LIBXML2_ARCHIVE): $(PREFIX)
+$(LIBXML2_ARCHIVE): $(PREFIX_FLAG)
 	$(WGET) ftp://xmlsoft.org/libxml2/$@
 
-$(LIBXML2_DIR): $(LIBXML2_ARCHIVE)
+$(LIBXML2_DIR_FLAG): $(LIBXML2_ARCHIVE)
 	tar xzf $<
+	touch $@
 
 # TODO: add more --without-xxx flags (apparently needed for build: pattern, debug)
 # --with-legacy and --with-html are needed for arabica
-.libxml2: $(LIBXML2_DIR)
-	(cd $< && $(CONFIGURE) --enable-static --disable-shared --with-legacy --without-schematron --without-tree --without-zlib --without-http --without-ftp --without-html --without-python --without-docbook --without-regexps && make install)
+.libxml2: $(LIBXML2_DIR_FLAG)
+	(cd $(LIBXML2_DIR) && $(CONFIGURE) --enable-static --disable-shared --with-legacy --without-schematron --without-tree --without-zlib --without-http --without-ftp --without-html --without-python --without-docbook --without-regexps && make install)
 	touch $@
 
 
 ### Arabica ###
 
 ARABICA_DIR = arabica-$(ARABICA_VERSION)
+ARABICA_DIR_FLAG = $(ARABICA_DIR)/.flag
 ARABICA_ARCHIVE = arabica-$(ARABICA_VERSION).tar.bz2
 
-$(ARABICA_ARCHIVE): $(PREFIX)
+$(ARABICA_ARCHIVE): $(PREFIX_FLAG)
 	$(WGET) http://downloads.sourceforge.net/project/arabica/arabica/March-09/$@?use_mirror=ovh
 
-$(ARABICA_DIR): $(ARABICA_ARCHIVE)
+$(ARABICA_DIR_FLAG): $(ARABICA_ARCHIVE)
 	tar xjf $<
+	touch $@
 
-.arabica: $(ARABICA_DIR)
-	(cd $< && patch -p0 < ../arabica-no-example.patch && $(CONFIGURE) --enable-static --disable-shared --with-parser=libxml2 --with-libxml2=$(PREFIX) --with-boost=$(PREFIX) --with-tests=no --with-dom=no && make install)
+.arabica: $(ARABICA_DIR_FLAG)
+	(cd $(ARABICA_DIR) && patch -p0 < ../arabica-no-example.patch && $(CONFIGURE) --enable-static --disable-shared --with-parser=libxml2 --with-libxml2=$(PREFIX) --with-boost=$(PREFIX) --with-tests=no --with-dom=no && make install)
 	touch $@
 
