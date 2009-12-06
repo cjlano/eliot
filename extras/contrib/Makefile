@@ -2,8 +2,10 @@ ICONV_VERSION = 1.12
 LIBCONFIG_VERSION = 1.3.2
 BOOST_VERSION = 1_39_0
 QT_VERSION = 4.5.3
-LIBXML2_VERSION = 2.7.5
+EXPAT_VERSION = 2.0.1
 ARABICA_VERSION = 2009-march
+LIBXML2_VERSION = 2.7.5
+XERCES_VERSION = 3.0.1
 
 
 PREFIX = $(shell pwd)/inst
@@ -18,7 +20,7 @@ CONFIGURE = CC="$(CC)" CXX="$(CXX)" CPPFLAGS="$(CPPFLAGS)" ./configure --host=i5
 
 .PHONY: help all
 
-all: .iconv .boost .qt .libconfig .libxml2 .arabica
+all: .iconv .boost .qt .libconfig .expat .arabica
 
 help:
 	@echo "Usage: make all"
@@ -105,6 +107,42 @@ $(QT_DIR_FLAG): $(QT_ARCHIVE)
 	touch $@
 
 
+### Expat ###
+
+EXPAT_DIR = expat-$(EXPAT_VERSION)
+EXPAT_DIR_FLAG = $(EXPAT_DIR)/.flag
+EXPAT_ARCHIVE = expat-$(EXPAT_VERSION).tar.gz
+
+$(EXPAT_ARCHIVE): $(PREFIX_FLAG)
+	$(WGET) http://downloads.sourceforge.net/project/expat/expat/$(EXPAT_VERSION)/$@?use_mirror=kent
+
+$(EXPAT_DIR_FLAG): $(EXPAT_ARCHIVE)
+	tar xzf $<
+	touch $@
+
+.expat: $(EXPAT_DIR_FLAG)
+	(cd $(EXPAT_DIR) && $(CONFIGURE) --enable-static --disable-shared && make install)
+	touch $@
+
+
+### Arabica ###
+
+ARABICA_DIR = arabica-$(ARABICA_VERSION)
+ARABICA_DIR_FLAG = $(ARABICA_DIR)/.flag
+ARABICA_ARCHIVE = arabica-$(ARABICA_VERSION).tar.bz2
+
+$(ARABICA_ARCHIVE): $(PREFIX_FLAG)
+	$(WGET) http://downloads.sourceforge.net/project/arabica/arabica/March-09/$@?use_mirror=ovh
+
+$(ARABICA_DIR_FLAG): $(ARABICA_ARCHIVE)
+	tar xjf $<
+	touch $@
+
+.arabica: $(ARABICA_DIR_FLAG)
+	(cd $(ARABICA_DIR) && patch -p0 < ../arabica-no-example.patch && $(CONFIGURE) --enable-static --disable-shared --with-parser=expat --with-expat=$(PREFIX) --with-boost=$(PREFIX) --with-tests=no --with-dom=no && make install)
+	touch $@
+
+
 ### LibXML 2 ###
 
 LIBXML2_DIR = libxml2-$(LIBXML2_VERSION)
@@ -125,20 +163,20 @@ $(LIBXML2_DIR_FLAG): $(LIBXML2_ARCHIVE)
 	touch $@
 
 
-### Arabica ###
+### Xerces ###
 
-ARABICA_DIR = arabica-$(ARABICA_VERSION)
-ARABICA_DIR_FLAG = $(ARABICA_DIR)/.flag
-ARABICA_ARCHIVE = arabica-$(ARABICA_VERSION).tar.bz2
+XERCES_DIR = xerces-c-$(XERCES_VERSION)
+XERCES_DIR_FLAG = $(XERCES_DIR)/.flag
+XERCES_ARCHIVE = xerces-c-$(XERCES_VERSION).tar.gz
 
-$(ARABICA_ARCHIVE): $(PREFIX_FLAG)
-	$(WGET) http://downloads.sourceforge.net/project/arabica/arabica/March-09/$@?use_mirror=ovh
+$(XERCES_ARCHIVE): $(PREFIX_FLAG)
+	$(WGET) http://mirrors.24-7-solutions.net/pub/apache/xerces/c/3/sources/$@
 
-$(ARABICA_DIR_FLAG): $(ARABICA_ARCHIVE)
-	tar xjf $<
+$(XERCES_DIR_FLAG): $(XERCES_ARCHIVE)
+	tar xzf $<
 	touch $@
 
-.arabica: $(ARABICA_DIR_FLAG)
-	(cd $(ARABICA_DIR) && patch -p0 < ../arabica-no-example.patch && $(CONFIGURE) --enable-static --disable-shared --with-parser=libxml2 --with-libxml2=$(PREFIX) --with-boost=$(PREFIX) --with-tests=no --with-dom=no && make install)
+.xerces: $(XERCES_DIR_FLAG)
+	(cd $(XERCES_DIR) && $(CONFIGURE) --enable-static --disable-shared --disable-network && make install)
 	touch $@
 
