@@ -27,7 +27,8 @@ See below for more details on the available interfaces.
 
 There are in fact several interfaces to Eliot:
  - one in text mode: mostly useful to debug Eliot
- - one using the ncursesw library: nice and complete, but not really graphical
+ - one using the ncursesw library: nice and almost complete, but not really
+   graphical
  - a Qt interface: the best interface to use, it supports all the features.
    This one is enabled by default if Qt development files are detected, but
    you can force it with --enable-qt
@@ -35,6 +36,15 @@ There are in fact several interfaces to Eliot:
 These interfaces can be enabled or disabled at configuration time. Example:
     ./configure --disable-text --enable-ncurses --enable-qt
 
+Dependencies:
+ - libboost (mandatory): needed for many things
+ - libarabica (mandatory): http://www.jezuk.co.uk/cgi-bin/view/arabica
+   --> Used for saving/loading games
+   You can use any XML back-end supported by Arabica (like expat, or libxml2)
+ - libconfig (optional): http://www.hyperrealm.com/libconfig/
+   --> Used for saving/loading preferences
+ - Qt (optional): needed for the graphical interface
+ - libncursesw (optional): needed for the ncurses interface
 
 
 Windows build
