@@ -137,13 +137,14 @@ void Dictionary::initializeTiles()
     // "Activate" the dictionary by giving the header to the Tile class
     Tile::SetHeader(*m_header);
 
-    // XXX: temp
-    Tile::m_TheJoker = Tile(Tile::kTILE_JOKER);
-
     m_tilesVect.reserve(m_header->getLetters().size() + 1);
     // Create a tile for each letter in the dictionary header
     for (unsigned int i = 0; i < m_header->getLetters().size(); ++i)
-        m_tilesVect.push_back(Tile(m_header->getLetters()[i]));
+    {
+        const wchar_t &chr = m_header->getLetters()[i];
+        unsigned int code = m_header->getCodeFromChar(chr);
+        m_tilesVect.push_back(Tile(code, chr == Tile::kTILE_JOKER));
+    }
 }
 
 

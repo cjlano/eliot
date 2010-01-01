@@ -64,6 +64,14 @@ Tile::Tile(wchar_t c)
 }
 
 
+Tile::Tile(unsigned int iCode, bool isJoker)
+{
+    m_joker = isJoker;
+    m_code = iCode;
+    m_char = m_header->getCharFromCode(iCode);
+}
+
+
 bool Tile::isVowel() const
 {
     if (m_code == 0)
@@ -166,3 +174,14 @@ bool Tile::operator!=(const Tile &iOther) const
     return !(*this == iOther);
 }
 
+void Tile::SetHeader(const Header &iHeader)
+{
+    m_header = &iHeader;
+
+    // The joker tile depends on the dictionary,
+    // because its code may be different
+    // But since it might be valid to play without jokers,
+    // we first check if the dictionary contains a joker.
+    if (m_header->getLetters().find(kTILE_JOKER) != wstring::npos)
+        Tile::m_TheJoker = Tile(kTILE_JOKER);
+}

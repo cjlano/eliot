@@ -112,6 +112,8 @@ public:
     DictType     getType()         const { return m_type; }
     wstring      getLetters()      const { return m_letters; }
     wstring      getInputChars()   const { return m_inputChars; }
+    unsigned int getMinCode()      const { return 1; }
+    unsigned int getMaxCode()      const { return m_letters.size(); }
     uint8_t      getPoints(unsigned int iCode) const { return m_points[iCode - 1]; }
     uint8_t      getFrequency(unsigned int iCode) const { return m_frequency[iCode - 1]; }
     bool         isVowel(unsigned int iCode) const { return m_vowels[iCode - 1]; }

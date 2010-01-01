@@ -31,23 +31,23 @@ using namespace std;
 class Header;
 
 
-/*************************
+/**
  * A Tile is the internal representation
- * used within the game library to
- * handle letters
- *************************/
-
+ * used within the dictionary to handle letters
+ */
 class Tile
 {
     friend class Dictionary;
 public:
 
-    // a lowercase character is always a joker
+    // A lowercase character is always a joker
     // - this permits to detect joker in already played games
     // - we need to pay attention when inserting characters taken
     //   from user input
-
     Tile(wchar_t c = kTILE_DUMMY);
+
+    // Second constructor, used when the code of the tile is known
+    Tile(unsigned int iCode, bool isJoker);
 
     bool isEmpty() const        { return m_char == kTILE_DUMMY; }
     bool isJoker() const        { return m_joker; }
@@ -87,7 +87,7 @@ private:
     static const Header *m_header;
 
     /// Update the dictionary header
-    static void SetHeader(const Header &iHeader) { m_header = &iHeader; }
+    static void SetHeader(const Header &iHeader);
 };
 
 #endif
