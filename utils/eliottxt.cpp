@@ -669,7 +669,7 @@ void loopTraining(PublicGame &iGame)
                     break;
             }
         }
-        catch (GameException &e)
+        catch (std::exception &e)
         {
             printf("%s\n", e.what());
         }
@@ -741,7 +741,7 @@ void loopFreegame(PublicGame &iGame)
                     break;
             }
         }
-        catch (GameException &e)
+        catch (std::exception &e)
         {
             printf("%s\n", e.what());
         }
@@ -815,7 +815,7 @@ void loopDuplicate(PublicGame &iGame)
                     break;
             }
         }
-        catch (GameException &e)
+        catch (std::exception &e)
         {
             printf("%s\n", e.what());
         }
@@ -993,7 +993,7 @@ void mainLoop(const Dictionary &iDic)
                     break;
             }
         }
-        catch (GameException &e)
+        catch (std::exception &e)
         {
             printf("%s\n", e.what());
         }
@@ -1034,6 +1034,7 @@ int main(int argc, char *argv[])
     catch (std::exception &e)
     {
         cerr << e.what() << endl;
+        return 1;
     }
 
     return 0;
