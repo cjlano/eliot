@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.9\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2010-01-02 12:20+0100\n"
+"POT-Creation-Date: 2010-01-02 13:31+0100\n"
 "PO-Revision-Date: 2009-06-28 14:06+0200\n"
 "Last-Translator: Olivier Teulière <ipkiss @@ via.ecp.fr>\n"
 "Language-Team: English <LL@li.org>\n"
@@ -15,142 +15,190 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: dic/compdic.cpp:81
-msgid "Cannot stat file "
+#: dic/compdic.cpp:85
+msgid "Cannot stat file '%1%'"
 msgstr ""
 
-#: dic/compdic.cpp:429
+#: dic/compdic.cpp:93 dic/compdic.cpp:125
+msgid "Could not open file '%1%'"
+msgstr ""
+
+#: dic/compdic.cpp:152
+msgid "readLetters: Not enough fields in %1% (line %2%)"
+msgstr ""
+
+#: dic/compdic.cpp:173
+msgid "readLetters: Invalid letter at line %1% (only one character allowed)"
+msgstr ""
+
+#: dic/compdic.cpp:188
+msgid "'%1%' is not a valid letter."
+msgstr ""
+
+#: dic/compdic.cpp:189
+msgid ""
+"For technical reasons, Eliot currently only supports alphabetical characters "
+"as internal character representation, even if the tile has a display string "
+"defined. Please use another character and change your word list accordingly."
+msgstr ""
+
+#: dic/compdic.cpp:268
+msgid "writing %1% edges"
+msgstr ""
+
+#: dic/compdic.cpp:378
+msgid "Error on line %1%, col %2%: %3%"
+msgstr ""
+
+#: dic/compdic.cpp:451
 msgid "Mandatory options:"
 msgstr ""
 
-#: dic/compdic.cpp:430
+#: dic/compdic.cpp:452
 msgid "  -d, --dicname <string>  Set the dictionary name and version"
 msgstr ""
 
-#: dic/compdic.cpp:431
+#: dic/compdic.cpp:453
 msgid ""
 "  -l, --letters <string>  Path to the file containing the letters (see below)"
 msgstr ""
 
-#: dic/compdic.cpp:432
+#: dic/compdic.cpp:454
 msgid ""
 "  -i, --input <string>    Path to the uncompressed dictionary file (encoded "
 "in UTF-8)"
 msgstr ""
 
-#: dic/compdic.cpp:433
+#: dic/compdic.cpp:455
 msgid ""
 "                          The words must be in alphabetical order, without "
 "duplicates"
 msgstr ""
 
-#: dic/compdic.cpp:434
+#: dic/compdic.cpp:456
 msgid ""
 "  -o, --output <string    Path to the generated compressed dictionary file"
 msgstr ""
 
-#: dic/compdic.cpp:435
+#: dic/compdic.cpp:457
 msgid "Other options:"
 msgstr ""
 
-#: dic/compdic.cpp:436
+#: dic/compdic.cpp:458
 msgid "  -h, --help              Print this help and exit"
 msgstr ""
 
-#: dic/compdic.cpp:437
+#: dic/compdic.cpp:459
 msgid "Example:"
 msgstr ""
 
-#: dic/compdic.cpp:438
+#: dic/compdic.cpp:460
 msgid " -d 'ODS 5.0' -l letters.txt -i ods5.txt -o ods5.dawg"
 msgstr ""
 
-#: dic/compdic.cpp:440
+#: dic/compdic.cpp:462
 msgid ""
 "The file containing the letters (--letters switch) must be UTF-8 encoded."
 msgstr ""
 
-#: dic/compdic.cpp:441
+#: dic/compdic.cpp:463
 msgid ""
 "Each line corresponds to one letter, and must contain at least 5 fields "
 "separated with one or more space(s)."
 msgstr ""
 
-#: dic/compdic.cpp:443
+#: dic/compdic.cpp:465
 msgid ""
 " - 1st field: the letter itself, as stored in the input file (single "
 "character)"
 msgstr ""
 
-#: dic/compdic.cpp:444
+#: dic/compdic.cpp:466
 msgid " - 2nd field: the points of the letter"
 msgstr ""
 
-#: dic/compdic.cpp:445
+#: dic/compdic.cpp:467
 msgid ""
 " - 3rd field: the frequency of the letter (how many letters of this kind in "
 "the game)"
 msgstr ""
 
-#: dic/compdic.cpp:446
+#: dic/compdic.cpp:468
 msgid ""
 " - 4th field: 1 if the letter is considered as a vowel in Scrabble game, 0 "
 "otherwise"
 msgstr ""
 
-#: dic/compdic.cpp:447
+#: dic/compdic.cpp:469
 msgid ""
 " - 5th field: 1 if the letter is considered as a consonant in Scrabble game, "
 "0 otherwise"
 msgstr ""
 
-#: dic/compdic.cpp:448
+#: dic/compdic.cpp:470
 msgid ""
 " - 6th field (optional): display string for the letter (default: the letter "
 "itself)"
 msgstr ""
 
-#: dic/compdic.cpp:449
+#: dic/compdic.cpp:471
 msgid ""
 " - other fields (optional): input strings for the letter, in addition to the "
 "display string"
 msgstr ""
 
-#: dic/compdic.cpp:451
+#: dic/compdic.cpp:473
 msgid "Example for french:"
 msgstr ""
 
-#: dic/compdic.cpp:457
+#: dic/compdic.cpp:479
 msgid "Example for catalan:"
 msgstr ""
 
 #. TRANSLATORS: the first "L.L" must be translated "L·L",
 #. and the last one translated "ĿL"
-#: dic/compdic.cpp:462
+#: dic/compdic.cpp:484
 msgid "W 10 1 0 1 L.L L.L L-L L.L"
 msgstr "W 10 1 0 1 L·L L.L L-L ĿL"
 
-#: dic/compdic.cpp:546
+#: dic/compdic.cpp:568
 msgid "A mandatory option is missing"
 msgstr ""
 
-#: dic/compdic.cpp:556
-msgid "Cannot open output file "
+#: dic/compdic.cpp:578
+msgid "Cannot open output file '%1%'"
 msgstr ""
 
-#: dic/compdic.cpp:599
+#: dic/compdic.cpp:621
 #, c-format
 msgid " Load time: %.3f s\n"
 msgstr ""
 
-#: dic/compdic.cpp:600
+#: dic/compdic.cpp:622
 #, c-format
 msgid " Compression time: %.3f s\n"
 msgstr ""
 
-#: dic/compdic.cpp:602
-#, c-format
-msgid " Maximum recursion level reached: %d\n"
+#: dic/compdic.cpp:624
+msgid " Maximum recursion level reached: %1%"
+msgstr ""
+
+#: dic/compdic.cpp:630
+msgid "Exception caught: %1%"
+msgstr ""
+
+#: dic/header.cpp:196
+msgid ""
+"Header::Header: Too many different letters for the current format; only %1% "
+"are supported"
+msgstr ""
+
+#: dic/header.cpp:293
+msgid "Header::getCharFromCode: No letter for code '%1%'"
+msgstr ""
+
+#: dic/header.cpp:309
+msgid "Header::getCodeFromChar: No code for letter '%1%' (val=%2%)"
 msgstr ""
 
 #: dic/header.cpp:370
@@ -158,6 +206,50 @@ msgid ""
 "Too old dictionary format. This format is not supported anymore since Eliot "
 "1.8. You can create dictionaries in the new format with the 'compdic' tool "
 "provided with Eliot (since version 1.6)."
+msgstr ""
+
+#: dic/header.cpp:624
+msgid "Dictionary name: %1%"
+msgstr ""
+
+#: dic/header.cpp:627
+msgid "Compressed on: %1%"
+msgstr ""
+
+#: dic/header.cpp:628
+msgid "Compressed using a binary compiled by: %1%"
+msgstr ""
+
+#: dic/header.cpp:629
+msgid "Dictionary type: %1%"
+msgstr ""
+
+#: dic/header.cpp:630
+msgid "Letters: %1%"
+msgstr ""
+
+#: dic/header.cpp:631
+msgid "Number of letters: %1%"
+msgstr ""
+
+#: dic/header.cpp:632
+msgid "Number of words: %1%"
+msgstr ""
+
+#: dic/header.cpp:635
+msgid "Header size: %1% bytes"
+msgstr ""
+
+#: dic/header.cpp:636
+msgid "Root: %1% (edge)"
+msgstr ""
+
+#: dic/header.cpp:637
+msgid "Nodes: %1% used + %2% saved"
+msgstr ""
+
+#: dic/header.cpp:638
+msgid "Edges: %1% used + %2% saved"
 msgstr ""
 
 #: dic/header.cpp:642 qt/bag_widget.cpp:50 qt/dic_tools_widget.cpp:103
