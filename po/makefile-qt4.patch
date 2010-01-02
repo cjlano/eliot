@@ -1,0 +1,24 @@
+--- po/Makefile.in.in	2010-01-02 01:26:33.000000000 +0100
++++ po/Makefile.in.in.new	2010-01-02 01:28:52.000000000 +0100
+@@ -127,6 +127,11 @@
+ # otherwise packages like GCC can not be built if only parts of the source
+ # have been downloaded.
+ 
++# XXX: hack: since we want to parse generated files with xgettext,
++# do not complain if these files are not found in the source tree,
++# because they will be found in the build tree
++$(POTFILES):
++
+ # This target rebuilds $(DOMAIN).pot; it is an expensive operation.
+ # Note that $(DOMAIN).pot is not touched if it doesn't need to be changed.
+ $(DOMAIN).pot-update: $(POTFILES) $(srcdir)/POTFILES.in remove-potcdate.sed
+@@ -135,7 +140,8 @@
+ 	else \
+ 	  msgid_bugs_address='$(PACKAGE_BUGREPORT)'; \
+ 	fi; \
+-	$(XGETTEXT) --default-domain=$(DOMAIN) --directory=$(top_srcdir) \
++	$(XGETTEXT) --default-domain=$(DOMAIN) --directory=$(top_builddir) \
++	  --directory=$(top_srcdir) \
+ 	  --add-comments=TRANSLATORS: $(XGETTEXT_OPTIONS) \
+ 	  --files-from=$(srcdir)/POTFILES.in \
+ 	  --copyright-holder='$(COPYRIGHT_HOLDER)' \
