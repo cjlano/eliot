@@ -26,6 +26,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <boost/format.hpp>
 #include <boost/foreach.hpp>
 #include <boost/tokenizer.hpp>
 #include <boost/unordered_map.hpp>
@@ -70,6 +71,9 @@
 
 using namespace std;
 
+// Useful shortcut
+#define fmt(a) boost::format(a)
+
 //#define DEBUG_OUTPUT
 #define CHECK_RECURSION
 
@@ -78,7 +82,7 @@ unsigned int getFileSize(const string &iFileName)
 {
     struct stat stat_buf;
     if (stat(iFileName.c_str(), &stat_buf) < 0)
-        throw DicException(_("Cannot stat file ") + iFileName);
+        throw DicException((fmt(_("Cannot stat file '%1%'")) % iFileName).str());
     return (unsigned int)stat_buf.st_size;
 }
 
@@ -86,7 +90,7 @@ const wchar_t* load_uncompressed(const string &iFileName, unsigned int &ioDicSiz
 {
     ifstream file(iFileName.c_str(), ios::in | ios::binary);
     if (!file.is_open())
-        throw DicException("Could not open file " + iFileName);
+        throw DicException((fmt(_("Could not open file '%1%'")) % iFileName).str());
 
     // Place the buffer in a vector to avoid worrying about memory handling
     vector<char> buffer(ioDicSize);
@@ -118,7 +122,7 @@ void readLetters(const string &iFileName, DictHeaderInfo &ioHeaderInfo)
 {
     ifstream in(iFileName.c_str());
     if (!in.is_open())
-        throw DicException("Could not open file " + string(iFileName));
+        throw DicException((fmt(_("Could not open file '%1%'")) % iFileName).str());
 
     // Use a more friendly type name
     typedef boost::tokenizer<boost::char_separator<wchar_t>,
@@ -145,8 +149,8 @@ void readLetters(const string &iFileName, DictHeaderInfo &ioHeaderInfo)
         if (tokens.size() < 5)
         {
             ostringstream ss;
-            ss << "readLetters: Not enough fields in " << iFileName;
-            ss << " (line " << lineNb << ")";
+            ss << fmt(_("readLetters: Not enough fields "
+                        "in %1% (line %2%)")) % iFileName % lineNb;
             throw DicException(ss.str());
         }
 
@@ -166,13 +170,30 @@ void readLetters(const string &iFileName, DictHeaderInfo &ioHeaderInfo)
             else
             {
                 ostringstream ss;
-                ss << "readLetters: Invalid letter at line " << lineNb;
-                ss << " (only one character allowed)";
+                ss << fmt(_("readLetters: Invalid letter at line %1% "
+                            "(only one character allowed)")) % lineNb;
                 throw DicException(ss.str());
             }
         }
 
-        wchar_t upChar = towupper(letter[0]);
+        // We don't support non-alphabetical characters in the dictionary
+        // apart from the joker '?'. For more explanations on the issue, see
+        // on the eliot-dev mailing-list the thread with the following title:
+        //   re: Unable to show menus in Catalan, and some weird char "problem"
+        // (started on 2009/12/31)
+        wchar_t chr = letter[0];
+        if (!iswalpha(chr) && chr != L'?')
+        {
+            ostringstream ss;
+            ss << fmt(_("'%1%' is not a valid letter.")) % convertToMb(letter) << endl;
+            ss << fmt(_("For technical reasons, Eliot currently only supports "
+                        "alphabetical characters as internal character "
+                        "representation, even if the tile has a display string "
+                        "defined. Please use another character and change your "
+                        "word list accordingly."));
+            throw DicException(ss.str());
+        }
+        wchar_t upChar = towupper(chr);
         ioHeaderInfo.letters += upChar;
 
         ioHeaderInfo.points.push_back(_wtoi(tokens[1].c_str()));
@@ -189,7 +210,7 @@ void readLetters(const string &iFileName, DictHeaderInfo &ioHeaderInfo)
                 std::transform(str.begin(), str.end(), str.begin(), towupper);
             }
 
-            // If the display stirng is identical to the internal char and if
+            // If the display string is identical to the internal char and if
             // there is no other input, no need to save this information, as
             // it is already the default.
             if (inputs.size() != 1 || inputs[0] != wstring(1, upChar))
@@ -244,7 +265,7 @@ void write_node(uint32_t *ioEdges, unsigned int num, ostream &outfile)
     }
 
 #ifdef DEBUG_OUTPUT
-    printf("writing %d edges\n", num);
+    cout << fmt(_("writing %1% edges")) % num << endl;
     for (int i = 0; i < num; i++)
     {
         outfile.write((char*)(ioEdges + i), sizeof(DicEdge));
@@ -354,9 +375,10 @@ unsigned int makenode(const wchar_t *iPrefix, ostream &outfile,
         {
             // If an invalid character is found, be specific about the problem
             ostringstream oss;
-            oss << "Error on line " << 1 + ioHeaderInfo.nwords
-                << ", col " << global_endstring - global_stringbuf
-                << ": " << e.what() << endl;
+            oss << fmt(_("Error on line %1%, col %2%: %3%"))
+                % (1 + ioHeaderInfo.nwords)
+                % (global_endstring - global_stringbuf)
+                % e.what() << endl;
             throw DicException(oss.str());
         }
         edges.push_back(newEdge);
@@ -553,7 +575,7 @@ int main(int argc, char* argv[])
         ofstream outfile(outFileName.c_str(), ios::out | ios::binary | ios::trunc);
         if (!outfile.is_open())
         {
-            cerr << _("Cannot open output file ") << outFileName << endl;
+            cerr << fmt(_("Cannot open output file '%1%'")) % outFileName << endl;
             exit(1);
         }
 
@@ -599,13 +621,13 @@ int main(int argc, char* argv[])
         printf(_(" Load time: %.3f s\n"), 1.0 * (endLoadTime - startLoadTime) / CLOCKS_PER_SEC);
         printf(_(" Compression time: %.3f s\n"), 1.0 * (endBuildTime - startBuildTime) / CLOCKS_PER_SEC);
 #ifdef CHECK_RECURSION
-        printf(_(" Maximum recursion level reached: %d\n"), max_rec);
+        cout << fmt(_(" Maximum recursion level reached: %1%")) % max_rec << endl;
 #endif
         return 0;
     }
     catch (std::exception &e)
     {
-        cerr << e.what() << endl;
+        cerr << fmt(_("Exception caught: %1%")) % e.what() << endl;
         return 1;
     }
 }

@@ -193,11 +193,10 @@ Header::Header(const DictHeaderInfo &iInfo)
     // Sanity checks
     if (iInfo.letters.size() > _MAX_LETTERS_NB_)
     {
-        ostringstream ss;
-        ss << _MAX_LETTERS_NB_;
-        throw DicException("Header::Header: Too many different letters for "
-                           "the current format; only " + ss.str() +
-                           " are supported");
+        format fmt(_("Header::Header: Too many different letters for "
+                     "the current format; only %1% are supported"));
+        fmt % _MAX_LETTERS_NB_;
+        throw DicException(fmt.str());
     }
     if (iInfo.points.size() != iInfo.letters.size())
     {
@@ -291,9 +290,9 @@ wchar_t Header::getCharFromCode(unsigned int iCode) const
     // Safety check
     if (iCode == 0 || iCode > m_letters.size())
     {
-        ostringstream oss;
-        oss << iCode;
-        throw DicException("Header::getCharFromCode: no letter for code " + oss.str());
+        format fmt(_("Header::getCharFromCode: No letter for code '%1%'"));
+        fmt % iCode;
+        throw DicException(fmt.str());
     }
     return m_letters[iCode - 1];
 }
@@ -307,8 +306,9 @@ unsigned int Header::getCodeFromChar(wchar_t iChar) const
     {
         char s[5];
         sprintf(s, "%d", iChar);
-        throw DicException("Header::getCodeFromChar: No code for letter '" +
-                           convertToMb(iChar) + "' (val=" + string(s) + ")");
+        format fmt(_("Header::getCodeFromChar: No code for letter '%1%' (val=%2%)"));
+        fmt % convertToMb(iChar) % s;
+        throw DicException(fmt.str());
     }
     return pair->second;
 }
@@ -620,22 +620,22 @@ wstring Header::writeDisplayAndInput() const
 
 void Header::print() const
 {
-#define fmt(x) format(_(x))
-    cout << fmt("Dictionary name: %1%") % convertToMb(m_dicName) << endl;
+#define fmt(x) boost::format(x)
+    cout << fmt(_("Dictionary name: %1%")) % convertToMb(m_dicName) << endl;
     char buf[150];
     strftime(buf, sizeof(buf), "%c", gmtime(&m_compressDate));
-    cout << fmt("Compressed on: %1%") % buf << endl;
-    cout << fmt("Compressed using a binary compiled by: %1%") % convertToMb(m_userHost) << endl;
-    cout << fmt("Dictionary type: %1%") % (m_type == kDAWG ? "DAWG" : "GADDAG") << endl;
-    cout << fmt("Letters: %1%") % convertToMb(m_letters) << endl;
-    cout << fmt("Number of letters: %1%") % m_letters.size() << endl;
-    cout << fmt("Number of words: %1%") % m_nbWords << endl;
+    cout << fmt(_("Compressed on: %1%")) % buf << endl;
+    cout << fmt(_("Compressed using a binary compiled by: %1%")) % convertToMb(m_userHost) << endl;
+    cout << fmt(_("Dictionary type: %1%")) % (m_type == kDAWG ? "DAWG" : "GADDAG") << endl;
+    cout << fmt(_("Letters: %1%")) % convertToMb(m_letters) << endl;
+    cout << fmt(_("Number of letters: %1%")) % m_letters.size() << endl;
+    cout << fmt(_("Number of words: %1%")) % m_nbWords << endl;
     long unsigned int size = sizeof(Dict_header_old) +
         sizeof(Dict_header_ext) + sizeof(Dict_header_ext_2);
-    cout << fmt("Header size: %1% bytes") % size << endl;
-    cout << fmt("Root: %1% (edge)") % m_root << endl;
-    cout << fmt("Nodes: %1% used + %2% saved") % m_nodesUsed % m_nodesSaved << endl;
-    cout << fmt("Edges: %1% used + %2% saved") % m_edgesUsed % m_edgesSaved << endl;
+    cout << fmt(_("Header size: %1% bytes")) % size << endl;
+    cout << fmt(_("Root: %1% (edge)")) % m_root << endl;
+    cout << fmt(_("Nodes: %1% used + %2% saved")) % m_nodesUsed % m_nodesSaved << endl;
+    cout << fmt(_("Edges: %1% used + %2% saved")) % m_edgesUsed % m_edgesSaved << endl;
 #undef fmt
     cout << "====================================================================" << endl;
     cout << format("%1% | %2% | %3% | %4% | %5% | %6% | %7%")
