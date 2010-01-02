@@ -111,13 +111,16 @@ qt/score_widget.cpp
 qt/score_widget.h
 qt/training_widget.cpp
 qt/training_widget.h
-qt/ui/dic_tools_widget.ui
-qt/ui/main_window.ui
-qt/ui/new_game.ui
-qt/ui/player_widget.ui
-qt/ui/prefs_dialog.ui
-qt/ui/training_widget.ui
 utils/game_io.cpp
 utils/game_io.h
 utils/ncurses.cpp
 utils/ncurses.h
+# Files generated from the .ui files of Qt designer.
+# It works, because Makefile.in.in was patched to support that...
+qt/ui/dic_tools_widget.ui.h
+qt/ui/main_window.ui.h
+qt/ui/new_game.ui.h
+qt/ui/player_widget.ui.h
+qt/ui/prefs_dialog.ui.h
+qt/ui/training_widget.ui.h
+

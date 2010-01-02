@@ -1,6 +1,7 @@
 #!/bin/sh
 
 autopoint -f
+patch -p0 < po/makefile-qt4.patch
 aclocal -I m4
 autoheader
 automake --add-missing --foreign --copy -Wall
