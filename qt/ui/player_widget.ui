@@ -44,9 +44,6 @@
      <property name="toolTip">
       <string>_(&quot;Enter the letters you want to change&quot;)</string>
      </property>
-     <property name="text">
-      <string>dummy</string>
-     </property>
     </widget>
    </item>
    <item row="2" column="2" colspan="2">
@@ -80,15 +77,10 @@
    <item row="1" column="1">
     <widget class="QLineEdit" name="lineEditPlay">
      <property name="toolTip">
-      <string>_(&quot;Enter the word to play (case-insensitive).
-A joker from the rack must be written in parentheses.
-E.g.: w(o)rd or W(O)RD&quot;)</string>
+      <string>_(&quot;Enter the word to play (case-insensitive). A joker from the rack must be written in parentheses. E.g.: w(o)rd or W(O)RD&quot;)</string>
      </property>
      <property name="statusTip">
       <string>_(&quot;Enter the word to play (case-insensitive). A joker from the rack must be written in parentheses. E.g.: w(o)rd or W(O)RD&quot;)</string>
-     </property>
-     <property name="text">
-      <string>dummy</string>
      </property>
     </widget>
    </item>
@@ -114,10 +106,7 @@ E.g.: w(o)rd or W(O)RD&quot;)</string>
       </size>
      </property>
      <property name="toolTip">
-      <string>_(&quot;Enter the coordinates of the word.
-Specify the row before the column for horizontal words,
- and the column before the row for vertical words.
-E.g.: H4 or 4H&quot;)</string>
+      <string>_(&quot;Enter the coordinates of the word. Specify the row before the column for horizontal words, and the column before the row for vertical words. E.g.: H4 or 4H&quot;)</string>
      </property>
      <property name="statusTip">
       <string>_(&quot;Enter the coordinates of the word. Specify the row before the column for horizontal words, and the column before the row for vertical words. E.g.: H4 or 4H&quot;)</string>

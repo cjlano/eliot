@@ -1,30 +1,28 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>TrainingWidget</class>
- <widget class="QWidget" name="TrainingWidget" >
-  <property name="geometry" >
+ <widget class="QWidget" name="TrainingWidget">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>511</width>
+    <width>516</width>
     <height>300</height>
    </rect>
   </property>
-  <property name="windowTitle" >
-   <string>Form</string>
-  </property>
-  <layout class="QVBoxLayout" name="verticalLayout" >
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" >
+    <layout class="QHBoxLayout">
      <item>
-      <widget class="QLabel" name="label" >
-       <property name="text" >
-        <string>_("Rack:")</string>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>_(&quot;Rack:&quot;)</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEditRack" >
-       <property name="minimumSize" >
+      <widget class="QLineEdit" name="lineEditRack">
+       <property name="minimumSize">
         <size>
          <width>60</width>
          <height>0</height>
@@ -33,130 +31,121 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2" >
-       <property name="text" >
-        <string>_("Play a word:")</string>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>_(&quot;Play a word:&quot;)</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEditPlay" >
-       <property name="minimumSize" >
+      <widget class="QLineEdit" name="lineEditPlay">
+       <property name="minimumSize">
         <size>
          <width>60</width>
          <height>0</height>
         </size>
        </property>
-       <property name="toolTip" >
-        <string>_("Enter the word to play (case-insensitive).
-A joker from the rack must be written in parentheses.
-E.g.: w(o)rd or W(O)RD")</string>
+       <property name="toolTip">
+        <string>_(&quot;Enter the word to play (case-insensitive). A joker from the rack must be written in parentheses. E.g.: w(o)rd or W(O)RD&quot;)</string>
        </property>
-       <property name="statusTip" >
-        <string>_("Enter the word to play (case-insensitive). A joker from the rack must be written in parentheses. E.g.: w(o)rd or W(O)RD")</string>
-       </property>
-       <property name="text" >
-        <string>dummy</string>
+       <property name="statusTip">
+        <string>_(&quot;Enter the word to play (case-insensitive). A joker from the rack must be written in parentheses. E.g.: w(o)rd or W(O)RD&quot;)</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_3" >
-       <property name="text" >
-        <string>_("Ref.:")</string>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>_(&quot;Ref.:&quot;)</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEditCoords" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+      <widget class="QLineEdit" name="lineEditCoords">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>45</width>
          <height>16777215</height>
         </size>
        </property>
-       <property name="toolTip" >
-        <string>_("Enter the coordinates of the word.
-Specify the row before the column for horizontal words,
- and the column before the row for vertical words.
-E.g.: H4 or 4H")</string>
+       <property name="toolTip">
+        <string>_(&quot;Enter the coordinates of the word. Specify the row before the column for horizontal words, and the column before the row for vertical words. E.g.: H4 or 4H&quot;)</string>
        </property>
-       <property name="statusTip" >
-        <string>_("Enter the coordinates of the word. Specify the row before the column for horizontal words, and the column before the row for vertical words. E.g.: H4 or 4H")</string>
+       <property name="statusTip">
+        <string>_(&quot;Enter the coordinates of the word. Specify the row before the column for horizontal words, and the column before the row for vertical words. E.g.: H4 or 4H&quot;)</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButtonPlay" >
-       <property name="text" >
-        <string>_("Play")</string>
+      <widget class="QPushButton" name="pushButtonPlay">
+       <property name="text">
+        <string>_(&quot;Play&quot;)</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" >
+    <layout class="QHBoxLayout">
      <item>
-      <widget class="QPushButton" name="pushButtonRack" >
-       <property name="text" >
-        <string>_("New rack")</string>
+      <widget class="QPushButton" name="pushButtonRack">
+       <property name="text">
+        <string>_(&quot;New rack&quot;)</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButtonComplement" >
-       <property name="text" >
-        <string>_("Complement")</string>
+      <widget class="QPushButton" name="pushButtonComplement">
+       <property name="text">
+        <string>_(&quot;Complement&quot;)</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButtonSearch" >
-       <property name="enabled" >
+      <widget class="QPushButton" name="pushButtonSearch">
+       <property name="enabled">
         <bool>false</bool>
        </property>
-       <property name="text" >
-        <string>_("Search")</string>
+       <property name="text">
+        <string>_(&quot;Search&quot;)</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButtonPlaySelected" >
-       <property name="enabled" >
+      <widget class="QPushButton" name="pushButtonPlaySelected">
+       <property name="enabled">
         <bool>false</bool>
        </property>
-       <property name="text" >
-        <string>_("Play selected")</string>
+       <property name="text">
+        <string>_(&quot;Play selected&quot;)</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="title" >
-      <string>_("Search results")</string>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>_(&quot;Search results&quot;)</string>
      </property>
-     <layout class="QVBoxLayout" >
+     <layout class="QVBoxLayout">
       <item>
-       <widget class="QTreeView" name="treeViewResults" >
-        <property name="editTriggers" >
+       <widget class="QTreeView" name="treeViewResults">
+        <property name="editTriggers">
          <set>QAbstractItemView::NoEditTriggers</set>
         </property>
-        <property name="sortingEnabled" >
+        <property name="sortingEnabled">
          <bool>true</bool>
         </property>
        </widget>
       </item>
      </layout>
-     <zorder>treeViewResults</zorder>
     </widget>
    </item>
   </layout>
@@ -169,11 +158,11 @@ E.g.: H4 or 4H")</string>
    <receiver>pushButtonSearch</receiver>
    <slot>click()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>283</x>
      <y>31</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>281</x>
      <y>48</y>
     </hint>
