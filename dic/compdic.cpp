@@ -82,7 +82,7 @@ unsigned int getFileSize(const string &iFileName)
 {
     struct stat stat_buf;
     if (stat(iFileName.c_str(), &stat_buf) < 0)
-        throw DicException((fmt(_("Cannot stat file '%1%'")) % iFileName).str());
+        throw DicException((fmt(_("Could not open file '%1%'")) % iFileName).str());
     return (unsigned int)stat_buf.st_size;
 }
 
