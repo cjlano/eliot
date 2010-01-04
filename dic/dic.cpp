@@ -141,7 +141,7 @@ void Dictionary::initializeTiles()
     // Create a tile for each letter in the dictionary header
     for (unsigned int i = 0; i < m_header->getLetters().size(); ++i)
     {
-        const wchar_t &chr = m_header->getLetters()[i];
+        wchar_t chr = m_header->getLetters()[i];
         unsigned int code = m_header->getCodeFromChar(chr);
         m_tilesVect.push_back(Tile(code, chr == Tile::kTILE_JOKER));
     }
