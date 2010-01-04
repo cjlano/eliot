@@ -6,35 +6,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.9\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2010-01-02 13:31+0100\n"
-"PO-Revision-Date: 2009-06-03 22:11+0100\n"
+"POT-Creation-Date: 2010-01-04 21:58+0100\n"
+"PO-Revision-Date: 2010-01-02 20:11+0100\n"
 "Last-Translator: Joan Montané <joan---sense spam---montane.cat>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: dic/compdic.cpp:85
-#, fuzzy
-msgid "Cannot stat file '%1%'"
-msgstr "No es pot obrir el fitxer de sortida"
-
-#: dic/compdic.cpp:93 dic/compdic.cpp:125
-#, fuzzy
+#: dic/compdic.cpp:85 dic/compdic.cpp:93 dic/compdic.cpp:125
 msgid "Could not open file '%1%'"
-msgstr "No es pot obrir el fitxer de sortida"
+msgstr "No es pot obrir el fitxer'%1%'"
 
 #: dic/compdic.cpp:152
 msgid "readLetters: Not enough fields in %1% (line %2%)"
-msgstr ""
+msgstr "readLetters: No hi ha els camps imprescindibles a %1% (línia %2%)"
 
 #: dic/compdic.cpp:173
 msgid "readLetters: Invalid letter at line %1% (only one character allowed)"
 msgstr ""
+"readLetters: Fitxa no vàlida a la línia %1% (només es permet un càracter)"
 
 #: dic/compdic.cpp:188
 msgid "'%1%' is not a valid letter."
-msgstr ""
+msgstr "'%1%' no és un caràcter vàlid."
 
 #: dic/compdic.cpp:189
 msgid ""
@@ -42,14 +37,18 @@ msgid ""
 "as internal character representation, even if the tile has a display string "
 "defined. Please use another character and change your word list accordingly."
 msgstr ""
+"Per raons tècniques, l'Eliot només permet caràcters alfabètics per a "
+"representar fitxes, fins i tot i si la fitxa té una cadena visible definida. "
+"Si us plau, empreu un altre caràcter per identificar la fitxa i canvieu de "
+"forma adient el llistat de paraules."
 
 #: dic/compdic.cpp:268
 msgid "writing %1% edges"
-msgstr ""
+msgstr "s'estan escrivint %1% arestes"
 
 #: dic/compdic.cpp:378
 msgid "Error on line %1%, col %2%: %3%"
-msgstr ""
+msgstr "Hi ha un error a la línia %1%, columna %2%: %3%"
 
 #: dic/compdic.cpp:451
 msgid "Mandatory options:"
@@ -111,19 +110,20 @@ msgstr ""
 "d'estar en codificació UTF-8."
 
 #: dic/compdic.cpp:463
-#, fuzzy
 msgid ""
 "Each line corresponds to one letter, and must contain at least 5 fields "
 "separated with one or more space(s)."
 msgstr ""
-"Cada línia correspont a una fitxa (lletra), i ha de tenir 5 camps separats "
-"per"
+"Cada línia correspont a una fitxa (lletra), i ha de tenir com a mínim 5 "
+"camps separats per un o més espais."
 
 #: dic/compdic.cpp:465
 msgid ""
 " - 1st field: the letter itself, as stored in the input file (single "
 "character)"
 msgstr ""
+"- 1r camp: la fitxa o lletra, com es troba codificada al fitxer d'entrada "
+"(un únic caràcter)"
 
 #: dic/compdic.cpp:466
 msgid " - 2nd field: the points of the letter"
@@ -158,36 +158,38 @@ msgid ""
 " - 6th field (optional): display string for the letter (default: the letter "
 "itself)"
 msgstr ""
+" - 6è camp (opcional): cadena visible per a la fitxa (predeterminat: la "
+"mateixa lletra)"
 
 #: dic/compdic.cpp:471
 msgid ""
 " - other fields (optional): input strings for the letter, in addition to the "
 "display string"
 msgstr ""
+" - altres camps (opcional): entrades alternatives per a la fitxa, a més de "
+"la cadena visible"
 
 #: dic/compdic.cpp:473
 msgid "Example for french:"
 msgstr "Exemple pel francès:"
 
 #: dic/compdic.cpp:479
-#, fuzzy
 msgid "Example for catalan:"
-msgstr "Exemple pel francès:"
+msgstr "Exemple pel català:"
 
 #. TRANSLATORS: the first "L.L" must be translated "L·L",
 #. and the last one translated "ĿL"
 #: dic/compdic.cpp:484
 msgid "W 10 1 0 1 L.L L.L L-L L.L"
-msgstr ""
+msgstr "W 10 1 0 1 L·L L.L L-L ĿL"
 
 #: dic/compdic.cpp:568
 msgid "A mandatory option is missing"
 msgstr "Manca alguna opció obligatòria"
 
 #: dic/compdic.cpp:578
-#, fuzzy
 msgid "Cannot open output file '%1%'"
-msgstr "No es pot obrir el fitxer de sortida"
+msgstr "No es pot obrir el fitxer de sortida '%1%'"
 
 #: dic/compdic.cpp:621
 #, c-format
@@ -200,27 +202,29 @@ msgid " Compression time: %.3f s\n"
 msgstr " Temps de compressió: %.3f s\n"
 
 #: dic/compdic.cpp:624
-#, fuzzy
 msgid " Maximum recursion level reached: %1%"
-msgstr " Nivell màxim de recursivitat aconseguit: %d\n"
+msgstr " Nivell màxim de recursivitat aconseguit: %1%"
 
 #: dic/compdic.cpp:630
 msgid "Exception caught: %1%"
-msgstr ""
+msgstr "S'ha detectat una excepció: %1%"
 
 #: dic/header.cpp:196
 msgid ""
 "Header::Header: Too many different letters for the current format; only %1% "
 "are supported"
 msgstr ""
+"Header::Header: Hi ha masses fitxes diferents al format actual; només es "
+"permeten %1%"
 
 #: dic/header.cpp:293
 msgid "Header::getCharFromCode: No letter for code '%1%'"
-msgstr ""
+msgstr "Header::getCharFromCode: No hi ha cap lletra pel codi '%1%'"
 
 #: dic/header.cpp:309
 msgid "Header::getCodeFromChar: No code for letter '%1%' (val=%2%)"
 msgstr ""
+"Header::getCodeFromChar: No hi ha cap codi per a la lletra '%1%' (val=%2%)"
 
 #: dic/header.cpp:370
 msgid ""
@@ -233,59 +237,48 @@ msgstr ""
 "'compdic' distribuïda amb l'Eliot (des de la versió 1.6)."
 
 #: dic/header.cpp:624
-#, fuzzy
 msgid "Dictionary name: %1%"
-msgstr "Nom del diccionari:"
+msgstr "Nom del diccionari: %1%"
 
 #: dic/header.cpp:627
-#, fuzzy
 msgid "Compressed on: %1%"
-msgstr "comprimit en: %s\n"
+msgstr "Comprimit en: %1%"
 
 #: dic/header.cpp:628
-#, fuzzy
 msgid "Compressed using a binary compiled by: %1%"
-msgstr "comprimit fent ser un compilat binari per: %s\n"
+msgstr "Comprimit fent ser un compilat binari per: %1%"
 
 #: dic/header.cpp:629
-#, fuzzy
 msgid "Dictionary type: %1%"
-msgstr "tipus de diccionari: %s\n"
+msgstr "Tipus de diccionari: %1%"
 
 #: dic/header.cpp:630
-#, fuzzy
 msgid "Letters: %1%"
-msgstr "Fitxes:"
+msgstr "Fitxes: %1%"
 
 #: dic/header.cpp:631
-#, fuzzy
 msgid "Number of letters: %1%"
-msgstr "nombre de fitxes: %lu\n"
+msgstr "Nombre de fitxes: %1%"
 
 #: dic/header.cpp:632
-#, fuzzy
 msgid "Number of words: %1%"
-msgstr "Nombre de paraules:"
+msgstr "Nombre de paraules: %1%"
 
 #: dic/header.cpp:635
-#, fuzzy
 msgid "Header size: %1% bytes"
-msgstr "mida de la capçalera: %lu bytes\n"
+msgstr "Mida de la capçalera: %1% bytes"
 
 #: dic/header.cpp:636
-#, fuzzy
 msgid "Root: %1% (edge)"
-msgstr "arrel: %d (aresta)\n"
+msgstr "Arrel: %1% (aresta)"
 
 #: dic/header.cpp:637
-#, fuzzy
 msgid "Nodes: %1% used + %2% saved"
-msgstr "nodes: %d usats + %d desats\n"
+msgstr "Nodes: %1% usats + %2% desats"
 
 #: dic/header.cpp:638
-#, fuzzy
 msgid "Edges: %1% used + %2% saved"
-msgstr "arestes: %d usades + %d desades\n"
+msgstr "Arestes: %1% usades + %2% desades"
 
 #: dic/header.cpp:642 qt/bag_widget.cpp:50 qt/dic_tools_widget.cpp:103
 msgid "Letter"
@@ -301,22 +294,20 @@ msgid "Frequency"
 msgstr "Freqüència"
 
 #: dic/header.cpp:642
-#, fuzzy
 msgid "Vowel"
-msgstr "És una vocal?"
+msgstr "Vocal"
 
 #: dic/header.cpp:643
-#, fuzzy
 msgid "Consonant"
-msgstr "És una consonant?"
+msgstr "Consonant"
 
 #: dic/header.cpp:643
 msgid "Display"
-msgstr ""
+msgstr "Visible"
 
 #: dic/header.cpp:643
 msgid "Alt. input"
-msgstr ""
+msgstr "Entrada alt."
 
 #: dic/listdic.cpp:94
 #, c-format
@@ -426,7 +417,7 @@ msgstr "És una consonant?"
 
 #: qt/dic_tools_widget.cpp:108
 msgid "Alternative inputs"
-msgstr ""
+msgstr "Entrades alternatives"
 
 #: qt/dic_tools_widget.cpp:146 qt/dic_tools_widget.cpp:190
 #: qt/dic_tools_widget.cpp:243
@@ -434,9 +425,8 @@ msgid "Please select a dictionary"
 msgstr "Seleccioneu un diccionari"
 
 #: qt/dic_tools_widget.cpp:156
-#, fuzzy
 msgid "Invalid or incomplete letters"
-msgstr "Coordenades no vàlides"
+msgstr "Fitxes no vàlides o incompletes"
 
 #: qt/dic_tools_widget.cpp:168
 msgid "The word '%1' exists"
@@ -750,9 +740,8 @@ msgid "Show/hide the dictionary tools"
 msgstr "Mostra/amga les eines del diccionari"
 
 #: qt/main_window.cpp:449
-#, fuzzy
 msgid "Hel&p"
-msgstr "Ajuda"
+msgstr "A&juda"
 
 #: qt/main_window.cpp:450
 msgid "&About..."
@@ -769,6 +758,8 @@ msgid ""
 "\n"
 "You can download dictionary files on Eliot web site."
 msgstr ""
+"Heu de seleccionar un diccionari (fitxer .dawg) abans de començar una "
+"partida. Podeu fer-ho al menú \"Paràmetres\"."
 
 #: qt/main_window.cpp:488
 msgid "Game started"
@@ -783,9 +774,8 @@ msgid "Load a game"
 msgstr "Carrega una partida"
 
 #: qt/main_window.cpp:511
-#, fuzzy
 msgid "Error while loading the game:\n"
-msgstr "S'ha produït un error en carregar la partida"
+msgstr "S'ha produït un error en carregar la partida:\n"
 
 #: qt/main_window.cpp:518 utils/ncurses.cpp:650
 #, c-format
@@ -801,9 +791,8 @@ msgid "Game saved"
 msgstr "Partida desada"
 
 #: qt/main_window.cpp:538
-#, fuzzy
 msgid "Error saving game: %1"
-msgstr "S'ha produït un error en carregar la partida"
+msgstr "S'ha produït un error en desar la partida: %1"
 
 #: qt/main_window.cpp:573
 msgid "N."
@@ -843,9 +832,8 @@ msgid "Choose a dictionary"
 msgstr "Seleccioneu un diccionari"
 
 #: qt/main_window.cpp:729
-#, fuzzy
 msgid "Loaded dictionary '%1'"
-msgstr "Diccionari: %1"
+msgstr "Diccionari carregat: '%1'"
 
 #: qt/main_window.cpp:761 utils/ncurses.cpp:490 qt/ui/main_window.ui.h:125
 msgid "Bag"
@@ -879,7 +867,7 @@ msgstr ""
 
 #: qt/main_window.cpp:845
 msgid "Web site: http://www.nongnu.org/eliot/en/"
-msgstr ""
+msgstr "Lloc web: http://www.nongnu.org/eliot/en/"
 
 #: qt/main_window.cpp:863 qt/main_window.cpp:876 qt/main_window.cpp:889
 #: qt/main_window.cpp:902
@@ -1078,9 +1066,8 @@ msgid "History of the game"
 msgstr "Historial de la partida"
 
 #: utils/ncurses.cpp:379
-#, fuzzy
 msgid " N |      RACK      |    SOLUTION     | REF | PTS | P | BONUS"
-msgstr " N |  FARISTOL |     SOLUCIÓ     | REF | PTS | P | BONIFICACIÓ"
+msgstr " N |  FARISTOL   |     SOLUCIÓ     | REF | PTS | P | BONIFICACIÓ"
 
 #: utils/ncurses.cpp:444
 msgid "Help"
@@ -1243,13 +1230,13 @@ msgid "Game saved in '%ls'"
 msgstr "S'ha desat la partida a '%ls'"
 
 #: utils/ncurses.cpp:625
-#, fuzzy, c-format
+#, c-format
 msgid "Error saving game %s:"
-msgstr "S'ha produït un error en carregar la partida"
+msgstr "S'ha produït un error en desar la partida %s:"
 
 #: utils/ncurses.cpp:655
 msgid "Unable to load game: "
-msgstr ""
+msgstr "No es pot carregar la partida:"
 
 #: utils/ncurses.cpp:665
 msgid "Pass your turn"
@@ -1397,9 +1384,8 @@ msgid "Name:"
 msgstr "Nom:"
 
 #: qt/ui/new_game.ui.h:227
-#, fuzzy
 msgid "Player 2"
-msgstr "Jugador"
+msgstr "Jugador 2"
 
 #: qt/ui/new_game.ui.h:228
 msgid "Type:"
@@ -1598,6 +1584,9 @@ msgstr "Cerca"
 #: qt/ui/training_widget.ui.h:177
 msgid "Play selected"
 msgstr "Jugada seleccionada"
+
+#~ msgid "Cannot stat file '%1%'"
+#~ msgstr "No es pot obrir el fitxer '%1%'"
 
 #, fuzzy
 #~ msgid "toolBar"
