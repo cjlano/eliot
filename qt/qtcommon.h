@@ -43,7 +43,7 @@
 // Convert to/from std::wstring
 #ifdef QT_NO_STL
 #   include "encoding.h"
-#   define qfw(s) qfl(convertToMb(s).c_str())
+#   define qfw(s) QString::fromWCharArray(wstring(s).c_str())
 #   define qtw(s) convertToWc(qtl(s))
 #else
 #   define qfw(s) QString::fromStdWString(s)
