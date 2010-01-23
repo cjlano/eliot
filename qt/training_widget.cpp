@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2008 Olivier Teulière
+ * Copyright (C) 2010 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -215,7 +215,7 @@ void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
                                      lineEditRack->text() != "");
         emit gameUpdated();
     }
-    catch (GameException &e)
+    catch (std::exception &e)
     {
         lineEditRack->setPalette(redPalette);
         emit notifyProblem(_q("Warning: Cannot set the rack to '%1'").arg(iText));
@@ -232,7 +232,7 @@ void TrainingWidget::on_pushButtonRack_clicked()
         m_game->trainingSetRackRandom(true, PublicGame::kRACK_ALL);
         emit gameUpdated();
     }
-    catch (GameException &e)
+    catch (std::exception &e)
     {
         emit notifyProblem(_q(e.what()));
     }
@@ -248,7 +248,7 @@ void TrainingWidget::on_pushButtonComplement_clicked()
         m_game->trainingSetRackRandom(true, PublicGame::kRACK_NEW);
         emit gameUpdated();
     }
-    catch (GameException &e)
+    catch (std::exception &e)
     {
         emit notifyProblem(_q(e.what()));
     }
@@ -328,7 +328,7 @@ QValidator::State RackValidator::validate(QString &input, int &) const
     for (int i = 0; i < qinput.size(); ++i)
     {
         if ((unsigned int)qinput.count(qinput[i], Qt::CaseInsensitive) >
-            m_bag->in(qtw(qinput.mid(i, 1))[0]))
+            m_bag->in(intInput[i]))
         {
             return Invalid;
         }
