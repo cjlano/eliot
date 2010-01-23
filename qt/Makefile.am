@@ -63,7 +63,7 @@ BUILT_SOURCES = \
     resources.cpp
 
 eliot_SOURCES = \
-    qtcommon.h \
+    qtcommon.h qtcommon.cpp \
     coord_model.h coord_model.cpp \
     bag_widget.cpp bag_widget.h \
     dic_tools_widget.cpp dic_tools_widget.h \

@@ -18,37 +18,31 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef QT_COMMON_H_
-#define QT_COMMON_H_
+#include "qtcommon.h"
 
-#include "config.h"
-#include <string>
-#include <QtCore/QString>
-#include "encoding.h"
+using namespace std;
 
-#if ENABLE_NLS
-#   include <libintl.h>
-#   define _(String) gettext(String)
-// Apparently needed on Windows, where libintl.h defines sprintf
-// as libintl_sprintf...
-#   undef sprintf
+
+wstring qtw(const QString &q)
+{
+#ifdef QT_NO_STL
+    wchar_t *array = new wchar_t[q.size()];
+    int size = q.toWCharArray(array);
+    wstring ws(array, size);
+    delete[] array;
+    return ws;
 #else
-#   define _(String) String
+    return q.toStdWString();
 #endif
+}
 
-// Convert to/from std::wstring
-std::wstring qtw(const QString &q);
-QString qfw(const wstring &wstr);
-// Convert to/from local encoding
-#define qfl(s) qfw(convertToWc(s))
-#define qtl(s) convertToMb(qtw(s))
-// Convert to/from utf-8 char*
-#define qfu(s) QString::fromUtf8(s)
-#define qtu(s) (s).toUtf8().data()
-// Translation macro to use gettext
-#define _q(s) qfl(_(s))
 
-// Used for QSettings
-#define ORGANIZATION "eliot"
-
+QString qfw(const wstring &wstr)
+{
+#ifdef QT_NO_STL
+    return QString::fromWCharArray(wstr.c_str());
+#else
+    return QString::fromStdWString(wstr);
 #endif
+}
+
