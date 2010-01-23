@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2010-01-02 13:31+0100\n"
+"POT-Creation-Date: 2010-01-24 00:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,11 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: dic/compdic.cpp:85
-msgid "Cannot stat file '%1%'"
-msgstr ""
-
-#: dic/compdic.cpp:93 dic/compdic.cpp:125
+#: dic/compdic.cpp:85 dic/compdic.cpp:93 dic/compdic.cpp:125
 msgid "Could not open file '%1%'"
 msgstr ""
 
