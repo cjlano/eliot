@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 dnl --------------------------------------------------------------
 dnl configure.in for Eliot
 dnl --------------------------------------------------------------
-AC_INIT(eliot, 1.11)
+AC_INIT(eliot, 1.12-cvs)
 AC_CONFIG_SRCDIR(qt/main.cpp)
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(config.h)
