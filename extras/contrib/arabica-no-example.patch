@@ -1,0 +1,11 @@
+--- Makefile.in.orig	2009-10-04 15:42:50.000000000 +0200
++++ Makefile.in	2009-10-04 15:42:59.000000000 +0200
+@@ -209,7 +209,7 @@
+ sysconfdir = @sysconfdir@
+ target_alias = @target_alias@
+ ACLOCAL_AMFLAGS = -I m4
+-SUBDIRS = src examples tests
++SUBDIRS = src #examples tests
+ DIST_SUBDIRS = src examples tests
+ EXTRA_DIST = vs7 \
+            vs8 \
