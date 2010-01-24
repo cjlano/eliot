@@ -46,7 +46,7 @@ QString qfw(const wstring &wstr);
 #define qfu(s) QString::fromUtf8(s)
 #define qtu(s) (s).toUtf8().data()
 // Translation macro to use gettext
-#define _q(s) qfl(_(s))
+#define _q(s) QString::fromLocal8Bit(_(s))
 
 // Used for QSettings
 #define ORGANIZATION "eliot"
