@@ -421,7 +421,7 @@ msgstr "Consonne ?"
 
 #: qt/dic_tools_widget.cpp:108
 msgid "Alternative inputs"
-msgstr "Saisies alternative"
+msgstr "Saisies alternatives"
 
 #: qt/dic_tools_widget.cpp:146 qt/dic_tools_widget.cpp:190
 #: qt/dic_tools_widget.cpp:243
