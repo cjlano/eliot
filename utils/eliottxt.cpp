@@ -495,7 +495,7 @@ void handleRegexp(const Dictionary& iDic, const vector<wstring> &tokens)
     {
         printf("%s\n", convertToMb(wstr).c_str());
     }
-    printf("%d printed results\n", wordList.size());
+    printf("%lu printed results\n", (long unsigned)wordList.size());
 }
 
 
