@@ -121,6 +121,7 @@ namespace
     }
 
 
+#ifdef HAVE_LIBCONFIG
     template<typename T>
     void copySetting(const Config &srcConf, Config &dstConf, const char *path)
     {
@@ -131,6 +132,7 @@ namespace
             dstConf.lookup(path) = t;
         }
     }
+#endif
 }
 
 
