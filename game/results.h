@@ -47,6 +47,7 @@ class Rack;
 class Results
 {
 public:
+    virtual ~Results() {}
     unsigned int size() const { return m_rounds.size(); }
     const Round & get(unsigned int) const;
 
