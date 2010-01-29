@@ -354,6 +354,10 @@ unsigned int readFromUTF8(wchar_t *oString, unsigned int iWideSize,
                           const string &iContext)
 {
 #ifdef WIN32
+    if (iBuffer == NULL || *iBuffer == '\0')
+    {
+        return 0;
+    }
     int res = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, iBuffer,
                                   iBufSize, oString, iWideSize);
     if (res == 0)
@@ -414,6 +418,11 @@ unsigned int writeInUTF8(const wstring &iWString, char *oBuffer,
                          unsigned int iBufSize, const string &iContext)
 {
 #ifdef WIN32
+    if (iWString.empty())
+    {
+        *oBuffer = '\0';
+        return 0;
+    }
     int res = WideCharToMultiByte(CP_UTF8, 0, iWString.c_str(), iWString.size(),
                                   oBuffer, iBufSize, NULL, NULL);
     if (res == 0)
