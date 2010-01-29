@@ -28,6 +28,10 @@
 #ifdef WIN32
 #   include <windows.h>
 #endif
+#ifdef __APPLE__
+#   include <CoreFoundation/CFURL.h>
+#   include <CoreFoundation/CFBundle.h>
+#endif
 
 using std::string;
 
@@ -52,6 +56,10 @@ int main(int argc, char **argv)
     if (pos)
         *pos = '\0';
     const string localeDir = baseDir + string("\\locale");
+#elif defined(__APPLE__)
+    const char *bundlePath = CFStringGetCStringPtr(CFURLCopyFileSystemPath(
+            CFBundleCopyBundleURL(CFBundleGetMainBundle()), kCFURLPOSIXPathStyle), CFStringGetSystemEncoding());
+    const string localeDir = string(bundlePath) + "/Contents/Resources/locale";
 #else
     static const string localeDir = LOCALEDIR;
 #endif
