@@ -17,6 +17,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+// Needed for Mac OS X, apparently (otherwise get_wch is not defined)
+#define _XOPEN_SOURCE_EXTENDED 1
+
 #include "config.h"
 #if ENABLE_NLS
 #   include <libintl.h>
