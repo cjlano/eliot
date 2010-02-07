@@ -1,29 +1,45 @@
-Installation on Linux/Unix
-==========================
+Summary
+=======
+
+This file contains instructions on how to buid Eliot on various platforms.
+In case of compilation problem, you can send a mail to the eliot-dev@nongnu.org
+mailing-list.
+
+1) General information: useful information for any platform
+2) Linux/Unix build
+3) Windows build
+4) Mac OS X build
+
+
+
+1) General information
+======================
+
+If you build Eliot from a CVS snapshot, you need to run ./bootstrap to generate
+the configure script. This is not needed when building from a release tarball.
 
 In the following, do not forget that the ./configure command can take options.
 Run ./configure --help to have the list of available options.
 
-* If you build from a CVS snapshot, run the following commands:
-    ./bootstrap
-    ./configure
-    make
+Here are the external dependencies of Eliot, with a link to the relevant website.
+You need to install them (at least the mandatory ones) before building Eliot.
+Note that the OS-specific instructions may contain hints on how to install them easily.
 
-Then, as root:
-    make install
+ - libboost (mandatory): http://www.boost.org/
+   --> Used for many things
 
-See below for more details on the available interfaces.
+ - libarabica (mandatory): http://www.jezuk.co.uk/cgi-bin/view/arabica
+   --> Used for saving/loading games
+   You can use any XML back-end supported by Arabica (like expat, or libxml2)
 
+ - libconfig (optional): http://www.hyperrealm.com/libconfig/
+   --> Used for saving/loading preferences
 
-* If you build from a release tarball, run the following commands:
-    ./configure
-    make
+ - Qt (optional, but recommended): http://qt.nokia.com/
+   --> Used for the graphical interface (see below)
 
-Then, as root:
-    make install
-
-See below for more details on the available interfaces.
-
+ - libncursesw (optional): http://www.gnu.org/software/ncurses/
+   --> Used for the ncurses interface (see below)
 
 There are in fact several interfaces to Eliot:
  - one in text mode: mostly useful to debug Eliot
@@ -36,19 +52,28 @@ There are in fact several interfaces to Eliot:
 These interfaces can be enabled or disabled at configuration time. Example:
     ./configure --disable-text --enable-ncurses --enable-qt
 
-Dependencies:
- - libboost (mandatory): needed for many things
- - libarabica (mandatory): http://www.jezuk.co.uk/cgi-bin/view/arabica
-   --> Used for saving/loading games
-   You can use any XML back-end supported by Arabica (like expat, or libxml2)
- - libconfig (optional): http://www.hyperrealm.com/libconfig/
-   --> Used for saving/loading preferences
- - Qt (optional): needed for the graphical interface
- - libncursesw (optional): needed for the ncurses interface
 
 
-Windows build
-=============
+2) Linux/Unix build
+===================
+
+On Debian-based systems (like Ubuntu), the following command should install
+the needed dependencies (you may need to adjust the version numbers):
+
+    sudo apt-get install libboost-dev libqt4-core libqt4-gui libconfig++8-dev libncursesw5-dev
+
+In addition, you need to download and build libarabica (this is straight-forward).
+
+To build Eliot, you only have to run the following command:
+    ./configure && make
+
+Then, as root:
+    make install
+
+
+
+3) Windows build
+================
 
 There are 2 ways to proceed:
 * cross-compilation from a Linux host, using the mingw32 cross-compiler
@@ -66,8 +91,7 @@ Here are the steps for the cross-compilation:
 
     cd extras/contrib && make all
 
-  Eliot dependencies (libiconv, boost, and Qt) will be downloaded
-  and cross-compiled (except Qt, which is already compiled).
+  Eliot dependencies will be downloaded and cross-compiled.
   The dependencies are installed in 'extras/contrib/inst'
 
 * build Eliot:
@@ -94,3 +118,23 @@ Here are the steps for the cross-compilation:
 
     - run 'make package-win32-zip' to get everything packed up in a nice .zip
 
+
+
+4) Mac OS X build
+=================
+
+* Installing dependencies can be done easily using MacPorts (http://www.macports.org/):
+    sudo port install libconfig-hr
+    sudo port install boost
+    sudo port install arabica
+    sudo port install qt4-mac
+
+* Configure: you can use the following command (assuming the dependencies are installed in /opt/local):
+    CPPFLAGS="-I/opt/local/include/libxml2 -I/opt/local/include" \
+    LDFLAGS="-L/opt/local/lib" \
+    LIBS="-lxml2" \
+    ./configure --enable-qt --disable-text
+
+* To compile, run 'make'
+
+* Then, to get a ready to use .dmg file, run 'make package-macosx-dmg'
