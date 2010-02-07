@@ -3,7 +3,9 @@ SUBDIRS = intl dic game utils qt po extras
 ACLOCAL_AMFLAGS = -I m4
 
 WIN32_PACKAGE_DIR = $(top_builddir)/eliot-$(VERSION)
-MACOSX_PACKAGE_DIR = $(top_builddir)/Eliot.app
+MACOSX_PACKAGE_DIR = $(top_builddir)/eliot-$(VERSION)/Eliot.app
+
+DMG_FILE = $(top_builddir)/eliot-$(VERSION).dmg
 
 .PHONY: package-win32-zip package-macosx
 
@@ -11,13 +13,10 @@ EXTRA_DIST = COPYING.arabica
 
 # Prepare the win32 package
 package-win32-zip:
-# Check that the working directory is not already there
-	@if test -e $(WIN32_PACKAGE_DIR); then \
-		echo '$(WIN32_PACKAGE_DIR) is in the way'; \
-		false; \
-	fi
-
+# Remove previous stuff
+	rm -rf $(WIN32_PACKAGE_DIR)
 	rm -f eliot-$(VERSION)-win32.zip
+
 	mkdir -p $(WIN32_PACKAGE_DIR)
 
 # Copy the binaries and strip them
@@ -45,13 +44,11 @@ package-win32-zip:
 	zip -r -9 eliot-$(VERSION)-win32.zip $(WIN32_PACKAGE_DIR)
 	rm -rf $(WIN32_PACKAGE_DIR)
 
+
 # Prepare the macosx package
 package-macosx:
-# Check that the working directory is not already there
-	@if test -e $(MACOSX_PACKAGE_DIR); then \
-		echo '$(MACOSX_PACKAGE_DIR) is in the way'; \
-		false; \
-	fi
+# Remove previous stuff
+	rm -rf $(top_builddir)/eliot-$(VERSION)
 
 # Prepare the bundle structure
 	mkdir -p $(MACOSX_PACKAGE_DIR)/Contents/MacOS
@@ -70,3 +67,9 @@ package-macosx:
 	done
 	mkdir -p $(MACOSX_PACKAGE_DIR)/locale/qt4
 	cp $(QT4LOCALEDIR)/*.qm $(MACOSX_PACKAGE_DIR)/locale/qt4/ || true
+
+# Build the .dmg file
+package-macosx-dmg: package-macosx
+	rm -f $(DMG_FILE)
+	hdiutil create "$(DMG_FILE)" -verbose -scrub -srcfolder "$(top_builddir)/eliot-$(VERSION)"
+
