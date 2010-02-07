@@ -29,8 +29,7 @@
 #   include <windows.h>
 #endif
 #ifdef __APPLE__
-#   include <CoreFoundation/CFURL.h>
-#   include <CoreFoundation/CFBundle.h>
+#   include <CoreFoundation/CoreFoundation.h>
 #endif
 
 using std::string;
@@ -38,9 +37,44 @@ using std::string;
 
 int main(int argc, char **argv)
 {
+    // On Mac, running Eliot from the dock does not automatically set the LANG
+    // variable, so we do it ourselves.
+    // Note: The following block of code is copied from VLC, and slightly
+    // modified by me (original author: Pierre d'Herbemont)
+#if defined(ENABLE_NLS) && defined(__APPLE__)
+    /* Check if $LANG is set. */
+    if (NULL == getenv("LANG"))
+    {
+        // Retrieve the preferred language as chosen in  System Preferences.app
+        // (note that CFLocaleCopyCurrent() is not used because it returns the
+        // preferred locale not language)
+        CFArrayRef all_locales = CFLocaleCopyAvailableLocaleIdentifiers();
+        CFArrayRef preferred_locales = CFBundleCopyLocalizationsForPreferences(all_locales, NULL);
+
+        if (preferred_locales)
+        {
+            if (CFArrayGetCount(preferred_locales))
+            {
+                char psz_locale[50];
+                CFStringRef user_language_string_ref = (CFStringRef) CFArrayGetValueAtIndex(preferred_locales, 0);
+                CFStringGetCString(user_language_string_ref, psz_locale, sizeof(psz_locale), kCFStringEncodingUTF8);
+                setenv("LANG", psz_locale, 1);
+            }
+            CFRelease(preferred_locales);
+        }
+        CFRelease(all_locales);
+    }
+#endif
+
+
 #ifdef HAVE_SETLOCALE
     // Set locale via LC_ALL
     setlocale(LC_ALL, "");
+#ifdef __APPLE__
+    // FIXME: Ugly hack: we hardcode the encoding to UTF-8, because I don't
+    // know how to retrieve it properly
+    setlocale(LC_CTYPE, "UTF-8");
+#endif
 #endif
 
     QApplication app(argc, argv);
