@@ -72,7 +72,7 @@ int main(int argc, char **argv)
     setlocale(LC_ALL, "");
 #ifdef __APPLE__
     // FIXME: Ugly hack: we hardcode the encoding to UTF-8, because I don't
-    // know how to retrieve it properly
+    // know how to retrieve it properly when LANG is not set
     setlocale(LC_CTYPE, "UTF-8");
 #endif
 #endif
@@ -98,6 +98,10 @@ int main(int argc, char **argv)
     static const string localeDir = LOCALEDIR;
 #endif
     bindtextdomain(PACKAGE, localeDir.c_str());
+#ifdef __APPLE__
+    // Force messages to UTF-8
+    bind_textdomain_codeset(PACKAGE, "UTF-8");
+#endif
     textdomain(PACKAGE);
 
     // Translations for Qt's own strings

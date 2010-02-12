@@ -46,7 +46,14 @@ QString qfw(const wstring &wstr);
 #define qfu(s) QString::fromUtf8(s)
 #define qtu(s) (s).toUtf8().data()
 // Translation macro to use gettext
-#define _q(s) QString::fromLocal8Bit(_(s))
+#ifdef __APPLE__
+// On MacOSX, we force the encoding to UTF-8, because we have trouble
+// detecting the current encoding properly (see call to
+// bind_textdomain_codeset() in main.cpp)
+#    define _q(s) qfu(_(s))
+#else
+#    define _q(s) QString::fromLocal8Bit(_(s))
+#endif
 
 // Used for QSettings
 #define ORGANIZATION "eliot"
