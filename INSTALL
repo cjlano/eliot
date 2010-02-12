@@ -135,6 +135,9 @@ Here are the steps for the cross-compilation:
     LIBS="-lxml2" \
     ./configure --enable-qt --disable-text
 
+* You may need to remove the moc files manually:
+    rm qt/*.moc.cpp
+
 * To compile, run 'make'
 
 * Then, to get a ready to use .dmg file, run 'make package-macosx-dmg'
