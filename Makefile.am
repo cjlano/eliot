@@ -68,6 +68,26 @@ package-macosx:
 	mkdir -p $(MACOSX_PACKAGE_DIR)/locale/qt4
 	cp $(QT4LOCALEDIR)/*.qm $(MACOSX_PACKAGE_DIR)/locale/qt4/ || true
 
+# Copy the shared libraries
+	mkdir -p $(MACOSX_PACKAGE_DIR)/Contents/Frameworks
+	for lib in `otool -L $(MACOSX_PACKAGE_DIR)/Contents/MacOS/Eliot | grep /opt/local/ | sed 's/ (.*//'`; do \
+		cp $$lib $(MACOSX_PACKAGE_DIR)/Contents/Frameworks; \
+		install_name_tool -change $$lib @executable_path/../Frameworks/`basename $$lib` $(MACOSX_PACKAGE_DIR)/Contents/MacOS/Eliot; \
+	done
+
+# Copy needed Qt resources
+	mkdir -p $(MACOSX_PACKAGE_DIR)/Contents/Resources
+	cp -r /opt/local/libexec/qt4-mac/lib/QtGui.framework/Versions/4/Resources/* $(MACOSX_PACKAGE_DIR)/Contents/Resources
+
+# Change the dependencies, so that we point to the libraries inside the bundle
+	for lib in `ls $(MACOSX_PACKAGE_DIR)/Contents/Frameworks`; do \
+		install_name_tool -id @executable_path/../Frameworks/`basename $$lib` $$lib; \
+		for dep in `otool -L $$lib | grep /opt/local/ | sed 's/ (.*//'`; do \
+			install_name_tool -change $$dep @executable_path/../Frameworks/`basename $$dep` $$lib \
+		done; \
+	done
+
+
 # Build the .dmg file
 package-macosx-dmg: package-macosx
 	rm -f $(DMG_FILE)
