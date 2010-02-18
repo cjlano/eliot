@@ -80,10 +80,11 @@ package-macosx:
 	cp -r /opt/local/libexec/qt4-mac/lib/QtGui.framework/Versions/4/Resources/* $(MACOSX_PACKAGE_DIR)/Contents/Resources
 
 # Change the dependencies, so that we point to the libraries inside the bundle
-	for lib in `ls $(MACOSX_PACKAGE_DIR)/Contents/Frameworks`; do \
-		install_name_tool -id @executable_path/../Frameworks/`basename $$lib` $$lib; \
+	cd $(MACOSX_PACKAGE_DIR)/Contents/Frameworks; \
+	for lib in `ls`; do \
+		install_name_tool -id @executable_path/../Frameworks/$$lib $$lib; \
 		for dep in `otool -L $$lib | grep /opt/local/ | sed 's/ (.*//'`; do \
-			install_name_tool -change $$dep @executable_path/../Frameworks/`basename $$dep` $$lib \
+			install_name_tool -change $$dep @executable_path/../Frameworks/`basename $$dep` $$lib; \
 		done; \
 	done
 
