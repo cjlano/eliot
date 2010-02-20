@@ -197,7 +197,9 @@ void PercentResults::search(const Dictionary &iDic, const Board &iBoard,
     }
 
     // Keep only the rounds with the "chosenPoints" score
-    std::remove_if(m_rounds.begin(), m_rounds.end(), Predicate(chosenPoints));
+    vector<Round>::iterator last =
+        std::remove_if(m_rounds.begin(), m_rounds.end(), Predicate(chosenPoints));
+    m_rounds.erase(last, m_rounds.end());
     ASSERT(!m_rounds.empty(), "Bug in PercentResults");
 
     // Sort the remaining rounds
