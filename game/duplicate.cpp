@@ -228,8 +228,8 @@ void Duplicate::endTurn()
     // Handle solo bonus
     // First check whether there are enough players in the game for the
     // bonus to apply
-    int minNbPlayers = Settings::Instance().getInt("duplicate.solo-players");
-    if (getNPlayers() >= (unsigned int)minNbPlayers &&
+    unsigned int minNbPlayers = Settings::Instance().getInt("duplicate.solo-players");
+    if (getNPlayers() >= minNbPlayers &&
         bestMove.getType() == Move::VALID_ROUND)
     {
         // Find whether other players than imax have the same score

@@ -136,7 +136,7 @@ void TrainingWidget::updateModel()
     // Consider that there is nothing to do if the number of lines is correct
     // This avoids problems when the game is updated for a test play
     if (m_game != NULL &&
-        m_game->trainingGetResults().size() == (unsigned int)m_model->rowCount())
+        m_game->trainingGetResults().size() == static_cast<unsigned int>(m_model->rowCount()))
     {
         return;
     }

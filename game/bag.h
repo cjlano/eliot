@@ -90,6 +90,10 @@ private:
 
     /// Total number of tiles in the bag
     int m_ntiles;
+
+    /// Helper method, used by the various selectRandom*() methods
+    Tile selectRandomTile(unsigned int total,
+                          bool onlyVowels, bool onlyConsonants) const;
 };
 
 #endif

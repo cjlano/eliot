@@ -46,7 +46,7 @@ unsigned int Bag::in(const Tile &iTile) const
 {
     map<Tile, int>::const_iterator it = m_tilesMap.find(iTile);
     if (it != m_tilesMap.end())
-        return (*it).second;
+        return it->second;
     return 0;
 }
 
@@ -101,55 +101,34 @@ void Bag::replaceTile(const Tile &iTile)
 
 Tile Bag::selectRandom() const
 {
-    double max = m_ntiles;
-    ASSERT(max > 0, "The bag is empty");
-
-    int n = (int)(max * rand() / (RAND_MAX + 1.0));
-
-    std::pair<Tile, int> p;
-    BOOST_FOREACH(p, m_tilesMap)
-    {
-        if (n < p.second)
-            return p.first;
-        n -= p.second;
-    }
-    ASSERT(false, "We should not come here");
-    return Tile();
+    return selectRandomTile(m_ntiles, false, false);
 }
 
 
 Tile Bag::selectRandomVowel() const
 {
-    double max = getNbVowels();
-    ASSERT(max > 0, "Not enough vowels in the bag");
-
-    int n = (int)(max * rand() / (RAND_MAX + 1.0));
-
-    std::pair<Tile, int> p;
-    BOOST_FOREACH(p, m_tilesMap)
-    {
-        if (!p.first.isVowel())
-            continue;
-        if (n < p.second)
-            return p.first;
-        n -= p.second;
-    }
-    ASSERT(false, "We should not come here");
-    return Tile();
+    return selectRandomTile(getNbVowels(), true, false);
 }
 
 
 Tile Bag::selectRandomConsonant() const
 {
-    double max = getNbConsonants();
-    ASSERT(max > 0, "Not enough consonants in the bag");
+    return selectRandomTile(getNbConsonants(), false, true);
+}
 
-    int n = (int)(max * rand() / (RAND_MAX + 1.0));
 
+Tile Bag::selectRandomTile(unsigned int total,
+                           bool onlyVowels, bool onlyConsonants) const
+{
+    ASSERT(total > 0, "Not enough tiles (of the requested kind) in the bag");
+
+    int n = (int)((double)total * rand() / (RAND_MAX + 1.0));
     std::pair<Tile, int> p;
     BOOST_FOREACH(p, m_tilesMap)
     {
-        if (!p.first.isConsonant())
+        if (onlyVowels && !p.first.isVowel())
+            continue;
+        if (onlyConsonants && !p.first.isConsonant())
             continue;
         if (n < p.second)
             return p.first;

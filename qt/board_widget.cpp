@@ -19,7 +19,7 @@
  *****************************************************************************/
 
 #include <algorithm> // For std::transform
-#include <math.h>
+#include <cmath>
 #include <QtGui/QPainter>
 #include <QtGui/QPaintEvent>
 #include <QtGui/QMouseEvent>
@@ -92,7 +92,7 @@ QSize BoardWidget::sizeHint() const
 void BoardWidget::paintEvent(QPaintEvent *)
 {
     const int size = std::min(width(), height());
-    const int squareSize = (int)floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2));
+    const int squareSize = lrint(floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2)));
 
     // The font must grow with the square size
     QFont letterFont = font();
@@ -223,7 +223,7 @@ void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
     {
         // Find the coordinates
         const int size = std::min(width(), height());
-        const int squareSize = (int)floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2));
+        const int squareSize = lrint(floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2)));
         int row = iEvent->y() / squareSize;
         int col = iEvent->x() / squareSize;
         // Change the direction if this is exactly the same as the current one
@@ -247,7 +247,7 @@ void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
     {
         // Find the coordinates
         const int size = std::min(width(), height());
-        const int squareSize = (int)floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2));
+        const int squareSize = lrint(floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2)));
         int row = iEvent->y() / squareSize;
         int col = iEvent->x() / squareSize;
         // Change the direction if this is exactly the same as the current one
@@ -278,7 +278,7 @@ void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
     //  - a right click toggles between vertical arrow and no arrow
     // Find the coordinates
     const int size = std::min(width(), height());
-    const int squareSize = (int)floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2));
+    const int squareSize = lrint(floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2)));
     int row = iEvent->y() / squareSize;
     int col = iEvent->x() / squareSize;
     if (iEvent->button() == Qt::LeftButton)

@@ -216,7 +216,7 @@ void PercentResults::add(const Round &iRound)
     if (m_bestScore < iRound.getPoints())
     {
         m_bestScore = iRound.getPoints();
-        m_minScore = (int)ceil(m_bestScore * m_percent);
+        m_minScore = lrint(ceil(m_bestScore * m_percent));
     }
     m_rounds.push_back(iRound);
 }

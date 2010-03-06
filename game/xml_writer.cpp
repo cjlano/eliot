@@ -20,6 +20,7 @@
 
 #include <vector>
 #include <fstream>
+#include <cmath>
 #include <boost/foreach.hpp>
 
 #include "xml_writer.h"
@@ -124,7 +125,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
             const AIPercent *ai = dynamic_cast<const AIPercent *>(&player);
             if (ai == NULL)
                 throw SaveGameException("Invalid player type for player " + i);
-            out << indent << "<Level>" << (int)(ai->getPercent() * 100) << "</Level>" << endl;
+            out << indent << "<Level>" << lrint(ai->getPercent() * 100) << "</Level>" << endl;
         }
         removeIndent(indent);
         out << indent << "</Player>" << endl;
