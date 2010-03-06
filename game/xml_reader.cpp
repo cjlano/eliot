@@ -112,10 +112,10 @@ static Move buildMove(const Game &iGame, map<string, string> &attr,
     string type = attr["type"];
     if (type == "valid")
     {
+        wstring word = iGame.getDic().convertFromInput(fromUtf8(attr["word"]));
         Round round;
         int res = iGame.checkPlayedWord(fromUtf8(attr["coord"]),
-                                        fromUtf8(attr["word"]),
-                                        round, checkRack);
+                                        word, round, checkRack);
         if (res != 0)
         {
             throw LoadGameException("Invalid move marked as valid: " +
@@ -269,12 +269,13 @@ void XmlReader::endElement(const string& namespaceURI,
     else if (tag == "PlayerRack")
     {
         // Build a rack for the correct player
+        const wstring &rackStr = m_dic.convertFromInput(fromUtf8(m_data));
         PlayedRack pldrack;
-        if (!m_dic.validateLetters(fromUtf8(m_data), L"-+"))
+        if (!m_dic.validateLetters(rackStr, L"-+"))
         {
             throw LoadGameException("Rack invalid for the current dictionary: " + m_data);
         }
-        pldrack.setManual(fromUtf8(m_data));
+        pldrack.setManual(rackStr);
 #if 0
         cerr << "loaded rack: " << convertToMb(pldrack.toString()) << endl;
 #endif
