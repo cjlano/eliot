@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.9\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2010-01-24 00:36+0100\n"
+"POT-Creation-Date: 2010-03-09 08:22+0100\n"
 "PO-Revision-Date: 2009-06-28 10:35+0100\n"
 "Last-Translator: Olivier Teulière <ipkiss @@ via.ecp.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -484,7 +484,7 @@ msgstr "Ref"
 msgid "Player"
 msgstr "Joueur"
 
-#: qt/history_widget.cpp:143 qt/main_window.cpp:665 utils/ncurses.cpp:418
+#: qt/history_widget.cpp:143 qt/main_window.cpp:665 utils/ncurses.cpp:421
 msgid "(PASS)"
 msgstr "(PASSE)"
 
@@ -508,7 +508,7 @@ msgstr ""
 msgid "No game"
 msgstr "Pas de partie en cours"
 
-#: qt/main_window.cpp:268 utils/ncurses.cpp:1107 qt/ui/prefs_dialog.ui.h:277
+#: qt/main_window.cpp:268 utils/ncurses.cpp:1110 qt/ui/prefs_dialog.ui.h:277
 msgid "Training mode"
 msgstr "Mode entraînement"
 
@@ -776,7 +776,7 @@ msgstr "Partie démarrée"
 msgid "You have to select a dictionary first!"
 msgstr "Vous devez d'abord choisir un dictionnaire !"
 
-#: qt/main_window.cpp:500 utils/ncurses.cpp:636
+#: qt/main_window.cpp:500 utils/ncurses.cpp:639
 msgid "Load a game"
 msgstr "Charger une partie"
 
@@ -784,7 +784,7 @@ msgstr "Charger une partie"
 msgid "Error while loading the game:\n"
 msgstr "Erreur pendant le chargement de la partie:\n"
 
-#: qt/main_window.cpp:518 utils/ncurses.cpp:650
+#: qt/main_window.cpp:518 utils/ncurses.cpp:653
 #, c-format
 msgid "Game loaded"
 msgstr "Partie chargée"
@@ -842,7 +842,7 @@ msgstr "Choisir un dictionnaire"
 msgid "Loaded dictionary '%1'"
 msgstr "Dictionnaire '%1' chargé"
 
-#: qt/main_window.cpp:761 utils/ncurses.cpp:490 qt/ui/main_window.ui.h:125
+#: qt/main_window.cpp:761 utils/ncurses.cpp:493 qt/ui/main_window.ui.h:125
 msgid "Bag"
 msgstr "Sac"
 
@@ -1041,57 +1041,57 @@ msgstr "Recherche en cours pour le tirage '%1'..."
 msgid "Search done"
 msgstr "Recherche terminée"
 
-#: utils/ncurses.cpp:286
+#: utils/ncurses.cpp:289
 msgid "Scores"
 msgstr "Scores"
 
-#: utils/ncurses.cpp:290 utils/ncurses.cpp:296
+#: utils/ncurses.cpp:293 utils/ncurses.cpp:299
 #, c-format
 msgid "%s: %d"
 msgstr "%s : %d"
 
-#: utils/ncurses.cpp:308
+#: utils/ncurses.cpp:311
 msgid "Racks"
 msgstr "Tirages"
 
-#: utils/ncurses.cpp:312 utils/ncurses.cpp:318
+#: utils/ncurses.cpp:315 utils/ncurses.cpp:321
 #, c-format
 msgid "%s: %ls"
 msgstr "%s : %ls"
 
-#: utils/ncurses.cpp:332 utils/ncurses.cpp:335
+#: utils/ncurses.cpp:335 utils/ncurses.cpp:338
 msgid "Search complete"
 msgstr "Recherche terminée"
 
-#: utils/ncurses.cpp:344 qt/ui/training_widget.ui.h:178
+#: utils/ncurses.cpp:347 qt/ui/training_widget.ui.h:178
 msgid "Search results"
 msgstr "Résultats de la recherche"
 
-#: utils/ncurses.cpp:373
+#: utils/ncurses.cpp:376
 msgid "History of the game"
 msgstr "Historique de la partie"
 
-#: utils/ncurses.cpp:379
+#: utils/ncurses.cpp:382
 msgid " N |      RACK      |    SOLUTION     | REF | PTS | P | BONUS"
 msgstr " N |     TIRAGE     |    SOLUTION     | REF | PTS | J | BONUS"
 
-#: utils/ncurses.cpp:444
+#: utils/ncurses.cpp:447
 msgid "Help"
 msgstr "Aide"
 
-#: utils/ncurses.cpp:448
+#: utils/ncurses.cpp:451
 msgid "[Global]"
 msgstr "[Général]"
 
-#: utils/ncurses.cpp:449
+#: utils/ncurses.cpp:452
 msgid "   h, H, ?          Show/hide help box"
 msgstr "   h, H, ?          Afficher/cacher la boîte d'aide"
 
-#: utils/ncurses.cpp:450
+#: utils/ncurses.cpp:453
 msgid "   y, Y             Show/hide history of the game"
 msgstr "   y, Y             Afficher/cacher l'historique de la partie"
 
-#: utils/ncurses.cpp:451
+#: utils/ncurses.cpp:454
 msgid ""
 "   b, B             Show/hide contents of the bag (including letters of the "
 "racks)"
@@ -1099,94 +1099,94 @@ msgstr ""
 "   b, B             Afficher/cacher le contenu du sac (avec les lettres des "
 "tirages)"
 
-#: utils/ncurses.cpp:452
+#: utils/ncurses.cpp:455
 msgid "   e, E             Show/hide dots on empty squares of the board"
 msgstr ""
 "   e, E             Afficher/cacher les points sur les cases vides du "
 "plateau de jeu"
 
-#: utils/ncurses.cpp:453
+#: utils/ncurses.cpp:456
 msgid "   d, D             Check the existence of a word in the dictionary"
 msgstr "   d, D             Vérifier l'existence d'un mot dans le dictionnaire"
 
-#: utils/ncurses.cpp:454
+#: utils/ncurses.cpp:457
 msgid "   j, J             Play a word"
 msgstr "   j, J             Jouer un mot"
 
-#: utils/ncurses.cpp:455
+#: utils/ncurses.cpp:458
 msgid "   s, S             Save the game"
 msgstr "   s, S             Sauvegarder la partie"
 
-#: utils/ncurses.cpp:456
+#: utils/ncurses.cpp:459
 msgid "   l, L             Load a game"
 msgstr "   l, L             Charger une partie"
 
-#: utils/ncurses.cpp:457
+#: utils/ncurses.cpp:460
 msgid "   q, Q             Quit"
 msgstr "   q, Q             Quitter"
 
-#: utils/ncurses.cpp:460
+#: utils/ncurses.cpp:463
 msgid "[Training mode]"
 msgstr "[Mode entraînement]"
 
-#: utils/ncurses.cpp:461
+#: utils/ncurses.cpp:464
 msgid "   *                Take a random rack"
 msgstr "   *                Tirage aléatoire"
 
-#: utils/ncurses.cpp:462
+#: utils/ncurses.cpp:465
 msgid "   +                Complete the current rack randomly"
 msgstr "   +                Compléter le tirage courant de manière aléatoire"
 
-#: utils/ncurses.cpp:463
+#: utils/ncurses.cpp:466
 msgid "   t, T             Set the rack manually"
 msgstr "   t, T             Entrer le tirage manuellement"
 
-#: utils/ncurses.cpp:464
+#: utils/ncurses.cpp:467
 msgid "   c, C             Compute all the possible words"
 msgstr "   c, C             Calculer tous les mots possibles"
 
-#: utils/ncurses.cpp:465
+#: utils/ncurses.cpp:468
 msgid "   r, R             Show/hide search results"
 msgstr "   r, R             Afficher/cacher les résultats de la recherche"
 
-#: utils/ncurses.cpp:468
+#: utils/ncurses.cpp:471
 msgid "[Duplicate mode]"
 msgstr "[Mode duplicate]"
 
-#: utils/ncurses.cpp:469
+#: utils/ncurses.cpp:472
 msgid "   n, N             Switch to the next human player"
 msgstr "   n, N             Passer au joueur humain suivant"
 
-#: utils/ncurses.cpp:472
+#: utils/ncurses.cpp:475
 msgid "[Free game mode]"
 msgstr "[Mode partie libre]"
 
-#: utils/ncurses.cpp:473
+#: utils/ncurses.cpp:476
 msgid "   p, P             Pass your turn (with or without changing letters)"
 msgstr ""
 "   p, P             Passer son tour (en changeant ou pas certaines lettres)"
 
-#: utils/ncurses.cpp:476
+#: utils/ncurses.cpp:479
 msgid "[Miscellaneous]"
 msgstr "[Divers]"
 
-#: utils/ncurses.cpp:477
+#: utils/ncurses.cpp:480
 msgid "   <up>, <down>     Navigate in a box line by line"
 msgstr "   <haut>, <bas>    Naviguer dans une boîte ligne par ligne"
 
-#: utils/ncurses.cpp:478
+#: utils/ncurses.cpp:481
 msgid "   <pgup>, <pgdown> Navigate in a box page by page"
 msgstr "   <pgup>, <pgdown> Naviguer dans une boîte page par page"
 
-#: utils/ncurses.cpp:479
+#: utils/ncurses.cpp:482
 msgid "   Ctrl-l           Refresh the screen"
 msgstr "   Ctrl-l           Rafraîchir l'écran"
 
-#: utils/ncurses.cpp:497
+#: utils/ncurses.cpp:500
 msgid " LETTER | POINTS | FREQUENCY | REMAINING"
 msgstr " LETTRE | POINTS | FREQUENCE | RESTANT"
 
-#: utils/ncurses.cpp:553
+#: utils/ncurses.cpp:556
 msgid "Play a word"
 msgstr "Jouer un mot"
 
@@ -1194,95 +1194,95 @@ msgstr "Jouer un mot"
 #. "Coordinates:". For example:
 #. Pl. word   :
 #. Coordinates:
-#: utils/ncurses.cpp:554 utils/ncurses.cpp:562
+#: utils/ncurses.cpp:557 utils/ncurses.cpp:565
 msgid "Played word:"
 msgstr "Mot joué    :"
 
-#: utils/ncurses.cpp:555 utils/ncurses.cpp:563
+#: utils/ncurses.cpp:558 utils/ncurses.cpp:566
 msgid "Coordinates:"
 msgstr "Coordonnées :"
 
-#: utils/ncurses.cpp:577
+#: utils/ncurses.cpp:580
 msgid "Incorrect or misplaced word"
 msgstr "Mot incorrect ou mal placé"
 
-#: utils/ncurses.cpp:587
+#: utils/ncurses.cpp:590
 msgid "Dictionary"
 msgstr "Dictionnaire"
 
-#: utils/ncurses.cpp:588
+#: utils/ncurses.cpp:591
 msgid "Enter the word to check:"
 msgstr "Entrer le mot à vérifier:"
 
-#: utils/ncurses.cpp:597
+#: utils/ncurses.cpp:600
 #, c-format
 msgid "The word '%ls' exists"
 msgstr "Le mot '%ls' existe"
 
-#: utils/ncurses.cpp:599
+#: utils/ncurses.cpp:602
 #, c-format
 msgid "The word '%ls' does not exist"
 msgstr "Le mot '%ls' n'existe pas"
 
-#: utils/ncurses.cpp:609
+#: utils/ncurses.cpp:612
 msgid "Save the game"
 msgstr "Sauvegarder la partie"
 
-#: utils/ncurses.cpp:610 utils/ncurses.cpp:637
+#: utils/ncurses.cpp:613 utils/ncurses.cpp:640
 msgid "Enter the file name:"
 msgstr "Entrer le nom du fichier :"
 
-#: utils/ncurses.cpp:620
+#: utils/ncurses.cpp:623
 #, c-format
 msgid "Game saved in '%ls'"
 msgstr "Partie sauvée dans '%ls'"
 
-#: utils/ncurses.cpp:625
+#: utils/ncurses.cpp:628
 #, c-format
 msgid "Error saving game %s:"
 msgstr "Erreur pendant l'enregistrement de la partie %s:"
 
-#: utils/ncurses.cpp:655
+#: utils/ncurses.cpp:658
 msgid "Unable to load game: "
 msgstr "Impossible de charger la partie : "
 
-#: utils/ncurses.cpp:665
+#: utils/ncurses.cpp:668
 msgid "Pass your turn"
 msgstr "Passer son tour"
 
-#: utils/ncurses.cpp:666
+#: utils/ncurses.cpp:669
 msgid "Enter the letters to change:"
 msgstr "Entrer les lettres à changer:"
 
-#: utils/ncurses.cpp:675
+#: utils/ncurses.cpp:678
 msgid "Cannot pass the turn"
 msgstr "Impossible de passer le tour"
 
-#: utils/ncurses.cpp:685
+#: utils/ncurses.cpp:688
 msgid "Set rack"
 msgstr "Choix du tirage"
 
-#: utils/ncurses.cpp:686
+#: utils/ncurses.cpp:689
 msgid "Enter the new letters:"
 msgstr "Entrer les nouvelles lettres:"
 
-#: utils/ncurses.cpp:698
+#: utils/ncurses.cpp:701
 msgid "Cannot take these letters from the bag:"
 msgstr "Impossible de prendre ces lettres dans le sac:"
 
-#: utils/ncurses.cpp:1109 qt/ui/prefs_dialog.ui.h:272
+#: utils/ncurses.cpp:1112 qt/ui/prefs_dialog.ui.h:272
 msgid "Free game mode"
 msgstr "Mode partie libre"
 
-#: utils/ncurses.cpp:1111 qt/ui/prefs_dialog.ui.h:259
+#: utils/ncurses.cpp:1114 qt/ui/prefs_dialog.ui.h:259
 msgid "Duplicate mode"
 msgstr "Mode duplicate"
 
-#: utils/ncurses.cpp:1114 qt/ui/new_game.ui.h:220
+#: utils/ncurses.cpp:1117 qt/ui/new_game.ui.h:220
 msgid "Joker game"
 msgstr "Partie joker"
 
-#: utils/ncurses.cpp:1115
+#: utils/ncurses.cpp:1118
 msgid "[h for help]"
 msgstr "[h pour l'aide]"
 
