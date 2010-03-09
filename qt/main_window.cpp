@@ -282,7 +282,7 @@ void MainWindow::updateForGame(const PublicGame *iGame)
 void MainWindow::updateStatusBar(const Dictionary *iDic)
 {
     if (iDic == NULL)
-        m_dicNameLabel->setText("No dictionary");
+        m_dicNameLabel->setText(_q("No dictionary"));
     else {
         QString dicName = qfw(m_dic->getHeader().getName());
         m_dicNameLabel->setText(_q("Dictionary: %1").arg(dicName));
