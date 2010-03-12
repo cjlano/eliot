@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.9\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2010-03-09 08:22+0100\n"
+"POT-Creation-Date: 2010-03-11 07:58+0100\n"
 "PO-Revision-Date: 2010-01-02 20:11+0100\n"
 "Last-Translator: Joan Montané <joan---sense spam---montane.cat>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -516,6 +516,11 @@ msgstr "Partida duplicada"
 #: qt/ui/new_game.ui.h:213
 msgid "Free game"
 msgstr "Partida lliure"
+
+#: qt/main_window.cpp:285
+#, fuzzy
+msgid "No dictionary"
+msgstr "Diccionari"
 
 #: qt/main_window.cpp:288
 msgid "Dictionary: %1"

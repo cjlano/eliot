@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.9\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2010-03-09 08:22+0100\n"
+"POT-Creation-Date: 2010-03-11 07:58+0100\n"
 "PO-Revision-Date: 2009-06-28 10:35+0100\n"
 "Last-Translator: Olivier Teulière <ipkiss @@ via.ecp.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -521,6 +521,10 @@ msgstr "Partie duplicate"
 msgid "Free game"
 msgstr "Partie libre"
 
+#: qt/main_window.cpp:285
+msgid "No dictionary"
+msgstr "Aucun dictionnaire"
+
 #: qt/main_window.cpp:288
 msgid "Dictionary: %1"
 msgstr "Dictionnaire : %1"
@@ -799,7 +803,7 @@ msgstr "Partie enregistrée"
 
 #: qt/main_window.cpp:538
 msgid "Error saving game: %1"
-msgstr "Erreur pendant l'enregistrement de la partie: %1"
+msgstr "Erreur pendant l'enregistrement de la partie : %1"
 
 #: qt/main_window.cpp:573
 msgid "N."
