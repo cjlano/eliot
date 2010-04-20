@@ -98,14 +98,25 @@ const wchar_t* load_uncompressed(const string &iFileName, unsigned int &ioDicSiz
     file.read(&buffer.front(), ioDicSize);
     file.close();
 
+    // If there is a BOM in the file, use an offset to start reading after it
+    size_t bomOffset = 0;
+    if ((uint8_t)buffer[0] == 0xEF &&
+        (uint8_t)buffer[1] == 0xBB &&
+        (uint8_t)buffer[2] == 0xBF)
+    {
+        bomOffset = 3;
+    }
+
     // Buffer for the wide characters (it will use at most as many characters
     // as the utf-8 version)
     wchar_t *wideBuf = new wchar_t[ioDicSize];
 
     try
     {
-        unsigned int number = readFromUTF8(wideBuf, ioDicSize, &buffer.front(),
-                                           ioDicSize, "load_uncompressed");
+        unsigned int number = readFromUTF8(wideBuf, ioDicSize,
+                                           (&buffer.front()) + bomOffset,
+                                           ioDicSize - bomOffset,
+                                           "load_uncompressed");
         ioDicSize = number;
         return wideBuf;
     }
@@ -158,22 +169,10 @@ void readLetters(const string &iFileName, DictHeaderInfo &ioHeaderInfo)
         wstring letter = tokens[0];
         if (letter.size() != 1)
         {
-            // On the first line, there could be the BOM...
-            if (lineNb == 1 && tokens[0].size() > 3 &&
-                (uint8_t)tokens[0][0] == 0xEF &&
-                (uint8_t)tokens[0][1] == 0xBB &&
-                (uint8_t)tokens[0][2] == 0xBF)
-            {
-                // BOM detected, remove the first char in the wide string
-                letter.erase(0, 1);
-            }
-            else
-            {
-                ostringstream ss;
-                ss << fmt(_("readLetters: Invalid letter at line %1% "
-                            "(only one character allowed)")) % lineNb;
-                throw DicException(ss.str());
-            }
+            ostringstream ss;
+            ss << fmt(_("readLetters: Invalid letter at line %1% "
+                        "(only one character allowed)")) % lineNb;
+            throw DicException(ss.str());
         }
 
         // We don't support non-alphabetical characters in the dictionary
