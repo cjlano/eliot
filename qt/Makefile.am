@@ -27,7 +27,17 @@ SUFFIXES=.ui.h .moc.cpp
 bin_PROGRAMS = eliot
 
 RESOURCES = \
-    images/eliot.xpm
+    images/eliot.xpm \
+    images/go-first.png \
+    images/go-jump.png \
+    images/go-last.png \
+    images/go-next.png \
+    images/go-previous.png \
+    images/info_16px.png \
+    images/playlist_16px.png \
+    images/preferences.png \
+    images/printer.png \
+    images/quit_16px.png
 
 EXTRA_DIST = \
     ui/dic_tools_widget.ui \
@@ -40,7 +50,24 @@ EXTRA_DIST = \
     $(RESOURCES) \
     images/eliot.ico
 
-BUILT_SOURCES = \
+eliot_SOURCES = \
+    qtcommon.h qtcommon.cpp \
+    coord_model.h coord_model.cpp \
+    bag_widget.cpp bag_widget.h \
+    dic_tools_widget.cpp dic_tools_widget.h \
+    new_game.cpp new_game.h \
+    score_widget.cpp score_widget.h \
+    board_widget.cpp board_widget.h \
+    history_widget.cpp history_widget.h \
+    play_word_mediator.cpp play_word_mediator.h \
+    training_widget.cpp training_widget.h \
+    player_widget.cpp player_widget.h \
+    prefs_dialog.cpp prefs_dialog.h \
+    aux_window.cpp aux_window.h \
+    main_window.cpp main_window.h \
+    main.cpp
+
+nodist_eliot_SOURCES = \
     ui/main_window.ui.h \
     ui/new_game.ui.h \
     ui/player_widget.ui.h \
@@ -62,23 +89,9 @@ BUILT_SOURCES = \
     main_window.moc.cpp \
     resources.cpp
 
-eliot_SOURCES = \
-    qtcommon.h qtcommon.cpp \
-    coord_model.h coord_model.cpp \
-    bag_widget.cpp bag_widget.h \
-    dic_tools_widget.cpp dic_tools_widget.h \
-    new_game.cpp new_game.h \
-    score_widget.cpp score_widget.h \
-    board_widget.cpp board_widget.h \
-    history_widget.cpp history_widget.h \
-    play_word_mediator.cpp play_word_mediator.h \
-    training_widget.cpp training_widget.h \
-    player_widget.cpp player_widget.h \
-    prefs_dialog.cpp prefs_dialog.h \
-    aux_window.cpp aux_window.h \
-    main_window.cpp main_window.h \
-    main.cpp
-eliot_SOURCES += $(BUILT_SOURCES)
+BUILT_SOURCES = $(nodist_eliot_SOURCES)
+
+MOSTLYCLEANFILES = $(nodist_eliot_SOURCES)
 
 eliot_LDADD = ../game/libgame.a ../dic/libdic.a @QT_LIBS@ @LIBINTL@ @LIBCONFIG_LIBS@ @ARABICA_LIBS@ @EXPAT_LDFLAGS@
 
