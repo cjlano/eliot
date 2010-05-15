@@ -24,14 +24,10 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <vector>
 #include <map>
 #include <boost/format.hpp>
 #include <boost/foreach.hpp>
-#include <boost/tokenizer.hpp>
-#include <boost/unordered_map.hpp>
 #include <boost/functional/hash.hpp>
-#include <getopt.h>
 #include <ctime>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -41,6 +37,10 @@
 #include <cstdio>
 #include <cerrno>
 #include <cstring>
+
+#include "compdic.h"
+#include "encoding.h"
+#include "dic_exception.h"
 
 // For htonl & Co.
 #ifdef WIN32
@@ -60,42 +60,87 @@
 #else
 #   define _(String) String
 #endif
-#ifdef WIN32
-#   include <windows.h>
-#endif
-
-#include "encoding.h"
-#include "header.h"
-#include "dic_internals.h"
-#include "dic_exception.h"
-
-using namespace std;
 
 // Useful shortcut
 #define fmt(a) boost::format(a)
 
-//#define DEBUG_OUTPUT
-#define CHECK_RECURSION
 
-
-unsigned int getFileSize(const string &iFileName)
+CompDic::CompDic()
+    : m_currentRec(0), m_maxRec(0), m_loadTime(0), m_buildTime(0)
 {
-    struct stat stat_buf;
-    if (stat(iFileName.c_str(), &stat_buf) < 0)
-        throw DicException((fmt(_("Could not open file '%1%'")) % iFileName).str());
-    return (unsigned int)stat_buf.st_size;
+    m_headerInfo.root       = 0;
+    m_headerInfo.nwords     = 0;
+    m_headerInfo.nodesused  = 1;
+    m_headerInfo.edgesused  = 1;
+    m_headerInfo.nodessaved = 0;
+    m_headerInfo.edgessaved = 0;
 }
 
-const wchar_t* load_uncompressed(const string &iFileName, unsigned int &ioDicSize)
+
+void CompDic::addLetter(wchar_t chr, int points, int frequency,
+                        bool isVowel, bool isConsonant,
+                        const vector<wstring> &iInputs)
+{
+    // We don't support non-alphabetical characters in the dictionary
+    // apart from the joker '?'. For more explanations on the issue, see
+    // on the eliot-dev mailing-list the thread with the following title:
+    //   re: Unable to show menus in Catalan, and some weird char "problem"
+    // (started on 2009/12/31)
+    if (!iswalpha(chr) && chr != L'?')
+    {
+        ostringstream ss;
+        ss << fmt(_("'%1%' is not a valid letter.")) % convertToMb(chr) << endl;
+        ss << fmt(_("For technical reasons, Eliot currently only supports "
+                    "alphabetical characters as internal character "
+                    "representation, even if the tile has a display string "
+                    "defined. Please use another character and change your "
+                    "word list accordingly."));
+        throw DicException(ss.str());
+    }
+
+    const wchar_t upChar = towupper(chr);
+    m_headerInfo.letters += upChar;
+    m_headerInfo.points.push_back(points);
+    m_headerInfo.frequency.push_back(frequency);
+    m_headerInfo.vowels.push_back(isVowel);
+    m_headerInfo.consonants.push_back(isConsonant);
+
+    // Ensure the input strings are in upper case
+    if (!iInputs.empty())
+    {
+        vector<wstring> upperInputs = iInputs;
+        BOOST_FOREACH(wstring &str, upperInputs)
+        {
+            std::transform(str.begin(), str.end(), str.begin(), towupper);
+        }
+
+        // If the display string is identical to the internal char and if
+        // there is no other input, no need to save this information, as
+        // it is already the default.
+        if (upperInputs.size() != 1 || upperInputs[0] != wstring(1, upChar))
+        {
+            m_headerInfo.displayInputData[upChar] = upperInputs;
+        }
+    }
+}
+
+
+const wchar_t * CompDic::loadWordList(const string &iFileName, unsigned int &oDicSize)
 {
     ifstream file(iFileName.c_str(), ios::in | ios::binary);
     if (!file.is_open())
         throw DicException((fmt(_("Could not open file '%1%'")) % iFileName).str());
 
+    // Get the file size
+    struct stat stat_buf;
+    if (stat(iFileName.c_str(), &stat_buf) < 0)
+        throw DicException((fmt(_("Could not open file '%1%'")) % iFileName).str());
+    oDicSize = (unsigned int)stat_buf.st_size;
+
     // Place the buffer in a vector to avoid worrying about memory handling
-    vector<char> buffer(ioDicSize);
+    vector<char> buffer(oDicSize);
     // Load the file data, everything in one shot
-    file.read(&buffer.front(), ioDicSize);
+    file.read(&buffer.front(), oDicSize);
     file.close();
 
     // If there is a BOM in the file, use an offset to start reading after it
@@ -109,15 +154,15 @@ const wchar_t* load_uncompressed(const string &iFileName, unsigned int &ioDicSiz
 
     // Buffer for the wide characters (it will use at most as many characters
     // as the utf-8 version)
-    wchar_t *wideBuf = new wchar_t[ioDicSize];
+    wchar_t *wideBuf = new wchar_t[oDicSize];
 
     try
     {
-        unsigned int number = readFromUTF8(wideBuf, ioDicSize,
+        unsigned int number = readFromUTF8(wideBuf, oDicSize,
                                            (&buffer.front()) + bomOffset,
-                                           ioDicSize - bomOffset,
-                                           "load_uncompressed");
-        ioDicSize = number;
+                                           oDicSize - bomOffset,
+                                           "loadWordList");
+        oDicSize = number;
         return wideBuf;
     }
     catch (...)
@@ -129,133 +174,17 @@ const wchar_t* load_uncompressed(const string &iFileName, unsigned int &ioDicSiz
 }
 
 
-void readLetters(const string &iFileName, DictHeaderInfo &ioHeaderInfo)
+Header CompDic::writeHeader(ostream &outFile) const
 {
-    ifstream in(iFileName.c_str());
-    if (!in.is_open())
-        throw DicException((fmt(_("Could not open file '%1%'")) % iFileName).str());
-
-    // Use a more friendly type name
-    typedef boost::tokenizer<boost::char_separator<wchar_t>,
-            std::wstring::const_iterator,
-            std::wstring> Tokenizer;
-
-    int lineNb = 1;
-    string line;
-    while (getline(in, line))
-    {
-        // Ignore empty lines
-        if (line == "" || line == "\r" || line == "\n")
-            continue;
-
-        // Convert the line to a wstring
-        const wstring &wline = readFromUTF8(line.c_str(), line.size(), "readLetters (1)");
-        // Split the lines on space characters
-        boost::char_separator<wchar_t> sep(L" ");
-        Tokenizer tok(wline, sep);
-        Tokenizer::iterator it;
-        vector<wstring> tokens(tok.begin(), tok.end());
-
-        // We expect at least 5 fields on the line
-        if (tokens.size() < 5)
-        {
-            ostringstream ss;
-            ss << fmt(_("readLetters: Not enough fields "
-                        "in %1% (line %2%)")) % iFileName % lineNb;
-            throw DicException(ss.str());
-        }
-
-        // The first field is a single character
-        wstring letter = tokens[0];
-        if (letter.size() != 1)
-        {
-            ostringstream ss;
-            ss << fmt(_("readLetters: Invalid letter at line %1% "
-                        "(only one character allowed)")) % lineNb;
-            throw DicException(ss.str());
-        }
-
-        // We don't support non-alphabetical characters in the dictionary
-        // apart from the joker '?'. For more explanations on the issue, see
-        // on the eliot-dev mailing-list the thread with the following title:
-        //   re: Unable to show menus in Catalan, and some weird char "problem"
-        // (started on 2009/12/31)
-        wchar_t chr = letter[0];
-        if (!iswalpha(chr) && chr != L'?')
-        {
-            ostringstream ss;
-            ss << fmt(_("'%1%' is not a valid letter.")) % convertToMb(letter) << endl;
-            ss << fmt(_("For technical reasons, Eliot currently only supports "
-                        "alphabetical characters as internal character "
-                        "representation, even if the tile has a display string "
-                        "defined. Please use another character and change your "
-                        "word list accordingly."));
-            throw DicException(ss.str());
-        }
-        wchar_t upChar = towupper(chr);
-        ioHeaderInfo.letters += upChar;
-
-        ioHeaderInfo.points.push_back(_wtoi(tokens[1].c_str()));
-        ioHeaderInfo.frequency.push_back(_wtoi(tokens[2].c_str()));
-        ioHeaderInfo.vowels.push_back(_wtoi(tokens[3].c_str()));
-        ioHeaderInfo.consonants.push_back(_wtoi(tokens[4].c_str()));
-
-        if (tokens.size() > 5)
-        {
-            vector<wstring> inputs(tokens.begin() + 5, tokens.end());
-            // Ensure the input strings are in upper case
-            BOOST_FOREACH(wstring &str, inputs)
-            {
-                std::transform(str.begin(), str.end(), str.begin(), towupper);
-            }
-
-            // If the display string is identical to the internal char and if
-            // there is no other input, no need to save this information, as
-            // it is already the default.
-            if (inputs.size() != 1 || inputs[0] != wstring(1, upChar))
-            {
-                ioHeaderInfo.displayInputData[upChar] = inputs;
-            }
-        }
-
-        ++lineNb;
-    }
-}
-
-
-Header skip_init_header(ostream &outfile, DictHeaderInfo &ioHeaderInfo)
-{
-    ioHeaderInfo.root       = 0;
-    ioHeaderInfo.nwords     = 0;
-    ioHeaderInfo.nodesused  = 1;
-    ioHeaderInfo.edgesused  = 1;
-    ioHeaderInfo.nodessaved = 0;
-    ioHeaderInfo.edgessaved = 0;
-
-    Header aHeader(ioHeaderInfo);
-    aHeader.write(outfile);
+    // Go back to the beginning of the stream before writing the header
+    outFile.seekp(0, ios::beg);
+    Header aHeader(m_headerInfo);
+    aHeader.write(outFile);
     return aHeader;
 }
 
 
-void fix_header(ostream &outfile, DictHeaderInfo &ioHeaderInfo)
-{
-    ioHeaderInfo.root = ioHeaderInfo.edgesused;
-    // Go back to the beginning of the stream to overwrite the header
-    outfile.seekp(0, ios::beg);
-#if defined(WORDS_BIGENDIAN)
-#warning "**********************************************"
-#warning "compdic does not run yet on bigendian machines"
-#warning "**********************************************"
-#else
-    Header aHeader(ioHeaderInfo);
-    aHeader.write(outfile);
-#endif
-}
-
-
-// Change endianness of the pointed edges, and write them to the given ostream
-void write_node(uint32_t *ioEdges, unsigned int num, ostream &outfile)
+void CompDic::writeNode(uint32_t *ioEdges, unsigned int num, ostream &outFile)
 {
     // Handle endianness
     for (unsigned int i = 0; i < num; ++i)
@@ -267,15 +196,12 @@ void write_node(uint32_t *ioEdges, unsigned int num, ostream &outfile)
     cout << fmt(_("writing %1% edges")) % num << endl;
     for (int i = 0; i < num; i++)
     {
-        outfile.write((char*)(ioEdges + i), sizeof(DicEdge));
+        outFile.write((char*)(ioEdges + i), sizeof(DicEdge));
     }
 #else
-    outfile.write((char*)ioEdges, num * sizeof(DicEdge));
+    outFile.write((char*)ioEdges, num * sizeof(DicEdge));
 #endif
 }
-
-#define MAX_STRING_LENGTH 200
-
 
 #define MAX_EDGES 2000
 /* ods3: ??   */
@@ -295,62 +221,24 @@ size_t hash_value(const DicEdge &iEdge)
 class IncDec
 {
     public:
-        IncDec(int &ioCounter)
-            : m_counter(ioCounter)
-        {
-            m_counter++;
-        }
-
-        ~IncDec()
-        {
-            m_counter--;
-        }
+        IncDec(int &ioCounter) : m_counter(ioCounter) { ++m_counter; }
+        ~IncDec() { --m_counter; }
     private:
         int &m_counter;
 };
-
-int current_rec = 0;
-int max_rec = 0;
 #endif
 
-typedef boost::unordered_map<vector<DicEdge>, unsigned int> HashMap;
 
-/* global variables */
-HashMap global_hashmap;
-
-wchar_t  global_stringbuf[MAX_STRING_LENGTH]; /* Space for current string */
-wchar_t* global_endstring;                    /* Marks END of current string */
-const wchar_t* global_input;
-const wchar_t* global_endofinput;
-#ifdef CHECK_RECURSION
-map<int, vector<DicEdge> > global_mapfordepth;
-#endif
-
-/**
- * Makenode takes a prefix (as position relative to stringbuf) and
- * returns an index of the start node of a dawg that recognizes all
- * words beginning with that prefix.  String is a pointer (relative
- * to stringbuf) indicating how much of iPrefix is matched in the
- * input.
- * @param iPrefix: prefix to work on
- * @param outfile: stream where to write the nodes
- * @param ioHeaderInfo: information needed to build the final header, updated
- *      during the processing
- * @param iHeader: temporary header, used only to do the conversion between
- *      the (wide) chars and their corresponding internal code
- */
-unsigned int makenode(const wchar_t *iPrefix, ostream &outfile,
-                      DictHeaderInfo &ioHeaderInfo, const Header &iHeader)
+unsigned int CompDic::makeNode(const wchar_t *iPrefix, ostream &outFile,
+                               const Header &iHeader)
 {
 #ifdef CHECK_RECURSION
-    IncDec inc(current_rec);
-    if (current_rec > max_rec)
-        max_rec = current_rec;
-#endif
+    IncDec inc(m_currentRec);
+    if (m_currentRec > m_maxRec)
+        m_maxRec = m_currentRec;
 
-#ifdef CHECK_RECURSION
     // Instead of creating a vector, try to reuse an existing one
-    vector<DicEdge> &edges = global_mapfordepth[current_rec];
+    vector<DicEdge> &edges = m_mapForDepth[m_currentRec];
     edges.reserve(MAX_EDGES);
     edges.clear();
 #else
@@ -360,7 +248,7 @@ unsigned int makenode(const wchar_t *iPrefix, ostream &outfile,
 #endif
     DicEdge newEdge;
 
-    while (iPrefix == global_endstring)
+    while (iPrefix == m_endString)
     {
         // More edges out of node
         newEdge.ptr  = 0;
@@ -368,48 +256,47 @@ unsigned int makenode(const wchar_t *iPrefix, ostream &outfile,
         newEdge.last = 0;
         try
         {
-            newEdge.chr = iHeader.getCodeFromChar(*global_endstring++ = *global_input++);
+            newEdge.chr = iHeader.getCodeFromChar(*m_endString++ = *m_input++);
         }
         catch (DicException &e)
         {
             // If an invalid character is found, be specific about the problem
             ostringstream oss;
             oss << fmt(_("Error on line %1%, col %2%: %3%"))
-                % (1 + ioHeaderInfo.nwords)
-                % (global_endstring - global_stringbuf)
+                % (1 + m_headerInfo.nwords)
+                % (m_endString - m_stringBuf)
                 % e.what() << endl;
             throw DicException(oss.str());
         }
         edges.push_back(newEdge);
 
         // End of a word?
-        if (*global_input == L'\n' || *global_input == L'\r')
+        if (*m_input == L'\n' || *m_input == L'\r')
         {
-            ioHeaderInfo.nwords++;
-            *global_endstring = L'\0';
+            m_headerInfo.nwords++;
+            *m_endString = L'\0';
             // Mark edge as word
             edges.back().term = 1;
 
             // Skip \r and/or \n
-            while (global_input != global_endofinput &&
-                   (*global_input == L'\n' || *global_input == L'\r'))
+            while (m_input != m_endOfInput &&
+                   (*m_input == L'\n' || *m_input == L'\r'))
             {
-                ++global_input;
+                ++m_input;
             }
             // At the end of input?
-            if (global_input == global_endofinput)
+            if (m_input == m_endOfInput)
                 break;
 
-            global_endstring = global_stringbuf;
-            while (*global_endstring == *global_input)
+            m_endString = m_stringBuf;
+            while (*m_endString == *m_input)
             {
-                global_endstring++;
-                global_input++;
+                m_endString++;
+                m_input++;
             }
         }
         // Make dawg pointed to by this edge
-        edges.back().ptr =
-            makenode(iPrefix + 1, outfile, ioHeaderInfo, iHeader);
+        edges.back().ptr = makeNode(iPrefix + 1, outFile, iHeader);
     }
 
     int numedges = edges.size();
@@ -422,212 +309,95 @@ unsigned int makenode(const wchar_t *iPrefix, ostream &outfile,
     // Mark the last edge
     edges.back().last = 1;
 
-    HashMap::const_iterator itMap = global_hashmap.find(edges);
-    if (itMap != global_hashmap.end())
+    HashMap::const_iterator itMap = m_hashMap.find(edges);
+    if (itMap != m_hashMap.end())
     {
-        ioHeaderInfo.edgessaved += numedges;
-        ioHeaderInfo.nodessaved++;
+        m_headerInfo.edgessaved += numedges;
+        m_headerInfo.nodessaved++;
 
         return itMap->second;
     }
     else
     {
-        unsigned int node_pos = ioHeaderInfo.edgesused;
-        global_hashmap[edges] = ioHeaderInfo.edgesused;
-        ioHeaderInfo.edgesused += numedges;
-        ioHeaderInfo.nodesused++;
-        write_node(reinterpret_cast<uint32_t*>(&edges.front()),
-                   numedges, outfile);
+        unsigned int node_pos = m_headerInfo.edgesused;
+        m_hashMap[edges] = m_headerInfo.edgesused;
+        m_headerInfo.edgesused += numedges;
+        m_headerInfo.nodesused++;
+        writeNode(reinterpret_cast<uint32_t*>(&edges.front()),
+                   numedges, outFile);
 
         return node_pos;
     }
 }
 
 
-void printUsage(const string &iBinaryName)
+Header CompDic::generateDawg(const string &iWordListFile,
+                             const string &iDawgFile,
+                             const string &iDicName)
 {
-    cout << "Usage: " << iBinaryName << " [options]" << endl
-         << _("Mandatory options:") << endl
-         << _("  -d, --dicname <string>  Set the dictionary name and version") << endl
-         << _("  -l, --letters <string>  Path to the file containing the letters (see below)") << endl
-         << _("  -i, --input <string>    Path to the uncompressed dictionary file (encoded in UTF-8)") << endl
-         << _("                          The words must be in alphabetical order, without duplicates") << endl
-         << _("  -o, --output <string    Path to the generated compressed dictionary file") << endl
-         << _("Other options:") << endl
-         << _("  -h, --help              Print this help and exit") << endl
-         << _("Example:") << endl
-         << "  " << iBinaryName << _(" -d 'ODS 5.0' -l letters.txt -i ods5.txt -o ods5.dawg") << endl
-         << endl
-         << _("The file containing the letters (--letters switch) must be UTF-8 encoded.") << endl
-         << _("Each line corresponds to one letter, and must contain at least 5 fields separated with "
-              "one or more space(s).") << endl
-         << _(" - 1st field: the letter itself, as stored in the input file (single character)") << endl
-         << _(" - 2nd field: the points of the letter") << endl
-         << _(" - 3rd field: the frequency of the letter (how many letters of this kind in the game)") << endl
-         << _(" - 4th field: 1 if the letter is considered as a vowel in Scrabble game, 0 otherwise") << endl
-         << _(" - 5th field: 1 if the letter is considered as a consonant in Scrabble game, 0 otherwise") << endl
-         << _(" - 6th field (optional): display string for the letter (default: the letter itself)") << endl
-         << _(" - other fields (optional): input strings for the letter, in addition to the display string") << endl
-         << endl
-         << _("Example for french:") << endl
-         << "A 1 9 1 0" << endl
-         << "[...]" << endl
-         << "Z 10 1 0 1" << endl
-         << "? 0 2 1 1" << endl
-         << endl
-         << _("Example for catalan:") << endl
-         << "A 1 12 1 0" << endl
-         << "[...]" << endl
-         // TRANSLATORS: the first "L.L" must be translated "L·L",
-         // and the last one translated "ĿL"
-         << _("W 10 1 0 1 L.L L.L L-L L.L") << endl
-         << "X 10 1 0 1" << endl
-         << "Y 10 1 0 1 NY" << endl
-         << "[...]" << endl;
-}
+    m_headerInfo.dicName = convertToWc(iDicName);
+    // We are not (yet) able to build the GADDAG format
+    m_headerInfo.dawg = true;
 
-
-int main(int argc, char* argv[])
-{
-#if HAVE_SETLOCALE
-    // Set locale via LC_ALL
-    setlocale(LC_ALL, "");
-#endif
-
-#if ENABLE_NLS
-    // Set the message domain
-#ifdef WIN32
-    // Get the absolute path, as returned by GetFullPathName()
-    char baseDir[MAX_PATH];
-    GetFullPathName(argv[0], MAX_PATH, baseDir, NULL);
-    char *pos = strrchr(baseDir, L'\\');
-    if (pos)
-        *pos = '\0';
-    const string localeDir = baseDir + string("\\locale");
-#else
-    static const string localeDir = LOCALEDIR;
-#endif
-    bindtextdomain(PACKAGE, localeDir.c_str());
-    textdomain(PACKAGE);
-#endif
-
-    static const struct option long_options[] =
+    // Open the output file
+    ofstream outFile(iDawgFile.c_str(), ios::out | ios::binary | ios::trunc);
+    if (!outFile.is_open())
     {
-        {"help", no_argument, NULL, 'h'},
-        {"dicname", required_argument, NULL, 'd'},
-        {"letters", required_argument, NULL, 'l'},
-        {"input", required_argument, NULL, 'i'},
-        {"output", required_argument, NULL, 'o'},
-        {0, 0, 0, 0}
-    };
-    static const char short_options[] = "hd:l:i:o:";
+        ostringstream oss;
+        oss << fmt(_("Cannot open output file '%1%'")) % iDawgFile;
+        throw DicException(oss.str());
+    }
 
-    bool found_d = false;
-    bool found_l = false;
-    bool found_i = false;
-    bool found_o = false;
-    string inFileName;
-    string outFileName;
-    DictHeaderInfo headerInfo;
-
-    int res;
-    int option_index = 1;
+    const wchar_t *wordList = NULL;
     try
     {
-        while ((res = getopt_long(argc, argv, short_options,
-                                  long_options, &option_index)) != -1)
-        {
-            switch (res)
-            {
-                case 'h':
-                    printUsage(argv[0]);
-                    exit(0);
-                case 'd':
-                    found_d = true;
-                    headerInfo.dicName = convertToWc(optarg);
-                    break;
-                case 'l':
-                    found_l = true;
-                    readLetters(optarg, headerInfo);
-                    break;
-                case 'i':
-                    found_i = true;
-                    inFileName = optarg;
-                    break;
-                case 'o':
-                    found_o = true;
-                    outFileName = optarg;
-                    break;
-            }
-        }
+        const clock_t startLoadTime = clock();
+        unsigned int dicSize;
+        wordList = loadWordList(iWordListFile, dicSize);
+        const clock_t endLoadTime = clock();
+        m_loadTime = 1.0 * (endLoadTime - startLoadTime) / CLOCKS_PER_SEC;
 
-        // Check mandatory options
-        if (!found_d || !found_l || !found_i || !found_o)
-        {
-            cerr << _("A mandatory option is missing") << endl;
-            printUsage(argv[0]);
-            exit(1);
-        }
+        m_input = wordList;
+        m_endOfInput = m_input + dicSize;
 
-        unsigned int dicSize = getFileSize(inFileName);
+        // Write the header a first time, to reserve the space in the file
+        Header tempHeader = writeHeader(outFile);
 
-        ofstream outfile(outFileName.c_str(), ios::out | ios::binary | ios::trunc);
-        if (!outfile.is_open())
-        {
-            cerr << fmt(_("Cannot open output file '%1%'")) % outFileName << endl;
-            exit(1);
-        }
-
-        clock_t startLoadTime = clock();
-        // FIXME: not exception safe
-        const wchar_t *uncompressed = load_uncompressed(inFileName, dicSize);
-        clock_t endLoadTime = clock();
-
-        global_input = uncompressed;
-        global_endofinput = global_input + dicSize;
-
-        headerInfo.dawg = true;
-        Header tempHeader = skip_init_header(outfile, headerInfo);
-
-        DicEdge specialnode = {0, 0, 0, 0};
-        specialnode.last = 1;
+        DicEdge specialNode = {0, 0, 0, 0};
+        specialNode.last = 1;
         // Temporary variable to avoid a warning when compiling with -O2
         // (there is no warning with -O0... g++ bug?)
-        DicEdge *tmpPtr = &specialnode;
-        write_node(reinterpret_cast<uint32_t*>(tmpPtr), 1, outfile);
+        DicEdge *tmpPtr = &specialNode;
+        writeNode(reinterpret_cast<uint32_t*>(tmpPtr), 1, outFile);
 
-        /*
-         * Call makenode with null (relative to stringbuf) prefix;
-         * Initialize string to null; Put index of start node on output
-         */
-        DicEdge rootnode = {0, 0, 0, 0};
-        global_endstring = global_stringbuf;
-        clock_t startBuildTime = clock();
-        rootnode.ptr = makenode(global_endstring, outfile, headerInfo, tempHeader);
-        clock_t endBuildTime = clock();
+        // Call makeNode with null (relative to stringbuf) prefix;
+        // Initialize string to null; Put index of start node on output
+        DicEdge rootNode = {0, 0, 0, 0};
+        m_endString = m_stringBuf;
+        const clock_t startBuildTime = clock();
+        rootNode.ptr = makeNode(m_endString, outFile, tempHeader);
         // Reuse the temporary variable
-        tmpPtr = &rootnode;
-        write_node(reinterpret_cast<uint32_t*>(tmpPtr), 1, outfile);
+        tmpPtr = &rootNode;
+        writeNode(reinterpret_cast<uint32_t*>(tmpPtr), 1, outFile);
+        const clock_t endBuildTime = clock();
+        m_buildTime = 1.0 * (endBuildTime - startBuildTime) / CLOCKS_PER_SEC;
 
-        fix_header(outfile, headerInfo);
+        // Write the header again, now that it is complete
+        m_headerInfo.root = m_headerInfo.edgesused;
+        const Header finalHeader = writeHeader(outFile);
 
-        Header aHeader(headerInfo);
-        aHeader.print();
+        // Clean up
+        delete[] wordList;
+        outFile.close();
 
-        delete[] uncompressed;
-        outfile.close();
-
-        printf(_(" Load time: %.3f s\n"), 1.0 * (endLoadTime - startLoadTime) / CLOCKS_PER_SEC);
-        printf(_(" Compression time: %.3f s\n"), 1.0 * (endBuildTime - startBuildTime) / CLOCKS_PER_SEC);
-#ifdef CHECK_RECURSION
-        cout << fmt(_(" Maximum recursion level reached: %1%")) % max_rec << endl;
-#endif
-        return 0;
+        return finalHeader;
     }
     catch (std::exception &e)
     {
-        cerr << fmt(_("Exception caught: %1%")) % e.what() << endl;
-        return 1;
+        // Avoid memory leaks
+        if (wordList != NULL)
+            delete[] wordList;
+        throw;
     }
 }
 

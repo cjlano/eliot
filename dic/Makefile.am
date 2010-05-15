@@ -32,7 +32,8 @@ libdic_a_SOURCES = \
 	encoding.cpp encoding.h \
 	automaton.cpp automaton.h \
 	regexp.cpp regexp.h \
-	grammar.cpp grammar.h
+	grammar.cpp grammar.h \
+	compdic.cpp compdic.h
 
 #####################################
 if BUILD_DICTOOLS
@@ -42,7 +43,7 @@ bin_PROGRAMS = \
 	listdic \
 	regexp
 
-compdic_SOURCES=compdic.cpp
+compdic_SOURCES=compdicmain.cpp
 compdic_CPPFLAGS=$(AM_CPPFLAGS) @BOOST_CPPFLAGS@
 compdic_LDADD=libdic.a @LIBINTL@
 
