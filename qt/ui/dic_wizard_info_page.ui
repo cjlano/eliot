@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WizardInfoPage</class>
+ <widget class="QWizardPage" name="WizardInfoPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>592</width>
+    <height>565</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>WizardPage</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>_(&quot;Dictionary name:&quot;)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="editDicName"/>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLineEdit" name="editGenDic">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="2">
+    <widget class="QPushButton" name="buttonBrowseGenDic">
+     <property name="text">
+      <string>_(&quot;Browse...&quot;)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QLineEdit" name="editWordList"/>
+   </item>
+   <item row="8" column="2">
+    <widget class="QPushButton" name="buttonBrowseWordList">
+     <property name="text">
+      <string>_(&quot;Browse...&quot;)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0" colspan="3">
+    <widget class="QLabel" name="labelDicNameDesc">
+     <property name="text">
+      <string>Description 1</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="3">
+    <widget class="QLabel" name="labelGenDicDesc">
+     <property name="text">
+      <string>Description 2</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="3">
+    <widget class="QLabel" name="labelWordListDesc">
+     <property name="text">
+      <string>Description 3</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>_(&quot;Generated dictionary:&quot;)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>_(&quot;Word list:&quot;)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="3">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="3">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -52,6 +52,7 @@
 #include "player_widget.h"
 #include "history_widget.h"
 #include "dic_tools_widget.h"
+#include "dic_wizard.h"
 #include "aux_window.h"
 #include "qtcommon.h"
 
@@ -424,6 +425,9 @@ void MainWindow::createMenu()
     menuSettings->setTitle(_q("&Settings"));
     addMenuAction(menuSettings, _q("&Choose dictionary..."), _q("Ctrl+C"),
                   _q("Select a new dictionary"), SLOT(onSettingsChooseDic()));
+    addMenuAction(menuSettings, _q("Create &new dictionary..."), QString(""),
+                  _q("Start the wizard for creating a new dictionary "
+                     "from an existing word list"), SLOT(onSettingsCreateDic()));
     addMenuAction(menuSettings, _q("&Preferences..."), _q("Ctrl+F"),
                   _q("Edit the preferences"), SLOT(onSettingsPreferences()),
                   false, QIcon(":/images/preferences.png"));
@@ -737,6 +741,15 @@ void MainWindow::onSettingsChooseDic()
             displayErrorMsg(e.what());
         }
     }
+}
+
+
+void MainWindow::onSettingsCreateDic()
+{
+    DicWizard *wizard = new DicWizard(this);
+    wizard->setWindowTitle(_("Dictionary creation wizard"));
+    wizard->setModal(true);
+    wizard->show();
 }
 
 

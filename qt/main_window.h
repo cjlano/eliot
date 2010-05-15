@@ -68,6 +68,7 @@ private slots:
     void onGameSaveAs();
     void onGamePrint();
     void onSettingsChooseDic();
+    void onSettingsCreateDic();
     void onSettingsPreferences();
     void onWindowsToolbar();
     void onWindowsBag();
