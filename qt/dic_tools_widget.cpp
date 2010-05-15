@@ -328,6 +328,12 @@ void DicToolsWidget::refreshDicInfo()
                 tmp += inputVect[i] + L"  ";
             }
             model->setData(model->index(rowNum, 5), qfw(tmp));
+            // Center the text in the column
+            for (int col = 0; col < 5; ++col)
+            {
+                model->item(rowNum, col)->setTextAlignment(Qt::AlignCenter);
+            }
+
             ++rowNum;
         }
         treeViewDicLetters->resizeColumnToContents(0);

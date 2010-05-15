@@ -43,6 +43,7 @@ EXTRA_DIST = \
     ui/dic_tools_widget.ui \
     ui/dic_wizard_info_page.ui \
     ui/dic_wizard_letters_def_page.ui \
+    ui/dic_wizard_conclusion_page.ui \
     ui/main_window.ui \
     ui/new_game.ui \
     ui/player_widget.ui \
@@ -79,6 +80,7 @@ nodist_eliot_SOURCES = \
     ui/dic_tools_widget.ui.h \
     ui/dic_wizard_info_page.ui.h \
     ui/dic_wizard_letters_def_page.ui.h \
+    ui/dic_wizard_conclusion_page.ui.h \
     coord_model.moc.cpp \
     new_game.moc.cpp \
     dic_tools_widget.moc.cpp \

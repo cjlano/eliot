@@ -170,6 +170,7 @@ MainWindow::MainWindow(QWidget *iParent)
         {
             displayErrorMsg(_q("Cannot load dictionary '%1' indicated in the "
                                "preferences.\nReason: %2").arg(dicPath).arg(e.what()));
+            return;
         }
     }
     emit dicChanged(m_dic);
@@ -349,6 +350,45 @@ void MainWindow::readSettings()
     m_ui.splitterHoriz->restoreState(settings.value("splitterHoriz").toByteArray());
     m_ui.splitterVert->restoreState(settings.value("splitterVert").toByteArray());
     settings.endGroup();
+}
+
+
+void MainWindow::changeDictionary(QString iFileName)
+{
+    if (!iFileName.isEmpty())
+    {
+        if (m_game)
+        {
+            QString msg = _q("Loading a dictionary will stop the current game.");
+            QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), msg,
+                                        QMessageBox::Yes | QMessageBox::No, this);
+            confirmationBox.setInformativeText(_q("Do you want to continue?"));
+            confirmationBox.setDefaultButton(QMessageBox::Yes);
+            confirmationBox.setEscapeButton(QMessageBox::No);
+            int res = confirmationBox.exec();
+            if (res == QMessageBox::No)
+                return;
+        }
+
+        destroyCurrentGame();
+
+        try
+        {
+            Dictionary *dic = new Dictionary(qtl(iFileName));
+            delete m_dic;
+            m_dic = dic;
+            emit dicChanged(m_dic);
+            displayInfoMsg(_q("Loaded dictionary '%1'").arg(iFileName));
+
+            // Save the location of the dictionary in the preferences
+            QSettings qs(ORGANIZATION, PACKAGE_NAME);
+            qs.setValue(PrefsDialog::kINTF_DIC_PATH, iFileName);
+        }
+        catch (std::exception &e)
+        {
+            displayErrorMsg(e.what());
+        }
+    }
 }
 
 
@@ -705,42 +745,9 @@ void MainWindow::onSettingsPreferences()
 
 void MainWindow::onSettingsChooseDic()
 {
-    if (m_game)
-    {
-        QString msg = _q("Loading a dictionary will stop the current game.");
-        QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), msg,
-                                    QMessageBox::Yes | QMessageBox::No, this);
-        confirmationBox.setInformativeText(_q("Do you want to continue?"));
-        confirmationBox.setDefaultButton(QMessageBox::Yes);
-        confirmationBox.setEscapeButton(QMessageBox::No);
-        int res = confirmationBox.exec();
-        if (res == QMessageBox::No)
-            return;
-    }
-
     QString fileName =
         QFileDialog::getOpenFileName(this, _q("Choose a dictionary"), "", "*.dawg");
-    if (!fileName.isEmpty())
-    {
-        destroyCurrentGame();
-
-        try
-        {
-            Dictionary *dic = new Dictionary(qtl(fileName));
-            delete m_dic;
-            m_dic = dic;
-            emit dicChanged(m_dic);
-            displayInfoMsg(_q("Loaded dictionary '%1'").arg(fileName));
-
-            // Save the location of the dictionary in the preferences
-            QSettings qs(ORGANIZATION, PACKAGE_NAME);
-            qs.setValue(PrefsDialog::kINTF_DIC_PATH, fileName);
-        }
-        catch (std::exception &e)
-        {
-            displayErrorMsg(e.what());
-        }
-    }
+    changeDictionary(fileName);
 }
 
 
@@ -749,6 +756,10 @@ void MainWindow::onSettingsCreateDic()
     DicWizard *wizard = new DicWizard(this);
     wizard->setWindowTitle(_("Dictionary creation wizard"));
     wizard->setModal(true);
+    connect(wizard, SIGNAL(infoMsg(QString)),
+            this, SLOT(displayInfoMsg(QString)));
+    connect(wizard, SIGNAL(loadDictionary(QString)),
+            this, SLOT(changeDictionary(QString)));
     wizard->show();
 }
 

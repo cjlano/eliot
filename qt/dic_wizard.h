@@ -23,12 +23,16 @@
 
 #include <QtGui/QWizard>
 #include <QtGui/QWizardPage>
+#include <QtGui/QStyledItemDelegate>
 
 #include "ui/dic_wizard_info_page.ui.h"
 #include "ui/dic_wizard_letters_def_page.ui.h"
+#include "ui/dic_wizard_conclusion_page.ui.h"
 
 class QStandardItemModel;
 class QItemSelection;
+class QStyleOptionViewItem;
+class QModelIndex;
 
 class DicWizard: public QWizard
 {
@@ -36,9 +40,14 @@ class DicWizard: public QWizard
 
 public:
     DicWizard(QWidget *parent);
+    virtual void accept();
 
 private:
-    QWizardPage *createLettersDefPage() const;
+    int m_lettersPageId;
+
+signals:
+    void loadDictionary(QString dawgFile);
+    void infoMsg(QString message);
 };
 
 
@@ -61,17 +70,37 @@ class WizardLettersDefPage: public QWizardPage, private Ui::WizardLettersDefPage
     Q_OBJECT
 public:
     explicit WizardLettersDefPage(QWidget *parent = 0);
-    virtual bool isComplete() const;
+    const QStandardItemModel * getModel() const { return m_model; }
 
 private:
     QStandardItemModel *m_model;
 
 private slots:
     void loadLettersFromWordList();
-    void enableRemoveButton(const QItemSelection &);
-    void removeLetter();
 };
 
+
+class WizardConclusionPage: public QWizardPage, private Ui::WizardConclusionPage
+{
+    Q_OBJECT
+public:
+    explicit WizardConclusionPage(QWidget *parent = 0);
+    virtual void initializePage();
+};
+
+
+class LettersDelegate: public QStyledItemDelegate
+{
+    Q_OBJECT;
+
+public:
+    explicit LettersDelegate(QWidget *parent = 0)
+        : QStyledItemDelegate(parent) {}
+
+    virtual QWidget *createEditor(QWidget *parent,
+                                  const QStyleOptionViewItem &option,
+                                  const QModelIndex &index) const;
+};
 
 #endif
 

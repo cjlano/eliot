@@ -21,6 +21,7 @@
 #include <iostream>
 
 #include <QtGui/QLabel>
+#include <QtGui/QSpinBox>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QFileDialog>
 #include <QtGui/QStandardItemModel>
@@ -32,6 +33,8 @@
 
 #include "dic_wizard.h"
 #include "qtcommon.h"
+#include "compdic.h"
+#include "dic_exception.h"
 
 using namespace std;
 
@@ -170,7 +173,7 @@ WizardLettersDefPage::WizardLettersDefPage(QWidget *parent) : QWizardPage(parent
     setupUi(this);
 
     setTitle(_q("Letters characteristics"));
-    labelTableDesc->setText(_q("The table below lists all the letters found in the word list (plus the joker). "
+    labelDesc->setText(_q("The table below lists all the letters found in the word list (plus the joker). "
             "For each letter, you need to define:\n"
             " - its number of points;\n"
             " - its frequency (number of occurrences in the game);\n"
@@ -187,19 +190,12 @@ WizardLettersDefPage::WizardLettersDefPage(QWidget *parent) : QWizardPage(parent
     m_model->setHeaderData(2, Qt::Horizontal, _q("Frequency"), Qt::DisplayRole);
     m_model->setHeaderData(3, Qt::Horizontal, _q("Vowel?"), Qt::DisplayRole);
     m_model->setHeaderData(4, Qt::Horizontal, _q("Consonant?"), Qt::DisplayRole);
-    tableLetters->setModel(m_model);
     treeLetters->setModel(m_model);
     treeLetters->header()->setDefaultAlignment(Qt::AlignCenter);
+    treeLetters->setItemDelegate(new LettersDelegate);
 
     connect(buttonLoadLetters, SIGNAL(clicked(bool)),
             this, SLOT(loadLettersFromWordList()));
-    connect(buttonRemoveLetter, SIGNAL(clicked(bool)),
-            this, SLOT(removeLetter()));
-    // Enable the Remove button only when there is a selection in the tree
-    connect(treeLetters->selectionModel(),
-            SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-            this,
-            SLOT(enableRemoveButton(const QItemSelection&)));
 }
 
 
@@ -233,8 +229,8 @@ void WizardLettersDefPage::loadLettersFromWordList()
         if (!res)
             return;
         m_model->setData(m_model->index(rowNum, 0), ch);
-        m_model->setData(m_model->index(rowNum, 1), 0);
-        m_model->setData(m_model->index(rowNum, 2), 0);
+        m_model->setData(m_model->index(rowNum, 1), 1);
+        m_model->setData(m_model->index(rowNum, 2), 1);
         m_model->setData(m_model->index(rowNum, 3),
                          (bool)QString("AEIOUY").contains(ch));
         m_model->setData(m_model->index(rowNum, 4),
@@ -246,7 +242,7 @@ void WizardLettersDefPage::loadLettersFromWordList()
     bool res = m_model->insertRow(rowNum);
     if (!res)
         return;
-    m_model->setData(m_model->index(rowNum, 0), QString(_q("? (joker)")));
+    m_model->setData(m_model->index(rowNum, 0), QChar('?'));
     m_model->setData(m_model->index(rowNum, 1), 0);
     m_model->setData(m_model->index(rowNum, 2), 2);
     m_model->setData(m_model->index(rowNum, 3), true);
@@ -264,46 +260,29 @@ void WizardLettersDefPage::loadLettersFromWordList()
 }
 
 
-void WizardLettersDefPage::enableRemoveButton(const QItemSelection &iSelected)
+// ---------- WizardConclusionPage ----------
+
+WizardConclusionPage::WizardConclusionPage(QWidget *parent) : QWizardPage(parent)
 {
-    // Enable the "Remove" button iff at least one line in the tree view
-    // is selected
-    buttonRemoveLetter->setEnabled(!iSelected.indexes().empty());
+    setupUi(this);
 }
 
 
-void WizardLettersDefPage::removeLetter()
+void WizardConclusionPage::initializePage()
 {
-    QModelIndexList indexList = treeLetters->selectionModel()->selectedIndexes();
-    if (indexList.empty())
-        return;
+    setTitle(_q("Conclusion"));
 
-    // Warn the user of the consequences
-    QString msg = _q("If you remove this letter, the only way to play words "
-                     "containing this letter will be to use the joker tile(s). "
-                     "This might be wanted in some rare cases, but it is "
-                     "usually better to remove the words containing the "
-                     "unwanted letter from the word list.");
-    QMessageBox confoBox(QMessageBox::Warning, _q("Eliot"), msg,
-                         QMessageBox::Yes | QMessageBox::No, this);
-    confoBox.setInformativeText(_q("Do you really want to continue?"));
-    confoBox.setDefaultButton(QMessageBox::Yes);
-    confoBox.setEscapeButton(QMessageBox::No);
-    int ret = confoBox.exec();
-    if (ret != QMessageBox::Yes)
-        return;
+    // This code must not be in the constructor, because the call to wizard()
+    // supposes that the page is already associated with the wizard
+    // (and thus already constructed)
+    QString finishText = wizard()->buttonText(QWizard::FinishButton);
+    finishText.remove('&');
+    labelDesc->setText(_q("Click %1 to generate the dictionary.\n\n").arg(finishText) +
+            QString("You may now load it in Eliot using the checkbox below.\n"
+                    "You can also load it later manually, using the "
+                    "'Settings -> Change dictionary...' menu option."));
 
-    m_model->removeRow(indexList.front().row());
-}
-
-
-bool WizardLettersDefPage::isComplete() const
-{
-    if (!QWizardPage::isComplete())
-        return false;
-
-    // TODO
-    return true;
+    registerField("loadDic", checkBoxLoadDic);
 }
 
 
@@ -314,7 +293,73 @@ DicWizard::DicWizard(QWidget *parent)
 {
     setOption(QWizard::IndependentPages);
     addPage(new WizardInfoPage);
-    addPage(new WizardLettersDefPage());
-    // TODO
+    m_lettersPageId = addPage(new WizardLettersDefPage());
+    addPage(new WizardConclusionPage());
+
+    setWindowTitle(_q("Dictionary creation"));
+}
+
+
+void DicWizard::accept()
+{
+    CompDic builder;
+    try {
+        // Retrieve the letters model
+        const QStandardItemModel *model =
+            static_cast<WizardLettersDefPage*>(page(m_lettersPageId))->getModel();
+
+        // Define the letters
+        for (int i = 0; i < model->rowCount(); ++i)
+        {
+            QString letter = model->data(model->index(i, 0)).toString();
+            int points = model->data(model->index(i, 1)).toInt();
+            int frequency = model->data(model->index(i, 2)).toInt();
+            bool isVowel = model->data(model->index(i, 3)).toBool();
+            bool isConsonant = model->data(model->index(i, 4)).toBool();
+
+            wstring wstr = qtw(letter);
+            if (wstr.size() != 1)
+                throw DicException("Invalid letter '" + qtl(letter) + "'");
+            builder.addLetter(wstr[0], points, frequency,
+                              isVowel, isConsonant, vector<wstring>());
+        }
+
+        // Build the dictionary
+        builder.generateDawg(qtl(field("wordList").toString()),
+                             qtl(field("genDic").toString()),
+                             qtl(field("dicName").toString()));
+    }
+    catch (std::exception &e)
+    {
+        QMessageBox::warning(this, _q("Eliot - Error"), e.what());
+        return;
+    }
+
+    emit infoMsg(_q("Dictionary successfully created"));
+
+    bool shouldLoad = field("loadDic").toBool();
+    if (shouldLoad)
+    {
+        emit loadDictionary(field("genDic").toString());
+    }
+
+    QDialog::accept();
+}
+
+
+// ---------- LettersDelegate ----------
+
+QWidget * LettersDelegate::createEditor(QWidget *parent,
+                                        const QStyleOptionViewItem &option,
+                                        const QModelIndex &index) const
+{
+    // For integer columns, bound the values in the [0, 20] range
+    QWidget * editor = QStyledItemDelegate::createEditor(parent, option, index);
+    if (editor->inherits("QSpinBox"))
+    {
+        static_cast<QSpinBox*>(editor)->setMinimum(0);
+        static_cast<QSpinBox*>(editor)->setMaximum(20);
+    }
+    return editor;
 }
 

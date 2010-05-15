@@ -83,6 +83,9 @@ private slots:
     void onHistoryLastTurn();
     void onHistoryReplayTurn();
 
+    /** Load a new dictionary */
+    void changeDictionary(QString);
+
     /** Perform some updates when the game is updated */
     void refresh();
 
