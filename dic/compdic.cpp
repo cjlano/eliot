@@ -125,7 +125,7 @@ void CompDic::addLetter(wchar_t chr, int points, int frequency,
 }
 
 
-const wchar_t * CompDic::loadWordList(const string &iFileName, unsigned int &oDicSize)
+void CompDic::loadWordList(const string &iFileName, vector<wstring> &oWordList)
 {
     ifstream file(iFileName.c_str(), ios::in | ios::binary);
     if (!file.is_open())
@@ -135,42 +135,28 @@ const wchar_t * CompDic::loadWordList(const string &iFileName, unsigned int &oDi
     struct stat stat_buf;
     if (stat(iFileName.c_str(), &stat_buf) < 0)
         throw DicException((fmt(_("Could not open file '%1%'")) % iFileName).str());
-    oDicSize = (unsigned int)stat_buf.st_size;
+    int dicSize = (unsigned int)stat_buf.st_size;
 
-    // Place the buffer in a vector to avoid worrying about memory handling
-    vector<char> buffer(oDicSize);
-    // Load the file data, everything in one shot
-    file.read(&buffer.front(), oDicSize);
-    file.close();
+    // Reserve some space (heuristic: the average length of words is 11)
+    oWordList.reserve(dicSize / 11);
 
-    // If there is a BOM in the file, use an offset to start reading after it
-    size_t bomOffset = 0;
-    if ((uint8_t)buffer[0] == 0xEF &&
-        (uint8_t)buffer[1] == 0xBB &&
-        (uint8_t)buffer[2] == 0xBF)
+    string line;
+    while (getline(file, line))
     {
-        bomOffset = 3;
+        // If there is a BOM in the file, remove it from the first word
+        if (oWordList.empty() && line.size() >= 3 &&
+            (uint8_t)line[0] == 0xEF &&
+            (uint8_t)line[1] == 0xBB &&
+            (uint8_t)line[2] == 0xBF)
+        {
+            line = line.substr(3);
+        }
+        oWordList.push_back(readFromUTF8(line.data(),
+                                        line.size(), "loadWordList"));
     }
 
-    // Buffer for the wide characters (it will use at most as many characters
-    // as the utf-8 version)
-    wchar_t *wideBuf = new wchar_t[oDicSize];
-
-    try
-    {
-        unsigned int number = readFromUTF8(wideBuf, oDicSize,
-                                           (&buffer.front()) + bomOffset,
-                                           oDicSize - bomOffset,
-                                           "loadWordList");
-        oDicSize = number;
-        return wideBuf;
-    }
-    catch (...)
-    {
-        // Avoid leaks, and propagate the exception
-        delete[] wideBuf;
-        throw;
-    }
+    // Sort the word list, to perform a better compression
+    sort(oWordList.begin(), oWordList.end());
 }
 
 
@@ -229,8 +215,11 @@ class IncDec
 #endif
 
 
-unsigned int CompDic::makeNode(const wchar_t *iPrefix, ostream &outFile,
-                               const Header &iHeader)
+unsigned int CompDic::makeNode(ostream &outFile, const Header &iHeader,
+                               vector<wstring>::const_iterator &itCurrWord,
+                               const vector<wstring>::const_iterator &itLastWord,
+                               wstring::const_iterator &itPosInWord,
+                               const wchar_t *iPrefix)
 {
 #ifdef CHECK_RECURSION
     IncDec inc(m_currentRec);
@@ -256,7 +245,9 @@ unsigned int CompDic::makeNode(const wchar_t *iPrefix, ostream &outFile,
         newEdge.last = 0;
         try
         {
-            newEdge.chr = iHeader.getCodeFromChar(*m_endString++ = *m_input++);
+            newEdge.chr = iHeader.getCodeFromChar(*m_endString = *itPosInWord);
+            ++m_endString;
+            ++itPosInWord;
         }
         catch (DicException &e)
         {
@@ -271,32 +262,31 @@ unsigned int CompDic::makeNode(const wchar_t *iPrefix, ostream &outFile,
         edges.push_back(newEdge);
 
         // End of a word?
-        if (*m_input == L'\n' || *m_input == L'\r')
+        if (itPosInWord == itCurrWord->end())
         {
             m_headerInfo.nwords++;
             *m_endString = L'\0';
             // Mark edge as word
             edges.back().term = 1;
 
-            // Skip \r and/or \n
-            while (m_input != m_endOfInput &&
-                   (*m_input == L'\n' || *m_input == L'\r'))
-            {
-                ++m_input;
-            }
+            // Next word
+            ++itCurrWord;
             // At the end of input?
-            if (m_input == m_endOfInput)
+            if (itCurrWord == itLastWord)
                 break;
+            itPosInWord = itCurrWord->begin();
 
             m_endString = m_stringBuf;
-            while (*m_endString == *m_input)
+            // This assumes that a word cannot be a prefix of the previous one
+            while (*m_endString == *itPosInWord)
             {
-                m_endString++;
-                m_input++;
+                ++m_endString;
+                ++itPosInWord;
             }
         }
         // Make dawg pointed to by this edge
-        edges.back().ptr = makeNode(iPrefix + 1, outFile, iHeader);
+        edges.back().ptr = makeNode(outFile, iHeader, itCurrWord, itLastWord,
+                                    itPosInWord, iPrefix + 1);
     }
 
     int numedges = edges.size();
@@ -348,56 +338,51 @@ Header CompDic::generateDawg(const string &iWordListFile,
         throw DicException(oss.str());
     }
 
-    const wchar_t *wordList = NULL;
-    try
+    const clock_t startLoadTime = clock();
+    vector<wstring> wordList;
+    loadWordList(iWordListFile, wordList);
+    const clock_t endLoadTime = clock();
+    m_loadTime = 1.0 * (endLoadTime - startLoadTime) / CLOCKS_PER_SEC;
+
+    if (wordList.empty())
     {
-        const clock_t startLoadTime = clock();
-        unsigned int dicSize;
-        wordList = loadWordList(iWordListFile, dicSize);
-        const clock_t endLoadTime = clock();
-        m_loadTime = 1.0 * (endLoadTime - startLoadTime) / CLOCKS_PER_SEC;
-
-        m_input = wordList;
-        m_endOfInput = m_input + dicSize;
-
-        // Write the header a first time, to reserve the space in the file
-        Header tempHeader = writeHeader(outFile);
-
-        DicEdge specialNode = {0, 0, 0, 0};
-        specialNode.last = 1;
-        // Temporary variable to avoid a warning when compiling with -O2
-        // (there is no warning with -O0... g++ bug?)
-        DicEdge *tmpPtr = &specialNode;
-        writeNode(reinterpret_cast<uint32_t*>(tmpPtr), 1, outFile);
-
-        // Call makeNode with null (relative to stringbuf) prefix;
-        // Initialize string to null; Put index of start node on output
-        DicEdge rootNode = {0, 0, 0, 0};
-        m_endString = m_stringBuf;
-        const clock_t startBuildTime = clock();
-        rootNode.ptr = makeNode(m_endString, outFile, tempHeader);
-        // Reuse the temporary variable
-        tmpPtr = &rootNode;
-        writeNode(reinterpret_cast<uint32_t*>(tmpPtr), 1, outFile);
-        const clock_t endBuildTime = clock();
-        m_buildTime = 1.0 * (endBuildTime - startBuildTime) / CLOCKS_PER_SEC;
-
-        // Write the header again, now that it is complete
-        m_headerInfo.root = m_headerInfo.edgesused;
-        const Header finalHeader = writeHeader(outFile);
-
-        // Clean up
-        delete[] wordList;
-        outFile.close();
-
-        return finalHeader;
+        throw DicException(_("The word list is empty!"));
     }
-    catch (std::exception &e)
-    {
-        // Avoid memory leaks
-        if (wordList != NULL)
-            delete[] wordList;
-        throw;
-    }
+
+    // Write the header a first time, to reserve the space in the file
+    Header tempHeader = writeHeader(outFile);
+
+    DicEdge specialNode = {0, 0, 0, 0};
+    specialNode.last = 1;
+    // Temporary variable to avoid a warning when compiling with -O2
+    // (there is no warning with -O0... g++ bug?)
+    DicEdge *tmpPtr = &specialNode;
+    writeNode(reinterpret_cast<uint32_t*>(tmpPtr), 1, outFile);
+
+    vector<wstring>::const_iterator firstWord = wordList.begin();
+    wstring::const_iterator initialPos = firstWord->begin();
+
+    // Call makeNode with null (relative to stringbuf) prefix;
+    // Initialize string to null; Put index of start node on output
+    DicEdge rootNode = {0, 0, 0, 0};
+    m_endString = m_stringBuf;
+    const clock_t startBuildTime = clock();
+    rootNode.ptr = makeNode(outFile, tempHeader,
+                            firstWord, wordList.end(),
+                            initialPos, m_endString);
+    // Reuse the temporary variable
+    tmpPtr = &rootNode;
+    writeNode(reinterpret_cast<uint32_t*>(tmpPtr), 1, outFile);
+    const clock_t endBuildTime = clock();
+    m_buildTime = 1.0 * (endBuildTime - startBuildTime) / CLOCKS_PER_SEC;
+
+    // Write the header again, now that it is complete
+    m_headerInfo.root = m_headerInfo.edgesused;
+    const Header finalHeader = writeHeader(outFile);
+
+    // Clean up
+    outFile.close();
+
+    return finalHeader;
 }
 

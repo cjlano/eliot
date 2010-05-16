@@ -94,10 +94,6 @@ private:
     wchar_t m_stringBuf[MAX_STRING_LENGTH];
     /// Point to the end of the string
     wchar_t* m_endString;
-    /// Current position in the word list
-    const wchar_t *m_input;
-    /// Mark the end of the input
-    const wchar_t *m_endOfInput;
 #ifdef CHECK_RECURSION
     map<int, vector<DicEdge> > m_mapForDepth;
     int m_currentRec;
@@ -110,15 +106,12 @@ private:
 
     /**
      * Read the word list stored in iFileName, convert it to wide chars,
-     * and return it. The oDicSize parameter contains the size of the
-     * returned array.
+     * and return it (in the oWordList argument).
      * In case of problem, an exception is thrown.
      * @param iFileName: Name (and path) of the file containing the word list.
-     * @param oDicSize: Size of the returned array
-     * @return Word list as a wchar_t array
+     * @param oWordList: Word list
      */
-    const wchar_t * loadWordList(const string &iFileName,
-                                 unsigned int &oDicSize);
+    void loadWordList(const string &iFileName, vector<wstring> &oWordList);
 
     Header writeHeader(ostream &outFile) const;
 
@@ -137,13 +130,20 @@ private:
      * the words beginning with that prefix.  String is a pointer (relative
      * to m_stringBuf) indicating how much of iPrefix is matched in the
      * input.
-     * @param iPrefix: prefix to work on
      * @param outfile: stream where to write the nodes
      * @param iHeader: temporary header, used only to do the conversion between
      *      the (wide) chars and their corresponding internal code
+     * @param itCurrWord: iterator on the word list
+     * @param itLastWord: end of the word list
+     * @param itPosInWord: iterator on the letters of the current word
+     * @param iPrefix: prefix to work on
+     * @return the index of a DAWG matching all the words with prefix iPrefix
      */
-    unsigned int makeNode(const wchar_t *iPrefix, ostream &outFile,
-                          const Header &iHeader);
+    unsigned int makeNode(ostream &outFile, const Header &iHeader,
+                          vector<wstring>::const_iterator &itCurrWord,
+                          const vector<wstring>::const_iterator &itLastWord,
+                          wstring::const_iterator &itPosInWord,
+                          const wchar_t *iPrefix);
 
 };
 
