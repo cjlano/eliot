@@ -10,14 +10,14 @@
     <height>300</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>WizardPage</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="labelDesc">
      <property name="text">
       <string>Description</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

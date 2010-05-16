@@ -187,7 +187,7 @@ WizardLettersDefPage::WizardLettersDefPage(QWidget *parent) : QWizardPage(parent
     setTitle(_q("Letters characteristics"));
     labelDesc->setText(_q("The table below lists all the letters found in the word list (plus the joker). "
             "For each letter, you need to define:\n"
-            " - its number of points;\n"
+            " - its value (number of points);\n"
             " - its frequency (number of occurrences in the game);\n"
             " - whether the letter can be considered as a vowel;\n"
             " - whether the letter can be considered as a consonant.\n"
@@ -289,10 +289,10 @@ void WizardConclusionPage::initializePage()
     // (and thus already constructed)
     QString finishText = wizard()->buttonText(QWizard::FinishButton);
     finishText.remove('&');
-    labelDesc->setText(_q("Click %1 to generate the dictionary.\n\n").arg(finishText) +
-            QString("You may now load it in Eliot using the checkbox below.\n"
-                    "You can also load it later manually, using the "
-                    "'Settings -> Change dictionary...' menu option."));
+    labelDesc->setText(_q("Click '%1' to generate the dictionary.\n\n").arg(finishText) +
+            _q("You may now load it in Eliot using the checkbox below.\n"
+               "You can also load it later, using the\n"
+               "'Settings -> Change dictionary...' menu option."));
 
     registerField("loadDic", checkBoxLoadDic);
 }
@@ -304,11 +304,11 @@ DicWizard::DicWizard(QWidget *parent)
     : QWizard(parent)
 {
     setOption(QWizard::IndependentPages);
+    setModal(true);
+
     addPage(new WizardInfoPage);
     m_lettersPageId = addPage(new WizardLettersDefPage());
     addPage(new WizardConclusionPage());
-
-    setWindowTitle(_q("Dictionary creation"));
 }
 
 

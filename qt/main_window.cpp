@@ -754,8 +754,7 @@ void MainWindow::onSettingsChooseDic()
 void MainWindow::onSettingsCreateDic()
 {
     DicWizard *wizard = new DicWizard(this);
-    wizard->setWindowTitle(_("Dictionary creation wizard"));
-    wizard->setModal(true);
+    wizard->setWindowTitle(_q("Dictionary creation wizard"));
     connect(wizard, SIGNAL(infoMsg(QString)),
             this, SLOT(displayInfoMsg(QString)));
     connect(wizard, SIGNAL(loadDictionary(QString)),
