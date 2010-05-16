@@ -99,11 +99,13 @@ bool WizardInfoPage::validatePage()
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return false;
 
+    QSet<QString> words;
     QMap<QChar, int> lettersWithLine;
     int lineNb = 1;
     QTextStream in(&file);
     while (!in.atEnd()) {
         QString line = in.readLine().toUpper();
+        words.insert(line);
         for (int i = 0; i < line.size(); ++i)
         {
             if (!lettersWithLine.contains(line[i]))
@@ -136,7 +138,17 @@ bool WizardInfoPage::validatePage()
                              QMessageBox::Ok);
         errorBox.setInformativeText(_q("Please correct the word list."));
         errorBox.exec();
+        return false;
+    }
 
+    // Detect duplicate entries in the word list
+    if (words.size() != lineNb - 1)
+    {
+        QString msg = _q("The word list contains duplicate entries.");
+        QMessageBox errorBox(QMessageBox::Critical, _q("Eliot"), msg,
+                             QMessageBox::Ok);
+        errorBox.setInformativeText(_q("Please correct the word list."));
+        errorBox.exec();
         return false;
     }
 
@@ -234,7 +246,7 @@ void WizardLettersDefPage::loadLettersFromWordList()
         m_model->setData(m_model->index(rowNum, 3),
                          (bool)QString("AEIOUY").contains(ch));
         m_model->setData(m_model->index(rowNum, 4),
-                         (bool)QString("AEIOU").contains(ch));
+                         !(bool)QString("AEIOU").contains(ch));
     }
 
     // Add another line for the joker
