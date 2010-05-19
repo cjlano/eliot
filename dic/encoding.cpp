@@ -354,7 +354,7 @@ unsigned int readFromUTF8(wchar_t *oString, unsigned int iWideSize,
                           const string &iContext)
 {
 #ifdef WIN32
-    if (iBuffer == NULL || *iBuffer == '\0')
+    if (iBufSize == 0 || iBuffer == NULL || *iBuffer == '\0')
     {
         return 0;
     }
