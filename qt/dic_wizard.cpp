@@ -22,7 +22,7 @@
 
 #include <QtGui/QLabel>
 #include <QtGui/QSpinBox>
-#include <QtGui/QVBoxLayout>
+#include <QtGui/QHeaderView>
 #include <QtGui/QFileDialog>
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QMessageBox>
