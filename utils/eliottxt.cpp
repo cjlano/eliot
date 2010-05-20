@@ -349,7 +349,7 @@ void displayData(const PublicGame &iGame, const vector<wstring> &tokens)
         else
             GameIO::printSearchResults(cout,
                                        iGame.trainingGetResults(),
-                                       _wtoi(limit.c_str()));
+                                       wtoi(limit.c_str()));
     }
     else if (displayType == L"s")
         GameIO::printPoints(cout, iGame);
@@ -391,12 +391,12 @@ void commonCommands(PublicGame &iGame, const vector<wstring> &tokens)
             return;
         if (action[0] == L'p')
         {
-            for (int i = 0; i < _wtoi(count.c_str()); ++i)
+            for (int i = 0; i < wtoi(count.c_str()); ++i)
                 iGame.prevTurn();
         }
         else if (action[0] == L'n')
         {
-            for (int i = 0; i < _wtoi(count.c_str()); ++i)
+            for (int i = 0; i < wtoi(count.c_str()); ++i)
                 iGame.nextTurn();
         }
         else if (action[0] == L'f')
@@ -467,9 +467,9 @@ void handleRegexp(const Dictionary& iDic, const vector<wstring> &tokens)
     if (regexp == L"")
         return;
 
-    unsigned int nres = (cnres != L"") ? _wtoi(cnres.c_str()) : 50;
-    unsigned int lmin = (clmin != L"") ? _wtoi(clmin.c_str()) : 1;
-    unsigned int lmax = (clmax != L"") ? _wtoi(clmax.c_str()) : DIC_WORD_MAX - 1;
+    unsigned int nres = (cnres != L"") ? wtoi(cnres.c_str()) : 50;
+    unsigned int lmin = (clmin != L"") ? wtoi(clmin.c_str()) : 1;
+    unsigned int lmax = (clmax != L"") ? wtoi(clmax.c_str()) : DIC_WORD_MAX - 1;
 
     if (lmax > (DIC_WORD_MAX - 1) || lmin < 1 || lmin > lmax)
     {
@@ -521,11 +521,11 @@ void setSetting(const vector<wstring> &tokens)
         string setting = convertToMb(settingWide);
         if (type == L"i")
         {
-            Settings::Instance().setInt(setting, _wtoi(value.c_str()));
+            Settings::Instance().setInt(setting, wtoi(value.c_str()));
         }
         else if (type == L"b")
         {
-            Settings::Instance().setBool(setting, _wtoi(value.c_str()));
+            Settings::Instance().setBool(setting, wtoi(value.c_str()));
         }
     }
     catch (GameException &e)
@@ -635,7 +635,7 @@ void loopTraining(PublicGame &iGame)
                             helpTraining();
                         else
                         {
-                            int n = _wtoi(num.c_str());
+                            int n = wtoi(num.c_str());
                             if (n <= 0)
                                 printf("mauvais argument\n");
                             iGame.trainingPlayResult(n - 1);
@@ -797,7 +797,7 @@ void loopDuplicate(PublicGame &iGame)
                             helpDuplicate();
                         else
                         {
-                            int n = _wtoi(id.c_str());
+                            int n = wtoi(id.c_str());
                             if (n < 0 || n >= (int)iGame.getNbPlayers())
                             {
                                 fprintf(stderr, "Numéro de joueur invalide\n");
@@ -925,9 +925,9 @@ void mainLoop(const Dictionary &iDic)
                         // New duplicate game
                         Duplicate *tmpGame = GameFactory::Instance()->createDuplicate(iDic);
                         PublicGame *game = new PublicGame(*tmpGame);
-                        for (int i = 0; i < _wtoi(nbHuman.c_str()); ++i)
+                        for (int i = 0; i < wtoi(nbHuman.c_str()); ++i)
                             game->addPlayer(new HumanPlayer);
-                        for (int i = 0; i < _wtoi(nbAI.c_str()); ++i)
+                        for (int i = 0; i < wtoi(nbAI.c_str()); ++i)
                             game->addPlayer(new AIPercent(1));
                         // Set the variant
                         if (tokens[0].size() > 1)
@@ -960,9 +960,9 @@ void mainLoop(const Dictionary &iDic)
                         // New free game
                         FreeGame *tmpGame = GameFactory::Instance()->createFreeGame(iDic);
                         PublicGame *game = new PublicGame(*tmpGame);
-                        for (int i = 0; i < _wtoi(nbHuman.c_str()); i++)
+                        for (int i = 0; i < wtoi(nbHuman.c_str()); i++)
                             game->addPlayer(new HumanPlayer);
-                        for (int i = 0; i < _wtoi(nbAI.c_str()); i++)
+                        for (int i = 0; i < wtoi(nbAI.c_str()); i++)
                             game->addPlayer(new AIPercent(1));
                         // Set the variant
                         if (tokens[0].size() > 1)

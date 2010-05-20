@@ -71,7 +71,7 @@ static inline int wcwidth(wchar_t c)
 #endif
 
 
-int _wtoi(const wchar_t *iWStr)
+int wtoi(const wchar_t *iWStr)
 {
     return wcstol(iWStr, NULL, 10);
 }

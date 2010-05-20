@@ -103,9 +103,9 @@ void readLetters(const string &iFileName, CompDic &ioBuilder)
         {
             inputs = vector<wstring>(tokens.begin() + 5, tokens.end());
         }
-        ioBuilder.addLetter(letter[0], _wtoi(tokens[1].c_str()),
-                            _wtoi(tokens[2].c_str()), _wtoi(tokens[3].c_str()),
-                            _wtoi(tokens[4].c_str()), inputs);
+        ioBuilder.addLetter(letter[0], wtoi(tokens[1].c_str()),
+                            wtoi(tokens[2].c_str()), wtoi(tokens[3].c_str()),
+                            wtoi(tokens[4].c_str()), inputs);
 
         ++lineNb;
     }

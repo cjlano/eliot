@@ -28,7 +28,7 @@ using std::wstring;
 
 
 /// Equivalent of atoi for wide-caracter strings
-int _wtoi(const wchar_t *iWStr);
+int wtoi(const wchar_t *iWStr);
 
 /// Equivalent of swprintf, but working also with mingw32
 int _swprintf(wchar_t *wcs, size_t maxlen, const wchar_t *format, ...);
