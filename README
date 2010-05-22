@@ -1,22 +1,29 @@
+Eliot is a Scrabble game.
 
-  Eliot est un jeu de Scrabble
+It offers 3 different game modes (standard game, duplicate mode and training
+mode).
 
-  Il ne s'agit pas d'un programme pour jouer à plusieurs mais plutôt
-  d'un programme pour s'entrainer et jouer en duplicate.
+The free game mode is the standard one, ideal for having fun with your friends
+or family. You can play the game against a friend so that you can test your
+skills.
 
-  Eliot, ainsi que son dictionnaire, sont disponibles librement en accord 
-  avec la license GPL (http://www.gnu.org/).
+In the duplicate mode, all the players are faced with the same board and
+letters at the same time. It is mainly used in clubs and competitions since it
+takes away the chance (and tactics) component(s) of the game.
 
-  Eliot permet de rechercher le meilleur coup que l'on peut jouer sur
-  une grille avec un tirage. 
+The training mode allows to play alone and make progress for the duplicate.
+It gives more freedom than the multiplayer modes.
 
-  Eliot incorpore la recherche des raccords sur un coup, des benjamins
-  et  mots composables avec les lettres du tirage plus une. Un module de 
-  recherche est aussi disponible pour la recherche des anagrammes
-  et les jeux de mots-croisés.
+Here are some key features of "Eliot":
+ - very fast search, even with jokers
+ - support of different dictionaries (French, English, Spanish, Catalan, Czech)
+ - various dictionary tools (7+1, search by regular expressions, ...)
+ - game variants: joker games and explosive games
+ - configurable artificial intelligence
+ - ability to navigate in the game history
+ - saving/loading games
 
-  Bon jeux ! 
+Enjoy!
 
-  http://www.nongnu.org/eliot/index.html
-  
- 
+http://www.nongnu.org/eliot/index.html
+
