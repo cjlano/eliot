@@ -4,13 +4,14 @@
 #
 # Olivier Teuliere <ipkiss @@ via.ecp.fr>, 2009.
 # Pavel, 2010.
+# Pavel Fric, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2010-05-16 20:11+0200\n"
-"PO-Revision-Date: 2010-03-11 18:27+0100\n"
-"Last-Translator: Pavel\n"
+"POT-Creation-Date: 2010-05-22 11:57+0200\n"
+"PO-Revision-Date: 2010-05-21 16:26+0200\n"
+"Last-Translator: Pavel Fric\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +30,7 @@ msgid ""
 "as internal character representation, even if the tile has a display string "
 "defined. Please use another character and change your word list accordingly."
 msgstr ""
-"Z technických důvodů v současnosti Elliot podporuje pouze abecední znaky "
+"Z technických důvodů v současnosti Eliot podporuje pouze abecední znaky "
 "jakožto vnitřní vyjádření znaků, i když má hrací kámen stanoven řetězec "
 "zobrazení. Použijte, prosím, jiný znak a změňte podle toho seznam slov."
 
@@ -50,9 +51,8 @@ msgid "Cannot open output file '%1%'"
 msgstr "Nelze otevřít výstupní soubor '%1%'"
 
 #: dic/compdic.cpp:349
-#, fuzzy
 msgid "The word list is empty!"
-msgstr "Slovo '%ls' existuje"
+msgstr "Seznam slov je prázdný"
 
 #: dic/compdicmain.cpp:86
 msgid "readLetters: Not enough fields in %1% (line %2%)"
@@ -195,18 +195,16 @@ msgid "A mandatory option is missing"
 msgstr "Povinná volba chybí"
 
 #: dic/compdicmain.cpp:248
-#, fuzzy
 msgid " Load time: %1% s"
-msgstr " Nahrávací čas: %.3f s\n"
+msgstr " Nahrávací čas: %1% s"
 
 #: dic/compdicmain.cpp:249
-#, fuzzy
 msgid " Compression time: %1% s"
-msgstr " Stlačovací čas: %.3f s\n"
+msgstr " Stlačovací čas: %1% s"
 
 #: dic/compdicmain.cpp:251
 msgid " Maximum recursion level reached: %1%"
-msgstr " Dosažena nejvyšší úroveň rekurze: %1%"
+msgstr " Dosažena nejvyšší úroveň vracení se: %1%"
 
 #: dic/compdicmain.cpp:257
 msgid "Exception caught: %1%"
@@ -335,12 +333,12 @@ msgstr "  -h: Tisknout záhlaví\n"
 #: dic/listdic.cpp:106
 #, c-format
 msgid "  -l: print dictionary word list\n"
-msgstr "  -l: Tisknout slovníkový seznam slov\n"
+msgstr "  -l:  Tisknout slovníkový seznam slov\n"
 
 #: dic/listdic.cpp:107
 #, c-format
 msgid "  -x: print dictionary in hex\n"
-msgstr "  -x: Tisknout slovník v hex\n"
+msgstr "  -x: Tisknout slovník v šestnáctkové soustavě (hex)\n"
 
 #: dic/regexpmain.cpp:45
 #, c-format
@@ -353,7 +351,7 @@ msgstr "   slovník: cesta ke slovníku eliot dawg"
 
 #: dic/regexpmain.cpp:87 dic/regexpmain.cpp:111
 msgid "Enter a regular expression:"
-msgstr "Zadat pravidelný výraz"
+msgstr "Zadat regulární výraz:"
 
 #: dic/regexpmain.cpp:98
 msgid "result:"
@@ -361,7 +359,7 @@ msgstr "Výsledek:"
 
 #: dic/regexpmain.cpp:107
 msgid "Invalid regular expression: "
-msgstr "Neplatný pravidelný výraz: "
+msgstr "Neplatný regulární výraz: "
 
 #: game/duplicate.cpp:291
 msgid "Cannot switch to a non-human player"
@@ -408,7 +406,7 @@ msgstr "Procvičování"
 #: qt/dic_tools_widget.cpp:93 qt/dic_tools_widget.cpp:98
 #: qt/ui/player_widget.ui.h:135 qt/ui/training_widget.ui.h:158
 msgid "Rack:"
-msgstr "Přihrádka"
+msgstr "Přihrádka:"
 
 #: qt/dic_tools_widget.cpp:106 qt/dic_wizard.cpp:203
 msgid "Vowel?"
@@ -449,11 +447,11 @@ msgstr "Přesmyčky"
 
 #: qt/dic_tools_widget.cpp:251
 msgid "Regular expression: %1"
-msgstr "Pravidelný výraz: %1"
+msgstr "Regulární výraz: %1"
 
 #: qt/dic_tools_widget.cpp:272
 msgid "Invalid regular expression: %1"
-msgstr "Neplatný pravidelný výraz: %1"
+msgstr "Neplatný regulární výraz: %1"
 
 #: qt/dic_tools_widget.cpp:321 qt/dic_tools_widget.cpp:323
 msgid "Yes"
@@ -465,13 +463,15 @@ msgstr "Ne"
 
 #: qt/dic_wizard.cpp:49
 msgid "General information"
-msgstr ""
+msgstr "Obecné informace"
 
 #: qt/dic_wizard.cpp:50
 msgid ""
 "On this page, you can define the main information needed to create a new "
 "dictionary."
 msgstr ""
+"Na této stránce můžete popsat hlavní údaje potřebné pro vytvoření nového "
+"slovníku."
 
 #: qt/dic_wizard.cpp:52
 msgid ""
@@ -479,6 +479,9 @@ msgid ""
 "dictionary is loaded.\n"
 "E.g.: My Dic 1.0"
 msgstr ""
+"Vyberte název slovníku. Tento název se při nahrání slovníku objeví v "
+"Eliotově stavovém řádku.\n"
+"Například: Můj slovník 1.0"
 
 #: qt/dic_wizard.cpp:55
 msgid ""
@@ -486,22 +489,29 @@ msgid ""
 "contain the compressed dictionary.\n"
 "It must have the .dawg extension."
 msgstr ""
+"Vyberte výstupní soubor. Soubor bude vytvořen průvodcem a bude obsahovat "
+"stlačený slovník.\n"
+"Musí mít příponu .dawg."
 
 #: qt/dic_wizard.cpp:59
 msgid ""
 "Choose the file containing the word list.\n"
 "It must be encoded in UTF-8, and must contain one word on each line."
 msgstr ""
+"Vyberte soubor obsahující seznam slov.\n"
+"Musí být zašifrovaný v UTF-8, a musí mít na každém řádku pouze jedno slovo."
 
 #: qt/dic_wizard.cpp:129
 msgid ""
 "Some invalid (non-alphabetical) characters have been found in the word list. "
 "They are indicated below, with the first line on which they were found:"
 msgstr ""
+"V seznamu slov byly nalezeny některé neplatné znaky, jež nejsou přítomny v "
+"abecedě. Jsou ukázány níže, s údajem o prvním řádku, na kterém byly nalezeny:"
 
 #: qt/dic_wizard.cpp:134
 msgid "'%1' (ASCII code %2) at line %3"
-msgstr ""
+msgstr "'%1' (kód ASCII %2) na řádku %3"
 
 #: qt/dic_wizard.cpp:137 qt/dic_wizard.cpp:148 qt/main_window.cpp:363
 #: qt/main_window.cpp:941 qt/new_game.cpp:56 qt/ui/main_window.ui.h:124
@@ -510,25 +520,23 @@ msgstr "Eliot"
 
 #: qt/dic_wizard.cpp:139 qt/dic_wizard.cpp:150
 msgid "Please correct the word list."
-msgstr ""
+msgstr "Opravte, prosím, seznam slov."
 
 #: qt/dic_wizard.cpp:147
 msgid "The word list contains duplicate entries."
-msgstr ""
+msgstr "Seznam slov obsahuje některé záznamy dvakrát."
 
 #: qt/dic_wizard.cpp:162
-#, fuzzy
 msgid "Choose a file for the generated dictionary"
-msgstr "Některá písmena jsou pro současný slovník neplatná"
+msgstr "Vyberte soubor s vytvořeným slovníkem"
 
 #: qt/dic_wizard.cpp:175
-#, fuzzy
 msgid "Choose a word list file"
-msgstr "Slovo '%ls' existuje"
+msgstr "Vyberte soubor se seznamem slov"
 
 #: qt/dic_wizard.cpp:187
 msgid "Letters characteristics"
-msgstr ""
+msgstr "Vlastnosti písmen"
 
 #: qt/dic_wizard.cpp:188
 msgid ""
@@ -542,18 +550,27 @@ msgid ""
 "Note that a letter can be considered both as a vowel and as a consonant. "
 "This is usually the case for the joker and, in French, for the Y letter."
 msgstr ""
+"Tabulka dole uvádí všechna písmena, která byla nalezena v seznamu slov (a "
+"navíc žolíka). U každého písmene je zapotřebí stanovit: - jeho hodnotu "
+"(počet bodů;\n"
+" - jeho četnost (počet výskytů ve hře);\n"
+" - zda lze písmeno považovat za samohlásku;\n"
+" - zda lze písmeno považovat za souhlásku.\n"
+"\n"
+"Všimněte si, že písmeno lze považovat jak za samohlásku, tak za souhlásku. "
+"Obvykle je to v případě žolíka a ve francouzštině písmene Y."
 
 #: qt/dic_wizard.cpp:285
-#, fuzzy
 msgid "Conclusion"
-msgstr "Souhláska"
+msgstr "Závěr"
 
 #: qt/dic_wizard.cpp:292
-#, fuzzy
 msgid ""
 "Click '%1' to generate the dictionary.\n"
 "\n"
-msgstr "Vybrat nový slovník"
+msgstr ""
+"Klepněte na '%1' pro vytvoření slovníku.\n"
+"\n"
 
 #: qt/dic_wizard.cpp:293
 msgid ""
@@ -561,6 +578,9 @@ msgid ""
 "You can also load it later, using the\n"
 "'Settings -> Change dictionary...' menu option."
 msgstr ""
+"Nyní jej můžete nahrát do Eliotu pomocí zaškrtávacího políčka níže.\n"
+"Také jej můžete nahrát později za použití volby\n"
+"hlavní nabídky \"Nastavení -> Změnit slovník...\"."
 
 #: qt/dic_wizard.cpp:346 qt/main_window.cpp:299
 msgid "Eliot - Error"
@@ -568,7 +588,7 @@ msgstr "Eliot - Chyba"
 
 #: qt/dic_wizard.cpp:350
 msgid "Dictionary successfully created"
-msgstr ""
+msgstr "Slovník byl úspěšně vytvořen"
 
 #: qt/history_widget.cpp:51
 msgid "Turn"
@@ -649,7 +669,7 @@ msgstr "Nahraný slovník '%1'"
 
 #: qt/main_window.cpp:421
 msgid "&New..."
-msgstr "&Nový..."
+msgstr "&Nová hra..."
 
 #: qt/main_window.cpp:421
 msgid "Ctrl+N"
@@ -661,7 +681,7 @@ msgstr "Začít novou hru"
 
 #: qt/main_window.cpp:424
 msgid "&Load..."
-msgstr "&Nahrát..."
+msgstr "&Nahrát hru..."
 
 #: qt/main_window.cpp:424
 msgid "Ctrl+O"
@@ -789,14 +809,14 @@ msgid "Select a new dictionary"
 msgstr "Vybrat nový slovník"
 
 #: qt/main_window.cpp:468
-#, fuzzy
 msgid "Create &new dictionary..."
-msgstr "Vybrat nový slovník"
+msgstr "Vytvořit &nový slovník..."
 
 #: qt/main_window.cpp:469
 msgid ""
 "Start the wizard for creating a new dictionary from an existing word list"
 msgstr ""
+"Spustit průvodce pro vytvoření nového slovníku ze stávajícího seznamu slov"
 
 #: qt/main_window.cpp:471
 msgid "&Preferences..."
@@ -951,9 +971,8 @@ msgid "Choose a dictionary"
 msgstr "Vybrat slovník"
 
 #: qt/main_window.cpp:757
-#, fuzzy
 msgid "Dictionary creation wizard"
-msgstr "Slovníkové nástroje"
+msgstr "Průvodce vytvořením slovníku"
 
 #: qt/main_window.cpp:784 utils/ncurses.cpp:493 qt/ui/main_window.ui.h:125
 msgid "Bag"
@@ -1033,7 +1052,7 @@ msgstr "Úroveň"
 
 #: qt/new_game.cpp:168 qt/ui/new_game.ui.h:212
 msgid "Duplicate"
-msgstr "Zdvojit"
+msgstr "Zdvojení"
 
 #: qt/player_widget.cpp:165
 msgid "Cannot pass turn (%1)"
@@ -1144,7 +1163,7 @@ msgstr "Výsledek"
 
 #: qt/training_widget.cpp:221
 msgid "Warning: Cannot set the rack to '%1'"
-msgstr "Upozornění: Nelze nastavit přihrádku pro '%1'"
+msgstr "Upozornění: Nelze nastavit přihrádku na '%1'"
 
 #: qt/training_widget.cpp:261
 msgid "Searching with rack '%1'..."
@@ -1422,7 +1441,7 @@ msgstr "Poznámka: Bylo zobrazeno pouze prvních tisíc výsledků"
 
 #: qt/ui/dic_tools_widget.ui.h:240
 msgid "Regular expressions"
-msgstr "Pravidelné výrazy"
+msgstr "Regulární výrazy"
 
 #: qt/ui/dic_tools_widget.ui.h:241 qt/ui/dic_wizard_info_page.ui.h:142
 msgid "Dictionary name:"
@@ -1438,19 +1457,18 @@ msgstr "Počet slov:"
 
 #: qt/ui/dic_tools_widget.ui.h:244
 msgid "Dic. info."
-msgstr "Info. o slov."
+msgstr "Info o slovníku"
 
 #: qt/ui/dic_wizard_conclusion_page.ui.h:68
 #: qt/ui/dic_wizard_info_page.ui.h:145 qt/ui/dic_wizard_info_page.ui.h:146
 #: qt/ui/dic_wizard_info_page.ui.h:147
 #: qt/ui/dic_wizard_letters_def_page.ui.h:84
 msgid "Description"
-msgstr ""
+msgstr "Popis"
 
 #: qt/ui/dic_wizard_conclusion_page.ui.h:69
-#, fuzzy
 msgid "Load this dictionary in Eliot"
-msgstr "Nahraný slovník '%1'"
+msgstr "Nahrát tento slovník do Eliota"
 
 #: qt/ui/dic_wizard_info_page.ui.h:143 qt/ui/dic_wizard_info_page.ui.h:144
 #: qt/ui/prefs_dialog.ui.h:246
@@ -1458,17 +1476,16 @@ msgid "Browse..."
 msgstr "Procházet..."
 
 #: qt/ui/dic_wizard_info_page.ui.h:148
-#, fuzzy
 msgid "Generated dictionary:"
-msgstr "Vybrat nový slovník"
+msgstr "Vytvořený slovník:"
 
 #: qt/ui/dic_wizard_info_page.ui.h:149
 msgid "Word list:"
-msgstr ""
+msgstr "Seznam slov:"
 
 #: qt/ui/dic_wizard_letters_def_page.ui.h:85
 msgid "Load letters from word list"
-msgstr ""
+msgstr "Nahrát písmena ze seznamu slov"
 
 #: qt/ui/main_window.ui.h:130
 msgid "External board"
@@ -1556,7 +1573,7 @@ msgstr "Odstranit hráče"
 
 #: qt/ui/player_widget.ui.h:136
 msgid "Shuffle"
-msgstr "Míchat"
+msgstr "Zamíchat"
 
 #: qt/ui/player_widget.ui.h:137
 msgid "Change letters:"
@@ -1727,8 +1744,4 @@ msgstr "Hledat"
 
 #: qt/ui/training_widget.ui.h:177
 msgid "Play selected"
-msgstr "Přehrát vybrané"
-
-#, fuzzy
-#~ msgid "Dictionary creation"
-#~ msgstr "Slovníkové nástroje"
+msgstr "Hrát vybrané"
