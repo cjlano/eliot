@@ -3,14 +3,13 @@
 # This file is distributed under the same license as the eliot package.
 #
 # Olivier Teuliere <ipkiss @@ via.ecp.fr>, 2009.
-# Pavel, 2010.
 # Pavel Fric, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
 "POT-Creation-Date: 2010-05-22 11:57+0200\n"
-"PO-Revision-Date: 2010-05-21 16:26+0200\n"
+"PO-Revision-Date: 2010-05-22 13:08+0200\n"
 "Last-Translator: Pavel Fric\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -640,7 +639,7 @@ msgstr "Režim cvičení"
 
 #: qt/main_window.cpp:274
 msgid "Duplicate game"
-msgstr "Zdvojit hru"
+msgstr "Zdvojená hra"
 
 #: qt/main_window.cpp:278 qt/new_game.cpp:100 qt/new_game.cpp:169
 #: qt/ui/new_game.ui.h:213
@@ -1606,7 +1605,7 @@ msgid ""
 "written in parentheses. E.g.: w(o)rd or W(O)RD"
 msgstr ""
 "Zadejte slovo, se kterým se má hrát (rozlišují se velká a malá písmena). "
-"Žolík z poličky musí být zapsán v kulatých závorkách. Například: sl(o)vo "
+"Žolík z přihrádky musí být zapsán v kulatých závorkách. Například: sl(o)vo "
 "nebo SL(O)VO"
 
 #: qt/ui/player_widget.ui.h:151 qt/ui/training_widget.ui.h:173
