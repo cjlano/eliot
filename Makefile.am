@@ -9,7 +9,7 @@ DMG_FILE = $(top_builddir)/eliot-$(VERSION).dmg
 
 .PHONY: package-win32-zip package-macosx
 
-EXTRA_DIST = COPYING.arabica
+EXTRA_DIST = COPYING.arabica LGPL-2.0.txt
 
 # Prepare the win32 package
 package-win32-zip:
