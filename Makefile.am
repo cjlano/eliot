@@ -34,7 +34,7 @@ package-win32-zip:
 # Copy relevant text files
 	for i in AUTHORS COPYING COPYING.arabica NEWS THANKS; do \
 		cp $(top_srcdir)/$$i $(WIN32_PACKAGE_DIR)/$$i.txt; \
-		unix2dos $(WIN32_PACKAGE_DIR)/$$i.txt; \
+		todos $(WIN32_PACKAGE_DIR)/$$i.txt; \
 	done
 
 # Copy the mingw DLL
