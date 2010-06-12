@@ -151,6 +151,9 @@ void CompDic::loadWordList(const string &iFileName, vector<wstring> &oWordList)
         {
             line = line.substr(3);
         }
+        // Ignore empty lines
+        if (line == "")
+            continue;
         oWordList.push_back(readFromUTF8(line.data(),
                                         line.size(), "loadWordList"));
     }
