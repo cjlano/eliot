@@ -147,6 +147,10 @@ void TrainingWidget::updateModel()
         return;
 
     const Results &results = m_game->trainingGetResults();
+    // Find the highest score
+    int bestScore = -1;
+    if (results.size() != 0)
+        bestScore = results.get(0).getPoints();
     for (unsigned int i = 0; i < results.size(); ++i)
     {
         const Round &r = results.get(i);
@@ -158,6 +162,16 @@ void TrainingWidget::updateModel()
         m_model->setData(m_model->index(rowNum, 2), r.getPoints());
         m_model->setData(m_model->index(rowNum, 3),
                          r.getBonus() ? "*": "");
+        // Color the line in red if this is the top score
+        if (r.getPoints() == bestScore)
+        {
+            const QBrush redBrush(Qt::red);
+            for (int j = 0; j < 5; ++j)
+            {
+                m_model->setData(m_model->index(rowNum, j),
+                                 redBrush, Qt::ForegroundRole);
+            }
+        }
         // Hidden data, used to handle proper sorting in the tree view
         m_model->setData(m_model->index(rowNum, 5), i);
     }
