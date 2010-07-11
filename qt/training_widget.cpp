@@ -141,7 +141,11 @@ void TrainingWidget::updateModel()
         return;
     }
 
+    // Clear the results
     m_model->removeRows(0, m_model->rowCount());
+
+    // Force the sort column
+    treeViewResults->sortByColumn(2);
 
     if (m_game == NULL)
         return;
