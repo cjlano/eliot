@@ -53,6 +53,7 @@ TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicG
     : QWidget(parent), m_game(iGame)
 {
     setupUi(this);
+    treeViewResults->setAlternatingRowColors(true);
 
     redPalette = lineEditRack->palette();
     redPalette.setColor(QPalette::Text, Qt::red);
