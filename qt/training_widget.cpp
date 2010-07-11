@@ -35,6 +35,8 @@
 using namespace std;
 
 
+static const int HIDDEN_COLUMN = 6;
+
 /// Validator used for the rack line edit
 class RackValidator: public QValidator
 {
@@ -68,15 +70,16 @@ TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicG
     // Associate the model to the view
     m_model = new QStandardItemModel(this);
     treeViewResults->setModel(m_model);
-    m_model->setColumnCount(6);
+    m_model->setColumnCount(7);
     m_model->setHeaderData(0, Qt::Horizontal, _q("Word"), Qt::DisplayRole);
     m_model->setHeaderData(1, Qt::Horizontal, _q("Ref"), Qt::DisplayRole);
     m_model->setHeaderData(2, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
     m_model->setHeaderData(3, Qt::Horizontal, "*", Qt::DisplayRole);
     m_model->setHeaderData(4, Qt::Horizontal, "", Qt::DisplayRole);
-    // Hidden column, used to store internal data
     m_model->setHeaderData(5, Qt::Horizontal, "", Qt::DisplayRole);
-    treeViewResults->setColumnHidden(5, true);
+    // Hidden column, used to store internal data
+    m_model->setHeaderData(HIDDEN_COLUMN, Qt::Horizontal, "", Qt::DisplayRole);
+    treeViewResults->setColumnHidden(HIDDEN_COLUMN, true);
 
     // Enable the Play button only when there is a selection in the tree
     QObject::connect(treeViewResults->selectionModel(),
@@ -166,18 +169,25 @@ void TrainingWidget::updateModel()
         m_model->setData(m_model->index(rowNum, 2), r.getPoints());
         m_model->setData(m_model->index(rowNum, 3),
                          r.getBonus() ? "*": "");
-        // Color the line in red if this is the top score
         if (r.getPoints() == bestScore)
         {
+            // Color the line in red if this is the top score
             const QBrush redBrush(Qt::red);
-            for (int j = 0; j < 5; ++j)
+            for (int j = 0; j < HIDDEN_COLUMN; ++j)
             {
                 m_model->setData(m_model->index(rowNum, j),
                                  redBrush, Qt::ForegroundRole);
             }
         }
+        else
+        {
+            // Otherwise indicate the difference with the best score
+            m_model->setData(m_model->index(rowNum, 4),
+                             r.getPoints() - bestScore);
+        }
+
         // Hidden data, used to handle proper sorting in the tree view
-        m_model->setData(m_model->index(rowNum, 5), i);
+        m_model->setData(m_model->index(rowNum, HIDDEN_COLUMN), i);
     }
 
     // Clear the status bar when there is no search result
@@ -188,6 +198,7 @@ void TrainingWidget::updateModel()
     treeViewResults->resizeColumnToContents(1);
     treeViewResults->resizeColumnToContents(2);
     treeViewResults->resizeColumnToContents(3);
+    treeViewResults->resizeColumnToContents(4);
 }
 
 
@@ -208,7 +219,7 @@ void TrainingWidget::showPreview(const QItemSelection &iSelected,
     {
         // Use the hidden column to get the result number
         const QModelIndex &index =
-            m_model->index(iSelected.indexes().first().row(), 5);
+            m_model->index(iSelected.indexes().first().row(), HIDDEN_COLUMN);
         m_game->trainingTestPlay(m_model->data(index).toUInt());
         emit gameUpdated();
     }
@@ -299,7 +310,7 @@ void TrainingWidget::on_treeViewResults_doubleClicked(const QModelIndex &iIndex)
         return;
     m_game->trainingRemoveTestPlay();
     // Use the hidden column to get the result number
-    const QModelIndex &index = m_model->index(iIndex.row(), 5);
+    const QModelIndex &index = m_model->index(iIndex.row(), HIDDEN_COLUMN);
     m_game->trainingPlayResult(m_model->data(index).toUInt());
     emit gameUpdated();
 }
