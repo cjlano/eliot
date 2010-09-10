@@ -151,6 +151,9 @@ void CompDic::loadWordList(const string &iFileName, vector<wstring> &oWordList)
         {
             line = line.substr(3);
         }
+        // Remove potential \r
+        if (line[line.size() - 1] == '\r')
+            line = line.substr(0, line.size() - 1);
         // Ignore empty lines
         if (line == "")
             continue;
