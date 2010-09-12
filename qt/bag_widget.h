@@ -21,13 +21,15 @@
 #ifndef BAG_WIDGET_H_
 #define BAG_WIDGET_H_
 
-#include <QtGui/QTreeView>
+#include <QtGui/QWidget>
 
+#include <ui/bag_widget.ui.h>
 
 class PublicGame;
+//class QTreeView;
 class QStandardItemModel;
 
-class BagWidget: public QTreeView
+class BagWidget: public QWidget, private Ui::BagWidget
 {
     Q_OBJECT;
 
@@ -45,6 +47,8 @@ protected:
 private:
     /// Encapsulated game, can be NULL
     const PublicGame *m_game;
+
+//QTreeView *m_treeView;
 
     /// Model of the bag
     QStandardItemModel *m_model;

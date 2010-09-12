@@ -44,6 +44,7 @@ EXTRA_DIST = \
     ui/dic_wizard_info_page.ui \
     ui/dic_wizard_letters_def_page.ui \
     ui/dic_wizard_conclusion_page.ui \
+    ui/bag_widget.ui \
     ui/main_window.ui \
     ui/new_game.ui \
     ui/player_widget.ui \
@@ -73,6 +74,7 @@ eliot_SOURCES = \
 
 nodist_eliot_SOURCES = \
     ui/main_window.ui.h \
+    ui/bag_widget.ui.h \
     ui/new_game.ui.h \
     ui/player_widget.ui.h \
     ui/training_widget.ui.h \

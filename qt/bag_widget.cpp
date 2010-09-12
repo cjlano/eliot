@@ -21,6 +21,7 @@
 #include <boost/foreach.hpp>
 #include <vector>
 #include <QtGui/QTreeView>
+#include <QtGui/QVBoxLayout>
 #include <QtGui/QStandardItemModel>
 
 #include "bag_widget.h"
@@ -34,22 +35,20 @@ using namespace std;
 
 
 BagWidget::BagWidget(QWidget *parent)
-    : QTreeView(parent), m_game(NULL)
+    : QWidget(parent), m_game(NULL)
 {
-    // Create the tree view
-    setEditTriggers(QAbstractItemView::NoEditTriggers);
-    setRootIsDecorated(false);
-    setSortingEnabled(true);
-    QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-    setSizePolicy(policy);
+    setupUi(this);
 
     // Associate the model to the view
     m_model = new QStandardItemModel(this);
-    setModel(m_model);
+    treeView->setModel(m_model);
     m_model->setColumnCount(2);
     m_model->setHeaderData(0, Qt::Horizontal, _q("Letter"), Qt::DisplayRole);
     m_model->setHeaderData(1, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
     updateModel();
+
+    treeView->setColumnWidth(0, 90);
+    treeView->setColumnWidth(1, 10);
 }
 
 
@@ -57,6 +56,9 @@ void BagWidget::setGame(const PublicGame *iGame)
 {
     m_game = iGame;
     updateModel();
+
+    treeView->resizeColumnToContents(0);
+    treeView->resizeColumnToContents(1);
 }
 
 
@@ -90,8 +92,10 @@ void BagWidget::updateModel()
             m_model->setData(m_model->index(rowNum, 1), tile.getPoints());
         }
     }
-    //resizeColumnToContents(0);
-    resizeColumnToContents(1);
+
+    labelVowels->setText(QString("%1").arg(bag.getNbVowels()));
+    labelConsonants->setText(QString("%1").arg(bag.getNbConsonants()));
+    labelJokers->setText(QString("%1").arg(bag.in(Tile::Joker())));
 }
 
 
