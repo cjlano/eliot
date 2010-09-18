@@ -33,7 +33,8 @@ libdic_a_SOURCES = \
 	automaton.cpp automaton.h \
 	regexp.cpp regexp.h \
 	grammar.cpp grammar.h \
-	compdic.cpp compdic.h
+	compdic.cpp compdic.h \
+	listdic.cpp listdic.h
 
 #####################################
 if BUILD_DICTOOLS
@@ -47,7 +48,7 @@ compdic_SOURCES=compdicmain.cpp
 compdic_CPPFLAGS=$(AM_CPPFLAGS) @BOOST_CPPFLAGS@
 compdic_LDADD=libdic.a @LIBINTL@
 
-listdic_SOURCES=listdic.cpp
+listdic_SOURCES=listdicmain.cpp
 listdic_LDADD=libdic.a @LIBINTL@
 
 #regexp_CFLAGS=-DDEBUG_RE

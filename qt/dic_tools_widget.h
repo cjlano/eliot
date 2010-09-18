@@ -68,6 +68,8 @@ private slots:
     void refreshRegexp();
     /// Force synchronizing the model with the dictionary letters
     void refreshDicInfo();
+    /// Save the words of the dictionary to a file
+    void exportWordsList();
 };
 
 #endif

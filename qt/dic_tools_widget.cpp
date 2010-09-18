@@ -23,17 +23,21 @@
 #include <map>
 #include <vector>
 #include <algorithm>
+#include <fstream>
 #include <QtGui/QTreeView>
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QLineEdit>
 #include <QtGui/QToolTip>
+#include <QtGui/QFileDialog>
+#include <QtGui/QMessageBox>
 #include <QtCore/QString>
 
 #include "dic_tools_widget.h"
 #include "qtcommon.h"
 #include "dic.h"
 #include "header.h"
+#include "listdic.h"
 #include "dic_exception.h"
 
 using namespace std;
@@ -85,6 +89,7 @@ DicToolsWidget::DicToolsWidget(QWidget *parent)
     QObject::connect(lineEditCheck, SIGNAL(textChanged(const QString&)), this, SLOT(refreshCheck()));
     QObject::connect(lineEditPlus1, SIGNAL(returnPressed()), this, SLOT(refreshPlus1()));
     QObject::connect(lineEditRegexp, SIGNAL(returnPressed()), this, SLOT(refreshRegexp()));
+    QObject::connect(buttonSaveWords, SIGNAL(clicked()), this, SLOT(exportWordsList()));
 
     // Create models
     m_plus1Model = new QStandardItemModel(this);
@@ -341,6 +346,29 @@ void DicToolsWidget::refreshDicInfo()
         treeViewDicLetters->resizeColumnToContents(2);
         treeViewDicLetters->resizeColumnToContents(3);
         treeViewDicLetters->resizeColumnToContents(4);
+    }
+}
+
+
+void DicToolsWidget::exportWordsList()
+{
+    if (m_dic == NULL)
+        return;
+    QString fileName = QFileDialog::getSaveFileName(this, _q("Export words list"));
+    if (fileName != "")
+    {
+        try
+        {
+            ofstream file(qtl(fileName).c_str());
+            ListDic::printWords(file, *m_dic);
+            QMessageBox::information(this, _q("Export words list"),
+                                     _q("File '%1' successfully saved").arg(fileName));
+        }
+        catch (std::exception &e)
+        {
+            QMessageBox::warning(this, _q("Eliot - Error"),
+                                 _q("Cannot save the words list: %1").arg(e.what()));
+        }
     }
 }
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>435</width>
-    <height>354</height>
+    <height>386</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -180,28 +180,6 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QSpinBox" name="spinBoxWords">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>90</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-         <property name="maximum">
-          <number>100000000</number>
-         </property>
-        </widget>
-       </item>
        <item row="3" column="0" colspan="2">
         <widget class="QTreeView" name="treeViewDicLetters">
          <property name="editTriggers">
@@ -215,12 +193,73 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QSpinBox" name="spinBoxWords">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>90</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="maximum">
+            <number>100000000</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="buttonSaveWords">
+           <property name="text">
+            <string>_(&quot;Save words list...&quot;)</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
       </layout>
      </widget>
     </widget>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>lineEditCheck</tabstop>
+  <tabstop>lineEditPlus1</tabstop>
+  <tabstop>treeViewPlus1</tabstop>
+  <tabstop>lineEditRegexp</tabstop>
+  <tabstop>spinBoxMinLength</tabstop>
+  <tabstop>spinBoxMaxLength</tabstop>
+  <tabstop>treeViewRegexp</tabstop>
+  <tabstop>lineEditName</tabstop>
+  <tabstop>lineEditLetters</tabstop>
+  <tabstop>spinBoxWords</tabstop>
+  <tabstop>buttonSaveWords</tabstop>
+  <tabstop>treeViewDicLetters</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
