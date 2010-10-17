@@ -360,13 +360,7 @@ void MainWindow::changeDictionary(QString iFileName)
         if (m_game)
         {
             QString msg = _q("Loading a dictionary will stop the current game.");
-            QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), msg,
-                                        QMessageBox::Yes | QMessageBox::No, this);
-            confirmationBox.setInformativeText(_q("Do you want to continue?"));
-            confirmationBox.setDefaultButton(QMessageBox::Yes);
-            confirmationBox.setEscapeButton(QMessageBox::No);
-            int res = confirmationBox.exec();
-            if (res == QMessageBox::No)
+            if (!requestConfirmation(msg))
                 return;
         }
 
@@ -389,6 +383,18 @@ void MainWindow::changeDictionary(QString iFileName)
             displayErrorMsg(e.what());
         }
     }
+}
+
+
+bool MainWindow::requestConfirmation(QString msg)
+{
+    QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), msg,
+                                QMessageBox::Yes | QMessageBox::No, this);
+    confirmationBox.setInformativeText(_q("Do you want to continue?"));
+    confirmationBox.setDefaultButton(QMessageBox::Yes);
+    confirmationBox.setEscapeButton(QMessageBox::No);
+    int res = confirmationBox.exec();
+    return res == QMessageBox::Yes;
 }
 
 
@@ -514,6 +520,13 @@ void MainWindow::onGameNew()
     int res = m_newGameDialog->exec();
     if (res == QDialog::Rejected)
         return;
+
+    if (m_game)
+    {
+        QString msg = _q("Starting a new game will stop the current one.");
+        if (!requestConfirmation(msg))
+            return;
+    }
 
     // Destroy the game and the associated controls
     destroyCurrentGame();
@@ -938,13 +951,7 @@ void MainWindow::onHistoryReplayTurn()
         QString msg = _q("Replaying this turn will modify the game history "
                          "by deleting the turns after the displayed one (i.e. "
                          "turns \"in the future\").");
-        QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), msg,
-                                    QMessageBox::Yes | QMessageBox::No, this);
-        confirmationBox.setInformativeText(_q("Do you want to continue?"));
-        confirmationBox.setDefaultButton(QMessageBox::Yes);
-        confirmationBox.setEscapeButton(QMessageBox::No);
-        int ret = confirmationBox.exec();
-        if (ret != QMessageBox::Yes)
+        if (!requestConfirmation(msg))
             return;
     }
 

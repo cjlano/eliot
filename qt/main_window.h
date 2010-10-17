@@ -167,6 +167,9 @@ private:
     /// Destroy the current game (if any) and the associated widgets
     void destroyCurrentGame();
 
+    /// Ask for a confirmation
+    bool requestConfirmation(QString msg);
+
 };
 
 #endif
