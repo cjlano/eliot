@@ -62,6 +62,7 @@ eliot_SOURCES = \
     new_game.cpp new_game.h \
     score_widget.cpp score_widget.h \
     dic_wizard.cpp dic_wizard.h \
+    tile_widget.cpp tile_widget.h \
     board_widget.cpp board_widget.h \
     history_widget.cpp history_widget.h \
     play_word_mediator.cpp play_word_mediator.h \
@@ -89,6 +90,7 @@ nodist_eliot_SOURCES = \
     bag_widget.moc.cpp \
     score_widget.moc.cpp \
     dic_wizard.moc.cpp \
+    tile_widget.moc.cpp \
     board_widget.moc.cpp \
     history_widget.moc.cpp \
     play_word_mediator.moc.cpp \

@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2008-2009 Olivier Teulière
+ * Copyright (C) 2008-2010 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -20,13 +20,16 @@
 
 #include <algorithm> // For std::transform
 #include <cmath>
-#include <QtGui/QPainter>
-#include <QtGui/QPaintEvent>
+//#include <QtGui/QPainter>
+#include <QtGui/QGridLayout>
 #include <QtGui/QMouseEvent>
-#include <QtCore/QSettings>
+// XXX
+#include <QtGui/QTreeView>
+#include <QtGui/QPainter>
+#include <iostream>
 
 #include "board_widget.h"
-#include "prefs_dialog.h"
+#include "tile_widget.h"
 #include "qtcommon.h"
 #include "public_game.h"
 #include "tile.h"
@@ -36,25 +39,120 @@
 using namespace std;
 
 
-const QColor BoardWidget::EmptyColour(Qt::white);
-const QColor BoardWidget::L2Colour(34, 189, 240);
-const QColor BoardWidget::L3Colour(29, 104, 240);
-const QColor BoardWidget::W2Colour(255, 147, 196);
-const QColor BoardWidget::W3Colour(240, 80, 94);
-const QColor BoardWidget::TileColour(255, 235, 205);
-const QColor BoardWidget::PreviewColour(183, 183, 123);
-const QColor BoardWidget::NormalColour(0, 0, 0);
-const QColor BoardWidget::JokerColour(255, 0, 0);
-const QColor BoardWidget::ArrowColour(10, 10, 10);
+class BoardLayout : public QLayout
+{
+    //Q_OBJECT
 
+public:
+    BoardLayout(int nbCols): m_nbCols(nbCols), m_space(0)
+    {
+        setContentsMargins(0, 0, 0, 0);
+    }
+    ~BoardLayout()
+    {
+        QLayoutItem *item;
+        while ((item = takeAt(0)))
+            delete item;
+    }
+
+    QRect getBoardRect()
+    {
+
+    }
+
+    virtual void addItem(QLayoutItem *item)
+    {
+        m_items.append(item);
+    }
+    virtual bool hasHeightForWidth() const { return true; }
+    virtual int heightForWidth(int width) const { return width; }
+    virtual int count() const { return m_items.size(); }
+    virtual QLayoutItem *itemAt(int index) const { return m_items.value(index); }
+    virtual QLayoutItem *takeAt(int index)
+    {
+        if (index >= 0 && index < m_items.size())
+            return m_items.takeAt(index);
+        else
+            return 0;
+    }
+    virtual QSize minimumSize() const
+    {
+        QSize size;
+        if (!m_items.empty())
+            size.expandedTo(m_items.at(0)->minimumSize());
+        return size * m_nbCols;
+    }
+    virtual void setGeometry(const QRect &rect)
+    {
+        QLayout::setGeometry(rect);
+        doLayout(rect);
+    }
+    virtual QSize sizeHint() const { return minimumSize(); }
+
+private:
+    QList<QLayoutItem *> m_items;
+    int m_nbCols;
+    int m_space;
+
+    void doLayout(const QRect &rect)
+    {
+        int size = std::min(rect.width(), rect.height());
+        int squareSize = size / m_nbCols - m_space;
+        QLayoutItem *item;
+        int x = 0;
+        int y = 0;
+        int nbInRow = 1;
+        foreach (item, m_items)
+        {
+            QRect itemRect(QPoint(x, y), QSize(squareSize, squareSize));
+            item->setGeometry(itemRect);
+            x += squareSize + m_space;
+            ++nbInRow;
+            if (nbInRow > m_nbCols)
+            {
+                x = 0;
+                y += squareSize + m_space;
+                nbInRow = 1;
+            }
+        }
+    }
+};
 
 BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     : QFrame(parent), m_game(NULL), m_coordModel(iCoordModel)
 {
+    // Try to have a black background... FIXME: not working well!
+    QPalette pal = palette();
+    for (int i = 0; i <= 19; ++i)
+        pal.setColor((QPalette::ColorRole)i, Qt::black);
+    setPalette(pal);
+    setForegroundRole(QPalette::Window);
+    setBackgroundRole(QPalette::Window);
+
+    BoardLayout *layout = new BoardLayout(15);
+    for (unsigned int row = BOARD_MIN; row <= BOARD_MAX; ++row)
+    {
+        for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
+        {
+            TileWidget::Multiplier mult = TileWidget::NONE;
+            if (Board::GetWordMultiplier(row, col) == 3)
+                mult = TileWidget::WORD_TRIPLE;
+            else if (Board::GetWordMultiplier(row, col) == 2)
+                mult = TileWidget::WORD_DOUBLE;
+            else if (Board::GetLetterMultiplier(row, col) == 3)
+                mult = TileWidget::LETTER_TRIPLE;
+            else if (Board::GetLetterMultiplier(row, col) == 2)
+                mult = TileWidget::LETTER_DOUBLE;
+            TileWidget *t = new TileWidget(this, mult);
+            layout->addWidget(t);
+        }
+    }
+
+    setLayout(layout);
+
     setFrameStyle(QFrame::Panel);
     // Use as much space as possible
-    QSizePolicy policy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    setSizePolicy(policy);
+    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     setMinimumSize(200, 200);
 
     // Listen to changes in the coordinates
@@ -89,8 +187,12 @@ QSize BoardWidget::sizeHint() const
     return QSize(400, 400);
 }
 
+
 void BoardWidget::paintEvent(QPaintEvent *)
 {
+    QPainter painter(this);
+
+#if 0
     const int size = std::min(width(), height());
     const int squareSize = lrint(floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2)));
 
@@ -102,66 +204,6 @@ void BoardWidget::paintEvent(QPaintEvent *)
     const double pointsCoeff = 8. / 25.;
     pointsFont.setPixelSize(squareSize * pointsCoeff);
 
-    // Should we display the tiles points?
-    QSettings qs(ORGANIZATION, PACKAGE_NAME);
-    bool showPoints = qs.value(PrefsDialog::kINTF_SHOW_TILES_POINTS, true).toBool();
-
-    // XXX: Naive implementation: we repaint everything every time
-    QPainter painter(this);
-    //painter.setPen(Qt::NoPen);
-    for (unsigned int row = BOARD_MIN; row <= BOARD_MAX; ++row)
-    {
-        for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
-        {
-            const unsigned int xPos = (col - BOARD_MIN + 1) * squareSize;
-            const unsigned int yPos = (row - BOARD_MIN + 1) * squareSize;
-
-            // Set the brush color
-            if (m_game != NULL && !m_game->getBoard().getTile(row, col).isEmpty())
-            {
-                if (m_game->getBoard().isTestChar(row, col))
-                    painter.setBrush(PreviewColour);
-                else
-                    painter.setBrush(TileColour);
-            }
-            else if (Board::GetWordMultiplier(row, col) == 3)
-                painter.setBrush(W3Colour);
-            else if (Board::GetWordMultiplier(row, col) == 2)
-                painter.setBrush(W2Colour);
-            else if (Board::GetLetterMultiplier(row, col) == 3)
-                painter.setBrush(L3Colour);
-            else if (Board::GetLetterMultiplier(row, col) == 2)
-                painter.setBrush(L2Colour);
-            else
-                painter.setBrush(EmptyColour);
-            painter.drawRect(xPos, yPos, squareSize, squareSize);
-
-            // Draw the letter
-            if (m_game != NULL && !m_game->getBoard().getTile(row, col).isEmpty())
-            {
-                wstring chr = m_game->getBoard().getTile(row, col).getDisplayStr();
-                // Make the display char in upper case
-                std::transform(chr.begin(), chr.end(), chr.begin(), towupper);
-                if (m_game->getBoard().isJoker(row, col))
-                    painter.setPen(JokerColour);
-                painter.setFont(letterFont);
-                painter.drawText(xPos, yPos + 1, squareSize, squareSize,
-                                 Qt::AlignCenter, qfw(chr));
-                painter.setPen(NormalColour);
-
-                // Draw the points of the tile
-                if (showPoints && !m_game->getBoard().isJoker(row, col))
-                {
-                    painter.setFont(pointsFont);
-                    painter.drawText(xPos + squareSize * (1 - pointsCoeff),
-                                     yPos + squareSize * (1 - pointsCoeff) + 1,
-                                     squareSize * pointsCoeff, squareSize * pointsCoeff + 3,
-                                     Qt::AlignRight | Qt::AlignBottom,
-                                     QString("%1").arg(m_game->getBoard().getTile(row, col).getPoints()));
-                }
-            }
-        }
-    }
     // Draw the coordinates
     painter.setFont(letterFont);
     for (unsigned x = 1; x <= BOARD_MAX - BOARD_MIN + 1; ++x)
@@ -204,9 +246,11 @@ void BoardWidget::paintEvent(QPaintEvent *)
         painter.setPen(QPen());
         painter.setBrush(NormalColour);
     }
+#endif
 }
 
 
+/*
 void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
 {
     if (m_game == NULL)
@@ -305,4 +349,5 @@ void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
         m_coordModel.clear();
 #endif
 }
+*/
 

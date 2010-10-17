@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2008 Olivier Teulière
+ * Copyright (C) 2008-2010 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -46,7 +46,7 @@ protected:
     /// Paint the board
     virtual void paintEvent(QPaintEvent *iEvent);
     /// Catch mouse clicks on the board
-    virtual void mousePressEvent(QMouseEvent *iEvent);
+    //virtual void mousePressEvent(QMouseEvent *iEvent);
 
 private slots:
     void updateArrow(const Coord &iCoord);
@@ -57,20 +57,6 @@ private:
 
     /// Coordinates of the next word to play
     CoordModel &m_coordModel;
-
-    /// Define a few background colours
-    //@{
-    static const QColor EmptyColour;
-    static const QColor L2Colour;
-    static const QColor L3Colour;
-    static const QColor W2Colour;
-    static const QColor W3Colour;
-    static const QColor TileColour;
-    static const QColor PreviewColour;
-    static const QColor NormalColour;
-    static const QColor JokerColour;
-    static const QColor ArrowColour;
-    //@}
 };
 
 #endif
