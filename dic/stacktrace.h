@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2007-2010 Olivier Teulière
+ * Copyright (C) 2010 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -18,43 +18,21 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef GAME_EXCEPTION_H_
-#define GAME_EXCEPTION_H_
+#ifndef STACK_TRACE_H_
+#define STACK_TRACE_H_
 
 #include <string>
-#include "base_exception.h"
+
+using std::string;
 
 
-/**
- * Exception class for the Game library.
- * It simply inherits from the base exception and overrides
- * its what() method.
- */
-class GameException: public BaseException
+class StackTrace
 {
-    public:
-        GameException(const std::string &iMessage);
-};
+public:
+    static string GetStack();
 
-
-class EndGameException: public GameException
-{
-    public:
-        EndGameException(const std::string &iMessage);
-};
-
-
-class LoadGameException: public GameException
-{
-    public:
-        LoadGameException(const std::string &iMessage);
-};
-
-
-class SaveGameException: public GameException
-{
-    public:
-        SaveGameException(const std::string &iMessage);
+private:
+    static string Demangle(char *symbol);
 };
 
 #endif

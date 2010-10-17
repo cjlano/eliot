@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2007 Olivier Teulière
+ * Copyright (C) 2007-2010 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -21,24 +21,19 @@
 #ifndef DIC_EXCEPTION_H_
 #define DIC_EXCEPTION_H_
 
-#include <exception>
 #include <string>
+#include "base_exception.h"
 
 
 /**
  * Exception class for the dictionary.
- * It simply inherits from the standard exception and overrides
+ * It simply inherits from the base exception and overrides
  * its what() method.
  */
-class DicException: public std::exception
+class DicException: public BaseException
 {
     public:
         DicException(const std::string &iMessage);
-        ~DicException() throw() {}
-        virtual const char *what() const throw();
-
-    private:
-        std::string m_message;
 };
 
 
@@ -46,7 +41,6 @@ class InvalidRegexpException : public DicException
 {
     public:
         InvalidRegexpException(const std::string &iMessage);
-        ~InvalidRegexpException() throw() {}
 };
 
 #endif

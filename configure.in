@@ -22,6 +22,9 @@ AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 PKG_PROG_PKG_CONFIG
 
+AC_CHECK_HEADERS_ONCE(execinfo.h)
+AX_CXX_GCC_ABI_DEMANGLE
+
 dnl --------------------------------------------------------------
 dnl Checks for compilation flags
 dnl --------------------------------------------------------------

@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2007 Olivier Teulière
+ * Copyright (C) 2007-2010 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,14 +24,8 @@ using namespace std;
 
 
 GameException::GameException(const string &iMessage)
-    : m_message(iMessage)
+    : BaseException(iMessage)
 {
-}
-
-
-const char *GameException::what() const throw()
-{
-    return m_message.c_str();
 }
 
 

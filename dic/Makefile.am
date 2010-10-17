@@ -23,6 +23,7 @@ localedir = $(datadir)/locale
 AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir) -I../intl -I$(top_srcdir)/intl $(INCICONV)
 
 libdic_a_SOURCES = \
+	base_exception.cpp base_exception.h \
 	dic_exception.cpp dic_exception.h \
 	header.cpp header.h \
 	dic_internals.h \
@@ -30,6 +31,7 @@ libdic_a_SOURCES = \
 	dic.cpp dic.h \
 	dic_search.cpp \
 	encoding.cpp encoding.h \
+	stacktrace.cpp stacktrace.h \
 	automaton.cpp automaton.h \
 	regexp.cpp regexp.h \
 	grammar.cpp grammar.h \

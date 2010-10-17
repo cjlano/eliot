@@ -21,9 +21,13 @@
 #include "config.h"
 
 #include <string>
+#include <exception>
+#include <iostream>
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+#include "base_exception.h"
+#include "stacktrace.h"
 #include "main_window.h"
 #ifdef WIN32
 #   include <windows.h>
@@ -32,11 +36,48 @@
 #   include <CoreFoundation/CoreFoundation.h>
 #endif
 
-using std::string;
+#ifdef HAVE_EXECINFO_H
+#   include <signal.h>
+#   include <execinfo.h>
+#endif
 
+using namespace std;
+
+
+static void bt_sighandler(int);
+
+// Custom QApplication to catch and log exceptions properly
+// See http://forum.qtfr.org/viewtopic.php?id=7615
+class MyApplication : public QApplication
+{
+public:
+    MyApplication(int argc, char **argv)
+        : QApplication(argc, argv)
+    {}
+
+    virtual bool notify(QObject *receiver, QEvent *event)
+    {
+        try
+        {
+            return QApplication::notify(receiver, event);
+        }
+        catch (const BaseException &e)
+        {
+            cerr << "Exception caught: " << e.what() << endl;
+            cerr << e.getStackTrace() << endl;
+            return false;
+        }
+    }
+};
 
 int main(int argc, char **argv)
 {
+#ifdef HAVE_EXECINFO_H
+    // Install a custom signal handler to print a backtrace when crashing
+    // See http://www.linuxjournal.com/article/6391 for inspiration
+    signal(SIGSEGV, &bt_sighandler);
+#endif
+
     // On Mac, running Eliot from the dock does not automatically set the LANG
     // variable, so we do it ourselves.
     // Note: The following block of code is copied from VLC, and slightly
@@ -77,7 +118,7 @@ int main(int argc, char **argv)
 #endif
 #endif
 
-    QApplication app(argc, argv);
+    MyApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/images/eliot.xpm"));
 
 #ifdef ENABLE_NLS
@@ -121,3 +162,17 @@ int main(int argc, char **argv)
     qmain.show();
     return app.exec();
 }
+
+#ifdef HAVE_EXECINFO_H
+static void bt_sighandler(int signum)
+{
+    cerr << "Segmentation fault!" << endl;
+    cerr << "Backtrace:" << endl;
+    cerr << StackTrace::GetStack() << endl;
+
+    // Restore the default handler to generate a nice core dump
+    signal(signum, SIG_DFL);
+    raise(signum);
+}
+#endif
+
