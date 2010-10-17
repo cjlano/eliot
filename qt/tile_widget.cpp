@@ -43,8 +43,44 @@ const QColor TileWidget::JokerColour(255, 0, 0);
 const QColor TileWidget::ArrowColour(10, 10, 10);
 
 
+BasicTileWidget::BasicTileWidget(QWidget *parent, QString text)
+    : QWidget(parent), m_text(text)
+{
+}
+
+
+int BasicTileWidget::heightForWidth(int width) const
+{
+    return width;
+}
+
+
+QSize BasicTileWidget::sizeHint() const
+{
+    return QSize(30, 30);
+}
+
+
+int BasicTileWidget::getSquareSize() const
+{
+    return std::min(width(), height());
+}
+
+
+void BasicTileWidget::paintEvent(QPaintEvent *)
+{
+    const int squareSize = getSquareSize();
+    QFont letterFont = font();
+    letterFont.setPixelSize(squareSize * 2 / 3);
+
+    QPainter painter(this);
+    painter.setFont(letterFont);
+    painter.drawText(0, 1, squareSize, squareSize, Qt::AlignCenter, m_text);
+}
+
+
 TileWidget::TileWidget(QWidget *parent, Multiplier multiplier)
-    : QWidget(parent), m_multiplier(multiplier), m_isJoker(false),
+    : BasicTileWidget(parent), m_multiplier(multiplier), m_isJoker(false),
     m_isPreview(false), m_showArrow(false), m_horizontalArrow(true)
 {
     setMinimumSize(15, 15);
@@ -62,18 +98,6 @@ TileWidget::TileWidget(QWidget *parent, Multiplier multiplier)
 }
 
 
-int TileWidget::heightForWidth(int width) const
-{
-    return width;
-}
-
-
-QSize TileWidget::sizeHint() const
-{
-    return QSize(30, 30);
-}
-
-
 void TileWidget::tileChanged(const Tile &iTile, bool isJoker, bool isPreview,
                              bool showArrow, bool horizontalArrow)
 {
@@ -88,7 +112,7 @@ void TileWidget::tileChanged(const Tile &iTile, bool isJoker, bool isPreview,
 
 void TileWidget::paintEvent(QPaintEvent *)
 {
-    const int squareSize = std::min(width(), height());
+    const int squareSize = getSquareSize();
 
     // The font must grow with the square size
     QFont letterFont = font();

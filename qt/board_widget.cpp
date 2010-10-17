@@ -55,9 +55,11 @@ public:
             delete item;
     }
 
-    QRect getBoardRect()
+    QRect getBoardRect() const
     {
-
+        if (m_items.size() < m_nbCols + 2)
+            return QRect();
+        return m_items.at(m_nbCols + 1)->geometry().united(m_items.back()->geometry());
     }
 
     virtual void addItem(QLayoutItem *item)
@@ -129,9 +131,23 @@ BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     setForegroundRole(QPalette::Window);
     setBackgroundRole(QPalette::Window);
 
-    BoardLayout *layout = new BoardLayout(15);
+    BoardLayout *layout = new BoardLayout(16);
+    // Line full of coordinates
+    layout->addWidget(new BasicTileWidget(this, ""));
+    for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
+    {
+        BasicTileWidget *coordTile =
+            new BasicTileWidget(this, QString("%1").arg(col));
+        layout->addWidget(coordTile);
+    }
+    // Rest of the board
     for (unsigned int row = BOARD_MIN; row <= BOARD_MAX; ++row)
     {
+        // Add the coordinate
+        BasicTileWidget *coordTile =
+            new BasicTileWidget(this, QString(QChar('A' + row - BOARD_MIN)));
+        layout->addWidget(coordTile);
+        // Add the squares
         for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
         {
             TileWidget::Multiplier mult = TileWidget::NONE;
@@ -191,32 +207,13 @@ QSize BoardWidget::sizeHint() const
 void BoardWidget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
+    QRect rect = ((BoardLayout*)layout())->getBoardRect();
+    painter.drawRect(rect);
 
 #if 0
     const int size = std::min(width(), height());
     const int squareSize = lrint(floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2)));
 
-    // The font must grow with the square size
-    QFont letterFont = font();
-    letterFont.setPixelSize(squareSize * 2 / 3);
-
-    QFont pointsFont = font();
-    const double pointsCoeff = 8. / 25.;
-    pointsFont.setPixelSize(squareSize * pointsCoeff);
-
-    // Draw the coordinates
-    painter.setFont(letterFont);
-    for (unsigned x = 1; x <= BOARD_MAX - BOARD_MIN + 1; ++x)
-    {
-        painter.drawText(x * squareSize, 1,
-                         squareSize, squareSize,
-                         Qt::AlignCenter,
-                         QString::number(x));
-        painter.drawText(0, x * squareSize,
-                         squareSize, squareSize,
-                         Qt::AlignCenter,
-                         QString(1, 'A' + x - 1));
-    }
     // Draw the arrow
     const Coord &markCoord = m_coordModel.getCoord();
     if (m_game != NULL && markCoord.isValid())

@@ -25,7 +25,33 @@
 #include "tile.h"
 
 
-class TileWidget: public QWidget
+/**
+ * Simplified tile, only used to draw the coordinates of the board
+ */
+class BasicTileWidget: public QWidget
+{
+public:
+    BasicTileWidget(QWidget *parent = 0, QString text = "");
+
+    int getSquareSize() const;
+
+    virtual int heightForWidth(int w) const;
+
+protected:
+    /// Define a default size
+    virtual QSize sizeHint() const;
+    /// Paint the square
+    virtual void paintEvent(QPaintEvent *iEvent);
+
+private:
+    QString m_text;
+};
+
+
+/**
+ * Widget used to display a square on the board, with or without letter.
+ */
+class TileWidget: public BasicTileWidget
 {
     Q_OBJECT;
 
@@ -41,16 +67,12 @@ public:
 
     explicit TileWidget(QWidget *parent = 0, Multiplier multiplier = NONE);
 
-    virtual int heightForWidth(int w) const;
-
 public slots:
     void tileChanged(const Tile &iTile, bool isJoker, bool isPreview,
                      bool showArrow, bool horizontalArrow);
 
 protected:
-    /// Define a default size
-    virtual QSize sizeHint() const;
-    /// Paint the board
+    /// Paint the square
     virtual void paintEvent(QPaintEvent *iEvent);
 
 private:
