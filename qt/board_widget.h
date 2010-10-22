@@ -22,10 +22,11 @@
 #define BOARD_WIDGET_H_
 
 #include <QtGui/QFrame>
+#include "matrix.h"
 
 
-class QTreeView;
 class PublicGame;
+class TileWidget;
 class CoordModel;
 class Coord;
 
@@ -57,6 +58,8 @@ private:
 
     /// Coordinates of the next word to play
     CoordModel &m_coordModel;
+
+    Matrix<TileWidget*> m_widgetsMatrix;
 };
 
 #endif

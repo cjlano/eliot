@@ -121,7 +121,8 @@ private:
 };
 
 BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
-    : QFrame(parent), m_game(NULL), m_coordModel(iCoordModel)
+    : QFrame(parent), m_game(NULL), m_coordModel(iCoordModel),
+    m_widgetsMatrix(BOARD_MAX + 1, BOARD_MAX + 1, 0)
 {
     // Try to have a black background... FIXME: not working well!
     QPalette pal = palette();
@@ -131,7 +132,7 @@ BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     setForegroundRole(QPalette::Window);
     setBackgroundRole(QPalette::Window);
 
-    BoardLayout *layout = new BoardLayout(16);
+    BoardLayout *layout = new BoardLayout(BOARD_MAX + 1);
     // Line full of coordinates
     layout->addWidget(new BasicTileWidget(this, ""));
     for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
@@ -160,6 +161,7 @@ BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
             else if (Board::GetLetterMultiplier(row, col) == 2)
                 mult = TileWidget::LETTER_DOUBLE;
             TileWidget *t = new TileWidget(this, mult);
+            m_widgetsMatrix[row][col] = t;
             layout->addWidget(t);
         }
     }
@@ -194,6 +196,21 @@ void BoardWidget::updateArrow(const Coord &)
 
 void BoardWidget::refresh()
 {
+    if (m_game != NULL)
+    {
+        const Board &board = m_game->getBoard();
+        for (unsigned int row = BOARD_MIN; row <= BOARD_MAX; ++row)
+        {
+            for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
+            {
+                m_widgetsMatrix[row][col]->tileChanged(
+                        board.getTile(row, col),
+                        board.isJoker(row, col),
+                        board.isTestChar(row, col),
+                        false, false);
+            }
+        }
+    }
     update();
 }
 

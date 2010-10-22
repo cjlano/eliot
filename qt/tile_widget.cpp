@@ -170,7 +170,7 @@ void TileWidget::paintEvent(QPaintEvent *)
         {
             painter.setFont(pointsFont);
             painter.drawText(xPos + squareSize * (1 - pointsCoeff),
-                             yPos + squareSize * (1 - pointsCoeff) + 1,
+                             yPos + squareSize * (1 - pointsCoeff),
                              squareSize * pointsCoeff, squareSize * pointsCoeff + 3,
                              Qt::AlignRight | Qt::AlignBottom,
                              QString("%1").arg(m_tile.getPoints()));
