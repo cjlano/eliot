@@ -57,6 +57,7 @@ EXTRA_DIST = \
 eliot_SOURCES = \
     qtcommon.h qtcommon.cpp \
     coord_model.h coord_model.cpp \
+    tile_layout.cpp tile_layout.h \
     bag_widget.cpp bag_widget.h \
     dic_tools_widget.cpp dic_tools_widget.h \
     new_game.cpp new_game.h \
@@ -85,6 +86,7 @@ nodist_eliot_SOURCES = \
     ui/dic_wizard_letters_def_page.ui.h \
     ui/dic_wizard_conclusion_page.ui.h \
     coord_model.moc.cpp \
+    tile_layout.moc.cpp \
     new_game.moc.cpp \
     dic_tools_widget.moc.cpp \
     bag_widget.moc.cpp \

@@ -18,15 +18,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <algorithm> // For std::transform
 #include <cmath>
-#include <QtGui/QGridLayout>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QPainter>
-// XXX
-#include <iostream>
 
 #include "board_widget.h"
+#include "tile_layout.h"
 #include "tile_widget.h"
 #include "qtcommon.h"
 #include "public_game.h"
@@ -36,99 +33,6 @@
 
 using namespace std;
 
-
-class BoardLayout : public QLayout
-{
-    //Q_OBJECT
-
-public:
-    BoardLayout(int nbCols, int spacing): m_nbCols(nbCols), m_space(spacing)
-    {
-        setContentsMargins(0, 0, 0, 0);
-    }
-    ~BoardLayout()
-    {
-        QLayoutItem *item;
-        while ((item = takeAt(0)))
-            delete item;
-    }
-
-    QRect getBoardRect() const
-    {
-        if (m_items.size() < m_nbCols + 2)
-            return QRect();
-        return m_items.at(m_nbCols + 1)->geometry().united(m_items.back()->geometry());
-    }
-
-    int getSquareSize() const
-    {
-        if (m_items.empty())
-            return 0;
-        return m_items.at(0)->geometry().width();
-    }
-
-    int getSpacing() const
-    {
-        return m_space;
-    }
-
-    virtual void addItem(QLayoutItem *item)
-    {
-        m_items.append(item);
-    }
-    virtual bool hasHeightForWidth() const { return true; }
-    virtual int heightForWidth(int width) const { return width; }
-    virtual int count() const { return m_items.size(); }
-    virtual QLayoutItem *itemAt(int index) const { return m_items.value(index); }
-    virtual QLayoutItem *takeAt(int index)
-    {
-        if (index >= 0 && index < m_items.size())
-            return m_items.takeAt(index);
-        else
-            return 0;
-    }
-    virtual QSize minimumSize() const
-    {
-        QSize size(m_space, m_space);
-        if (!m_items.empty())
-            size += m_items.at(0)->minimumSize();
-        return size * m_nbCols + QSize(5, 5);
-    }
-    virtual void setGeometry(const QRect &rect)
-    {
-        QLayout::setGeometry(rect);
-        doLayout(rect);
-    }
-    virtual QSize sizeHint() const { return minimumSize(); }
-
-private:
-    QList<QLayoutItem *> m_items;
-    int m_nbCols;
-    int m_space;
-
-    void doLayout(const QRect &rect)
-    {
-        int size = std::min(rect.width(), rect.height());
-        int squareSize = size / m_nbCols - m_space;
-        QLayoutItem *item;
-        int x = 0;
-        int y = 0;
-        int nbInRow = 1;
-        foreach (item, m_items)
-        {
-            QRect itemRect(QPoint(x, y), QSize(squareSize, squareSize));
-            item->setGeometry(itemRect);
-            x += squareSize + m_space;
-            ++nbInRow;
-            if (nbInRow > m_nbCols)
-            {
-                x = 0;
-                y += squareSize + m_space;
-                nbInRow = 1;
-            }
-        }
-    }
-};
 
 BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     : QFrame(parent), m_game(NULL), m_coordModel(iCoordModel),
@@ -142,7 +46,7 @@ BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     setForegroundRole(QPalette::Window);
     setBackgroundRole(QPalette::Window);
 
-    BoardLayout *layout = new BoardLayout(BOARD_MAX + 1, 1);
+    TileLayout *layout = new TileLayout(BOARD_MAX + 1, 1);
     // Line full of coordinates
     layout->addWidget(new BasicTileWidget(this, ""));
     for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
@@ -246,7 +150,7 @@ QSize BoardWidget::sizeHint() const
 
 void BoardWidget::paintEvent(QPaintEvent *)
 {
-    const BoardLayout *boardLayout = (BoardLayout*)layout();
+    const TileLayout *boardLayout = (TileLayout*)layout();
     QPainter painter(this);
     QRect rect = boardLayout->getBoardRect();
     const int size = boardLayout->getSquareSize();
