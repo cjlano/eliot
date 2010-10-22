@@ -47,7 +47,7 @@ protected:
     /// Paint the board
     virtual void paintEvent(QPaintEvent *iEvent);
     /// Catch mouse clicks on the board
-    //virtual void mousePressEvent(QMouseEvent *iEvent);
+    virtual void mousePressEvent(QMouseEvent *iEvent);
 
 private slots:
     void updateArrow(const Coord &iCoord);

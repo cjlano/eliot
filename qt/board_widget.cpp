@@ -198,7 +198,12 @@ void BoardWidget::refresh()
 {
     if (m_game != NULL)
     {
+        // XXX: in the future, this code could be changed to use signals
+        // emitted from the core. This would allow repainting only the needed
+        // tiles (the same performance improvement could be done with caching
+        // in the TileWidget class, though)
         const Board &board = m_game->getBoard();
+        const Coord &markCoord = m_coordModel.getCoord();
         for (unsigned int row = BOARD_MIN; row <= BOARD_MAX; ++row)
         {
             for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
@@ -207,7 +212,9 @@ void BoardWidget::refresh()
                         board.getTile(row, col),
                         board.isJoker(row, col),
                         board.isTestChar(row, col),
-                        false, false);
+                        markCoord.isValid() && markCoord.getRow() == row &&
+                            markCoord.getCol() == col,
+                        markCoord.getDir() == Coord::VERTICAL);
             }
         }
     }
@@ -226,45 +233,11 @@ void BoardWidget::paintEvent(QPaintEvent *)
     QPainter painter(this);
     QRect rect = ((BoardLayout*)layout())->getBoardRect();
     painter.drawRect(rect);
-
-#if 0
-    const int size = std::min(width(), height());
-    const int squareSize = lrint(floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2)));
-
-    // Draw the arrow
-    const Coord &markCoord = m_coordModel.getCoord();
-    if (m_game != NULL && markCoord.isValid())
-    {
-        const unsigned int xPos = (markCoord.getCol() - BOARD_MIN + 1) * squareSize + 1;
-        const unsigned int yPos = (markCoord.getRow() - BOARD_MIN + 1) * squareSize + 1;
-        painter.setPen(QPen(ArrowColour, 0));
-        painter.setBrush(ArrowColour);
-        const int mid = squareSize / 2;
-        const int fifth = squareSize / 5;
-        const int width = squareSize / 16;
-        painter.translate(xPos + mid, yPos + mid);
-        if (markCoord.getDir() == Coord::VERTICAL)
-            painter.rotate(90);
-        const QPoint points[] =
-        {
-            QPoint(-mid + fifth, -width),
-            QPoint(-mid + 3*fifth, -width),
-            QPoint(-mid + 3*fifth, -fifth),
-            QPoint(-mid + 4*fifth, 0),
-            QPoint(-mid + 3*fifth, fifth),
-            QPoint(-mid + 3*fifth, width),
-            QPoint(-mid + fifth, width)
-        };
-        painter.drawPolygon(points, 7);
-
-        painter.setPen(QPen());
-        painter.setBrush(NormalColour);
-    }
-#endif
+    painter.drawRect(rect.adjusted(-1, -1, 1, 1));
 }
 
 
-/*
+
 void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
 {
     if (m_game == NULL)
@@ -363,5 +336,5 @@ void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
         m_coordModel.clear();
 #endif
 }
-*/
+
 
