@@ -181,7 +181,7 @@ void TileWidget::paintEvent(QPaintEvent *)
     {
         const unsigned int xPos = 1;
         const unsigned int yPos = 1;
-        painter.setPen(QPen(ArrowColour, 0));
+        painter.setPen(QPen(painter.brush().color(), 0));
         painter.setBrush(ArrowColour);
         const int mid = squareSize / 2;
         const int fifth = squareSize / 5;
@@ -191,13 +191,13 @@ void TileWidget::paintEvent(QPaintEvent *)
             painter.rotate(90);
         const QPoint points[] =
         {
-            QPoint(-mid + fifth, -width),
-            QPoint(-mid + 3*fifth, -width),
-            QPoint(-mid + 3*fifth, -fifth),
-            QPoint(-mid + 4*fifth, 0),
-            QPoint(-mid + 3*fifth, fifth),
-            QPoint(-mid + 3*fifth, width),
-            QPoint(-mid + fifth, width)
+            QPoint(-mid + fifth - 1, -width - 1),
+            QPoint(-mid + 3*fifth - 1, -width - 1),
+            QPoint(-mid + 3*fifth - 1, -fifth - 2),
+            QPoint(-mid + 4*fifth + 1, 0),
+            QPoint(-mid + 3*fifth - 1, fifth + 2),
+            QPoint(-mid + 3*fifth - 1, width + 1),
+            QPoint(-mid + fifth - 1, width + 1)
         };
         painter.drawPolygon(points, 7);
 
