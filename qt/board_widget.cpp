@@ -20,12 +20,10 @@
 
 #include <algorithm> // For std::transform
 #include <cmath>
-//#include <QtGui/QPainter>
 #include <QtGui/QGridLayout>
 #include <QtGui/QMouseEvent>
-// XXX
-#include <QtGui/QTreeView>
 #include <QtGui/QPainter>
+// XXX
 #include <iostream>
 
 #include "board_widget.h"
@@ -44,7 +42,7 @@ class BoardLayout : public QLayout
     //Q_OBJECT
 
 public:
-    BoardLayout(int nbCols): m_nbCols(nbCols), m_space(0)
+    BoardLayout(int nbCols, int spacing): m_nbCols(nbCols), m_space(spacing)
     {
         setContentsMargins(0, 0, 0, 0);
     }
@@ -60,6 +58,18 @@ public:
         if (m_items.size() < m_nbCols + 2)
             return QRect();
         return m_items.at(m_nbCols + 1)->geometry().united(m_items.back()->geometry());
+    }
+
+    int getSquareSize() const
+    {
+        if (m_items.empty())
+            return 0;
+        return m_items.at(0)->geometry().width();
+    }
+
+    int getSpacing() const
+    {
+        return m_space;
     }
 
     virtual void addItem(QLayoutItem *item)
@@ -79,10 +89,10 @@ public:
     }
     virtual QSize minimumSize() const
     {
-        QSize size;
+        QSize size(m_space, m_space);
         if (!m_items.empty())
-            size.expandedTo(m_items.at(0)->minimumSize());
-        return size * m_nbCols;
+            size += m_items.at(0)->minimumSize();
+        return size * m_nbCols + QSize(5, 5);
     }
     virtual void setGeometry(const QRect &rect)
     {
@@ -132,7 +142,7 @@ BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     setForegroundRole(QPalette::Window);
     setBackgroundRole(QPalette::Window);
 
-    BoardLayout *layout = new BoardLayout(BOARD_MAX + 1);
+    BoardLayout *layout = new BoardLayout(BOARD_MAX + 1, 1);
     // Line full of coordinates
     layout->addWidget(new BasicTileWidget(this, ""));
     for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
@@ -174,7 +184,6 @@ BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     setFrameStyle(QFrame::Panel);
     // Use as much space as possible
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-    setMinimumSize(200, 200);
 
     // Listen to changes in the coordinates
     QObject::connect(&m_coordModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
@@ -237,10 +246,25 @@ QSize BoardWidget::sizeHint() const
 
 void BoardWidget::paintEvent(QPaintEvent *)
 {
+    const BoardLayout *boardLayout = (BoardLayout*)layout();
     QPainter painter(this);
-    QRect rect = ((BoardLayout*)layout())->getBoardRect();
-    painter.drawRect(rect);
-    painter.drawRect(rect.adjusted(-1, -1, 1, 1));
+    QRect rect = boardLayout->getBoardRect();
+    const int size = boardLayout->getSquareSize();
+    const int spacing = boardLayout->getSpacing();
+
+    QLine hLine(0, 0, rect.width() + 1, 0);
+    QLine vLine(0, 0, 0, rect.height() + 1);
+    hLine.translate(size, size);
+    vLine.translate(size, size);
+    for (int i = 0; i <= BOARD_MAX; ++i)
+    {
+        painter.drawLine(hLine);
+        painter.drawLine(vLine);
+        hLine.translate(0, size + spacing);
+        vLine.translate(size + spacing, 0);
+    }
+    //painter.drawRect(rect);
+    painter.drawRect(rect.adjusted(-2, -2, 1, 1));
 }
 
 

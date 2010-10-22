@@ -46,6 +46,7 @@ const QColor TileWidget::ArrowColour(10, 10, 10);
 BasicTileWidget::BasicTileWidget(QWidget *parent, QString text)
     : QWidget(parent), m_text(text)
 {
+    setMinimumSize(10, 10);
 }
 
 
@@ -85,18 +86,9 @@ TileWidget::TileWidget(QWidget *parent, Multiplier multiplier,
     m_row(row), m_col(col), m_isJoker(false),
     m_isPreview(false), m_showArrow(false), m_horizontalArrow(true)
 {
-    setMinimumSize(15, 15);
     QSizePolicy policy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     policy.setHeightForWidth(true);
     setSizePolicy(policy);
-
-    // Try to have a black background... FIXME: not working well!
-    QPalette pal = palette();
-    for (int i = 0; i <= 19; ++i)
-        pal.setColor((QPalette::ColorRole)i, Qt::black);
-    setPalette(pal);
-    setForegroundRole(QPalette::Window);
-    setBackgroundRole(QPalette::Window);
 }
 
 
@@ -131,29 +123,27 @@ void TileWidget::paintEvent(QPaintEvent *)
 
     // XXX: Naive implementation: we repaint everything every time
     QPainter painter(this);
-    //painter.setPen(Qt::NoPen);
-    const unsigned int xPos = 0;
-    const unsigned int yPos = 0;
 
-    // Set the brush color
+    // Set the square color
+    QColor color;
     if (!m_tile.isEmpty())
     {
         if (m_isPreview)
-            painter.setBrush(PreviewColour);
+            color = PreviewColour;
         else
-            painter.setBrush(TileColour);
+            color = TileColour;
     }
     else if (m_multiplier == WORD_TRIPLE)
-        painter.setBrush(W3Colour);
+        color = W3Colour;
     else if (m_multiplier == WORD_DOUBLE)
-        painter.setBrush(W2Colour);
+        color = W2Colour;
     else if (m_multiplier == LETTER_TRIPLE)
-        painter.setBrush(L3Colour);
+        color = L3Colour;
     else if (m_multiplier == LETTER_DOUBLE)
-        painter.setBrush(L2Colour);
+        color = L2Colour;
     else
-        painter.setBrush(EmptyColour);
-    painter.drawRect(xPos, yPos, squareSize, squareSize);
+        color = EmptyColour;
+    painter.fillRect(0, 0, squareSize, squareSize, color);
 
     // Draw the letter
     if (!m_tile.isEmpty())
@@ -164,7 +154,7 @@ void TileWidget::paintEvent(QPaintEvent *)
         if (m_isJoker)
             painter.setPen(JokerColour);
         painter.setFont(letterFont);
-        painter.drawText(xPos, yPos + 1, squareSize, squareSize,
+        painter.drawText(0, 0, squareSize, squareSize,
                          Qt::AlignCenter, qfw(chr));
         painter.setPen(NormalColour);
 
@@ -176,9 +166,9 @@ void TileWidget::paintEvent(QPaintEvent *)
         if (showPoints && !m_isJoker)
         {
             painter.setFont(pointsFont);
-            painter.drawText(xPos + squareSize * (1 - pointsCoeff),
-                             yPos + squareSize * (1 - pointsCoeff),
-                             squareSize * pointsCoeff, squareSize * pointsCoeff + 3,
+            painter.drawText(0,
+                             squareSize * (1 - pointsCoeff),
+                             squareSize - 1, squareSize * pointsCoeff + 3,
                              Qt::AlignRight | Qt::AlignBottom,
                              QString("%1").arg(m_tile.getPoints()));
         }
@@ -186,14 +176,12 @@ void TileWidget::paintEvent(QPaintEvent *)
     // Draw the arrow
     if (m_showArrow)
     {
-        const unsigned int xPos = 1;
-        const unsigned int yPos = 1;
         painter.setPen(QPen(painter.brush().color(), 0));
         painter.setBrush(ArrowColour);
         const int mid = squareSize / 2;
         const int fifth = squareSize / 5;
         const int width = squareSize / 16;
-        painter.translate(xPos + mid, yPos + mid);
+        painter.translate(mid, mid);
         if (m_horizontalArrow)
             painter.rotate(90);
         const QPoint points[] =
