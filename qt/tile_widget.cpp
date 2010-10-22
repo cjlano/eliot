@@ -75,12 +75,14 @@ void BasicTileWidget::paintEvent(QPaintEvent *)
 
     QPainter painter(this);
     painter.setFont(letterFont);
-    painter.drawText(0, 1, squareSize, squareSize, Qt::AlignCenter, m_text);
+    painter.drawText(1, 1, squareSize, squareSize, Qt::AlignCenter, m_text);
 }
 
 
-TileWidget::TileWidget(QWidget *parent, Multiplier multiplier)
-    : BasicTileWidget(parent), m_multiplier(multiplier), m_isJoker(false),
+TileWidget::TileWidget(QWidget *parent, Multiplier multiplier,
+                       int row, int col)
+    : BasicTileWidget(parent), m_multiplier(multiplier),
+    m_row(row), m_col(col), m_isJoker(false),
     m_isPreview(false), m_showArrow(false), m_horizontalArrow(true)
 {
     setMinimumSize(15, 15);
@@ -98,12 +100,17 @@ TileWidget::TileWidget(QWidget *parent, Multiplier multiplier)
 }
 
 
-void TileWidget::tileChanged(const Tile &iTile, bool isJoker, bool isPreview,
-                             bool showArrow, bool horizontalArrow)
+void TileWidget::tileChanged(const Tile &iTile, bool isJoker, bool isPreview)
 {
     m_tile = iTile;
     m_isJoker = isJoker;
     m_isPreview = isPreview;
+    update();
+}
+
+
+void TileWidget::arrowChanged(bool showArrow, bool horizontalArrow)
+{
     m_showArrow = showArrow;
     m_horizontalArrow = horizontalArrow;
     update();
@@ -204,5 +211,11 @@ void TileWidget::paintEvent(QPaintEvent *)
         painter.setPen(QPen());
         painter.setBrush(NormalColour);
     }
+}
+
+
+void TileWidget::mousePressEvent(QMouseEvent *iEvent)
+{
+    emit mousePressed(m_row, m_col, iEvent);
 }
 

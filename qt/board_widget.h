@@ -47,10 +47,11 @@ protected:
     /// Paint the board
     virtual void paintEvent(QPaintEvent *iEvent);
     /// Catch mouse clicks on the board
-    virtual void mousePressEvent(QMouseEvent *iEvent);
+    //virtual void mousePressEvent(QMouseEvent *iEvent);
 
 private slots:
-    void updateArrow(const Coord &iCoord);
+    void tileClicked(int row, int col, QMouseEvent *iEvent);
+    void updateArrow(const Coord &iOldCoord, const Coord &iNewCoord);
 
 private:
     /// Encapsulated game, can be NULL

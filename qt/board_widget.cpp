@@ -160,9 +160,12 @@ BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
                 mult = TileWidget::LETTER_TRIPLE;
             else if (Board::GetLetterMultiplier(row, col) == 2)
                 mult = TileWidget::LETTER_DOUBLE;
-            TileWidget *t = new TileWidget(this, mult);
+            TileWidget *t = new TileWidget(this, mult, row, col);
             m_widgetsMatrix[row][col] = t;
             layout->addWidget(t);
+            // Listen to mouse events on the tile
+            connect(t, SIGNAL(mousePressed(int, int, QMouseEvent*)),
+                    this, SLOT(tileClicked(int, int, QMouseEvent*)));
         }
     }
 
@@ -174,8 +177,8 @@ BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     setMinimumSize(200, 200);
 
     // Listen to changes in the coordinates
-    QObject::connect(&m_coordModel, SIGNAL(coordChanged(const Coord&)),
-                     this, SLOT(updateArrow(const Coord&)));
+    QObject::connect(&m_coordModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
+                     this, SLOT(updateArrow(const Coord&, const Coord&)));
 }
 
 
@@ -186,11 +189,19 @@ void BoardWidget::setGame(const PublicGame *iGame)
 }
 
 
-void BoardWidget::updateArrow(const Coord &)
+void BoardWidget::updateArrow(const Coord &iOldCoord, const Coord &iNewCoord)
 {
-    // Refresh everything
-    // We could actually refresh only the 2 involved squares...
-    refresh();
+    // Refresh only the 2 involved squares
+    if (iOldCoord.isValid())
+    {
+        TileWidget *t = m_widgetsMatrix[iOldCoord.getRow()][iOldCoord.getCol()];
+        t->arrowChanged(false, false);
+    }
+    if (iNewCoord.isValid())
+    {
+        TileWidget *t = m_widgetsMatrix[iNewCoord.getRow()][iNewCoord.getCol()];
+        t->arrowChanged(iNewCoord.isValid(), iNewCoord.getDir() == Coord::VERTICAL);
+    }
 }
 
 
@@ -203,7 +214,6 @@ void BoardWidget::refresh()
         // tiles (the same performance improvement could be done with caching
         // in the TileWidget class, though)
         const Board &board = m_game->getBoard();
-        const Coord &markCoord = m_coordModel.getCoord();
         for (unsigned int row = BOARD_MIN; row <= BOARD_MAX; ++row)
         {
             for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
@@ -211,10 +221,7 @@ void BoardWidget::refresh()
                 m_widgetsMatrix[row][col]->tileChanged(
                         board.getTile(row, col),
                         board.isJoker(row, col),
-                        board.isTestChar(row, col),
-                        markCoord.isValid() && markCoord.getRow() == row &&
-                            markCoord.getCol() == col,
-                        markCoord.getDir() == Coord::VERTICAL);
+                        board.isTestChar(row, col));
             }
         }
     }
@@ -238,7 +245,7 @@ void BoardWidget::paintEvent(QPaintEvent *)
 
 
 
-void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
+void BoardWidget::tileClicked(int row, int col, QMouseEvent *iEvent)
 {
     if (m_game == NULL)
     {
@@ -252,11 +259,6 @@ void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
     //  - a right click clears any arrow
     if (iEvent->button() == Qt::LeftButton)
     {
-        // Find the coordinates
-        const int size = std::min(width(), height());
-        const int squareSize = lrint(floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2)));
-        int row = iEvent->y() / squareSize;
-        int col = iEvent->x() / squareSize;
         // Change the direction if this is exactly the same as the current one
         Coord coord(row, col, Coord::HORIZONTAL);
         if (m_coordModel.getCoord() == coord)
@@ -276,11 +278,6 @@ void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
     //  - a right click clears any arrow
     if (iEvent->button() == Qt::LeftButton)
     {
-        // Find the coordinates
-        const int size = std::min(width(), height());
-        const int squareSize = lrint(floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2)));
-        int row = iEvent->y() / squareSize;
-        int col = iEvent->x() / squareSize;
         // Change the direction if this is exactly the same as the current one
         Coord coord(row, col, Coord::HORIZONTAL);
         if (m_coordModel.getCoord().getRow() == coord.getRow() &&
@@ -307,11 +304,6 @@ void BoardWidget::mousePressEvent(QMouseEvent *iEvent)
     // Third version:
     //  - a left click toggles between horizontal arrow and no arrow
     //  - a right click toggles between vertical arrow and no arrow
-    // Find the coordinates
-    const int size = std::min(width(), height());
-    const int squareSize = lrint(floor((size - 1) / (BOARD_MAX - BOARD_MIN + 2)));
-    int row = iEvent->y() / squareSize;
-    int col = iEvent->x() / squareSize;
     if (iEvent->button() == Qt::LeftButton)
     {
         Coord coord(row, col, Coord::HORIZONTAL);

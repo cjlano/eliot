@@ -65,15 +65,21 @@ public:
         WORD_TRIPLE = 4
     };
 
-    explicit TileWidget(QWidget *parent = 0, Multiplier multiplier = NONE);
+    explicit TileWidget(QWidget *parent = 0, Multiplier multiplier = NONE,
+                        int row = 0, int col = 0);
 
 public slots:
-    void tileChanged(const Tile &iTile, bool isJoker, bool isPreview,
-                     bool showArrow, bool horizontalArrow);
+    void tileChanged(const Tile &iTile, bool isJoker, bool isPreview);
+    void arrowChanged(bool showArrow, bool horizontalArrow);
+
+signals:
+    void mousePressed(int row, int col, QMouseEvent *iEvent);
 
 protected:
     /// Paint the square
     virtual void paintEvent(QPaintEvent *iEvent);
+    /// Catch mouse events to send a signal
+    virtual void mousePressEvent(QMouseEvent *iEvent);
 
 private:
     /// Encapsulated tile
@@ -81,6 +87,11 @@ private:
 
     /// Word or letter multipler
     Multiplier m_multiplier;
+
+    /// Position of the tile, only used to fire the mousePressed() signal
+    // XXX: another way would be to send *this in the mousePressed() signal
+    int m_row;
+    int m_col;
 
     /// Whether the tile is a joker
     bool m_isJoker;

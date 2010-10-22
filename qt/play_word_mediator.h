@@ -63,7 +63,7 @@ private slots:
     void lineEditCoord_textChanged(const QString &iText);
     void lineEditCoord_returnPressed() { lineEditPlay_returnPressed(); }
     void pushButtonPlay_clicked() { lineEditPlay_returnPressed(); }
-    void updateCoord(const Coord &iNewCoord);
+    void updateCoord(const Coord &, const Coord &iNewCoord);
 
 private:
     PublicGame *m_game;

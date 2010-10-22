@@ -89,8 +89,8 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
                      this, SLOT(lineEditCoord_returnPressed()));
     QObject::connect(&m_pushButtonPlay, SIGNAL(clicked()),
                      this, SLOT(pushButtonPlay_clicked()));
-    QObject::connect(&m_coordModel, SIGNAL(coordChanged(const Coord&)),
-                     this, SLOT(updateCoord(const Coord&)));
+    QObject::connect(&m_coordModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
+                     this, SLOT(updateCoord(const Coord&, const Coord&)));
 }
 
 
@@ -204,11 +204,11 @@ void PlayWordMediator::lineEditCoord_textChanged(const QString &iText)
 }
 
 
-void PlayWordMediator::updateCoord(const Coord &iCoord)
+void PlayWordMediator::updateCoord(const Coord &, const Coord &iNewCoord)
 {
-    if (iCoord.isValid() && m_lineEditCoord.text() != qfw(iCoord.toString()))
-        m_lineEditCoord.setText(qfw(iCoord.toString()));
-    else if (!iCoord.isValid() && m_lineEditCoord.hasAcceptableInput())
+    if (iNewCoord.isValid() && m_lineEditCoord.text() != qfw(iNewCoord.toString()))
+        m_lineEditCoord.setText(qfw(iNewCoord.toString()));
+    else if (!iNewCoord.isValid() && m_lineEditCoord.hasAcceptableInput())
         m_lineEditCoord.setText("");
     lineEditPlay_textChanged();
 }

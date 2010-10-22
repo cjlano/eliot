@@ -25,7 +25,7 @@ void CoordModel::setCoord(const Coord &iCoord)
 {
     m_prevCoord = m_currCoord;
     m_currCoord = iCoord;
-    emit coordChanged(iCoord);
+    emit coordChanged(m_prevCoord, iCoord);
 }
 
 
