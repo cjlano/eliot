@@ -134,7 +134,7 @@ void BoardWidget::refresh()
                 m_widgetsMatrix[row][col]->tileChanged(
                         board.getTile(row, col),
                         board.isJoker(row, col),
-                        board.isTestChar(row, col));
+                        board.isTestChar(row, col) ?  TileWidget::PREVIEW : TileWidget::NORMAL);
             }
         }
     }
@@ -170,7 +170,6 @@ void BoardWidget::paintEvent(QPaintEvent *)
     //painter.drawRect(rect);
     painter.drawRect(rect.adjusted(-2, -2, 1, 1));
 }
-
 
 
 void BoardWidget::tileClicked(int row, int col, QMouseEvent *iEvent)

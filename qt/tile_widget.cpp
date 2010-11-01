@@ -38,6 +38,7 @@ const QColor TileWidget::W2Colour(255, 147, 196);
 const QColor TileWidget::W3Colour(240, 80, 94);
 const QColor TileWidget::TileColour(255, 235, 205);
 const QColor TileWidget::PreviewColour(183, 183, 123);
+const QColor TileWidget::PlayedColour(Qt::white);
 const QColor TileWidget::NormalColour(0, 0, 0);
 const QColor TileWidget::JokerColour(255, 0, 0);
 const QColor TileWidget::ArrowColour(10, 10, 10);
@@ -79,12 +80,13 @@ void BasicTileWidget::paintEvent(QPaintEvent *)
     painter.drawText(1, 1, squareSize, squareSize, Qt::AlignCenter, m_text);
 }
 
+// --------------
 
 TileWidget::TileWidget(QWidget *parent, Multiplier multiplier,
                        int row, int col)
     : BasicTileWidget(parent), m_multiplier(multiplier),
     m_row(row), m_col(col), m_isJoker(false),
-    m_isPreview(false), m_showArrow(false), m_horizontalArrow(true)
+    m_state(NORMAL), m_showArrow(false), m_horizontalArrow(true)
 {
     QSizePolicy policy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     policy.setHeightForWidth(true);
@@ -92,11 +94,11 @@ TileWidget::TileWidget(QWidget *parent, Multiplier multiplier,
 }
 
 
-void TileWidget::tileChanged(const Tile &iTile, bool isJoker, bool isPreview)
+void TileWidget::tileChanged(const Tile &iTile, bool isJoker, State state)
 {
     m_tile = iTile;
     m_isJoker = isJoker;
-    m_isPreview = isPreview;
+    m_state = state;
     update();
 }
 
@@ -128,8 +130,10 @@ void TileWidget::paintEvent(QPaintEvent *)
     QColor color;
     if (!m_tile.isEmpty())
     {
-        if (m_isPreview)
+        if (m_state == PREVIEW)
             color = PreviewColour;
+        else if (m_state == PLAYED)
+            color = PlayedColour;
         else
             color = TileColour;
     }
@@ -163,7 +167,7 @@ void TileWidget::paintEvent(QPaintEvent *)
         const bool showPoints = qs.value(PrefsDialog::kINTF_SHOW_TILES_POINTS, true).toBool();
 
         // Draw the points of the tile
-        if (showPoints && !m_isJoker)
+        if (showPoints && !m_isJoker && !m_tile.isJoker())
         {
             painter.setFont(pointsFont);
             painter.drawText(0,
@@ -199,11 +203,48 @@ void TileWidget::paintEvent(QPaintEvent *)
         painter.setPen(QPen());
         painter.setBrush(NormalColour);
     }
+    if (m_state == PLAYED)
+    {
+        painter.drawLine(QLine(0, 0, squareSize, squareSize));
+        painter.drawLine(QLine(0, squareSize, squareSize, 0));
+    }
 }
 
 
 void TileWidget::mousePressEvent(QMouseEvent *iEvent)
 {
     emit mousePressed(m_row, m_col, iEvent);
+}
+
+// --------------
+
+TileWidgetDecorator::TileWidgetDecorator(QWidget *parent, TileWidget &wrapped)
+    : TileWidget(parent), m_wrapped(wrapped)
+{
+    QVBoxLayout *layout = new QVBoxLayout;
+    layout->setContentsMargins(1, 1, 1, 1);
+    layout->addWidget(&m_wrapped);
+    setLayout(layout);
+
+    QObject::connect(&m_wrapped, SIGNAL(mousePressed(int, int, QMouseEvent*)),
+                     this, SIGNAL(mousePressed(int, int, QMouseEvent*)));
+}
+
+
+void TileWidgetDecorator::tileChanged(const Tile &iTile, bool isJoker, State state)
+{
+    m_wrapped.tileChanged(iTile, isJoker, state);
+}
+
+
+void TileWidgetDecorator::arrowChanged(bool showArrow, bool horizontalArrow)
+{
+    m_wrapped.arrowChanged(showArrow, horizontalArrow);
+}
+
+void TileWidgetDecorator::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+    painter.drawRect(0, 0, width() - 1, height() - 1);
 }
 

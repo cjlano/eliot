@@ -18,46 +18,32 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef TILE_LAYOUT_H_
-#define TILE_LAYOUT_H_
+#ifndef BAG_WIDGET2_H_
+#define BAG_WIDGET2_H_
 
-#include <QtGui/QLayout>
+#include <QtGui/QWidget>
 
+class PublicGame;
 
-class TileLayout : public QLayout
+class BagWidget2: public QWidget
 {
-    Q_OBJECT
+    Q_OBJECT;
 
 public:
-    TileLayout(int nbCols, int spacing);
-    virtual ~TileLayout();
+    explicit BagWidget2(QWidget *parent = 0);
 
-    void clear();
+public slots:
+    void setGame(const PublicGame *iGame);
+    void refresh();
 
-    QRect getBoardRect() const;
-
-    int getSquareSize() const;
-
-    int getSpacing() const { return m_space; }
-
-    virtual void addItem(QLayoutItem *item) { m_items.append(item); }
-    virtual bool hasHeightForWidth() const { return true; }
-    virtual int heightForWidth(int width) const { return width; }
-    virtual int count() const { return m_items.size(); }
-    virtual QLayoutItem *itemAt(int index) const { return m_items.value(index); }
-    virtual QLayoutItem *takeAt(int index);
-    virtual QSize minimumSize() const;
-    virtual void setGeometry(const QRect &rect);
-    virtual QSize sizeHint() const { return minimumSize(); }
+protected:
+    /// Define a default size
+    virtual QSize sizeHint() const;
 
 private:
-    QList<QLayoutItem *> m_items;
-    bool m_dynamic;
-    int m_nbCols;
-    int m_nbRows;
-    int m_space;
+    /// Encapsulated game, can be NULL
+    const PublicGame *m_game;
 
-    void doLayout(const QRect &rect);
 };
 
 #endif

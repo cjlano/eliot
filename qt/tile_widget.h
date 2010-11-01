@@ -58,19 +58,27 @@ class TileWidget: public BasicTileWidget
 public:
     enum Multiplier
     {
-        NONE = 0,
-        LETTER_DOUBLE = 1,
-        LETTER_TRIPLE = 2,
-        WORD_DOUBLE = 3,
-        WORD_TRIPLE = 4
+        NONE,
+        LETTER_DOUBLE,
+        LETTER_TRIPLE,
+        WORD_DOUBLE,
+        WORD_TRIPLE
+    };
+
+    enum State
+    {
+        NORMAL,
+        PREVIEW,
+        PLAYED,
+        IN_RACK
     };
 
     explicit TileWidget(QWidget *parent = 0, Multiplier multiplier = NONE,
                         int row = 0, int col = 0);
 
 public slots:
-    void tileChanged(const Tile &iTile, bool isJoker, bool isPreview);
-    void arrowChanged(bool showArrow, bool horizontalArrow);
+    virtual void tileChanged(const Tile &iTile, bool isJoker, State state);
+    virtual void arrowChanged(bool showArrow, bool horizontalArrow);
 
 signals:
     void mousePressed(int row, int col, QMouseEvent *iEvent);
@@ -96,8 +104,8 @@ private:
     /// Whether the tile is a joker
     bool m_isJoker;
 
-    /// Whether the tile is used as a preview
-    bool m_isPreview;
+    /// State of the tile
+    State m_state;
 
     /// Whether we should show the arrow
     bool m_showArrow;
@@ -114,10 +122,33 @@ private:
     static const QColor W3Colour;
     static const QColor TileColour;
     static const QColor PreviewColour;
+    static const QColor PlayedColour;
     static const QColor NormalColour;
     static const QColor JokerColour;
     static const QColor ArrowColour;
     //@}
+};
+
+class TileWidgetDecorator : public TileWidget
+{
+    Q_OBJECT;
+
+public:
+    TileWidgetDecorator(QWidget *parent, TileWidget &wrapped);
+
+public slots:
+    virtual void tileChanged(const Tile &iTile, bool isJoker, State state);
+    virtual void arrowChanged(bool showArrow, bool horizontalArrow);
+
+signals:
+    void mousePressed(int row, int col, QMouseEvent *iEvent);
+
+protected:
+    /// Paint the square
+    virtual void paintEvent(QPaintEvent *iEvent);
+
+private:
+    TileWidget & m_wrapped;
 };
 
 #endif

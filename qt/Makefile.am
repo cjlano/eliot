@@ -57,13 +57,14 @@ EXTRA_DIST = \
 eliot_SOURCES = \
     qtcommon.h qtcommon.cpp \
     coord_model.h coord_model.cpp \
+    tile_widget.cpp tile_widget.h \
     tile_layout.cpp tile_layout.h \
     bag_widget.cpp bag_widget.h \
+    bag_widget2.cpp bag_widget2.h \
     dic_tools_widget.cpp dic_tools_widget.h \
     new_game.cpp new_game.h \
     score_widget.cpp score_widget.h \
     dic_wizard.cpp dic_wizard.h \
-    tile_widget.cpp tile_widget.h \
     board_widget.cpp board_widget.h \
     history_widget.cpp history_widget.h \
     play_word_mediator.cpp play_word_mediator.h \
@@ -86,13 +87,14 @@ nodist_eliot_SOURCES = \
     ui/dic_wizard_letters_def_page.ui.h \
     ui/dic_wizard_conclusion_page.ui.h \
     coord_model.moc.cpp \
+    tile_widget.moc.cpp \
     tile_layout.moc.cpp \
     new_game.moc.cpp \
     dic_tools_widget.moc.cpp \
     bag_widget.moc.cpp \
+    bag_widget2.moc.cpp \
     score_widget.moc.cpp \
     dic_wizard.moc.cpp \
-    tile_widget.moc.cpp \
     board_widget.moc.cpp \
     history_widget.moc.cpp \
     play_word_mediator.moc.cpp \
