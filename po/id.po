@@ -1,25 +1,26 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Eliot
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Indonesian translation for Eliot
+# Copyright (C) 2010 Eliot
+# This file is distributed under the same license as the Eliot package.
+# Switchu Legitri
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Eliot 1.12\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
 "POT-Creation-Date: 2011-01-08 18:24+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2010-11-26 00:22+0100\n"
+"Last-Translator: Switchu Legitri\n"
+"Language-Team: \n"
+"Language: Indonesian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Indonesian\n"
+"X-Poedit-Country: INDONESIA\n"
 
 #: dic/compdic.cpp:92
 msgid "'%1%' is not a valid letter."
-msgstr ""
+msgstr "'%1%' bukan huruf yang benar"
 
 #: dic/compdic.cpp:93
 msgid ""
@@ -27,10 +28,14 @@ msgid ""
 "as internal character representation, even if the tile has a display string "
 "defined. Please use another character and change your word list accordingly."
 msgstr ""
+"Karena alasan teknikal, Eliot sekarang hanya mengsupport huruf abjad sebagai "
+"representasi karakter internal, walaupun di dalam kotak ada teks yang "
+"terdefinisi untuk ditampilkan. Silakan gunakan huruf lain dan ganti daftar "
+"kata Anda."
 
 #: dic/compdic.cpp:132 dic/compdic.cpp:137 dic/compdicmain.cpp:58
 msgid "Could not open file '%1%'"
-msgstr ""
+msgstr "Tidak bisa membuka file '%1%'"
 
 #: dic/compdic.cpp:188
 msgid "writing %1% edges"
@@ -38,168 +43,195 @@ msgstr ""
 
 #: dic/compdic.cpp:262
 msgid "Error on line %1%, col %2%: %3%"
-msgstr ""
+msgstr "Error di baris %1%, kolom %2%: %3%"
 
 #: dic/compdic.cpp:343
 msgid "Cannot open output file '%1%'"
-msgstr ""
+msgstr "Tidak bisa membuka file '%1%'"
 
 #: dic/compdic.cpp:355
 msgid "The word list is empty!"
-msgstr ""
+msgstr "Daftar katanya kosong!"
 
 #: dic/compdicmain.cpp:86
 msgid "readLetters: Not enough fields in %1% (line %2%)"
-msgstr ""
+msgstr "readLetters: Tidak ada cukup field di %1% (baris %2%)"
 
 #: dic/compdicmain.cpp:96
 msgid "readLetters: Invalid letter at line %1% (only one character allowed)"
 msgstr ""
+"readLetters: Huruf yang tidak benar di baris %1% (hanya 1 karakter yang "
+"dibolehkan)"
 
 #: dic/compdicmain.cpp:118
 msgid "Mandatory options:"
-msgstr ""
+msgstr "Pilihan tetap:"
 
 #: dic/compdicmain.cpp:119
 msgid "  -d, --dicname <string>  Set the dictionary name and version"
-msgstr ""
+msgstr "  -d, --dicname <teks>  Tentukan nama kamus dan versinya"
 
 #: dic/compdicmain.cpp:120
 msgid ""
 "  -l, --letters <string>  Path to the file containing the letters (see below)"
 msgstr ""
+"  -l, --letters <teks> Path menuju ke file yang berisi huruf-huruf (lihat di "
+"bawah)"
 
 #: dic/compdicmain.cpp:121
 msgid ""
 "  -i, --input <string>    Path to the uncompressed dictionary file (encoded "
 "in UTF-8)"
 msgstr ""
+"  -i, --input <teks>    Path menuju ke file kamus yang tidak dikompres "
+"(dikodekan di UTF-8)"
 
 #: dic/compdicmain.cpp:122
 msgid ""
 "                          The words must be in alphabetical order, without "
 "duplicates"
 msgstr ""
+"                          Kata-katanya harus diurutkan berdasarkan huruf "
+"abjad, tanpa duplikasi"
 
+# no > after "string" in the original string.
 #: dic/compdicmain.cpp:123
 msgid ""
 "  -o, --output <string>   Path to the generated compressed dictionary file"
-msgstr ""
+msgstr "  -o, --output <teks>   Path menuju ke file kamus yang dikompres"
 
 #: dic/compdicmain.cpp:124
 msgid "Other options:"
-msgstr ""
+msgstr "Pilihan lain:"
 
 #: dic/compdicmain.cpp:125
 msgid "  -h, --help              Print this help and exit"
-msgstr ""
+msgstr "  -h, --help              Cetak teks help ini dan "
 
 #: dic/compdicmain.cpp:126
 msgid "Example:"
-msgstr ""
+msgstr "Contoh:"
 
 #: dic/compdicmain.cpp:127
 msgid " -d 'ODS 5.0' -l letters.txt -i ods5.txt -o ods5.dawg"
-msgstr ""
+msgstr " -d 'ODS 5.0' -l huruf.txt -i ods5.txt -o ods5.dawg"
 
 #: dic/compdicmain.cpp:129
 msgid ""
 "The file containing the letters (--letters switch) must be UTF-8 encoded."
 msgstr ""
+"File yang berisi huruf-huruf (--letters parameter) harus dikodekan dengan "
+"UTF-8."
 
 #: dic/compdicmain.cpp:130
 msgid ""
 "Each line corresponds to one letter, and must contain at least 5 fields "
 "separated with one or more space(s)."
 msgstr ""
+"Setiap baris dihubungkan ke satu huruf, dan harus mempunyai setidaknya 5 "
+"bagian yang dipisahkan dengan satu spasi atau lebih."
 
 #: dic/compdicmain.cpp:132
 msgid ""
 " - 1st field: the letter itself, as stored in the input file (single "
 "character)"
 msgstr ""
+" - bagian pertama: huruf itu sendiri, seperti yang disimpan di file input "
+"(satu karakter)"
 
 #: dic/compdicmain.cpp:133
 msgid " - 2nd field: the points of the letter"
-msgstr ""
+msgstr " - bagian ke-2: poin yang didapatkan dari huruf"
 
 #: dic/compdicmain.cpp:134
 msgid ""
 " - 3rd field: the frequency of the letter (how many letters of this kind in "
 "the game)"
 msgstr ""
+" - bagian ke-3: frekuensi hurufnya (ada berapa banyak huruf ini di permainan "
+"ini)"
 
 #: dic/compdicmain.cpp:135
 msgid ""
 " - 4th field: 1 if the letter is considered as a vowel in Scrabble game, 0 "
 "otherwise"
 msgstr ""
+" - bagian ke-4: 1 kalau huruf ini dianggap sebagai huruf vowel di permainan "
+"Scrabble, kalau tidak 0"
 
 #: dic/compdicmain.cpp:136
 msgid ""
 " - 5th field: 1 if the letter is considered as a consonant in Scrabble game, "
 "0 otherwise"
 msgstr ""
+" - bagian ke-5: 1 kalau huruf ini dianggap sebagai huruf konsonan di "
+"permainan Scrabble, kalau tidak 0"
 
 #: dic/compdicmain.cpp:137
 msgid ""
 " - 6th field (optional): display string for the letter (default: the letter "
 "itself)"
 msgstr ""
+" - bagian ke-6 (tidak diharuskan): tampilkan teks untuk huruf tersebut "
+"(default: huruf itu sendiri)"
 
 #: dic/compdicmain.cpp:138
 msgid ""
 " - other fields (optional): input strings for the letter, in addition to the "
 "display string"
 msgstr ""
+" - bagian lain (tidak diharuskan): masukkan teks untuk huruf tersebut, "
+"sebagai tambahan dari teks yang ditampilkan"
 
 #: dic/compdicmain.cpp:140
 msgid "Example for french:"
-msgstr ""
+msgstr "Contoh untuk bahasa Perancis:"
 
 #: dic/compdicmain.cpp:146
 msgid "Example for catalan:"
-msgstr ""
+msgstr "Contoh untuk bahasa Catalan (di Spanyol):"
 
 #. TRANSLATORS: the first "L.L" must be translated "L·L",
 #. and the last one translated "ĿL"
 #: dic/compdicmain.cpp:151
 msgid "W 10 1 0 1 L.L L.L L-L L.L"
-msgstr ""
+msgstr "W 10 1 0 1 L·L L.L L-L ĿL"
 
 #: dic/compdicmain.cpp:236
 msgid "A mandatory option is missing"
-msgstr ""
+msgstr "Pilihan yang diharuskan tidak ada"
 
 #: dic/compdicmain.cpp:248
 msgid " Load time: %1% s"
-msgstr ""
+msgstr " Waktu load: %1% detik"
 
 #: dic/compdicmain.cpp:249
 msgid " Compression time: %1% s"
-msgstr ""
+msgstr "Waktu untuk kompres: %1% detik"
 
 #: dic/compdicmain.cpp:251
 msgid " Maximum recursion level reached: %1%"
-msgstr ""
+msgstr "Level rekursi maksimum yang dicapai: %1%"
 
 #: dic/compdicmain.cpp:257
 msgid "Exception caught: %1%"
-msgstr ""
+msgstr "Perkecualian yang tercakup: %1%"
 
 #: dic/header.cpp:196
 msgid ""
 "Header::Header: Too many different letters for the current format; only %1% "
 "are supported"
 msgstr ""
+"Header::Header: Terlalu banyak huruf yang berbeda untuk format yang "
+"sekarang, hanya %1% yang didukung."
 
 #: dic/header.cpp:293
 msgid "Header::getCharFromCode: No letter for code '%1%'"
-msgstr ""
+msgstr "Header::getCharFromCode: Tidak ada huruf untuk kode '%1%'"
 
 #: dic/header.cpp:309
 msgid "Header::getCodeFromChar: No code for letter '%1%' (val=%2%)"
-msgstr ""
+msgstr "Header::getCodeFromChar: Tidak ada kode untuk huruf '%1%' (val=%2%)"
 
 #: dic/header.cpp:370
 msgid ""
@@ -207,201 +239,207 @@ msgid ""
 "1.8. You can create dictionaries in the new format with the 'compdic' tool "
 "provided with Eliot (since version 1.6)."
 msgstr ""
+"Format kamus yang terlalu kuno. Format ini tidak didukung lagi sejak Eliot "
+"1.8. Anda bisa membuat kamus di format yang baru dengan tool bernama "
+"'compdic' yang disediakan oleh Eliot (sejak versi 1.6)."
 
 #: dic/header.cpp:624
 msgid "Dictionary name: %1%"
-msgstr ""
+msgstr "Nama kamus: %1%"
 
 #: dic/header.cpp:627
 msgid "Compressed on: %1%"
-msgstr ""
+msgstr "Dikompres pada: %1%"
 
 #: dic/header.cpp:628
 msgid "Compressed using a binary compiled by: %1%"
-msgstr ""
+msgstr "Dikompres menggunakan binary yang dikompilasi oleh: %1%"
 
 #: dic/header.cpp:629
 msgid "Dictionary type: %1%"
-msgstr ""
+msgstr "Tipe kamus: %1%"
 
 #: dic/header.cpp:630
 msgid "Letters: %1%"
-msgstr ""
+msgstr "Huruf-huruf: %1%"
 
 #: dic/header.cpp:631
 msgid "Number of letters: %1%"
-msgstr ""
+msgstr "Jumlah huruf: %1%"
 
 #: dic/header.cpp:632
 msgid "Number of words: %1%"
-msgstr ""
+msgstr "Jumlah kata: %1%"
 
 #: dic/header.cpp:635
 msgid "Header size: %1% bytes"
-msgstr ""
+msgstr "Ukuran header: %1% bytes"
 
+# what does 'edge' mean?
 #: dic/header.cpp:636
 msgid "Root: %1% (edge)"
-msgstr ""
+msgstr "Node akar: %1% (edge)"
 
+# what does 'node' mean here?
 #: dic/header.cpp:637
 msgid "Nodes: %1% used + %2% saved"
-msgstr ""
+msgstr "Nodes: %1% digunakan + %2% disimpan"
 
+# what does 'edge' mean?
 #: dic/header.cpp:638
 msgid "Edges: %1% used + %2% saved"
-msgstr ""
+msgstr "Edges: %1% digunakan + %2% disimpan"
 
 #: dic/header.cpp:642 qt/bag_widget.cpp:46 qt/dic_tools_widget.cpp:108
 #: qt/dic_wizard.cpp:200
 msgid "Letter"
-msgstr ""
+msgstr "Huruf"
 
 #: dic/header.cpp:642 qt/bag_widget.cpp:47 qt/dic_tools_widget.cpp:109
 #: qt/dic_wizard.cpp:201 qt/history_widget.cpp:55 qt/training_widget.cpp:77
 msgid "Points"
-msgstr ""
+msgstr "Poin"
 
 #: dic/header.cpp:642 qt/dic_tools_widget.cpp:110 qt/dic_wizard.cpp:202
 msgid "Frequency"
-msgstr ""
+msgstr "Frekuensi"
 
 #: dic/header.cpp:642
 msgid "Vowel"
-msgstr ""
+msgstr "Vowel"
 
 #: dic/header.cpp:643
 msgid "Consonant"
-msgstr ""
+msgstr "Konsonan"
 
 #: dic/header.cpp:643
 msgid "Display"
-msgstr ""
+msgstr "Tampilan"
 
 #: dic/header.cpp:643
 msgid "Alt. input"
-msgstr ""
+msgstr "Alternative input"
 
 #: dic/regexpmain.cpp:45
 #, c-format
 msgid "usage: %s dictionary"
-msgstr ""
+msgstr "penggunaan: kamus %s"
 
 #: dic/regexpmain.cpp:46
 msgid "   dictionary: path to eliot dawg dictionary"
-msgstr ""
+msgstr "   kamus: path ke kamus eliot dawg"
 
 #: dic/regexpmain.cpp:87 dic/regexpmain.cpp:111
 msgid "Enter a regular expression:"
-msgstr ""
+msgstr "Masukkan ekspresi yang reguler:"
 
 #: dic/regexpmain.cpp:98
 msgid "result:"
-msgstr ""
+msgstr "hasil:"
 
 #: dic/regexpmain.cpp:107
 msgid "Invalid regular expression: "
-msgstr ""
+msgstr "Ekspresi reguler yang tidak valid:"
 
 #: game/duplicate.cpp:291
 msgid "Cannot switch to a non-human player"
-msgstr ""
+msgstr "Tidak bisa ganti ke pemain yang bukan orang:"
 
 #: game/duplicate.cpp:295
 msgid "Cannot switch to a player who has already played"
-msgstr ""
+msgstr "Tidak bisa ganti ke pemain yang sudah bermain"
 
 #: game/game.cpp:174
 msgid "Not a random mode"
-msgstr ""
+msgstr "Bukan mode yang "
 
 #: game/game.cpp:230
 msgid "The bag is empty"
-msgstr ""
+msgstr "Kantongnya kosong"
 
 #: game/game.cpp:237 game/game.cpp:247
 msgid "Not enough vowels or consonants to complete the rack"
-msgstr ""
+msgstr "Tidak ada vowel atau konsonan yang cukup untuk melengkapi rak ini:"
 
 #: game/game.cpp:410
 msgid "Some letters are invalid for the current dictionary"
-msgstr ""
+msgstr "Beberapa huruf tidak valid untuk kamus yang digunakan sekarang"
 
 #: game/game.cpp:419
 msgid "The bag does not contain all these letters"
-msgstr ""
+msgstr "Kantongnya tidak mempunyai semua huruf ini"
 
 #: game/game.cpp:432
 msgid "Not enough vowels or consonants in this rack"
-msgstr ""
+msgstr "Tidak ada cukup vowel atau konsonan di rak ini"
 
 #: game/game_factory.cpp:149
 #, c-format
 msgid "Player %u"
-msgstr ""
+msgstr "Pemain %u"
 
 #: game/training.cpp:173 qt/new_game.cpp:98 qt/new_game.cpp:107
 #: qt/ui/new_game.ui.h:214
 msgid "Training"
-msgstr ""
+msgstr "Latihan"
 
 #: qt/dic_tools_widget.cpp:98 qt/dic_tools_widget.cpp:103
 #: qt/ui/player_widget.ui.h:135 qt/ui/training_widget.ui.h:158
 msgid "Rack:"
-msgstr ""
+msgstr "Rak:"
 
 #: qt/dic_tools_widget.cpp:111 qt/dic_wizard.cpp:203
 msgid "Vowel?"
-msgstr ""
+msgstr "Vowel?"
 
 #: qt/dic_tools_widget.cpp:112 qt/dic_wizard.cpp:204
 msgid "Consonant?"
-msgstr ""
+msgstr "Konsonan?"
 
 #: qt/dic_tools_widget.cpp:113
 msgid "Alternative inputs"
-msgstr ""
+msgstr "Input lain"
 
 #: qt/dic_tools_widget.cpp:151 qt/dic_tools_widget.cpp:195
 #: qt/dic_tools_widget.cpp:248
 msgid "Please select a dictionary"
-msgstr ""
+msgstr "Silahkan pilih sebuah kamus"
 
 #: qt/dic_tools_widget.cpp:161
 msgid "Invalid or incomplete letters"
-msgstr ""
+msgstr "Huruf-hurufnya tidak valid atau tidak lengkap"
 
 #: qt/dic_tools_widget.cpp:173
 msgid "The word '%1' exists"
-msgstr ""
+msgstr "Kata '%1' ada"
 
 #: qt/dic_tools_widget.cpp:178
 msgid "The word '%1' does not exist"
-msgstr ""
+msgstr "Kata '%1' tidak ada"
 
 #: qt/dic_tools_widget.cpp:203
 msgid "Rack: %1"
-msgstr ""
+msgstr "Rak: %1"
 
 #: qt/dic_tools_widget.cpp:221
 msgid "Anagrams"
-msgstr ""
+msgstr "Anagram"
 
 #: qt/dic_tools_widget.cpp:256
 msgid "Regular expression: %1"
-msgstr ""
+msgstr "Ekspresi reguler: %1"
 
 #: qt/dic_tools_widget.cpp:277
 msgid "Invalid regular expression: %1"
-msgstr ""
+msgstr "Ekspresi reguler yang tidak valid: %1"
 
 #: qt/dic_tools_widget.cpp:326 qt/dic_tools_widget.cpp:328
 msgid "Yes"
-msgstr ""
+msgstr "Ya"
 
 #: qt/dic_tools_widget.cpp:326 qt/dic_tools_widget.cpp:328
 msgid "No"
-msgstr ""
+msgstr "Tidak"
 
 #: qt/dic_tools_widget.cpp:357 qt/dic_tools_widget.cpp:364
 msgid "Export words list"
@@ -409,25 +447,27 @@ msgstr ""
 
 #: qt/dic_tools_widget.cpp:365
 msgid "File '%1' successfully saved"
-msgstr ""
+msgstr "File '%1' telah berhasil dibuat"
 
 #: qt/dic_tools_widget.cpp:369 qt/dic_wizard.cpp:346 qt/main_window.cpp:299
 msgid "Eliot - Error"
-msgstr ""
+msgstr "Eliot - Eror"
 
 #: qt/dic_tools_widget.cpp:370
 msgid "Cannot save the words list: %1"
-msgstr ""
+msgstr "Tidak dapat simpan daftar kata: %1"
 
 #: qt/dic_wizard.cpp:49
 msgid "General information"
-msgstr ""
+msgstr "Informasi umum"
 
 #: qt/dic_wizard.cpp:50
 msgid ""
 "On this page, you can define the main information needed to create a new "
 "dictionary."
 msgstr ""
+"Di halaman ini, Anda dapat menentukan informasi utama yang dibutuhkan untuk "
+"membuat kamus baru."
 
 #: qt/dic_wizard.cpp:52
 msgid ""
@@ -435,6 +475,9 @@ msgid ""
 "dictionary is loaded.\n"
 "E.g.: My Dic 1.0"
 msgstr ""
+"Pilih nama kamus. Nama ini akan muncul di bar status Eliot ketika kamus "
+"sudah dimuat.\n"
+"Misalnya: My Dic 1.0"
 
 #: qt/dic_wizard.cpp:55
 msgid ""
@@ -442,47 +485,55 @@ msgid ""
 "contain the compressed dictionary.\n"
 "It must have the .dawg extension."
 msgstr ""
+"Pilih file output. File ini akan dibuat oleh wizard, dan akan berisi kamus "
+"yang dikompres.\n"
+"Filenya harus mempunyai ekstensi .dawg."
 
 #: qt/dic_wizard.cpp:59
 msgid ""
 "Choose the file containing the word list.\n"
 "It must be encoded in UTF-8, and must contain one word on each line."
 msgstr ""
+"Pilih file yang berisi daftar kata.\n"
+"File ini harus dikode dengan UTF-8, dan harus memuat satu kata di tiap baris."
 
 #: qt/dic_wizard.cpp:129
 msgid ""
 "Some invalid (non-alphabetical) characters have been found in the word list. "
 "They are indicated below, with the first line on which they were found:"
 msgstr ""
+"Beberapa karakter yang tidak valid (bukan huruf abjad) telah ditemukan di "
+"daftar kata. Mereka tertulis di bawah, dengan baris pertama di mana mereka "
+"ditemukan:"
 
 #: qt/dic_wizard.cpp:134
 msgid "'%1' (ASCII code %2) at line %3"
-msgstr ""
+msgstr "'%1' (kode ASCII %2) di baris %3"
 
 #: qt/dic_wizard.cpp:137 qt/dic_wizard.cpp:148 qt/main_window.cpp:391
 #: qt/new_game.cpp:56 qt/ui/main_window.ui.h:124
 msgid "Eliot"
-msgstr ""
+msgstr "Eliot"
 
 #: qt/dic_wizard.cpp:139 qt/dic_wizard.cpp:150
 msgid "Please correct the word list."
-msgstr ""
+msgstr "Silahkan benarkan daftar kata."
 
 #: qt/dic_wizard.cpp:147
 msgid "The word list contains duplicate entries."
-msgstr ""
+msgstr "Daftar katanya ada kata-kata yang terduplikasi."
 
 #: qt/dic_wizard.cpp:162
 msgid "Choose a file for the generated dictionary"
-msgstr ""
+msgstr "Pilih file untuk kamus yang dibuat"
 
 #: qt/dic_wizard.cpp:175
 msgid "Choose a word list file"
-msgstr ""
+msgstr "Pilih sebuah file daftar kata"
 
 #: qt/dic_wizard.cpp:187
 msgid "Letters characteristics"
-msgstr ""
+msgstr "Karakteristik huruf-huruf"
 
 #: qt/dic_wizard.cpp:188
 msgid ""
@@ -496,16 +547,27 @@ msgid ""
 "Note that a letter can be considered both as a vowel and as a consonant. "
 "This is usually the case for the joker and, in French, for the Y letter."
 msgstr ""
+"Tabel di bawah berisi semua huruf yang ditemukan di daftar kata (termasuk "
+"joker). Untuk tiap huruf, Anda harus mendefinisikan:\n"
+" - berapa banyak poin yang didapatkan;\n"
+" - frekuensi (berapa kali muncul di permainan ini);\n"
+" - apabila huruf tersebut dapat dianggap sebagai huruf hidup;\n"
+" - apabila huruf tersebut dapat dianggap sebagai konsonan.\n"
+"\n"
+"Sebuah huruf dapat dianggap sebagai huruf hidup dan huruf mati. Ini biasanya "
+"untuk joker, dan dalam bahasa Perancis, untuk huruf Y."
 
 #: qt/dic_wizard.cpp:285
 msgid "Conclusion"
-msgstr ""
+msgstr "Kesimpulan"
 
 #: qt/dic_wizard.cpp:292
 msgid ""
 "Click '%1' to generate the dictionary.\n"
 "\n"
 msgstr ""
+"Klik '%1' untuk membuat kamus.\n"
+"\n"
 
 #: qt/dic_wizard.cpp:293
 msgid ""
@@ -513,319 +575,326 @@ msgid ""
 "You can also load it later, using the\n"
 "'Settings -> Change dictionary...' menu option."
 msgstr ""
+"Sekarang Anda dapat memuatinya di Eliot menggunakan checkbox di bawah.\n"
+"Anda juga dapat memuatnya nanti, menggunakan \n"
+"Pilihan menu: 'Setting -> Pilih kamus...'."
 
 #: qt/dic_wizard.cpp:350
 msgid "Dictionary successfully created"
-msgstr ""
+msgstr "Kamus telah berhasil dibuat"
 
 #: qt/history_widget.cpp:51
 msgid "Turn"
-msgstr ""
+msgstr "Giliran"
 
 #: qt/history_widget.cpp:52
 msgid "Rack"
-msgstr ""
+msgstr "Rak"
 
 #: qt/history_widget.cpp:53 qt/training_widget.cpp:75
 msgid "Word"
-msgstr ""
+msgstr "Kata"
 
 #: qt/history_widget.cpp:54 qt/training_widget.cpp:76
 msgid "Ref"
-msgstr ""
+msgstr "Referensi"
 
 #: qt/history_widget.cpp:87 qt/score_widget.cpp:46
 msgid "Player"
-msgstr ""
+msgstr "Pemain"
 
 #: qt/history_widget.cpp:143 qt/main_window.cpp:722 utils/ncurses.cpp:421
 msgid "(PASS)"
-msgstr ""
+msgstr "(LULUS)"
 
 #: qt/history_widget.cpp:177 qt/main_window.cpp:426
 msgid "&Game"
-msgstr ""
+msgstr "&Permainan"
 
 #: qt/main_window.cpp:112 qt/main_window.cpp:815 qt/ui/main_window.ui.h:145
 msgid "Board"
-msgstr ""
+msgstr "Papan"
 
 #: qt/main_window.cpp:171
 msgid ""
 "Cannot load dictionary '%1' indicated in the preferences.\n"
 "Reason: %2"
 msgstr ""
+"Tidak bisa memuat kamus '%1' yang diindikasikan di preferensi.\n"
+"Alasan: %2"
 
 #: qt/main_window.cpp:262
 msgid "No game"
-msgstr ""
+msgstr "Tidak ada permainan"
 
 #: qt/main_window.cpp:270 utils/ncurses.cpp:1110 qt/ui/prefs_dialog.ui.h:277
 msgid "Training mode"
-msgstr ""
+msgstr "Mode latihan"
 
 #: qt/main_window.cpp:274
 msgid "Duplicate game"
-msgstr ""
+msgstr "Duplikasi permainan"
 
 #: qt/main_window.cpp:278 qt/new_game.cpp:100 qt/new_game.cpp:169
 #: qt/ui/new_game.ui.h:213
 msgid "Free game"
-msgstr ""
+msgstr "Permainan gratis"
 
 #: qt/main_window.cpp:287
 msgid "No dictionary"
-msgstr ""
+msgstr "Tidak ada kamus"
 
 #: qt/main_window.cpp:290
 msgid "Dictionary: %1"
-msgstr ""
+msgstr "Kamus: %1"
 
 #: qt/main_window.cpp:362
 msgid "Loading a dictionary will stop the current game."
-msgstr ""
+msgstr "Memuat kamus akan menghentikan permainan yang sekarang."
 
 #: qt/main_window.cpp:375
 msgid "Loaded dictionary '%1'"
-msgstr ""
+msgstr "Kamus yang termuat '%1'"
 
 #: qt/main_window.cpp:393
 msgid "Do you want to continue?"
-msgstr ""
+msgstr "Apakah Anda ingin lanjut?"
 
 #: qt/main_window.cpp:427
 msgid "&New..."
-msgstr ""
+msgstr "&Permainan baru..."
 
 #: qt/main_window.cpp:427
 msgid "Ctrl+N"
-msgstr ""
+msgstr "Ctrl+N"
 
 #: qt/main_window.cpp:428
 msgid "Start a new game"
-msgstr ""
+msgstr "Mulai permainan baru"
 
 #: qt/main_window.cpp:430
 msgid "&Load..."
-msgstr ""
+msgstr "&Load..."
 
 #: qt/main_window.cpp:430
 msgid "Ctrl+O"
-msgstr ""
+msgstr "Ctrl+O"
 
 #: qt/main_window.cpp:431
 msgid "Load an existing game"
-msgstr ""
+msgstr "Load permainan yang ada"
 
 #: qt/main_window.cpp:432
 msgid "&Save as..."
-msgstr ""
+msgstr "&Simpan sebagai..."
 
 #: qt/main_window.cpp:432
 msgid "Ctrl+S"
-msgstr ""
+msgstr "Ctrl+S"
 
 #: qt/main_window.cpp:433
 msgid "Save the current game"
-msgstr ""
+msgstr "Simpan permainan yang sekarang"
 
 #: qt/main_window.cpp:435
 msgid "&Print..."
-msgstr ""
+msgstr "&Print..."
 
 #: qt/main_window.cpp:435
 msgid "Ctrl+P"
-msgstr ""
+msgstr "Ctrl+P"
 
 #: qt/main_window.cpp:436
 msgid "Print the current game"
-msgstr ""
+msgstr "Cetak permainan yang sekarang"
 
 #: qt/main_window.cpp:439
 msgid "&Quit"
-msgstr ""
+msgstr "&Berhenti"
 
 #: qt/main_window.cpp:439
 msgid "Ctrl+Q"
-msgstr ""
+msgstr "Ctrl+Q"
 
 #: qt/main_window.cpp:440
 msgid "Quit Eliot"
-msgstr ""
+msgstr "Hentikan Eliot"
 
 #: qt/main_window.cpp:445 qt/main_window.cpp:491
 msgid "&History"
-msgstr ""
+msgstr "&Sejarah"
 
 #: qt/main_window.cpp:446
 msgid "&First turn"
-msgstr ""
+msgstr "Giliran &pertama"
 
 #: qt/main_window.cpp:446
 msgid "Ctrl+Home"
-msgstr ""
+msgstr "Ctrl+Home"
 
 #: qt/main_window.cpp:447
 msgid "Go to the first turn of the game"
-msgstr ""
+msgstr "Pergi ke giliran pertama dari permainan"
 
 #: qt/main_window.cpp:449
 msgid "&Previous turn"
-msgstr ""
+msgstr "Giliran &sebelumnya"
 
 #: qt/main_window.cpp:449
 msgid "Ctrl+Left"
-msgstr ""
+msgstr "Ctrl+Left"
 
 #: qt/main_window.cpp:450
 msgid "Go to the previous turn of the game"
-msgstr ""
+msgstr "Pergi ke giliran sebelumnya dari permainan"
 
 #: qt/main_window.cpp:452
 msgid "&Next turn"
-msgstr ""
+msgstr "Giliran &berikutnya"
 
 #: qt/main_window.cpp:452
 msgid "Ctrl+Right"
-msgstr ""
+msgstr "Ctrl+Right"
 
 #: qt/main_window.cpp:453
 msgid "Go to the next turn of the game"
-msgstr ""
+msgstr "Pergi ke giliran berikutnya dari permainan"
 
 #: qt/main_window.cpp:455
 msgid "&Last turn"
-msgstr ""
+msgstr "Giliran &terakhir"
 
 #: qt/main_window.cpp:455
 msgid "Ctrl+End"
-msgstr ""
+msgstr "Ctrl+End"
 
 #: qt/main_window.cpp:456
 msgid "Go to the last turn of the game"
-msgstr ""
+msgstr "Pergi ke giliran terakhir dari permainan"
 
 #: qt/main_window.cpp:458
 msgid "&Replay turn"
-msgstr ""
+msgstr "&Mainkan lagi giliran"
 
 #: qt/main_window.cpp:458
 msgid "Ctrl+R"
-msgstr ""
+msgstr "Ctrl+R"
 
 #: qt/main_window.cpp:459
 msgid ""
 "Play the game from the current position, replacing what was really played"
 msgstr ""
+"Mainkan permainan dari posisi sekarang, untuk mengganti apa yang sebenarnya "
+"dimainkan sebelumnya"
 
 #: qt/main_window.cpp:471
 msgid "&Settings"
-msgstr ""
+msgstr "&Setting"
 
 #: qt/main_window.cpp:472
 msgid "&Choose dictionary..."
-msgstr ""
+msgstr "&Pilih kamus..."
 
 #: qt/main_window.cpp:472
 msgid "Ctrl+C"
-msgstr ""
+msgstr "Ctrl+C"
 
 #: qt/main_window.cpp:473
 msgid "Select a new dictionary"
-msgstr ""
+msgstr "Pilih kamus baru"
 
 #: qt/main_window.cpp:474
 msgid "Create &new dictionary..."
-msgstr ""
+msgstr "Buat &kamus baru..."
 
 #: qt/main_window.cpp:475
 msgid ""
 "Start the wizard for creating a new dictionary from an existing word list"
-msgstr ""
+msgstr "Mulai wizard untuk membuat kamus baru dari daftar kata yang tersedia"
 
 #: qt/main_window.cpp:477
 msgid "&Preferences..."
-msgstr ""
+msgstr "&Preferensi..."
 
 #: qt/main_window.cpp:477
 msgid "Ctrl+F"
-msgstr ""
+msgstr "Ctrl+F"
 
 #: qt/main_window.cpp:478
 msgid "Edit the preferences"
-msgstr ""
+msgstr "Edit preferensi"
 
 #: qt/main_window.cpp:483
 msgid "&Windows"
-msgstr ""
+msgstr "&Windows"
 
 #: qt/main_window.cpp:484
 msgid "&Toolbar"
-msgstr ""
+msgstr "&Toolbar"
 
 #: qt/main_window.cpp:484
 msgid "Ctrl+T"
-msgstr ""
+msgstr "Ctrl+T"
 
 #: qt/main_window.cpp:485
 msgid "Show/hide the toolbar"
-msgstr ""
+msgstr "Tampilkan/sembunyikan toolbar"
 
 #: qt/main_window.cpp:487
 msgid "&Bag"
-msgstr ""
+msgstr "&Tas"
 
 #: qt/main_window.cpp:487 qt/ui/main_window.ui.h:129
 msgid "Ctrl+B"
-msgstr ""
+msgstr "Ctrl+B"
 
 #: qt/main_window.cpp:488 qt/ui/main_window.ui.h:127
 msgid "Show/hide the remaining tiles in the bag"
-msgstr ""
+msgstr "Tampilkan/sembunyikan kotak yang tersisa di dalam tas"
 
 #: qt/main_window.cpp:489
 msgid "&External board"
-msgstr ""
+msgstr "&Papan eksternal"
 
 #: qt/main_window.cpp:489 qt/ui/main_window.ui.h:134
 msgid "Ctrl+E"
-msgstr ""
+msgstr "Ctrl+E"
 
 #: qt/main_window.cpp:490 qt/ui/main_window.ui.h:132
 msgid "Show/hide the external board"
-msgstr ""
+msgstr "Tampilkan/sembunyikan papan eksternal"
 
 #: qt/main_window.cpp:491 qt/ui/main_window.ui.h:139
 msgid "Ctrl+H"
-msgstr ""
+msgstr "Ctrl+H"
 
 #: qt/main_window.cpp:492 qt/ui/main_window.ui.h:137
 msgid "Show/hide the game history"
-msgstr ""
+msgstr "Tampilkan/sembunyikan sejarah permainan"
 
 #: qt/main_window.cpp:494
 msgid "&Dictionary tools"
-msgstr ""
+msgstr "&Tool kamus"
 
 #: qt/main_window.cpp:494 qt/ui/main_window.ui.h:144
 msgid "Ctrl+D"
-msgstr ""
+msgstr "Ctrl+D"
 
 #: qt/main_window.cpp:495 qt/ui/main_window.ui.h:142
 msgid "Show/hide the dictionary tools"
-msgstr ""
+msgstr "Tampilkan/sembunyikan tool kamus"
 
 #: qt/main_window.cpp:499
 msgid "Hel&p"
-msgstr ""
+msgstr "Hel&p"
 
 #: qt/main_window.cpp:500
 msgid "&About..."
-msgstr ""
+msgstr "&Mengenai..."
 
 #: qt/main_window.cpp:501 qt/main_window.cpp:884
 msgid "About Eliot"
-msgstr ""
+msgstr "Mengenai Eliot"
 
 #: qt/main_window.cpp:510
 msgid ""
@@ -834,85 +903,89 @@ msgid ""
 "\n"
 "You can download dictionary files on Eliot web site."
 msgstr ""
+"Anda harus memilih sebuah kamus (file .dawg) sebelum memulai permainan. Ini "
+"dapat dilakukan di menu \"Setting\".\n"
+"\n"
+"Anda dapat download file kamus di website Eliot"
 
 #: qt/main_window.cpp:526
 msgid "Starting a new game will stop the current one."
-msgstr ""
+msgstr "Memulai permainan baru akan menghentikan permainan yang sekarang."
 
 #: qt/main_window.cpp:545
 msgid "Game started"
-msgstr ""
+msgstr "Permainan dimulai"
 
 #: qt/main_window.cpp:553
 msgid "You have to select a dictionary first!"
-msgstr ""
+msgstr "Anda harus memilih kamus dulu"
 
 #: qt/main_window.cpp:557 utils/ncurses.cpp:639
 msgid "Load a game"
-msgstr ""
+msgstr "Load permainan"
 
 #: qt/main_window.cpp:568
 msgid "Error while loading the game:\n"
-msgstr ""
+msgstr "Error ketika load permainan:\n"
 
 #: qt/main_window.cpp:575 utils/ncurses.cpp:653
 #, c-format
 msgid "Game loaded"
-msgstr ""
+msgstr "Permainan sudah di-load"
 
 #: qt/main_window.cpp:585
 msgid "Save a game"
-msgstr ""
+msgstr "Simpan permainan"
 
 #: qt/main_window.cpp:591
 msgid "Game saved"
-msgstr ""
+msgstr "Permainan sudah disimpan"
 
 #: qt/main_window.cpp:595
 msgid "Error saving game: %1"
-msgstr ""
+msgstr "Error untuk menyimpan permainan: %1"
 
 #: qt/main_window.cpp:630
 msgid "N."
-msgstr ""
+msgstr "N."
 
 #: qt/main_window.cpp:630
 msgid "RACK"
-msgstr ""
+msgstr "RAK"
 
 #: qt/main_window.cpp:630
 msgid "SOLUTION"
-msgstr ""
+msgstr "SOLUSI"
 
 #: qt/main_window.cpp:630
 msgid "REF"
-msgstr ""
+msgstr "REF"
 
 #: qt/main_window.cpp:630
 msgid "PTS"
-msgstr ""
+msgstr "PTS"
 
 #: qt/main_window.cpp:762 qt/prefs_dialog.cpp:153
 msgid "Choose a dictionary"
-msgstr ""
+msgstr "Pilih sebuah kamus"
 
 #: qt/main_window.cpp:770
 msgid "Dictionary creation wizard"
-msgstr ""
+msgstr "Wizard untuk membuat kamus"
 
 #: qt/main_window.cpp:797 utils/ncurses.cpp:493 qt/ui/main_window.ui.h:125
 msgid "Bag"
-msgstr ""
+msgstr "Tas"
 
 #: qt/main_window.cpp:833 qt/ui/main_window.ui.h:135
 #: qt/ui/main_window.ui.h:146
 msgid "History"
-msgstr ""
+msgstr "Sejarah"
 
 #: qt/main_window.cpp:850 qt/ui/dic_tools_widget.ui.h:263
 #: qt/ui/main_window.ui.h:140
 msgid "Dictionary tools"
-msgstr ""
+msgstr "Tool kamus"
 
 #: qt/main_window.cpp:875
 msgid ""
@@ -923,62 +996,71 @@ msgid ""
 "Software Foundation; either version 2 of the License, or (at your option) "
 "any later version."
 msgstr ""
+"Copyright (C) 1999-2010 - Antoine Fraboulet & Olivier Teuliere\n"
+"\n"
+"Program ini adalah software gratis; Anda dapat meredistribusikannya dan/atau "
+"menmodifikasinya di bawah pasal-pasal dari GNU General Public License "
+"seperti yang dipublikasikan oleh Free Software Foundation; baik versi 2 dari "
+"ijin tersebut, atau (dengan pilihan Anda) versi berikutnya."
 
 #: qt/main_window.cpp:881
 msgid "Web site: http://www.nongnu.org/eliot/en/"
-msgstr ""
+msgstr "Web site: http://www.nongnu.org/eliot/en/"
 
 #: qt/main_window.cpp:899 qt/main_window.cpp:912 qt/main_window.cpp:925
 #: qt/main_window.cpp:938
 msgid "Turn %1/%2"
-msgstr ""
+msgstr "Giliran %1/%2"
 
 #: qt/main_window.cpp:951
 msgid ""
 "Replaying this turn will modify the game history by deleting the turns after "
 "the displayed one (i.e. turns \"in the future\")."
 msgstr ""
+"Memainkan lagi giliran ini akan merubah sejarah permainan dengan terhapusnya "
+"giliran-giliran sesudah giliran yang ditampilkan (i.e. giliran \"di masa "
+"yang akan datang\")."
 
 #: qt/main_window.cpp:961
 msgid "Replaying from turn %1"
-msgstr ""
+msgstr "Mainkan lagi dari giliran %1"
 
 #: qt/new_game.cpp:39 qt/ui/new_game.ui.h:231
 msgid "Human"
-msgstr ""
+msgstr "Manusia"
 
 #: qt/new_game.cpp:40 qt/ui/new_game.ui.h:232
 msgid "Computer"
-msgstr ""
+msgstr "Komputer"
 
 #: qt/new_game.cpp:47 qt/new_game.cpp:54 qt/new_game.cpp:114
 #: qt/new_game.cpp:205 qt/new_game.cpp:208
 msgid "Player %1"
-msgstr ""
+msgstr "Pemain %1"
 
 #: qt/new_game.cpp:51
 msgid "Name"
-msgstr ""
+msgstr "Nama"
 
 #: qt/new_game.cpp:52
 msgid "Type"
-msgstr ""
+msgstr "Tipe"
 
 #: qt/new_game.cpp:53
 msgid "Level"
-msgstr ""
+msgstr "Level"
 
 #: qt/new_game.cpp:168 qt/ui/new_game.ui.h:212
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplikasi"
 
 #: qt/player_widget.cpp:165
 msgid "Cannot pass turn (%1)"
-msgstr ""
+msgstr "Tidak dapat abaikan giliran (%1)"
 
 #: qt/player_widget.cpp:167
 msgid "Cannot change letters '%1' (%2)"
-msgstr ""
+msgstr "Tidak dapat mengganti huruf '%1' (%2)"
 
 #: qt/play_word_mediator.cpp:66
 msgid ""
@@ -986,6 +1068,10 @@ msgid ""
 "A joker from the rack must be written in parentheses.\n"
 "E.g.: w(o)rd or W(O)RD"
 msgstr ""
+"Masukkan kata untuk dimainkan (tidak ada perbedaan antara huruf besar atau "
+"huruf kecil).\n"
+"Joker dari rak harus ditulis da dalam tanda kurung.\n"
+"Contoh : k(a)ata atau K(A)TA"
 
 #: qt/play_word_mediator.cpp:69
 msgid ""
@@ -994,238 +1080,250 @@ msgid ""
 "and the column before the row for vertical words.\n"
 "E.g.: H4 or 4H"
 msgstr ""
+"Masukkan koordinasi kata.\n"
+"Spesifikasikan baris sebelum kolom untuk kata-kata horisontal,\n"
+"dan kolom sebelum baris untuk kata vertikal.\n"
+"Contoh : H4 atau 4H"
 
 #: qt/play_word_mediator.cpp:123
 msgid "Cannot play word: misplaced parentheses"
-msgstr ""
+msgstr "Tidak dapat mainkan kata: tanda kurung salah tempat"
 
 #: qt/play_word_mediator.cpp:149
 msgid "Cannot play '%1' at position '%2':\n"
-msgstr ""
+msgstr "Tidak dapat mainkan '%1' di posisi '%2':\n"
 
 #: qt/play_word_mediator.cpp:154
 msgid "Some letters are not valid for the current dictionary"
-msgstr ""
+msgstr "Beberapa huruf tidak valid untuk kamus sekarang"
 
 #: qt/play_word_mediator.cpp:157
 msgid "Invalid coordinates"
-msgstr ""
+msgstr "Koordinasi tidak valid"
 
 #: qt/play_word_mediator.cpp:160
 msgid "The word does not exist"
-msgstr ""
+msgstr "Kata ini tidak ada"
 
 #: qt/play_word_mediator.cpp:163
 msgid "The rack doesn't contain the letters needed to play this word"
 msgstr ""
+"Rak ini tidak berisi huruf-huruf yang dibutuhkan untuk memainkan kata ini"
 
 #: qt/play_word_mediator.cpp:166
 msgid "The word is part of a longer one"
-msgstr ""
+msgstr "Kata ini adalah bagian dari kata yang lebih panjang"
 
 #: qt/play_word_mediator.cpp:169
 msgid "The word tries to replace an existing letter"
-msgstr ""
+msgstr "Kata ini berusaha untuk mengganti huruf yang ada"
 
 #: qt/play_word_mediator.cpp:172
 msgid "An orthogonal word is not valid"
-msgstr ""
+msgstr "Kata yang ortogonal tidak valid"
 
 #: qt/play_word_mediator.cpp:175
 msgid "The word is already present on the board at these coordinates"
-msgstr ""
+msgstr "Kata ini sudah ada di papan di koordinasi ini"
 
 #: qt/play_word_mediator.cpp:178
 msgid "A word cannot be isolated (not connected to the placed words)"
 msgstr ""
+"Kata ini tidak dapat diisolasikan (tidak terhubung ke kata-kata yang "
+"ditempatkan)"
 
 #: qt/play_word_mediator.cpp:181
 msgid "The first word of the game must be horizontal"
-msgstr ""
+msgstr "Kata pertama di permainan harus horisontal"
 
 #: qt/play_word_mediator.cpp:184
 msgid "The first word of the game must cover the H8 square"
-msgstr ""
+msgstr "Kata pertama di permainan harus ditempatkan di kotak H8"
 
 #: qt/play_word_mediator.cpp:187
 msgid "The word is going out of the board"
-msgstr ""
+msgstr "Kata-kata ini keluar dari papan"
 
 #: qt/play_word_mediator.cpp:190
 msgid "Incorrect or misplaced word (%1)"
-msgstr ""
+msgstr "Kata yang tidak benar atau salah tempat (%1)"
 
 #: qt/prefs_dialog.cpp:71 qt/prefs_dialog.cpp:86 qt/prefs_dialog.cpp:141
 msgid "%1 error"
-msgstr ""
+msgstr "%1 error"
 
 #: qt/prefs_dialog.cpp:72
 msgid "Cannot load preferences: %1"
-msgstr ""
+msgstr "Tidak dapat load preferensi: %1"
 
 #: qt/prefs_dialog.cpp:87 qt/prefs_dialog.cpp:142
 msgid "Cannot save preferences: %1"
-msgstr ""
+msgstr "Tidak dapat simpan preferensi: %1"
 
 #: qt/score_widget.cpp:47
 msgid "Score"
-msgstr ""
+msgstr "Nilai"
 
 #: qt/training_widget.cpp:251
 msgid "Warning: Cannot set the rack to '%1'"
-msgstr ""
+msgstr "Peringatan: Tidak dapat set rak ke '%1'"
 
 #: qt/training_widget.cpp:291
 msgid "Searching with rack '%1'..."
-msgstr ""
+msgstr "Cari dengan rak '%1'..."
 
 #: qt/training_widget.cpp:293
 msgid "Search done"
-msgstr ""
+msgstr "Pencarian sudah dilaksanakan"
 
 #: utils/ncurses.cpp:289
 msgid "Scores"
-msgstr ""
+msgstr "Nilai-nilai"
 
 #: utils/ncurses.cpp:293 utils/ncurses.cpp:299
 #, c-format
 msgid "%s: %d"
-msgstr ""
+msgstr "%s: %d"
 
 #: utils/ncurses.cpp:311
 msgid "Racks"
-msgstr ""
+msgstr "Rak-rak"
 
 #: utils/ncurses.cpp:315 utils/ncurses.cpp:321
 #, c-format
 msgid "%s: %ls"
-msgstr ""
+msgstr "%s: %ls"
 
 #: utils/ncurses.cpp:335 utils/ncurses.cpp:338
 msgid "Search complete"
-msgstr ""
+msgstr "Pencarian sudah selesai"
 
 #: utils/ncurses.cpp:347 qt/ui/training_widget.ui.h:178
 msgid "Search results"
-msgstr ""
+msgstr "Hasil pencarian"
 
 #: utils/ncurses.cpp:376
 msgid "History of the game"
-msgstr ""
+msgstr "Sejarah permainan"
 
 #: utils/ncurses.cpp:382
 msgid " N |      RACK      |    SOLUTION     | REF | PTS | P | BONUS"
-msgstr ""
+msgstr " N |      RAK       |     SOLUSI      | REF | PTS | P | BONUS"
 
 #: utils/ncurses.cpp:447
 msgid "Help"
-msgstr ""
+msgstr "Help"
 
 #: utils/ncurses.cpp:451
 msgid "[Global]"
-msgstr ""
+msgstr "[Global]"
 
 #: utils/ncurses.cpp:452
 msgid "   h, H, ?          Show/hide help box"
-msgstr ""
+msgstr "   h, H, ?          Tampilkan/sembunyikan kotak help"
 
 #: utils/ncurses.cpp:453
 msgid "   y, Y             Show/hide history of the game"
-msgstr ""
+msgstr "   y, Y             Tampilkan/sembunyikan sejarah permainan"
 
 #: utils/ncurses.cpp:454
 msgid ""
 "   b, B             Show/hide contents of the bag (including letters of the "
 "racks)"
 msgstr ""
+"   b, B             Tampilkan/sembunyikan isi tas (termasuk huruf-huruf di "
+"rak)"
 
 #: utils/ncurses.cpp:455
 msgid "   e, E             Show/hide dots on empty squares of the board"
 msgstr ""
+"   e, E             Tampilkan/sembunyikan titik-titik di kotak-kotak kosong "
+"di papan"
 
 #: utils/ncurses.cpp:456
 msgid "   d, D             Check the existence of a word in the dictionary"
-msgstr ""
+msgstr "   d, D             Cek keberadaan kata di kamus"
 
 #: utils/ncurses.cpp:457
 msgid "   j, J             Play a word"
-msgstr ""
+msgstr "   j, J             Mainkan kata"
 
 #: utils/ncurses.cpp:458
 msgid "   s, S             Save the game"
-msgstr ""
+msgstr "   s, S             Simpan permainan"
 
 #: utils/ncurses.cpp:459
 msgid "   l, L             Load a game"
-msgstr ""
+msgstr "   l, L             Load sebuah permainan"
 
 #: utils/ncurses.cpp:460
 msgid "   q, Q             Quit"
-msgstr ""
+msgstr "   q, Q             Berhenti"
 
 #: utils/ncurses.cpp:463
 msgid "[Training mode]"
-msgstr ""
+msgstr "[Mode training]"
 
 #: utils/ncurses.cpp:464
 msgid "   *                Take a random rack"
-msgstr ""
+msgstr "   *                Ambil rak secara acak"
 
 #: utils/ncurses.cpp:465
 msgid "   +                Complete the current rack randomly"
-msgstr ""
+msgstr "   +                Penuhi rak sekarang secara acak"
 
 #: utils/ncurses.cpp:466
 msgid "   t, T             Set the rack manually"
-msgstr ""
+msgstr "   t, T             Set rak secara manual"
 
 #: utils/ncurses.cpp:467
 msgid "   c, C             Compute all the possible words"
-msgstr ""
+msgstr "   c, C             Komputasi semua kata-kata yang mungkin"
 
 #: utils/ncurses.cpp:468
 msgid "   r, R             Show/hide search results"
-msgstr ""
+msgstr "   r, R             Tampilkan/sembunyikan hasil pencarian"
 
 #: utils/ncurses.cpp:471
 msgid "[Duplicate mode]"
-msgstr ""
+msgstr "[Mode duplikasi]"
 
 #: utils/ncurses.cpp:472
 msgid "   n, N             Switch to the next human player"
-msgstr ""
+msgstr "   n, N             Ganti ke orang pemain berikutnya"
 
 #: utils/ncurses.cpp:475
 msgid "[Free game mode]"
-msgstr ""
+msgstr "[Mode permainan gratis]"
 
 #: utils/ncurses.cpp:476
 msgid "   p, P             Pass your turn (with or without changing letters)"
 msgstr ""
+"   p, P             Abaikan giliran Anda (dengan atau tanpa mengganti huruf)"
 
 #: utils/ncurses.cpp:479
 msgid "[Miscellaneous]"
-msgstr ""
+msgstr "[Miscellaneous]"
 
 #: utils/ncurses.cpp:480
 msgid "   <up>, <down>     Navigate in a box line by line"
-msgstr ""
+msgstr "   <up>, <down>     Navigasi di kotak baris per baris"
 
 #: utils/ncurses.cpp:481
 msgid "   <pgup>, <pgdown> Navigate in a box page by page"
-msgstr ""
+msgstr "   <pgup>, <pgdown> Navigasi di kotak halaman per halaman"
 
 #: utils/ncurses.cpp:482
 msgid "   Ctrl-l           Refresh the screen"
-msgstr ""
+msgstr "   Ctrl-l           Refresh layar"
 
 #: utils/ncurses.cpp:500
 msgid " LETTER | POINTS | FREQUENCY | REMAINING"
-msgstr ""
+msgstr " HURUF | NILAI | FREKUENSI | SISA"
 
 #: utils/ncurses.cpp:556
 msgid "Play a word"
-msgstr ""
+msgstr "Mainkan sebuah kata"
 
 #. TRANSLATORS: Align the : when translating "Played word:" and
 #. "Coordinates:". For example:
@@ -1233,191 +1331,191 @@ msgstr ""
 #. Coordinates:
 #: utils/ncurses.cpp:557 utils/ncurses.cpp:565
 msgid "Played word:"
-msgstr ""
+msgstr "Kata yang telah dimainkan"
 
 #: utils/ncurses.cpp:558 utils/ncurses.cpp:566
 msgid "Coordinates:"
-msgstr ""
+msgstr "Koordinasi:"
 
 #: utils/ncurses.cpp:580
 msgid "Incorrect or misplaced word"
-msgstr ""
+msgstr "Kata yang tidak benar atau salah tempat"
 
 #: utils/ncurses.cpp:590
 msgid "Dictionary"
-msgstr ""
+msgstr "Kamus"
 
 #: utils/ncurses.cpp:591
 msgid "Enter the word to check:"
-msgstr ""
+msgstr "Masukkan kata untuk dicek"
 
 #: utils/ncurses.cpp:600
 #, c-format
 msgid "The word '%ls' exists"
-msgstr ""
+msgstr "Kata '%ls' ada"
 
 #: utils/ncurses.cpp:602
 #, c-format
 msgid "The word '%ls' does not exist"
-msgstr ""
+msgstr "Kata '%ls' tidak ada"
 
 #: utils/ncurses.cpp:612
 msgid "Save the game"
-msgstr ""
+msgstr "Simpan permainan"
 
 #: utils/ncurses.cpp:613 utils/ncurses.cpp:640
 msgid "Enter the file name:"
-msgstr ""
+msgstr "Masukkan nama file:"
 
 #: utils/ncurses.cpp:623
 #, c-format
 msgid "Game saved in '%ls'"
-msgstr ""
+msgstr "Permainan disimpan di '%ls'"
 
 #: utils/ncurses.cpp:628
 #, c-format
 msgid "Error saving game %s:"
-msgstr ""
+msgstr "Error untuk menyimpan permainan %s:"
 
 #: utils/ncurses.cpp:658
 msgid "Unable to load game: "
-msgstr ""
+msgstr "Tidak bisa load permainan:"
 
 #: utils/ncurses.cpp:668
 msgid "Pass your turn"
-msgstr ""
+msgstr "Abaikan giliran Anda"
 
 #: utils/ncurses.cpp:669
 msgid "Enter the letters to change:"
-msgstr ""
+msgstr "Masukkan huruf untuk diganti:"
 
 #: utils/ncurses.cpp:678
 msgid "Cannot pass the turn"
-msgstr ""
+msgstr "Tidak bisa abaikan giliran"
 
 #: utils/ncurses.cpp:688
 msgid "Set rack"
-msgstr ""
+msgstr "Set rak"
 
 #: utils/ncurses.cpp:689
 msgid "Enter the new letters:"
-msgstr ""
+msgstr "Masukkan huruf baru:"
 
 #: utils/ncurses.cpp:701
 msgid "Cannot take these letters from the bag:"
-msgstr ""
+msgstr "Tidak bisa ambil huruf-huruf ini dari tas:"
 
 #: utils/ncurses.cpp:1112 qt/ui/prefs_dialog.ui.h:272
 msgid "Free game mode"
-msgstr ""
+msgstr "Mode permainan gratis"
 
 #: utils/ncurses.cpp:1114 qt/ui/prefs_dialog.ui.h:259
 msgid "Duplicate mode"
-msgstr ""
+msgstr "Mode duplikasi"
 
 #: utils/ncurses.cpp:1117 qt/ui/new_game.ui.h:220
 msgid "Joker game"
-msgstr ""
+msgstr "Permainan joker"
 
 #: utils/ncurses.cpp:1118
 msgid "[h for help]"
-msgstr ""
+msgstr "[h untuk help]"
 
 #: qt/ui/dic_tools_widget.ui.h:265
 msgid "Check"
-msgstr ""
+msgstr "Cek"
 
 #: qt/ui/dic_tools_widget.ui.h:266
 msgid "Plus 1"
-msgstr ""
+msgstr "Plus 1"
 
 #: qt/ui/dic_tools_widget.ui.h:267
 msgid "Minimum length:"
-msgstr ""
+msgstr "Panjang minimum:"
 
 #: qt/ui/dic_tools_widget.ui.h:268
 msgid "Maximum length:"
-msgstr ""
+msgstr "Panjang maksimum:"
 
 #: qt/ui/dic_tools_widget.ui.h:269
 msgid "Note: only the 1000 first results have been displayed"
-msgstr ""
+msgstr "Nota: hanya 1000 hasil pertama yang ditampilkan"
 
 #: qt/ui/dic_tools_widget.ui.h:270
 msgid "Regular expressions"
-msgstr ""
+msgstr "Ekspresi reguler"
 
 #: qt/ui/dic_tools_widget.ui.h:271 qt/ui/dic_wizard_info_page.ui.h:142
 msgid "Dictionary name:"
-msgstr ""
+msgstr "Nama kamus:"
 
 #: qt/ui/dic_tools_widget.ui.h:272
 msgid "Letters:"
-msgstr ""
+msgstr "Huruf-huruf:"
 
 #: qt/ui/dic_tools_widget.ui.h:273
 msgid "Number of words:"
-msgstr ""
+msgstr "Jumlah kata-kata:"
 
 #: qt/ui/dic_tools_widget.ui.h:274
 msgid "Save words list..."
-msgstr ""
+msgstr "Simpan daftar kata..."
 
 #: qt/ui/dic_tools_widget.ui.h:275
 msgid "Dic. info."
-msgstr ""
+msgstr "Info kamus"
 
 #: qt/ui/dic_wizard_conclusion_page.ui.h:68
 #: qt/ui/dic_wizard_info_page.ui.h:145 qt/ui/dic_wizard_info_page.ui.h:146
 #: qt/ui/dic_wizard_info_page.ui.h:147
 #: qt/ui/dic_wizard_letters_def_page.ui.h:84
 msgid "Description"
-msgstr ""
+msgstr "Deskripsi"
 
 #: qt/ui/dic_wizard_conclusion_page.ui.h:69
 msgid "Load this dictionary in Eliot"
-msgstr ""
+msgstr "Load kamus ini di Eliot"
 
 #: qt/ui/dic_wizard_info_page.ui.h:143 qt/ui/dic_wizard_info_page.ui.h:144
 #: qt/ui/prefs_dialog.ui.h:246
 msgid "Browse..."
-msgstr ""
+msgstr "Browse..."
 
 #: qt/ui/dic_wizard_info_page.ui.h:148
 msgid "Generated dictionary:"
-msgstr ""
+msgstr "Kamus yang dihasilkan:"
 
 #: qt/ui/dic_wizard_info_page.ui.h:149
 msgid "Word list:"
-msgstr ""
+msgstr "Daftar kata:"
 
 #: qt/ui/dic_wizard_letters_def_page.ui.h:85
 msgid "Load letters from word list"
-msgstr ""
+msgstr "Load huruf-huruf dari daftar kata"
 
 #: qt/ui/main_window.ui.h:130
 msgid "External board"
-msgstr ""
+msgstr "Papan eksternal"
 
 #: qt/ui/main_window.ui.h:147 qt/ui/new_game.ui.h:225
 msgid "Players"
-msgstr ""
+msgstr "Pemain-pemain"
 
 #: qt/ui/new_game.ui.h:207
 msgid "New game"
-msgstr ""
+msgstr "Permainan baru"
 
 #: qt/ui/new_game.ui.h:208
 msgid "Game type"
-msgstr ""
+msgstr "Tipe permainan"
 
 #: qt/ui/new_game.ui.h:209
 msgid "Mode:"
-msgstr ""
+msgstr "Mode:"
 
 #: qt/ui/new_game.ui.h:216
 msgid "Variant:"
-msgstr ""
+msgstr "Variasi:"
 
 #: qt/ui/new_game.ui.h:218
 msgid ""
@@ -1428,6 +1526,11 @@ msgid ""
 "variant, particularly interesting in Duplicate mode, is good to train using "
 "the joker."
 msgstr ""
+"Di permainan joker, setiap rak berisi sebuah joker. Ketika sebuah kata yang "
+"mempunyai joker dimainkan di kisi, joker lalu diganti oleh huruf yang "
+"berhubungan dari tas, dan joker tetap di rak. Ketika huruf yang berhubungan "
+"tidak ada di tas, joker ditempatkan di papan. Variasi ini, terutama menarik "
+"di mode Duplikasi, baik untuk berlatih menggunakan joker."
 
 #: qt/ui/new_game.ui.h:222
 msgid ""
@@ -1438,62 +1541,70 @@ msgid ""
 "unlike the joker game, allows playing with a normal-looking rack, but it "
 "usually gives much higher scores than in a normal game."
 msgstr ""
+"Permainan yang meledak agak mirip dengan permainan joker, kecuali ketika "
+"komputer memilih rak (yang berisi joker), komputer itu akan melaksanakan "
+"pencarian dan menemukan kata yang mempunyai kemungkinan paling baik dengan "
+"rak. Lalu, kalau mungkin, komputer mengganti joker di rak dengan huruf yang "
+"memungkinkan untuk memainkan kata yang terbaik ini. Variasi ini, tidak sama "
+"dengan permainan joker, memungkinkan untuk bermain dengan rak yang kelihatan "
+"normal, tapi biasanya ada nilai yang lebih tinggi daripada di permainan yang "
+"normal."
 
 #: qt/ui/new_game.ui.h:224
 msgid "Explosive game"
-msgstr ""
+msgstr "Permainan eksplosif"
 
 #: qt/ui/new_game.ui.h:226
 msgid "Name:"
-msgstr ""
+msgstr "Nama:"
 
 #: qt/ui/new_game.ui.h:227
 msgid "Player 2"
-msgstr ""
+msgstr "Pemain ke-2"
 
 #: qt/ui/new_game.ui.h:228
 msgid "Type:"
-msgstr ""
+msgstr "Jenis:"
 
 #: qt/ui/new_game.ui.h:234
 msgid "Level:"
-msgstr ""
+msgstr "Level:"
 
 #: qt/ui/new_game.ui.h:235
 msgid "Add player"
-msgstr ""
+msgstr "Menambah pemain"
 
 #: qt/ui/new_game.ui.h:236
 msgid "Remove player"
-msgstr ""
+msgstr "Menyingkirkan pemain"
 
 #: qt/ui/player_widget.ui.h:136
 msgid "Shuffle"
-msgstr ""
+msgstr "Mengacak"
 
 #: qt/ui/player_widget.ui.h:137
 msgid "Change letters:"
-msgstr ""
+msgstr "Ganti huruf-huruf:"
 
 #: qt/ui/player_widget.ui.h:139
 msgid "Enter the letters you want to change"
-msgstr ""
+msgstr "Masukkan huruf-huruf yang Anda ingin ganti"
 
 #: qt/ui/player_widget.ui.h:141
 msgid "Change"
-msgstr ""
+msgstr "Ganti"
 
 #: qt/ui/player_widget.ui.h:142
 msgid "Pass"
-msgstr ""
+msgstr "Abaikan"
 
 #: qt/ui/player_widget.ui.h:143 qt/ui/training_widget.ui.h:166
 msgid "Ref.:"
-msgstr ""
+msgstr "Ref.:"
 
 #: qt/ui/player_widget.ui.h:144 qt/ui/training_widget.ui.h:159
 msgid "Play a word:"
-msgstr ""
+msgstr "Mainkan sebuah kata:"
 
 #: qt/ui/player_widget.ui.h:146 qt/ui/player_widget.ui.h:149
 #: qt/ui/training_widget.ui.h:161 qt/ui/training_widget.ui.h:164
@@ -1501,10 +1612,13 @@ msgid ""
 "Enter the word to play (case-insensitive). A joker from the rack must be "
 "written in parentheses. E.g.: w(o)rd or W(O)RD"
 msgstr ""
+"Masukkan kata untuk dimainkan (tidak peduli huruf besar atau huruf kecil). "
+"Sebuah joker dari rak harus ditulis di dalam tanda kurung. Contoh: k(a)ta "
+"atau K(A)TA"
 
 #: qt/ui/player_widget.ui.h:151 qt/ui/training_widget.ui.h:173
 msgid "Play"
-msgstr ""
+msgstr "Mainkan"
 
 #: qt/ui/player_widget.ui.h:153 qt/ui/player_widget.ui.h:156
 #: qt/ui/training_widget.ui.h:168 qt/ui/training_widget.ui.h:171
@@ -1513,94 +1627,107 @@ msgid ""
 "horizontal words, and the column before the row for vertical words. E.g.: H4 "
 "or 4H"
 msgstr ""
+"Masukkan koordinasi dari kata. Spesifikasikan barisnya sebelum kolomnya "
+"untuk kata horisontal, dan kolomnya sebelum barisnya untuk kata vertikal. "
+"Contoh: H4 atau 4H"
 
 #: qt/ui/prefs_dialog.ui.h:237
 msgid "Preferences"
-msgstr ""
+msgstr "Preferensi"
 
 #: qt/ui/prefs_dialog.ui.h:238
 msgid "Interface"
-msgstr ""
+msgstr "Interface"
 
 #: qt/ui/prefs_dialog.ui.h:239
 msgid "Dictionary path:"
-msgstr ""
+msgstr "Direktori kamus:"
 
 #: qt/ui/prefs_dialog.ui.h:241
 msgid "Enter the dictionary path (mandatory to start a game)"
-msgstr ""
+msgstr "Masukkan direktori kamus (diharuskan untuk memulai permainan)"
 
 #: qt/ui/prefs_dialog.ui.h:244
 msgid "Open a browser window to choose the dictionary"
-msgstr ""
+msgstr "Buka window browser untuk memilih kamus"
 
 #: qt/ui/prefs_dialog.ui.h:248
 msgid "Show/hide the tiles points on the board."
-msgstr ""
+msgstr "Tampilkan/sembunyikan nilai kotak di papan."
 
 #: qt/ui/prefs_dialog.ui.h:250
 msgid "Display tiles points"
-msgstr ""
+msgstr "Tampilkan nilai kotak"
 
 #: qt/ui/prefs_dialog.ui.h:252
 msgid ""
 "If checked, the game and player histories will display the rack and the "
 "corresponding solution on the same line"
 msgstr ""
+"Apabila ditandai, sejarah permainan dan pemain akan menampilkan rak dan "
+"solusi yang berhubungan di baris yang sama"
 
 #: qt/ui/prefs_dialog.ui.h:254
 msgid "Align the rack and the solution in history"
-msgstr ""
+msgstr "Gabungkan rak dan solusi di sejarah"
 
 #: qt/ui/prefs_dialog.ui.h:256
 msgid ""
 "If checked, a confirmation will be requested before replaying the game from "
 "a given turn. If unchecked, the action is performed without confirmation."
 msgstr ""
+"Apabila ditandai, konfirmasi akan diminta sebelum memainkan lagi permainan "
+"dari giliran yang diberi. Apabila tidak ditandai, aksi akan dilaksanakan "
+"tanpa konfirmasi."
 
 #: qt/ui/prefs_dialog.ui.h:258
 msgid "Warn before replaying a turn"
-msgstr ""
+msgstr "Peringati sebelum memainkan lagi giliran"
 
 #: qt/ui/prefs_dialog.ui.h:261 qt/ui/prefs_dialog.ui.h:274
 msgid ""
 "If checked, playing an invalid or misplaced word will not be possible. If "
 "unchecked, you will get 0 point and lose your turn"
 msgstr ""
+"Apabila ditandai, memainkan kata yang tidak valid atau salah tempat tidak "
+"akan mungkin. Apabila tidak ditandai, Anda akan mendapat nilai 0 dan "
+"kehilangan giliran Anda"
 
 #: qt/ui/prefs_dialog.ui.h:263 qt/ui/prefs_dialog.ui.h:276
 msgid "Refuse to play invalid moves"
-msgstr ""
+msgstr "Menolak untuk memainkan langkah yang tidak valid"
 
 #: qt/ui/prefs_dialog.ui.h:264
 msgid "Min. players for a solo:"
-msgstr ""
+msgstr "Minimum pemain untuk bermain solo:"
 
 #: qt/ui/prefs_dialog.ui.h:265
 msgid "Solo value:"
-msgstr ""
+msgstr "Nilai tunggal:"
 
 #: qt/ui/prefs_dialog.ui.h:267
 msgid "Value of the solo bonus. Set it to 0 if you don't want solo bonus"
-msgstr ""
+msgstr "Nilai dari bonus solo. Set ke 0 apabila Anda tidak ingin bonus solo"
 
 #: qt/ui/prefs_dialog.ui.h:270
 msgid "Minimum number of players needed to take into account the solo bonus"
-msgstr ""
+msgstr "Jumlah pemain minimum yang dibutuhkan untuk memperhitungkan bonus solo"
 
 #: qt/ui/prefs_dialog.ui.h:279
 msgid ""
 "If checked, any change to the player rack in training mode will update the "
 "'Plus 1' tab of the 'Dictionary tools' window"
 msgstr ""
+"Apabila ditandai, perubahan apa pun di rak pemain di mode latihan akan "
+"merubah tab 'Plus 1' dari window 'Tool kamus'"
 
 #: qt/ui/prefs_dialog.ui.h:281
 msgid "Copy rack to the 'Plus 1' dictionary tool"
-msgstr ""
+msgstr "Kutip rak ke tool kamus 'Plus 1'"
 
 #: qt/ui/prefs_dialog.ui.h:282
 msgid "Search results limit:"
-msgstr ""
+msgstr "Batas hasil pencarian:"
 
 #: qt/ui/prefs_dialog.ui.h:284
 msgid ""
@@ -1608,19 +1735,37 @@ msgid ""
 "always be the best ones. Use 0 to disable the limit (warning: searches "
 "yielding many results can be extremely slow in this case!)."
 msgstr ""
+"Jumlah hasil maksimum dari pencarian. Hasil yang diberikan selalu yang "
+"terbaik. Gunakan 0 untuk melumpuhkan batas (peringatan: pencarian yang "
+"mempunyai banyak hasil bisa menjadi sangat lambat di kasus ini!)."
 
 #: qt/ui/training_widget.ui.h:174
 msgid "New rack"
-msgstr ""
+msgstr "Rak baru"
 
 #: qt/ui/training_widget.ui.h:175
 msgid "Complement"
-msgstr ""
+msgstr "Lengkapi"
 
 #: qt/ui/training_widget.ui.h:176
 msgid "Search"
-msgstr ""
+msgstr "Cari"
 
 #: qt/ui/training_widget.ui.h:177
 msgid "Play selected"
-msgstr ""
+msgstr "Mainkan yang dipilih"
+
+#~ msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
+#~ msgstr "penggunaan: %s [-a|-h|-l|-x] kamus\n"
+
+#~ msgid "  -a: print all\n"
+#~ msgstr "  -a: cetak semua\n"
+
+#~ msgid "  -h: print header\n"
+#~ msgstr "  -h: cetak header\n"
+
+#~ msgid "  -l: print dictionary word list\n"
+#~ msgstr "  -l: cetak daftar kata kamus\n"
+
+#~ msgid "  -x: print dictionary in hex\n"
+#~ msgstr "  -x: cetak kamus di hex\n"
