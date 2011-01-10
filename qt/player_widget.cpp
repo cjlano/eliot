@@ -159,12 +159,21 @@ void PlayerWidget::on_lineEditChange_returnPressed()
         emit gameUpdated();
     else
     {
-        // FIXME: the error is too generic
         QString msg;
         if (inputLetters == "")
-            msg = _q("Cannot pass turn (%1)").arg(res);
+            msg = _q("Cannot pass turn:\n%1");
         else
-            msg = _q("Cannot change letters '%1' (%2)").arg(inputLetters).arg(res);
+            msg = _q("Cannot change letters '%1':\n%2").arg(inputLetters);
+        if (res == 1)
+            msg = msg.arg(_q("Changing letters is not allowed when there are less than 7 tiles left in the bag"));
+        else if (res == 2)
+            msg = msg.arg(_q("The rack of the current player does not contain all the listed letters"));
+        else if (res == 3)
+            msg = msg.arg(_q("The game is already finished!"));
+        else if (res == 3)
+            msg = msg.arg(_q("Some letters are invalid for the current dictionary"));
+        else
+            msg = msg.arg(_q("Unknwon error"));
         emit notifyProblem(msg);
     }
 }
