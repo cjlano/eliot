@@ -138,6 +138,18 @@ void BoardWidget::refresh()
             }
         }
     }
+    else
+    {
+        // Clear the board
+        for (unsigned int row = BOARD_MIN; row <= BOARD_MAX; ++row)
+        {
+            for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
+            {
+                m_widgetsMatrix[row][col]->tileChanged(
+                        Tile(), false, TileWidget::NORMAL);
+            }
+        }
+    }
     update();
 }
 
