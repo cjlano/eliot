@@ -187,7 +187,7 @@ void PlayerWidget::pass(QString inputLetters)
         else if (res == 3)
             msg = msg.arg(_q("Some letters are invalid for the current dictionary"));
         else
-            msg = msg.arg(_q("Unknwon error"));
+            msg = msg.arg(_q("Unknown error"));
         emit notifyProblem(msg);
     }
 }
