@@ -140,6 +140,8 @@ void PlayerWidget::on_lineEditChange_textChanged()
 {
     pushButtonChange->setEnabled(lineEditChange->hasAcceptableInput() &&
                                  lineEditChange->text() != "");
+    // For the letters to be in upper case
+    lineEditChange->setText(lineEditChange->text().toUpper());
 }
 
 
