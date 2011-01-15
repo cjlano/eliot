@@ -56,11 +56,13 @@ protected:
 private slots:
     void on_pushButtonShuffle_clicked();
     void on_pushButtonChange_clicked() { on_lineEditChange_returnPressed(); }
-    void on_pushButtonPass_clicked() { on_lineEditChange_returnPressed(); }
+    void on_pushButtonPass_clicked();
     void on_lineEditChange_textChanged();
     void on_lineEditChange_returnPressed();
 
 private:
+    void pass(QString inputLetters);
+
     /// Encapsulated game, can be NULL
     PublicGame *m_game;
 

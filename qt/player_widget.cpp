@@ -140,19 +140,33 @@ void PlayerWidget::on_lineEditChange_textChanged()
 {
     pushButtonChange->setEnabled(lineEditChange->hasAcceptableInput() &&
                                  lineEditChange->text() != "");
-    pushButtonPass->setEnabled(lineEditChange->text() == "");
 }
 
 
 void PlayerWidget::on_lineEditChange_returnPressed()
 {
     ASSERT(m_game->getMode() == PublicGame::kFREEGAME,
-           "Trying to pass or change letters while not in free game mode");
+           "Trying to change letters while not in free game mode");
 
-    QString inputLetters = lineEditChange->text();
+    pass(lineEditChange->text());
+}
+
+
+void PlayerWidget::on_pushButtonPass_clicked()
+{
+    ASSERT(m_game->getMode() == PublicGame::kFREEGAME,
+           "Trying to pass while not in free game mode");
+
+    pass("");
+}
+
+
+void PlayerWidget::pass(QString inputLetters)
+{
     // Convert the input string into an internal one
     const wstring &letters =
         m_game->getDic().convertFromInput(qtw(inputLetters));
+
     // Pass the turn (and possibly change letters)
     int res = m_game->freeGamePass(letters);
     if (res == 0)
