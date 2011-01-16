@@ -1,11 +1,14 @@
-ICONV_VERSION = 1.12
-LIBCONFIG_VERSION = 1.3.2
-BOOST_VERSION = 1_39_0
+ICONV_VERSION = 1.13.1
+LIBCONFIG_VERSION = 1.4.6
+BOOST_VERSION = 1_42_0
 QT_VERSION = 4.5.3
 EXPAT_VERSION = 2.0.1
-ARABICA_VERSION = 2009-march
-LIBXML2_VERSION = 2.7.5
-XERCES_VERSION = 3.0.1
+ARABICA_VERSION = 2010-November
+LIBXML2_VERSION = 2.7.8
+XERCES_VERSION = 3.1.1
+APR_VERSION = 1.4.2
+APU_VERSION = 1.3.10
+LOG4CXX_VERSION = 0.10.0
 
 
 PREFIX = $(shell pwd)/inst
@@ -20,7 +23,7 @@ CONFIGURE = CC="$(CC)" CXX="$(CXX)" CPPFLAGS="$(CPPFLAGS)" ./configure --host=i5
 
 .PHONY: help all
 
-all: .iconv .boost .qt .libconfig .expat .arabica
+all: .iconv .boost .qt .apr .apu .log4cxx .libconfig .expat .arabica
 
 help:
 	@echo "Usage: make all"
@@ -48,6 +51,60 @@ $(ICONV_DIR_FLAG): $(ICONV_ARCHIVE)
 	touch $@
 
 
+### APR (needed by log4cxx) ###
+
+APR_DIR = apr-$(APR_VERSION)
+APR_DIR_FLAG = $(APR_DIR)/.flag
+APR_ARCHIVE = apr-$(APR_VERSION).tar.bz2
+
+$(APR_ARCHIVE): $(PREFIX_FLAG)
+	$(WGET) http://www.motorlogy.com/apachemirror/apr/$@
+
+$(APR_DIR_FLAG): $(APR_ARCHIVE)
+	tar xjf $<
+	touch $@
+
+.apr: $(APR_DIR_FLAG)
+	(cd $(APR_DIR) && $(CONFIGURE) --enable-static --disable-shared && make && make install)
+	touch $@
+
+
+### APU (needed by log4cxx) ###
+
+APU_DIR = apr-util-$(APU_VERSION)
+APU_DIR_FLAG = $(APU_DIR)/.flag
+APU_ARCHIVE = apr-util-$(APU_VERSION).tar.bz2
+
+$(APU_ARCHIVE): $(PREFIX_FLAG)
+	$(WGET) http://www.motorlogy.com/apachemirror/apr/$@
+
+$(APU_DIR_FLAG): $(APU_ARCHIVE)
+	tar xjf $<
+	touch $@
+
+.apu: $(APU_DIR_FLAG)
+	(cd $(APU_DIR) && $(CONFIGURE) --with-apr=$(PREFIX) --enable-static --disable-shared && make && make install)
+	touch $@
+
+
+### log4cxx ###
+
+LOG4CXX_DIR = apache-log4cxx-$(LOG4CXX_VERSION)
+LOG4CXX_DIR_FLAG = $(LOG4CXX_DIR)/.flag
+LOG4CXX_ARCHIVE = apache-log4cxx-$(LOG4CXX_VERSION).tar.gz
+
+$(LOG4CXX_ARCHIVE): $(PREFIX_FLAG)
+	$(WGET) http://apache.cyberuse.com/logging/log4cxx/$(LOG4CXX_VERSION)/$@
+
+$(LOG4CXX_DIR_FLAG): $(LOG4CXX_ARCHIVE)
+	tar xzf $<
+	touch $@
+
+.log4cxx: $(LOG4CXX_DIR_FLAG)
+	(cd $(LOG4CXX_DIR) && patch -p0 < ../log4cxx-no-example.patch && patch -p0 < ../log4cxx-build-fixes.patch && $(CONFIGURE) --with-apr=$(PREFIX) --with-apu=$(PREFIX) --disable-doxygen --disable-dot --enable-static --disable-shared && make && make install)
+	touch $@
+
+
 ### libconfig ###
 
 LIBCONFIG_DIR = libconfig-$(LIBCONFIG_VERSION)
@@ -62,7 +119,7 @@ $(LIBCONFIG_DIR_FLAG): $(LIBCONFIG_ARCHIVE)
 	touch $@
 
 .libconfig: $(LIBCONFIG_DIR_FLAG)
-	(cd $(LIBCONFIG_DIR) && CFLAGS=-DLIBCONFIG_STATIC CXXFLAGS=-DLIBCONFIG_STATIC $(CONFIGURE) --enable-static --disable-shared && make && make install)
+	(cd $(LIBCONFIG_DIR) && CFLAGS=-DLIBCONFIG_STATIC CXXFLAGS=-DLIBCONFIG_STATIC $(CONFIGURE) --disable-examples --enable-static --disable-shared && make && make install)
 	touch $@
 
 
@@ -114,7 +171,7 @@ EXPAT_DIR_FLAG = $(EXPAT_DIR)/.flag
 EXPAT_ARCHIVE = expat-$(EXPAT_VERSION).tar.gz
 
 $(EXPAT_ARCHIVE): $(PREFIX_FLAG)
-	$(WGET) http://downloads.sourceforge.net/project/expat/expat/$(EXPAT_VERSION)/$@?use_mirror=kent
+	$(WGET) http://kent.dl.sf.net/project/expat/expat/$(EXPAT_VERSION)/$@
 
 $(EXPAT_DIR_FLAG): $(EXPAT_ARCHIVE)
 	tar xzf $<
@@ -132,7 +189,7 @@ ARABICA_DIR_FLAG = $(ARABICA_DIR)/.flag
 ARABICA_ARCHIVE = arabica-$(ARABICA_VERSION).tar.bz2
 
 $(ARABICA_ARCHIVE): $(PREFIX_FLAG)
-	$(WGET) http://downloads.sourceforge.net/project/arabica/arabica/March-09/$@?use_mirror=ovh
+	$(WGET) http://downloads.sf.net/project/arabica/arabica/November-10/$@
 
 $(ARABICA_DIR_FLAG): $(ARABICA_ARCHIVE)
 	tar xjf $<

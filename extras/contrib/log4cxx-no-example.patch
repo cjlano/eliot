@@ -1,0 +1,11 @@
+--- src/Makefile.in.orig	2011-01-16 01:24:41.000000000 +0100
++++ src/Makefile.in	2011-01-16 01:23:48.000000000 +0100
+@@ -209,7 +209,7 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+-SUBDIRS = main examples site test
++SUBDIRS = main #examples site test
+ all: all-recursive
+ 
+ .SUFFIXES:
