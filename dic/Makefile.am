@@ -20,9 +20,10 @@
 noinst_LIBRARIES = libdic.a
 
 localedir = $(datadir)/locale
-AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir) -I../intl -I$(top_srcdir)/intl $(INCICONV)
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir) -I../intl -I$(top_srcdir)/intl $(INCICONV) @LOG4CXX_CFLAGS@
 
 libdic_a_SOURCES = \
+	logging.h \
 	base_exception.cpp base_exception.h \
 	dic_exception.cpp dic_exception.h \
 	header.cpp header.h \
@@ -56,6 +57,12 @@ listdic_LDADD=libdic.a @LIBINTL@
 #regexp_CFLAGS=-DDEBUG_RE
 regexp_SOURCES=regexpmain.cpp
 regexp_LDADD=libdic.a @LIBINTL@
+
+if WITH_LOGGING
+compdic_LDADD += @LOG4CXX_LIBS@
+listdic_LDADD += @LOG4CXX_LIBS@
+regexp_LDADD += @LOG4CXX_LIBS@
+endif
 
 endif
 

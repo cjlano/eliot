@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 localedir = $(datadir)/locale
-AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/dic -I$(top_srcdir)/game -I../intl -I$(top_srcdir)/intl
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/dic -I$(top_srcdir)/game -I../intl -I$(top_srcdir)/intl @LOG4CXX_CFLAGS@
 
 noinst_PROGRAMS =
 bin_PROGRAMS =
@@ -30,11 +30,18 @@ eliottxt_LDADD = $(top_builddir)/game/libgame.a $(top_builddir)/dic/libdic.a @LI
 if HAS_READLINE
 eliottxt_LDADD += -lreadline
 endif
+if WITH_LOGGING
+eliottxt_LDADD += @LOG4CXX_LIBS@
+endif
 endif
 
 if BUILD_NCURSES
 bin_PROGRAMS += eliotcurses
 eliotcurses_SOURCES = ncurses.cpp ncurses.h
 eliotcurses_LDADD = ../game/libgame.a ../dic/libdic.a -lncursesw @LIBINTL@ @LIBCONFIG_LIBS@ @ARABICA_LIBS@ @EXPAT_LDFLAGS@
+if WITH_LOGGING
+eliotcurses_LDADD += @LOG4CXX_LIBS@
+endif
+
 endif
 

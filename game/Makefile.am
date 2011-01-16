@@ -19,7 +19,7 @@
 
 noinst_LIBRARIES = libgame.a
 
-AM_CPPFLAGS = -I$(top_srcdir)/dic -I../intl -I$(top_srcdir)/intl @LIBCONFIG_CFLAGS@ @ARABICA_CFLAGS@ @EXPAT_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir)/dic -I../intl -I$(top_srcdir)/intl @LIBCONFIG_CFLAGS@ @ARABICA_CFLAGS@ @EXPAT_CFLAGS@ @LOG4CXX_CFLAGS@
 
 libgame_a_SOURCES= \
     game_exception.cpp game_exception.h \

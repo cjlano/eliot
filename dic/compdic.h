@@ -26,6 +26,7 @@
 #include <iosfwd>
 #include <boost/unordered_map.hpp>
 
+#include "logging.h"
 #include "header.h"
 #include "dic_internals.h"
 
@@ -41,6 +42,7 @@ using namespace std;
 
 class CompDic
 {
+    DEFINE_LOGGER(logger);
     typedef boost::unordered_map<vector<DicEdge>, unsigned int> HashMap;
 
 public:

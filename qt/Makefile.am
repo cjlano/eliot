@@ -20,7 +20,7 @@ localedir = $(datadir)/locale
 
 if BUILD_QT
 
-AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" @QT_CFLAGS@ -DQT4LOCALEDIR=\"@QT4LOCALEDIR@\" -I$(top_srcdir) -I../intl -I$(top_srcdir)/dic -I$(top_srcdir)/game
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" @QT_CFLAGS@ -DQT4LOCALEDIR=\"@QT4LOCALEDIR@\" -I$(top_srcdir) -I../intl -I$(top_srcdir)/dic -I$(top_srcdir)/game @LOG4CXX_CFLAGS@
 
 SUFFIXES=.ui.h .moc.cpp
 
@@ -112,6 +112,10 @@ MOSTLYCLEANFILES = $(nodist_eliot_SOURCES)
 eliot_LDADD = ../game/libgame.a ../dic/libdic.a @QT_LIBS@ @LIBINTL@ @LIBCONFIG_LIBS@ @ARABICA_LIBS@ @EXPAT_LDFLAGS@
 # Needed for proper stack trace handling
 eliot_LDFLAGS = -rdynamic
+
+if WITH_LOGGING
+eliot_LDADD += @LOG4CXX_LIBS@
+endif
 
 # Generate a cpp file from the resources
 resources.cpp: eliot.qrc $(RESOURCES)

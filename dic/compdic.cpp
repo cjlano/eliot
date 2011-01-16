@@ -65,6 +65,8 @@
 #define fmt(a) boost::format(a)
 
 
+INIT_LOGGER(CompDic::logger, "Compdic");
+
 CompDic::CompDic()
     : m_currentRec(0), m_maxRec(0), m_loadTime(0), m_buildTime(0)
 {
@@ -184,15 +186,8 @@ void CompDic::writeNode(uint32_t *ioEdges, unsigned int num, ostream &outFile)
         ioEdges[i] = htonl(ioEdges[i]);
     }
 
-#ifdef DEBUG_OUTPUT
-    cout << fmt(_("writing %1% edges")) % num << endl;
-    for (int i = 0; i < num; i++)
-    {
-        outFile.write((char*)(ioEdges + i), sizeof(DicEdge));
-    }
-#else
+    LOG_TRACE(logger, fmt("writing %1% edges") % num);
     outFile.write((char*)ioEdges, num * sizeof(DicEdge));
-#endif
 }
 
 #define MAX_EDGES 2000
