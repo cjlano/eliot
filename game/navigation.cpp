@@ -19,7 +19,6 @@
  *****************************************************************************/
 
 #include <boost/foreach.hpp>
-#include <iostream>
 
 #include "navigation.h"
 #include "turn_cmd.h"
