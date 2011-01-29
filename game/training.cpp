@@ -20,6 +20,7 @@
  *****************************************************************************/
 
 #include <algorithm>
+#include <cwctype> // For towupper
 
 #if ENABLE_NLS
 #   include <libintl.h>
@@ -43,6 +44,9 @@
 #include "encoding.h"
 
 #include "debug.h"
+
+
+INIT_LOGGER(game, Training);
 
 
 Training::Training(const Dictionary &iDic)
@@ -105,6 +109,7 @@ int Training::play(const wstring &iCoord, const wstring &iWord)
 
 void Training::recordPlayerMove(const Move &iMove, Player &ioPlayer)
 {
+    LOG_INFO("Player " << ioPlayer.getId() << " plays: " << convertToMb(iMove.toString()));
     // Update the rack and the score of the current player
     // PlayerMoveCmd::execute() must be called before Game::helperPlayMove()
     // (called in this class in endTurn()).

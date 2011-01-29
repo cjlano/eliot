@@ -19,8 +19,6 @@
  *****************************************************************************/
 
 #include <cmath>
-// XXX: tmp
-#include <iostream>
 
 #include "tile_layout.h"
 #include "tile_widget.h"

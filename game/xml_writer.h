@@ -21,6 +21,7 @@
 #define XML_WRITER_H_
 
 #include <iosfwd>
+#include "logging.h"
 
 class Game;
 
@@ -29,6 +30,7 @@ using std::string;
 
 class XmlWriter
 {
+    DEFINE_LOGGER();
 public:
     static void write(const Game &iGame, const string &iFileName);
 };

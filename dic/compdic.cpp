@@ -23,7 +23,6 @@
 
 #include <fstream>
 #include <sstream>
-#include <iostream>
 #include <map>
 #include <boost/format.hpp>
 #include <boost/foreach.hpp>
@@ -65,7 +64,7 @@
 #define fmt(a) boost::format(a)
 
 
-INIT_LOGGER(CompDic::logger, "Compdic");
+INIT_LOGGER(dic, CompDic);
 
 CompDic::CompDic()
     : m_currentRec(0), m_maxRec(0), m_loadTime(0), m_buildTime(0)
@@ -186,7 +185,7 @@ void CompDic::writeNode(uint32_t *ioEdges, unsigned int num, ostream &outFile)
         ioEdges[i] = htonl(ioEdges[i]);
     }
 
-    LOG_TRACE(logger, fmt("writing %1% edges") % num);
+    LOG_TRACE(fmt("writing %1% edges") % num);
     outFile.write((char*)ioEdges, num * sizeof(DicEdge));
 }
 

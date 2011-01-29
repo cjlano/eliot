@@ -83,10 +83,10 @@ bool TurnCmd::isAutoExecution() const
 wstring TurnCmd::toString() const
 {
     wostringstream oss;
-    oss << L"TurnCmd:" << endl;
+    oss << L"TurnCmd:";
     BOOST_FOREACH(Command *cmd, m_commands)
     {
-        oss << L"    " << cmd->toString() << endl;
+        oss << endl << L"    " << cmd->toString();
     }
     return oss.str();
 }

@@ -45,6 +45,8 @@
 #include "xml_reader.h"
 
 
+INIT_LOGGER(game, GameFactory);
+
 GameFactory *GameFactory::m_factory = NULL;
 
 
@@ -76,6 +78,7 @@ void GameFactory::Destroy()
 
 Training *GameFactory::createTraining(const Dictionary &iDic)
 {
+    LOG_INFO("Creating a training game");
     Training *game = new Training(iDic);
     return game;
 }
@@ -83,6 +86,7 @@ Training *GameFactory::createTraining(const Dictionary &iDic)
 
 FreeGame *GameFactory::createFreeGame(const Dictionary &iDic)
 {
+    LOG_INFO("Creating a free game");
     FreeGame *game = new FreeGame(iDic);
     return game;
 }
@@ -90,6 +94,7 @@ FreeGame *GameFactory::createFreeGame(const Dictionary &iDic)
 
 Duplicate *GameFactory::createDuplicate(const Dictionary &iDic)
 {
+    LOG_INFO("Creating a duplicate game");
     Duplicate *game = new Duplicate(iDic);
     return game;
 }

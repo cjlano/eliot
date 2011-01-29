@@ -22,6 +22,7 @@
 #define FREEGAME_H_
 
 #include "game.h"
+#include "logging.h"
 
 class Player;
 
@@ -42,6 +43,7 @@ using std::vector;
  */
 class FreeGame: public Game
 {
+    DEFINE_LOGGER();
     friend class GameFactory;
 public:
     virtual GameMode getMode() const { return kFREEGAME; }

@@ -42,7 +42,7 @@ using namespace std;
 
 class CompDic
 {
-    DEFINE_LOGGER(logger);
+    DEFINE_LOGGER();
     typedef boost::unordered_map<vector<DicEdge>, unsigned int> HashMap;
 
 public:

@@ -28,6 +28,8 @@
 #include "encoding.h"
 
 
+INIT_LOGGER(game, Navigation);
+
 Navigation::Navigation()
     : m_currTurn(0)
 {
@@ -46,6 +48,7 @@ Navigation::~Navigation()
 
 void Navigation::newTurn()
 {
+    LOG_INFO("New turn");
     lastTurn();
     m_turnCommands.push_back(new TurnCmd);
     ++m_currTurn;
@@ -98,6 +101,7 @@ void Navigation::prevTurn()
 {
     if (m_currTurn > 1)
     {
+        LOG_DEBUG("Navigating to the previous turn");
         --m_currTurn;
         m_turnCommands[m_currTurn]->undo();
         // Special case: when the last turn is empty, automatically
@@ -115,6 +119,7 @@ void Navigation::nextTurn()
 {
     if (m_currTurn < m_turnCommands.size())
     {
+        LOG_DEBUG("Navigating to the next turn");
         m_turnCommands[m_currTurn]->execute();
         ++m_currTurn;
         // Special case: when the last turn is empty, automatically
@@ -130,6 +135,7 @@ void Navigation::nextTurn()
 
 void Navigation::firstTurn()
 {
+    LOG_DEBUG("Navigating to the first turn");
     while (m_currTurn > 1)
     {
         prevTurn();
@@ -139,6 +145,7 @@ void Navigation::firstTurn()
 
 void Navigation::lastTurn()
 {
+    LOG_DEBUG("Navigating to the last turn");
     while (m_currTurn < m_turnCommands.size())
     {
         nextTurn();
@@ -148,6 +155,8 @@ void Navigation::lastTurn()
 
 void Navigation::clearFuture()
 {
+    LOG_DEBUG("Erasing all the future turns");
+
     // Replay the auto-execution turns
     // (i.e. turns where only the AI was involved)
     while (!isLastTurn() && m_turnCommands[m_currTurn]->isAutoExecution())
@@ -180,12 +189,12 @@ const vector<TurnCmd *> & Navigation::getCommands() const
 
 void Navigation::print() const
 {
-    cout << "=== Commands history ===" << endl;
-    cout << "Current position right after turn " << m_currTurn  - 1 << endl;
+    LOG_DEBUG("=== Commands history ===");
+    LOG_DEBUG("Current position right after turn " << m_currTurn  - 1);
     int index = 0;
     BOOST_FOREACH(const Command *c, m_turnCommands)
     {
-        cout << index << " " << convertToMb(c->toString()) << endl;
+        LOG_DEBUG(index << " " << convertToMb(c->toString()));
         ++index;
     }
 }

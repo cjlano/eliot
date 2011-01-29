@@ -25,6 +25,7 @@
 #include "matrix.h"
 
 class Dictionary;
+class Tile;
 class Rack;
 class Results;
 class Round;

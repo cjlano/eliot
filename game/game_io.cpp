@@ -21,6 +21,7 @@
 
 #include <cstring>
 #include <cstdlib> // For atoi
+#include <cwctype> // For iswlower
 #include <cstdio>
 
 #include "dic.h"

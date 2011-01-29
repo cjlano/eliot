@@ -23,6 +23,7 @@
 
 #include <string>
 #include <vector>
+#include "logging.h"
 
 using std::string;
 using std::wstring;
@@ -44,6 +45,7 @@ class Duplicate;
  */
 class GameFactory
 {
+    DEFINE_LOGGER();
 public:
     static GameFactory *Instance();
     static void Destroy();

@@ -24,6 +24,7 @@
 #include <QMainWindow>
 
 #include <ui/main_window.ui.h>
+#include "logging.h"
 #include "coord_model.h"
 
 
@@ -41,6 +42,7 @@ class QAction;
 
 class MainWindow: public QMainWindow
 {
+    DEFINE_LOGGER();
     Q_OBJECT;
 
 public:
@@ -67,6 +69,7 @@ private slots:
     void onGameLoad();
     void onGameSaveAs();
     void onGamePrint();
+    void onGameQuit();
     void onSettingsChooseDic();
     void onSettingsCreateDic();
     void onSettingsPreferences();

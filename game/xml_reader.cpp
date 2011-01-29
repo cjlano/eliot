@@ -40,12 +40,17 @@
 
 using namespace std;
 
+INIT_LOGGER(game, XmlReader);
+
 
 Game * XmlReader::read(const string &iFileName, const Dictionary &iDic)
 {
     // Try to load the old format first
+    LOG_INFO("Parsing savegame '" << iFileName << "'");
+
     try
     {
+        LOG_DEBUG("Trying old format");
         FILE *fin = fopen(iFileName.c_str(), "r");
         if (fin != NULL)
         {
@@ -53,13 +58,19 @@ Game * XmlReader::read(const string &iFileName, const Dictionary &iDic)
             fclose(fin);
 
             if (game != NULL)
+            {
+                LOG_INFO("Savegame parsed successfully");
                 return game;
+            }
         }
     }
     catch (const GameException &e)
     {
         // Ignore the exception
+        LOG_DEBUG("This doesn't look like the old format");
     }
+
+    LOG_DEBUG("Trying XML format");
 
     ifstream is(iFileName.c_str());
     if (!is.is_open())
@@ -79,6 +90,8 @@ Game * XmlReader::read(const string &iFileName, const Dictionary &iDic)
     Game *game = handler.getGame();
     if (game == NULL)
         throw LoadGameException(handler.errorMessage);
+
+    LOG_INFO("Savegame parsed successfully");
     return game;
 }
 
@@ -155,12 +168,8 @@ void XmlReader::startElement(const string& namespaceURI,
 {
     (void) namespaceURI;
     (void) qName;
-#if 0
-    if (!localName.empty())
-        std::cout << "Start Element: " << namespaceURI << ":" << localName << std::endl;
-    else
-        std::cout << "Start Element: " << qName << std::endl;
-#endif
+    LOG_DEBUG("Start Element: " << (localName.empty() ? qName : namespaceURI + ":" + localName));
+
     m_data.clear();
     const string &tag = localName;
     if (tag == "Player")
@@ -196,9 +205,8 @@ void XmlReader::endElement(const string& namespaceURI,
                            const string&)
 {
     (void) namespaceURI;
-#if 0
-    std::cout << "endElement: " << namespaceURI << ":" << localName << "(" << m_data << ")" << std::endl;
-#endif
+    LOG_DEBUG("endElement: " << namespaceURI << ":" << localName << "(" << m_data << ")");
+
     const string &tag = localName;
     if (tag == "Mode")
     {
@@ -276,16 +284,12 @@ void XmlReader::endElement(const string& namespaceURI,
             throw LoadGameException("Rack invalid for the current dictionary: " + m_data);
         }
         pldrack.setManual(rackStr);
-#if 0
-        cerr << "loaded rack: " << convertToMb(pldrack.toString()) << endl;
-#endif
+        LOG_DEBUG("loaded rack: " << convertToMb(pldrack.toString()));
 
         Player &p = getPlayer(m_players, m_attributes["playerid"]);
         PlayerRackCmd *cmd = new PlayerRackCmd(p, pldrack);
         m_game->accessNavigation().addAndExecute(cmd);
-#if 0
-        cerr << "rack: " << convertToMb(pldrack.toString()) << endl;
-#endif
+        LOG_DEBUG("rack: " << convertToMb(pldrack.toString()));
     }
 
     else if (tag == "PlayerMove")
@@ -310,15 +314,14 @@ void XmlReader::endElement(const string& namespaceURI,
 void XmlReader::characters(const string& ch)
 {
     m_data += ch;
-#if 0
-    std::cout << "Characters: " << ch << std::endl;
-#endif
+    LOG_DEBUG("Characters: " << ch);
 }
 
 
 void XmlReader::warning(const Arabica::SAX::SAXParseException<string>& exception)
 {
     errorMessage = string("warning: ") + exception.what();
+    LOG_WARN(errorMessage);
     //throw LoadGameException(string("warning: ") + exception.what());
 }
 
@@ -326,6 +329,7 @@ void XmlReader::warning(const Arabica::SAX::SAXParseException<string>& exception
 void XmlReader::error(const Arabica::SAX::SAXParseException<string>& exception)
 {
     errorMessage = string("error: ") + exception.what();
+    LOG_ERROR(errorMessage);
     //throw LoadGameException(string("error: ") + exception.what());
 }
 
@@ -333,6 +337,7 @@ void XmlReader::error(const Arabica::SAX::SAXParseException<string>& exception)
 void XmlReader::fatalError(const Arabica::SAX::SAXParseException<string>& exception)
 {
     errorMessage = string("fatal error: ") + exception.what();
+    LOG_FATAL(errorMessage);
     //throw LoadGameException(string("fatal error: ") + exception.what());
 }
 

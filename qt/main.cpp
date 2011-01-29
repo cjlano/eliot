@@ -22,10 +22,10 @@
 
 #include <string>
 #include <exception>
-#include <iostream>
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+#include "logging.h"
 #include "base_exception.h"
 #include "stacktrace.h"
 #include "main_window.h"
@@ -63,8 +63,7 @@ public:
         }
         catch (const BaseException &e)
         {
-            cerr << "Exception caught: " << e.what() << endl;
-            cerr << e.getStackTrace() << endl;
+            LOG_ROOT_ERROR("Exception caught: " << e.what() << "\n" << e.getStackTrace());
             return false;
         }
     }
@@ -86,7 +85,7 @@ int main(int argc, char **argv)
     /* Check if $LANG is set. */
     if (NULL == getenv("LANG"))
     {
-        // Retrieve the preferred language as chosen in  System Preferences.app
+        // Retrieve the preferred language as chosen in System Preferences.app
         // (note that CFLocaleCopyCurrent() is not used because it returns the
         // preferred locale not language)
         CFArrayRef all_locales = CFLocaleCopyAvailableLocaleIdentifiers();
@@ -166,9 +165,8 @@ int main(int argc, char **argv)
 #ifdef HAVE_EXECINFO_H
 static void bt_sighandler(int signum)
 {
-    cerr << "Segmentation fault!" << endl;
-    cerr << "Backtrace:" << endl;
-    cerr << StackTrace::GetStack() << endl;
+    LOG_ROOT_FATAL("Segmentation fault!");
+    LOG_ROOT_FATAL("Backtrace:\n" << StackTrace::GetStack());
 
     // Restore the default handler to generate a nice core dump
     signal(signum, SIG_DFL);

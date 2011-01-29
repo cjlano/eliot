@@ -19,9 +19,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include "dic.h"
+#include <cwctype> // For towupper
 
 #include "board_search.h"
+#include "dic.h"
 #include "board.h"
 #include "tile.h"
 #include "rack.h"

@@ -39,6 +39,7 @@
 
 using namespace std;
 
+INIT_LOGGER(game, XmlWriter);
 
 static void addIndent(string &s)
 {
@@ -81,6 +82,7 @@ static void writeMove(ostream &out, const Move &iMove,
 
 void XmlWriter::write(const Game &iGame, const string &iFileName)
 {
+    LOG_INFO("Saving game into '" << iFileName << "'");
     ofstream out(iFileName.c_str());
     if (!out.is_open())
         throw SaveGameException("Cannot open file for writing: '" + iFileName + "'");

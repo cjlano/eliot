@@ -23,6 +23,7 @@
 
 #include "game.h"
 #include "command.h"
+#include "logging.h"
 
 class Player;
 
@@ -53,6 +54,7 @@ using std::wstring;
  */
 class Duplicate: public Game
 {
+    DEFINE_LOGGER();
     friend class GameFactory;
     friend class MarkPlayedCmd;
 public:

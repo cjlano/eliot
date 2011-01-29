@@ -27,6 +27,7 @@
 #include "game.h"
 #include "round.h"
 #include "results.h"
+#include "logging.h"
 
 class Player;
 
@@ -44,6 +45,7 @@ using std::wstring;
  */
 class Training: public Game
 {
+    DEFINE_LOGGER();
     friend class GameFactory;
 public:
     virtual GameMode getMode() const { return kTRAINING; }

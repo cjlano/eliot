@@ -22,6 +22,7 @@
 #define NAVIGATION_H_
 
 #include <vector>
+#include "logging.h"
 
 class TurnCmd;
 class Command;
@@ -31,6 +32,7 @@ using namespace std;
 
 class Navigation
 {
+    DEFINE_LOGGER();
     public:
         Navigation();
         ~Navigation();

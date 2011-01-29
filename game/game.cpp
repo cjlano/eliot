@@ -46,6 +46,8 @@
 
 #include "debug.h"
 
+INIT_LOGGER(game, Game);
+
 const unsigned int Game::RACK_SIZE =  7;
 const int Game::BONUS_POINTS = 50;
 
@@ -77,6 +79,7 @@ const Player& Game::getPlayer(unsigned int iNum) const
 
 void Game::shuffleRack()
 {
+    LOG_DEBUG("Shuffling rack for player " << currPlayer());
     PlayedRack pld = getCurrentPlayer().getCurrentRack();
     pld.shuffle();
     m_players[currPlayer()]->setCurrentRack(pld);
@@ -340,11 +343,10 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
 
             // Get the best word
             const Round & bestRound = res.get(0);
-#ifdef DEBUG
-                    cout << "helperSetRackRandom(): initial rack: "
-                         << convertToMb(pld.toString()) << " (best word: "
-                         << convertToMb(bestRound.getWord()) << ")" << endl;
-#endif
+            LOG_DEBUG("helperSetRackRandom(): initial rack: "
+                      << convertToMb(pld.toString()) << " (best word: "
+                      << convertToMb(bestRound.getWord()) << ")");
+
             // Identify the joker
             for (unsigned int i = 0; i < bestRound.getWordLen(); ++i)
             {
@@ -352,10 +354,9 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
                 {
                     const Tile &jokerTile = bestRound.getTile(i);
                     Tile replacingTile(towupper(jokerTile.toChar()));
-#ifdef DEBUG
-                    cout << "helperSetRackRandom(): replacing Joker with "
-                         << convertToMb(replacingTile.toChar()) << endl;
-#endif
+                    LOG_DEBUG("helperSetRackRandom(): replacing Joker with "
+                              << convertToMb(replacingTile.toChar()));
+
                     // If the bag does not contain this letter anymore,
                     // simply keep the joker in the rack.
                     if (bag.in(replacingTile))
@@ -457,6 +458,10 @@ void Game::addPlayer(Player *iPlayer)
     // The ID of the player is its position in the m_players vector
     iPlayer->setId(getNPlayers());
     m_players.push_back(iPlayer);
+
+    LOG_INFO("Adding player '" << convertToMb(iPlayer->getName())
+             << "' (" << (iPlayer->isHuman() ? "human" : "AI") << ")"
+             << " with ID " << iPlayer->getId());
 }
 
 

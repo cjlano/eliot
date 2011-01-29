@@ -26,25 +26,29 @@
 #ifdef USE_LOGGING
 #   include <log4cxx/logger.h>
 
-#   define DEFINE_LOGGER(logger) static log4cxx::LoggerPtr logger;
-#   define INIT_LOGGER(logger, name) log4cxx::LoggerPtr logger(log4cxx::Logger::getLogger(name))
+#   define DEFINE_LOGGER() static log4cxx::LoggerPtr logger
+#   define INIT_LOGGER(prefix, className) log4cxx::LoggerPtr className::logger(log4cxx::Logger::getLogger(#prefix "." #className))
 
-#   define LOG_TRACE(a, b) LOG4CXX_TRACE(a, b)
-#   define LOG_DEBUG(a, b) LOG4CXX_DEBUG(a, b)
-#   define LOG_INFO(a, b) LOG4CXX_INFO(a, b)
-#   define LOG_WARN(a, b) LOG4CXX_WARN(a, b)
-#   define LOG_ERROR(a, b) LOG4CXX_ERROR(a, b)
-#   define LOG_FATAL(a, b) LOG4CXX_FATAL(a, b)
+#   define LOG_TRACE(a) LOG4CXX_TRACE(logger, a)
+#   define LOG_DEBUG(a) LOG4CXX_DEBUG(logger, a)
+#   define LOG_INFO(a) LOG4CXX_INFO(logger, a)
+#   define LOG_WARN(a) LOG4CXX_WARN(logger, a)
+#   define LOG_ERROR(a) LOG4CXX_ERROR(logger, a)
+#   define LOG_FATAL(a) LOG4CXX_FATAL(logger, a)
+#   define LOG_ROOT_ERROR(a) LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(), a)
+#   define LOG_ROOT_FATAL(a) LOG4CXX_FATAL(log4cxx::Logger::getRootLogger(), a)
 #else
-#   define DEFINE_LOGGER(logger)
-#   define INIT_LOGGER(logger, name)
+#   define DEFINE_LOGGER()
+#   define INIT_LOGGER(prefix, name)
 
-#   define LOG_TRACE(a, b)
-#   define LOG_DEBUG(a, b)
-#   define LOG_INFO(a, b)
-#   define LOG_WARN(a, b)
-#   define LOG_ERROR(a, b)
-#   define LOG_FATAL(a, b)
+#   define LOG_TRACE(a)
+#   define LOG_DEBUG(a)
+#   define LOG_INFO(a)
+#   define LOG_WARN(a)
+#   define LOG_ERROR(a)
+#   define LOG_FATAL(a)
+#   define LOG_ROOT_ERROR(a)
+#   define LOG_ROOT_FATAL(a)
 #endif // USE_LOGGING
 
 #endif

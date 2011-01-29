@@ -25,6 +25,7 @@
 #include <SAX/Locator.hpp>
 #include <SAX/Attributes.hpp>
 #include <SAX/SAXException.hpp>
+#include "logging.h"
 
 class Dictionary;
 class Game;
@@ -36,6 +37,7 @@ using std::map;
 
 class XmlReader : public Arabica::SAX::DefaultHandler<string>
 {
+    DEFINE_LOGGER();
 public:
     virtual ~XmlReader() {}
 

@@ -24,7 +24,7 @@
 
 #include <string>
 #include <vector>
-#include <iostream>
+#include "logging.h"
 #include "bag.h"
 #include "board.h"
 #include "history.h"
@@ -48,6 +48,7 @@ using namespace std;
  */
 class Game
 {
+    DEFINE_LOGGER();
 public:
     /// Game specs.
     static const unsigned int RACK_SIZE;

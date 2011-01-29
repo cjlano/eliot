@@ -45,7 +45,11 @@
 #include "mark_played_cmd.h"
 #include "ai_player.h"
 #include "settings.h"
+#include "encoding.h"
 #include "debug.h"
+
+
+INIT_LOGGER(game, Duplicate);
 
 
 Duplicate::Duplicate(const Dictionary &iDic)
@@ -177,6 +181,7 @@ void Duplicate::tryEndTurn()
 
 void Duplicate::recordPlayerMove(const Move &iMove, Player &ioPlayer, bool isForHuman)
 {
+    LOG_INFO("Player " << ioPlayer.getId() << " plays: " << convertToMb(iMove.toString()));
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
     pCmd->setAutoExecution(!isForHuman);
     accessNavigation().addAndExecute(pCmd);
@@ -278,6 +283,7 @@ void Duplicate::endTurn()
 
 void Duplicate::endGame()
 {
+    LOG_INFO("End of the game");
     m_finished = true;
 }
 

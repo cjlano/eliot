@@ -33,6 +33,7 @@
 
 #include <ctype.h>
 #include <cstring> // For strlen
+#include <cwctype> // For iswalnum
 #include <algorithm>
 
 #include "ncurses.h"

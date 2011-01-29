@@ -60,6 +60,8 @@
 #include "coord.h"
 
 
+INIT_LOGGER(qt, MainWindow);
+
 const char *MainWindow::m_windowName = "MainWindow";
 
 MainWindow::MainWindow(QWidget *iParent)
@@ -67,6 +69,7 @@ MainWindow::MainWindow(QWidget *iParent)
     m_prefsDialog(NULL), m_bagWindow(NULL), m_boardWindow(NULL),
     m_historyWindow(NULL), m_dicToolsWindow(NULL), m_dicNameLabel(NULL)
 {
+    LOG_DEBUG("Creating main window");
     m_ui.setupUi(this);
     createMenu();
     readSettings();
@@ -79,10 +82,9 @@ MainWindow::MainWindow(QWidget *iParent)
     // but we would lose the desktop integration...
     unsigned int val = time(NULL);
     srand(val);
-#ifdef DEBUG
+
     // Make it easier to reproduce bugs
-    cout << "Rand seed: " << val << endl;
-#endif
+    LOG_DEBUG("Rand seed: " << val);
 
     QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
                      this, SLOT(updateForGame(const PublicGame*)));
@@ -162,6 +164,7 @@ MainWindow::MainWindow(QWidget *iParent)
     QString dicPath = qs.value(PrefsDialog::kINTF_DIC_PATH, "").toString();
     if (dicPath != "")
     {
+        LOG_INFO("Using dictionary " << qtl(dicPath));
         try
         {
             m_dic = new Dictionary(qtl(dicPath));
@@ -193,6 +196,8 @@ void MainWindow::destroyCurrentGame()
     if (m_game == NULL)
         return;
 
+    LOG_DEBUG("Destroying current game");
+
     // Some controls, like the board, can live when there is no game.
     // We only have to give them a NULL handler instead of the current one.
     emit gameChangedNonConst(NULL);
@@ -202,6 +207,8 @@ void MainWindow::destroyCurrentGame()
 
     delete m_game;
     m_game = NULL;
+
+    LOG_DEBUG("Game destroyed");
 }
 
 
@@ -217,8 +224,7 @@ void MainWindow::refresh()
         m_actionHistoryLastTurn->setEnabled(!isLastTurn);
         m_actionHistoryReplayTurn->setEnabled(!isLastTurn);
 #ifdef DEBUG
-        cout << endl << endl;
-        m_game->printTurns();
+        //m_game->printTurns();
 #endif
     }
 }
@@ -226,6 +232,7 @@ void MainWindow::refresh()
 
 void MainWindow::prefsUpdated()
 {
+    LOG_DEBUG("Preferences updated");
     // Disconnect the training rack updates from the "Plus 1" tab of the
     // dictionary tools
     m_playersWidget->disconnect(SIGNAL(trainingRackUpdated(const QString&)));
@@ -295,6 +302,7 @@ void MainWindow::updateStatusBar(const Dictionary *iDic)
 
 void MainWindow::displayErrorMsg(QString iMsg, QString iContext)
 {
+    LOG_ERROR("Displayed error: " << qtl(iMsg));
     if (iContext == "")
         iContext = _q("Eliot - Error");
 
@@ -304,6 +312,7 @@ void MainWindow::displayErrorMsg(QString iMsg, QString iContext)
 
 void MainWindow::displayInfoMsg(QString iMsg)
 {
+    LOG_INFO("Displayed message: " << qtl(iMsg));
     statusBar()->showMessage(iMsg);
 }
 
@@ -363,6 +372,8 @@ void MainWindow::changeDictionary(QString iFileName)
             if (!requestConfirmation(msg))
                 return;
         }
+
+        LOG_INFO("Loading new dictionary file: " << qtl(iFileName));
 
         destroyCurrentGame();
 
@@ -437,7 +448,7 @@ void MainWindow::createMenu()
                   false, QIcon(":/images/printer.png"));
     menuFile->addSeparator();
     addMenuAction(menuFile, _q("&Quit"), _q("Ctrl+Q"),
-                  _q("Quit Eliot"), SLOT(close()),
+                  _q("Quit Eliot"), SLOT(onGameQuit()),
                   false, QIcon(":/images/quit_16px.png"));
 
     QMenu *menuHistory = new QMenu(m_ui.menubar);
@@ -505,6 +516,8 @@ void MainWindow::createMenu()
 
 void MainWindow::onGameNew()
 {
+    LOG_DEBUG("Starting a new game (unconfirmed)");
+
     if (m_dic == NULL)
     {
         displayErrorMsg(_q("You have to select a dictionary (.dawg file) "
@@ -538,11 +551,11 @@ void MainWindow::onGameNew()
 
     m_ui.groupBoxPlayers->show();
 
+    displayInfoMsg(_q("Game started"));
     m_game->start();
     emit gameChangedNonConst(m_game);
     emit gameChanged(m_game);
     emit gameUpdated();
-    displayInfoMsg(_q("Game started"));
 }
 
 
@@ -600,6 +613,7 @@ void MainWindow::onGameSaveAs()
 
 void MainWindow::onGamePrint()
 {
+    LOG_DEBUG("Printing game (unconfirmed)");
     if (m_game == NULL)
         return;
 
@@ -607,6 +621,8 @@ void MainWindow::onGamePrint()
     QPrintDialog printDialog(&printer, this);
     if (printDialog.exec() == QDialog::Accepted)
     {
+        LOG_INFO("Printing game");
+
         QPainter painter(&printer);
         const History &history = m_game->getHistory();
 
@@ -740,7 +756,16 @@ void MainWindow::onGamePrint()
         // Total score
         nextHeight += LINE_HEIGHT;
         painter.drawText(curWidth, nextHeight, QString("%1").arg(score));
+
+        LOG_INFO("Game printed");
     }
+}
+
+
+void MainWindow::onGameQuit()
+{
+    LOG_INFO("Exiting");
+    close();
 }
 
 

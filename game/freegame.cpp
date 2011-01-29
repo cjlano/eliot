@@ -40,8 +40,11 @@
 #include "ai_player.h"
 #include "settings.h"
 #include "turn.h"
+#include "encoding.h"
 
 #include "debug.h"
+
+INIT_LOGGER(game, FreeGame);
 
 
 FreeGame::FreeGame(const Dictionary &iDic)
@@ -113,6 +116,7 @@ void FreeGame::playAI(unsigned int p)
 void FreeGame::recordPlayerMove(const Move &iMove, Player &ioPlayer,
                                 bool isForHuman)
 {
+    LOG_INFO("Player " << ioPlayer.getId() << " plays: " << convertToMb(iMove.toString()));
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
     pCmd->setAutoExecution(!isForHuman);
     accessNavigation().addAndExecute(pCmd);
@@ -189,6 +193,8 @@ int FreeGame::endTurn()
 // Adjust the scores of the players with the points of the remaining tiles
 void FreeGame::endGame()
 {
+    LOG_INFO("End of the game");
+
     vector<Tile> tiles;
 
     // TODO: According to the rules of the game in the ODS, a game can end in 3
