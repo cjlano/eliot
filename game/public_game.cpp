@@ -144,6 +144,12 @@ void PublicGame::start()
 }
 
 
+bool PublicGame::isFinished() const
+{
+    return m_game.isFinished();
+}
+
+
 int PublicGame::play(const wstring &iWord, const wstring &iCoord)
 {
     return m_game.play(iCoord, iWord);

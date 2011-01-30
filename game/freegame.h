@@ -57,6 +57,8 @@ public:
      */
     virtual void start();
 
+    virtual bool isFinished() const;
+
     /**
      * See description of Game::play() for the possible return values.
      * Note that if the "freegame-reject-invalid" setting is set to false

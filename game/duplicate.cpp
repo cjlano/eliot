@@ -151,6 +151,12 @@ void Duplicate::start()
 }
 
 
+bool Duplicate::isFinished() const
+{
+    return m_finished;
+}
+
+
 void Duplicate::tryEndTurn()
 {
     for (unsigned int i = 0; i < getNPlayers(); i++)

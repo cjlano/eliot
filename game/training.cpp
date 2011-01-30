@@ -131,6 +131,14 @@ void Training::start()
 }
 
 
+bool Training::isFinished() const
+{
+    // The game is finished when there is no more tile
+    // (in the bag or in the racks)
+    return getBag().getNbTiles() == 0;
+}
+
+
 void Training::endTurn()
 {
     m_results.clear();

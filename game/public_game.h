@@ -135,6 +135,13 @@ public:
     void start();
 
     /**
+     * Indicate whether we reached the end of the game.
+     * This should be checked regularly.
+     * XXX: using a signal would be nice here...
+     */
+    bool isFinished() const;
+
+    /**
      * Method used by human players to play the word iWord at coordinates
      * iCoord, and end the turn (if possible)
      * Possible return values:

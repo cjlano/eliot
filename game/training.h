@@ -56,6 +56,8 @@ public:
      *************************/
     virtual void start();
 
+    virtual bool isFinished() const;
+
     /// See description of Game::play()
     virtual int play(const wstring &iCoord, const wstring &iWord);
 

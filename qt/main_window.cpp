@@ -223,6 +223,8 @@ void MainWindow::refresh()
         m_actionHistoryNextTurn->setEnabled(!isLastTurn);
         m_actionHistoryLastTurn->setEnabled(!isLastTurn);
         m_actionHistoryReplayTurn->setEnabled(!isLastTurn);
+        if (m_game->isFinished())
+            displayInfoMsg(_q("End of the game"));
 #ifdef DEBUG
         //m_game->printTurns();
 #endif

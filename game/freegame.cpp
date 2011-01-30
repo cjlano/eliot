@@ -148,6 +148,12 @@ void FreeGame::start()
 }
 
 
+bool FreeGame::isFinished() const
+{
+    return m_finished;
+}
+
+
 int FreeGame::endTurn()
 {
     const Move &move = getCurrentPlayer().getLastMove();
