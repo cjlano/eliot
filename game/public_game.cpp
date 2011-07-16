@@ -156,6 +156,16 @@ int PublicGame::play(const wstring &iWord, const wstring &iCoord)
 }
 
 
+int PublicGame::computePoints(const wstring &iWord, const wstring &iCoord) const
+{
+    Round round;
+    int res = m_game.checkPlayedWord(iCoord, iWord, round);
+    if (res > 0)
+        return -res;
+    return round.getPoints();
+}
+
+
 void PublicGame::shuffleRack()
 {
     m_game.shuffleRack();

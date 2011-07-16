@@ -23,6 +23,8 @@
 
 #include <QtGui/QValidator>
 
+using std::wstring;
+
 
 class QLineEdit;
 class QPushButton;
@@ -50,7 +52,8 @@ class PlayWordMediator: public QObject
 
 public:
     PlayWordMediator(QObject *parent, QLineEdit &iEditWord,
-                     QLineEdit &iEditCoord, QPushButton &iButtonPlay,
+                     QLineEdit &iEditCoord, QLineEdit &iEditPoints,
+                     QPushButton &iButtonPlay,
                      CoordModel &iCoordModel, PublicGame *iGame);
 
 signals:
@@ -69,8 +72,11 @@ private:
     PublicGame *m_game;
     QLineEdit &m_lineEditPlay;
     QLineEdit &m_lineEditCoord;
+    QLineEdit &m_lineEditPoints;
     QPushButton &m_pushButtonPlay;
     CoordModel &m_coordModel;
+
+    wstring getWord(bool emitSignal = false);
 };
 
 #endif

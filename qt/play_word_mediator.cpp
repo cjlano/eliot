@@ -55,11 +55,12 @@ public:
 
 
 PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
-                                   QLineEdit &iEditCoord, QPushButton &iButtonPlay,
+                                   QLineEdit &iEditCoord, QLineEdit &iEditPoints,
+                                   QPushButton &iButtonPlay,
                                    CoordModel &iCoordModel, PublicGame *iGame)
     : QObject(parent), m_game(iGame), m_lineEditPlay(iEditPlay),
-    m_lineEditCoord(iEditCoord), m_pushButtonPlay(iButtonPlay),
-    m_coordModel(iCoordModel)
+    m_lineEditCoord(iEditCoord), m_lineEditPoints(iEditPoints),
+    m_pushButtonPlay(iButtonPlay), m_coordModel(iCoordModel)
 {
     m_lineEditPlay.setFocus();
     // These strings cannot be in the .ui file, because of the newlines
@@ -96,8 +97,24 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
 
 void PlayWordMediator::lineEditPlay_textChanged()
 {
-    m_pushButtonPlay.setEnabled(m_lineEditPlay.hasAcceptableInput() &&
-                                m_lineEditCoord.hasAcceptableInput());
+    bool acceptableInput =
+        m_lineEditPlay.hasAcceptableInput() &&
+        m_lineEditCoord.hasAcceptableInput();
+    m_pushButtonPlay.setEnabled(acceptableInput);
+
+    if (!acceptableInput)
+        m_lineEditPoints.clear();
+    else
+    {
+        // Compute the points of the word
+        const wstring &word = getWord();
+        const wstring &coords = qtw(m_lineEditCoord.text());
+        int points = m_game->computePoints(word, coords);
+        if (points >= 0)
+            m_lineEditPoints.setText(QString("%1").arg(points));
+        else
+            m_lineEditPoints.setText("#");
+    }
 }
 
 
@@ -107,37 +124,9 @@ void PlayWordMediator::lineEditPlay_returnPressed()
         !m_lineEditCoord.hasAcceptableInput())
         return;
 
-    // Convert the jokers to lowercase
-    const wistring &inputWord = qtw(m_lineEditPlay.text().toUpper());
-    // Convert to internal representation, then back to QString
-    QString word = qfw(m_game->getDic().convertFromInput(inputWord));
-
-    int pos;
-    while ((pos = word.indexOf('(')) != -1)
-    {
-        if (word.size() < pos + 3 || word[pos + 2] != ')' ||
-            !m_game->getDic().validateLetters(qtw(QString(word[pos + 1]))))
-        {
-            // Bug in validate()!
-            // This should never happen
-            QString msg = _q("Cannot play word: misplaced parentheses");
-            emit notifyProblem(msg);
-            break;
-        }
-        else
-        {
-            QChar chr = word[pos + 1].toLower();
-            word.remove(pos, 3);
-            word.insert(pos, chr);
-        }
-    }
-
-    // Convert the input string into an internal one
-    const wstring intWord =
-        m_game->getDic().convertFromInput(qtw(word));
-
+    const wstring &word = getWord(true);
     QString coords = m_lineEditCoord.text();
-    int res = m_game->play(intWord, qtw(coords));
+    int res = m_game->play(word, qtw(coords));
     if (res == 0)
     {
         emit gameUpdated();
@@ -191,6 +180,44 @@ void PlayWordMediator::lineEditPlay_returnPressed()
         }
         emit notifyProblem(msg);
     }
+}
+
+
+wstring PlayWordMediator::getWord(bool emitSignal)
+{
+    // Convert the jokers to lowercase
+    const wistring &inputWord = qtw(m_lineEditPlay.text().toUpper());
+    // Convert to internal representation, then back to QString
+    QString word = qfw(m_game->getDic().convertFromInput(inputWord));
+
+    int pos;
+    while ((pos = word.indexOf('(')) != -1)
+    {
+        if (word.size() < pos + 3 || word[pos + 2] != ')' ||
+            !m_game->getDic().validateLetters(qtw(QString(word[pos + 1]))))
+        {
+            // Bug in validate()!
+            // This should never happen
+            if (emitSignal)
+            {
+                QString msg = _q("Cannot play word: misplaced parentheses");
+                emit notifyProblem(msg);
+            }
+            break;
+        }
+        else
+        {
+            QChar chr = word[pos + 1].toLower();
+            word.remove(pos, 3);
+            word.insert(pos, chr);
+        }
+    }
+
+    // Convert the input string into an internal one
+    const wstring intWord =
+        m_game->getDic().convertFromInput(qtw(word));
+
+    return intWord;
 }
 
 

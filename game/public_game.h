@@ -162,6 +162,13 @@ public:
     int play(const wstring &iWord, const wstring &iCoord);
 
     /**
+     * Compute the points for playing the word iWord at coordinates iCoord.
+     * A negative return value indicates an error (same codes as for the
+     * play() method, but negative instead of positive).
+     */
+    int computePoints(const wstring &iWord, const wstring &iCoord) const;
+
+    /**
      * Go back to turn iTurn.
      * We must have: iTurn < getHistory().getSize()
      * Possible return values:

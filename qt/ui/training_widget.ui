@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>516</width>
+    <width>540</width>
     <height>300</height>
    </rect>
   </property>
@@ -83,6 +83,32 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>_(&quot;Points:&quot;)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditPoints">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>45</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="pushButtonPlay">
        <property name="text">
         <string>_(&quot;Play&quot;)</string>
@@ -134,7 +160,7 @@
      <property name="title">
       <string>_(&quot;Search results&quot;)</string>
      </property>
-     <layout class="QVBoxLayout">
+     <layout class="QVBoxLayout" name="_2">
       <item>
        <widget class="QTreeView" name="treeViewResults">
         <property name="editTriggers">
@@ -150,6 +176,18 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEditRack</tabstop>
+  <tabstop>lineEditPlay</tabstop>
+  <tabstop>lineEditCoords</tabstop>
+  <tabstop>lineEditPoints</tabstop>
+  <tabstop>pushButtonPlay</tabstop>
+  <tabstop>pushButtonRack</tabstop>
+  <tabstop>pushButtonComplement</tabstop>
+  <tabstop>pushButtonSearch</tabstop>
+  <tabstop>pushButtonPlaySelected</tabstop>
+  <tabstop>treeViewResults</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

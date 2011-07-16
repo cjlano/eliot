@@ -61,7 +61,8 @@ PlayerWidget::PlayerWidget(QWidget *parent, CoordModel &iCoordModel,
 
     // Use the mediator
     m_mediator = new PlayWordMediator(this, *lineEditPlay, *lineEditCoords,
-                                      *pushButtonPlay, iCoordModel, iGame);
+                                      *lineEditPoints, *pushButtonPlay,
+                                      iCoordModel, iGame);
     QObject::connect(m_mediator, SIGNAL(gameUpdated()),
                      this, SIGNAL(gameUpdated()));
     QObject::connect(m_mediator, SIGNAL(notifyProblem(QString)),
@@ -140,7 +141,7 @@ void PlayerWidget::on_lineEditChange_textChanged()
 {
     pushButtonChange->setEnabled(lineEditChange->hasAcceptableInput() &&
                                  lineEditChange->text() != "");
-    // For the letters to be in upper case
+    // Force the letters to be in upper case
     lineEditChange->setText(lineEditChange->text().toUpper());
 }
 
