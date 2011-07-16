@@ -65,6 +65,8 @@ public:
                    bool isVowel, bool isConsonant,
                    const vector<wstring> &iInputs);
 
+    unsigned getLettersCount() const { return m_headerInfo.letters.size(); }
+
     /**
      * Generate the dictionary. You must have called addLetter() before
      * (once for each letter of the word list, and possible once for the

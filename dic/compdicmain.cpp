@@ -70,6 +70,15 @@ void readLetters(const string &iFileName, CompDic &ioBuilder)
         if (line == "" || line == "\r" || line == "\n")
             continue;
 
+        // If there is a BOM in the file, remove it from the first line
+        if (ioBuilder.getLettersCount() == 0 && line.size() >= 3 &&
+            (uint8_t)line[0] == 0xEF &&
+            (uint8_t)line[1] == 0xBB &&
+            (uint8_t)line[2] == 0xBF)
+        {
+            line = line.substr(3);
+        }
+
         // Convert the line to a wstring
         const wstring &wline =
             readFromUTF8(line.c_str(), line.size(), "readLetters (1)");
