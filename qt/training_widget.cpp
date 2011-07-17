@@ -50,7 +50,7 @@ private:
 
 
 TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicGame *iGame)
-    : QWidget(parent), m_game(iGame)
+    : QWidget(parent), m_game(iGame), m_autoResizeColumns(true)
 {
     setupUi(this);
     treeViewResults->setAlternatingRowColors(true);
@@ -82,6 +82,15 @@ TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicG
     // Hidden column, used to store internal data
     m_model->setHeaderData(HIDDEN_COLUMN, Qt::Horizontal, "", Qt::DisplayRole);
     treeViewResults->setColumnHidden(HIDDEN_COLUMN, true);
+
+    // Add a context menu to the tree header
+    QAction *lockSizesAction = new QAction(_q("Lock columns sizes"), this);
+    lockSizesAction->setCheckable(true);
+    lockSizesAction->setStatusTip(_q("Disable auto-resizing of the columns"));
+    treeViewResults->header()->addAction(lockSizesAction);
+    treeViewResults->header()->setContextMenuPolicy(Qt::ActionsContextMenu);
+    QObject::connect(lockSizesAction, SIGNAL(toggled(bool)),
+                     this, SLOT(lockSizesChanged(bool)));
 
     // Enable the Play button only when there is a selection in the tree
     QObject::connect(treeViewResults->selectionModel(),
@@ -196,11 +205,14 @@ void TrainingWidget::updateModel()
     if (m_model->rowCount() == 0)
         emit notifyInfo("");
 
-    treeViewResults->resizeColumnToContents(0);
-    treeViewResults->resizeColumnToContents(1);
-    treeViewResults->resizeColumnToContents(2);
-    treeViewResults->resizeColumnToContents(3);
-    treeViewResults->resizeColumnToContents(4);
+    if (m_autoResizeColumns)
+    {
+        treeViewResults->resizeColumnToContents(0);
+        treeViewResults->resizeColumnToContents(1);
+        treeViewResults->resizeColumnToContents(2);
+        treeViewResults->resizeColumnToContents(3);
+        treeViewResults->resizeColumnToContents(4);
+    }
 }
 
 
@@ -225,6 +237,12 @@ void TrainingWidget::showPreview(const QItemSelection &iSelected,
         m_game->trainingTestPlay(m_model->data(index).toUInt());
         emit gameUpdated();
     }
+}
+
+
+void TrainingWidget::lockSizesChanged(bool checked)
+{
+    m_autoResizeColumns = !checked;
 }
 
 

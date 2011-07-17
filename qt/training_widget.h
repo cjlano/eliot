@@ -55,6 +55,8 @@ private slots:
     void enablePlayButton(const QItemSelection &, const QItemSelection &);
     void showPreview(const QItemSelection &, const QItemSelection &);
 
+    void lockSizesChanged(bool checked);
+
     // These slots are automatically connected
     void on_lineEditRack_textEdited(const QString &iText);
     void on_pushButtonRack_clicked();
@@ -66,6 +68,9 @@ private slots:
 private:
     /// Encapsulated training game, can be NULL
     PublicGame *m_game;
+
+    /// Inidicate whether the columns should be resized after a search
+    bool m_autoResizeColumns;
 
     /// Model of the search results
     QStandardItemModel *m_model;
