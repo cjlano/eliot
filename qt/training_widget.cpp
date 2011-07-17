@@ -92,6 +92,9 @@ TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicG
     QObject::connect(lockSizesAction, SIGNAL(toggled(bool)),
                      this, SLOT(lockSizesChanged(bool)));
 
+    // Allow very thin columns
+    treeViewResults->header()->setMinimumSectionSize(1);
+
     // Enable the Play button only when there is a selection in the tree
     QObject::connect(treeViewResults->selectionModel(),
                      SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
