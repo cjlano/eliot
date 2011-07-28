@@ -34,6 +34,7 @@
 #include <QtCore/QString>
 
 #include "dic_tools_widget.h"
+#include "custom_popup.h"
 #include "qtcommon.h"
 #include "dic.h"
 #include "header.h"
@@ -90,6 +91,19 @@ DicToolsWidget::DicToolsWidget(QWidget *parent)
     QObject::connect(lineEditPlus1, SIGNAL(returnPressed()), this, SLOT(refreshPlus1()));
     QObject::connect(lineEditRegexp, SIGNAL(returnPressed()), this, SLOT(refreshRegexp()));
     QObject::connect(buttonSaveWords, SIGNAL(clicked()), this, SLOT(exportWordsList()));
+
+    // Add context menus for the results
+    m_customPopupPlus1 = new CustomPopup(treeViewPlus1);
+    QObject::connect(m_customPopupPlus1, SIGNAL(popupCreated(QMenu&, const QPoint&)),
+                     this, SLOT(populateMenuPlus1(QMenu&, const QPoint&)));
+    QObject::connect(m_customPopupPlus1, SIGNAL(requestDefinition(QString)),
+                     this, SIGNAL(requestDefinition(QString)));
+
+    m_customPopupRegexp = new CustomPopup(treeViewRegexp);
+    QObject::connect(m_customPopupRegexp, SIGNAL(popupCreated(QMenu&, const QPoint&)),
+                     this, SLOT(populateMenuRegexp(QMenu&, const QPoint&)));
+    QObject::connect(m_customPopupRegexp, SIGNAL(requestDefinition(QString)),
+                     this, SIGNAL(requestDefinition(QString)));
 
     // Create models
     m_plus1Model = new QStandardItemModel(this);
@@ -370,6 +384,34 @@ void DicToolsWidget::exportWordsList()
                                  _q("Cannot save the words list: %1").arg(e.what()));
         }
     }
+}
+
+
+void DicToolsWidget::populateMenuPlus1(QMenu &iMenu, const QPoint &iPoint)
+{
+    const QModelIndex &index = treeViewPlus1->indexAt(iPoint);
+    if (!index.isValid() || !index.parent().isValid())
+        return;
+
+    // Find the selected word
+    const QModelIndex &wordIndex = m_plus1Model->index(index.row(), 0, index.parent());
+    QString selectedWord = m_plus1Model->data(wordIndex).toString();
+
+    m_customPopupPlus1->addShowDefinitionEntry(iMenu, selectedWord);
+}
+
+
+void DicToolsWidget::populateMenuRegexp(QMenu &iMenu, const QPoint &iPoint)
+{
+    const QModelIndex &index = treeViewRegexp->indexAt(iPoint);
+    if (!index.isValid())
+        return;
+
+    // Find the selected word
+    const QModelIndex &wordIndex = m_regexpModel->index(index.row(), 0);
+    QString selectedWord = m_regexpModel->data(wordIndex).toString();
+
+    m_customPopupRegexp->addShowDefinitionEntry(iMenu, selectedWord);
 }
 
 

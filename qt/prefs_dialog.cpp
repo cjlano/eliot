@@ -23,6 +23,7 @@
 #include <QtCore/QSettings>
 #include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
+#include <QtCore/QStringList>
 
 #include "prefs_dialog.h"
 #include "game_exception.h"
@@ -31,22 +32,31 @@
 
 const QString PrefsDialog::kINTF_ALIGN_HISTORY = "Interface/AlignHistory";
 const QString PrefsDialog::kINTF_DIC_PATH = "Interface/DicPath";
+const QString PrefsDialog::kINTF_DEFINITIONS_SITE_URL = "Interface/DefinitionsSiteUrl";
 const QString PrefsDialog::kINTF_SHOW_TILES_POINTS = "Interface/ShowTilesPoints";
 const QString PrefsDialog::kINTF_WARN_REPLAY_TURN = "Interface/WarnReplayTurn";
 const QString PrefsDialog::kINTF_SHOW_TOOLBAR = "Interface/ShowToolBar";
 const QString PrefsDialog::kINTF_LINK_TRAINING_7P1 = "Interface/LinkTrainingRackWith7P1";
+const QString PrefsDialog::kDEFAULT_DEF_SITE = "http://fr.wiktionary.org/wiki/%w";
 
 
 PrefsDialog::PrefsDialog(QWidget *iParent)
     : QDialog(iParent)
 {
     setupUi(this);
+    lineEditDefSite->setToolTip(_("URL of the site used to display word definitions.\n"
+                                  "In the URL, %w will be replaced with the word in lower case. Examples:\n"
+                                  "\thttp://fr.wiktionary.org/wiki/%w\n"
+                                  "\thttp://en.wiktionary.org/wiki/%w\n"
+                                  "\thttp://images.google.com/images?q=%w"));
 
     try
     {
         // Interface settings
         QSettings qs(ORGANIZATION, PACKAGE_NAME);
         lineEditIntfDicPath->setText(qs.value(kINTF_DIC_PATH, "").toString());
+        lineEditDefSite->setText(qs.value(kINTF_DEFINITIONS_SITE_URL,
+                                          kDEFAULT_DEF_SITE).toString());
         checkBoxIntfAlignHistory->setChecked(qs.value(kINTF_ALIGN_HISTORY).toBool());
         bool showPoints = qs.value(kINTF_SHOW_TILES_POINTS, true).toBool();
         checkBoxIntfShowPoints->setChecked(showPoints);
@@ -99,6 +109,7 @@ void PrefsDialog::updateSettings()
         // Interface settings
         QSettings qs(ORGANIZATION, PACKAGE_NAME);
         qs.setValue(kINTF_DIC_PATH, lineEditIntfDicPath->text());
+        qs.setValue(kINTF_DEFINITIONS_SITE_URL, lineEditDefSite->text());
         if (qs.value(kINTF_ALIGN_HISTORY, true).toBool() != checkBoxIntfAlignHistory->isChecked())
         {
             // We need to redraw the history widget

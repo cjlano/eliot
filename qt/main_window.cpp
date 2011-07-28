@@ -20,7 +20,7 @@
 
 #include "config.h"
 
-#include <iostream>
+//#include <iostream>
 #include <QtGui/QLabel>
 #include <QtGui/QMessageBox>
 #include <QtGui/QFileDialog>
@@ -29,7 +29,9 @@
 #include <QtGui/QPrintDialog>
 #include <QtGui/QPrinter>
 #include <QtGui/QPainter>
+#include <QtGui/QDesktopServices>
 #include <QtCore/QSettings>
+#include <QtCore/QUrl>
 
 #include "main_window.h"
 #include "dic.h"
@@ -127,6 +129,8 @@ MainWindow::MainWindow(QWidget *iParent)
                      historyTab, SLOT(setGame(const PublicGame*)));
     QObject::connect(this, SIGNAL(gameUpdated()),
                      historyTab, SLOT(refresh()));
+    QObject::connect(historyTab, SIGNAL(requestDefinition(QString)),
+                     this, SLOT(showDefinition(QString)));
     QHBoxLayout *hlayout2 = new QHBoxLayout;
     hlayout2->addWidget(historyTab);
     m_ui.groupBoxHistory->setLayout(hlayout2);
@@ -145,8 +149,8 @@ MainWindow::MainWindow(QWidget *iParent)
     QObject::connect(m_playersWidget, SIGNAL(gameUpdated()), this, SIGNAL(gameUpdated()));
     QObject::connect(m_playersWidget, SIGNAL(notifyProblem(QString)),
                      this, SLOT(displayErrorMsg(QString)));
-    QObject::connect(m_playersWidget, SIGNAL(notifyInfo(QString)),
-                     this, SLOT(displayInfoMsg(QString)));
+    QObject::connect(m_playersWidget, SIGNAL(requestDefinition(QString)),
+                     this, SLOT(showDefinition(QString)));
 
     // Players score
     ScoreWidget *scores = new ScoreWidget;
@@ -316,6 +320,28 @@ void MainWindow::displayInfoMsg(QString iMsg)
 {
     LOG_INFO("Displayed message: " << qtl(iMsg));
     statusBar()->showMessage(iMsg);
+}
+
+
+void MainWindow::showDefinition(QString iWord)
+{
+    QSettings qs(ORGANIZATION, PACKAGE_NAME);
+    QString url = qs.value(PrefsDialog::kINTF_DEFINITIONS_SITE_URL,
+                           PrefsDialog::kDEFAULT_DEF_SITE).toString();
+    if (url == "")
+    {
+        displayErrorMsg(_q("No definitions site defined.\n"
+                           "Please define one in the preferences."));
+        return;
+    }
+
+    url = url.replace("%w", iWord.toLower());
+    url = url.replace("%W", iWord.toUpper());
+    bool res = QDesktopServices::openUrl(QUrl(url));
+    if (!res)
+    {
+        LOG_ERROR("Could not open URL: " << qtl(url));
+    }
 }
 
 
@@ -878,6 +904,8 @@ void MainWindow::onWindowsDicTools()
                                     m_actionWindowsDicTools);
         QObject::connect(this, SIGNAL(dicChanged(const Dictionary*)),
                          dicTools, SLOT(setDic(const Dictionary*)));
+        QObject::connect(dicTools, SIGNAL(requestDefinition(QString)),
+                         this, SLOT(showDefinition(QString)));
         // Link the training rack with the "Plus 1" one
         QSettings qs(ORGANIZATION, PACKAGE_NAME);
         if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
@@ -899,7 +927,7 @@ void MainWindow::onHelpAbout()
     QString msg;
     msg.sprintf("Eliot %s\n\n", VERSION);
     msg += _q( \
-        "Copyright (C) 1999-2010 - Antoine Fraboulet & Olivier Teuliere\n\n" \
+        "Copyright (C) 1999-2011 - Antoine Fraboulet & Olivier Teuliere\n\n" \
         "This program is free software; you can redistribute it and/or " \
         "modify it under the terms of the GNU General Public License as " \
         "published by the Free Software Foundation; either version 2 of " \

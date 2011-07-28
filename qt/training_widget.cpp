@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2010 Olivier Teulière
+ * Copyright (C) 2010-2011 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 #include "training_widget.h"
 #include "qtcommon.h"
 #include "play_word_mediator.h"
+#include "custom_popup.h"
 
 #include "dic.h"
 #include "bag.h"
@@ -91,6 +92,13 @@ TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicG
     treeViewResults->header()->setContextMenuPolicy(Qt::ActionsContextMenu);
     QObject::connect(lockSizesAction, SIGNAL(toggled(bool)),
                      this, SLOT(lockSizesChanged(bool)));
+
+    // Add another context menu for the results
+    m_customPopup = new CustomPopup(treeViewResults);
+    QObject::connect(m_customPopup, SIGNAL(popupCreated(QMenu&, const QPoint&)),
+                     this, SLOT(populateMenu(QMenu&, const QPoint&)));
+    QObject::connect(m_customPopup, SIGNAL(requestDefinition(QString)),
+                     this, SIGNAL(requestDefinition(QString)));
 
     // Allow very thin columns
     treeViewResults->header()->setMinimumSectionSize(1);
@@ -240,6 +248,20 @@ void TrainingWidget::showPreview(const QItemSelection &iSelected,
         m_game->trainingTestPlay(m_model->data(index).toUInt());
         emit gameUpdated();
     }
+}
+
+
+void TrainingWidget::populateMenu(QMenu &iMenu, const QPoint &iPoint)
+{
+    const QModelIndex &index = treeViewResults->indexAt(iPoint);
+    if (!index.isValid())
+        return;
+
+    // Find the selected word
+    const QModelIndex &wordIndex = m_model->index(index.row(), 0);
+    QString selectedWord = m_model->data(wordIndex).toString();
+
+    m_customPopup->addShowDefinitionEntry(iMenu, selectedWord);
 }
 
 

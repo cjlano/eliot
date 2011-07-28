@@ -104,6 +104,9 @@ private slots:
     /// Update the status bar contents
     void updateStatusBar(const Dictionary *iDic);
 
+    /** Show the definition of the given word */
+    void showDefinition(QString iWord);
+
 private:
     /// Current dictionary
     const Dictionary *m_dic;

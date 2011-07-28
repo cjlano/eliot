@@ -26,6 +26,7 @@
 #include <QtCore/QSettings>
 
 #include "history_widget.h"
+#include "custom_popup.h"
 #include "prefs_dialog.h"
 #include "qtcommon.h"
 #include "public_game.h"
@@ -43,6 +44,13 @@ HistoryWidget::HistoryWidget(QWidget *parent)
     // Create the tree view
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setRootIsDecorated(false);
+
+    // Add a context menu for the results
+    m_customPopup = new CustomPopup(this);
+    QObject::connect(m_customPopup, SIGNAL(popupCreated(QMenu&, const QPoint&)),
+                     this, SLOT(populateMenu(QMenu&, const QPoint&)));
+    QObject::connect(m_customPopup, SIGNAL(requestDefinition(QString)),
+                     this, SIGNAL(requestDefinition(QString)));
 
     // Associate the model to the view
     m_model = new QStandardItemModel(this);
@@ -71,6 +79,21 @@ void HistoryWidget::setHistory(const History *iHistory,
 void HistoryWidget::refresh()
 {
     updateModel();
+}
+
+
+void HistoryWidget::populateMenu(QMenu &iMenu, const QPoint &iPoint)
+{
+    const QModelIndex &index = indexAt(iPoint);
+    if (!index.isValid())
+        return;
+
+    // Find the selected word
+    const QModelIndex &wordIndex = m_model->index(index.row(), 2);
+    QString selectedWord = m_model->data(wordIndex).toString();
+
+    if (selectedWord != "")
+        m_customPopup->addShowDefinitionEntry(iMenu, selectedWord);
 }
 
 
@@ -208,6 +231,8 @@ void HistoryTabWidget::setGame(const PublicGame *iGame)
         m_gameHistoryWidget->setHistory(&m_game->getHistory(), m_game);
         QObject::connect(this, SIGNAL(refreshSignal()),
                          m_gameHistoryWidget, SLOT(refresh()));
+        QObject::connect(m_gameHistoryWidget, SIGNAL(requestDefinition(QString)),
+                         this, SIGNAL(requestDefinition(QString)));
 
         // In training mode, the players history is completely useless
         if (m_game->getMode() == PublicGame::kTRAINING)
@@ -220,6 +245,8 @@ void HistoryTabWidget::setGame(const PublicGame *iGame)
             HistoryWidget *h = new HistoryWidget(NULL);
             h->setHistory(&player.getHistory(), m_game, true);
             QObject::connect(this, SIGNAL(refreshSignal()), h, SLOT(refresh()));
+            QObject::connect(h, SIGNAL(requestDefinition(QString)),
+                             this, SIGNAL(requestDefinition(QString)));
             addTab(h, qfw(player.getName()));
         }
     }

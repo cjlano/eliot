@@ -29,6 +29,7 @@ class History;
 class PublicGame;
 class QStandardItemModel;
 class QTabWidget;
+class CustomPopup;
 
 class HistoryWidget: public QTreeView
 {
@@ -43,6 +44,12 @@ public:
 
 public slots:
     void refresh();
+
+signals:
+    void requestDefinition(QString iWord);
+
+private slots:
+    void populateMenu(QMenu &iMenu, const QPoint &iPoint);
 
 private:
     /// Encapsulated history, can be NULL
@@ -59,6 +66,9 @@ private:
 
     /// Model of the history
     QStandardItemModel *m_model;
+
+    /// Popup menu for words definition
+    CustomPopup *m_customPopup;
 
     /// Force synchronizing the model with the contents of the history
     void updateModel();
@@ -78,6 +88,7 @@ public slots:
 
 signals:
     void refreshSignal();
+    void requestDefinition(QString iWord);
 
 protected:
     virtual QSize sizeHint() const;

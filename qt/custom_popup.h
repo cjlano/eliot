@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2008-2009 Olivier Teulière
+ * Copyright (C) 2011 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -18,47 +18,39 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef PREFS_DIALOG_H_
-#define PREFS_DIALOG_H_
+#ifndef CUSTOM_POPUP_H_
+#define CUSTOM_POPUP_H_
 
-#include <QtGui/QDialog>
+#include <QtCore/QObject>
 #include <QtCore/QString>
 
-#include <ui/prefs_dialog.ui.h>
+class QWidget;
+class QPoint;
+class QMenu;
 
-class QStringList;
 
-
-class PrefsDialog: public QDialog, private Ui::PrefsDialog
+class CustomPopup: public QObject
 {
     Q_OBJECT;
 
 public:
-    explicit PrefsDialog(QWidget *iParent = 0);
-
-    static const QString kINTF_ALIGN_HISTORY;
-    static const QString kINTF_DIC_PATH;
-    static const QString kINTF_DEFINITIONS_SITE_URL;
-    static const QString kINTF_SHOW_TILES_POINTS;
-    static const QString kINTF_WARN_REPLAY_TURN;
-    static const QString kINTF_SHOW_TOOLBAR;
-    static const QString kINTF_LINK_TRAINING_7P1;
-
-    static const QString kDEFAULT_DEF_SITE;
-
-public slots:
-    /// Update the settings when the user selects "OK"
-    virtual void accept();
+    CustomPopup(QWidget *iWidget);
+    void addShowDefinitionEntry(QMenu &iPopup, QString iWord);
 
 signals:
-    void prefsUpdated();
+    void requestDefinition(QString iWord);
+    void popupCreated(QMenu &iPopup, const QPoint &iPoint);
 
 private slots:
-    void on_pushButtonIntfDicBrowse_clicked();
+    void showPopup(const QPoint &iPoint);
+    void definitionRequested();
 
 private:
-    void updateSettings();
+    /// Widget triggering the custom popup menu
+    QWidget *m_widget;
 
+    /// Word to define
+    QString m_word;
 };
 
 #endif

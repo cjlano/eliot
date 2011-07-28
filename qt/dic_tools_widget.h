@@ -29,6 +29,7 @@
 class QStandardItemModel;
 class QString;
 class Dictionary;
+class CustomPopup;
 
 class DicToolsWidget: public QWidget, private Ui::DicToolsWidget
 {
@@ -40,6 +41,9 @@ public:
 public slots:
     void setDic(const Dictionary *iDic);
     void setPlus1Rack(const QString &iRack);
+
+signals:
+    void requestDefinition(QString iWord);
 
 private:
     /// Dictionary in which the searches are done
@@ -59,6 +63,12 @@ private:
     /// Palette to write text in green
     QPalette greenPalette;
 
+    /// Popup menu for words definition
+    CustomPopup *m_customPopupPlus1;
+
+    /// Popup menu for words definition
+    CustomPopup *m_customPopupRegexp;
+
 private slots:
     /// Force synchronizing the model with the "check" results
     void refreshCheck();
@@ -70,6 +80,9 @@ private slots:
     void refreshDicInfo();
     /// Save the words of the dictionary to a file
     void exportWordsList();
+    /// Build the popup menu
+    void populateMenuPlus1(QMenu &iMenu, const QPoint &iPoint);
+    void populateMenuRegexp(QMenu &iMenu, const QPoint &iPoint);
 };
 
 #endif

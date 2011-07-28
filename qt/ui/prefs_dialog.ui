@@ -1,93 +1,108 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>PrefsDialog</class>
- <widget class="QDialog" name="PrefsDialog" >
-  <property name="geometry" >
+ <widget class="QDialog" name="PrefsDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>414</width>
-    <height>526</height>
+    <width>491</width>
+    <height>528</height>
    </rect>
   </property>
-  <property name="windowTitle" >
-   <string>_("Preferences")</string>
+  <property name="windowTitle">
+   <string>_(&quot;Preferences&quot;)</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QGroupBox" name="groupBoxInterface" >
-     <property name="title" >
-      <string>_("Interface")</string>
+    <widget class="QGroupBox" name="groupBoxInterface">
+     <property name="title">
+      <string>_(&quot;Interface&quot;)</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2" >
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <layout class="QHBoxLayout" >
+       <layout class="QHBoxLayout">
         <item>
-         <widget class="QLabel" name="label_4" >
-          <property name="text" >
-           <string>_("Dictionary path:")</string>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>_(&quot;Dictionary path:&quot;)</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEditIntfDicPath" >
-          <property name="minimumSize" >
+         <widget class="QLineEdit" name="lineEditIntfDicPath">
+          <property name="minimumSize">
            <size>
             <width>140</width>
             <height>0</height>
            </size>
           </property>
-          <property name="toolTip" >
-           <string>_("Enter the dictionary path (mandatory to start a game)")</string>
+          <property name="toolTip">
+           <string>_(&quot;Enter the dictionary path (mandatory to start a game)&quot;)</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButtonIntfDicBrowse" >
-          <property name="toolTip" >
-           <string>_("Open a browser window to choose the dictionary")</string>
+         <widget class="QPushButton" name="pushButtonIntfDicBrowse">
+          <property name="toolTip">
+           <string>_(&quot;Open a browser window to choose the dictionary&quot;)</string>
           </property>
-          <property name="text" >
-           <string>_("Browse...")</string>
+          <property name="text">
+           <string>_(&quot;Browse...&quot;)</string>
           </property>
          </widget>
         </item>
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBoxIntfShowPoints" >
-        <property name="toolTip" >
-         <string>_("Show/hide the tiles points on the board.")</string>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>_(&quot;Definitions site:&quot;)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEditDefSite"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxIntfShowPoints">
+        <property name="toolTip">
+         <string>_(&quot;Show/hide the tiles points on the board.&quot;)</string>
         </property>
-        <property name="text" >
-         <string>_("Display tiles points")</string>
+        <property name="text">
+         <string>_(&quot;Display tiles points&quot;)</string>
         </property>
-        <property name="checked" >
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBoxIntfAlignHistory" >
-        <property name="toolTip" >
-         <string>_("If checked, the game and player histories will display the rack and the corresponding solution on the same line")</string>
+       <widget class="QCheckBox" name="checkBoxIntfAlignHistory">
+        <property name="toolTip">
+         <string>_(&quot;If checked, the game and player histories will display the rack and the corresponding solution on the same line&quot;)</string>
         </property>
-        <property name="text" >
-         <string>_("Align the rack and the solution in history")</string>
+        <property name="text">
+         <string>_(&quot;Align the rack and the solution in history&quot;)</string>
         </property>
-        <property name="checked" >
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBoxIntfWarnReplayTurn" >
-        <property name="toolTip" >
-         <string>_("If checked, a confirmation will be requested before replaying the game from a given turn. If unchecked, the action is performed without confirmation.")</string>
+       <widget class="QCheckBox" name="checkBoxIntfWarnReplayTurn">
+        <property name="toolTip">
+         <string>_(&quot;If checked, a confirmation will be requested before replaying the game from a given turn. If unchecked, the action is performed without confirmation.&quot;)</string>
         </property>
-        <property name="text" >
-         <string>_("Warn before replaying a turn")</string>
+        <property name="text">
+         <string>_(&quot;Warn before replaying a turn&quot;)</string>
         </property>
-        <property name="checked" >
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
@@ -96,51 +111,51 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBoxDuplicate" >
-     <property name="title" >
-      <string>_("Duplicate mode")</string>
+    <widget class="QGroupBox" name="groupBoxDuplicate">
+     <property name="title">
+      <string>_(&quot;Duplicate mode&quot;)</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout" >
-      <item row="0" column="0" colspan="2" >
-       <widget class="QCheckBox" name="checkBoxDuplRefuseInvalid" >
-        <property name="toolTip" >
-         <string>_("If checked, playing an invalid or misplaced word will not be possible. If unchecked, you will get 0 point and lose your turn")</string>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="checkBoxDuplRefuseInvalid">
+        <property name="toolTip">
+         <string>_(&quot;If checked, playing an invalid or misplaced word will not be possible. If unchecked, you will get 0 point and lose your turn&quot;)</string>
         </property>
-        <property name="text" >
-         <string>_("Refuse to play invalid moves")</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" >
-       <widget class="QLabel" name="label_2" >
-        <property name="text" >
-         <string>_("Min. players for a solo:")</string>
+        <property name="text">
+         <string>_(&quot;Refuse to play invalid moves&quot;)</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" >
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
-         <string>_("Solo value:")</string>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>_(&quot;Min. players for a solo:&quot;)</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1" >
-       <widget class="QSpinBox" name="spinBoxDuplSoloValue" >
-        <property name="toolTip" >
-         <string>_("Value of the solo bonus. Set it to 0 if you don't want solo bonus")</string>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>_(&quot;Solo value:&quot;)</string>
         </property>
-        <property name="value" >
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="spinBoxDuplSoloValue">
+        <property name="toolTip">
+         <string>_(&quot;Value of the solo bonus. Set it to 0 if you don't want solo bonus&quot;)</string>
+        </property>
+        <property name="value">
          <number>10</number>
         </property>
        </widget>
       </item>
-      <item row="2" column="2" >
-       <spacer name="horizontalSpacer" >
-        <property name="orientation" >
+      <item row="2" column="2">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
           <height>20</height>
@@ -148,12 +163,12 @@
         </property>
        </spacer>
       </item>
-      <item row="2" column="1" >
-       <widget class="QSpinBox" name="spinBoxDuplSoloPlayers" >
-        <property name="toolTip" >
-         <string>_("Minimum number of players needed to take into account the solo bonus")</string>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="spinBoxDuplSoloPlayers">
+        <property name="toolTip">
+         <string>_(&quot;Minimum number of players needed to take into account the solo bonus&quot;)</string>
         </property>
-        <property name="value" >
+        <property name="value">
          <number>16</number>
         </property>
        </widget>
@@ -168,18 +183,18 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBoxFreeGame" >
-     <property name="title" >
-      <string>_("Free game mode")</string>
+    <widget class="QGroupBox" name="groupBoxFreeGame">
+     <property name="title">
+      <string>_(&quot;Free game mode&quot;)</string>
      </property>
-     <layout class="QVBoxLayout" >
+     <layout class="QVBoxLayout">
       <item>
-       <widget class="QCheckBox" name="checkBoxFreeRefuseInvalid" >
-        <property name="toolTip" >
-         <string>_("If checked, playing an invalid or misplaced word will not be possible. If unchecked, you will get 0 point and lose your turn")</string>
+       <widget class="QCheckBox" name="checkBoxFreeRefuseInvalid">
+        <property name="toolTip">
+         <string>_(&quot;If checked, playing an invalid or misplaced word will not be possible. If unchecked, you will get 0 point and lose your turn&quot;)</string>
         </property>
-        <property name="text" >
-         <string>_("Refuse to play invalid moves")</string>
+        <property name="text">
+         <string>_(&quot;Refuse to play invalid moves&quot;)</string>
         </property>
        </widget>
       </item>
@@ -187,49 +202,49 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBoxTraining" >
-     <property name="title" >
-      <string>_("Training mode")</string>
+    <widget class="QGroupBox" name="groupBoxTraining">
+     <property name="title">
+      <string>_(&quot;Training mode&quot;)</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout" >
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QCheckBox" name="checkBoxIntfLinkTraining7P1" >
-        <property name="toolTip" >
-         <string>_("If checked, any change to the player rack in training mode will update the 'Plus 1' tab of the 'Dictionary tools' window")</string>
+       <widget class="QCheckBox" name="checkBoxIntfLinkTraining7P1">
+        <property name="toolTip">
+         <string>_(&quot;If checked, any change to the player rack in training mode will update the 'Plus 1' tab of the 'Dictionary tools' window&quot;)</string>
         </property>
-        <property name="text" >
-         <string>_("Copy rack to the 'Plus 1' dictionary tool")</string>
+        <property name="text">
+         <string>_(&quot;Copy rack to the 'Plus 1' dictionary tool&quot;)</string>
         </property>
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout" >
+       <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLabel" name="label" >
-          <property name="text" >
-           <string>_("Search results limit:")</string>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>_(&quot;Search results limit:&quot;)</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinBoxTrainSearchLimit" >
-          <property name="toolTip" >
-           <string>_("Maximum number of results returned by a search. The returned results will always be the best ones. Use 0 to disable the limit (warning: searches yielding many results can be extremely slow in this case!).")</string>
+         <widget class="QSpinBox" name="spinBoxTrainSearchLimit">
+          <property name="toolTip">
+           <string>_(&quot;Maximum number of results returned by a search. The returned results will always be the best ones. Use 0 to disable the limit (warning: searches yielding many results can be extremely slow in this case!).&quot;)</string>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>100000</number>
           </property>
-          <property name="value" >
+          <property name="value">
            <number>100</number>
           </property>
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_2" >
-          <property name="orientation" >
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" stdset="0" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
             <height>20</height>
@@ -243,11 +258,11 @@
     </widget>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons" >
+     <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
@@ -257,6 +272,7 @@
  <tabstops>
   <tabstop>lineEditIntfDicPath</tabstop>
   <tabstop>pushButtonIntfDicBrowse</tabstop>
+  <tabstop>lineEditDefSite</tabstop>
   <tabstop>checkBoxIntfShowPoints</tabstop>
   <tabstop>checkBoxIntfAlignHistory</tabstop>
   <tabstop>checkBoxIntfWarnReplayTurn</tabstop>
@@ -265,6 +281,7 @@
   <tabstop>spinBoxDuplSoloValue</tabstop>
   <tabstop>checkBoxFreeRefuseInvalid</tabstop>
   <tabstop>checkBoxIntfLinkTraining7P1</tabstop>
+  <tabstop>spinBoxTrainSearchLimit</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
@@ -275,11 +292,11 @@
    <receiver>PrefsDialog</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>248</x>
      <y>254</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>157</x>
      <y>274</y>
     </hint>
@@ -291,11 +308,11 @@
    <receiver>PrefsDialog</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>316</x>
      <y>260</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
     </hint>

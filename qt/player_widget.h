@@ -92,6 +92,7 @@ signals:
     void notifyProblem(QString iMsg);
     void notifyInfo(QString iMsg);
     void trainingRackUpdated(const QString &iRack);
+    void requestDefinition(QString iWord);
 
 private slots:
     void changeCurrentPlayer(int);

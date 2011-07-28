@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2008 Olivier Teulière
+ * Copyright (C) 2008-2011 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,9 @@
 
 class QStandardItemModel;
 class QString;
+class QPoint;
 class CoordModel;
+class CustomPopup;
 class PlayWordMediator;
 class PublicGame;
 
@@ -46,6 +48,7 @@ signals:
     void notifyProblem(QString iMsg);
     void notifyInfo(QString iMsg);
     void rackUpdated(const QString &iRack);
+    void requestDefinition(QString iWord);
 
 protected:
     /// Define a default size
@@ -56,6 +59,7 @@ private slots:
     void showPreview(const QItemSelection &, const QItemSelection &);
 
     void lockSizesChanged(bool checked);
+    void populateMenu(QMenu &iMenu, const QPoint &iPoint);
 
     // These slots are automatically connected
     void on_lineEditRack_textEdited(const QString &iText);
@@ -83,6 +87,9 @@ private:
 
     /// Palette to write text in black
     QPalette blackPalette;
+
+    /// Popup menu for words definition
+    CustomPopup *m_customPopup;
 
     /// Force synchronizing the model with the contents of the search results
     void updateModel();
