@@ -29,34 +29,10 @@
 #include <cerrno>
 #include <iconv.h>
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 #include "encoding.h"
 #include "dic_exception.h"
 
 using namespace std;
-
-
-#ifdef WIN32
-// Utility function to get the last system error as a string
-static string GetWin32Error()
-{
-    char *lpMsgBuf;
-    DWORD dw = GetLastError();
-    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-                  FORMAT_MESSAGE_FROM_SYSTEM |
-                  FORMAT_MESSAGE_IGNORE_INSERTS,
-                  NULL, dw,
-                  MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                  (LPTSTR) &lpMsgBuf,
-                  0, NULL);
-    string msg = lpMsgBuf;
-    LocalFree(lpMsgBuf);
-    return msg;
-}
-#endif
 
 
 #if !HAVE_WCWIDTH
@@ -108,26 +84,6 @@ wchar_t *_wcstok(wchar_t *wcs, const wchar_t *delim, wchar_t **ptr)
 #define _MAX_SIZE_FOR_STACK_ 30
 wstring convertToWc(const string& iStr)
 {
-#ifdef WIN32
-    if (iStr.empty())
-        return L"";
-
-    const unsigned int bufSize = iStr.size();
-    // Temporary buffer for output
-    // We will have at most as many characters as in the UTF-8 string
-    wchar_t *wideBuf = new wchar_t[bufSize];
-    int number = MultiByteToWideChar(CP_OEMCP, MB_ERR_INVALID_CHARS,
-                                     iStr.c_str(), bufSize, wideBuf, bufSize);
-    wstring res(wideBuf, number);
-    delete[] wideBuf;
-    if (number == 0)
-    {
-        // Retrieve the system error message for the last-error code
-        throw DicException("convertToWc: MultiByteToWideChar failed:" +
-                           GetWin32Error());
-    }
-    return res;
-#else
     // Get the needed length (we _can't_ use string::size())
     size_t len = mbstowcs(NULL, iStr.c_str(), 0);
     if (len == (size_t)-1)
@@ -149,27 +105,11 @@ wstring convertToWc(const string& iStr)
         delete[] tmp;
         return res;
     }
-#endif
 }
 
 
 string convertToMb(const wstring& iWStr)
 {
-#ifdef WIN32
-    const unsigned int size = iWStr.size() * 4;
-    if (size == 0)
-        return "";
-    char buf[size];
-    int res = WideCharToMultiByte(CP_OEMCP, 0, iWStr.c_str(), iWStr.size(),
-                                  buf, size, NULL, NULL);
-    if (res == 0)
-    {
-        // Retrieve the system error message for the last-error code
-        throw DicException("convertToMb: WideCharToMultiByte failed: " +
-                           GetWin32Error());
-    }
-    return string(buf, res);
-#else
     // Get the needed length (we _can't_ use wstring::size())
     size_t len = wcstombs(NULL, iWStr.c_str(), 0);
     if (len == (size_t)-1)
@@ -191,7 +131,6 @@ string convertToMb(const wstring& iWStr)
         delete[] tmp;
         return res;
     }
-#endif
 }
 #undef _MAX_SIZE_FOR_STACK_
 
@@ -352,21 +291,6 @@ unsigned int readFromUTF8(wchar_t *oString, unsigned int iWideSize,
                           const char *iBuffer, unsigned int iBufSize,
                           const string &iContext)
 {
-#ifdef WIN32
-    if (iBufSize == 0 || iBuffer == NULL || *iBuffer == '\0')
-    {
-        return 0;
-    }
-    int res = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, iBuffer,
-                                  iBufSize, oString, iWideSize);
-    if (res == 0)
-    {
-        // Retrieve the system error message for the last-error code
-        throw DicException("readFromUTF8: MultiByteToWideChar failed (" +
-                           iContext + "): " + GetWin32Error());
-    }
-    return res;
-#else
     iconv_t handle = iconv_open("WCHAR_T", "UTF-8");
     if (handle == (iconv_t)(-1))
         throw DicException("readFromUTF8: iconv_open failed");
@@ -385,7 +309,6 @@ unsigned int readFromUTF8(wchar_t *oString, unsigned int iWideSize,
                            iContext + "): " + string(strerror(errno)));
     }
     return iWideSize - outChars / sizeof(wchar_t);
-#endif
 }
 
 
@@ -416,22 +339,6 @@ wstring readFromUTF8(const char *iBuffer, unsigned int iBufSize,
 unsigned int writeInUTF8(const wstring &iWString, char *oBuffer,
                          unsigned int iBufSize, const string &iContext)
 {
-#ifdef WIN32
-    if (iWString.empty())
-    {
-        *oBuffer = '\0';
-        return 0;
-    }
-    int res = WideCharToMultiByte(CP_UTF8, 0, iWString.c_str(), iWString.size(),
-                                  oBuffer, iBufSize, NULL, NULL);
-    if (res == 0)
-    {
-        // Retrieve the system error message for the last-error code
-        throw DicException("writeInUTF8: WideCharToMultiByte failed (" +
-                           iContext + "): " + GetWin32Error());
-    }
-    return res;
-#else
     iconv_t handle = iconv_open("UTF-8", "WCHAR_T");
     if (handle == (iconv_t)(-1))
         throw DicException("writeInUTF8: iconv_open failed");
@@ -454,7 +361,6 @@ unsigned int writeInUTF8(const wstring &iWString, char *oBuffer,
     }
     // Return the number of written bytes
     return iBufSize - outChars;
-#endif
 }
 
 
