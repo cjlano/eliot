@@ -1,0 +1,16 @@
+--- lib/libconfig.pc.in.orig	2011-07-30 16:17:26.332648463 +0200
++++ lib/libconfig.pc.in	2011-07-30 16:17:34.802648462 +0200
+@@ -11,4 +11,4 @@
+ Conflicts:
+ Libs: -L${libdir} -lconfig
+ Libs.private: @LIBS@ 
+-Cflags: -I${includedir}
++Cflags: -I${includedir} -DLIBCONFIG_STATIC
+--- lib/libconfig++.pc.in.orig	2011-07-30 16:20:17.302648457 +0200
++++ lib/libconfig++.pc.in	2011-07-30 16:14:30.372648469 +0200
+@@ -11,4 +11,4 @@
+ Conflicts:
+ Libs: -L${libdir} -lconfig++
+ Libs.private: @LIBS@ 
+-Cflags: -I${includedir}
++Cflags: -I${includedir} -DLIBCONFIGXX_STATIC
