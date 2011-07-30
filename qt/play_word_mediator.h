@@ -21,6 +21,7 @@
 #ifndef VALIDATORS_H_
 #define VALIDATORS_H_
 
+#include <string>
 #include <QtGui/QValidator>
 
 using std::wstring;
