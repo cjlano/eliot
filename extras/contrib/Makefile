@@ -1,5 +1,5 @@
 ICONV_VERSION = 1.13.1
-LIBCONFIG_VERSION = 1.4.6
+LIBCONFIG_VERSION = 1.4.7
 BOOST_VERSION = 1_42_0
 QT_VERSION = 4.5.3
 EXPAT_VERSION = 2.0.1
@@ -119,7 +119,7 @@ $(LIBCONFIG_DIR_FLAG): $(LIBCONFIG_ARCHIVE)
 	touch $@
 
 .libconfig: $(LIBCONFIG_DIR_FLAG)
-	(cd $(LIBCONFIG_DIR) && CFLAGS=-DLIBCONFIG_STATIC CXXFLAGS=-DLIBCONFIG_STATIC $(CONFIGURE) --disable-examples --enable-static --disable-shared && make && make install)
+	(cd $(LIBCONFIG_DIR) && patch -p0 < ../libconfig++-static-build.patch && CFLAGS=-DLIBCONFIG_STATIC CXXFLAGS=-DLIBCONFIGXX_STATIC $(CONFIGURE) --disable-examples --enable-static --disable-shared && make && make install)
 	touch $@
 
 
