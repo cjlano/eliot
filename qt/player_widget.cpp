@@ -168,7 +168,7 @@ void PlayerWidget::pass(QString inputLetters)
 {
     // Convert the input string into an internal one
     const wstring &letters =
-        m_game->getDic().convertFromInput(qtw(inputLetters));
+        m_game->getDic().convertFromInput(wfq(inputLetters));
 
     // Pass the turn (and possibly change letters)
     int res = m_game->freeGamePass(letters);
@@ -208,7 +208,7 @@ ChangeValidator::ChangeValidator(QObject *parent,
 QValidator::State ChangeValidator::validate(QString &input, int &) const
 {
     // The string is invalid if it contains invalid input characters
-    const wistring &winput = qtw(input);
+    const wistring &winput = wfq(input);
     if (!m_dic.validateInputChars(winput))
         return Invalid;
 
@@ -219,7 +219,7 @@ QValidator::State ChangeValidator::validate(QString &input, int &) const
     if (!m_dic.validateLetters(intInput))
         return Intermediate;
 
-    const wstring &rack = m_dic.convertFromInput(qtw(m_lineEdit.text()));
+    const wstring &rack = m_dic.convertFromInput(wfq(m_lineEdit.text()));
     if (intInput.size() > rack.size())
         return Intermediate;
     // The letters to change must be in the rack

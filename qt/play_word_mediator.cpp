@@ -108,7 +108,7 @@ void PlayWordMediator::lineEditPlay_textChanged()
     {
         // Compute the points of the word
         const wstring &word = getWord();
-        const wstring &coords = qtw(m_lineEditCoord.text());
+        const wstring &coords = wfq(m_lineEditCoord.text());
         int points = m_game->computePoints(word, coords);
         if (points >= 0)
             m_lineEditPoints.setText(QString("%1").arg(points));
@@ -126,7 +126,7 @@ void PlayWordMediator::lineEditPlay_returnPressed()
 
     const wstring &word = getWord(true);
     QString coords = m_lineEditCoord.text();
-    int res = m_game->play(word, qtw(coords));
+    int res = m_game->play(word, wfq(coords));
     if (res == 0)
     {
         emit gameUpdated();
@@ -186,7 +186,7 @@ void PlayWordMediator::lineEditPlay_returnPressed()
 wstring PlayWordMediator::getWord(bool emitSignal)
 {
     // Convert the jokers to lowercase
-    const wistring &inputWord = qtw(m_lineEditPlay.text().toUpper());
+    const wistring &inputWord = wfq(m_lineEditPlay.text().toUpper());
     // Convert to internal representation, then back to QString
     QString word = qfw(m_game->getDic().convertFromInput(inputWord));
 
@@ -194,7 +194,7 @@ wstring PlayWordMediator::getWord(bool emitSignal)
     while ((pos = word.indexOf('(')) != -1)
     {
         if (word.size() < pos + 3 || word[pos + 2] != ')' ||
-            !m_game->getDic().validateLetters(qtw(QString(word[pos + 1]))))
+            !m_game->getDic().validateLetters(wfq(QString(word[pos + 1]))))
         {
             // Bug in validate()!
             // This should never happen
@@ -215,7 +215,7 @@ wstring PlayWordMediator::getWord(bool emitSignal)
 
     // Convert the input string into an internal one
     const wstring intWord =
-        m_game->getDic().convertFromInput(qtw(word));
+        m_game->getDic().convertFromInput(wfq(word));
 
     return intWord;
 }
@@ -223,9 +223,9 @@ wstring PlayWordMediator::getWord(bool emitSignal)
 
 void PlayWordMediator::lineEditCoord_textChanged(const QString &iText)
 {
-    Coord c(qtw(iText));
+    Coord c(wfq(iText));
     if (!(m_coordModel.getCoord() == c))
-        m_coordModel.setCoord(Coord(qtw(iText)));
+        m_coordModel.setCoord(Coord(wfq(iText)));
     lineEditPlay_textChanged();
 }
 
@@ -254,7 +254,7 @@ QValidator::State PlayWordValidator::validate(QString &input, int &) const
     if (input == "")
         return Intermediate;
 
-    const wistring &winput = qtw(input);
+    const wistring &winput = wfq(input);
     // The string is invalid if it contains invalid input characters
     if (!m_dic.validateInputChars(winput, L"()") || input.contains('?'))
         return Invalid;
@@ -272,7 +272,7 @@ QValidator::State PlayWordValidator::validate(QString &input, int &) const
     while ((pos = qintInput.indexOf('(')) != -1)
     {
         if (qintInput.size() < pos + 3 || qintInput[pos + 2] != ')' ||
-            !m_dic.validateLetters(qtw(QString(qintInput[pos + 1]))))
+            !m_dic.validateLetters(wfq(QString(qintInput[pos + 1]))))
         {
             return Intermediate;
         }
@@ -298,13 +298,13 @@ CoordsValidator::CoordsValidator(QObject *parent)
 QValidator::State CoordsValidator::validate(QString &input, int &) const
 {
     // Only authorize characters part of a valid coordinate
-    wstring copy = qtw(input.toUpper());
+    wstring copy = wfq(input.toUpper());
     wstring authorized = L"ABCDEFGHIJKLMNO1234567890";
     if (copy.find_first_not_of(authorized) != wstring::npos)
         return Invalid;
 
     // Check coordinates
-    Coord c(qtw(input));
+    Coord c(wfq(input));
     if (!c.isValid())
         return Intermediate;
 

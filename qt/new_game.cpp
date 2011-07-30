@@ -133,7 +133,7 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
                 double level = m_model->data(m_model->index(num, 2)).toInt();
                 player = new AIPercent(level / 100.);
             }
-            player->setName(qtw(name));
+            player->setName(wfq(name));
             game->addPlayer(player);
         }
     }

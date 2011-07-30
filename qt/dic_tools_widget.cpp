@@ -177,7 +177,7 @@ void DicToolsWidget::refreshCheck()
             return;
         }
 
-        wstring input = m_dic->convertFromInput(qtw(rack->text()));
+        wstring input = m_dic->convertFromInput(wfq(rack->text()));
         bool res = m_dic->searchWord(input);
         // Convert the input to uppercase
         std::transform(input.begin(), input.end(), input.begin(), towupper);
@@ -211,7 +211,7 @@ void DicToolsWidget::refreshPlus1()
         return;
     }
 
-    const wstring &input = m_dic->convertFromInput(qtw(rack->text().toUpper()));
+    const wstring &input = m_dic->convertFromInput(wfq(rack->text().toUpper()));
     const wdstring &disp = m_dic->convertToDisplay(input);
     model->setHeaderData(0, Qt::Horizontal,
                          _q("Rack: %1").arg(qfw(disp)),
@@ -264,7 +264,7 @@ void DicToolsWidget::refreshRegexp()
         return;
     }
 
-    const wstring &input = m_dic->convertFromInput(qtw(rack->text().toUpper()));
+    const wstring &input = m_dic->convertFromInput(wfq(rack->text().toUpper()));
     const wdstring &disp = m_dic->convertToDisplay(input);
     model->setHeaderData(0, Qt::Horizontal,
                          _q("Regular expression: %1").arg(qfw(disp)),
@@ -373,7 +373,7 @@ void DicToolsWidget::exportWordsList()
     {
         try
         {
-            ofstream file(qtl(fileName).c_str());
+            ofstream file(lfq(fileName).c_str());
             ListDic::printWords(file, *m_dic);
             QMessageBox::information(this, _q("Export words list"),
                                      _q("File '%1' successfully saved").arg(fileName));
@@ -433,7 +433,7 @@ QValidator::State DicRackValidator::validate(QString &input, int &) const
         return Intermediate;
 
     // The string is invalid if it contains invalid input characters
-    const wistring &winput = qtw(input);
+    const wistring &winput = wfq(input);
     if (!m_dic->validateInputChars(winput))
         return Invalid;
 
@@ -473,7 +473,7 @@ QValidator::State RegexpValidator::validate(QString &input, int &) const
     wstring authorizedChars = L".[]()*+?:^";
 
     // The string is invalid if it contains invalid input characters
-    const wistring &winput = qtw(input);
+    const wistring &winput = wfq(input);
     if (!m_dic->validateInputChars(winput, authorizedChars))
         return Invalid;
 

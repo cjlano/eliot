@@ -37,14 +37,14 @@
 #endif
 
 // Convert to/from std::wstring
-std::wstring qtw(const QString &q);
+std::wstring wfq(const QString &q);
 QString qfw(const wstring &wstr);
 // Convert to/from local encoding
 #define qfl(s) qfw(convertToWc(s))
-#define qtl(s) convertToMb(qtw(s))
+#define lfq(s) convertToMb(wfq(s))
 // Convert to/from utf-8 char*
 #define qfu(s) QString::fromUtf8(s)
-#define qtu(s) (s).toUtf8().data()
+#define ufq(s) (s).toUtf8().data()
 // Translation macro to use gettext
 #ifdef __APPLE__
 // On MacOSX, we force the encoding to UTF-8, because we have trouble

@@ -168,10 +168,10 @@ MainWindow::MainWindow(QWidget *iParent)
     QString dicPath = qs.value(PrefsDialog::kINTF_DIC_PATH, "").toString();
     if (dicPath != "")
     {
-        LOG_INFO("Using dictionary " << qtl(dicPath));
+        LOG_INFO("Using dictionary " << lfq(dicPath));
         try
         {
-            m_dic = new Dictionary(qtl(dicPath));
+            m_dic = new Dictionary(lfq(dicPath));
         }
         catch (DicException &e)
         {
@@ -308,7 +308,7 @@ void MainWindow::updateStatusBar(const Dictionary *iDic)
 
 void MainWindow::displayErrorMsg(QString iMsg, QString iContext)
 {
-    LOG_ERROR("Displayed error: " << qtl(iMsg));
+    LOG_ERROR("Displayed error: " << lfq(iMsg));
     if (iContext == "")
         iContext = _q("Eliot - Error");
 
@@ -318,7 +318,7 @@ void MainWindow::displayErrorMsg(QString iMsg, QString iContext)
 
 void MainWindow::displayInfoMsg(QString iMsg)
 {
-    LOG_INFO("Displayed message: " << qtl(iMsg));
+    LOG_INFO("Displayed message: " << lfq(iMsg));
     statusBar()->showMessage(iMsg);
 }
 
@@ -340,7 +340,7 @@ void MainWindow::showDefinition(QString iWord)
     bool res = QDesktopServices::openUrl(QUrl(url));
     if (!res)
     {
-        LOG_ERROR("Could not open URL: " << qtl(url));
+        LOG_ERROR("Could not open URL: " << lfq(url));
     }
 }
 
@@ -401,13 +401,13 @@ void MainWindow::changeDictionary(QString iFileName)
                 return;
         }
 
-        LOG_INFO("Loading new dictionary file: " << qtl(iFileName));
+        LOG_INFO("Loading new dictionary file: " << lfq(iFileName));
 
         destroyCurrentGame();
 
         try
         {
-            Dictionary *dic = new Dictionary(qtl(iFileName));
+            Dictionary *dic = new Dictionary(lfq(iFileName));
             delete m_dic;
             m_dic = dic;
             emit dicChanged(m_dic);
@@ -600,7 +600,7 @@ void MainWindow::onGameLoad()
     {
         try
         {
-            PublicGame *tmpGame = PublicGame::load(qtl(fileName), *m_dic);
+            PublicGame *tmpGame = PublicGame::load(lfq(fileName), *m_dic);
             destroyCurrentGame();
             m_game = tmpGame;
         }
@@ -628,7 +628,7 @@ void MainWindow::onGameSaveAs()
     {
         try
         {
-            m_game->save(qtl(fileName));
+            m_game->save(lfq(fileName));
             displayInfoMsg(_q("Game saved"));
         }
         catch (std::exception &e)

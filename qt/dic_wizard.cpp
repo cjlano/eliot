@@ -327,17 +327,17 @@ void DicWizard::accept()
             bool isVowel = model->data(model->index(i, 3)).toBool();
             bool isConsonant = model->data(model->index(i, 4)).toBool();
 
-            wstring wstr = qtw(letter);
+            wstring wstr = wfq(letter);
             if (wstr.size() != 1)
-                throw DicException("Invalid letter '" + qtl(letter) + "'");
+                throw DicException("Invalid letter '" + lfq(letter) + "'");
             builder.addLetter(wstr[0], points, frequency,
                               isVowel, isConsonant, vector<wstring>());
         }
 
         // Build the dictionary
-        builder.generateDawg(qtl(field("wordList").toString()),
-                             qtl(field("genDic").toString()),
-                             qtl(field("dicName").toString()));
+        builder.generateDawg(lfq(field("wordList").toString()),
+                             lfq(field("genDic").toString()),
+                             lfq(field("dicName").toString()));
     }
     catch (std::exception &e)
     {

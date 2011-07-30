@@ -284,7 +284,7 @@ void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
     try
     {
         lineEditRack->setPalette(blackPalette);
-        const wstring &input = m_game->getDic().convertFromInput(qtw(iText));
+        const wstring &input = m_game->getDic().convertFromInput(wfq(iText));
         m_game->trainingSetRackManual(false, input);
         pushButtonSearch->setEnabled(m_model->rowCount() == 0 &&
                                      lineEditRack->text() != "");
@@ -387,7 +387,7 @@ QValidator::State RackValidator::validate(QString &input, int &) const
     const Dictionary &dic = m_bag->getDic();
 
     // The string is invalid if it contains invalid input characters
-    const wistring &winput = qtw(input);
+    const wistring &winput = wfq(input);
     if (!dic.validateInputChars(winput))
         return Invalid;
 

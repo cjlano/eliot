@@ -23,7 +23,7 @@
 using namespace std;
 
 
-wstring qtw(const QString &q)
+wstring wfq(const QString &q)
 {
 #ifdef QT_NO_STL
     wchar_t *array = new wchar_t[q.size()];
