@@ -1,7 +1,7 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2010 Olivier Teuli�re
- * Authors: Olivier Teuli�re <ipkiss @@ gmail.com>
+ * Copyright (C) 2010-2011 Olivier Teulière
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #include "qtcommon.h"
+#include <iostream>
 
 using namespace std;
 
@@ -44,5 +45,59 @@ QString qfw(const wstring &wstr)
 #else
     return QString::fromStdWString(wstr);
 #endif
+}
+
+static void logFailedTest(const string &testName)
+{
+    cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
+    cerr << "@@@@@@@ Test " + testName + " failed! @@@@@@@" << endl;
+    cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl << endl;
+}
+
+void checkConversions()
+{
+    string s = "abcdéöùßĿ";
+
+    // Check identities
+    if (s != lfw(wfl(s)))
+        logFailedTest("1");
+    if (s != lfu(ufl(s)))
+        logFailedTest("2");
+    if (s != lfq(qfl(s)))
+        logFailedTest("3");
+
+    wstring w = wfl(s);
+    if (w != wfl(lfw(w)))
+        logFailedTest("4");
+    if (w != wfu(ufw(w)))
+        logFailedTest("5");
+    if (w != wfq(qfw(w)))
+        logFailedTest("6");
+
+    QString q = qfl(s);
+    if (q != qfl(lfq(q)))
+        logFailedTest("7");
+    if (q != qfu(ufq(q)))
+        logFailedTest("8");
+    if (q != qfw(wfq(q)))
+        logFailedTest("9");
+
+    // Check some cycles
+    if (s != lfu(ufw(wfl(s))))
+        logFailedTest("10");
+    if (s != lfw(wfu(ufl(s))))
+        logFailedTest("11");
+    if (s != lfq(qfw(wfl(s))))
+        logFailedTest("12");
+    if (s != lfw(wfq(qfl(s))))
+        logFailedTest("13");
+    if (s != lfu(ufw(wfq(qfl(s)))))
+        logFailedTest("14");
+    if (s != lfq(qfw(wfu(ufl(s)))))
+        logFailedTest("15");
+    if (s != lfu(ufq(qfw(wfl(s)))))
+        logFailedTest("16");
+    if (s != lfw(wfq(qfu(ufl(s)))))
+        logFailedTest("17");
 }
 

@@ -71,6 +71,11 @@ MainWindow::MainWindow(QWidget *iParent)
     m_prefsDialog(NULL), m_bagWindow(NULL), m_boardWindow(NULL),
     m_historyWindow(NULL), m_dicToolsWindow(NULL), m_dicNameLabel(NULL)
 {
+#ifdef DEBUG
+    // Check that the string conversion routines are not buggy
+    checkConversions();
+#endif
+
     LOG_DEBUG("Creating main window");
     m_ui.setupUi(this);
     createMenu();

@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2010 Olivier Teulière
+ * Copyright (C) 2010-2011 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -43,7 +43,7 @@ QString qfw(const wstring &wstr);
 #define qfl(s) qfw(convertToWc(s))
 #define lfq(s) convertToMb(wfq(s))
 // Convert to/from utf-8 char*
-#define qfu(s) QString::fromUtf8(s)
+#define qfu(s) QString::fromUtf8(string(s).c_str())
 #define ufq(s) (s).toUtf8().data()
 // Translation macro to use gettext
 #ifdef __APPLE__
@@ -57,5 +57,8 @@ QString qfw(const wstring &wstr);
 
 // Used for QSettings
 #define ORGANIZATION "eliot"
+
+// Unit test for the macros above
+void checkConversions();
 
 #endif
