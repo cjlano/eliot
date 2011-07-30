@@ -152,10 +152,10 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
                     // TODO: use Boost.Format
                     char s[200];
                     snprintf(s, 200, _("Player %u"), m_players.size() + 1);
-                    name = convertToWc(s);
+                    name = wfl(s);
                 }
                 else
-                    name = convertToWc(optarg);
+                    name = wfl(optarg);
                 m_players.push_back(make_pair<bool, wstring>(res == 'u', name));
             }
             break;

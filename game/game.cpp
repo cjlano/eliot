@@ -344,8 +344,8 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
             // Get the best word
             const Round & bestRound = res.get(0);
             LOG_DEBUG("helperSetRackRandom(): initial rack: "
-                      << convertToMb(pld.toString()) << " (best word: "
-                      << convertToMb(bestRound.getWord()) << ")");
+                      << lfw(pld.toString()) << " (best word: "
+                      << lfw(bestRound.getWord()) << ")");
 
             // Identify the joker
             for (unsigned int i = 0; i < bestRound.getWordLen(); ++i)
@@ -355,7 +355,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
                     const Tile &jokerTile = bestRound.getTile(i);
                     Tile replacingTile(towupper(jokerTile.toChar()));
                     LOG_DEBUG("helperSetRackRandom(): replacing Joker with "
-                              << convertToMb(replacingTile.toChar()));
+                              << lfw(replacingTile.toChar()));
 
                     // If the bag does not contain this letter anymore,
                     // simply keep the joker in the rack.
@@ -459,7 +459,7 @@ void Game::addPlayer(Player *iPlayer)
     iPlayer->setId(getNPlayers());
     m_players.push_back(iPlayer);
 
-    LOG_INFO("Adding player '" << convertToMb(iPlayer->getName())
+    LOG_INFO("Adding player '" << lfw(iPlayer->getName())
              << "' (" << (iPlayer->isHuman() ? "human" : "AI") << ")"
              << " with ID " << iPlayer->getId());
 }

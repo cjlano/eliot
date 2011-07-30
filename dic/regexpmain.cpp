@@ -94,12 +94,12 @@ int main(int argc, char* argv[])
             vector<wstring> wordList;
             try
             {
-                dic.searchRegExp(convertToWc(line), wordList, 1, 15);
+                dic.searchRegExp(wfl(line), wordList, 1, 15);
                 cout << _("result:") << endl;
                 vector<wstring>::const_iterator it;
                 for (it = wordList.begin(); it != wordList.end(); it++)
                 {
-                    cout << convertToMb(*it) << endl;
+                    cout << lfw(*it) << endl;
                 }
             }
             catch (InvalidRegexpException &e)

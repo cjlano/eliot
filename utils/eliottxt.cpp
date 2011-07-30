@@ -376,9 +376,9 @@ void commonCommands(PublicGame &iGame, const vector<wstring> &tokens)
         else
         {
             if (iGame.getDic().searchWord(word))
-                printf("le mot -%s- existe\n", convertToMb(word).c_str());
+                printf("le mot -%s- existe\n", lfw(word).c_str());
             else
-                printf("le mot -%s- n'existe pas\n", convertToMb(word).c_str());
+                printf("le mot -%s- n'existe pas\n", lfw(word).c_str());
         }
     }
     else if (tokens[0][0] == L'h')
@@ -431,7 +431,7 @@ void commonCommands(PublicGame &iGame, const vector<wstring> &tokens)
         {
             try
             {
-                iGame.save(convertToMb(word));
+                iGame.save(lfw(word));
             }
             catch (std::exception &e)
             {
@@ -477,7 +477,7 @@ void handleRegexp(const Dictionary& iDic, const vector<wstring> &tokens)
         return;
     }
 
-    printf("search for %s (%d,%d,%d)\n", convertToMb(regexp).c_str(),
+    printf("search for %s (%d,%d,%d)\n", lfw(regexp).c_str(),
            nres, lmin, lmax);
 
     vector<wdstring> wordList;
@@ -493,7 +493,7 @@ void handleRegexp(const Dictionary& iDic, const vector<wstring> &tokens)
 
     BOOST_FOREACH(const wdstring &wstr, wordList)
     {
-        printf("%s\n", convertToMb(wstr).c_str());
+        printf("%s\n", lfw(wstr).c_str());
     }
     printf("%lu printed results\n", (long unsigned)wordList.size());
 }
@@ -518,7 +518,7 @@ void setSetting(const vector<wstring> &tokens)
 
     try
     {
-        string setting = convertToMb(settingWide);
+        string setting = lfw(settingWide);
         if (type == L"i")
         {
             Settings::Instance().setInt(setting, wtoi(value.c_str()));
@@ -596,7 +596,7 @@ void loopTraining(PublicGame &iGame)
                                             vector<wdstring> wordList;
                                             iGame.getDic().searchBenj(word, wordList);
                                             BOOST_FOREACH(const wdstring &wstr, wordList)
-                                                cout << convertToMb(wstr) << endl;
+                                                cout << lfw(wstr) << endl;
                                         }
                                         break;
                                     case L'p':
@@ -607,10 +607,10 @@ void loopTraining(PublicGame &iGame)
                                             for (it = wordMap.begin(); it != wordMap.end(); ++it)
                                             {
                                                 if (it->first != 0)
-                                                    cout << "+" << convertToMb(iGame.getDic().getHeader().getDisplayStr(it->first)) << endl;
+                                                    cout << "+" << lfw(iGame.getDic().getHeader().getDisplayStr(it->first)) << endl;
                                                 BOOST_FOREACH(const wdstring &wstr, it->second)
                                                 {
-                                                    cout << "  " << convertToMb(wstr) << endl;
+                                                    cout << "  " << lfw(wstr) << endl;
                                                 }
                                             }
                                         }
@@ -620,7 +620,7 @@ void loopTraining(PublicGame &iGame)
                                             vector<wdstring> wordList;
                                             iGame.getDic().searchRacc(word, wordList);
                                             BOOST_FOREACH(const wdstring &wstr, wordList)
-                                                cout << convertToMb(wstr) << endl;
+                                                cout << lfw(wstr) << endl;
                                         }
                                         break;
                                 }
@@ -861,7 +861,7 @@ void mainLoop(const Dictionary &iDic)
                         const wstring &wfileName = checkFileNameToken(tokens, 1);
                         if (wfileName != L"")
                         {
-                            string filename = convertToMb(wfileName);
+                            string filename = lfw(wfileName);
                             try
                             {
                                 PublicGame *game = PublicGame::load(filename, iDic);

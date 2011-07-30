@@ -220,7 +220,7 @@ Header::Header(const DictHeaderInfo &iInfo)
     }
 
     m_compressDate = time(NULL);
-    m_userHost = convertToWc(ELIOT_COMPILE_BY + string("@") + ELIOT_COMPILE_HOST);
+    m_userHost = wfl(ELIOT_COMPILE_BY + string("@") + ELIOT_COMPILE_HOST);
     m_root = iInfo.root;
     m_nbWords = iInfo.nwords;
     m_nodesUsed = iInfo.nodesused;
@@ -307,7 +307,7 @@ unsigned int Header::getCodeFromChar(wchar_t iChar) const
         char s[5];
         sprintf(s, "%d", iChar);
         format fmt(_("Header::getCodeFromChar: No code for letter '%1%' (val=%2%)"));
-        fmt % convertToMb(iChar) % s;
+        fmt % lfw(iChar) % s;
         throw DicException(fmt.str());
     }
     return pair->second;
@@ -624,13 +624,13 @@ wstring Header::writeDisplayAndInput() const
 void Header::print() const
 {
 #define fmt(x) boost::format(x)
-    cout << fmt(_("Dictionary name: %1%")) % convertToMb(m_dicName) << endl;
+    cout << fmt(_("Dictionary name: %1%")) % lfw(m_dicName) << endl;
     char buf[150];
     strftime(buf, sizeof(buf), "%c", gmtime(&m_compressDate));
     cout << fmt(_("Compressed on: %1%")) % buf << endl;
-    cout << fmt(_("Compressed using a binary compiled by: %1%")) % convertToMb(m_userHost) << endl;
+    cout << fmt(_("Compressed using a binary compiled by: %1%")) % lfw(m_userHost) << endl;
     cout << fmt(_("Dictionary type: %1%")) % (m_type == kDAWG ? "DAWG" : "GADDAG") << endl;
-    cout << fmt(_("Letters: %1%")) % convertToMb(m_letters) << endl;
+    cout << fmt(_("Letters: %1%")) % lfw(m_letters) << endl;
     cout << fmt(_("Number of letters: %1%")) % m_letters.size() << endl;
     cout << fmt(_("Number of words: %1%")) % m_nbWords << endl;
     long unsigned int size = sizeof(Dict_header_old) +
@@ -668,7 +668,7 @@ void Header::print() const
                     first = false;
                 else
                     s += " ";
-                s += convertToMb(inputs[j]);
+                s += lfw(inputs[j]);
             }
             fmter % s;
         }

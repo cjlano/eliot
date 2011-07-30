@@ -77,7 +77,7 @@ static void writeMove(ostream &out, const Move &iMove,
     else if (iMove.getType() == Move::PASS)
         out << "pass\" />";
     else
-        throw SaveGameException("Unsupported move: " + convertToMb(iMove.toString()));
+        throw SaveGameException("Unsupported move: " + lfw(iMove.toString()));
 }
 
 void XmlWriter::write(const Game &iGame, const string &iFileName)
@@ -197,7 +197,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
             else
             {
                 // XXX
-                //throw SaveGameException("Unsupported command: " + convertToMb(cmd->toString()));
+                //throw SaveGameException("Unsupported command: " + lfw(cmd->toString()));
             }
             // TODO
         }

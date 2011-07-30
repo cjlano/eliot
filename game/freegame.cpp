@@ -116,7 +116,7 @@ void FreeGame::playAI(unsigned int p)
 void FreeGame::recordPlayerMove(const Move &iMove, Player &ioPlayer,
                                 bool isForHuman)
 {
-    LOG_INFO("Player " << ioPlayer.getId() << " plays: " << convertToMb(iMove.toString()));
+    LOG_INFO("Player " << ioPlayer.getId() << " plays: " << lfw(iMove.toString()));
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
     pCmd->setAutoExecution(!isForHuman);
     accessNavigation().addAndExecute(pCmd);

@@ -58,7 +58,7 @@ Tile::Tile(wchar_t c)
     else
     {
         ostringstream ss;
-        ss << "Tile::Tile: Unknown character: " << convertToMb(c);
+        ss << "Tile::Tile: Unknown character: " << lfw(c);
         throw DicException(ss.str());
     }
 }

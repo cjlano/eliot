@@ -284,12 +284,12 @@ void XmlReader::endElement(const string& namespaceURI,
             throw LoadGameException("Rack invalid for the current dictionary: " + m_data);
         }
         pldrack.setManual(rackStr);
-        LOG_DEBUG("loaded rack: " << convertToMb(pldrack.toString()));
+        LOG_DEBUG("loaded rack: " << lfw(pldrack.toString()));
 
         Player &p = getPlayer(m_players, m_attributes["playerid"]);
         PlayerRackCmd *cmd = new PlayerRackCmd(p, pldrack);
         m_game->accessNavigation().addAndExecute(cmd);
-        LOG_DEBUG("rack: " << convertToMb(pldrack.toString()));
+        LOG_DEBUG("rack: " << lfw(pldrack.toString()));
     }
 
     else if (tag == "PlayerMove")

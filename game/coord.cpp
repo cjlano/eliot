@@ -76,7 +76,7 @@ void Coord::setFromString(const wstring &iWStr)
 {
     // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
     // Temporary implementation: convert the wchar_t* string into a char* one
-    string iStr = convertToMb(iWStr);
+    string iStr = lfw(iWStr);
 
     char l[4];
     int col;

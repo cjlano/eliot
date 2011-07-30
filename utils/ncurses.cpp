@@ -257,12 +257,12 @@ void CursesIntf::drawBoard(WINDOW *win, int y, int x) const
                 if (m_game->getBoard().isJoker(row, col))
                 {
                     wattron(win, A_BOLD | COLOR_PAIR(COLOR_GREEN));
-                    mvwprintw(win, y + row + 1, x + 3 * col + 2 + offset, convertToMb(chr).c_str());
+                    mvwprintw(win, y + row + 1, x + 3 * col + 2 + offset, lfw(chr).c_str());
                     wattroff(win, A_BOLD);
                 }
                 else
                 {
-                    mvwprintw(win, y + row + 1, x + 3 * col + 2 + offset, convertToMb(chr).c_str());
+                    mvwprintw(win, y + row + 1, x + 3 * col + 2 + offset, lfw(chr).c_str());
                 }
             }
             else
@@ -298,7 +298,7 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
         if (m_game->getMode() != PublicGame::kTRAINING && i == currId)
             attron(A_BOLD);
         mvwprintw(win, y + i + 1, x + 2, _("%s: %d"),
-                  truncOrPad(convertToMb(m_game->getPlayer(i).getName()),
+                  truncOrPad(lfw(m_game->getPlayer(i).getName()),
                              maxForScores).c_str(),
                   m_game->getPlayer(i).getPoints());
         if (m_game->getMode() != PublicGame::kTRAINING && i == currId)
@@ -320,7 +320,7 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
             attron(A_BOLD);
         wstring rack = m_game->getPlayer(i).getCurrentRack().toString(PlayedRack::RACK_SIMPLE);
         mvwprintw(win, y + yOff + i + 1, x + 2, _("%s: %ls"),
-                  truncOrPad(convertToMb(m_game->getPlayer(i).getName()),
+                  truncOrPad(lfw(m_game->getPlayer(i).getName()),
                              maxForRacks).c_str(),
                   rack.c_str());
         if (m_game->getMode() != PublicGame::kTRAINING && i == currId)
@@ -359,7 +359,7 @@ void CursesIntf::drawResults(Box &ioBox) const
         ioBox.printDataLine(i, x, "%3d %s %3s",
                             r.getPoints(),
                             padAndConvert(r.getWord(), ioBox.getWidth() - 9, false).c_str(),
-                            convertToMb(coord).c_str());
+                            lfw(coord).c_str());
     }
     // Complete the list with empty lines, to avoid trails
     for (; i < (unsigned int)ioBox.getLastLine(); i++)
@@ -419,7 +419,7 @@ void CursesIntf::drawHistory(Box &ioBox) const
             // The move corresponds to a passed turn or changed letters
             wstring action;
             if (m.getType() == Move::PASS)
-                action = convertToWc(_("(PASS)"));
+                action = wfl(_("(PASS)"));
             else if (m.getType() == Move::CHANGE_LETTERS)
                 action = L"(-" + m.getChangedLetters() + L")";
 
@@ -515,7 +515,7 @@ void CursesIntf::drawBag(Box &ioBox) const
                             padAndConvert(allTiles[i].getDisplayStr(), 2).c_str(),
                             allTiles[i].getPoints(),
                             allTiles[i].maxNumber(),
-                            convertToMb(str).c_str());
+                            lfw(str).c_str());
     }
 
     int nbLines = min(i + 2 - ioBox.getFirstLine(),
@@ -620,7 +620,7 @@ void CursesIntf::saveGame(WINDOW *win, int y, int x)
         char s[100];
         try
         {
-            m_game->save(convertToMb(filename));
+            m_game->save(lfw(filename));
             snprintf(s, 100, _("Game saved in '%ls'"), filename.c_str());
             drawStatus(win, s, false);
         }
@@ -646,7 +646,7 @@ void CursesIntf::loadGame(WINDOW *win, int y, int x)
     {
         try
         {
-            PublicGame *loaded = PublicGame::load(convertToMb(filename), m_game->getDic());
+            PublicGame *loaded = PublicGame::load(lfw(filename), m_game->getDic());
             //GameFactory::Instance()->releaseGame(*m_game);
             delete m_game;
             m_game = loaded;
@@ -751,7 +751,7 @@ bool CursesIntf::readString(WINDOW *win, int y, int x, int n, wstring &oString,
             int len = pos;
             x = x0;
             pos = 0;
-            mvwprintw(win, y, x0, "%s", convertToMb(oString + wstring(len, L' ')).c_str());
+            mvwprintw(win, y, x0, "%s", lfw(oString + wstring(len, L' ')).c_str());
             wmove(win, y, x);
         }
         else if (res == KEY_CODE_YES)
@@ -761,13 +761,13 @@ bool CursesIntf::readString(WINDOW *win, int y, int x, int n, wstring &oString,
                 x--;
                 pos--;
                 oString.erase(pos, 1);
-                mvwprintw(win, y, x0, "%s", convertToMb(oString + L" ").c_str());
+                mvwprintw(win, y, x0, "%s", lfw(oString + L" ").c_str());
                 wmove(win, y, x);
             }
             else if (c == KEY_DC)
             {
                 oString.erase(pos, 1);
-                mvwprintw(win, y, x0, "%s", convertToMb(oString + L" ").c_str());
+                mvwprintw(win, y, x0, "%s", lfw(oString + L" ").c_str());
                 wmove(win, y, x);
             }
             else if (c == KEY_LEFT && pos != 0)
@@ -801,14 +801,14 @@ bool CursesIntf::readString(WINDOW *win, int y, int x, int n, wstring &oString,
         {
             x++;
             oString.insert(pos++, 1, c);
-            mvwprintw(win, y, x0, "%s", convertToMb(oString).c_str());
+            mvwprintw(win, y, x0, "%s", lfw(oString).c_str());
             wmove(win, y, x);
         }
         else if (flag & kJOKER && c == L'?')
         {
             x++;
             oString.insert(pos++, 1, c);
-            mvwprintw(win, y, x0, "%s", convertToMb(oString).c_str());
+            mvwprintw(win, y, x0, "%s", lfw(oString).c_str());
             wmove(win, y, x);
         }
         else if (flag & kFILENAME)
@@ -817,7 +817,7 @@ bool CursesIntf::readString(WINDOW *win, int y, int x, int n, wstring &oString,
             {
                 x++;
                 oString += c;
-                mvwprintw(win, y, x0, "%s", convertToMb(oString).c_str());
+                mvwprintw(win, y, x0, "%s", lfw(oString).c_str());
                 wmove(win, y, x);
             }
             else

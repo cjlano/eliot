@@ -115,7 +115,7 @@ void GameIO::printBoardJoker(ostream &out, const PublicGame &iGame)
             {
                 bool j = iGame.getBoard().isJoker(row, col);
                 out << (j ? " ." : "  ")
-                    << convertToMb(iGame.getBoard().getDisplayStr(row, col));
+                    << lfw(iGame.getBoard().getDisplayStr(row, col));
             }
         }
         out << endl;
@@ -183,7 +183,7 @@ void GameIO::printBoardMultipliers2(ostream &out, const PublicGame &iGame)
             if (iGame.getBoard().isVacant(row, col))
                 out << "-";
             else
-                out << convertToMb(iGame.getBoard().getDisplayStr(row, col));
+                out << lfw(iGame.getBoard().getDisplayStr(row, col));
         }
         out << endl;
     }
@@ -197,7 +197,7 @@ void GameIO::printNonPlayed(ostream &out, const PublicGame &iGame)
     {
         if (bag.in(tile) > 9)
             out << " ";
-        out << setw(2) << convertToMb(tile.getDisplayStr());
+        out << setw(2) << lfw(tile.getDisplayStr());
     }
     out << endl;
 
@@ -211,7 +211,7 @@ void GameIO::printNonPlayed(ostream &out, const PublicGame &iGame)
 
 void GameIO::printPlayedRack(ostream &out, const PublicGame &iGame, int __UNUSED__ n)
 {
-    out << convertToMb(iGame.getCurrentPlayer().getCurrentRack().toString(PlayedRack::RACK_SIMPLE)) << endl;
+    out << lfw(iGame.getCurrentPlayer().getCurrentRack().toString(PlayedRack::RACK_SIMPLE)) << endl;
 }
 
 
@@ -220,7 +220,7 @@ void GameIO::printAllRacks(ostream &out, const PublicGame &iGame)
     for (unsigned int j = 0; j < iGame.getNbPlayers(); j++)
     {
         out << "Rack " << j << ": ";
-        out << convertToMb(iGame.getPlayer(j).getCurrentRack().toString(PlayedRack::RACK_EXTRA)) << endl;
+        out << lfw(iGame.getPlayer(j).getCurrentRack().toString(PlayedRack::RACK_EXTRA)) << endl;
     }
 }
 
@@ -231,10 +231,10 @@ static void searchResultLine(ostream &out, const Results &iResults, int num)
     const wstring &word = r.getWord();
     if (word.empty())
         return;
-    out << convertToMb(word) << string(16 - word.size(), ' ')
+    out << lfw(word) << string(16 - word.size(), ' ')
         << (r.getBonus() ? '*' : ' ')
         << setw(4) << r.getPoints()
-        << ' ' << convertToMb(r.getCoord().toString());
+        << ' ' << lfw(r.getCoord().toString());
 }
 
 

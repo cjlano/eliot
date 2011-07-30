@@ -193,7 +193,7 @@ void Navigation::print() const
     int index = 0;
     BOOST_FOREACH(const Command *c, m_turnCommands)
     {
-        LOG_DEBUG(index << " " << convertToMb(c->toString()));
+        LOG_DEBUG(index << " " << lfw(c->toString()));
         ++index;
     }
 }

@@ -40,7 +40,7 @@ static void printDicRec(ostream &out, const Dictionary &iDic, const wchar_t * co
     if (edge.term)  /* edge points at a complete word */
     {
         *s = '\0';
-        out << convertToMb(buf) << endl;
+        out << lfw(buf) << endl;
     }
     if (edge.ptr)
     {           /* Compute index: is it non-zero ? */

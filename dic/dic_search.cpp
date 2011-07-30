@@ -427,7 +427,7 @@ bool Dictionary::searchRegExp(const wstring &iRegexp,
     if (!parsingOk)
     {
         delete root;
-        throw InvalidRegexpException(convertToMb(iRegexp));
+        throw InvalidRegexpException(lfw(iRegexp));
     }
 
     int ptl[REGEXP_MAX+1];

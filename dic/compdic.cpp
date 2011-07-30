@@ -90,7 +90,7 @@ void CompDic::addLetter(wchar_t chr, int points, int frequency,
     if (!iswalpha(chr) && chr != L'?')
     {
         ostringstream ss;
-        ss << fmt(_("'%1%' is not a valid letter.")) % convertToMb(chr) << endl;
+        ss << fmt(_("'%1%' is not a valid letter.")) % lfw(chr) << endl;
         ss << fmt(_("For technical reasons, Eliot currently only supports "
                     "alphabetical characters as internal character "
                     "representation, even if the tile has a display string "
@@ -324,7 +324,7 @@ Header CompDic::generateDawg(const string &iWordListFile,
                              const string &iDawgFile,
                              const string &iDicName)
 {
-    m_headerInfo.dicName = convertToWc(iDicName);
+    m_headerInfo.dicName = wfl(iDicName);
     // We are not (yet) able to build the GADDAG format
     m_headerInfo.dawg = true;
 

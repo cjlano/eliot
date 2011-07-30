@@ -109,7 +109,7 @@ int Training::play(const wstring &iCoord, const wstring &iWord)
 
 void Training::recordPlayerMove(const Move &iMove, Player &ioPlayer)
 {
-    LOG_INFO("Player " << ioPlayer.getId() << " plays: " << convertToMb(iMove.toString()));
+    LOG_INFO("Player " << ioPlayer.getId() << " plays: " << lfw(iMove.toString()));
     // Update the rack and the score of the current player
     // PlayerMoveCmd::execute() must be called before Game::helperPlayMove()
     // (called in this class in endTurn()).
@@ -183,7 +183,7 @@ void Training::addPlayer(Player *iPlayer)
     ASSERT(getNPlayers() == 0,
            "Only one player can be added in Training mode");
     // Force the name of the player
-    iPlayer->setName(convertToWc(_("Training")));
+    iPlayer->setName(wfl(_("Training")));
     Game::addPlayer(iPlayer);
 }
 

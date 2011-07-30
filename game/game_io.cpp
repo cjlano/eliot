@@ -128,7 +128,7 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
 
             /* rack */
             strncpy(rack, token, sizeof(rack));
-            static_cast<Training*>(pGame)->setRackManual(false, convertToWc(rack));
+            static_cast<Training*>(pGame)->setRackManual(false, wfl(rack));
 
             /* word */
             token = strtok(NULL, delim);
@@ -164,7 +164,7 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
             //debug("%s)", token);
             strncat(pos, token, sizeof(pos) - strlen(pos) - 1);
 
-            if ((ret = pGame->play(convertToWc(pos), convertToWc(word))))
+            if ((ret = pGame->play(wfl(pos), wfl(word))))
             {
                 GameFactory::Instance()->releaseGame(*pGame);
                 char tmp1[10];
@@ -327,11 +327,11 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
 
         // Build a rack for the correct player
         PlayedRack pldrack;
-        if (!iDic.validateLetters(convertToWc(rack)))
+        if (!iDic.validateLetters(wfl(rack)))
         {
             throw GameException("Rack invalid for the current dictionary");
         }
-        pldrack.setManual(convertToWc(rack));
+        pldrack.setManual(wfl(rack));
 
         // Build a round
         Round round;
@@ -339,7 +339,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
         if (bonus == '*')
             round.setBonus(1);
 
-        wstring word = convertToWc(tmpWord);
+        wstring word = wfl(tmpWord);
         Tile tile;
         if (isalpha(ref[0]))
         {
@@ -411,7 +411,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
         {
             // Create the played rack
             PlayedRack pldrack;
-            pldrack.setManual(convertToWc(letters));
+            pldrack.setManual(wfl(letters));
             // Give the rack to the player
             pGame->m_players[nb]->setCurrentRack(pldrack);
         }
