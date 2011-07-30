@@ -128,5 +128,19 @@ unsigned int writeInUTF8(const wstring &iWString, char *oBuffer,
  */
 string writeInUTF8(const wstring &iWString, const string &iContext);
 
+
+// Useful macros
+
+// Convert between wstring and string
+#define wfl(s) convertToWc(s)
+#define lfw(s) convertToMb(s)
+// Convert between wstring and utf-8 string
+#define ufw(s) writeInUTF8((s), "ufw")
+#define wfu(s) readFromUTF8((s), "wfu")
+// Convert between string and utf-8 string
+#define ufl(s) ufw(wfl(s))
+#define lfu(s) lfw(wfu(s))
+
+
 #endif
 
