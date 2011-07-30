@@ -406,15 +406,18 @@ void Header::read(istream &iStream)
     else
         throw DicException("Header::read: unrecognized algorithm type");
 
-    m_userHost = readFromUTF8(aHeaderExt.userHost, aHeaderExt.userHostSize,
+    m_userHost = readFromUTF8(string(aHeaderExt.userHost,
+                                     aHeaderExt.userHostSize),
                               "user and host information");
 
     // Convert the dictionary letters from UTF-8 to wchar_t*
-    m_dicName = readFromUTF8(aHeaderExt.dicName, aHeaderExt.dicNameSize,
+    m_dicName = readFromUTF8(string(aHeaderExt.dicName,
+                                    aHeaderExt.dicNameSize),
                              "dictionary name");
 
     // Convert the dictionary letters from UTF-8 to wchar_t*
-    m_letters = readFromUTF8(aHeaderExt.letters, aHeaderExt.lettersSize,
+    m_letters = readFromUTF8(string(aHeaderExt.letters,
+                                    aHeaderExt.lettersSize),
                              "dictionary letters");
     // Safety check: correct number of letters?
     if (m_letters.size() != aHeaderExt.nbLetters)
@@ -449,8 +452,8 @@ void Header::read(istream &iStream)
         aHeaderExt2.displayAndInputSize = ntohs(aHeaderExt2.displayAndInputSize);
 
         // Convert the dictionary letters from UTF-8 to wchar_t*
-        wstring serialized = readFromUTF8(aHeaderExt2.displayAndInput,
-                                          aHeaderExt2.displayAndInputSize,
+        wstring serialized = readFromUTF8(string(aHeaderExt2.displayAndInput,
+                                                 aHeaderExt2.displayAndInputSize),
                                           "display and input data");
         // Parse this string and structure the data
         readDisplayAndInput(serialized);

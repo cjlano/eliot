@@ -158,8 +158,7 @@ void CompDic::loadWordList(const string &iFileName, vector<wstring> &oWordList)
         // Ignore empty lines
         if (line == "")
             continue;
-        oWordList.push_back(readFromUTF8(line.data(),
-                                        line.size(), "loadWordList"));
+        oWordList.push_back(readFromUTF8(line, "loadWordList"));
     }
 
     // Sort the word list, to perform a better compression

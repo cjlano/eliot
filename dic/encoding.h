@@ -101,13 +101,11 @@ unsigned int readFromUTF8(wchar_t *oString, unsigned int iWideSize,
  * Same as the other readFromUTF8 function, dealing with a wstring
  * instead of a wchar_t*. Note that it performs an additional copy
  * of the output string...
- * @param iBuffer: UTF-8 string to convert
- * @param iBufSize: available size in iBuffer
+ * @param iString: UTF-8 string to convert
  * @param iContext: free text used in case of exception
  * @return: the converted wide string
  */
-wstring readFromUTF8(const char *iBuffer, unsigned int iBufSize,
-                     const string &iContext);
+wstring readFromUTF8(const string &iString, const string &iContext);
 
 /**
  * Utility function to convert a wstring into an UTF-8 char* buffer

@@ -80,8 +80,7 @@ void readLetters(const string &iFileName, CompDic &ioBuilder)
         }
 
         // Convert the line to a wstring
-        const wstring &wline =
-            readFromUTF8(line.c_str(), line.size(), "readLetters (1)");
+        const wstring &wline = readFromUTF8(line, "readLetters (1)");
         // Split the lines on space characters
         boost::char_separator<wchar_t> sep(L" ");
         Tokenizer tok(wline, sep);

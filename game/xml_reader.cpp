@@ -98,7 +98,7 @@ Game * XmlReader::read(const string &iFileName, const Dictionary &iDic)
 
 static wstring fromUtf8(const string &str)
 {
-    return readFromUTF8(str.c_str(), str.size(), "Loading game");
+    return readFromUTF8(str, "Loading game");
 }
 
 

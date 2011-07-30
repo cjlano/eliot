@@ -312,16 +312,16 @@ unsigned int readFromUTF8(wchar_t *oString, unsigned int iWideSize,
 }
 
 
-wstring readFromUTF8(const char *iBuffer, unsigned int iBufSize,
-                     const string &iContext)
+wstring readFromUTF8(const string &iString, const string &iContext)
 {
+    const int size = iString.size();
     // Temporary buffer for output
     // We will have at most as many characters as in the UTF-8 string
-    wchar_t *wideBuf = new wchar_t[iBufSize];
+    wchar_t *wideBuf = new wchar_t[size];
     unsigned int number;
     try
     {
-        number = readFromUTF8(wideBuf, iBufSize, iBuffer, iBufSize, iContext);
+        number = readFromUTF8(wideBuf, size, iString.data(), size, iContext);
     }
     catch (...)
     {
