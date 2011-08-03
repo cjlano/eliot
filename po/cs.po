@@ -4,13 +4,14 @@
 #
 # Olivier Teuliere <ipkiss @@ via.ecp.fr>, 2009.
 # Pavel Fric, 2010.
+# Pavel Fric <pavelfric@seznam.cz>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
 "POT-Creation-Date: 2011-08-03 08:39+0200\n"
-"PO-Revision-Date: 2010-05-22 13:08+0200\n"
-"Last-Translator: Pavel Fric\n"
+"PO-Revision-Date: 2011-08-03 11:06+0200\n"
+"Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -371,11 +372,11 @@ msgstr "Procvičování"
 
 #: qt/custom_popup.cpp:48
 msgid "Show definition"
-msgstr ""
+msgstr "Ukázat vymezení"
 
 #: qt/custom_popup.cpp:49
 msgid "Show definition of the selected word in an external browser"
-msgstr ""
+msgstr "Ukázat vymezení vybraného slova ve vnějším prohlížeči"
 
 #: qt/dic_tools_widget.cpp:112 qt/dic_tools_widget.cpp:117
 #: qt/ui/player_widget.ui.h:160 qt/ui/training_widget.ui.h:183
@@ -437,21 +438,19 @@ msgstr "Ne"
 
 #: qt/dic_tools_widget.cpp:371 qt/dic_tools_widget.cpp:378
 msgid "Export words list"
-msgstr ""
+msgstr "Vyvést seznam slov"
 
 #: qt/dic_tools_widget.cpp:379
-#, fuzzy
 msgid "File '%1' successfully saved"
-msgstr "Slovník byl úspěšně vytvořen"
+msgstr "Soubor '%1' byl úspěšně uložen"
 
 #: qt/dic_tools_widget.cpp:383 qt/dic_wizard.cpp:344 qt/main_window.cpp:318
 msgid "Eliot - Error"
 msgstr "Eliot - Chyba"
 
 #: qt/dic_tools_widget.cpp:384
-#, fuzzy
 msgid "Cannot save the words list: %1"
-msgstr "Nelze uložit nastavení: %1"
+msgstr "Nelze uložit seznam slov: %1"
 
 #: qt/dic_wizard.cpp:47
 msgid "General information"
@@ -619,9 +618,8 @@ msgstr ""
 "Důvod: %2"
 
 #: qt/main_window.cpp:236
-#, fuzzy
 msgid "End of the game"
-msgstr "Záznam o průběhu hry"
+msgstr "Konec hry"
 
 #: qt/main_window.cpp:280
 msgid "No game"
@@ -653,6 +651,8 @@ msgid ""
 "No definitions site defined.\n"
 "Please define one in the preferences."
 msgstr ""
+"Nestanovena žádná stránka s vymezeními.\n"
+"Stanovte, prosím, jednu v nastavení."
 
 #: qt/main_window.cpp:404
 msgid "Loading a dictionary will stop the current game."
@@ -913,9 +913,8 @@ msgstr ""
 "Soubory se slovníky si můžete stáhnout na stránkách programu Eliot."
 
 #: qt/main_window.cpp:572
-#, fuzzy
 msgid "Starting a new game will stop the current one."
-msgstr "Nahrávání slovníku zastaví současnou hru."
+msgstr "Spuštění nové hry zastaví tu současnou."
 
 #: qt/main_window.cpp:587
 msgid "Game started"
@@ -993,7 +992,6 @@ msgid "Dictionary tools"
 msgstr "Slovníkové nástroje"
 
 #: qt/main_window.cpp:935
-#, fuzzy
 msgid ""
 "Copyright (C) 1999-2011 - Antoine Fraboulet & Olivier Teuliere\n"
 "\n"
@@ -1002,7 +1000,7 @@ msgid ""
 "Software Foundation; either version 2 of the License, or (at your option) "
 "any later version."
 msgstr ""
-"Autorské právo (C) 1999-2010 - Antoine Fraboulet & Olivier Teuliere\n"
+"Autorské právo (C) 1999-2011 - Antoine Fraboulet & Olivier Teuliere\n"
 "\n"
 "Tento program je svobodným softwarem; můžete jej šířit a/nebo upravovat za "
 "podmínek GNU General Public License (GPL), jak jsou zveřejněny Free Software "
@@ -1060,37 +1058,39 @@ msgid "Duplicate"
 msgstr "Zdvojení"
 
 #: qt/player_widget.cpp:181
-#, fuzzy
 msgid ""
 "Cannot pass turn:\n"
 "%1"
-msgstr "Nelze vzdát kolo (%1)"
+msgstr ""
+"Nelze vzdát kolo:\n"
+"%1"
 
 #: qt/player_widget.cpp:183
-#, fuzzy
 msgid ""
 "Cannot change letters '%1':\n"
 "%2"
-msgstr "Nelze změnit písmena '%1' (%2)"
+msgstr ""
+"Nelze změnit písmena '%1':\n"
+"%2"
 
 #: qt/player_widget.cpp:185
 msgid ""
 "Changing letters is not allowed when there are less than 7 tiles left in the "
 "bag"
 msgstr ""
+"Změna písmen není povolena, když v pytlíku zůstalo méně než 7 hracích kamenů"
 
 #: qt/player_widget.cpp:187
-#, fuzzy
 msgid "The rack of the current player does not contain all the listed letters"
-msgstr "Pytlík neobsahuje všechna tato písmena"
+msgstr "Pytlík nynějšího hráče neobsahuje všechna tato vypsaná písmena"
 
 #: qt/player_widget.cpp:189
 msgid "The game is already finished!"
-msgstr ""
+msgstr "Hra již skončila!"
 
 #: qt/player_widget.cpp:193
 msgid "Unknown error"
-msgstr ""
+msgstr "Neznámá chyba"
 
 #: qt/play_word_mediator.cpp:67
 msgid ""
@@ -1115,11 +1115,12 @@ msgstr ""
 "Např.: H4 nebo 4H"
 
 #: qt/play_word_mediator.cpp:138
-#, fuzzy
 msgid ""
 "Cannot play '%1' at position '%2':\n"
 "%3"
-msgstr "Nelze hrát '%1' v poloze '%2':\n"
+msgstr ""
+"Nelze hrát '%1' v poloze '%2':\n"
+"%3"
 
 #: qt/play_word_mediator.cpp:143
 msgid "Some letters are not valid for the current dictionary"
@@ -1186,6 +1187,11 @@ msgid ""
 "\thttp://en.wiktionary.org/wiki/%w\n"
 "\thttp://images.google.com/images?q=%w"
 msgstr ""
+"Adresa (URL) stránky použité pro zobrazení vymezení slov.\n"
+"V adrese, %w bude nahrazeno slovem s malými písmeny. Příklady:\n"
+"\thttp://fr.wiktionary.org/wiki/%w\n"
+"\thttp://en.wiktionary.org/wiki/%w\n"
+"\thttp://images.google.com/images?q=%w"
 
 #: qt/prefs_dialog.cpp:81 qt/prefs_dialog.cpp:96 qt/prefs_dialog.cpp:152
 msgid "%1 error"
@@ -1205,11 +1211,11 @@ msgstr "Výsledek"
 
 #: qt/training_widget.cpp:89
 msgid "Lock columns sizes"
-msgstr ""
+msgstr "Zamknout velikosti sloupců"
 
 #: qt/training_widget.cpp:91
 msgid "Disable auto-resizing of the columns"
-msgstr ""
+msgstr "Zakázat automatickou změnu velikosti sloupců"
 
 #: qt/training_widget.cpp:296
 msgid "Warning: Cannot set the rack to '%1'"
@@ -1502,9 +1508,8 @@ msgid "Number of words:"
 msgstr "Počet slov:"
 
 #: qt/ui/dic_tools_widget.ui.h:274
-#, fuzzy
 msgid "Save words list..."
-msgstr "&Uložit jako..."
+msgstr "Uložit seznam slov..."
 
 #: qt/ui/dic_tools_widget.ui.h:275
 msgid "Dic. info."
@@ -1667,9 +1672,8 @@ msgstr ""
 "sloupec před řádkem pro svislá slova. Např.: H4 nebo 4H"
 
 #: qt/ui/player_widget.ui.h:179 qt/ui/training_widget.ui.h:198
-#, fuzzy
 msgid "Points:"
-msgstr "Body"
+msgstr "Body:"
 
 #: qt/ui/player_widget.ui.h:181
 msgid "Enter the letters you want to change"
@@ -1701,7 +1705,7 @@ msgstr "Otevřít okno s prohlížečem pro výběr slovníku"
 
 #: qt/ui/prefs_dialog.ui.h:267
 msgid "Definitions site:"
-msgstr ""
+msgstr "Stránka s vymezeními:"
 
 #: qt/ui/prefs_dialog.ui.h:269
 msgid "Show/hide the tiles points on the board."
