@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.13\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2011-07-30 00:35+0200\n"
+"POT-Creation-Date: 2011-08-03 08:39+0200\n"
 "PO-Revision-Date: 2011-07-30 10:35+0100\n"
 "Last-Translator: Uroš Stefanović <urostajms @@ gmail.com>\n"
 "Language-Team: Serbian <traduc@traduc.org>\n"
@@ -35,43 +35,43 @@ msgstr ""
 msgid "Could not open file '%1%'"
 msgstr "Не може да отвори датотеку '%1'"
 
-#: dic/compdic.cpp:256
+#: dic/compdic.cpp:255
 msgid "Error on line %1%, col %2%: %3%"
 msgstr "Грешка на линији %1%, колона %2%: %3%"
 
-#: dic/compdic.cpp:337
+#: dic/compdic.cpp:336
 msgid "Cannot open output file '%1%'"
 msgstr "Не може да отвори излазну датотеку '%1%'"
 
-#: dic/compdic.cpp:349
+#: dic/compdic.cpp:348
 msgid "The word list is empty!"
 msgstr "Листа речи је празна!"
 
-#: dic/compdicmain.cpp:95
+#: dic/compdicmain.cpp:94
 msgid "readLetters: Not enough fields in %1% (line %2%)"
 msgstr "учитајСлова: Недовољно поља у %1% (линија %2%)"
 
-#: dic/compdicmain.cpp:105
+#: dic/compdicmain.cpp:104
 msgid "readLetters: Invalid letter at line %1% (only one character allowed)"
 msgstr ""
 "учитајСлова: Неважеће слово на линији %1% (само један карактер дозвољен)"
 
-#: dic/compdicmain.cpp:127
+#: dic/compdicmain.cpp:126
 msgid "Mandatory options:"
 msgstr "Обавезне опције:"
 
-#: dic/compdicmain.cpp:128
+#: dic/compdicmain.cpp:127
 msgid "  -d, --dicname <string>  Set the dictionary name and version"
 msgstr "  -d, --dicname <string>  Постави име и верзију речника"
 
-#: dic/compdicmain.cpp:129
+#: dic/compdicmain.cpp:128
 msgid ""
 "  -l, --letters <string>  Path to the file containing the letters (see below)"
 msgstr ""
 "  -l, --letters <string>  Стаза до датотеке која садржи слова (погледај "
 "испод)"
 
-#: dic/compdicmain.cpp:130
+#: dic/compdicmain.cpp:129
 msgid ""
 "  -i, --input <string>    Path to the uncompressed dictionary file (encoded "
 "in UTF-8)"
@@ -79,40 +79,40 @@ msgstr ""
 "  -i, --input <string>    Стаза до некомпресоване датотеке речника (кодиран "
 "као UTF-8)"
 
-#: dic/compdicmain.cpp:131
+#: dic/compdicmain.cpp:130
 msgid ""
 "                          The words must be in alphabetical order, without "
 "duplicates"
 msgstr ""
 "                          Речи морају бити у алфабетском реду, без дупликата"
 
-#: dic/compdicmain.cpp:132
+#: dic/compdicmain.cpp:131
 msgid ""
 "  -o, --output <string>   Path to the generated compressed dictionary file"
 msgstr "  -o, --output <string>   Стаза до генерисаног компресованог речника"
 
-#: dic/compdicmain.cpp:133
+#: dic/compdicmain.cpp:132
 msgid "Other options:"
 msgstr "Друге опције:"
 
-#: dic/compdicmain.cpp:134
+#: dic/compdicmain.cpp:133
 msgid "  -h, --help              Print this help and exit"
 msgstr "  -h, --help              Штампа помоћ и затвара"
 
-#: dic/compdicmain.cpp:135
+#: dic/compdicmain.cpp:134
 msgid "Example:"
 msgstr "Пример:"
 
-#: dic/compdicmain.cpp:136
+#: dic/compdicmain.cpp:135
 msgid " -d 'ODS 5.0' -l letters.txt -i ods5.txt -o ods5.dawg"
 msgstr " -d 'ODS 5.0' -l letters.txt -i ods5.txt -o ods5.dawg"
 
-#: dic/compdicmain.cpp:138
+#: dic/compdicmain.cpp:137
 msgid ""
 "The file containing the letters (--letters switch) must be UTF-8 encoded."
 msgstr "Датотека која садржи слова мора бити кодиран као UTF-8,"
 
-#: dic/compdicmain.cpp:139
+#: dic/compdicmain.cpp:138
 msgid ""
 "Each line corresponds to one letter, and must contain at least 5 fields "
 "separated with one or more space(s)."
@@ -120,35 +120,35 @@ msgstr ""
 "Свакој линији одговара једно слово, и мора да садржи најмање 5 поља "
 "одвојених једним или са више размака."
 
-#: dic/compdicmain.cpp:141
+#: dic/compdicmain.cpp:140
 msgid ""
 " - 1st field: the letter itself, as stored in the input file (single "
 "character)"
 msgstr " - Прво поље: само слово, као у улазној датотеци (један карактер)"
 
-#: dic/compdicmain.cpp:142
+#: dic/compdicmain.cpp:141
 msgid " - 2nd field: the points of the letter"
 msgstr " - Друго поље: поени за слово"
 
-#: dic/compdicmain.cpp:143
+#: dic/compdicmain.cpp:142
 msgid ""
 " - 3rd field: the frequency of the letter (how many letters of this kind in "
 "the game)"
 msgstr "- Трће поље: учесталост слова (колико тих слова има у игри)"
 
-#: dic/compdicmain.cpp:144
+#: dic/compdicmain.cpp:143
 msgid ""
 " - 4th field: 1 if the letter is considered as a vowel in Scrabble game, 0 "
 "otherwise"
 msgstr " - Четврто поље: 1 ако је слово самогласник у Скребл игри, 0 иначе"
 
-#: dic/compdicmain.cpp:145
+#: dic/compdicmain.cpp:144
 msgid ""
 " - 5th field: 1 if the letter is considered as a consonant in Scrabble game, "
 "0 otherwise"
 msgstr " - Пето поље: 1 ако је слово сугласник у Скребл игри, 0 иначе"
 
-#: dic/compdicmain.cpp:146
+#: dic/compdicmain.cpp:145
 msgid ""
 " - 6th field (optional): display string for the letter (default: the letter "
 "itself)"
@@ -156,44 +156,44 @@ msgstr ""
 " - Шесто поље (опционо): прикаже стринг који предстаља слово (подразумевано: "
 "само слово)"
 
-#: dic/compdicmain.cpp:147
+#: dic/compdicmain.cpp:146
 msgid ""
 " - other fields (optional): input strings for the letter, in addition to the "
 "display string"
 msgstr ""
 " - друга поља (опционо): улазни стринг за слово, у додатку да прикаже стринг"
 
-#: dic/compdicmain.cpp:149
+#: dic/compdicmain.cpp:148
 msgid "Example for french:"
 msgstr "Пример за француски:"
 
-#: dic/compdicmain.cpp:155
+#: dic/compdicmain.cpp:154
 msgid "Example for catalan:"
 msgstr "Пример за каталонски:"
 
 #. TRANSLATORS: the first "L.L" must be translated "L·L",
 #. and the last one translated "ĿL"
-#: dic/compdicmain.cpp:160
+#: dic/compdicmain.cpp:159
 msgid "W 10 1 0 1 L.L L.L L-L L.L"
 msgstr "W 10 1 0 1 L.L L.L L-L L.L"
 
-#: dic/compdicmain.cpp:245
+#: dic/compdicmain.cpp:244
 msgid "A mandatory option is missing"
 msgstr "Обавезна опција недостаје"
 
-#: dic/compdicmain.cpp:257
+#: dic/compdicmain.cpp:256
 msgid " Load time: %1% s"
 msgstr " Време учитавања: %1% с"
 
-#: dic/compdicmain.cpp:258
+#: dic/compdicmain.cpp:257
 msgid " Compression time: %1% s"
 msgstr " Време компресије: %1% с"
 
-#: dic/compdicmain.cpp:260
+#: dic/compdicmain.cpp:259
 msgid " Maximum recursion level reached: %1%"
 msgstr " Максимални ниво рекурзије достигнут: %1%"
 
-#: dic/compdicmain.cpp:266
+#: dic/compdicmain.cpp:265
 msgid "Exception caught: %1%"
 msgstr "Ухваћен изузетак: %1%"
 
@@ -223,77 +223,77 @@ msgstr ""
 "Можете да направите речнике у новом формату помоћу 'compdic' алатке коју је "
 "обезбедио Eliot (од верзије 1.6)."
 
-#: dic/header.cpp:624
+#: dic/header.cpp:627
 msgid "Dictionary name: %1%"
 msgstr "Име речника: %1%"
 
-#: dic/header.cpp:627
+#: dic/header.cpp:630
 msgid "Compressed on: %1%"
 msgstr "Компресовано у: %1%"
 
-#: dic/header.cpp:628
+#: dic/header.cpp:631
 msgid "Compressed using a binary compiled by: %1%"
 msgstr "Компресовано помоћу бинарног састављања: %1%"
 
-#: dic/header.cpp:629
+#: dic/header.cpp:632
 msgid "Dictionary type: %1%"
 msgstr "Тип речника: %1%"
 
-#: dic/header.cpp:630
+#: dic/header.cpp:633
 msgid "Letters: %1%"
 msgstr "Слова: %1%"
 
-#: dic/header.cpp:631
+#: dic/header.cpp:634
 msgid "Number of letters: %1%"
 msgstr "Број слова: %1%"
 
-#: dic/header.cpp:632
+#: dic/header.cpp:635
 msgid "Number of words: %1%"
 msgstr "Број речи: %1%"
 
-#: dic/header.cpp:635
+#: dic/header.cpp:638
 msgid "Header size: %1% bytes"
 msgstr "Величина заглавља: %1% бајтова"
 
-#: dic/header.cpp:636
+#: dic/header.cpp:639
 msgid "Root: %1% (edge)"
 msgstr "Корен: %1% (ивица)"
 
-#: dic/header.cpp:637
+#: dic/header.cpp:640
 msgid "Nodes: %1% used + %2% saved"
 msgstr "Чворови: %1% се користи + %2% сачувано"
 
-#: dic/header.cpp:638
+#: dic/header.cpp:641
 msgid "Edges: %1% used + %2% saved"
 msgstr "Ивице: %1% се користи + %2% сачувано"
 
-#: dic/header.cpp:642 qt/bag_widget.cpp:46 qt/dic_tools_widget.cpp:122
+#: dic/header.cpp:645 qt/bag_widget.cpp:46 qt/dic_tools_widget.cpp:122
 #: qt/dic_wizard.cpp:198
 msgid "Letter"
 msgstr "Слово"
 
-#: dic/header.cpp:642 qt/bag_widget.cpp:47 qt/dic_tools_widget.cpp:123
-#: qt/dic_wizard.cpp:199 qt/history_widget.cpp:63 qt/training_widget.cpp:79
+#: dic/header.cpp:645 qt/bag_widget.cpp:47 qt/dic_tools_widget.cpp:123
+#: qt/dic_wizard.cpp:199 qt/history_widget.cpp:63 qt/training_widget.cpp:80
 msgid "Points"
 msgstr "Поени"
 
-#: dic/header.cpp:642 qt/dic_tools_widget.cpp:124 qt/dic_wizard.cpp:200
+#: dic/header.cpp:645 qt/dic_tools_widget.cpp:124 qt/dic_wizard.cpp:200
 msgid "Frequency"
 msgstr "Учесталост"
 
-#: dic/header.cpp:642
+#: dic/header.cpp:645
 msgid "Vowel"
 msgstr "Самогласник"
 
-#: dic/header.cpp:643
+#: dic/header.cpp:646
 msgid "Consonant"
 msgstr "Сугласник"
 
-#: dic/header.cpp:643
+#: dic/header.cpp:646
 msgid "Display"
 msgstr "Приказ"
 
-#: dic/header.cpp:643
+#: dic/header.cpp:646
 msgid "Alt. input"
 msgstr "Алт. унос"
 
@@ -359,6 +359,14 @@ msgstr "Играч %u"
 #: qt/ui/new_game.ui.h:214
 msgid "Training"
 msgstr "Тренинг"
+
+#: qt/custom_popup.cpp:48
+msgid "Show definition"
+msgstr ""
+
+#: qt/custom_popup.cpp:49
+msgid "Show definition of the selected word in an external browser"
+msgstr ""
 
 #: qt/dic_tools_widget.cpp:112 qt/dic_tools_widget.cpp:117
 #: qt/ui/player_widget.ui.h:160 qt/ui/training_widget.ui.h:183
@@ -426,7 +434,7 @@ msgstr "Извези листу речи"
 msgid "File '%1' successfully saved"
 msgstr "Датотека '%1' успешно сачувана"
 
-#: qt/dic_tools_widget.cpp:383 qt/dic_wizard.cpp:344 qt/main_window.cpp:313
+#: qt/dic_tools_widget.cpp:383 qt/dic_wizard.cpp:344 qt/main_window.cpp:318
 msgid "Eliot - Error"
 msgstr "Eliot - Грешка"
 
@@ -486,7 +494,7 @@ msgstr ""
 msgid "'%1' (ASCII code %2) at line %3"
 msgstr "'%1' (ASCII код %2) на линији %3"
 
-#: qt/dic_wizard.cpp:135 qt/dic_wizard.cpp:146 qt/main_window.cpp:430
+#: qt/dic_wizard.cpp:135 qt/dic_wizard.cpp:146 qt/main_window.cpp:435
 #: qt/new_game.cpp:56 qt/ui/main_window.ui.h:124
 msgid "Eliot"
 msgstr "Eliot"
@@ -567,11 +575,11 @@ msgstr "Потез"
 msgid "Rack"
 msgstr "Сталак"
 
-#: qt/history_widget.cpp:61 qt/training_widget.cpp:77
+#: qt/history_widget.cpp:61 qt/training_widget.cpp:78
 msgid "Word"
 msgstr "Реч"
 
-#: qt/history_widget.cpp:62 qt/training_widget.cpp:78
+#: qt/history_widget.cpp:62 qt/training_widget.cpp:79
 msgid "Ref"
 msgstr "Реф"
 
@@ -579,19 +587,19 @@ msgstr "Реф"
 msgid "Player"
 msgstr "Играч"
 
-#: qt/history_widget.cpp:166 qt/main_window.cpp:766 utils/ncurses.cpp:422
+#: qt/history_widget.cpp:166 qt/main_window.cpp:771 utils/ncurses.cpp:422
 msgid "(PASS)"
 msgstr "(ПРЕСКОЧЕНО)"
 
-#: qt/history_widget.cpp:200 qt/main_window.cpp:465
+#: qt/history_widget.cpp:200 qt/main_window.cpp:470
 msgid "&Game"
 msgstr "&Игра"
 
-#: qt/main_window.cpp:116 qt/main_window.cpp:868 qt/ui/main_window.ui.h:145
+#: qt/main_window.cpp:121 qt/main_window.cpp:873 qt/ui/main_window.ui.h:145
 msgid "Board"
 msgstr "Табла"
 
-#: qt/main_window.cpp:178
+#: qt/main_window.cpp:183
 msgid ""
 "Cannot load dictionary '%1' indicated in the preferences.\n"
 "Reason: %2"
@@ -599,290 +607,290 @@ msgstr ""
 "Не може да учита речник '%1%' дефинисан у подешавањима.\n"
 "Разлог: %2"
 
-#: qt/main_window.cpp:231
+#: qt/main_window.cpp:236
 #, fuzzy
 msgid "End of the game"
 msgstr "Историја игре"
 
-#: qt/main_window.cpp:275
+#: qt/main_window.cpp:280
 msgid "No game"
 msgstr "Нема игре"
 
-#: qt/main_window.cpp:283 utils/ncurses.cpp:1111 qt/ui/prefs_dialog.ui.h:298
+#: qt/main_window.cpp:288 utils/ncurses.cpp:1111 qt/ui/prefs_dialog.ui.h:298
 msgid "Training mode"
 msgstr "Тренинг"
 
-#: qt/main_window.cpp:287
+#: qt/main_window.cpp:292
 msgid "Duplicate game"
 msgstr "Дупла игра"
 
-#: qt/main_window.cpp:291 qt/new_game.cpp:100 qt/new_game.cpp:169
+#: qt/main_window.cpp:296 qt/new_game.cpp:100 qt/new_game.cpp:169
 #: qt/ui/new_game.ui.h:213
 msgid "Free game"
 msgstr "Слободна игра"
 
-#: qt/main_window.cpp:300
+#: qt/main_window.cpp:305
 msgid "No dictionary"
 msgstr "Нема речника"
 
-#: qt/main_window.cpp:303
+#: qt/main_window.cpp:308
 msgid "Dictionary: %1"
 msgstr "Речник: %1"
 
-#: qt/main_window.cpp:333
+#: qt/main_window.cpp:338
 msgid ""
 "No definitions site defined.\n"
 "Please define one in the preferences."
 msgstr ""
 
-#: qt/main_window.cpp:399
+#: qt/main_window.cpp:404
 msgid "Loading a dictionary will stop the current game."
 msgstr "Учитавање речника ће прекинути тренутну игру."
 
-#: qt/main_window.cpp:414
+#: qt/main_window.cpp:419
 msgid "Loaded dictionary '%1'"
 msgstr "Учитан речник '%1'"
 
-#: qt/main_window.cpp:432
+#: qt/main_window.cpp:437
 msgid "Do you want to continue?"
 msgstr "Да ли желите да наставите?"
 
-#: qt/main_window.cpp:466
+#: qt/main_window.cpp:471
 msgid "&New..."
 msgstr "&Нова..."
 
-#: qt/main_window.cpp:466
+#: qt/main_window.cpp:471
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: qt/main_window.cpp:467
+#: qt/main_window.cpp:472
 msgid "Start a new game"
 msgstr "Започни нову игру"
 
-#: qt/main_window.cpp:469
+#: qt/main_window.cpp:474
 msgid "&Load..."
 msgstr "&Учитај..."
 
-#: qt/main_window.cpp:469
+#: qt/main_window.cpp:474
 msgid "Ctrl+O"
 msgstr "Ctrl+O"
 
-#: qt/main_window.cpp:470
+#: qt/main_window.cpp:475
 msgid "Load an existing game"
 msgstr "Учитај постојећу игру"
 
-#: qt/main_window.cpp:471
+#: qt/main_window.cpp:476
 msgid "&Save as..."
 msgstr "&Сачувај као..."
 
-#: qt/main_window.cpp:471
+#: qt/main_window.cpp:476
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
 
-#: qt/main_window.cpp:472
+#: qt/main_window.cpp:477
 msgid "Save the current game"
 msgstr "Сачувај тренутну игру"
 
-#: qt/main_window.cpp:474
+#: qt/main_window.cpp:479
 msgid "&Print..."
 msgstr "&Штампај..."
 
-#: qt/main_window.cpp:474
+#: qt/main_window.cpp:479
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
-#: qt/main_window.cpp:475
+#: qt/main_window.cpp:480
 msgid "Print the current game"
 msgstr "Одштампај тренутну игру"
 
-#: qt/main_window.cpp:478
+#: qt/main_window.cpp:483
 msgid "&Quit"
 msgstr "&Излаз"
 
-#: qt/main_window.cpp:478
+#: qt/main_window.cpp:483
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: qt/main_window.cpp:479
+#: qt/main_window.cpp:484
 msgid "Quit Eliot"
 msgstr "Затвори Eliot"
 
-#: qt/main_window.cpp:484 qt/main_window.cpp:530
+#: qt/main_window.cpp:489 qt/main_window.cpp:535
 msgid "&History"
 msgstr "&Историја"
 
-#: qt/main_window.cpp:485
+#: qt/main_window.cpp:490
 msgid "&First turn"
 msgstr "&Први игра"
 
-#: qt/main_window.cpp:485
+#: qt/main_window.cpp:490
 msgid "Ctrl+Home"
 msgstr "Ctrl+Home"
 
-#: qt/main_window.cpp:486
+#: qt/main_window.cpp:491
 msgid "Go to the first turn of the game"
 msgstr "Иди на први потез"
 
-#: qt/main_window.cpp:488
+#: qt/main_window.cpp:493
 msgid "&Previous turn"
 msgstr "&Претходни потез"
 
-#: qt/main_window.cpp:488
+#: qt/main_window.cpp:493
 msgid "Ctrl+Left"
 msgstr "Ctrl+Left"
 
-#: qt/main_window.cpp:489
+#: qt/main_window.cpp:494
 msgid "Go to the previous turn of the game"
 msgstr "Иди на претходни потез"
 
-#: qt/main_window.cpp:491
+#: qt/main_window.cpp:496
 msgid "&Next turn"
 msgstr "&Следећи потез"
 
-#: qt/main_window.cpp:491
+#: qt/main_window.cpp:496
 msgid "Ctrl+Right"
 msgstr "Ctrl+Right"
 
-#: qt/main_window.cpp:492
+#: qt/main_window.cpp:497
 msgid "Go to the next turn of the game"
 msgstr "Иди на следећи потез"
 
-#: qt/main_window.cpp:494
+#: qt/main_window.cpp:499
 msgid "&Last turn"
 msgstr "&Последњи потез"
 
-#: qt/main_window.cpp:494
+#: qt/main_window.cpp:499
 msgid "Ctrl+End"
 msgstr "Ctrl+End"
 
-#: qt/main_window.cpp:495
+#: qt/main_window.cpp:500
 msgid "Go to the last turn of the game"
 msgstr "Иди на последњи потез"
 
-#: qt/main_window.cpp:497
+#: qt/main_window.cpp:502
 msgid "&Replay turn"
 msgstr "&Понови потез"
 
-#: qt/main_window.cpp:497
+#: qt/main_window.cpp:502
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: qt/main_window.cpp:498
+#: qt/main_window.cpp:503
 msgid ""
 "Play the game from the current position, replacing what was really played"
 msgstr ""
 "Одиграј игру са тренутне позиције, замењујући оно што је стварно одиграно"
 
-#: qt/main_window.cpp:510
+#: qt/main_window.cpp:515
 msgid "&Settings"
 msgstr "&Поставке"
 
-#: qt/main_window.cpp:511
+#: qt/main_window.cpp:516
 msgid "&Choose dictionary..."
 msgstr "&Изабери речник..."
 
-#: qt/main_window.cpp:511
+#: qt/main_window.cpp:516
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: qt/main_window.cpp:512
+#: qt/main_window.cpp:517
 msgid "Select a new dictionary"
 msgstr "Изабери нов речник"
 
-#: qt/main_window.cpp:513
+#: qt/main_window.cpp:518
 msgid "Create &new dictionary..."
 msgstr "Направи &нов речник..."
 
-#: qt/main_window.cpp:514
+#: qt/main_window.cpp:519
 msgid ""
 "Start the wizard for creating a new dictionary from an existing word list"
 msgstr "Покреће чаробњака који креира нови речник из постојеће листе речи"
 
-#: qt/main_window.cpp:516
+#: qt/main_window.cpp:521
 msgid "&Preferences..."
 msgstr "&Подешавања"
 
-#: qt/main_window.cpp:516
+#: qt/main_window.cpp:521
 msgid "Ctrl+F"
 msgstr "Ctrl+F"
 
-#: qt/main_window.cpp:517
+#: qt/main_window.cpp:522
 msgid "Edit the preferences"
 msgstr "Промени подешавања"
 
-#: qt/main_window.cpp:522
+#: qt/main_window.cpp:527
 msgid "&Windows"
 msgstr "&Прозор"
 
-#: qt/main_window.cpp:523
+#: qt/main_window.cpp:528
 msgid "&Toolbar"
 msgstr "&Трака са алаткама"
 
-#: qt/main_window.cpp:523
+#: qt/main_window.cpp:528
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: qt/main_window.cpp:524
+#: qt/main_window.cpp:529
 msgid "Show/hide the toolbar"
 msgstr "Прикажи/сакриј траку са алаткама"
 
-#: qt/main_window.cpp:526
+#: qt/main_window.cpp:531
 msgid "&Bag"
 msgstr "&Врећица"
 
-#: qt/main_window.cpp:526 qt/ui/main_window.ui.h:129
+#: qt/main_window.cpp:531 qt/ui/main_window.ui.h:129
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: qt/main_window.cpp:527 qt/ui/main_window.ui.h:127
+#: qt/main_window.cpp:532 qt/ui/main_window.ui.h:127
 msgid "Show/hide the remaining tiles in the bag"
 msgstr "Прикажи/сакриј преостале плочице у врећици"
 
-#: qt/main_window.cpp:528
+#: qt/main_window.cpp:533
 msgid "&External board"
 msgstr "&Екстерна табла"
 
-#: qt/main_window.cpp:528 qt/ui/main_window.ui.h:134
+#: qt/main_window.cpp:533 qt/ui/main_window.ui.h:134
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: qt/main_window.cpp:529 qt/ui/main_window.ui.h:132
+#: qt/main_window.cpp:534 qt/ui/main_window.ui.h:132
 msgid "Show/hide the external board"
 msgstr "Прикажи/сакриј екстерну таблу"
 
-#: qt/main_window.cpp:530 qt/ui/main_window.ui.h:139
+#: qt/main_window.cpp:535 qt/ui/main_window.ui.h:139
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: qt/main_window.cpp:531 qt/ui/main_window.ui.h:137
+#: qt/main_window.cpp:536 qt/ui/main_window.ui.h:137
 msgid "Show/hide the game history"
 msgstr "Прикажи/сакриј историју игре"
 
-#: qt/main_window.cpp:533
+#: qt/main_window.cpp:538
 msgid "&Dictionary tools"
 msgstr "&Алатке речника"
 
-#: qt/main_window.cpp:533 qt/ui/main_window.ui.h:144
+#: qt/main_window.cpp:538 qt/ui/main_window.ui.h:144
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
 
-#: qt/main_window.cpp:534 qt/ui/main_window.ui.h:142
+#: qt/main_window.cpp:539 qt/ui/main_window.ui.h:142
 msgid "Show/hide the dictionary tools"
 msgstr "Прикажи/сакриј алатке речника"
 
-#: qt/main_window.cpp:538
+#: qt/main_window.cpp:543
 msgid "Hel&p"
 msgstr "&Помоћ"
 
-#: qt/main_window.cpp:539
+#: qt/main_window.cpp:544
 msgid "&About..."
 msgstr "&О програму..."
 
-#: qt/main_window.cpp:540 qt/main_window.cpp:939
+#: qt/main_window.cpp:545 qt/main_window.cpp:944
 msgid "About Eliot"
 msgstr "О Eliot-у"
 
-#: qt/main_window.cpp:551
+#: qt/main_window.cpp:556
 msgid ""
 "You have to select a dictionary (.dawg file) before starting a game. This "
 "can be done in the \"Settings\" menu.\n"
@@ -894,86 +902,86 @@ msgstr ""
 "\n"
 "Можете да преузмете речник са Eliot-ове веб странице."
 
-#: qt/main_window.cpp:567
+#: qt/main_window.cpp:572
 msgid "Starting a new game will stop the current one."
 msgstr "Почетак нове игре ће прекинути тренутну."
 
-#: qt/main_window.cpp:582
+#: qt/main_window.cpp:587
 msgid "Game started"
 msgstr "Игра је почела"
 
-#: qt/main_window.cpp:594
+#: qt/main_window.cpp:599
 msgid "You have to select a dictionary first!"
 msgstr "Морате прво изабрати речник!"
 
-#: qt/main_window.cpp:598 utils/ncurses.cpp:640
+#: qt/main_window.cpp:603 utils/ncurses.cpp:640
 msgid "Load a game"
 msgstr "Учитај игру"
 
-#: qt/main_window.cpp:609
+#: qt/main_window.cpp:614
 msgid "Error while loading the game:\n"
 msgstr "Грешка приликом учитавања игре:\n"
 
-#: qt/main_window.cpp:616 utils/ncurses.cpp:654
+#: qt/main_window.cpp:621 utils/ncurses.cpp:654
 #, c-format
 msgid "Game loaded"
 msgstr "Игра је учитана"
 
-#: qt/main_window.cpp:626
+#: qt/main_window.cpp:631
 msgid "Save a game"
 msgstr "Сачувај игру"
 
-#: qt/main_window.cpp:632
+#: qt/main_window.cpp:637
 msgid "Game saved"
 msgstr "Игра је сачувана"
 
-#: qt/main_window.cpp:636
+#: qt/main_window.cpp:641
 msgid "Error saving game: %1"
 msgstr "Грешка приликом чувања игре: %1"
 
-#: qt/main_window.cpp:674
+#: qt/main_window.cpp:679
 msgid "N."
 msgstr "БР."
 
-#: qt/main_window.cpp:674
+#: qt/main_window.cpp:679
 msgid "RACK"
 msgstr "СТАЛАК"
 
-#: qt/main_window.cpp:674
+#: qt/main_window.cpp:679
 msgid "SOLUTION"
 msgstr "РЕШЕЊЕ"
 
-#: qt/main_window.cpp:674
+#: qt/main_window.cpp:679
 msgid "REF"
 msgstr "РЕФ"
 
-#: qt/main_window.cpp:674
+#: qt/main_window.cpp:679
 msgid "PTS"
 msgstr "ПОЕНИ"
 
-#: qt/main_window.cpp:815 qt/prefs_dialog.cpp:164
+#: qt/main_window.cpp:820 qt/prefs_dialog.cpp:164
 msgid "Choose a dictionary"
 msgstr "Изабери речник"
 
-#: qt/main_window.cpp:823
+#: qt/main_window.cpp:828
 msgid "Dictionary creation wizard"
 msgstr "Чаробњак за креирање речника"
 
-#: qt/main_window.cpp:850 utils/ncurses.cpp:494 qt/ui/main_window.ui.h:125
+#: qt/main_window.cpp:855 utils/ncurses.cpp:494 qt/ui/main_window.ui.h:125
 msgid "Bag"
 msgstr "Врећица"
 
-#: qt/main_window.cpp:886 qt/ui/main_window.ui.h:135
+#: qt/main_window.cpp:891 qt/ui/main_window.ui.h:135
 #: qt/ui/main_window.ui.h:146
 msgid "History"
 msgstr "Историја"
 
-#: qt/main_window.cpp:903 qt/ui/dic_tools_widget.ui.h:263
+#: qt/main_window.cpp:908 qt/ui/dic_tools_widget.ui.h:263
 #: qt/ui/main_window.ui.h:140
 msgid "Dictionary tools"
 msgstr "Алатке речника"
 
-#: qt/main_window.cpp:930
+#: qt/main_window.cpp:935
 msgid ""
 "Copyright (C) 1999-2011 - Antoine Fraboulet & Olivier Teuliere\n"
 "\n"
@@ -988,16 +996,16 @@ msgstr ""
 "одредбама GNU Опште Јавне Лиценце који је објавила Задужбина за слободан "
 "софтвер; било верзија 2 Лиценце, или (по вашем мишљењу) нека каснија верзија."
 
-#: qt/main_window.cpp:936
+#: qt/main_window.cpp:941
 msgid "Web site: http://www.nongnu.org/eliot/en/"
 msgstr "Веб страна: http://www.nongnu.org/eliot/en/"
 
-#: qt/main_window.cpp:954 qt/main_window.cpp:967 qt/main_window.cpp:980
-#: qt/main_window.cpp:993
+#: qt/main_window.cpp:959 qt/main_window.cpp:972 qt/main_window.cpp:985
+#: qt/main_window.cpp:998
 msgid "Turn %1/%2"
 msgstr "Потез %1/%2"
 
-#: qt/main_window.cpp:1006
+#: qt/main_window.cpp:1011
 msgid ""
 "Replaying this turn will modify the game history by deleting the turns after "
 "the displayed one (i.e. turns \"in the future\")."
@@ -1005,7 +1013,7 @@ msgstr ""
 "Понављање овог потеза ће променти историју игре тако што ће да обрише потезе "
 "одигране после приказаног потеза (нпр. потези \"у будућности\")."
 
-#: qt/main_window.cpp:1016
+#: qt/main_window.cpp:1021
 msgid "Replaying from turn %1"
 msgstr "Поново игра потез %1"
 
@@ -1181,23 +1189,23 @@ msgstr "Не може да сачува подешавања: %1"
 msgid "Score"
 msgstr "Резултат"
 
-#: qt/training_widget.cpp:88
+#: qt/training_widget.cpp:89
 msgid "Lock columns sizes"
 msgstr ""
 
-#: qt/training_widget.cpp:90
+#: qt/training_widget.cpp:91
 msgid "Disable auto-resizing of the columns"
 msgstr ""
 
-#: qt/training_widget.cpp:295
+#: qt/training_widget.cpp:296
 msgid "Warning: Cannot set the rack to '%1'"
 msgstr "Упозорење: Не може да постави сталак на '%1'"
 
-#: qt/training_widget.cpp:335
+#: qt/training_widget.cpp:336
 msgid "Searching with rack '%1'..."
 msgstr "Претражује са сталком '%1'..."
 
-#: qt/training_widget.cpp:337
+#: qt/training_widget.cpp:338
 msgid "Search done"
 msgstr "Претрага завршена"
 

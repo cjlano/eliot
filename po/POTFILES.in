@@ -97,6 +97,8 @@ qt/bag_widget.cpp
 qt/bag_widget.h
 qt/board_widget.cpp
 qt/board_widget.h
+qt/custom_popup.cpp
+qt/custom_popup.h
 qt/coord_model.cpp
 qt/coord_model.h
 qt/dic_tools_widget.cpp
