@@ -6,8 +6,8 @@ EXPAT_VERSION = 2.0.1
 ARABICA_VERSION = 2010-November
 LIBXML2_VERSION = 2.7.8
 XERCES_VERSION = 3.1.1
-APR_VERSION = 1.4.2
-APU_VERSION = 1.3.10
+APR_VERSION = 1.4.5
+APU_VERSION = 1.3.12
 LOG4CXX_VERSION = 0.10.0
 
 
@@ -101,7 +101,7 @@ $(LOG4CXX_DIR_FLAG): $(LOG4CXX_ARCHIVE)
 	touch $@
 
 .log4cxx: $(LOG4CXX_DIR_FLAG)
-	(cd $(LOG4CXX_DIR) && patch -p0 < ../log4cxx-no-example.patch && patch -p0 < ../log4cxx-build-fixes.patch && $(CONFIGURE) --with-apr=$(PREFIX) --with-apu=$(PREFIX) --disable-doxygen --disable-dot --enable-static --disable-shared && make && make install)
+	(cd $(LOG4CXX_DIR) && patch -p0 < ../log4cxx-no-example.patch && patch -p0 < ../log4cxx-build-fixes.patch && $(CONFIGURE) --with-apr=$(PREFIX) --with-apu=$(PREFIX) --with-apr-util=$(PREFIX) --disable-doxygen --disable-dot --enable-static --disable-shared && make && make install)
 	touch $@
 
 
