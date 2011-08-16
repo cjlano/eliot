@@ -8,8 +8,10 @@ msgstr ""
 "Project-Id-Version: eliot 1.9\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
 "POT-Creation-Date: 2011-08-03 08:39+0200\n"
-"PO-Revision-Date: 2010-05-22 14:32+0200\n"
-"Last-Translator: Joan Montané\n"
+"PO-Revision-Date: 2011-08-15 00:43+0100\n"
+"Last-Translator: Joan Montané <joan ---sense spam--- montane.cat>\n"
+"Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -231,7 +233,7 @@ msgid ""
 "1.8. You can create dictionaries in the new format with the 'compdic' tool "
 "provided with Eliot (since version 1.6)."
 msgstr ""
-"El format del diccionari és molt vell. Aquest format no es fa servir més des "
+"El format del diccionari és desfasat. Aquest format no es fa servir més des "
 "de la versió 1.8 de l'Eliot. Podeu crear diccionaris en el format nou amb "
 "l'eina 'compdic' distribuïda amb l'Eliot (des de la versió 1.6)."
 
@@ -241,11 +243,11 @@ msgstr "Nom del diccionari: %1%"
 
 #: dic/header.cpp:630
 msgid "Compressed on: %1%"
-msgstr "Comprimit en: %1%"
+msgstr "S'ha comprimit en: %1%"
 
 #: dic/header.cpp:631
 msgid "Compressed using a binary compiled by: %1%"
-msgstr "Comprimit fent ser un compilat binari per: %1%"
+msgstr "S'ha comprimit fent servur un compilat binari per: %1%"
 
 #: dic/header.cpp:632
 msgid "Dictionary type: %1%"
@@ -374,11 +376,11 @@ msgstr "Entrenament"
 
 #: qt/custom_popup.cpp:48
 msgid "Show definition"
-msgstr ""
+msgstr "Mostra la definició"
 
 #: qt/custom_popup.cpp:49
 msgid "Show definition of the selected word in an external browser"
-msgstr ""
+msgstr "Mostra la definició del mot seleccionat en un navegador extern"
 
 #: qt/dic_tools_widget.cpp:112 qt/dic_tools_widget.cpp:117
 #: qt/ui/player_widget.ui.h:160 qt/ui/training_widget.ui.h:183
@@ -440,21 +442,19 @@ msgstr "No"
 
 #: qt/dic_tools_widget.cpp:371 qt/dic_tools_widget.cpp:378
 msgid "Export words list"
-msgstr ""
+msgstr "Exporta la llista de paraules"
 
 #: qt/dic_tools_widget.cpp:379
-#, fuzzy
 msgid "File '%1' successfully saved"
-msgstr "El diccionari s'ha creat correctament"
+msgstr "S'ha creat correctament el fitxer '%1'"
 
 #: qt/dic_tools_widget.cpp:383 qt/dic_wizard.cpp:344 qt/main_window.cpp:318
 msgid "Eliot - Error"
 msgstr "Eliot - Error"
 
 #: qt/dic_tools_widget.cpp:384
-#, fuzzy
 msgid "Cannot save the words list: %1"
-msgstr "No es poden desar les preferències: %1"
+msgstr "No es pot desar la llista de paraules: %1"
 
 #: qt/dic_wizard.cpp:47
 msgid "General information"
@@ -474,8 +474,9 @@ msgid ""
 "dictionary is loaded.\n"
 "E.g.: My Dic 1.0"
 msgstr ""
-"Indiqueu un nom pel diccionari. Aquest nom apareixerà a la barra d'estat de "
-"l'Eliot quan el diccionari estigui carregat. exemple: El meu diccionari 1.0"
+"Indiqueu un nom per al diccionari. Aquest nom apareixerà a la barra d'estat "
+"de l'Eliot quan el diccionari estigui carregat. exemple: El meu diccionari "
+"1.0"
 
 #: qt/dic_wizard.cpp:53
 msgid ""
@@ -483,16 +484,18 @@ msgid ""
 "contain the compressed dictionary.\n"
 "It must have the .dawg extension."
 msgstr ""
-"Seleccioneu el fitxer de sortida. L'assistent generarà el fitxer, el "
-"diccionari comprimit. Ha de tenir l'extensió .dawg."
+"Seleccioneu el fitxer de sortida. L'assistent generarà el fitxer, que "
+"contindrà el diccionari comprimit.\n"
+"Ha de tenir l'extensió .dawg."
 
 #: qt/dic_wizard.cpp:57
 msgid ""
 "Choose the file containing the word list.\n"
 "It must be encoded in UTF-8, and must contain one word on each line."
 msgstr ""
-"Seleccioneu el fitxer que conté la llista de paraules. Ha d'estar en el joc "
-"de caràcters UTF-8, i ha de contenir una paraula a cada línia."
+"Seleccioneu el fitxer que conté la llista de paraules.\n"
+"Ha d'estar en el joc de caràcters UTF-8, i ha cada línia de tenir una "
+"paraula."
 
 #: qt/dic_wizard.cpp:127
 msgid ""
@@ -544,12 +547,15 @@ msgid ""
 "This is usually the case for the joker and, in French, for the Y letter."
 msgstr ""
 "El quadre següent mostra totes les lletres que s'han trobat a la llista de "
-"paraules (més l'escarràs). Per a cada lletra, heu de definir: - el seu valor "
-"(nombre de punts); - la seva freqüència (nombre de fitxes d'aquesta mena al "
-"joc); - si la lletra ha de considerar-se com una vocal; - si la lletra ha de "
-"considerar-se com una consonant. Observeu que una lletra pot considerar-se a "
-"la vegada com a vocal i com a consonant. Això succeeix habitualment en el "
-"cas de l'escarràs i, en francès, per a la lletra Y."
+"paraules (més l'escarràs). Per a cada lletra, heu de definir:\n"
+" - el seu valor (nombre de punts);\n"
+" - la seva freqüència (nombre de fitxes d'aquesta mena al joc);\n"
+" - si la lletra ha de considerar-se com una vocal;\n"
+" - si la lletra ha de considerar-se com una consonant.\n"
+"\n"
+"Observeu que una lletra pot considerar-se a la vegada com a vocal i com a "
+"consonant. Això succeeix habitualment en el cas de l'escarràs i, en francès, "
+"per a la lletra Y."
 
 #: qt/dic_wizard.cpp:283
 msgid "Conclusion"
@@ -618,9 +624,8 @@ msgstr ""
 "Motiu: %2"
 
 #: qt/main_window.cpp:236
-#, fuzzy
 msgid "End of the game"
-msgstr "Historial de la partida"
+msgstr "Final de la partida"
 
 #: qt/main_window.cpp:280
 msgid "No game"
@@ -652,6 +657,8 @@ msgid ""
 "No definitions site defined.\n"
 "Please define one in the preferences."
 msgstr ""
+"No teniu cap lloc web de definicions establert.\n"
+"Establiu-ne un a les preferències."
 
 #: qt/main_window.cpp:404
 msgid "Loading a dictionary will stop the current game."
@@ -805,7 +812,7 @@ msgstr "Ctrl+C"
 
 #: qt/main_window.cpp:517
 msgid "Select a new dictionary"
-msgstr "Selecciona un diccionari"
+msgstr "Seleccioneu un diccionari"
 
 #: qt/main_window.cpp:518
 msgid "Create &new dictionary..."
@@ -910,12 +917,13 @@ msgid ""
 "You can download dictionary files on Eliot web site."
 msgstr ""
 "Heu de seleccionar un diccionari (fitxer .dawg) abans de començar una "
-"partida. Podeu fer-ho al menú \"Paràmetres\"."
+"partida. Podeu fer-ho al menú \"Paràmetres\".\n"
+"\n"
+"Podeu baixar diccionaris des del lloc web de l'Eliot"
 
 #: qt/main_window.cpp:572
-#, fuzzy
 msgid "Starting a new game will stop the current one."
-msgstr "Si carregueu un diccionari, finalitzareu la partida actual."
+msgstr "Si inicieu una partida nova, finalitzareu la partida actual."
 
 #: qt/main_window.cpp:587
 msgid "Game started"
@@ -993,7 +1001,6 @@ msgid "Dictionary tools"
 msgstr "Eines del diccionari"
 
 #: qt/main_window.cpp:935
-#, fuzzy
 msgid ""
 "Copyright (C) 1999-2011 - Antoine Fraboulet & Olivier Teuliere\n"
 "\n"
@@ -1002,10 +1009,10 @@ msgid ""
 "Software Foundation; either version 2 of the License, or (at your option) "
 "any later version."
 msgstr ""
-"Copyright (C) 1999-2010 - Antoine Fraboulet & Olivier Teulière\n"
+"Copyright (C) 1999-2010 - Antoine Fraboulet & Olivier Teuliere\n"
 "\n"
-"Aquest programa és programari lliure; podeu distribuir-lo i/o modificar-lo "
-"en el termes de la Llicència Pública General GNU publicada per la Free "
+"Aquest programa és programari lliure; podeu distribuir-lo o modificar-lo en "
+"els termes de la Llicència Pública General GNU publicada per la Free "
 "Software Foundation; en la versió 2 de la Llicència, o (a opció vostra) "
 "qualsevol versió posterior."
 
@@ -1060,37 +1067,39 @@ msgid "Duplicate"
 msgstr "Duplicada"
 
 #: qt/player_widget.cpp:181
-#, fuzzy
 msgid ""
 "Cannot pass turn:\n"
 "%1"
-msgstr "No es pot passar el torn (%1)"
+msgstr ""
+"No es pot passar el torn:\n"
+"%1"
 
 #: qt/player_widget.cpp:183
-#, fuzzy
 msgid ""
 "Cannot change letters '%1':\n"
 "%2"
-msgstr "No es poden canviar les fitxes '%1' (%2)"
+msgstr ""
+"No es poden canviar les fitxes '%1'\n"
+"%2"
 
 #: qt/player_widget.cpp:185
 msgid ""
 "Changing letters is not allowed when there are less than 7 tiles left in the "
 "bag"
-msgstr ""
+msgstr "No és permès canviar fitxes quan hi ha menys de 7 al sac"
 
 #: qt/player_widget.cpp:187
-#, fuzzy
 msgid "The rack of the current player does not contain all the listed letters"
-msgstr "El sac no conté totes aquestes fitxes"
+msgstr ""
+"El faristol del jugador actual no conté totes totes les fitxes llistades"
 
 #: qt/player_widget.cpp:189
 msgid "The game is already finished!"
-msgstr ""
+msgstr "La partida gairebé ha finalitzat!"
 
 #: qt/player_widget.cpp:193
 msgid "Unknown error"
-msgstr ""
+msgstr "Error desconegut"
 
 #: qt/play_word_mediator.cpp:67
 msgid ""
@@ -1115,11 +1124,12 @@ msgstr ""
 "Exemple: H4 o 4H"
 
 #: qt/play_word_mediator.cpp:138
-#, fuzzy
 msgid ""
 "Cannot play '%1' at position '%2':\n"
 "%3"
-msgstr "No es pot jugar '%1' a la posició '%2':\n"
+msgstr ""
+"No es pot jugar '%1' a la posició '%2':\n"
+"%3"
 
 #: qt/play_word_mediator.cpp:143
 msgid "Some letters are not valid for the current dictionary"
@@ -1187,6 +1197,11 @@ msgid ""
 "\thttp://en.wiktionary.org/wiki/%w\n"
 "\thttp://images.google.com/images?q=%w"
 msgstr ""
+"URL del lloc web usat per mostrar les defincions dels mots.\n"
+"A l'URL, %w se substitueix per la paraula en minúscula. Exemples:\n"
+"\thttp://fr.wiktionary.org/wiki/%w\n"
+"\thttp://en.wiktionary.org/wiki/%w\n"
+"\thttp://images.google.com/images?q=%w"
 
 #: qt/prefs_dialog.cpp:81 qt/prefs_dialog.cpp:96 qt/prefs_dialog.cpp:152
 msgid "%1 error"
@@ -1206,11 +1221,11 @@ msgstr "Puntuació"
 
 #: qt/training_widget.cpp:89
 msgid "Lock columns sizes"
-msgstr ""
+msgstr "Bloca la mida de les columnes"
 
 #: qt/training_widget.cpp:91
 msgid "Disable auto-resizing of the columns"
-msgstr ""
+msgstr "Inhabilita l'ajustament automàtic de mida de les columnes"
 
 #: qt/training_widget.cpp:296
 msgid "Warning: Cannot set the rack to '%1'"
@@ -1500,9 +1515,8 @@ msgid "Number of words:"
 msgstr "Nombre de paraules:"
 
 #: qt/ui/dic_tools_widget.ui.h:274
-#, fuzzy
 msgid "Save words list..."
-msgstr "Anomena i de&sa..."
+msgstr "Desa la llista de paraules..."
 
 #: qt/ui/dic_tools_widget.ui.h:275
 msgid "Dic. info."
@@ -1666,9 +1680,8 @@ msgstr ""
 "paraules verticals. Ex.: H4 o 4H"
 
 #: qt/ui/player_widget.ui.h:179 qt/ui/training_widget.ui.h:198
-#, fuzzy
 msgid "Points:"
-msgstr "Punts"
+msgstr "Punts:"
 
 #: qt/ui/player_widget.ui.h:181
 msgid "Enter the letters you want to change"
@@ -1702,7 +1715,7 @@ msgstr "Obre una finestra de l'explorador per a seleccionar un diccionari"
 
 #: qt/ui/prefs_dialog.ui.h:267
 msgid "Definitions site:"
-msgstr ""
+msgstr "Lloc web de definicions:"
 
 #: qt/ui/prefs_dialog.ui.h:269
 msgid "Show/hide the tiles points on the board."
