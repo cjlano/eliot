@@ -99,20 +99,13 @@ Here are the steps for the cross-compilation:
     - if you don't have the 'configure' script, generate it:
             ./bootstrap
 
-    - because of a bug in gettext, you may need to apply a little patch to the files
-      installed in the 'intl' directory:
-            - download the patch here (link in the top-left-hand corner)
-              http://www.koders.com/noncode/fid46DF595700FEB564B6EF45BFF55067F95DCF0420.aspx
-            - apply the patch:
-              patch -p2 < gettext-win32.patch
-
     - configure with the following command:
             export INST=`pwd`/extras/contrib/inst && \
             PKG_CONFIG_PATH="${INST}/lib/pkgconfig:${PKG_CONFIG_PATH}" \
             CPPFLAGS=-I${INST}/include LDFLAGS=-L${INST}/lib \
             CC=i586-mingw32msvc-gcc CXX=i586-mingw32msvc-g++ \
             ./configure --host=i586-mingw32msvc --build=i386-linux \
-            --with-boost=${INST}
+            --with-boost=${INST} --with-expat=${INST}
 
     - to compile, run 'make', possibly followed with 'make install'
 
