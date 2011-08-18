@@ -362,11 +362,11 @@ msgstr "Тренинг"
 
 #: qt/custom_popup.cpp:48
 msgid "Show definition"
-msgstr ""
+msgstr "Прикажи дефиницију"
 
 #: qt/custom_popup.cpp:49
 msgid "Show definition of the selected word in an external browser"
-msgstr ""
+msgstr "Прикажи дефиницију изабране речи у спољном претраживачу"
 
 #: qt/dic_tools_widget.cpp:112 qt/dic_tools_widget.cpp:117
 #: qt/ui/player_widget.ui.h:160 qt/ui/training_widget.ui.h:183
@@ -608,9 +608,8 @@ msgstr ""
 "Разлог: %2"
 
 #: qt/main_window.cpp:236
-#, fuzzy
 msgid "End of the game"
-msgstr "Историја игре"
+msgstr "Крај игре"
 
 #: qt/main_window.cpp:280
 msgid "No game"
@@ -642,6 +641,8 @@ msgid ""
 "No definitions site defined.\n"
 "Please define one in the preferences."
 msgstr ""
+"Није дефинисан сајт за дефиниције.\n"
+"Молимо Вас дефинишите сајт у подешавањима."
 
 #: qt/main_window.cpp:404
 msgid "Loading a dictionary will stop the current game."
@@ -1047,37 +1048,38 @@ msgid "Duplicate"
 msgstr "Дупликат"
 
 #: qt/player_widget.cpp:181
-#, fuzzy
 msgid ""
 "Cannot pass turn:\n"
 "%1"
-msgstr "Не можете да прескочите потез (%1)"
+msgstr ""
+"Не можете да прескочите потез:\n"
+"%1"
 
 #: qt/player_widget.cpp:183
-#, fuzzy
 msgid ""
 "Cannot change letters '%1':\n"
 "%2"
-msgstr "Не можете да замените слова '%1' (%2)"
+msgstr ""
+"Не можете да замените слова '%1':\n"
+"%2"
 
 #: qt/player_widget.cpp:185
 msgid ""
 "Changing letters is not allowed when there are less than 7 tiles left in the "
 "bag"
-msgstr ""
+msgstr "Није дозвољена замена слова када је мање од 7 плочица остало у врећици"
 
 #: qt/player_widget.cpp:187
-#, fuzzy
 msgid "The rack of the current player does not contain all the listed letters"
-msgstr "Враћица не садржи сва ова слова"
+msgstr "Сталак играча не садржи сва излистана слова"
 
 #: qt/player_widget.cpp:189
 msgid "The game is already finished!"
-msgstr ""
+msgstr "Игра је већ завршена!"
 
 #: qt/player_widget.cpp:193
 msgid "Unknown error"
-msgstr ""
+msgstr "Непозната грешка"
 
 #: qt/play_word_mediator.cpp:67
 msgid ""
@@ -1102,11 +1104,12 @@ msgstr ""
 "Нпр: H4 или 4H"
 
 #: qt/play_word_mediator.cpp:138
-#, fuzzy
 msgid ""
 "Cannot play '%1' at position '%2':\n"
 "%3"
-msgstr "Не можете одиграти '%1' на позицији '%2':\n"
+msgstr ""
+"Не можете одиграти '%1' на позицији '%2':\n"
+"%3"
 
 #: qt/play_word_mediator.cpp:143
 msgid "Some letters are not valid for the current dictionary"
@@ -1172,6 +1175,11 @@ msgid ""
 "\thttp://en.wiktionary.org/wiki/%w\n"
 "\thttp://images.google.com/images?q=%w"
 msgstr ""
+"URL сајта се користи за приказ дефиниције речи.\n"
+"У URL-у, %w ће бити замењен речју написане малим словима. Примери:\n"
+"\thttp://fr.wiktionary.org/wiki/%w\n"
+"\thttp://en.wiktionary.org/wiki/%w\n"
+"\thttp://images.google.com/images?q=%w"
 
 #: qt/prefs_dialog.cpp:81 qt/prefs_dialog.cpp:96 qt/prefs_dialog.cpp:152
 msgid "%1 error"
@@ -1191,11 +1199,11 @@ msgstr "Резултат"
 
 #: qt/training_widget.cpp:89
 msgid "Lock columns sizes"
-msgstr ""
+msgstr "Закључај величину колона"
 
 #: qt/training_widget.cpp:91
 msgid "Disable auto-resizing of the columns"
-msgstr ""
+msgstr "Онемогући аутоматско прилагођавање величине колона"
 
 #: qt/training_widget.cpp:296
 msgid "Warning: Cannot set the rack to '%1'"
@@ -1646,9 +1654,8 @@ msgstr ""
 "пре реда за усправне речи. Нпр: H4 или 4H"
 
 #: qt/ui/player_widget.ui.h:179 qt/ui/training_widget.ui.h:198
-#, fuzzy
 msgid "Points:"
-msgstr "Поени"
+msgstr "Поени:"
 
 #: qt/ui/player_widget.ui.h:181
 msgid "Enter the letters you want to change"
@@ -1680,7 +1687,7 @@ msgstr "Отвори прозор претраживича да изаберет
 
 #: qt/ui/prefs_dialog.ui.h:267
 msgid "Definitions site:"
-msgstr ""
+msgstr "Сајт за дефиниције:"
 
 #: qt/ui/prefs_dialog.ui.h:269
 msgid "Show/hide the tiles points on the board."
