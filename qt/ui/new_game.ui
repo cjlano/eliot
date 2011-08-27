@@ -1,65 +1,78 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>NewGameDialog</class>
- <widget class="QDialog" name="NewGameDialog" >
-  <property name="geometry" >
+ <widget class="QDialog" name="NewGameDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>473</width>
+    <width>516</width>
     <height>425</height>
    </rect>
   </property>
-  <property name="windowTitle" >
-   <string>_("New game")</string>
+  <property name="windowTitle">
+   <string>_(&quot;New game&quot;)</string>
   </property>
-  <property name="modal" >
+  <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="title" >
-      <string>_("Game type")</string>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>_(&quot;Game type&quot;)</string>
      </property>
-     <layout class="QHBoxLayout" >
-      <property name="topMargin" >
+     <layout class="QHBoxLayout">
+      <property name="topMargin">
        <number>0</number>
       </property>
-      <property name="bottomMargin" >
+      <property name="bottomMargin">
        <number>4</number>
       </property>
       <item>
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
-         <string>_("Mode:")</string>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>_(&quot;Mode:&quot;)</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBoxMode" >
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>4</number>
+        </property>
         <item>
-         <property name="text" >
-          <string>_("Duplicate")</string>
-         </property>
+         <widget class="QRadioButton" name="radioButtonDuplicate">
+          <property name="text">
+           <string>_(&quot;Duplicate&quot;)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item>
-         <property name="text" >
-          <string>_("Free game")</string>
-         </property>
+         <widget class="QRadioButton" name="radioButtonFreeGame">
+          <property name="text">
+           <string>_(&quot;Free game&quot;)</string>
+          </property>
+         </widget>
         </item>
         <item>
-         <property name="text" >
-          <string>_("Training")</string>
-         </property>
+         <widget class="QRadioButton" name="radioButtonTraining">
+          <property name="text">
+           <string>_(&quot;Training&quot;)</string>
+          </property>
+         </widget>
         </item>
-       </widget>
+       </layout>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>16</width>
           <height>26</height>
@@ -68,37 +81,37 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="label_5" >
-        <property name="text" >
-         <string>_("Variant:")</string>
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>_(&quot;Variant:&quot;)</string>
         </property>
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout" >
-        <property name="spacing" >
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
          <number>2</number>
         </property>
-        <property name="topMargin" >
+        <property name="topMargin">
          <number>0</number>
         </property>
         <item>
-         <widget class="QCheckBox" name="checkBoxJoker" >
-          <property name="toolTip" >
-           <string>_("In a joker game, each rack contains a joker. When a word containing the joker is played on the grid, the joker is then replaced by the corresponding letter from the bag, and the joker stays in the rack. When the corresponding letter is not present in the bag, the joker is placed on the board. This variant, particularly interesting in Duplicate mode, is good to train using the joker.")</string>
+         <widget class="QCheckBox" name="checkBoxJoker">
+          <property name="toolTip">
+           <string>_(&quot;In a joker game, each rack contains a joker. When a word containing the joker is played on the grid, the joker is then replaced by the corresponding letter from the bag, and the joker stays in the rack. When the corresponding letter is not present in the bag, the joker is placed on the board. This variant, particularly interesting in Duplicate mode, is good to train using the joker.&quot;)</string>
           </property>
-          <property name="text" >
-           <string>_("Joker game")</string>
+          <property name="text">
+           <string>_(&quot;Joker game&quot;)</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBoxExplosive" >
-          <property name="toolTip" >
-           <string>_("An explosive game is a bit like a joker game, except than when the computer chooses the rack (containing a joker), it performs a search and finds the best word possible with the rack. Then, if possible, it replaces the joker in the rack with the letter allowing to play this best word. This variant, unlike the joker game, allows playing with a normal-looking rack, but it usually gives much higher scores than in a normal game.")</string>
+         <widget class="QCheckBox" name="checkBoxExplosive">
+          <property name="toolTip">
+           <string>_(&quot;An explosive game is a bit like a joker game, except than when the computer chooses the rack (containing a joker), it performs a search and finds the best word possible with the rack. Then, if possible, it replaces the joker in the rack with the letter allowing to play this best word. This variant, unlike the joker game, allows playing with a normal-looking rack, but it usually gives much higher scores than in a normal game.&quot;)</string>
           </property>
-          <property name="text" >
-           <string>_("Explosive game")</string>
+          <property name="text">
+           <string>_(&quot;Explosive game&quot;)</string>
           </property>
          </widget>
         </item>
@@ -115,74 +128,74 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBoxPlayers" >
-     <property name="title" >
-      <string>_("Players")</string>
+    <widget class="QGroupBox" name="groupBoxPlayers">
+     <property name="title">
+      <string>_(&quot;Players&quot;)</string>
      </property>
-     <layout class="QVBoxLayout" >
+     <layout class="QVBoxLayout">
       <item>
-       <widget class="QTreeView" name="treeViewPlayers" >
-        <property name="editTriggers" >
+       <widget class="QTreeView" name="treeViewPlayers">
+        <property name="editTriggers">
          <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
         </property>
-        <property name="rootIsDecorated" >
+        <property name="rootIsDecorated">
          <bool>false</bool>
         </property>
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
+       <layout class="QHBoxLayout">
         <item>
-         <widget class="QLabel" name="label" >
-          <property name="text" >
-           <string>_("Name:")</string>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>_(&quot;Name:&quot;)</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEditName" >
-          <property name="text" >
+         <widget class="QLineEdit" name="lineEditName">
+          <property name="text">
            <string>Player 2</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_2" >
-          <property name="text" >
-           <string>_("Type:")</string>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>_(&quot;Type:&quot;)</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBoxType" >
+         <widget class="QComboBox" name="comboBoxType">
           <item>
-           <property name="text" >
-            <string>_("Human")</string>
+           <property name="text">
+            <string>_(&quot;Human&quot;)</string>
            </property>
           </item>
           <item>
-           <property name="text" >
-            <string>_("Computer")</string>
+           <property name="text">
+            <string>_(&quot;Computer&quot;)</string>
            </property>
           </item>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_4" >
-          <property name="text" >
-           <string>_("Level:")</string>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>_(&quot;Level:&quot;)</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinBoxLevel" >
-          <property name="enabled" >
+         <widget class="QSpinBox" name="spinBoxLevel">
+          <property name="enabled">
            <bool>false</bool>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>100</number>
           </property>
-          <property name="value" >
+          <property name="value">
            <number>100</number>
           </property>
          </widget>
@@ -190,20 +203,20 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
+       <layout class="QHBoxLayout">
         <item>
-         <widget class="QPushButton" name="pushButtonAdd" >
-          <property name="text" >
-           <string>_("Add player")</string>
+         <widget class="QPushButton" name="pushButtonAdd">
+          <property name="text">
+           <string>_(&quot;Add player&quot;)</string>
           </property>
          </widget>
         </item>
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" stdset="0" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
             <height>20</height>
@@ -212,12 +225,12 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButtonRemove" >
-          <property name="enabled" >
+         <widget class="QPushButton" name="pushButtonRemove">
+          <property name="enabled">
            <bool>false</bool>
           </property>
-          <property name="text" >
-           <string>_("Remove player")</string>
+          <property name="text">
+           <string>_(&quot;Remove player&quot;)</string>
           </property>
          </widget>
         </item>
@@ -227,11 +240,11 @@
     </widget>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons" >
+     <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
@@ -246,11 +259,11 @@
    <receiver>NewGameDialog</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>194</x>
      <y>309</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>173</x>
      <y>274</y>
     </hint>
@@ -262,11 +275,11 @@
    <receiver>NewGameDialog</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>101</x>
      <y>298</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>75</x>
      <y>275</y>
     </hint>

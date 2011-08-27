@@ -90,14 +90,24 @@ NewGame::NewGame(QWidget *iParent)
                      SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
                      this,
                      SLOT(enableRemoveButton(const QItemSelection&, const QItemSelection&)));
-    // Enable the Ok button only when if there are enough players for the
+    // Enable the Ok button only if there are enough players for the
     // current mode
     QObject::connect(m_model, SIGNAL(rowsInserted(const QModelIndex&, int, int)),
                      this, SLOT(enableOkButton()));
     QObject::connect(m_model, SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
                      this, SLOT(enableOkButton()));
-    QObject::connect(comboBoxMode, SIGNAL(currentIndexChanged(int)),
+    QObject::connect(radioButtonDuplicate, SIGNAL(toggled(bool)),
                      this, SLOT(enableOkButton()));
+    QObject::connect(radioButtonFreeGame, SIGNAL(toggled(bool)),
+                     this, SLOT(enableOkButton()));
+    QObject::connect(radioButtonTraining, SIGNAL(toggled(bool)),
+                     this, SLOT(enableOkButton()));
+    QObject::connect(radioButtonDuplicate, SIGNAL(toggled(bool)),
+                     this, SLOT(enablePlayers(bool)));
+    QObject::connect(radioButtonFreeGame, SIGNAL(toggled(bool)),
+                     this, SLOT(enablePlayers(bool)));
+    QObject::connect(radioButtonTraining, SIGNAL(toggled(bool)),
+                     this, SLOT(enablePlayers(bool)));
 
     // Install a custom event filter, to remove the selection when the
     // "Delete" key is pressed
@@ -121,16 +131,16 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
 
     // Create the game
     Game *tmpGame = NULL;
-    if (comboBoxMode->currentText() == _q("Training"))
+    if (radioButtonTraining->isChecked())
         tmpGame = GameFactory::Instance()->createTraining(iDic, GameParams(variant));
-    else if (comboBoxMode->currentText() == _q("Free game"))
+    else if (radioButtonFreeGame->isChecked())
         tmpGame = GameFactory::Instance()->createFreeGame(iDic, GameParams(variant));
     else
         tmpGame = GameFactory::Instance()->createDuplicate(iDic, GameParams(variant));
     PublicGame *game = new PublicGame(*tmpGame);
 
     // Add the players
-    if (comboBoxMode->currentText() != _q("Training"))
+    if (!radioButtonTraining->isChecked())
     {
         set<QString> allNames;
         for (int num = 0; num < m_model->rowCount(); ++num)
@@ -185,8 +195,8 @@ void NewGame::enableOkButton()
     // - if there is at least one player in duplicate mode
     // - if there are at least 2 players in free game mode
     bool disable =
-        (comboBoxMode->currentText() == _q("Duplicate") && m_model->rowCount() < 1) ||
-        (comboBoxMode->currentText() == _q("Free game") && m_model->rowCount() < 2);
+        (radioButtonDuplicate->isChecked() && m_model->rowCount() < 1) ||
+        (radioButtonFreeGame->isChecked() && m_model->rowCount() < 2);
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!disable);
 }
 
@@ -200,9 +210,13 @@ void NewGame::enableRemoveButton(const QItemSelection &iSelected,
 }
 
 
-void NewGame::on_comboBoxMode_activated(int iIndex)
+void NewGame::enablePlayers(bool checked)
 {
-    groupBoxPlayers->setEnabled(iIndex != 2);
+    // Testing the "checked" variable prevents from doing the work twice
+    if (checked)
+    {
+        groupBoxPlayers->setEnabled(!radioButtonTraining->isChecked());
+    }
 }
 
 

@@ -52,9 +52,9 @@ private slots:
     void enableLevelSpinBox(int);
     void enableOkButton();
     void enableRemoveButton(const QItemSelection&, const QItemSelection&);
+    void enablePlayers(bool);
 
     // The following slots are automatically connected
-    void on_comboBoxMode_activated(int);
     void on_pushButtonAdd_clicked();
     void on_pushButtonRemove_clicked();
     void on_checkBoxJoker_stateChanged(int);
