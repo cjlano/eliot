@@ -74,7 +74,7 @@ public:
     wstring getWord() const;
     unsigned int getWordLen() const { return m_word.size(); }
     int getPoints() const           { return m_points; }
-    int getBonus()  const           { return m_bonus; }
+    bool getBonus() const           { return m_bonus; }
     const vector<Tile> &getTiles() const { return m_word; }
 
     /*************************
@@ -91,7 +91,7 @@ private:
     vector<char> m_tileOrigin;
     Coord m_coord;
     int m_points;
-    int m_bonus;
+    bool m_bonus;
 };
 
 #endif
