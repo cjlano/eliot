@@ -48,13 +48,10 @@
 
 INIT_LOGGER(game, Game);
 
-const unsigned int Game::RACK_SIZE =  7;
-const int Game::BONUS_POINTS = 50;
 
-Game::Game(const Dictionary &iDic):
-    m_dic(iDic), m_bag(iDic)
+Game::Game(const Dictionary &iDic, const GameParams &iParams):
+    m_params(iParams), m_dic(iDic), m_board(m_params), m_bag(iDic)
 {
-    m_variant = kNONE;
     m_points = 0;
     m_currPlayer = 0;
     m_finished = false;
@@ -177,6 +174,8 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
         throw GameException(_("Not a random mode"));
     }
 
+    const unsigned int RACK_SIZE = m_params.getRackSize();
+
     // Get the tiles remaining on the rack
     vector<Tile> tiles;
     pld.getOldTiles(tiles);
@@ -187,7 +186,8 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
 
     bool jokerAdded = false;
     // Are we dealing with a normal game or a joker game?
-    if (m_variant == kJOKER || m_variant == kEXPLOSIVE)
+    if (m_params.getVariant() == GameParams::kJOKER ||
+        m_params.getVariant() == GameParams::kEXPLOSIVE)
     {
         // 1) Is there already a joker in the remaining letters of the rack?
         bool jokerFound = false;
@@ -330,7 +330,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
     // In explosive games, we have to perform a search, then replace the
     // joker with the letter providing the best score
     // A joker coming from a previous rack is not replaced
-    if (m_variant == kEXPLOSIVE && jokerAdded)
+    if (m_params.getVariant() == GameParams::kEXPLOSIVE && jokerAdded)
     {
         Rack rack;
         pld.getRack(rack);

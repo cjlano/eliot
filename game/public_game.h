@@ -23,6 +23,7 @@
 
 #include <string>
 
+class GameParams;
 class Game;
 class Dictionary;
 class Bag;
@@ -69,25 +70,12 @@ public:
     GameMode getMode() const;
     string getModeAsString() const;
 
-    /// Game variant: it slightly modifies the rules of the game
-    enum GameVariant
-    {
-        kNONE,      // Normal game rules
-        kJOKER,     // Joker game
-        kEXPLOSIVE  // "Explosive" game
-    };
-
-    /**
-     * Accessors for the variant of the game.
-     * The variant can be changed during a game without any problem
-     * (though it seems rather useless...)
-     */
-    void setVariant(GameVariant iVariant);
-    GameVariant getVariant() const;
-
     /***************
      * Various getters
      ***************/
+
+    /// Get the game characteristics
+    const GameParams & getParams() const;
 
     /**
      * Get the dictionary associated with the game.

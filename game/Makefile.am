@@ -40,6 +40,7 @@ libgame_a_SOURCES= \
     player_rack_cmd.cpp player_rack_cmd.h \
     ai_player.h \
     ai_percent.cpp ai_percent.h \
+    game_params.h \
     board.cpp board.h \
     board_cross.cpp \
     matrix.h \

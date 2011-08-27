@@ -34,6 +34,7 @@
 #endif
 
 #include "game_factory.h"
+#include "game_params.h"
 #include "game.h"
 #include "training.h"
 #include "freegame.h"
@@ -76,26 +77,29 @@ void GameFactory::Destroy()
 }
 
 
-Training *GameFactory::createTraining(const Dictionary &iDic)
+Training *GameFactory::createTraining(const Dictionary &iDic,
+                                      const GameParams &iParams)
 {
     LOG_INFO("Creating a training game");
-    Training *game = new Training(iDic);
+    Training *game = new Training(iDic, iParams);
     return game;
 }
 
 
-FreeGame *GameFactory::createFreeGame(const Dictionary &iDic)
+FreeGame *GameFactory::createFreeGame(const Dictionary &iDic,
+                                      const GameParams &iParams)
 {
     LOG_INFO("Creating a free game");
-    FreeGame *game = new FreeGame(iDic);
+    FreeGame *game = new FreeGame(iDic, iParams);
     return game;
 }
 
 
-Duplicate *GameFactory::createDuplicate(const Dictionary &iDic)
+Duplicate *GameFactory::createDuplicate(const Dictionary &iDic,
+                                        const GameParams &iParams)
 {
     LOG_INFO("Creating a duplicate game");
-    Duplicate *game = new Duplicate(iDic);
+    Duplicate *game = new Duplicate(iDic, iParams);
     return game;
 }
 
@@ -190,19 +194,24 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
         return NULL;
     }
 
-    // 4) Try to create a game object
+    // 4) Prepare game parameters
+    GameParams::GameVariant variant = GameParams::kNONE;
+    if (m_joker)
+        variant = GameParams::kJOKER;
+
+    // 5) Try to create a game object
     Game *game = NULL;
     if (m_modeStr == "training" || m_modeStr == "t")
     {
-        game = createTraining(*m_dic);
+        game = createTraining(*m_dic, GameParams(variant));
     }
     else if (m_modeStr == "freegame" || m_modeStr == "f")
     {
-        game = createFreeGame(*m_dic);
+        game = createFreeGame(*m_dic, GameParams(variant));
     }
     else if (m_modeStr == "duplicate" || m_modeStr == "d")
     {
-        game = createDuplicate(*m_dic);
+        game = createDuplicate(*m_dic, GameParams(variant));
     }
     else
     {
@@ -210,7 +219,7 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
         return NULL;
     }
 
-    // 5) Add the players
+    // 6) Add the players
     for (unsigned int i = 0; i < m_players.size(); ++i)
     {
         // Human?
@@ -222,10 +231,6 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
         player->setName(m_players[i].second);
         game->addPlayer(player);
     }
-
-    // 6) Set the variant
-    if (m_joker)
-        game->setVariant(Game::kJOKER);
 
     return game;
 }

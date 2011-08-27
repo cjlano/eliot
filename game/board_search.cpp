@@ -23,22 +23,22 @@
 
 #include "board_search.h"
 #include "dic.h"
+#include "game_params.h"
 #include "board.h"
 #include "tile.h"
 #include "rack.h"
 #include "round.h"
 #include "results.h"
-// FIXME: should not be included here
-#include "game.h"
 
 
 BoardSearch::BoardSearch(const Dictionary &iDic,
+                         const GameParams &iParams,
                          const Matrix<Tile> &iTilesMx,
                          const Matrix<Cross> &iCrossMx,
                          const Matrix<int> &iPointsMx,
                          const Matrix<bool> &iJokerMx,
                          bool isFirstTurn)
-    : m_dic(iDic), m_tilesMx(iTilesMx), m_crossMx(iCrossMx),
+    : m_dic(iDic), m_params(iParams), m_tilesMx(iTilesMx), m_crossMx(iCrossMx),
       m_pointsMx(iPointsMx), m_jokerMx(iJokerMx), m_firstTurn(isFirstTurn)
 {
 }
@@ -240,7 +240,7 @@ void BoardSearch::extendRight(Rack &iRack, Round &ioPartialWord,
  */
 void BoardSearch::evalMove(Results &oResults, Round &iWord) const
 {
-    unsigned int fromrack = 0;
+    int fromrack = 0;
     int pts      = 0;
     int ptscross = 0;
     int wordmul  = 1;
@@ -275,8 +275,16 @@ void BoardSearch::evalMove(Results &oResults, Round &iWord) const
         }
     }
 
-    pts = ptscross + pts * wordmul + Game::BONUS_POINTS * (fromrack == Game::RACK_SIZE);
-    iWord.setBonus(fromrack == Game::RACK_SIZE);
+    // Ignore words using too many letters from the rack
+    if (fromrack > m_params.getLettersToPlay())
+        return;
+
+    pts = ptscross + pts * wordmul;
+    if (fromrack == m_params.getRackSize())
+    {
+        pts += m_params.getBonusPoints();
+        iWord.setBonus(true);
+    }
     iWord.setPoints(pts);
 
     if (iWord.getCoord().getDir() == Coord::VERTICAL)

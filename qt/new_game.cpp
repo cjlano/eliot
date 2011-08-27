@@ -46,6 +46,23 @@ NewGame::NewGame(QWidget *iParent)
     setupUi(this);
     lineEditName->setText(_q("Player %1").arg(2));
 
+    checkBoxJoker->setToolTip(_q(
+            "In a joker game, each rack contains a joker.\n"
+            "When a word containing the joker is played on the grid, the joker is then replaced\n"
+            "with the corresponding letter from the bag, and the joker stays in the rack.\n"
+            "When the corresponding letter is not present in the bag, the joker is placed on the board.\n"
+            "This variant, particularly interesting in Duplicate mode, is good to train using the joker."));
+    checkBoxExplosive->setToolTip(_q(
+            "An explosive game is a bit like a joker game, except that when the computer chooses the rack\n"
+            "(containing a joker), it performs a search and finds the best word possible with the rack.\n"
+            "Then, if possible, it replaces the joker in the rack with the letter allowing to play this best word.\n"
+            "This variant, unlike the joker game, allows playing with a normal-looking rack, but it usually gives\n"
+            "much higher scores than in a normal game."));
+    checkBox7Among8->setToolTip(_q(
+            "With this variant, the rack contains 8 letters instead of 7,\n"
+            "but at most 7 can be played at the same time.\n"
+            "This allows for more combinations during the game, and thus higher scores."));
+
     // Initialize the model of the default players
     m_model = new QStandardItemModel(2, 3, this);
     m_model->setHeaderData(0, Qt::Horizontal, _q("Name"), Qt::DisplayRole);
@@ -93,14 +110,23 @@ NewGame::NewGame(QWidget *iParent)
 
 PublicGame * NewGame::createGame(const Dictionary &iDic) const
 {
+    // Game parameters
+    GameParams::GameVariant variant = GameParams::kNONE;
+    if (checkBoxJoker->isChecked())
+        variant = GameParams::kJOKER;
+    if (checkBoxExplosive->isChecked())
+        variant = GameParams::kEXPLOSIVE;
+    if (checkBox7Among8->isChecked())
+        variant = GameParams::k7AMONG8;
+
     // Create the game
     Game *tmpGame = NULL;
     if (comboBoxMode->currentText() == _q("Training"))
-        tmpGame = GameFactory::Instance()->createTraining(iDic);
+        tmpGame = GameFactory::Instance()->createTraining(iDic, GameParams(variant));
     else if (comboBoxMode->currentText() == _q("Free game"))
-        tmpGame = GameFactory::Instance()->createFreeGame(iDic);
+        tmpGame = GameFactory::Instance()->createFreeGame(iDic, GameParams(variant));
     else
-        tmpGame = GameFactory::Instance()->createDuplicate(iDic);
+        tmpGame = GameFactory::Instance()->createDuplicate(iDic, GameParams(variant));
     PublicGame *game = new PublicGame(*tmpGame);
 
     // Add the players
@@ -141,12 +167,6 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
     {
         game->addPlayer(new HumanPlayer);
     }
-
-    // Joker game?
-    if (checkBoxJoker->isChecked())
-        game->setVariant(PublicGame::kJOKER);
-    if (checkBoxExplosive->isChecked())
-        game->setVariant(PublicGame::kEXPLOSIVE);
 
     return game;
 }

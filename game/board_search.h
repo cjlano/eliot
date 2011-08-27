@@ -25,6 +25,7 @@
 #include "matrix.h"
 
 class Dictionary;
+class GameParams;
 class Tile;
 class Rack;
 class Results;
@@ -36,6 +37,7 @@ class BoardSearch
 {
 public:
     BoardSearch(const Dictionary &iDic,
+                const GameParams &iParams,
                 const Matrix<Tile> &iTilesMx,
                 const Matrix<Cross> &iCrossMx,
                 const Matrix<int> &iPointsMx,
@@ -46,6 +48,7 @@ public:
 
 private:
     const Dictionary &m_dic;
+    const GameParams &m_params;
     const Matrix<Tile> &m_tilesMx;
     const Matrix<Cross> &m_crossMx;
     const Matrix<int> &m_pointsMx;

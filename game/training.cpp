@@ -49,8 +49,8 @@
 INIT_LOGGER(game, Training);
 
 
-Training::Training(const Dictionary &iDic)
-    : Game(iDic), m_results(1000)
+Training::Training(const Dictionary &iDic, const GameParams &iParams)
+    : Game(iDic, iParams), m_results(1000)
 {
 }
 

@@ -30,6 +30,7 @@
 #include "turn.h"
 #include "player.h"
 #include "ai_percent.h"
+#include "game_params.h"
 #include "game.h"
 #include "game_factory.h"
 #include "training.h"
@@ -107,7 +108,7 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
     char *token;
     Game *pGame = NULL;
 
-    pGame = GameFactory::Instance()->createTraining(iDic);
+    pGame = GameFactory::Instance()->createTraining(iDic, GameParams());
     pGame->addPlayer(new HumanPlayer);
     pGame->start();
 
@@ -206,17 +207,17 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
             // Create the correct Game object
             if (strstr(buff, "Training"))
             {
-                pGame = GameFactory::Instance()->createTraining(iDic);
+                pGame = GameFactory::Instance()->createTraining(iDic, GameParams());
                 break;
             }
             else if (strstr(buff, "Free game"))
             {
-                pGame = GameFactory::Instance()->createFreeGame(iDic);
+                pGame = GameFactory::Instance()->createFreeGame(iDic, GameParams());
                 break;
             }
             else if (strstr(buff, "Duplicate"))
             {
-                pGame = GameFactory::Instance()->createDuplicate(iDic);
+                pGame = GameFactory::Instance()->createDuplicate(iDic, GameParams());
                 break;
             }
             else

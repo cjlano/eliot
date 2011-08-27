@@ -99,7 +99,7 @@ public:
 
 private:
     /// Private constructor and destructor to force using the GameFactory class
-    Training(const Dictionary &iDic);
+    Training(const Dictionary &iDic, const GameParams &iParams);
 
     /// Record a player move
     void recordPlayerMove(const Move &iMove, Player &ioPlayer);

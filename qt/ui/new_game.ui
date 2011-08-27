@@ -102,6 +102,13 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox7Among8">
+          <property name="text">
+           <string>_(&quot;7 among 8&quot;)</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>

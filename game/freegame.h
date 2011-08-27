@@ -84,7 +84,7 @@ public:
 
 private:
     // Private constructor to force using the GameFactory class
-    FreeGame(const Dictionary &iDic);
+    FreeGame(const Dictionary &iDic, const GameParams &iParams);
 
     /// Make the AI player whose ID is p play its turn
     void playAI(unsigned int p);

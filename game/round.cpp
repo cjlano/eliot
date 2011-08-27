@@ -49,7 +49,7 @@ void Round::init()
     m_coord.setCol(1);
     m_coord.setDir(Coord::HORIZONTAL);
     m_points = 0;
-    m_bonus  = 0;
+    m_bonus  = false;
 }
 
 

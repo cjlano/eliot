@@ -175,6 +175,9 @@ void PlayWordMediator::lineEditPlay_returnPressed()
             case 12:
                 msg = msg.arg(_q("The word is going out of the board"));
                 break;
+            case 13:
+                msg = msg.arg(_q("The word contains too many letters from the rack"));
+                break;
             default:
                 msg = msg.arg(_q("Incorrect or misplaced word"));
         }

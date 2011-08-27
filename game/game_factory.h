@@ -31,6 +31,7 @@ using std::vector;
 using std::pair;
 
 class Dictionary;
+class GameParams;
 class Game;
 class Training;
 class FreeGame;
@@ -50,14 +51,14 @@ public:
     static GameFactory *Instance();
     static void Destroy();
 
-    /*************************
+    /**
      * Functions to create and destroy a game
      * The dictionary does not belong to the
      * game (ie: it won't be destroyed by ~Game)
-     *************************/
-    Training *createTraining(const Dictionary &iDic);
-    FreeGame *createFreeGame(const Dictionary &iDic);
-    Duplicate *createDuplicate(const Dictionary &iDic);
+     */
+    Training *createTraining(const Dictionary &iDic, const GameParams &iParams);
+    FreeGame *createFreeGame(const Dictionary &iDic, const GameParams &iParams);
+    Duplicate *createDuplicate(const Dictionary &iDic, const GameParams &iParams);
 
     /**
      * load() returns the loaded game, or NULL if there was a problem

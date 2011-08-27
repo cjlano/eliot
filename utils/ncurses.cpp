@@ -39,7 +39,9 @@
 #include "ncurses.h"
 #include "dic.h"
 #include "game_factory.h"
-#include "game.h"
+#include "game_params.h"
+#include "board.h"
+#include "bag.h"
 #include "public_game.h"
 #include "results.h"
 #include "player.h"
@@ -1114,7 +1116,7 @@ void CursesIntf::redraw(WINDOW *win)
     else if (m_game->getMode() == PublicGame::kDUPLICATE)
         mode = _("Duplicate mode");
     string variant = "";
-    if (m_game->getVariant() == PublicGame::kJOKER)
+    if (m_game->getParams().getVariant() == GameParams::kJOKER)
         variant = string(" - ") + _("Joker game");
     string title = "Eliot (" + mode + variant + ") " + _("[h for help]");
 

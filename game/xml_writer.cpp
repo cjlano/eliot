@@ -26,6 +26,7 @@
 #include "xml_writer.h"
 #include "encoding.h"
 #include "turn_cmd.h"
+#include "game_params.h"
 #include "game.h"
 #include "player.h"
 #include "ai_percent.h"
@@ -109,9 +110,9 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
     out << "</Mode>" << endl;
 
     // Game variant
-    if (iGame.getVariant() == Game::kJOKER)
+    if (iGame.getParams().getVariant() == GameParams::kJOKER)
         out << indent << "<Variant>bingo</Variant>" << endl;
-    if (iGame.getVariant() == Game::kEXPLOSIVE)
+    if (iGame.getParams().getVariant() == GameParams::kEXPLOSIVE)
         out << indent << "<Variant>explosive</Variant>" << endl;
 
     // Players

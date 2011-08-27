@@ -47,8 +47,8 @@
 INIT_LOGGER(game, FreeGame);
 
 
-FreeGame::FreeGame(const Dictionary &iDic)
-    : Game(iDic)
+FreeGame::FreeGame(const Dictionary &iDic, const GameParams &iParams)
+    : Game(iDic, iParams)
 {
 }
 

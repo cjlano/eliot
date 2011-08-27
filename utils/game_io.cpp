@@ -27,6 +27,7 @@
 
 #include <dic.h>
 #include "game_io.h"
+#include "game_params.h"
 #include "public_game.h"
 #include "bag.h"
 #include "board.h"
@@ -271,12 +272,12 @@ void GameIO::printGameDebug(ostream &out, const PublicGame &iGame)
         << " out of " << iGame.getNbPlayers() << endl;
     out << "Game: mode=" << iGame.getModeAsString() << endl;
     out << "Game: variant=";
-    switch (iGame.getVariant())
+    switch (iGame.getParams().getVariant())
     {
-        case PublicGame::kEXPLOSIVE:
+        case GameParams::kEXPLOSIVE:
             out << "explosive" << endl;
             break;
-        case PublicGame::kJOKER:
+        case GameParams::kJOKER:
             out << "joker" << endl;
             break;
         default:

@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #include "public_game.h"
+#include "game_params.h"
 #include "game.h"
 #include "training.h"
 #include "duplicate.h"
@@ -57,25 +58,9 @@ string PublicGame::getModeAsString() const
 }
 
 
-void PublicGame::setVariant(GameVariant iVariant)
+const GameParams & PublicGame::getParams() const
 {
-    if (iVariant == kJOKER)
-        m_game.setVariant(Game::kJOKER);
-    else if (iVariant == kEXPLOSIVE)
-        m_game.setVariant(Game::kEXPLOSIVE);
-    else
-        m_game.setVariant(Game::kNONE);
-}
-
-
-PublicGame::GameVariant PublicGame::getVariant() const
-{
-    if (m_game.getVariant() == Game::kJOKER)
-        return kJOKER;
-    else if (m_game.getVariant() == Game::kEXPLOSIVE)
-        return kEXPLOSIVE;
-    else
-        return kNONE;
+    return m_game.getParams();
 }
 
 

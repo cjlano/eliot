@@ -25,6 +25,7 @@
 #include "xml_reader.h"
 #include "dic.h"
 #include "game_exception.h"
+#include "game_params.h"
 #include "game_factory.h"
 #include "training.h"
 #include "duplicate.h"
@@ -175,21 +176,12 @@ void XmlReader::startElement(const string& namespaceURI,
     if (tag == "Player")
     {
         m_context = "Player";
-        m_attributes.clear();
         for (int i = 0; i < atts.getLength(); ++i)
         {
             m_attributes[atts.getLocalName(i)] = atts.getValue(i);
         }
     }
-    else if (tag == "PlayerRack")
-    {
-        m_attributes.clear();
-        for (int i = 0; i < atts.getLength(); ++i)
-        {
-            m_attributes[atts.getLocalName(i)] = atts.getValue(i);
-        }
-    }
-    else if (tag == "PlayerMove" || tag == "GameMove")
+    else if (tag == "PlayerRack" || tag == "PlayerMove" || tag == "GameMove")
     {
         m_attributes.clear();
         for (int i = 0; i < atts.getLength(); ++i)
@@ -210,29 +202,46 @@ void XmlReader::endElement(const string& namespaceURI,
     const string &tag = localName;
     if (tag == "Mode")
     {
-        if (m_data == "duplicate")
-            m_game = GameFactory::Instance()->createDuplicate(m_dic);
-        else if (m_data == "freegame")
-            m_game = GameFactory::Instance()->createFreeGame(m_dic);
-        else if (m_data == "training")
-            m_game = GameFactory::Instance()->createTraining(m_dic);
-        else
-            throw LoadGameException("Invalid game mode: " + m_data);
+        // The game should not be created yet
+        if (m_game != NULL)
+            throw LoadGameException("The 'Mode' tag should be the first one to be closed");
+
+        // Differ game creation until after we have read the variant
+        m_attributes["mode"] = m_data;
         return;
     }
 
-    // At this point, m_game must not be null anymore
-    if (m_game == NULL)
-        throw LoadGameException("The 'Mode' tag should be the first one to be closed");
-
     if (tag == "Variant")
     {
-        if (m_data == "bingo")
-            m_game->setVariant(Game::kJOKER);
-        else if (m_data == "explosive")
-            m_game->setVariant(Game::kEXPLOSIVE);
+        // The game should not be created yet
+        if (m_game != NULL)
+            throw LoadGameException("The 'Variant' tag should be right after the 'Mode' one");
+
+        m_attributes["variant"] = m_data;
+        return;
+    }
+
+    // Create the game
+    if (m_game == NULL)
+    {
+        const string &variantStr = m_attributes["variant"];
+        GameParams::GameVariant variant = GameParams::kNONE;
+        if (variantStr == "bingo")
+            variant = GameParams::kJOKER;
+        else if (variantStr == "explosive")
+            variant = GameParams::kEXPLOSIVE;
+        else if (variantStr != "")
+            throw LoadGameException("Invalid game variant: " + variantStr);
+
+        const string &mode = m_attributes["mode"];
+        if (mode == "duplicate")
+            m_game = GameFactory::Instance()->createDuplicate(m_dic, GameParams(variant));
+        else if (mode == "freegame")
+            m_game = GameFactory::Instance()->createFreeGame(m_dic, GameParams(variant));
+        else if (mode == "training")
+            m_game = GameFactory::Instance()->createTraining(m_dic, GameParams(variant));
         else
-            throw LoadGameException("Invalid game variant: " + m_data);
+            throw LoadGameException("Invalid game mode: " + mode);
     }
 
     else if (m_context == "Player")

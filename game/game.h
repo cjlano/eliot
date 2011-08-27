@@ -24,6 +24,7 @@
 
 #include <string>
 #include <vector>
+#include "game_params.h"
 #include "logging.h"
 #include "bag.h"
 #include "board.h"
@@ -50,12 +51,7 @@ class Game
 {
     DEFINE_LOGGER();
 public:
-    /// Game specs.
-    static const unsigned int RACK_SIZE;
-    static const int BONUS_POINTS;
-
-
-    Game(const Dictionary &iDic);
+    Game(const Dictionary &iDic, const GameParams &iParams);
     virtual ~Game();
 
     /***************
@@ -72,25 +68,12 @@ public:
     virtual GameMode getMode() const = 0;
     virtual string getModeAsString() const = 0;
 
-    /// Game variant: it slightly modifies the rules of the game
-    enum GameVariant
-    {
-        kNONE,      // Normal game rules
-        kJOKER,     // Joker game
-        kEXPLOSIVE  // "Explosive" game
-    };
-
-    /**
-     * Accessors for the variant of the game.
-     * The variant can be changed during a game without any problem
-     * (though it seems rather useless...)
-     */
-    void setVariant(GameVariant iVariant)   { m_variant = iVariant; }
-    GameVariant getVariant() const          { return m_variant; }
-
     /***************
      * Various getters
      ***************/
+
+    /// Get the game characteristics
+    const GameParams & getParams() const { return m_params; }
 
     /**
      * Get the dictionary associated with the game.
@@ -171,6 +154,7 @@ public:
      * 10: first word not horizontal (can only happen in duplicate mode)
      * 11: first word not covering the H8 square
      * 12: word going out of the board
+     * 13: too many letters played from the rack
      */
     virtual int play(const wstring &iCoord, const wstring &iWord) = 0;
 
@@ -219,8 +203,8 @@ public:
                         bool checkRack = true) const;
 
 private:
-    /// Variant
-    GameVariant m_variant;
+    /// Game characteristics
+    GameParams m_params;
 
     /// Dictionary currently associated to the game
     const Dictionary & m_dic;

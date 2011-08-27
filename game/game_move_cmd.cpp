@@ -22,6 +22,7 @@
 
 #include "game_move_cmd.h"
 #include "player.h"
+#include "game_params.h"
 #include "game.h"
 #include "rack.h"
 #include "turn.h"
@@ -102,7 +103,7 @@ void GameMoveCmd::playRound()
         }
     }
 
-    if (m_game.getVariant() == Game::kJOKER)
+    if (m_game.getParams().getVariant() == GameParams::kJOKER)
     {
         for (unsigned int i = 0; i < m_round.getWordLen(); i++)
         {

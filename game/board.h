@@ -28,6 +28,7 @@
 #include "tile.h"
 #include "cross.h"
 
+class GameParams;
 class Dictionary;
 class Rack;
 class Round;
@@ -50,7 +51,7 @@ using namespace std;
 class Board
 {
 public:
-    Board();
+    Board(const GameParams &iParams);
 
     bool isJoker(int iRow, int iCol) const;
     bool isVacant(int iRow, int iCol) const;
@@ -69,9 +70,6 @@ public:
     void testRound(const Round &iRound);
     void removeTestRound();
 
-    /**
-     * board_search.c
-     */
     void search(const Dictionary &iDic, const Rack &iRack, Results &oResults) const;
     void searchFirst(const Dictionary &iDic, const Rack &iRack, Results &oResults) const;
 
@@ -93,6 +91,8 @@ public:
     string getCellContent_col(int row, int col) const;
 
 private:
+
+    const GameParams &m_params;
 
     Matrix<Tile> m_tilesRow;
     Matrix<Tile> m_tilesCol;

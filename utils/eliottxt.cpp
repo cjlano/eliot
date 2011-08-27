@@ -41,6 +41,7 @@
 #include "header.h"
 #include "dic_exception.h"
 #include "game_io.h"
+#include "game_params.h"
 #include "game_factory.h"
 #include "public_game.h"
 #include "training.h"
@@ -198,6 +199,18 @@ wstring checkCrossToken(const vector<wstring> &tokens, uint8_t index)
     return wstr;
 }
 
+GameParams readParams(const wstring &iToken)
+{
+    GameParams::GameVariant variant = GameParams::kNONE;
+    if (iToken.size() > 1)
+    {
+        if (iToken[1] == L'j')
+            variant = GameParams::kJOKER;
+        else if (iToken[1] == L'e')
+            variant = GameParams::kEXPLOSIVE;
+    }
+    return GameParams(variant);
+}
 
 void helpTraining()
 {
@@ -891,17 +904,10 @@ void mainLoop(const Dictionary &iDic)
                 case L'e':
                     {
                         // New training game
-                        Training *tmpGame = GameFactory::Instance()->createTraining(iDic);
+                        const GameParams &params = readParams(tokens[0]);
+                        Training *tmpGame = GameFactory::Instance()->createTraining(iDic, params);
                         tmpGame->addPlayer(new HumanPlayer);
                         PublicGame *game = new PublicGame(*tmpGame);
-                        // Set the variant
-                        if (tokens[0].size() > 1)
-                        {
-                            if (tokens[0][1] == L'j')
-                                game->setVariant(PublicGame::kJOKER);
-                            else if (tokens[0][1] == L'e')
-                                game->setVariant(PublicGame::kEXPLOSIVE);
-                        }
                         game->start();
                         loopTraining(*game);
                         //GameFactory::Instance()->releaseGame(*game);
@@ -923,20 +929,13 @@ void mainLoop(const Dictionary &iDic)
                             break;
                         }
                         // New duplicate game
-                        Duplicate *tmpGame = GameFactory::Instance()->createDuplicate(iDic);
+                        const GameParams &params = readParams(tokens[0]);
+                        Duplicate *tmpGame = GameFactory::Instance()->createDuplicate(iDic, params);
                         PublicGame *game = new PublicGame(*tmpGame);
                         for (int i = 0; i < wtoi(nbHuman.c_str()); ++i)
                             game->addPlayer(new HumanPlayer);
                         for (int i = 0; i < wtoi(nbAI.c_str()); ++i)
                             game->addPlayer(new AIPercent(1));
-                        // Set the variant
-                        if (tokens[0].size() > 1)
-                        {
-                            if (tokens[0][1] == L'j')
-                                game->setVariant(PublicGame::kJOKER);
-                            else if (tokens[0][1] == L'e')
-                                game->setVariant(PublicGame::kEXPLOSIVE);
-                        }
                         game->start();
                         loopDuplicate(*game);
                         //GameFactory::Instance()->releaseGame(*game);
@@ -958,20 +957,13 @@ void mainLoop(const Dictionary &iDic)
                             break;
                         }
                         // New free game
-                        FreeGame *tmpGame = GameFactory::Instance()->createFreeGame(iDic);
+                        const GameParams &params = readParams(tokens[0]);
+                        FreeGame *tmpGame = GameFactory::Instance()->createFreeGame(iDic, params);
                         PublicGame *game = new PublicGame(*tmpGame);
                         for (int i = 0; i < wtoi(nbHuman.c_str()); i++)
                             game->addPlayer(new HumanPlayer);
                         for (int i = 0; i < wtoi(nbAI.c_str()); i++)
                             game->addPlayer(new AIPercent(1));
-                        // Set the variant
-                        if (tokens[0].size() > 1)
-                        {
-                            if (tokens[0][1] == L'j')
-                                game->setVariant(PublicGame::kJOKER);
-                            else if (tokens[0][1] == L'e')
-                                game->setVariant(PublicGame::kEXPLOSIVE);
-                        }
                         game->start();
                         loopFreegame(*game);
                         //GameFactory::Instance()->releaseGame(*game);

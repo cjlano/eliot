@@ -27,13 +27,12 @@
 
 #include "board.h"
 #include "board_search.h"
+#include "game_params.h"
 #include "tile.h"
 #include "round.h"
 #include "rack.h"
 #include "results.h"
 #include "debug.h"
-// FIXME: should not be included here
-#include "game.h"
 
 #define oo 0
 #define __ 1
@@ -87,7 +86,8 @@ const int Board::m_wordMultipliers[BOARD_REALDIM][BOARD_REALDIM] =
 };
 
 
-Board::Board():
+Board::Board(const GameParams &iParams):
+    m_params(iParams),
     m_tilesRow(BOARD_REALDIM, Tile()),
     m_tilesCol(BOARD_REALDIM, Tile()),
     m_jokerRow(BOARD_REALDIM, false),
@@ -259,7 +259,7 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
     int l, p;
     bool isolated = true;
 
-    unsigned int fromrack = 0;
+    int fromrack = 0;
     int pts = 0;
     int ptscross = 0;
     int wordmul = 1;
@@ -325,7 +325,7 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
                 {
                     ptscross += (p + l) * m_wordMultipliers[row][col + i];
                 }
-                fromrack++;
+                ++fromrack;
                 iRound.setFromRack(i);
             }
             else
@@ -340,8 +340,13 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
     if (fromrack == 0)
         return 4;
 
-    /* The word must cover at least one anchor square, except
-     * for the first turn */
+    // We may not be allowed to use so many letters from the rack
+    // (cf. "7 among 8" variant)
+    if (fromrack > m_params.getLettersToPlay())
+        return 9;
+
+    // The word must cover at least one anchor square, except
+    // for the first turn
     if (isolated && !m_isEmpty)
         return 5;
     // The first word must be horizontal
@@ -359,9 +364,13 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
     }
 
     // Set the iPointsMx and bonus
-    pts = ptscross + pts * wordmul + Game::BONUS_POINTS * (fromrack == Game::RACK_SIZE);
+    pts = ptscross + pts * wordmul;
+    if (fromrack == m_params.getRackSize())
+    {
+        pts += m_params.getBonusPoints();
+        iRound.setBonus(true);
+    }
     iRound.setPoints(pts);
-    iRound.setBonus(fromrack == Game::RACK_SIZE);
 
     return 0;
 }
@@ -527,12 +536,12 @@ void Board::search(const Dictionary &iDic,
     Rack copyRack = iRack;
 
     // Search horizontal words
-    BoardSearch horizSearch(iDic, m_tilesRow, m_crossRow,
+    BoardSearch horizSearch(iDic, m_params, m_tilesRow, m_crossRow,
                             m_pointRow, m_jokerRow);
     horizSearch.search(copyRack, oResults, Coord::HORIZONTAL);
 
     // Search vertical words
-    BoardSearch vertSearch(iDic, m_tilesCol, m_crossCol,
+    BoardSearch vertSearch(iDic, m_params, m_tilesCol, m_crossCol,
                             m_pointCol, m_jokerCol);
     vertSearch.search(copyRack, oResults, Coord::VERTICAL);
 }
@@ -546,7 +555,7 @@ void Board::searchFirst(const Dictionary &iDic,
     Rack copyRack = iRack;
 
     // Search horizontal words
-    BoardSearch horizSearch(iDic, m_tilesRow, m_crossRow,
+    BoardSearch horizSearch(iDic, m_params, m_tilesRow, m_crossRow,
                             m_pointRow, m_jokerRow, true);
     horizSearch.search(copyRack, oResults, Coord::HORIZONTAL);
 }
