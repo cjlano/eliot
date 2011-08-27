@@ -365,7 +365,7 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
 
     // Set the iPointsMx and bonus
     pts = ptscross + pts * wordmul;
-    if (fromrack == m_params.getRackSize())
+    if (fromrack == m_params.getLettersToPlay())
     {
         pts += m_params.getBonusPoints();
         iRound.setBonus(true);

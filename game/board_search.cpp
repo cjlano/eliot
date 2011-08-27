@@ -280,7 +280,7 @@ void BoardSearch::evalMove(Results &oResults, Round &iWord) const
         return;
 
     pts = ptscross + pts * wordmul;
-    if (fromrack == m_params.getRackSize())
+    if (fromrack == m_params.getLettersToPlay())
     {
         pts += m_params.getBonusPoints();
         iWord.setBonus(true);
