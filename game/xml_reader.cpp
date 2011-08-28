@@ -224,11 +224,11 @@ void XmlReader::endElement(const string& namespaceURI,
             throw LoadGameException("The 'Variant' tag should be right after the 'Mode' one");
 
         if (m_data == "bingo")
-            m_params.addVariant(GameParams::kJOKER_VARIANT);
+            m_params.addVariant(GameParams::kJOKER);
         else if (m_data == "explosive")
-            m_params.addVariant(GameParams::kEXPLOSIVE_VARIANT);
+            m_params.addVariant(GameParams::kEXPLOSIVE);
         else if (m_data == "7among8")
-            m_params.addVariant(GameParams::k7AMONG8_VARIANT);
+            m_params.addVariant(GameParams::k7AMONG8);
         else if (m_data != "")
             throw LoadGameException("Invalid game variant: " + m_data);
         return;

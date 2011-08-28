@@ -40,25 +40,27 @@ class GameParams
     {
         kTRAINING,
         kFREEGAME,
-        kDUPLICATE
+        kDUPLICATE,
     };
 
     /**
      * Game variants: they slightly modifies the rules of the game.
-     * Note that the Joker and Explosive variants are incompatible.
+     * Several variants can be combined, but the Joker
+     * and Explosive ones are incompatible.
      */
-    static const unsigned int kNO_VARIANT = 0;        // Normal game rules
-    static const unsigned int kJOKER_VARIANT = 1;     // Joker game
-    static const unsigned int kEXPLOSIVE_VARIANT = 2; // "Explosive" game
-    static const unsigned int k7AMONG8_VARIANT = 4;   // Play up to 7 letters from a rack containing 8
+    enum GameVariant
+    {
+        kJOKER = 1,     // Joker game
+        kEXPLOSIVE = 2, // "Explosive" game
+        k7AMONG8 = 4,   // Play up to 7 letters from a rack containing 8
+    };
 
     /**
      * The dictionary does not belong to this class
      * (it won't be destroyed by ~GameParams())
      */
-    GameParams(const Dictionary &iDic, GameMode iMode = kTRAINING,
-               unsigned int iVariants = kNO_VARIANT)
-        : m_dic(iDic), m_mode(iMode), m_variants(iVariants)
+    GameParams(const Dictionary &iDic, GameMode iMode = kTRAINING)
+        : m_dic(iDic), m_mode(iMode), m_variants(0)
     {
         // Set default values
         m_rackSize = 7;
@@ -68,21 +70,21 @@ class GameParams
 
     // Setters
     void setMode(GameMode iMode) { m_mode = iMode; }
-    void addVariant(unsigned int iVariant)
+    void addVariant(GameVariant iVariant)
     {
         m_variants |= iVariant;
         // Sanity check
-        if (hasVariant(kJOKER_VARIANT) && hasVariant(kEXPLOSIVE_VARIANT))
+        if (hasVariant(kJOKER) && hasVariant(kEXPLOSIVE))
             throw GameException("Incompatible variants: Joker and Explosive");
 
-        if (hasVariant(k7AMONG8_VARIANT))
+        if (hasVariant(k7AMONG8))
             m_rackSize = 8;
     }
 
     // Getters
     const Dictionary & getDic() const { return m_dic; }
     GameMode getMode() const { return m_mode; }
-    bool hasVariant(unsigned int iVariant) const { return m_variants & iVariant; }
+    bool hasVariant(GameVariant iVariant) const { return m_variants & iVariant; }
     int getRackSize() const { return m_rackSize; }
     int getLettersToPlay() const { return m_lettersToPlay; }
     int getBonusPoints() const { return m_bonusPoints; }

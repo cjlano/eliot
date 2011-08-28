@@ -130,11 +130,11 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
         params.setMode(GameParams::kDUPLICATE);
 
     if (checkBoxJoker->isChecked())
-        params.addVariant(GameParams::kJOKER_VARIANT);
+        params.addVariant(GameParams::kJOKER);
     if (checkBoxExplosive->isChecked())
-        params.addVariant(GameParams::kEXPLOSIVE_VARIANT);
+        params.addVariant(GameParams::kEXPLOSIVE);
     if (checkBox7Among8->isChecked())
-        params.addVariant(GameParams::k7AMONG8_VARIANT);
+        params.addVariant(GameParams::k7AMONG8);
 
     // Create the game
     Game *tmpGame = GameFactory::Instance()->createGame(params);

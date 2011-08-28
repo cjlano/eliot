@@ -193,7 +193,7 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
     // 4) Prepare game parameters
     GameParams params(*m_dic);
     if (m_joker)
-        params.addVariant(GameParams::kJOKER_VARIANT);
+        params.addVariant(GameParams::kJOKER);
 
     if (m_modeStr == "training" || m_modeStr == "t")
         params.setMode(GameParams::kTRAINING);

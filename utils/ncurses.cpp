@@ -1116,7 +1116,7 @@ void CursesIntf::redraw(WINDOW *win)
     else if (m_game->getMode() == PublicGame::kDUPLICATE)
         mode = _("Duplicate mode");
     string variant = "";
-    if (m_game->getParams().hasVariant(GameParams::kJOKER_VARIANT))
+    if (m_game->getParams().hasVariant(GameParams::kJOKER))
         variant = string(" - ") + _("Joker game");
     string title = "Eliot (" + mode + variant + ") " + _("[h for help]");
 

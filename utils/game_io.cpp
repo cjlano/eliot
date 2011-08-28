@@ -276,11 +276,11 @@ void GameIO::printGameDebug(ostream &out, const PublicGame &iGame)
         out << "Game: mode=Free game" << endl;
     else if (iGame.getParams().getMode() == GameParams::kTRAINING)
         out << "Game: mode=Training" << endl;
-    if (iGame.getParams().hasVariant(GameParams::kJOKER_VARIANT))
+    if (iGame.getParams().hasVariant(GameParams::kJOKER))
         out << "Game: variant=joker" << endl;
-    if (iGame.getParams().hasVariant(GameParams::kEXPLOSIVE_VARIANT))
+    if (iGame.getParams().hasVariant(GameParams::kEXPLOSIVE))
         out << "Game: variant=explosive" << endl;
-    if (iGame.getParams().hasVariant(GameParams::k7AMONG8_VARIANT))
+    if (iGame.getParams().hasVariant(GameParams::k7AMONG8))
         out << "Game: variant=7among8" << endl;
     out << "Game: history:" << endl;
     out << "    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS" << endl;

@@ -206,11 +206,11 @@ PublicGame * readGame(const Dictionary &iDic,
     for (unsigned int i = 1; i < iToken.size(); ++i)
     {
         if (iToken[i] == L'j')
-            params.addVariant(GameParams::kJOKER_VARIANT);
+            params.addVariant(GameParams::kJOKER);
         else if (iToken[i] == L'e')
-            params.addVariant(GameParams::kEXPLOSIVE_VARIANT);
+            params.addVariant(GameParams::kEXPLOSIVE);
         else if (iToken[i] == L'8')
-            params.addVariant(GameParams::k7AMONG8_VARIANT);
+            params.addVariant(GameParams::k7AMONG8);
     }
     Game *tmpGame = GameFactory::Instance()->createGame(params);
     return new PublicGame(*tmpGame);
