@@ -108,7 +108,7 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
     char *token;
     Game *pGame = NULL;
 
-    pGame = GameFactory::Instance()->createTraining(iDic, GameParams());
+    pGame = GameFactory::Instance()->createGame(iDic, GameParams(GameParams::kTRAINING));
     pGame->addPlayer(new HumanPlayer);
     pGame->start();
 
@@ -205,25 +205,17 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
                 return NULL;
             }
             // Create the correct Game object
+            GameParams::GameMode mode;
             if (strstr(buff, "Training"))
-            {
-                pGame = GameFactory::Instance()->createTraining(iDic, GameParams());
-                break;
-            }
+                mode = GameParams::kTRAINING;
             else if (strstr(buff, "Free game"))
-            {
-                pGame = GameFactory::Instance()->createFreeGame(iDic, GameParams());
-                break;
-            }
+                mode = GameParams::kFREEGAME;
             else if (strstr(buff, "Duplicate"))
-            {
-                pGame = GameFactory::Instance()->createDuplicate(iDic, GameParams());
-                break;
-            }
+                mode = GameParams::kDUPLICATE;
             else
-            {
                 throw GameException("Unknown game type");
-            }
+
+            pGame = GameFactory::Instance()->createGame(iDic, GameParams(mode));
         }
     }
 
@@ -247,7 +239,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
                 }
                 else if (string(type) == "Computer")
                 {
-                    if (pGame->getMode() == kTRAINING)
+                    if (pGame->getMode() == GameParams::kTRAINING)
                     {
                         break;
                     }

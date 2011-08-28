@@ -207,7 +207,14 @@ void XmlReader::endElement(const string& namespaceURI,
             throw LoadGameException("The 'Mode' tag should be the first one to be closed");
 
         // Differ game creation until after we have read the variant
-        m_attributes["mode"] = m_data;
+        if (m_data == "duplicate")
+            m_mode = GameParams::kDUPLICATE;
+        else if (m_data == "freegame")
+            m_mode = GameParams::kFREEGAME;
+        else if (m_data == "training")
+            m_mode = GameParams::kTRAINING;
+        else
+            throw GameException("Invalid game mode: " + m_data);
         return;
     }
 
@@ -231,18 +238,10 @@ void XmlReader::endElement(const string& namespaceURI,
     // Create the game
     if (m_game == NULL)
     {
-        const string &mode = m_attributes["mode"];
-        if (mode == "duplicate")
-            m_game = GameFactory::Instance()->createDuplicate(m_dic, GameParams(m_variants));
-        else if (mode == "freegame")
-            m_game = GameFactory::Instance()->createFreeGame(m_dic, GameParams(m_variants));
-        else if (mode == "training")
-            m_game = GameFactory::Instance()->createTraining(m_dic, GameParams(m_variants));
-        else
-            throw LoadGameException("Invalid game mode: " + mode);
+        m_game = GameFactory::Instance()->createGame(m_dic, GameParams(m_mode, m_variants));
     }
 
-    else if (m_context == "Player")
+    if (m_context == "Player")
     {
         if (tag == "Name")
             m_attributes["name"] = m_data;

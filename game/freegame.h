@@ -46,7 +46,6 @@ class FreeGame: public Game
     DEFINE_LOGGER();
     friend class GameFactory;
 public:
-    virtual GameMode getMode() const { return kFREEGAME; }
     virtual string getModeAsString() const { return "Free game"; }
 
     /*************************

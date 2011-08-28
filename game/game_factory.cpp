@@ -78,30 +78,28 @@ void GameFactory::Destroy()
 }
 
 
-Training *GameFactory::createTraining(const Dictionary &iDic,
-                                      const GameParams &iParams)
+Game *GameFactory::createGame(const Dictionary &iDic,
+                              const GameParams &iParams)
 {
-    LOG_INFO("Creating a training game");
-    Training *game = new Training(iDic, iParams);
-    return game;
-}
-
-
-FreeGame *GameFactory::createFreeGame(const Dictionary &iDic,
-                                      const GameParams &iParams)
-{
-    LOG_INFO("Creating a free game");
-    FreeGame *game = new FreeGame(iDic, iParams);
-    return game;
-}
-
-
-Duplicate *GameFactory::createDuplicate(const Dictionary &iDic,
-                                        const GameParams &iParams)
-{
-    LOG_INFO("Creating a duplicate game");
-    Duplicate *game = new Duplicate(iDic, iParams);
-    return game;
+    if (iParams.getMode() == GameParams::kTRAINING)
+    {
+        LOG_INFO("Creating a training game");
+        Training *game = new Training(iDic, iParams);
+        return game;
+    }
+    if (iParams.getMode() == GameParams::kFREEGAME)
+    {
+        LOG_INFO("Creating a free game");
+        FreeGame *game = new FreeGame(iDic, iParams);
+        return game;
+    }
+    if (iParams.getMode() == GameParams::kDUPLICATE)
+    {
+        LOG_INFO("Creating a duplicate game");
+        Duplicate *game = new Duplicate(iDic, iParams);
+        return game;
+    }
+    throw GameException("Unknown game type");
 }
 
 
@@ -199,24 +197,20 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
         variant |= GameParams::kJOKER_VARIANT;
 
     // 5) Try to create a game object
-    Game *game = NULL;
+    GameParams::GameMode mode;
     if (m_modeStr == "training" || m_modeStr == "t")
-    {
-        game = createTraining(*m_dic, GameParams(variant));
-    }
+        mode = GameParams::kTRAINING;
     else if (m_modeStr == "freegame" || m_modeStr == "f")
-    {
-        game = createFreeGame(*m_dic, GameParams(variant));
-    }
+        mode = GameParams::kFREEGAME;
     else if (m_modeStr == "duplicate" || m_modeStr == "d")
-    {
-        game = createDuplicate(*m_dic, GameParams(variant));
-    }
+        mode = GameParams::kDUPLICATE;
     else
     {
         cerr << "Invalid game mode '" << m_modeStr << "'" << endl;
         return NULL;
     }
+
+    Game *game = createGame(*m_dic, GameParams(mode, variant));
 
     // 6) Add the players
     for (unsigned int i = 0; i < m_players.size(); ++i)

@@ -91,7 +91,7 @@ void Game::realBag(Bag &ioBag) const
     vector<Tile> tiles;
 
     // The real content of the bag depends on the game mode
-    if (getMode() == kFREEGAME)
+    if (getMode() == GameParams::kFREEGAME)
     {
         // In freegame mode, take the letters from all the racks
         BOOST_FOREACH(const Player *player, m_players)
@@ -550,7 +550,7 @@ int Game::checkPlayedWord(const wstring &iCoord,
     if (res != 0)
         return res + 4;
     // In duplicate mode, the first word must be horizontal
-    if (getMode() == kDUPLICATE && m_board.isVacant(8, 8))
+    if (getMode() == GameParams::kDUPLICATE && m_board.isVacant(8, 8))
     {
         if (oRound.getCoord().getDir() == Coord::VERTICAL)
             return 10;

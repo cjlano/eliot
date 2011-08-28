@@ -32,6 +32,15 @@
 class GameParams
 {
  public:
+
+    /// Game mode
+    enum GameMode
+    {
+        kTRAINING,
+        kFREEGAME,
+        kDUPLICATE
+    };
+
     /**
      * Game variants: they slightly modifies the rules of the game.
      * Note that the Joker and Explosive variants are incompatible.
@@ -41,8 +50,8 @@ class GameParams
     static const unsigned int kEXPLOSIVE_VARIANT = 2; // "Explosive" game
     static const unsigned int k7AMONG8_VARIANT = 4;   // Play up to 7 letters from a rack containing 8
 
-    GameParams(unsigned int variants = 0)
-        : m_variants(variants)
+    GameParams(GameMode iMode, unsigned int iVariants = 0)
+        : m_mode(iMode), m_variants(iVariants)
     {
         // Set default values
         m_rackSize = hasVariant(k7AMONG8_VARIANT) ? 8 : 7;
@@ -55,12 +64,14 @@ class GameParams
     }
 
     // Getters
+    GameMode getMode() const { return m_mode; }
     bool hasVariant(unsigned int iVariant) const { return m_variants & iVariant; }
     int getRackSize() const { return m_rackSize; }
     int getLettersToPlay() const { return m_lettersToPlay; }
     int getBonusPoints() const { return m_bonusPoints; }
 
  private:
+    GameMode m_mode;
     unsigned int m_variants;
     int m_rackSize;
     int m_lettersToPlay;

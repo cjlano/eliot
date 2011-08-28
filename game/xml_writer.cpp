@@ -101,9 +101,9 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
     addIndent(indent);
     // Game type
     out << indent << "<Mode>";
-    if (iGame.getMode() == Game::kDUPLICATE)
+    if (iGame.getMode() == GameParams::kDUPLICATE)
         out << "duplicate";
-    else if (iGame.getMode() == Game::kFREEGAME)
+    else if (iGame.getMode() == GameParams::kFREEGAME)
         out << "freegame";
     else
         out << "training";

@@ -78,6 +78,7 @@ private:
     string m_data;
     map<string, Player*> m_players;
     map<string, string> m_attributes;
+    GameParams::GameMode m_mode;
     unsigned int m_variants;
 
     // Private constructor, because we only want the read() method

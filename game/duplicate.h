@@ -58,7 +58,6 @@ class Duplicate: public Game
     friend class GameFactory;
     friend class MarkPlayedCmd;
 public:
-    virtual GameMode getMode() const { return kDUPLICATE; }
     virtual string getModeAsString() const { return "Duplicate"; }
 
     /*************************

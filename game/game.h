@@ -58,14 +58,7 @@ public:
      * Game type
      ***************/
 
-    /// Game mode: each one of these modes is implemented in an inherited class
-    enum GameMode
-    {
-        kTRAINING,
-        kFREEGAME,
-        kDUPLICATE
-    };
-    virtual GameMode getMode() const = 0;
+    GameParams::GameMode getMode() const { return m_params.getMode(); }
     virtual string getModeAsString() const = 0;
 
     /***************
