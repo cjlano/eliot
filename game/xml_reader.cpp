@@ -157,7 +157,6 @@ static Move buildMove(const Game &iGame, map<string, string> &attr,
 
 Game * XmlReader::getGame()
 {
-    // TODO
     return m_game;
 }
 
@@ -208,11 +207,11 @@ void XmlReader::endElement(const string& namespaceURI,
 
         // Differ game creation until after we have read the variant
         if (m_data == "duplicate")
-            m_mode = GameParams::kDUPLICATE;
+            m_params.setMode(GameParams::kDUPLICATE);
         else if (m_data == "freegame")
-            m_mode = GameParams::kFREEGAME;
+            m_params.setMode(GameParams::kFREEGAME);
         else if (m_data == "training")
-            m_mode = GameParams::kTRAINING;
+            m_params.setMode(GameParams::kTRAINING);
         else
             throw GameException("Invalid game mode: " + m_data);
         return;
@@ -225,11 +224,11 @@ void XmlReader::endElement(const string& namespaceURI,
             throw LoadGameException("The 'Variant' tag should be right after the 'Mode' one");
 
         if (m_data == "bingo")
-            m_variants |= GameParams::kJOKER_VARIANT;
+            m_params.addVariant(GameParams::kJOKER_VARIANT);
         else if (m_data == "explosive")
-            m_variants |= GameParams::kEXPLOSIVE_VARIANT;
+            m_params.addVariant(GameParams::kEXPLOSIVE_VARIANT);
         else if (m_data == "7among8")
-            m_variants |= GameParams::k7AMONG8_VARIANT;
+            m_params.addVariant(GameParams::k7AMONG8_VARIANT);
         else if (m_data != "")
             throw LoadGameException("Invalid game variant: " + m_data);
         return;
@@ -238,7 +237,7 @@ void XmlReader::endElement(const string& namespaceURI,
     // Create the game
     if (m_game == NULL)
     {
-        m_game = GameFactory::Instance()->createGame(GameParams(m_dic, m_mode, m_variants));
+        m_game = GameFactory::Instance()->createGame(m_params);
     }
 
     if (m_context == "Player")

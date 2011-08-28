@@ -78,13 +78,12 @@ private:
     string m_data;
     map<string, Player*> m_players;
     map<string, string> m_attributes;
-    GameParams::GameMode m_mode;
-    unsigned int m_variants;
+    GameParams m_params;
 
     // Private constructor, because we only want the read() method
     // to be called externally
     XmlReader(const Dictionary &iDic) :
-        m_dic(iDic), m_game(NULL), m_variants(GameParams::kNO_VARIANT) {}
+        m_dic(iDic), m_game(NULL), m_params(iDic) {}
 
     XmlReader(const XmlReader&);
     XmlReader& operator=(const XmlReader&);

@@ -191,25 +191,24 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
     }
 
     // 4) Prepare game parameters
-    unsigned int variant = GameParams::kNO_VARIANT;
+    GameParams params(*m_dic);
     if (m_joker)
-        variant |= GameParams::kJOKER_VARIANT;
+        params.addVariant(GameParams::kJOKER_VARIANT);
 
-    // 5) Try to create a game object
-    GameParams::GameMode mode;
     if (m_modeStr == "training" || m_modeStr == "t")
-        mode = GameParams::kTRAINING;
+        params.setMode(GameParams::kTRAINING);
     else if (m_modeStr == "freegame" || m_modeStr == "f")
-        mode = GameParams::kFREEGAME;
+        params.setMode(GameParams::kFREEGAME);
     else if (m_modeStr == "duplicate" || m_modeStr == "d")
-        mode = GameParams::kDUPLICATE;
+        params.setMode(GameParams::kDUPLICATE);
     else
     {
         cerr << "Invalid game mode '" << m_modeStr << "'" << endl;
         return NULL;
     }
 
-    Game *game = createGame(GameParams(*m_dic, mode, variant));
+    // 5) Try to create a game object
+    Game *game = createGame(params);
 
     // 6) Add the players
     for (unsigned int i = 0; i < m_players.size(); ++i)

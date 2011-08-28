@@ -56,18 +56,27 @@ class GameParams
      * The dictionary does not belong to this class
      * (it won't be destroyed by ~GameParams())
      */
-    GameParams(const Dictionary &iDic,
-               GameMode iMode, unsigned int iVariants = 0)
+    GameParams(const Dictionary &iDic, GameMode iMode = kTRAINING,
+               unsigned int iVariants = kNO_VARIANT)
         : m_dic(iDic), m_mode(iMode), m_variants(iVariants)
     {
         // Set default values
-        m_rackSize = hasVariant(k7AMONG8_VARIANT) ? 8 : 7;
+        m_rackSize = 7;
         m_lettersToPlay = 7;
         m_bonusPoints = 50;
+    }
 
+    // Setters
+    void setMode(GameMode iMode) { m_mode = iMode; }
+    void addVariant(unsigned int iVariant)
+    {
+        m_variants |= iVariant;
         // Sanity check
         if (hasVariant(kJOKER_VARIANT) && hasVariant(kEXPLOSIVE_VARIANT))
             throw GameException("Incompatible variants: Joker and Explosive");
+
+        if (hasVariant(k7AMONG8_VARIANT))
+            m_rackSize = 8;
     }
 
     // Getters

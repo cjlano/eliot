@@ -199,20 +199,21 @@ wstring checkCrossToken(const vector<wstring> &tokens, uint8_t index)
     return wstr;
 }
 
-GameParams readParams(const Dictionary &iDic,
-                      GameParams::GameMode mode, const wstring &iToken)
+PublicGame * readGame(const Dictionary &iDic,
+                      GameParams::GameMode iMode, const wstring &iToken)
 {
-    unsigned int variants = GameParams::kNO_VARIANT;
+    GameParams params(iDic, iMode);
     for (unsigned int i = 1; i < iToken.size(); ++i)
     {
         if (iToken[i] == L'j')
-            variants |= GameParams::kJOKER_VARIANT;
+            params.addVariant(GameParams::kJOKER_VARIANT);
         else if (iToken[i] == L'e')
-            variants |= GameParams::kEXPLOSIVE_VARIANT;
+            params.addVariant(GameParams::kEXPLOSIVE_VARIANT);
         else if (iToken[i] == L'8')
-            variants |= GameParams::k7AMONG8_VARIANT;
+            params.addVariant(GameParams::k7AMONG8_VARIANT);
     }
-    return GameParams(iDic, mode, variants);
+    Game *tmpGame = GameFactory::Instance()->createGame(params);
+    return new PublicGame(*tmpGame);
 }
 
 void helpTraining()
@@ -912,10 +913,8 @@ void mainLoop(const Dictionary &iDic)
                 case L'e':
                     {
                         // New training game
-                        const GameParams &params = readParams(iDic, GameParams::kTRAINING, tokens[0]);
-                        Game *tmpGame = GameFactory::Instance()->createGame(params);
-                        tmpGame->addPlayer(new HumanPlayer);
-                        PublicGame *game = new PublicGame(*tmpGame);
+                        PublicGame *game = readGame(iDic, GameParams::kTRAINING, tokens[0]);
+                        game->addPlayer(new HumanPlayer);
                         game->start();
                         loopTraining(*game);
                         //GameFactory::Instance()->releaseGame(*game);
@@ -937,9 +936,7 @@ void mainLoop(const Dictionary &iDic)
                             break;
                         }
                         // New duplicate game
-                        const GameParams &params = readParams(iDic, GameParams::kDUPLICATE, tokens[0]);
-                        Game *tmpGame = GameFactory::Instance()->createGame(params);
-                        PublicGame *game = new PublicGame(*tmpGame);
+                        PublicGame *game = readGame(iDic, GameParams::kDUPLICATE, tokens[0]);
                         for (int i = 0; i < wtoi(nbHuman.c_str()); ++i)
                             game->addPlayer(new HumanPlayer);
                         for (int i = 0; i < wtoi(nbAI.c_str()); ++i)
@@ -965,9 +962,7 @@ void mainLoop(const Dictionary &iDic)
                             break;
                         }
                         // New free game
-                        const GameParams &params = readParams(iDic, GameParams::kFREEGAME, tokens[0]);
-                        Game *tmpGame = GameFactory::Instance()->createGame(params);
-                        PublicGame *game = new PublicGame(*tmpGame);
+                        PublicGame *game = readGame(iDic, GameParams::kFREEGAME, tokens[0]);
                         for (int i = 0; i < wtoi(nbHuman.c_str()); i++)
                             game->addPlayer(new HumanPlayer);
                         for (int i = 0; i < wtoi(nbAI.c_str()); i++)

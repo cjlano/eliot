@@ -121,24 +121,23 @@ NewGame::NewGame(QWidget *iParent)
 PublicGame * NewGame::createGame(const Dictionary &iDic) const
 {
     // Game parameters
-    GameParams::GameMode mode;
+    GameParams params(iDic);
     if (radioButtonTraining->isChecked())
-        mode = GameParams::kTRAINING;
+        params.setMode(GameParams::kTRAINING);
     else if (radioButtonFreeGame->isChecked())
-        mode = GameParams::kFREEGAME;
+        params.setMode(GameParams::kFREEGAME);
     else
-        mode = GameParams::kDUPLICATE;
+        params.setMode(GameParams::kDUPLICATE);
 
-    unsigned int variants = GameParams::kNO_VARIANT;
     if (checkBoxJoker->isChecked())
-        variants |= GameParams::kJOKER_VARIANT;
+        params.addVariant(GameParams::kJOKER_VARIANT);
     if (checkBoxExplosive->isChecked())
-        variants |= GameParams::kEXPLOSIVE_VARIANT;
+        params.addVariant(GameParams::kEXPLOSIVE_VARIANT);
     if (checkBox7Among8->isChecked())
-        variants |= GameParams::k7AMONG8_VARIANT;
+        params.addVariant(GameParams::k7AMONG8_VARIANT);
 
     // Create the game
-    Game *tmpGame = GameFactory::Instance()->createGame(GameParams(iDic, mode, variants));
+    Game *tmpGame = GameFactory::Instance()->createGame(params);
     PublicGame *game = new PublicGame(*tmpGame);
 
     // Add the players
