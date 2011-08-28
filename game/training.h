@@ -48,7 +48,6 @@ class Training: public Game
     DEFINE_LOGGER();
     friend class GameFactory;
 public:
-    virtual string getModeAsString() const { return "Training"; }
 
     /*************************
      * Game handling

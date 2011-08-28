@@ -68,7 +68,6 @@ public:
         kDUPLICATE
     };
     GameMode getMode() const;
-    string getModeAsString() const;
 
     /***************
      * Various getters

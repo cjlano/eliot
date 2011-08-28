@@ -58,7 +58,6 @@ class Duplicate: public Game
     friend class GameFactory;
     friend class MarkPlayedCmd;
 public:
-    virtual string getModeAsString() const { return "Duplicate"; }
 
     /*************************
      * Game handling

@@ -59,7 +59,6 @@ public:
      ***************/
 
     GameParams::GameMode getMode() const { return m_params.getMode(); }
-    virtual string getModeAsString() const = 0;
 
     /***************
      * Various getters

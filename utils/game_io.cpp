@@ -270,7 +270,12 @@ void GameIO::printGameDebug(ostream &out, const PublicGame &iGame)
 {
     out << "Game: player " << iGame.getCurrentPlayer().getId() + 1
         << " out of " << iGame.getNbPlayers() << endl;
-    out << "Game: mode=" << iGame.getModeAsString() << endl;
+    if (iGame.getParams().getMode() == GameParams::kDUPLICATE)
+        out << "Game: mode=Duplicate" << endl;
+    else if (iGame.getParams().getMode() == GameParams::kFREEGAME)
+        out << "Game: mode=Free game" << endl;
+    else if (iGame.getParams().getMode() == GameParams::kTRAINING)
+        out << "Game: mode=Training" << endl;
     if (iGame.getParams().hasVariant(GameParams::kJOKER_VARIANT))
         out << "Game: variant=joker" << endl;
     if (iGame.getParams().hasVariant(GameParams::kEXPLOSIVE_VARIANT))

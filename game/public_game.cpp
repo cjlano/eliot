@@ -52,12 +52,6 @@ PublicGame::GameMode PublicGame::getMode() const
 }
 
 
-string PublicGame::getModeAsString() const
-{
-    return m_game.getModeAsString();
-}
-
-
 const GameParams & PublicGame::getParams() const
 {
     return m_game.getParams();
