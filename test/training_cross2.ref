@@ -1,7 +1,7 @@
 Using seed: 0
 [?] pour l'aide
 commande> e
-mode entraînement
+mode entraÃ®nement
 [?] pour l'aide
 commande> a gd
  Ar [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
@@ -157,5 +157,5 @@ commande> a gd
  Nc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
  Oc [ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1][ffffffff:-1]
 commande> q
-fin du mode entraînement
+fin du mode entraÃ®nement
 commande> q

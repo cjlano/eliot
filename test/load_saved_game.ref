@@ -1,7 +1,7 @@
 Using seed: 0
 [?] pour l'aide
 commande> e
-mode entraînement
+mode entraÃ®nement
 [?] pour l'aide
 commande> t EA?AEBF
 commande> j FABAcEE H4
@@ -70,9 +70,9 @@ commande> a l
 commande> 
 commande> s load_saved_game.elt
 commande> q
-fin du mode entraînement
+fin du mode entraÃ®nement
 commande> c load_saved_game.elt
-mode entraînement
+mode entraÃ®nement
 [?] pour l'aide
 commande> 
 commande> a g
@@ -112,5 +112,5 @@ commande> a l
  6 1 2 3 9 1 1 2 8 0 1 4 2 6 6 2 1 6 6 6 5 2 1 1 0 1 1
 commande> 
 commande> q
-fin du mode entraînement
+fin du mode entraÃ®nement
 commande> q

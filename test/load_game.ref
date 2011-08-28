@@ -1,7 +1,7 @@
 Using seed: 0
 [?] pour l'aide
 commande> c fumee
-mode entraînement
+mode entraÃ®nement
 [?] pour l'aide
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
@@ -56,5 +56,5 @@ Game: history:
 Rack 0: R
 Score 0: 1023
 commande> q
-fin du mode entraînement
+fin du mode entraÃ®nement
 commande> q

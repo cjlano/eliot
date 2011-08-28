@@ -2,7 +2,7 @@ Using seed: 0
 [?] pour l'aide
 commande> s i training.search-limit 1000
 commande> e
-mode entraînement
+mode entraÃ®nement
 [?] pour l'aide
 commande> t QpiNZ?s
 commande> a t
@@ -897,5 +897,5 @@ commande> a r 50
  49: oIE                 2 8G
  50: pEu                 2 7F
 commande> q
-fin du mode entraînement
+fin du mode entraÃ®nement
 commande> q

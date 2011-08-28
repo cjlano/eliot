@@ -1,8 +1,8 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2005-2009 Antoine Fraboulet & Olivier Teulière
+ * Copyright (C) 2005-2009 Antoine Fraboulet & Olivier TeuliÃ¨re
  * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
- *          Olivier Teulière <ipkiss @@ gmail.com>
+ *          Olivier TeuliÃ¨re <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -223,27 +223,27 @@ void helpTraining()
     printf("            gm -- grille + valeur des cases\n");
     printf("            gn -- grille + valeur des cases (variante)\n");
     printf("            gd -- grille + debug cross (debug only)\n");
-    printf("            l -- lettres non jouées\n");
+    printf("            l -- lettres non jouÃ©es\n");
     printf("            p -- partie\n");
     printf("            pd -- partie (debug)\n");
     printf("            r -- recherche\n");
     printf("            s -- score\n");
     printf("            S -- score de tous les joueurs\n");
     printf("            t -- tirage\n");
-    printf("  d [] : vérifier le mot []\n");
-    printf("  b [b|p|r] [] : effectuer une recherche speciale à partir de []\n");
+    printf("  d [] : vÃ©rifier le mot []\n");
+    printf("  b [b|p|r] [] : effectuer une recherche speciale Ã  partir de []\n");
     printf("            b -- benjamins\n");
     printf("            p -- 7 + 1\n");
     printf("            r -- raccords\n");
-    printf("  *    : tirage aléatoire\n");
-    printf("  +    : tirage aléatoire ajouts\n");
+    printf("  *    : tirage alÃ©atoire\n");
+    printf("  +    : tirage alÃ©atoire ajouts\n");
     printf("  t [] : changer le tirage\n");
-    printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
-    printf("  n [] : jouer le résultat numéro []\n");
-    printf("  r    : rechercher les meilleurs résultats\n");
+    printf("  j [] {} : jouer le mot [] aux coordonnÃ©es {}\n");
+    printf("  n [] : jouer le rÃ©sultat numÃ©ro []\n");
+    printf("  r    : rechercher les meilleurs rÃ©sultats\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
     printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay\n");
-    printf("  q    : quitter le mode entraînement\n");
+    printf("  q    : quitter le mode entraÃ®nement\n");
 }
 
 
@@ -256,14 +256,14 @@ void helpFreegame()
     printf("            gm -- grille + valeur des cases\n");
     printf("            gn -- grille + valeur des cases (variante)\n");
     printf("            j -- joueur courant\n");
-    printf("            l -- lettres non jouées\n");
+    printf("            l -- lettres non jouÃ©es\n");
     printf("            p -- partie\n");
     printf("            s -- score\n");
     printf("            S -- score de tous les joueurs\n");
     printf("            t -- tirage\n");
     printf("            T -- tirage de tous les joueurs\n");
-    printf("  d [] : vérifier le mot []\n");
-    printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
+    printf("  d [] : vÃ©rifier le mot []\n");
+    printf("  j [] {} : jouer le mot [] aux coordonnÃ©es {}\n");
     printf("  p [] : passer son tour en changeant les lettres []\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
     printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay\n");
@@ -280,14 +280,14 @@ void helpDuplicate()
     printf("            gm -- grille + valeur des cases\n");
     printf("            gn -- grille + valeur des cases (variante)\n");
     printf("            j -- joueur courant\n");
-    printf("            l -- lettres non jouées\n");
+    printf("            l -- lettres non jouÃ©es\n");
     printf("            p -- partie\n");
     printf("            s -- score\n");
     printf("            S -- score de tous les joueurs\n");
     printf("            t -- tirage\n");
-    printf("  d [] : vérifier le mot []\n");
-    printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
-    printf("  n [] : passer au joueur n°[]\n");
+    printf("  d [] : vÃ©rifier le mot []\n");
+    printf("  j [] {} : jouer le mot [] aux coordonnÃ©es {}\n");
+    printf("  n [] : passer au joueur nÂ°[]\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
     printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay\n");
     printf("  q    : quitter le mode duplicate\n");
@@ -297,33 +297,33 @@ void helpDuplicate()
 void help()
 {
     printf("  ?        : aide -- cette page\n");
-    printf("  e        : démarrer le mode entraînement\n");
-    printf("  ej       : démarrer le mode entraînement en partie joker\n");
-    printf("  ee       : démarrer le mode entraînement en partie détonante\n");
-    printf("  e8       : démarrer le mode entraînement en partie 7 sur 8\n");
-    printf("  d [] {}  : démarrer une partie duplicate avec\n");
+    printf("  e        : dÃ©marrer le mode entraÃ®nement\n");
+    printf("  ej       : dÃ©marrer le mode entraÃ®nement en partie joker\n");
+    printf("  ee       : dÃ©marrer le mode entraÃ®nement en partie dÃ©tonante\n");
+    printf("  e8       : dÃ©marrer le mode entraÃ®nement en partie 7 sur 8\n");
+    printf("  d [] {}  : dÃ©marrer une partie duplicate avec\n");
     printf("                [] joueurs humains et {} joueurs IA\n");
-    printf("  dj [] {} : démarrer une partie duplicate avec\n");
+    printf("  dj [] {} : dÃ©marrer une partie duplicate avec\n");
     printf("                [] joueurs humains et {} joueurs IA (partie joker)\n");
-    printf("  de [] {} : démarrer une partie duplicate avec\n");
-    printf("                [] joueurs humains et {} joueurs IA (partie détonante)\n");
-    printf("  d8 [] {} : démarrer une partie duplicate avec\n");
+    printf("  de [] {} : dÃ©marrer une partie duplicate avec\n");
+    printf("                [] joueurs humains et {} joueurs IA (partie dÃ©tonante)\n");
+    printf("  d8 [] {} : dÃ©marrer une partie duplicate avec\n");
     printf("                [] joueurs humains et {} joueurs IA (partie 7 sur 8)\n");
-    printf("  l [] {}  : démarrer une partie libre avec\n");
+    printf("  l [] {}  : dÃ©marrer une partie libre avec\n");
     printf("                [] joueurs humains et {} joueurs IA\n");
-    printf("  lj [] {} : démarrer une partie libre avec\n");
+    printf("  lj [] {} : dÃ©marrer une partie libre avec\n");
     printf("                [] joueurs humains et {} joueurs IA (partie joker)\n");
-    printf("  le [] {} : démarrer une partie libre avec\n");
-    printf("                [] joueurs humains et {} joueurs IA (partie détonante)\n");
-    printf("  l8 [] {} : démarrer une partie libre avec\n");
+    printf("  le [] {} : dÃ©marrer une partie libre avec\n");
+    printf("                [] joueurs humains et {} joueurs IA (partie dÃ©tonante)\n");
+    printf("  l8 [] {} : dÃ©marrer une partie libre avec\n");
     printf("                [] joueurs humains et {} joueurs IA (partie 7 sur 8)\n");
     printf("  c []     : charger la partie du fichier []\n");
     printf("  x [] {1} {2} {3} : expressions rationnelles\n");
-    printf("          [] expression à rechercher\n");
-    printf("          {1} nombre de résultats à afficher\n");
+    printf("          [] expression Ã  rechercher\n");
+    printf("          {1} nombre de rÃ©sultats Ã  afficher\n");
     printf("          {2} longueur minimum d'un mot\n");
     printf("          {3} longueur maximum d'un mot\n");
-    printf("  s [b|i] {1} {2} : définir la valeur {2} pour l'option {1},\n");
+    printf("  s [b|i] {1} {2} : dÃ©finir la valeur {2} pour l'option {1},\n");
     printf("                    qui est de type (b)ool ou (i)nt\n");
     printf("  q        : quitter\n");
 }
@@ -334,7 +334,7 @@ void displayData(const PublicGame &iGame, const vector<wstring> &tokens)
     const wstring &displayType = checkAlphaNumToken(tokens, 1);
     if (displayType == L"")
     {
-        cout << "commande incomplète\n";
+        cout << "commande incomplÃ¨te\n";
         return;
     }
     if (displayType == L"g")
@@ -441,7 +441,7 @@ void commonCommands(PublicGame &iGame, const vector<wstring> &tokens)
             }
             int res = iGame.play(word, coord);
             if (res != 0)
-                printf("Mot incorrect ou mal placé (%i)\n", res);
+                printf("Mot incorrect ou mal placÃ© (%i)\n", res);
         }
     }
     else if (tokens[0][0] == L's')
@@ -467,8 +467,8 @@ void handleRegexp(const Dictionary& iDic, const vector<wstring> &tokens)
 {
     /*
     printf("  x [] {1} {2} {3} : expressions rationnelles\n");
-    printf("          [] expression à rechercher\n");
-    printf("          {1} nombre de résultats à afficher\n");
+    printf("          [] expression Ã  rechercher\n");
+    printf("          {1} nombre de rÃ©sultats Ã  afficher\n");
     printf("          {2} longueur minimum d'un mot\n");
     printf("          {3} longueur maximum d'un mot\n");
     */
@@ -559,7 +559,7 @@ void setSetting(const vector<wstring> &tokens)
 
 void loopTraining(PublicGame &iGame)
 {
-    cout << "mode entraînement" << endl;
+    cout << "mode entraÃ®nement" << endl;
     cout << "[?] pour l'aide" << endl;
 
     bool quit = 0;
@@ -694,7 +694,7 @@ void loopTraining(PublicGame &iGame)
             printf("%s\n", e.what());
         }
     }
-    printf("fin du mode entraînement\n");
+    printf("fin du mode entraÃ®nement\n");
 }
 
 
@@ -820,7 +820,7 @@ void loopDuplicate(PublicGame &iGame)
                             int n = wtoi(id.c_str());
                             if (n < 0 || n >= (int)iGame.getNbPlayers())
                             {
-                                fprintf(stderr, "Numéro de joueur invalide\n");
+                                fprintf(stderr, "NumÃ©ro de joueur invalide\n");
                                 break;
                             }
                             iGame.duplicateSetPlayer(n);

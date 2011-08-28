@@ -1,7 +1,7 @@
 Using seed: 0
 [?] pour l'aide
 commande> e
-mode entraînement
+mode entraÃ®nement
 [?] pour l'aide
 commande> *
 commande> a t
@@ -380,5 +380,5 @@ Game: history:
 Rack 0: LL
 Score 0:   81
 commande> q
-fin du mode entraînement
+fin du mode entraÃ®nement
 commande> q

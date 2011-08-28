@@ -1,7 +1,7 @@
 Using seed: 0
 [?] pour l'aide
 commande> e
-mode entraînement
+mode entraÃ®nement
 [?] pour l'aide
 commande> t maison
 commande> j MAISON h4
@@ -19,5 +19,5 @@ commande> a r
   9: kWA                11 5F
  10: WAd                11 5G
 commande> q
-fin du mode entraînement
+fin du mode entraÃ®nement
 commande> q

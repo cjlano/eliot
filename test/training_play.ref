@@ -1,19 +1,19 @@
 Using seed: 0
 [?] pour l'aide
 commande> e
-mode entraînement
+mode entraÃ®nement
 [?] pour l'aide
 commande> t IEJDEUE
 commande> j INVÃ©LID h4
-Mot incorrect ou mal placé (1)
+Mot incorrect ou mal placÃ© (1)
 commande> j INVALID XX
-Mot incorrect ou mal placé (2)
+Mot incorrect ou mal placÃ© (2)
 commande> j INVALID H5
-Mot incorrect ou mal placé (3)
+Mot incorrect ou mal placÃ© (3)
 commande> j MAUVAIS H5
-Mot incorrect ou mal placé (4)
+Mot incorrect ou mal placÃ© (4)
 commande> j JEUDI A6
-Mot incorrect ou mal placé (11)
+Mot incorrect ou mal placÃ© (11)
 commande> r
 commande> a r
   1: JEUDI              42 H4
@@ -31,19 +31,19 @@ commande> a t
 DEEI
 commande> t DEEIPEG
 commande> j PIEGEE H4
-Mot incorrect ou mal placé (6)
+Mot incorrect ou mal placÃ© (6)
 commande> j PIEGEE A1
-Mot incorrect ou mal placé (9)
+Mot incorrect ou mal placÃ© (9)
 commande> j PIEGEE 7C
 commande> a t
 DE
 commande> t EEEGIPS
 commande> j SE H7
-Mot incorrect ou mal placé (5)
+Mot incorrect ou mal placÃ© (5)
 commande> j SE G6
-Mot incorrect ou mal placé (7)
+Mot incorrect ou mal placÃ© (7)
 commande> j PIEGEE 7C
-Mot incorrect ou mal placé (8)
+Mot incorrect ou mal placÃ© (8)
 commande> j PIEGEES 7c
 commande> a t
 EEEGIP
@@ -69,12 +69,12 @@ commande> a t
 P
 commande> t ADEEPSS
 commande> j DEPASSE b12
-Mot incorrect ou mal placé (12)
+Mot incorrect ou mal placÃ© (12)
 commande> a t
 ADEEPSS
 commande> t W?
 commande> j WuS i5
-Mot incorrect ou mal placé (7)
+Mot incorrect ou mal placÃ© (7)
 commande> a t
 W?
 commande> a g
@@ -95,5 +95,5 @@ commande> a g
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
 commande> q
-fin du mode entraînement
+fin du mode entraÃ®nement
 commande> q

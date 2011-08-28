@@ -1,7 +1,7 @@
 Using seed: 0
 [?] pour l'aide
 commande> e
-mode entraînement
+mode entraÃ®nement
 [?] pour l'aide
 commande> 
 commande> t EUOFMIE
@@ -784,5 +784,5 @@ commande> a l
  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
 commande> 
 commande> q
-fin du mode entraînement
+fin du mode entraÃ®nement
 commande> q

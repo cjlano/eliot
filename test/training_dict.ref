@@ -1,7 +1,7 @@
 Using seed: 0
 [?] pour l'aide
 commande> e
-mode entraînement
+mode entraÃ®nement
 [?] pour l'aide
 commande> d MAISON
 le mot -MAISON- existe
@@ -18,5 +18,5 @@ le mot -maÃ¯s- n'existe pas
 commande> d mais
 le mot -mais- existe
 commande> q
-fin du mode entraînement
+fin du mode entraÃ®nement
 commande> q
