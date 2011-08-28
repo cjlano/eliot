@@ -72,7 +72,7 @@ Score 1:  235
 commande> a p
 Game: player 1 out of 2
 Game: mode=Free game
-Game: variant=unknown
+Game: variant=7among8
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======

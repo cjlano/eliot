@@ -230,6 +230,8 @@ void XmlReader::endElement(const string& namespaceURI,
             variant = GameParams::kJOKER;
         else if (variantStr == "explosive")
             variant = GameParams::kEXPLOSIVE;
+        else if (variantStr == "7among8")
+            variant = GameParams::k7AMONG8;
         else if (variantStr != "")
             throw LoadGameException("Invalid game variant: " + variantStr);
 

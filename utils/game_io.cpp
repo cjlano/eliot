@@ -280,6 +280,9 @@ void GameIO::printGameDebug(ostream &out, const PublicGame &iGame)
         case GameParams::kJOKER:
             out << "joker" << endl;
             break;
+        case GameParams::k7AMONG8:
+            out << "7among8" << endl;
+            break;
         default:
             out << "unknown" << endl;
             break;
