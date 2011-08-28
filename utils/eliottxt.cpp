@@ -179,7 +179,7 @@ wstring checkFileNameToken(const vector<wstring> &tokens, uint8_t index)
     const wstring &wstr = tokens[index];
     BOOST_FOREACH(wchar_t wch, wstr)
     {
-        if (!iswalpha(wch) && wch != L'.' && wch != L'_')
+        if (!iswalnum(wch) && wch != L'.' && wch != L'_')
             return L"";
     }
     return wstr;

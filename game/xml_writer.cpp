@@ -199,6 +199,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
             }
             else
             {
+                LOG_ERROR("Unsupported command: " << lfw(cmd->toString()));
                 // XXX
                 //throw SaveGameException("Unsupported command: " + lfw(cmd->toString()));
             }
