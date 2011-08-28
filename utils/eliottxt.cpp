@@ -208,6 +208,8 @@ GameParams readParams(const wstring &iToken)
             variant = GameParams::kJOKER;
         else if (iToken[1] == L'e')
             variant = GameParams::kEXPLOSIVE;
+        else if (iToken[1] == L'8')
+            variant = GameParams::k7AMONG8;
     }
     return GameParams(variant);
 }
@@ -298,18 +300,23 @@ void help()
     printf("  e        : démarrer le mode entraînement\n");
     printf("  ej       : démarrer le mode entraînement en partie joker\n");
     printf("  ee       : démarrer le mode entraînement en partie détonante\n");
+    printf("  e8       : démarrer le mode entraînement en partie 7 sur 8\n");
     printf("  d [] {}  : démarrer une partie duplicate avec\n");
     printf("                [] joueurs humains et {} joueurs IA\n");
     printf("  dj [] {} : démarrer une partie duplicate avec\n");
     printf("                [] joueurs humains et {} joueurs IA (partie joker)\n");
     printf("  de [] {} : démarrer une partie duplicate avec\n");
     printf("                [] joueurs humains et {} joueurs IA (partie détonante)\n");
+    printf("  d8 [] {} : démarrer une partie duplicate avec\n");
+    printf("                [] joueurs humains et {} joueurs IA (partie 7 sur 8)\n");
     printf("  l [] {}  : démarrer une partie libre avec\n");
     printf("                [] joueurs humains et {} joueurs IA\n");
     printf("  lj [] {} : démarrer une partie libre avec\n");
     printf("                [] joueurs humains et {} joueurs IA (partie joker)\n");
     printf("  le [] {} : démarrer une partie libre avec\n");
     printf("                [] joueurs humains et {} joueurs IA (partie détonante)\n");
+    printf("  l8 [] {} : démarrer une partie libre avec\n");
+    printf("                [] joueurs humains et {} joueurs IA (partie 7 sur 8)\n");
     printf("  c []     : charger la partie du fichier []\n");
     printf("  x [] {1} {2} {3} : expressions rationnelles\n");
     printf("          [] expression à rechercher\n");
