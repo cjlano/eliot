@@ -1,0 +1,66 @@
+Using seed: 18
+[?] pour l'aide
+commande> e8
+mode entraînement
+[?] pour l'aide
+commande> *
+commande> a t
+USEUVYEW
+commande> *
+commande> a t
+NEUUIREE
+commande> t AEIRSTN?
+commande> r
+commande> a r
+  1: ARETINS         *  66 H2
+  2: ARETINS         *  66 H3
+  3: ARETINS         *  66 H4
+  4: ARETINS         *  66 H6
+  5: ARETINS         *  66 H7
+  6: ARETINS         *  66 H8
+  7: ARISENT         *  66 H2
+  8: ARISENT         *  66 H3
+  9: ARISENT         *  66 H4
+ 10: ARISENT         *  66 H6
+commande> j TSARINEs h4
+Mot incorrect ou mal placé (13)
+commande> j TSARINE h4
+commande> a t
+?
+commande> +
+commande> a t
+?FKIREVZ
+commande> j KEFIRS 5C
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  K  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  E  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  F  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  I  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  R  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  T  S  A  R  I  N  E  -  -  -  -  - 
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 1
+Game: mode=Training
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 | AEIRSTN? | TSARINE        |  H4 |  66 | *
+    2 | 0 | ?+FKIREVZ | KEFIRS         |  5C |  36 |  
+
+
+Rack 0: VZ?
+Score 0:  102
+commande> q
+fin du mode entraînement
+commande> q

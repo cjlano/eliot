@@ -1,0 +1,93 @@
+Using seed: 20
+[?] pour l'aide
+commande> l8 1 1
+mode partie libre
+[?] pour l'aide
+commande> a T
+Rack 0: HMIRPIDR
+Rack 1: EIAA?FED
+commande> j HIP h6
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  -  -  H  I  P  -  -  -  -  -  -  - 
+ I   -  -  -  -  D  E  F  I  E  r  A  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a T
+Rack 0: DIMRR+KEL
+Rack 1: A+NOEDLSA
+commande> j KREML h11
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  -  -  H  I  P  -  -  K  R  E  M  L 
+ I   -  -  -  -  D  E  F  I  E  r  A  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  S  A  N  D  A  L  E 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a T
+Rack 0: DIR+WUHCB
+Rack 1: O+FIVMROZ
+commande> j BRUCHE 13c
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  B  -  F 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  R  -  O 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  U  -  R 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  C  -  M 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  H  -  O 
+ H   -  -  -  -  -  H  I  P  -  -  K  R  E  M  L 
+ I   -  -  -  -  D  E  F  I  E  r  A  -  -  -  I 
+ J   -  -  -  -  -  -  -  -  S  A  N  D  A  L  E 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  Z 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a S
+Score 0:  109
+Score 1:  235
+commande> a p
+Game: player 1 out of 2
+Game: mode=Free game
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 | HMIRPIDR | HIP            |  H6 |  16 |  
+    2 | 1 | EIAA?FED | DEFIErA        |  I5 |  83 | *
+    3 | 0 | DIMRR+KEL | KREML          | H11 |  59 |  
+    4 | 1 | A+NOEDLSA | SANDALE        |  J9 |  79 | *
+    5 | 0 | DIR+WUHCB | BRUCHE         | 13C |  34 |  
+    6 | 1 | O+FIVMROZ | FORMOLIEZ      | 15C |  73 | *
+
+
+Rack 0: DIW+EELIA
+Rack 1: V+TNUEGYI
+Score 0:  109
+Score 1:  235
+commande> q
+fin du mode partie libre
+commande> q

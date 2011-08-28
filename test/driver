@@ -36,6 +36,8 @@ training_navigation 0
 training_joker_variant 12
 # Explosive game
 training_explosive_variant 13
+# 7 among 8 game
+training_7among8_variant 18
 
 # Board cross off by one score
 training_cross      0
@@ -69,6 +71,8 @@ duplicate_navigation 11
 duplicate_joker_variant 14
 # Explosive game
 duplicate_explosive_variant 15
+# 7 among 8 game
+duplicate_7among8_variant 19
 
 #################
 # Free game mode
@@ -88,6 +92,8 @@ freegame_navigation 10
 freegame_joker_variant 16
 # Explosive game
 freegame_explosive_variant 17
+# 7 among 8 game
+freegame_7among8_variant 20
 
 ##############
 # Load / Save

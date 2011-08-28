@@ -1,0 +1,56 @@
+Using seed: 19
+[?] pour l'aide
+commande> d8 0 1
+mode duplicate
+[?] pour l'aide
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  O  N  D  O  Y  E  E  S  -  K  -  E  H 
+ B   -  -  -  -  E  -  -  -  -  U  -  E  -  L  E 
+ C   -  -  -  -  M  -  -  -  -  -  -  F  -  A  U 
+ D   B  R  u  M  A  I  R  E  -  -  L  I  -  T  - 
+ E   I  -  -  -  R  -  -  -  -  -  O  R  -  I  - 
+ F   P  -  -  -  Q  -  -  -  -  -  T  -  -  F  - 
+ G   O  -  -  -  U  -  T  H  O  r  I  U  M  S  - 
+ H   N  -  -  G  E  N  E  E  -  -  R  -  -  -  - 
+ I   S  A  -  -  Z  -  L  U  -  -  A  -  -  -  - 
+ J   -  V  -  -  -  -  -  -  -  X  I  -  -  -  W 
+ K   -  A  -  -  -  -  -  -  -  E  S  -  -  -  A 
+ L   E  N  D  E  N  T  A  T  -  R  -  V  E  L  D 
+ M   -  C  -  -  -  -  -  -  J  U  B  E  S  -  I 
+ N   -  A  -  -  -  -  -  -  -  S  -  -  -  -  N 
+ O   P  I  C  O  L  A  T  -  -  -  -  -  -  -  G 
+commande> a p
+Game: player 1 out of 1
+Game: mode=Duplicate
+Game: variant=unknown
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 | ENEEGAQH | GENEE          |  H4 |  16 |  
+    2 | 0 | AHQ+RUMOZ | MARQUEZ        |  5C |  48 |  
+    3 | 0 | HO+EDOTMU | DEMARQUEZ      |  5A |  27 |  
+    4 | 0 | HMOOTU+?I | THOrIUM        |  G7 |  72 | *
+    5 | 0 | O+OULYENE | ONDOYEE        |  A3 |  54 |  
+    6 | 0 | LU+TEFISA | ELATIFS        | 14A |  97 | *
+    7 | 0 | U+EEIUHIS | HEU            | 15A |  37 |  
+    8 | 0 | -RLUIAOTS | LOTIRAIS       | 11D |  82 | *
+    9 | 0 | U+RREIXMS | XERUS          | 10J |  69 |  
+   10 | 0 | IMR+ER?BI | BRuMAIRE       |  D1 |  78 | *
+   11 | 0 | I+BSGCEJI | JUBES          |  M9 |  44 |  
+   12 | 0 | CGII+FERK | KEFIR          | 12A |  60 |  
+   13 | 0 | CGI+PLDEV | VELD           | L12 |  32 |  
+   14 | 0 | CGIP+WNPA | WADING         | 15J |  51 |  
+   15 | 0 | CPP+SINON | BIPONS         |  1D |  30 |  
+   16 | 0 | CNP+AAAVI | AVANCAI        |  2I |  92 | *
+   17 | 0 | P+AOLTUCA | PICOLAT        |  O1 |  36 |  
+   18 | 0 | AU+EEDTTN | ENDENTAT       |  L1 |  72 | *
+   19 | 0 |    U+LSU | SU             | 10A |  22 |  
+   20 | 0 |       LU | LU             |  I7 |  13 |  
+
+
+Rack 0: 
+Score 0: 1032
+commande> q
+fin du mode duplicate
+commande> q
