@@ -43,7 +43,6 @@ Rack 1:
 commande> a p
 Game: player 2 out of 2
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======

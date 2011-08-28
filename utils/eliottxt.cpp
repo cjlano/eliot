@@ -201,17 +201,17 @@ wstring checkCrossToken(const vector<wstring> &tokens, uint8_t index)
 
 GameParams readParams(const wstring &iToken)
 {
-    GameParams::GameVariant variant = GameParams::kNONE;
-    if (iToken.size() > 1)
+    unsigned int variants = GameParams::kNO_VARIANT;
+    for (unsigned int i = 1; i < iToken.size(); ++i)
     {
-        if (iToken[1] == L'j')
-            variant = GameParams::kJOKER;
-        else if (iToken[1] == L'e')
-            variant = GameParams::kEXPLOSIVE;
-        else if (iToken[1] == L'8')
-            variant = GameParams::k7AMONG8;
+        if (iToken[i] == L'j')
+            variants |= GameParams::kJOKER_VARIANT;
+        else if (iToken[i] == L'e')
+            variants |= GameParams::kEXPLOSIVE_VARIANT;
+        else if (iToken[i] == L'8')
+            variants |= GameParams::k7AMONG8_VARIANT;
     }
-    return GameParams(variant);
+    return GameParams(variants);
 }
 
 void helpTraining()
@@ -863,7 +863,7 @@ void mainLoop(const Dictionary &iDic)
 
         if (tokens.empty())
             continue;
-        if (tokens[0].size() > 2)
+        if (tokens[0].size() > 3)
         {
             printf("%s\n", "Invalid command");
             continue;

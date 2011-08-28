@@ -271,22 +271,12 @@ void GameIO::printGameDebug(ostream &out, const PublicGame &iGame)
     out << "Game: player " << iGame.getCurrentPlayer().getId() + 1
         << " out of " << iGame.getNbPlayers() << endl;
     out << "Game: mode=" << iGame.getModeAsString() << endl;
-    out << "Game: variant=";
-    switch (iGame.getParams().getVariant())
-    {
-        case GameParams::kEXPLOSIVE:
-            out << "explosive" << endl;
-            break;
-        case GameParams::kJOKER:
-            out << "joker" << endl;
-            break;
-        case GameParams::k7AMONG8:
-            out << "7among8" << endl;
-            break;
-        default:
-            out << "unknown" << endl;
-            break;
-    }
+    if (iGame.getParams().hasVariant(GameParams::kJOKER_VARIANT))
+        out << "Game: variant=joker" << endl;
+    if (iGame.getParams().hasVariant(GameParams::kEXPLOSIVE_VARIANT))
+        out << "Game: variant=explosive" << endl;
+    if (iGame.getParams().hasVariant(GameParams::k7AMONG8_VARIANT))
+        out << "Game: variant=7among8" << endl;
     out << "Game: history:" << endl;
     out << "    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS" << endl;
     out << "   ===|===|==========|================|=====|=====|======" << endl;

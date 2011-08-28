@@ -16,9 +16,9 @@ a g
 a p
 a l
 
-s load_saved_game.elt
+s load_saved_game.save
 q
-c load_saved_game.elt
+c load_saved_game.save
 
 a g
 a p

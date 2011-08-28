@@ -21,6 +21,8 @@
 #ifndef GAME_PARAMS_H_
 #define GAME_PARAMS_H_
 
+#include "game_exception.h"
+
 
 /**
  * GameParams groups various game characteristics.
@@ -30,32 +32,36 @@
 class GameParams
 {
  public:
-    /// Game variant: it slightly modifies the rules of the game
-    enum GameVariant
-    {
-        kNONE,      // Normal game rules
-        kJOKER,     // Joker game
-        kEXPLOSIVE, // "Explosive" game
-        k7AMONG8,   // Play up to 7 letters from a rack containing 8
-    };
+    /**
+     * Game variants: they slightly modifies the rules of the game.
+     * Note that the Joker and Explosive variants are incompatible.
+     */
+    static const unsigned int kNO_VARIANT = 0;        // Normal game rules
+    static const unsigned int kJOKER_VARIANT = 1;     // Joker game
+    static const unsigned int kEXPLOSIVE_VARIANT = 2; // "Explosive" game
+    static const unsigned int k7AMONG8_VARIANT = 4;   // Play up to 7 letters from a rack containing 8
 
-    GameParams(GameVariant iVariant = kNONE)
-        : m_variant(iVariant)
+    GameParams(unsigned int variants = 0)
+        : m_variants(variants)
     {
         // Set default values
-        m_rackSize = (iVariant == k7AMONG8) ? 8 : 7;
+        m_rackSize = hasVariant(k7AMONG8_VARIANT) ? 8 : 7;
         m_lettersToPlay = 7;
         m_bonusPoints = 50;
+
+        // Sanity check
+        if (hasVariant(kJOKER_VARIANT) && hasVariant(kEXPLOSIVE_VARIANT))
+            throw GameException("Incompatible variants: Joker and Explosive");
     }
 
     // Getters
-    GameVariant getVariant() const { return m_variant; }
+    bool hasVariant(unsigned int iVariant) const { return m_variants & iVariant; }
     int getRackSize() const { return m_rackSize; }
     int getLettersToPlay() const { return m_lettersToPlay; }
     int getBonusPoints() const { return m_bonusPoints; }
 
  private:
-    GameVariant m_variant;
+    unsigned int m_variants;
     int m_rackSize;
     int m_lettersToPlay;
     int m_bonusPoints;

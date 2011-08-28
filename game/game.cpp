@@ -186,8 +186,8 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
 
     bool jokerAdded = false;
     // Are we dealing with a normal game or a joker game?
-    if (m_params.getVariant() == GameParams::kJOKER ||
-        m_params.getVariant() == GameParams::kEXPLOSIVE)
+    if (m_params.hasVariant(GameParams::kJOKER_VARIANT) ||
+        m_params.hasVariant(GameParams::kEXPLOSIVE_VARIANT))
     {
         // 1) Is there already a joker in the remaining letters of the rack?
         bool jokerFound = false;
@@ -330,7 +330,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
     // In explosive games, we have to perform a search, then replace the
     // joker with the letter providing the best score
     // A joker coming from a previous rack is not replaced
-    if (m_params.getVariant() == GameParams::kEXPLOSIVE && jokerAdded)
+    if (m_params.hasVariant(GameParams::kEXPLOSIVE_VARIANT) && jokerAdded)
     {
         Rack rack;
         pld.getRack(rack);

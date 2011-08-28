@@ -52,7 +52,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 1
 Game: mode=Training
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -68,10 +67,10 @@ commande> a l
  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ?
  6 1 2 3 9 1 1 2 8 0 1 4 2 6 6 2 1 6 6 6 5 2 1 1 0 1 1
 commande> 
-commande> s load_saved_game.elt
+commande> s load_saved_game.save
 commande> q
 fin du mode entraînement
-commande> c load_saved_game.elt
+commande> c load_saved_game.save
 mode entraînement
 [?] pour l'aide
 commande> 
@@ -95,7 +94,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 1
 Game: mode=Training
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======

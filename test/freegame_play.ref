@@ -11,7 +11,6 @@ AELMNU?
 commande> a p
 Game: player 1 out of 1
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -27,7 +26,6 @@ ESEASTU
 commande> a p
 Game: player 1 out of 1
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -43,7 +41,6 @@ commande> j SAUTEES 11H
 commande> a p
 Game: player 1 out of 1
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======

@@ -103,6 +103,8 @@ freegame_7among8_variant 20
 load_game           0
 # save and reload a training game, standard format
 load_saved_game     0  # randseed unused
+# save and load a game combining 2 variants
+load_combi_variants 21
 # load a training game with advanced format (test.elt)
 # load_test_adv       0 # We need to specify a much more complete file format
                         # before we can handle load/save on duplicate and

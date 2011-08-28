@@ -57,7 +57,6 @@ commande> t NUU+S?GE
 commande> a p
 Game: player 1 out of 1
 Game: mode=Training
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======

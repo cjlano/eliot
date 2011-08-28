@@ -17,7 +17,6 @@ Score 1:    0
 commande> a p
 Game: player 1 out of 2
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -38,7 +37,6 @@ Rack 1: GUAUVBP
 commande> a p
 Game: player 1 out of 2
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======

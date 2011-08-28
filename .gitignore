@@ -74,7 +74,7 @@ po/*.mo
 po/insert-header.sin
 po/quot.sed
 po/remove-potcdate.sin
-test/load_saved_game.elt
+test/*.save
 test/*.run
 utils/eliotcurses
 utils/eliottxt

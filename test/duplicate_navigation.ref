@@ -26,7 +26,6 @@ commande> a g
 commande> a p
 Game: player 2 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -59,7 +58,6 @@ commande> a g
 commande> a p
 Game: player 2 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -92,7 +90,6 @@ commande> a g
 commande> a p
 Game: player 2 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -125,7 +122,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -159,7 +155,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -192,7 +187,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -236,7 +230,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -270,7 +263,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -305,7 +297,6 @@ commande> a g
 commande> a p
 Game: player 2 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -344,7 +335,6 @@ commande> a g
 commande> a p
 Game: player 2 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -377,7 +367,6 @@ commande> a g
 commande> a p
 Game: player 2 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -411,7 +400,6 @@ commande> a g
 commande> a p
 Game: player 2 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -446,7 +434,6 @@ commande> a g
 commande> a p
 Game: player 2 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -481,7 +468,6 @@ commande> a g
 commande> a p
 Game: player 2 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -517,7 +503,6 @@ commande> a g
 commande> a p
 Game: player 2 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -552,7 +537,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 3
 Game: mode=Duplicate
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======

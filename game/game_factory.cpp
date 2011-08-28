@@ -195,9 +195,9 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
     }
 
     // 4) Prepare game parameters
-    GameParams::GameVariant variant = GameParams::kNONE;
+    unsigned int variant = GameParams::kNO_VARIANT;
     if (m_joker)
-        variant = GameParams::kJOKER;
+        variant |= GameParams::kJOKER_VARIANT;
 
     // 5) Try to create a game object
     Game *game = NULL;

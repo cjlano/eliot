@@ -26,6 +26,7 @@
 #include <SAX/Attributes.hpp>
 #include <SAX/SAXException.hpp>
 #include "logging.h"
+#include "game_params.h"
 
 class Dictionary;
 class Game;
@@ -77,10 +78,12 @@ private:
     string m_data;
     map<string, Player*> m_players;
     map<string, string> m_attributes;
+    unsigned int m_variants;
 
     // Private constructor, because we only want the read() method
     // to be called externally
-    XmlReader(const Dictionary &iDic) : m_dic(iDic), m_game(NULL) {}
+    XmlReader(const Dictionary &iDic) :
+        m_dic(iDic), m_game(NULL), m_variants(GameParams::kNO_VARIANT) {}
 
     XmlReader(const XmlReader&);
     XmlReader& operator=(const XmlReader&);

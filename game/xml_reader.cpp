@@ -217,31 +217,27 @@ void XmlReader::endElement(const string& namespaceURI,
         if (m_game != NULL)
             throw LoadGameException("The 'Variant' tag should be right after the 'Mode' one");
 
-        m_attributes["variant"] = m_data;
+        if (m_data == "bingo")
+            m_variants |= GameParams::kJOKER_VARIANT;
+        else if (m_data == "explosive")
+            m_variants |= GameParams::kEXPLOSIVE_VARIANT;
+        else if (m_data == "7among8")
+            m_variants |= GameParams::k7AMONG8_VARIANT;
+        else if (m_data != "")
+            throw LoadGameException("Invalid game variant: " + m_data);
         return;
     }
 
     // Create the game
     if (m_game == NULL)
     {
-        const string &variantStr = m_attributes["variant"];
-        GameParams::GameVariant variant = GameParams::kNONE;
-        if (variantStr == "bingo")
-            variant = GameParams::kJOKER;
-        else if (variantStr == "explosive")
-            variant = GameParams::kEXPLOSIVE;
-        else if (variantStr == "7among8")
-            variant = GameParams::k7AMONG8;
-        else if (variantStr != "")
-            throw LoadGameException("Invalid game variant: " + variantStr);
-
         const string &mode = m_attributes["mode"];
         if (mode == "duplicate")
-            m_game = GameFactory::Instance()->createDuplicate(m_dic, GameParams(variant));
+            m_game = GameFactory::Instance()->createDuplicate(m_dic, GameParams(m_variants));
         else if (mode == "freegame")
-            m_game = GameFactory::Instance()->createFreeGame(m_dic, GameParams(variant));
+            m_game = GameFactory::Instance()->createFreeGame(m_dic, GameParams(m_variants));
         else if (mode == "training")
-            m_game = GameFactory::Instance()->createTraining(m_dic, GameParams(variant));
+            m_game = GameFactory::Instance()->createTraining(m_dic, GameParams(m_variants));
         else
             throw LoadGameException("Invalid game mode: " + mode);
     }

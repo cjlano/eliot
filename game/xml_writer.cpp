@@ -110,11 +110,11 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
     out << "</Mode>" << endl;
 
     // Game variant
-    if (iGame.getParams().getVariant() == GameParams::kJOKER)
+    if (iGame.getParams().hasVariant(GameParams::kJOKER_VARIANT))
         out << indent << "<Variant>bingo</Variant>" << endl;
-    if (iGame.getParams().getVariant() == GameParams::kEXPLOSIVE)
+    if (iGame.getParams().hasVariant(GameParams::kEXPLOSIVE_VARIANT))
         out << indent << "<Variant>explosive</Variant>" << endl;
-    if (iGame.getParams().getVariant() == GameParams::k7AMONG8)
+    if (iGame.getParams().hasVariant(GameParams::k7AMONG8_VARIANT))
         out << indent << "<Variant>7among8</Variant>" << endl;
 
     // Players

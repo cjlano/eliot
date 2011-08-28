@@ -28,7 +28,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -64,7 +63,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -103,7 +101,6 @@ commande> a g
 commande> a p
 Game: player 3 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -141,7 +138,6 @@ commande> a g
 commande> a p
 Game: player 2 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -161,7 +157,6 @@ commande> h r
 commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -200,7 +195,6 @@ commande> h f
 commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -250,7 +244,6 @@ commande> a g
 commande> a p
 Game: player 2 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -284,7 +277,6 @@ commande> a g
 commande> a p
 Game: player 3 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -319,7 +311,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -356,7 +347,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -395,7 +385,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -437,7 +426,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -470,7 +458,6 @@ commande> a g
 commande> a p
 Game: player 2 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
@@ -504,7 +491,6 @@ commande> a g
 commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
-Game: variant=unknown
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======

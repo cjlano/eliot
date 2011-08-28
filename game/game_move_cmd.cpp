@@ -103,7 +103,7 @@ void GameMoveCmd::playRound()
         }
     }
 
-    if (m_game.getParams().getVariant() == GameParams::kJOKER)
+    if (m_game.getParams().hasVariant(GameParams::kJOKER_VARIANT))
     {
         for (unsigned int i = 0; i < m_round.getWordLen(); i++)
         {
