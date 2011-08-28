@@ -49,8 +49,8 @@
 INIT_LOGGER(game, Game);
 
 
-Game::Game(const Dictionary &iDic, const GameParams &iParams):
-    m_params(iParams), m_dic(iDic), m_board(m_params), m_bag(iDic)
+Game::Game(const GameParams &iParams):
+    m_params(iParams), m_board(m_params), m_bag(iParams.getDic())
 {
     m_points = 0;
     m_currPlayer = 0;
@@ -141,7 +141,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
     // Create a copy of the bag in which we can do everything we want,
     // and take from it the tiles of the players rack so that "bag"
     // contains the right number of tiles.
-    Bag bag(m_dic);
+    Bag bag(getDic());
     realBag(bag);
     if (mode == RACK_NEW && nold != 0)
     {
@@ -396,7 +396,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
 
 bool Game::rackInBag(const Rack &iRack, const Bag &iBag) const
 {
-    BOOST_FOREACH(const Tile &t, m_dic.getAllTiles())
+    BOOST_FOREACH(const Tile &t, getDic().getAllTiles())
     {
         if (iRack.in(t) > iBag.in(t))
             return false;
@@ -407,7 +407,7 @@ bool Game::rackInBag(const Rack &iRack, const Bag &iBag) const
 
 PlayedRack Game::helperSetRackManual(bool iCheck, const wstring &iLetters) const
 {
-    if (!m_dic.validateLetters(iLetters, L"+-"))
+    if (!getDic().validateLetters(iLetters, L"+-"))
         throw GameException(_("Some letters are invalid for the current dictionary"));
 
     PlayedRack pld;
@@ -511,7 +511,7 @@ int Game::checkPlayedWord(const wstring &iCoord,
 {
     ASSERT(getNPlayers() != 0, "Expected at least one player");
 
-    if (!m_dic.validateLetters(iWord))
+    if (!getDic().validateLetters(iWord))
         return 1;
 
     // Init the round with the given coordinates
@@ -523,7 +523,7 @@ int Game::checkPlayedWord(const wstring &iCoord,
     }
 
     // Check the existence of the word
-    if (!m_dic.searchWord(iWord))
+    if (!getDic().searchWord(iWord))
     {
         return 3;
     }

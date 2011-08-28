@@ -78,25 +78,24 @@ void GameFactory::Destroy()
 }
 
 
-Game *GameFactory::createGame(const Dictionary &iDic,
-                              const GameParams &iParams)
+Game *GameFactory::createGame(const GameParams &iParams)
 {
     if (iParams.getMode() == GameParams::kTRAINING)
     {
         LOG_INFO("Creating a training game");
-        Training *game = new Training(iDic, iParams);
+        Training *game = new Training(iParams);
         return game;
     }
     if (iParams.getMode() == GameParams::kFREEGAME)
     {
         LOG_INFO("Creating a free game");
-        FreeGame *game = new FreeGame(iDic, iParams);
+        FreeGame *game = new FreeGame(iParams);
         return game;
     }
     if (iParams.getMode() == GameParams::kDUPLICATE)
     {
         LOG_INFO("Creating a duplicate game");
-        Duplicate *game = new Duplicate(iDic, iParams);
+        Duplicate *game = new Duplicate(iParams);
         return game;
     }
     throw GameException("Unknown game type");
@@ -210,7 +209,7 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
         return NULL;
     }
 
-    Game *game = createGame(*m_dic, GameParams(mode, variant));
+    Game *game = createGame(GameParams(*m_dic, mode, variant));
 
     // 6) Add the players
     for (unsigned int i = 0; i < m_players.size(); ++i)

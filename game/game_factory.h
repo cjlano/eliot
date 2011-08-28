@@ -48,16 +48,10 @@ public:
     static GameFactory *Instance();
     static void Destroy();
 
-    /**
-     * Create a game
-     * The dictionary does not belong to the
-     * game (ie: it won't be destroyed by ~Game)
-     */
-    Game *createGame(const Dictionary &iDic, const GameParams &iParams);
+    /// Create a game
+    Game *createGame(const GameParams &iParams);
 
-    /**
-     * load() returns the loaded game, or NULL if there was a problem
-     */
+    /// Return the loaded game, or NULL if there was a problem
     Game *load(const string &iFileName, const Dictionary &iDic);
 
     Game *createFromCmdLine(int argc, char **argv);

@@ -52,8 +52,8 @@
 INIT_LOGGER(game, Duplicate);
 
 
-Duplicate::Duplicate(const Dictionary &iDic, const GameParams &iParams)
-    : Game(iDic, iParams)
+Duplicate::Duplicate(const GameParams &iParams)
+    : Game(iParams)
 {
 }
 

@@ -108,7 +108,7 @@ Game* Game::gameLoadFormat_14(FILE *fin, const Dictionary& iDic)
     char *token;
     Game *pGame = NULL;
 
-    pGame = GameFactory::Instance()->createGame(iDic, GameParams(GameParams::kTRAINING));
+    pGame = GameFactory::Instance()->createGame(GameParams(iDic, GameParams::kTRAINING));
     pGame->addPlayer(new HumanPlayer);
     pGame->start();
 
@@ -215,7 +215,7 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
             else
                 throw GameException("Unknown game type");
 
-            pGame = GameFactory::Instance()->createGame(iDic, GameParams(mode));
+            pGame = GameFactory::Instance()->createGame(GameParams(iDic, mode));
         }
     }
 

@@ -23,6 +23,8 @@
 
 #include "game_exception.h"
 
+class Dictionary;
+
 
 /**
  * GameParams groups various game characteristics.
@@ -50,8 +52,13 @@ class GameParams
     static const unsigned int kEXPLOSIVE_VARIANT = 2; // "Explosive" game
     static const unsigned int k7AMONG8_VARIANT = 4;   // Play up to 7 letters from a rack containing 8
 
-    GameParams(GameMode iMode, unsigned int iVariants = 0)
-        : m_mode(iMode), m_variants(iVariants)
+    /**
+     * The dictionary does not belong to this class
+     * (it won't be destroyed by ~GameParams())
+     */
+    GameParams(const Dictionary &iDic,
+               GameMode iMode, unsigned int iVariants = 0)
+        : m_dic(iDic), m_mode(iMode), m_variants(iVariants)
     {
         // Set default values
         m_rackSize = hasVariant(k7AMONG8_VARIANT) ? 8 : 7;
@@ -64,6 +71,7 @@ class GameParams
     }
 
     // Getters
+    const Dictionary & getDic() const { return m_dic; }
     GameMode getMode() const { return m_mode; }
     bool hasVariant(unsigned int iVariant) const { return m_variants & iVariant; }
     int getRackSize() const { return m_rackSize; }
@@ -71,6 +79,7 @@ class GameParams
     int getBonusPoints() const { return m_bonusPoints; }
 
  private:
+    const Dictionary &m_dic;
     GameMode m_mode;
     unsigned int m_variants;
     int m_rackSize;

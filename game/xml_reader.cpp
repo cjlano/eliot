@@ -238,7 +238,7 @@ void XmlReader::endElement(const string& namespaceURI,
     // Create the game
     if (m_game == NULL)
     {
-        m_game = GameFactory::Instance()->createGame(m_dic, GameParams(m_mode, m_variants));
+        m_game = GameFactory::Instance()->createGame(GameParams(m_dic, m_mode, m_variants));
     }
 
     if (m_context == "Player")

@@ -138,7 +138,7 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
         variants |= GameParams::k7AMONG8_VARIANT;
 
     // Create the game
-    Game *tmpGame = GameFactory::Instance()->createGame(iDic, GameParams(mode, variants));
+    Game *tmpGame = GameFactory::Instance()->createGame(GameParams(iDic, mode, variants));
     PublicGame *game = new PublicGame(*tmpGame);
 
     // Add the players

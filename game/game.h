@@ -51,7 +51,7 @@ class Game
 {
     DEFINE_LOGGER();
 public:
-    Game(const Dictionary &iDic, const GameParams &iParams);
+    Game(const GameParams &iParams);
     virtual ~Game();
 
     /***************
@@ -73,7 +73,7 @@ public:
      * You should never create a new dictionary object while a Game
      * object still exists
      */
-    const Dictionary & getDic() const { return m_dic; }
+    const Dictionary & getDic() const { return m_params.getDic(); }
 
     /// Get the board
     const Board& getBoard() const { return m_board; }
@@ -198,9 +198,6 @@ public:
 private:
     /// Game characteristics
     GameParams m_params;
-
-    /// Dictionary currently associated to the game
-    const Dictionary & m_dic;
 
     /**
      * History of the game.

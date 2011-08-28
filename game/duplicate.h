@@ -96,7 +96,7 @@ public:
 
 private:
     // Private constructor to force using the GameFactory class
-    Duplicate(const Dictionary &iDic, const GameParams &iParams);
+    Duplicate(const GameParams &iParams);
 
     /// Record a player move
     void recordPlayerMove(const Move &iMove, Player &ioPlayer, bool isForHuman);
