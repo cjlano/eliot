@@ -48,6 +48,9 @@ public:
      */
     PublicGame * createGame(const Dictionary& iDic) const;
 
+public slots:
+    void refresh();
+
 private slots:
     void enableLevelSpinBox(int);
     void enableOkButton();

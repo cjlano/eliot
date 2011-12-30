@@ -37,6 +37,7 @@ const QString PrefsDialog::kINTF_SHOW_TILES_POINTS = "Interface/ShowTilesPoints"
 const QString PrefsDialog::kINTF_WARN_REPLAY_TURN = "Interface/WarnReplayTurn";
 const QString PrefsDialog::kINTF_SHOW_TOOLBAR = "Interface/ShowToolBar";
 const QString PrefsDialog::kINTF_LINK_TRAINING_7P1 = "Interface/LinkTrainingRackWith7P1";
+const QString PrefsDialog::kINTF_DEFAULT_AI_LEVEL = "Interface/DefaultAiLevel";
 const QString PrefsDialog::kDEFAULT_DEF_SITE = "http://fr.wiktionary.org/wiki/%w";
 
 
@@ -49,6 +50,9 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
                                   "\thttp://fr.wiktionary.org/wiki/%w\n"
                                   "\thttp://en.wiktionary.org/wiki/%w\n"
                                   "\thttp://images.google.com/images?q=%w"));
+    spinBoxDefaultLevel->setToolTip(_("Default level for Eliot, "
+                                      "used when creating a new game.\n"
+                                      "Accepted range: [0-100]"));
 
     try
     {
@@ -64,6 +68,8 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         checkBoxIntfWarnReplayTurn->setChecked(warnReplayTurn);
         bool linkTraining7P1 = qs.value(kINTF_LINK_TRAINING_7P1, false).toBool();
         checkBoxIntfLinkTraining7P1->setChecked(linkTraining7P1);
+        int defaultAiLevel = qs.value(kINTF_DEFAULT_AI_LEVEL, 100).toInt();
+        spinBoxDefaultLevel->setValue(defaultAiLevel);
 
         // Duplicate settings
         checkBoxDuplRefuseInvalid->setChecked(Settings::Instance().getBool("duplicate.reject-invalid"));
@@ -129,6 +135,12 @@ void PrefsDialog::updateSettings()
             // tools window
             shouldEmitUpdate = true;
             qs.setValue(kINTF_LINK_TRAINING_7P1, checkBoxIntfLinkTraining7P1->isChecked());
+        }
+        if (qs.value(kINTF_DEFAULT_AI_LEVEL, 100).toInt() != spinBoxDefaultLevel->value())
+        {
+            // We need to change the default AI level
+            shouldEmitUpdate = true;
+            qs.setValue(kINTF_DEFAULT_AI_LEVEL, spinBoxDefaultLevel->value());
         }
 
         // Duplicate settings

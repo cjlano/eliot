@@ -23,9 +23,11 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QComboBox>
 #include <QtGui/QSpinBox>
+#include <QtCore/QSettings>
 
 #include "new_game.h"
 #include "qtcommon.h"
+#include "prefs_dialog.h"
 #include "game_factory.h"
 #include "game.h"
 #include "public_game.h"
@@ -74,6 +76,9 @@ NewGame::NewGame(QWidget *iParent)
     m_model->setData(m_model->index(1, 1), _q(kAI));
     m_model->setData(m_model->index(1, 2), 100);
 
+    // Change the default AI level
+    refresh();
+
     // Initialize the QTreeView with the model we just created
     treeViewPlayers->setModel(m_model);
     PlayersTypeDelegate *typeDelegate = new PlayersTypeDelegate(this);
@@ -115,6 +120,30 @@ NewGame::NewGame(QWidget *iParent)
     treeViewPlayers->installEventFilter(filter);
     QObject::connect(filter, SIGNAL(deletePressed()),
                      this, SLOT(on_pushButtonRemove_clicked()));
+}
+
+
+void NewGame::refresh()
+{
+    // Retrieve the default computer level
+    QSettings qs(ORGANIZATION, PACKAGE_NAME);
+    int defLevel = qs.value(PrefsDialog::kINTF_DEFAULT_AI_LEVEL, 100).toInt();
+    // Ensure a valid range
+    if (defLevel < 0)
+        defLevel = 0;
+    if (defLevel > 100)
+        defLevel = 100;
+
+    // Update the level of the "Eliot" player only
+    for (int num = 0; num < m_model->rowCount(); ++num)
+    {
+        QString name = m_model->data(m_model->index(num, 0)).toString();
+        QString type = m_model->data(m_model->index(num, 1)).toString();
+        if (name == _q("Eliot") && type == _q(kAI))
+        {
+            m_model->setData(m_model->index(num, 2), defLevel);
+        }
+    }
 }
 
 

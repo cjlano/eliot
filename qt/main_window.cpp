@@ -260,6 +260,12 @@ void MainWindow::prefsUpdated()
         }
     }
 
+    // Refresh the default level for the Eliot player
+    if (m_newGameDialog != NULL)
+    {
+        m_newGameDialog->refresh();
+    }
+
     // Probably useless in most cases (currently only used for
     // the History alignment)
     emit gameUpdated();
