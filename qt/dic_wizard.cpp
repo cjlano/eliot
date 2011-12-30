@@ -101,6 +101,8 @@ bool WizardInfoPage::validatePage()
     QMap<QChar, int> lettersWithLine;
     int lineNb = 1;
     QTextStream in(&file);
+    // Set the right codec, to avoid potential problems with the BOM
+    in.setCodec("UTF-8");
     while (!in.atEnd()) {
         QString line = in.readLine().toUpper();
         words.insert(line);
@@ -218,6 +220,8 @@ void WizardLettersDefPage::loadLettersFromWordList()
 
     QSet<QChar> fileLetters;
     QTextStream in(&file);
+    // Set the right codec, to avoid potential problems with the BOM
+    in.setCodec("UTF-8");
     while (!in.atEnd()) {
         QString line = in.readLine().toUpper();
         for (int i = 0; i < line.size(); ++i)
