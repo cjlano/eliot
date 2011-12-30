@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.9\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2011-08-03 08:39+0200\n"
+"POT-Creation-Date: 2011-12-30 19:38+0100\n"
 "PO-Revision-Date: 2009-06-28 14:06+0200\n"
 "Last-Translator: Olivier Teulière <ipkiss @@ via.ecp.fr>\n"
 "Language-Team: English <LL@li.org>\n"
@@ -248,16 +248,16 @@ msgid "Edges: %1% used + %2% saved"
 msgstr ""
 
 #: dic/header.cpp:645 qt/bag_widget.cpp:46 qt/dic_tools_widget.cpp:122
-#: qt/dic_wizard.cpp:198
+#: qt/dic_wizard.cpp:200
 msgid "Letter"
 msgstr ""
 
 #: dic/header.cpp:645 qt/bag_widget.cpp:47 qt/dic_tools_widget.cpp:123
-#: qt/dic_wizard.cpp:199 qt/history_widget.cpp:63 qt/training_widget.cpp:80
+#: qt/dic_wizard.cpp:201 qt/history_widget.cpp:63 qt/training_widget.cpp:80
 msgid "Points"
 msgstr ""
 
-#: dic/header.cpp:645 qt/dic_tools_widget.cpp:124 qt/dic_wizard.cpp:200
+#: dic/header.cpp:645 qt/dic_tools_widget.cpp:124 qt/dic_wizard.cpp:202
 msgid "Frequency"
 msgstr ""
 
@@ -306,7 +306,7 @@ msgstr ""
 msgid "Cannot switch to a player who has already played"
 msgstr ""
 
-#: game/game.cpp:177
+#: game/game.cpp:174
 msgid "Not a random mode"
 msgstr ""
 
@@ -331,12 +331,10 @@ msgid "Not enough vowels or consonants in this rack"
 msgstr ""
 
 #: game/game_factory.cpp:154
-#, c-format
-msgid "Player %u"
+msgid "Player %1%"
 msgstr ""
 
-#: game/training.cpp:186 qt/new_game.cpp:98 qt/new_game.cpp:107
-#: qt/ui/new_game.ui.h:214
+#: game/training.cpp:186 qt/ui/new_game.ui.h:239
 msgid "Training"
 msgstr ""
 
@@ -353,11 +351,11 @@ msgstr ""
 msgid "Rack:"
 msgstr ""
 
-#: qt/dic_tools_widget.cpp:125 qt/dic_wizard.cpp:201
+#: qt/dic_tools_widget.cpp:125 qt/dic_wizard.cpp:203
 msgid "Vowel?"
 msgstr ""
 
-#: qt/dic_tools_widget.cpp:126 qt/dic_wizard.cpp:202
+#: qt/dic_tools_widget.cpp:126 qt/dic_wizard.cpp:204
 msgid "Consonant?"
 msgstr ""
 
@@ -414,7 +412,7 @@ msgstr ""
 msgid "File '%1' successfully saved"
 msgstr ""
 
-#: qt/dic_tools_widget.cpp:383 qt/dic_wizard.cpp:344 qt/main_window.cpp:318
+#: qt/dic_tools_widget.cpp:383 qt/dic_wizard.cpp:348 qt/main_window.cpp:324
 msgid "Eliot - Error"
 msgstr ""
 
@@ -452,42 +450,42 @@ msgid ""
 "It must be encoded in UTF-8, and must contain one word on each line."
 msgstr ""
 
-#: qt/dic_wizard.cpp:127
+#: qt/dic_wizard.cpp:129
 msgid ""
 "Some invalid (non-alphabetical) characters have been found in the word list. "
 "They are indicated below, with the first line on which they were found:"
 msgstr ""
 
-#: qt/dic_wizard.cpp:132
+#: qt/dic_wizard.cpp:134
 msgid "'%1' (ASCII code %2) at line %3"
 msgstr ""
 
-#: qt/dic_wizard.cpp:135 qt/dic_wizard.cpp:146 qt/main_window.cpp:435
-#: qt/new_game.cpp:56 qt/ui/main_window.ui.h:124
+#: qt/dic_wizard.cpp:137 qt/dic_wizard.cpp:148 qt/main_window.cpp:441
+#: qt/new_game.cpp:75 qt/new_game.cpp:142 qt/ui/main_window.ui.h:124
 msgid "Eliot"
 msgstr ""
 
-#: qt/dic_wizard.cpp:137 qt/dic_wizard.cpp:148
+#: qt/dic_wizard.cpp:139 qt/dic_wizard.cpp:150
 msgid "Please correct the word list."
 msgstr ""
 
-#: qt/dic_wizard.cpp:145
+#: qt/dic_wizard.cpp:147
 msgid "The word list contains duplicate entries."
 msgstr ""
 
-#: qt/dic_wizard.cpp:160
+#: qt/dic_wizard.cpp:162
 msgid "Choose a file for the generated dictionary"
 msgstr ""
 
-#: qt/dic_wizard.cpp:173
+#: qt/dic_wizard.cpp:175
 msgid "Choose a word list file"
 msgstr ""
 
-#: qt/dic_wizard.cpp:185
+#: qt/dic_wizard.cpp:187
 msgid "Letters characteristics"
 msgstr ""
 
-#: qt/dic_wizard.cpp:186
+#: qt/dic_wizard.cpp:188
 msgid ""
 "The table below lists all the letters found in the word list (plus the "
 "joker). For each letter, you need to define:\n"
@@ -500,24 +498,24 @@ msgid ""
 "This is usually the case for the joker and, in French, for the Y letter."
 msgstr ""
 
-#: qt/dic_wizard.cpp:283
+#: qt/dic_wizard.cpp:287
 msgid "Conclusion"
 msgstr ""
 
-#: qt/dic_wizard.cpp:290
+#: qt/dic_wizard.cpp:294
 msgid ""
 "Click '%1' to generate the dictionary.\n"
 "\n"
 msgstr ""
 
-#: qt/dic_wizard.cpp:291
+#: qt/dic_wizard.cpp:295
 msgid ""
 "You may now load it in Eliot using the checkbox below.\n"
 "You can also load it later, using the\n"
 "'Settings -> Change dictionary...' menu option."
 msgstr ""
 
-#: qt/dic_wizard.cpp:348
+#: qt/dic_wizard.cpp:352
 msgid "Dictionary successfully created"
 msgstr ""
 
@@ -541,15 +539,15 @@ msgstr ""
 msgid "Player"
 msgstr ""
 
-#: qt/history_widget.cpp:166 qt/main_window.cpp:771 utils/ncurses.cpp:422
+#: qt/history_widget.cpp:166 qt/main_window.cpp:777 utils/ncurses.cpp:424
 msgid "(PASS)"
 msgstr ""
 
-#: qt/history_widget.cpp:200 qt/main_window.cpp:470
+#: qt/history_widget.cpp:200 qt/main_window.cpp:476
 msgid "&Game"
 msgstr ""
 
-#: qt/main_window.cpp:121 qt/main_window.cpp:873 qt/ui/main_window.ui.h:145
+#: qt/main_window.cpp:121 qt/main_window.cpp:879 qt/ui/main_window.ui.h:145
 msgid "Board"
 msgstr ""
 
@@ -563,284 +561,283 @@ msgstr ""
 msgid "End of the game"
 msgstr ""
 
-#: qt/main_window.cpp:280
+#: qt/main_window.cpp:286
 msgid "No game"
 msgstr ""
 
-#: qt/main_window.cpp:288 utils/ncurses.cpp:1111 qt/ui/prefs_dialog.ui.h:298
+#: qt/main_window.cpp:294 utils/ncurses.cpp:1113 qt/ui/prefs_dialog.ui.h:325
 msgid "Training mode"
 msgstr ""
 
-#: qt/main_window.cpp:292
+#: qt/main_window.cpp:298
 msgid "Duplicate game"
 msgstr ""
 
-#: qt/main_window.cpp:296 qt/new_game.cpp:100 qt/new_game.cpp:169
-#: qt/ui/new_game.ui.h:213
+#: qt/main_window.cpp:302 qt/ui/new_game.ui.h:238
 msgid "Free game"
 msgstr ""
 
-#: qt/main_window.cpp:305
+#: qt/main_window.cpp:311
 msgid "No dictionary"
 msgstr ""
 
-#: qt/main_window.cpp:308
+#: qt/main_window.cpp:314
 msgid "Dictionary: %1"
 msgstr ""
 
-#: qt/main_window.cpp:338
+#: qt/main_window.cpp:344
 msgid ""
 "No definitions site defined.\n"
 "Please define one in the preferences."
 msgstr ""
 
-#: qt/main_window.cpp:404
+#: qt/main_window.cpp:410
 msgid "Loading a dictionary will stop the current game."
 msgstr ""
 
-#: qt/main_window.cpp:419
+#: qt/main_window.cpp:425
 msgid "Loaded dictionary '%1'"
 msgstr ""
 
-#: qt/main_window.cpp:437
+#: qt/main_window.cpp:443
 msgid "Do you want to continue?"
 msgstr ""
 
-#: qt/main_window.cpp:471
+#: qt/main_window.cpp:477
 msgid "&New..."
 msgstr ""
 
-#: qt/main_window.cpp:471
+#: qt/main_window.cpp:477
 msgid "Ctrl+N"
 msgstr ""
 
-#: qt/main_window.cpp:472
+#: qt/main_window.cpp:478
 msgid "Start a new game"
 msgstr ""
 
-#: qt/main_window.cpp:474
+#: qt/main_window.cpp:480
 msgid "&Load..."
 msgstr ""
 
-#: qt/main_window.cpp:474
+#: qt/main_window.cpp:480
 msgid "Ctrl+O"
 msgstr ""
 
-#: qt/main_window.cpp:475
+#: qt/main_window.cpp:481
 msgid "Load an existing game"
 msgstr ""
 
-#: qt/main_window.cpp:476
+#: qt/main_window.cpp:482
 msgid "&Save as..."
 msgstr ""
 
-#: qt/main_window.cpp:476
+#: qt/main_window.cpp:482
 msgid "Ctrl+S"
 msgstr ""
 
-#: qt/main_window.cpp:477
+#: qt/main_window.cpp:483
 msgid "Save the current game"
 msgstr ""
 
-#: qt/main_window.cpp:479
+#: qt/main_window.cpp:485
 msgid "&Print..."
 msgstr ""
 
-#: qt/main_window.cpp:479
+#: qt/main_window.cpp:485
 msgid "Ctrl+P"
 msgstr ""
 
-#: qt/main_window.cpp:480
+#: qt/main_window.cpp:486
 msgid "Print the current game"
 msgstr ""
 
-#: qt/main_window.cpp:483
+#: qt/main_window.cpp:489
 msgid "&Quit"
 msgstr ""
 
-#: qt/main_window.cpp:483
+#: qt/main_window.cpp:489
 msgid "Ctrl+Q"
 msgstr ""
 
-#: qt/main_window.cpp:484
+#: qt/main_window.cpp:490
 msgid "Quit Eliot"
 msgstr ""
 
-#: qt/main_window.cpp:489 qt/main_window.cpp:535
+#: qt/main_window.cpp:495 qt/main_window.cpp:541
 msgid "&History"
 msgstr ""
 
-#: qt/main_window.cpp:490
+#: qt/main_window.cpp:496
 msgid "&First turn"
 msgstr ""
 
-#: qt/main_window.cpp:490
+#: qt/main_window.cpp:496
 msgid "Ctrl+Home"
 msgstr ""
 
-#: qt/main_window.cpp:491
+#: qt/main_window.cpp:497
 msgid "Go to the first turn of the game"
 msgstr ""
 
-#: qt/main_window.cpp:493
+#: qt/main_window.cpp:499
 msgid "&Previous turn"
 msgstr ""
 
-#: qt/main_window.cpp:493
+#: qt/main_window.cpp:499
 msgid "Ctrl+Left"
 msgstr ""
 
-#: qt/main_window.cpp:494
+#: qt/main_window.cpp:500
 msgid "Go to the previous turn of the game"
 msgstr ""
 
-#: qt/main_window.cpp:496
+#: qt/main_window.cpp:502
 msgid "&Next turn"
 msgstr ""
 
-#: qt/main_window.cpp:496
+#: qt/main_window.cpp:502
 msgid "Ctrl+Right"
 msgstr ""
 
-#: qt/main_window.cpp:497
+#: qt/main_window.cpp:503
 msgid "Go to the next turn of the game"
 msgstr ""
 
-#: qt/main_window.cpp:499
+#: qt/main_window.cpp:505
 msgid "&Last turn"
 msgstr ""
 
-#: qt/main_window.cpp:499
+#: qt/main_window.cpp:505
 msgid "Ctrl+End"
 msgstr ""
 
-#: qt/main_window.cpp:500
+#: qt/main_window.cpp:506
 msgid "Go to the last turn of the game"
 msgstr ""
 
-#: qt/main_window.cpp:502
+#: qt/main_window.cpp:508
 msgid "&Replay turn"
 msgstr ""
 
-#: qt/main_window.cpp:502
+#: qt/main_window.cpp:508
 msgid "Ctrl+R"
 msgstr ""
 
-#: qt/main_window.cpp:503
+#: qt/main_window.cpp:509
 msgid ""
 "Play the game from the current position, replacing what was really played"
 msgstr ""
 
-#: qt/main_window.cpp:515
+#: qt/main_window.cpp:521
 msgid "&Settings"
 msgstr ""
 
-#: qt/main_window.cpp:516
+#: qt/main_window.cpp:522
 msgid "&Choose dictionary..."
 msgstr ""
 
-#: qt/main_window.cpp:516
+#: qt/main_window.cpp:522
 msgid "Ctrl+C"
 msgstr ""
 
-#: qt/main_window.cpp:517
+#: qt/main_window.cpp:523
 msgid "Select a new dictionary"
 msgstr ""
 
-#: qt/main_window.cpp:518
+#: qt/main_window.cpp:524
 msgid "Create &new dictionary..."
 msgstr ""
 
-#: qt/main_window.cpp:519
+#: qt/main_window.cpp:525
 msgid ""
 "Start the wizard for creating a new dictionary from an existing word list"
 msgstr ""
 
-#: qt/main_window.cpp:521
+#: qt/main_window.cpp:527
 msgid "&Preferences..."
 msgstr ""
 
-#: qt/main_window.cpp:521
+#: qt/main_window.cpp:527
 msgid "Ctrl+F"
 msgstr ""
 
-#: qt/main_window.cpp:522
+#: qt/main_window.cpp:528
 msgid "Edit the preferences"
 msgstr ""
 
-#: qt/main_window.cpp:527
+#: qt/main_window.cpp:533
 msgid "&Windows"
 msgstr ""
 
-#: qt/main_window.cpp:528
+#: qt/main_window.cpp:534
 msgid "&Toolbar"
 msgstr ""
 
-#: qt/main_window.cpp:528
+#: qt/main_window.cpp:534
 msgid "Ctrl+T"
 msgstr ""
 
-#: qt/main_window.cpp:529
+#: qt/main_window.cpp:535
 msgid "Show/hide the toolbar"
 msgstr ""
 
-#: qt/main_window.cpp:531
+#: qt/main_window.cpp:537
 msgid "&Bag"
 msgstr ""
 
-#: qt/main_window.cpp:531 qt/ui/main_window.ui.h:129
+#: qt/main_window.cpp:537 qt/ui/main_window.ui.h:129
 msgid "Ctrl+B"
 msgstr ""
 
-#: qt/main_window.cpp:532 qt/ui/main_window.ui.h:127
+#: qt/main_window.cpp:538 qt/ui/main_window.ui.h:127
 msgid "Show/hide the remaining tiles in the bag"
 msgstr ""
 
-#: qt/main_window.cpp:533
+#: qt/main_window.cpp:539
 msgid "&External board"
 msgstr ""
 
-#: qt/main_window.cpp:533 qt/ui/main_window.ui.h:134
+#: qt/main_window.cpp:539 qt/ui/main_window.ui.h:134
 msgid "Ctrl+E"
 msgstr ""
 
-#: qt/main_window.cpp:534 qt/ui/main_window.ui.h:132
+#: qt/main_window.cpp:540 qt/ui/main_window.ui.h:132
 msgid "Show/hide the external board"
 msgstr ""
 
-#: qt/main_window.cpp:535 qt/ui/main_window.ui.h:139
+#: qt/main_window.cpp:541 qt/ui/main_window.ui.h:139
 msgid "Ctrl+H"
 msgstr ""
 
-#: qt/main_window.cpp:536 qt/ui/main_window.ui.h:137
+#: qt/main_window.cpp:542 qt/ui/main_window.ui.h:137
 msgid "Show/hide the game history"
 msgstr ""
 
-#: qt/main_window.cpp:538
+#: qt/main_window.cpp:544
 msgid "&Dictionary tools"
 msgstr ""
 
-#: qt/main_window.cpp:538 qt/ui/main_window.ui.h:144
+#: qt/main_window.cpp:544 qt/ui/main_window.ui.h:144
 msgid "Ctrl+D"
 msgstr ""
 
-#: qt/main_window.cpp:539 qt/ui/main_window.ui.h:142
+#: qt/main_window.cpp:545 qt/ui/main_window.ui.h:142
 msgid "Show/hide the dictionary tools"
 msgstr ""
 
-#: qt/main_window.cpp:543
+#: qt/main_window.cpp:549
 msgid "Hel&p"
 msgstr ""
 
-#: qt/main_window.cpp:544
+#: qt/main_window.cpp:550
 msgid "&About..."
 msgstr ""
 
-#: qt/main_window.cpp:545 qt/main_window.cpp:944
+#: qt/main_window.cpp:551 qt/main_window.cpp:950
 msgid "About Eliot"
 msgstr ""
 
-#: qt/main_window.cpp:556
+#: qt/main_window.cpp:562
 msgid ""
 "You have to select a dictionary (.dawg file) before starting a game. This "
 "can be done in the \"Settings\" menu.\n"
@@ -848,86 +845,86 @@ msgid ""
 "You can download dictionary files on Eliot web site."
 msgstr ""
 
-#: qt/main_window.cpp:572
+#: qt/main_window.cpp:578
 msgid "Starting a new game will stop the current one."
 msgstr ""
 
-#: qt/main_window.cpp:587
+#: qt/main_window.cpp:593
 msgid "Game started"
 msgstr ""
 
-#: qt/main_window.cpp:599
+#: qt/main_window.cpp:605
 msgid "You have to select a dictionary first!"
 msgstr ""
 
-#: qt/main_window.cpp:603 utils/ncurses.cpp:640
+#: qt/main_window.cpp:609 utils/ncurses.cpp:642
 msgid "Load a game"
 msgstr ""
 
-#: qt/main_window.cpp:614
+#: qt/main_window.cpp:620
 msgid "Error while loading the game:\n"
 msgstr ""
 
-#: qt/main_window.cpp:621 utils/ncurses.cpp:654
+#: qt/main_window.cpp:627 utils/ncurses.cpp:656
 #, c-format
 msgid "Game loaded"
 msgstr ""
 
-#: qt/main_window.cpp:631
+#: qt/main_window.cpp:637
 msgid "Save a game"
 msgstr ""
 
-#: qt/main_window.cpp:637
+#: qt/main_window.cpp:643
 msgid "Game saved"
 msgstr ""
 
-#: qt/main_window.cpp:641
+#: qt/main_window.cpp:647
 msgid "Error saving game: %1"
 msgstr ""
 
-#: qt/main_window.cpp:679
+#: qt/main_window.cpp:685
 msgid "N."
 msgstr ""
 
-#: qt/main_window.cpp:679
+#: qt/main_window.cpp:685
 msgid "RACK"
 msgstr ""
 
-#: qt/main_window.cpp:679
+#: qt/main_window.cpp:685
 msgid "SOLUTION"
 msgstr ""
 
-#: qt/main_window.cpp:679
+#: qt/main_window.cpp:685
 msgid "REF"
 msgstr ""
 
-#: qt/main_window.cpp:679
+#: qt/main_window.cpp:685
 msgid "PTS"
 msgstr ""
 
-#: qt/main_window.cpp:820 qt/prefs_dialog.cpp:164
+#: qt/main_window.cpp:826 qt/prefs_dialog.cpp:176
 msgid "Choose a dictionary"
 msgstr ""
 
-#: qt/main_window.cpp:828
+#: qt/main_window.cpp:834
 msgid "Dictionary creation wizard"
 msgstr ""
 
-#: qt/main_window.cpp:855 utils/ncurses.cpp:494 qt/ui/main_window.ui.h:125
+#: qt/main_window.cpp:861 utils/ncurses.cpp:496 qt/ui/main_window.ui.h:125
 msgid "Bag"
 msgstr ""
 
-#: qt/main_window.cpp:891 qt/ui/main_window.ui.h:135
+#: qt/main_window.cpp:897 qt/ui/main_window.ui.h:135
 #: qt/ui/main_window.ui.h:146
 msgid "History"
 msgstr ""
 
-#: qt/main_window.cpp:908 qt/ui/dic_tools_widget.ui.h:263
+#: qt/main_window.cpp:914 qt/ui/dic_tools_widget.ui.h:263
 #: qt/ui/main_window.ui.h:140
 msgid "Dictionary tools"
 msgstr ""
 
-#: qt/main_window.cpp:935
+#: qt/main_window.cpp:941
 msgid ""
 "Copyright (C) 1999-2011 - Antoine Fraboulet & Olivier Teuliere\n"
 "\n"
@@ -937,52 +934,81 @@ msgid ""
 "any later version."
 msgstr ""
 
-#: qt/main_window.cpp:941
+#: qt/main_window.cpp:947
 msgid "Web site: http://www.nongnu.org/eliot/en/"
 msgstr ""
 
-#: qt/main_window.cpp:959 qt/main_window.cpp:972 qt/main_window.cpp:985
-#: qt/main_window.cpp:998
+#: qt/main_window.cpp:965 qt/main_window.cpp:978 qt/main_window.cpp:991
+#: qt/main_window.cpp:1004
 msgid "Turn %1/%2"
 msgstr ""
 
-#: qt/main_window.cpp:1011
+#: qt/main_window.cpp:1017
 msgid ""
 "Replaying this turn will modify the game history by deleting the turns after "
 "the displayed one (i.e. turns \"in the future\")."
 msgstr ""
 
-#: qt/main_window.cpp:1021
+#: qt/main_window.cpp:1027
 msgid "Replaying from turn %1"
 msgstr ""
 
-#: qt/new_game.cpp:39 qt/ui/new_game.ui.h:231
+#: qt/new_game.cpp:41 qt/ui/new_game.ui.h:256
 msgid "Human"
 msgstr ""
 
-#: qt/new_game.cpp:40 qt/ui/new_game.ui.h:232
+#: qt/new_game.cpp:42 qt/ui/new_game.ui.h:257
 msgid "Computer"
 msgstr ""
 
-#: qt/new_game.cpp:47 qt/new_game.cpp:54 qt/new_game.cpp:114
-#: qt/new_game.cpp:205 qt/new_game.cpp:208
+#: qt/new_game.cpp:49 qt/new_game.cpp:73 qt/new_game.cpp:180
+#: qt/new_game.cpp:269 qt/new_game.cpp:272
 msgid "Player %1"
 msgstr ""
 
-#: qt/new_game.cpp:51
+#: qt/new_game.cpp:52
+msgid ""
+"In a joker game, each rack contains a joker.\n"
+"When a word containing the joker is played on the grid, the joker is then "
+"replaced\n"
+"with the corresponding letter from the bag, and the joker stays in the "
+"rack.\n"
+"When the corresponding letter is not present in the bag, the joker is placed "
+"on the board.\n"
+"This variant, particularly interesting in Duplicate mode, is good to train "
+"using the joker."
+msgstr ""
+
+#: qt/new_game.cpp:58
+msgid ""
+"An explosive game is a bit like a joker game, except that when the computer "
+"chooses the rack\n"
+"(containing a joker), it performs a search and finds the best word possible "
+"with the rack.\n"
+"Then, if possible, it replaces the joker in the rack with the letter "
+"allowing to play this best word.\n"
+"This variant, unlike the joker game, allows playing with a normal-looking "
+"rack, but it usually gives\n"
+"much higher scores than in a normal game."
+msgstr ""
+
+#: qt/new_game.cpp:64
+msgid ""
+"With this variant, the rack contains 8 letters instead of 7,\n"
+"but at most 7 can be played at the same time.\n"
+"This allows for more combinations during the game, and thus higher scores."
+msgstr ""
+
+#: qt/new_game.cpp:70
 msgid "Name"
 msgstr ""
 
-#: qt/new_game.cpp:52
+#: qt/new_game.cpp:71
 msgid "Type"
 msgstr ""
 
-#: qt/new_game.cpp:53
+#: qt/new_game.cpp:72
 msgid "Level"
-msgstr ""
-
-#: qt/new_game.cpp:168 qt/ui/new_game.ui.h:212
-msgid "Duplicate"
 msgstr ""
 
 #: qt/player_widget.cpp:181
@@ -1084,15 +1110,19 @@ msgstr ""
 msgid "The word is going out of the board"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:179 utils/ncurses.cpp:581
+#: qt/play_word_mediator.cpp:179
+msgid "The word contains too many letters from the rack"
+msgstr ""
+
+#: qt/play_word_mediator.cpp:182 utils/ncurses.cpp:583
 msgid "Incorrect or misplaced word"
 msgstr ""
 
-#: qt/play_word_mediator.cpp:203
+#: qt/play_word_mediator.cpp:206
 msgid "Cannot play word: misplaced parentheses"
 msgstr ""
 
-#: qt/prefs_dialog.cpp:47
+#: qt/prefs_dialog.cpp:48
 msgid ""
 "URL of the site used to display word definitions.\n"
 "In the URL, %w will be replaced with the word in lower case. Examples:\n"
@@ -1101,15 +1131,21 @@ msgid ""
 "\thttp://images.google.com/images?q=%w"
 msgstr ""
 
-#: qt/prefs_dialog.cpp:81 qt/prefs_dialog.cpp:96 qt/prefs_dialog.cpp:152
+#: qt/prefs_dialog.cpp:53
+msgid ""
+"Default level for Eliot, used when creating a new game.\n"
+"Accepted range: [0-100]"
+msgstr ""
+
+#: qt/prefs_dialog.cpp:87 qt/prefs_dialog.cpp:102 qt/prefs_dialog.cpp:164
 msgid "%1 error"
 msgstr ""
 
-#: qt/prefs_dialog.cpp:82
+#: qt/prefs_dialog.cpp:88
 msgid "Cannot load preferences: %1"
 msgstr ""
 
-#: qt/prefs_dialog.cpp:97 qt/prefs_dialog.cpp:153
+#: qt/prefs_dialog.cpp:103 qt/prefs_dialog.cpp:165
 msgid "Cannot save preferences: %1"
 msgstr ""
 
@@ -1137,147 +1173,147 @@ msgstr ""
 msgid "Search done"
 msgstr ""
 
-#: utils/ncurses.cpp:290
+#: utils/ncurses.cpp:292
 msgid "Scores"
 msgstr ""
 
-#: utils/ncurses.cpp:294 utils/ncurses.cpp:300
+#: utils/ncurses.cpp:296 utils/ncurses.cpp:302
 #, c-format
 msgid "%s: %d"
 msgstr ""
 
-#: utils/ncurses.cpp:312
+#: utils/ncurses.cpp:314
 msgid "Racks"
 msgstr ""
 
-#: utils/ncurses.cpp:316 utils/ncurses.cpp:322
+#: utils/ncurses.cpp:318 utils/ncurses.cpp:324
 #, c-format
 msgid "%s: %ls"
 msgstr ""
 
-#: utils/ncurses.cpp:336 utils/ncurses.cpp:339
+#: utils/ncurses.cpp:338 utils/ncurses.cpp:341
 msgid "Search complete"
 msgstr ""
 
-#: utils/ncurses.cpp:348 qt/ui/training_widget.ui.h:204
+#: utils/ncurses.cpp:350 qt/ui/training_widget.ui.h:204
 msgid "Search results"
 msgstr ""
 
-#: utils/ncurses.cpp:377
+#: utils/ncurses.cpp:379
 msgid "History of the game"
 msgstr ""
 
-#: utils/ncurses.cpp:383
+#: utils/ncurses.cpp:385
 msgid " N |      RACK      |    SOLUTION     | REF | PTS | P | BONUS"
 msgstr ""
 
-#: utils/ncurses.cpp:448
+#: utils/ncurses.cpp:450
 msgid "Help"
 msgstr ""
 
-#: utils/ncurses.cpp:452
+#: utils/ncurses.cpp:454
 msgid "[Global]"
 msgstr ""
 
-#: utils/ncurses.cpp:453
+#: utils/ncurses.cpp:455
 msgid "   h, H, ?          Show/hide help box"
 msgstr ""
 
-#: utils/ncurses.cpp:454
+#: utils/ncurses.cpp:456
 msgid "   y, Y             Show/hide history of the game"
 msgstr ""
 
-#: utils/ncurses.cpp:455
+#: utils/ncurses.cpp:457
 msgid ""
 "   b, B             Show/hide contents of the bag (including letters of the "
 "racks)"
 msgstr ""
 
-#: utils/ncurses.cpp:456
+#: utils/ncurses.cpp:458
 msgid "   e, E             Show/hide dots on empty squares of the board"
 msgstr ""
 
-#: utils/ncurses.cpp:457
+#: utils/ncurses.cpp:459
 msgid "   d, D             Check the existence of a word in the dictionary"
 msgstr ""
 
-#: utils/ncurses.cpp:458
+#: utils/ncurses.cpp:460
 msgid "   j, J             Play a word"
 msgstr ""
 
-#: utils/ncurses.cpp:459
+#: utils/ncurses.cpp:461
 msgid "   s, S             Save the game"
 msgstr ""
 
-#: utils/ncurses.cpp:460
+#: utils/ncurses.cpp:462
 msgid "   l, L             Load a game"
 msgstr ""
 
-#: utils/ncurses.cpp:461
+#: utils/ncurses.cpp:463
 msgid "   q, Q             Quit"
 msgstr ""
 
-#: utils/ncurses.cpp:464
+#: utils/ncurses.cpp:466
 msgid "[Training mode]"
 msgstr ""
 
-#: utils/ncurses.cpp:465
+#: utils/ncurses.cpp:467
 msgid "   *                Take a random rack"
 msgstr ""
 
-#: utils/ncurses.cpp:466
+#: utils/ncurses.cpp:468
 msgid "   +                Complete the current rack randomly"
 msgstr ""
 
-#: utils/ncurses.cpp:467
+#: utils/ncurses.cpp:469
 msgid "   t, T             Set the rack manually"
 msgstr ""
 
-#: utils/ncurses.cpp:468
+#: utils/ncurses.cpp:470
 msgid "   c, C             Compute all the possible words"
 msgstr ""
 
-#: utils/ncurses.cpp:469
+#: utils/ncurses.cpp:471
 msgid "   r, R             Show/hide search results"
 msgstr ""
 
-#: utils/ncurses.cpp:472
+#: utils/ncurses.cpp:474
 msgid "[Duplicate mode]"
 msgstr ""
 
-#: utils/ncurses.cpp:473
+#: utils/ncurses.cpp:475
 msgid "   n, N             Switch to the next human player"
 msgstr ""
 
-#: utils/ncurses.cpp:476
+#: utils/ncurses.cpp:478
 msgid "[Free game mode]"
 msgstr ""
 
-#: utils/ncurses.cpp:477
+#: utils/ncurses.cpp:479
 msgid "   p, P             Pass your turn (with or without changing letters)"
 msgstr ""
 
-#: utils/ncurses.cpp:480
+#: utils/ncurses.cpp:482
 msgid "[Miscellaneous]"
 msgstr ""
 
-#: utils/ncurses.cpp:481
+#: utils/ncurses.cpp:483
 msgid "   <up>, <down>     Navigate in a box line by line"
 msgstr ""
 
-#: utils/ncurses.cpp:482
+#: utils/ncurses.cpp:484
 msgid "   <pgup>, <pgdown> Navigate in a box page by page"
 msgstr ""
 
-#: utils/ncurses.cpp:483
+#: utils/ncurses.cpp:485
 msgid "   Ctrl-l           Refresh the screen"
 msgstr ""
 
-#: utils/ncurses.cpp:501
+#: utils/ncurses.cpp:503
 msgid " LETTER | POINTS | FREQUENCY | REMAINING"
 msgstr ""
 
-#: utils/ncurses.cpp:557
+#: utils/ncurses.cpp:559
 msgid "Play a word"
 msgstr ""
 
@@ -1285,91 +1321,91 @@ msgstr ""
 #. "Coordinates:". For example:
 #. Pl. word   :
 #. Coordinates:
-#: utils/ncurses.cpp:558 utils/ncurses.cpp:566
+#: utils/ncurses.cpp:560 utils/ncurses.cpp:568
 msgid "Played word:"
 msgstr ""
 
-#: utils/ncurses.cpp:559 utils/ncurses.cpp:567
+#: utils/ncurses.cpp:561 utils/ncurses.cpp:569
 msgid "Coordinates:"
 msgstr ""
 
-#: utils/ncurses.cpp:591
+#: utils/ncurses.cpp:593
 msgid "Dictionary"
 msgstr ""
 
-#: utils/ncurses.cpp:592
+#: utils/ncurses.cpp:594
 msgid "Enter the word to check:"
-msgstr ""
-
-#: utils/ncurses.cpp:601
-#, c-format
-msgid "The word '%ls' exists"
 msgstr ""
 
 #: utils/ncurses.cpp:603
 #, c-format
+msgid "The word '%ls' exists"
+msgstr ""
+
+#: utils/ncurses.cpp:605
+#, c-format
 msgid "The word '%ls' does not exist"
 msgstr ""
 
-#: utils/ncurses.cpp:613
+#: utils/ncurses.cpp:615
 msgid "Save the game"
 msgstr ""
 
-#: utils/ncurses.cpp:614 utils/ncurses.cpp:641
+#: utils/ncurses.cpp:616 utils/ncurses.cpp:643
 msgid "Enter the file name:"
 msgstr ""
 
-#: utils/ncurses.cpp:624
+#: utils/ncurses.cpp:626
 #, c-format
 msgid "Game saved in '%ls'"
 msgstr ""
 
-#: utils/ncurses.cpp:629
+#: utils/ncurses.cpp:631
 #, c-format
 msgid "Error saving game %s:"
 msgstr ""
 
-#: utils/ncurses.cpp:659
+#: utils/ncurses.cpp:661
 msgid "Unable to load game: "
 msgstr ""
 
-#: utils/ncurses.cpp:669
+#: utils/ncurses.cpp:671
 msgid "Pass your turn"
 msgstr ""
 
-#: utils/ncurses.cpp:670
+#: utils/ncurses.cpp:672
 msgid "Enter the letters to change:"
 msgstr ""
 
-#: utils/ncurses.cpp:679
+#: utils/ncurses.cpp:681
 msgid "Cannot pass the turn"
 msgstr ""
 
-#: utils/ncurses.cpp:689
+#: utils/ncurses.cpp:691
 msgid "Set rack"
 msgstr ""
 
-#: utils/ncurses.cpp:690
+#: utils/ncurses.cpp:692
 msgid "Enter the new letters:"
 msgstr ""
 
-#: utils/ncurses.cpp:702
+#: utils/ncurses.cpp:704
 msgid "Cannot take these letters from the bag:"
 msgstr ""
 
-#: utils/ncurses.cpp:1113 qt/ui/prefs_dialog.ui.h:293
+#: utils/ncurses.cpp:1115 qt/ui/prefs_dialog.ui.h:320
 msgid "Free game mode"
 msgstr ""
 
-#: utils/ncurses.cpp:1115 qt/ui/prefs_dialog.ui.h:280
+#: utils/ncurses.cpp:1117 qt/ui/prefs_dialog.ui.h:307
 msgid "Duplicate mode"
 msgstr ""
 
-#: utils/ncurses.cpp:1118 qt/ui/new_game.ui.h:220
+#: utils/ncurses.cpp:1120 qt/ui/new_game.ui.h:244
 msgid "Joker game"
 msgstr ""
 
-#: utils/ncurses.cpp:1119
+#: utils/ncurses.cpp:1121
 msgid "[h for help]"
 msgstr ""
 
@@ -1429,7 +1465,7 @@ msgid "Load this dictionary in Eliot"
 msgstr ""
 
 #: qt/ui/dic_wizard_info_page.ui.h:143 qt/ui/dic_wizard_info_page.ui.h:144
-#: qt/ui/prefs_dialog.ui.h:266
+#: qt/ui/prefs_dialog.ui.h:292
 msgid "Browse..."
 msgstr ""
 
@@ -1449,27 +1485,31 @@ msgstr ""
 msgid "External board"
 msgstr ""
 
-#: qt/ui/main_window.ui.h:147 qt/ui/new_game.ui.h:225
+#: qt/ui/main_window.ui.h:147 qt/ui/new_game.ui.h:250
 msgid "Players"
 msgstr ""
 
-#: qt/ui/new_game.ui.h:207
+#: qt/ui/new_game.ui.h:234
 msgid "New game"
 msgstr ""
 
-#: qt/ui/new_game.ui.h:208
+#: qt/ui/new_game.ui.h:235
 msgid "Game type"
 msgstr ""
 
-#: qt/ui/new_game.ui.h:209
+#: qt/ui/new_game.ui.h:236
 msgid "Mode:"
 msgstr ""
 
-#: qt/ui/new_game.ui.h:216
+#: qt/ui/new_game.ui.h:237
+msgid "Duplicate"
+msgstr ""
+
+#: qt/ui/new_game.ui.h:240
 msgid "Variant:"
 msgstr ""
 
-#: qt/ui/new_game.ui.h:218
+#: qt/ui/new_game.ui.h:242
 msgid ""
 "In a joker game, each rack contains a joker. When a word containing the "
 "joker is played on the grid, the joker is then replaced by the corresponding "
@@ -1479,7 +1519,7 @@ msgid ""
 "the joker."
 msgstr ""
 
-#: qt/ui/new_game.ui.h:222
+#: qt/ui/new_game.ui.h:246
 msgid ""
 "An explosive game is a bit like a joker game, except than when the computer "
 "chooses the rack (containing a joker), it performs a search and finds the "
@@ -1489,31 +1529,35 @@ msgid ""
 "usually gives much higher scores than in a normal game."
 msgstr ""
 
-#: qt/ui/new_game.ui.h:224
+#: qt/ui/new_game.ui.h:248
 msgid "Explosive game"
 msgstr ""
 
-#: qt/ui/new_game.ui.h:226
+#: qt/ui/new_game.ui.h:249
+msgid "7 among 8"
+msgstr ""
+
+#: qt/ui/new_game.ui.h:251
 msgid "Name:"
 msgstr ""
 
-#: qt/ui/new_game.ui.h:227
+#: qt/ui/new_game.ui.h:252
 msgid "Player 2"
 msgstr ""
 
-#: qt/ui/new_game.ui.h:228
+#: qt/ui/new_game.ui.h:253
 msgid "Type:"
 msgstr ""
 
-#: qt/ui/new_game.ui.h:234
+#: qt/ui/new_game.ui.h:259
 msgid "Level:"
 msgstr ""
 
-#: qt/ui/new_game.ui.h:235
+#: qt/ui/new_game.ui.h:260
 msgid "Add player"
 msgstr ""
 
-#: qt/ui/new_game.ui.h:236
+#: qt/ui/new_game.ui.h:261
 msgid "Remove player"
 msgstr ""
 
@@ -1568,99 +1612,103 @@ msgstr ""
 msgid "Change"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:257
+#: qt/ui/prefs_dialog.ui.h:283
 msgid "Preferences"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:258
+#: qt/ui/prefs_dialog.ui.h:284
 msgid "Interface"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:259
+#: qt/ui/prefs_dialog.ui.h:285
 msgid "Dictionary path:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:261
+#: qt/ui/prefs_dialog.ui.h:287
 msgid "Enter the dictionary path (mandatory to start a game)"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:264
+#: qt/ui/prefs_dialog.ui.h:290
 msgid "Open a browser window to choose the dictionary"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:267
+#: qt/ui/prefs_dialog.ui.h:293
 msgid "Definitions site:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:269
+#: qt/ui/prefs_dialog.ui.h:295
 msgid "Show/hide the tiles points on the board."
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:271
+#: qt/ui/prefs_dialog.ui.h:297
 msgid "Display tiles points"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:273
+#: qt/ui/prefs_dialog.ui.h:299
 msgid ""
 "If checked, the game and player histories will display the rack and the "
 "corresponding solution on the same line"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:275
+#: qt/ui/prefs_dialog.ui.h:301
 msgid "Align the rack and the solution in history"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:277
+#: qt/ui/prefs_dialog.ui.h:303
 msgid ""
 "If checked, a confirmation will be requested before replaying the game from "
 "a given turn. If unchecked, the action is performed without confirmation."
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:279
+#: qt/ui/prefs_dialog.ui.h:305
 msgid "Warn before replaying a turn"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:282 qt/ui/prefs_dialog.ui.h:295
+#: qt/ui/prefs_dialog.ui.h:306
+msgid "Default computer level:"
+msgstr ""
+
+#: qt/ui/prefs_dialog.ui.h:309 qt/ui/prefs_dialog.ui.h:322
 msgid ""
 "If checked, playing an invalid or misplaced word will not be possible. If "
 "unchecked, you will get 0 point and lose your turn"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:284 qt/ui/prefs_dialog.ui.h:297
+#: qt/ui/prefs_dialog.ui.h:311 qt/ui/prefs_dialog.ui.h:324
 msgid "Refuse to play invalid moves"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:285
+#: qt/ui/prefs_dialog.ui.h:312
 msgid "Min. players for a solo:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:286
+#: qt/ui/prefs_dialog.ui.h:313
 msgid "Solo value:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:288
+#: qt/ui/prefs_dialog.ui.h:315
 msgid "Value of the solo bonus. Set it to 0 if you don't want solo bonus"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:291
+#: qt/ui/prefs_dialog.ui.h:318
 msgid "Minimum number of players needed to take into account the solo bonus"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:300
+#: qt/ui/prefs_dialog.ui.h:327
 msgid ""
 "If checked, any change to the player rack in training mode will update the "
 "'Plus 1' tab of the 'Dictionary tools' window"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:302
+#: qt/ui/prefs_dialog.ui.h:329
 msgid "Copy rack to the 'Plus 1' dictionary tool"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:303
+#: qt/ui/prefs_dialog.ui.h:330
 msgid "Search results limit:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:305
+#: qt/ui/prefs_dialog.ui.h:332
 msgid ""
 "Maximum number of results returned by a search. The returned results will "
 "always be the best ones. Use 0 to disable the limit (warning: searches "
