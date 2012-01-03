@@ -2,20 +2,18 @@
 # Copyright (C) 2009 Eliot
 # This file is distributed under the same license as the Eliot package.
 # Joan Montané <joan---sense spam---montane.cat>
-# , 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.9\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
 "POT-Creation-Date: 2011-12-30 19:38+0100\n"
-"PO-Revision-Date: 2011-08-15 00:43+0100\n"
-"Last-Translator: Joan Montané <joan ---sense spam--- montane.cat>\n"
-"Language-Team: \n"
-"Language: \n"
+"PO-Revision-Date: 2011-12-30 21:38+0100\n"
+"Last-Translator: \n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: dic/compdic.cpp:93
 msgid "'%1%' is not a valid letter."
@@ -28,7 +26,7 @@ msgid ""
 "defined. Please use another character and change your word list accordingly."
 msgstr ""
 "Per raons tècniques, l'Eliot només permet caràcters alfabètics per a "
-"representar fitxes, fins i tot i si la fitxa té una cadena visible definida. "
+"representar fitxes, fins i tot si la fitxa té una cadena visible definida. "
 "Si us plau, empreu un altre caràcter per identificar la fitxa i modifiqueu "
 "la llista de paraules de forma adient."
 
@@ -113,8 +111,8 @@ msgstr " -d 'ODS 5.0' -l fitxes.txt -i ods5.txt -o ods5.dawg"
 msgid ""
 "The file containing the letters (--letters switch) must be UTF-8 encoded."
 msgstr ""
-"El fitxer que conté la distribució de fitxes (paràmetre --letters), ha "
-"d'estar en codificació UTF-8."
+"El fitxer que conté la distribució de fitxes (paràmetre --letters), cal que "
+"empri la codificació UTF-8."
 
 #: dic/compdicmain.cpp:138
 msgid ""
@@ -247,7 +245,7 @@ msgstr "S'ha comprimit en: %1%"
 
 #: dic/header.cpp:631
 msgid "Compressed using a binary compiled by: %1%"
-msgstr "S'ha comprimit fent servur un compilat binari per: %1%"
+msgstr "S'ha comprimit fent servir una compilació binària per: %1%"
 
 #: dic/header.cpp:632
 msgid "Dictionary type: %1%"
@@ -365,9 +363,8 @@ msgid "Not enough vowels or consonants in this rack"
 msgstr "No hi ha suficients vocals o consonants al faristol"
 
 #: game/game_factory.cpp:154
-#, fuzzy
 msgid "Player %1%"
-msgstr "Jugador %1"
+msgstr "Jugador %1%"
 
 #: game/training.cpp:186 qt/ui/new_game.ui.h:239
 msgid "Training"
@@ -474,8 +471,8 @@ msgid ""
 "E.g.: My Dic 1.0"
 msgstr ""
 "Indiqueu un nom per al diccionari. Aquest nom apareixerà a la barra d'estat "
-"de l'Eliot quan el diccionari estigui carregat. exemple: El meu diccionari "
-"1.0"
+"de l'Eliot quan el diccionari estigui carregat.\n"
+"Exemple: El meu diccionari 1.0"
 
 #: qt/dic_wizard.cpp:53
 msgid ""
@@ -493,7 +490,7 @@ msgid ""
 "It must be encoded in UTF-8, and must contain one word on each line."
 msgstr ""
 "Seleccioneu el fitxer que conté la llista de paraules.\n"
-"Ha d'estar en el joc de caràcters UTF-8, i ha cada línia de tenir una "
+"Ha d'estar en el joc de caràcters UTF-8, i cada línia ha de tenir una "
 "paraula."
 
 #: qt/dic_wizard.cpp:129
@@ -684,7 +681,7 @@ msgstr "Inicia una partida nova"
 
 #: qt/main_window.cpp:480
 msgid "&Load..."
-msgstr "&Carrega..."
+msgstr "&Obre..."
 
 #: qt/main_window.cpp:480
 msgid "Ctrl+O"
@@ -692,7 +689,7 @@ msgstr "Ctrl+O"
 
 #: qt/main_window.cpp:481
 msgid "Load an existing game"
-msgstr "Carrega una partida prèvia"
+msgstr "Obre una partida desada"
 
 #: qt/main_window.cpp:482
 msgid "&Save as..."
@@ -798,11 +795,11 @@ msgstr ""
 
 #: qt/main_window.cpp:521
 msgid "&Settings"
-msgstr "&Paràmetres"
+msgstr "&Configuració"
 
 #: qt/main_window.cpp:522
 msgid "&Choose dictionary..."
-msgstr "&Indiqueu un diccionari"
+msgstr "&Carrega un diccionari..."
 
 #: qt/main_window.cpp:522
 msgid "Ctrl+C"
@@ -810,7 +807,7 @@ msgstr "Ctrl+C"
 
 #: qt/main_window.cpp:523
 msgid "Select a new dictionary"
-msgstr "Seleccioneu un diccionari"
+msgstr "Seleccioneu un diccionari nou"
 
 #: qt/main_window.cpp:524
 msgid "Create &new dictionary..."
@@ -915,7 +912,7 @@ msgid ""
 "You can download dictionary files on Eliot web site."
 msgstr ""
 "Heu de seleccionar un diccionari (fitxer .dawg) abans de començar una "
-"partida. Podeu fer-ho al menú \"Paràmetres\".\n"
+"partida. Podeu fer-ho al menú «Configuració».\n"
 "\n"
 "Podeu baixar diccionaris des del lloc web de l'Eliot"
 
@@ -933,16 +930,16 @@ msgstr "Primer heu de seleccionar un diccionari!"
 
 #: qt/main_window.cpp:609 utils/ncurses.cpp:642
 msgid "Load a game"
-msgstr "Carrega una partida"
+msgstr "Obre una partida"
 
 #: qt/main_window.cpp:620
 msgid "Error while loading the game:\n"
-msgstr "S'ha produït un error en carregar la partida:\n"
+msgstr "S'ha produït un error en obrir la partida:\n"
 
 #: qt/main_window.cpp:627 utils/ncurses.cpp:656
 #, c-format
 msgid "Game loaded"
-msgstr "Partida carregada"
+msgstr "S'ha obert la partida"
 
 #: qt/main_window.cpp:637
 msgid "Save a game"
@@ -950,7 +947,7 @@ msgstr "Desa una partida"
 
 #: qt/main_window.cpp:643
 msgid "Game saved"
-msgstr "Partida desada"
+msgstr "S'ha desat la partida"
 
 #: qt/main_window.cpp:647
 msgid "Error saving game: %1"
@@ -1033,7 +1030,7 @@ msgstr ""
 
 #: qt/main_window.cpp:1027
 msgid "Replaying from turn %1"
-msgstr "S'està tornat a jugar el torn %1"
+msgstr "S'està tornat a jugar des del torn %1"
 
 #: qt/new_game.cpp:41 qt/ui/new_game.ui.h:256
 msgid "Human"
@@ -1049,7 +1046,6 @@ msgid "Player %1"
 msgstr "Jugador %1"
 
 #: qt/new_game.cpp:52
-#, fuzzy
 msgid ""
 "In a joker game, each rack contains a joker.\n"
 "When a word containing the joker is played on the grid, the joker is then "
@@ -1061,15 +1057,14 @@ msgid ""
 "This variant, particularly interesting in Duplicate mode, is good to train "
 "using the joker."
 msgstr ""
-"En una partida amb escarràs, cada faristol té un escarràs. Quan és juga una "
-"paraula fent servir l'escarràs al tauler, se substitueix l'escarràs per la "
-"fitxa corresponent, prenent-la del sac, i l'escarràs es manté al faristol. "
+"En una partida amb escarràs, cada faristol té un escarràs. Quan es juga una "
+"paraula al tauler fent servir l'escarràs, se substitueix l'escarràs per la "
+"fitxa corresponent, prenent-la del sac, i l'escarràs es manté al faristol.\n"
 "Quan la fitxa necessària no es troba al sac, l'escarràs roman al tauler. "
 "Aquesta variant és particularment interessant en el mode Duplicat, és bo "
 "entrenar emprant l'escarràs"
 
 #: qt/new_game.cpp:58
-#, fuzzy
 msgid ""
 "An explosive game is a bit like a joker game, except that when the computer "
 "chooses the rack\n"
@@ -1081,10 +1076,11 @@ msgid ""
 "rack, but it usually gives\n"
 "much higher scores than in a normal game."
 msgstr ""
-"Una partida explosiva s'assembla a una partida amb escarràs, excepte que "
-"quan l'ordinador selecciona el faristol (que conté un escarràs), cerca i "
-"troba la millor paraula del faristol. Aleshores, si és possible, substituiex "
-"l'escarràs del faristol per la fitxa que permet aquesta millor jugada. "
+"Una partida explosiva s'assembla a una partida amb escarràs, excepte que en "
+"la selecció del faristol (que conté un escarràs) feta per l'ordinador.\n"
+"L'ordinador cerca i troba la millor paraula del faristol. Aleshores, si és "
+"possible, substitueix l'escarràs del faristol per la fitxa que permet "
+"aquesta millor jugada.\n"
 "Aquesta variant, al contrari que la partida amb escarràs, permet jugar amb "
 "un faristol amb aparença normal, però habitualment s'aconsegueixen "
 "puntuacions molt més elevades que en una partida duplicada normal."
@@ -1095,6 +1091,9 @@ msgid ""
 "but at most 7 can be played at the same time.\n"
 "This allows for more combinations during the game, and thus higher scores."
 msgstr ""
+"Amb aquesta variant, el faristol conté 8 fitxes en comptes de 7, però la "
+"majoria de grups de 7 fitxes es poden jugar a la vegada. Això permet fer més "
+"combinacions durant la partida, i per tant, puntuacions més altes."
 
 #: qt/new_game.cpp:70
 msgid "Name"
@@ -1224,9 +1223,8 @@ msgid "The word is going out of the board"
 msgstr "La paraula surt fora del tauler"
 
 #: qt/play_word_mediator.cpp:179
-#, fuzzy
 msgid "The word contains too many letters from the rack"
-msgstr "No hi ha suficients vocals o consonants per a completar un faristol"
+msgstr "La paraula conté més fitxes que no pas hi ha al faristol."
 
 #: qt/play_word_mediator.cpp:182 utils/ncurses.cpp:583
 msgid "Incorrect or misplaced word"
@@ -1234,7 +1232,7 @@ msgstr "Paraula incorrecta o en mala posició"
 
 #: qt/play_word_mediator.cpp:206
 msgid "Cannot play word: misplaced parentheses"
-msgstr "No es pot jugar la paraula: els parèntesis no estan ben col·locats"
+msgstr "No es pot jugar la paraula: els parèntesis no es troben ben col·locats"
 
 #: qt/prefs_dialog.cpp:48
 msgid ""
@@ -1246,7 +1244,7 @@ msgid ""
 msgstr ""
 "URL del lloc web usat per mostrar les defincions dels mots.\n"
 "A l'URL, %w se substitueix per la paraula en minúscula. Exemples:\n"
-"\thttp://fr.wiktionary.org/wiki/%w\n"
+"\thttp://ca.wiktionary.org/wiki/%w\n"
 "\thttp://en.wiktionary.org/wiki/%w\n"
 "\thttp://images.google.com/images?q=%w"
 
@@ -1255,6 +1253,8 @@ msgid ""
 "Default level for Eliot, used when creating a new game.\n"
 "Accepted range: [0-100]"
 msgstr ""
+"Nivell predeterminat per a l'Eliot, s'usa en les partides noves.\n"
+"Interval admès: [0-100]"
 
 #: qt/prefs_dialog.cpp:87 qt/prefs_dialog.cpp:102 qt/prefs_dialog.cpp:164
 msgid "%1 error"
@@ -1656,12 +1656,12 @@ msgid ""
 "unlike the joker game, allows playing with a normal-looking rack, but it "
 "usually gives much higher scores than in a normal game."
 msgstr ""
-"Una partida explosiva s'assembla a una partida amb escarràs, excepte que "
-"quan l'ordinador selecciona el faristol (que conté un escarràs), cerca i "
-"troba la millor paraula del faristol. Aleshores, si és possible, substituiex "
-"l'escarràs del faristol per la fitxa que permet aquesta millor jugada. "
-"Aquesta variant, al contrari que la partida amb escarràs, permet jugar amb "
-"un faristol amb aparença normal, però habitualment s'aconsegueixen "
+"Una partida explosiva s'assembla a una partida amb escarràs, excepte quan "
+"l'ordinador selecciona el faristol (que conté un escarràs). L'ordinador "
+"cerca i troba la millor paraula del faristol. Aleshores, si és possible, "
+"substituiex l'escarràs del faristol per la fitxa que permet aquesta millor "
+"jugada. Aquesta variant, al contrari que la partida amb escarràs, permet "
+"jugar amb un faristol amb aparença normal, però habitualment s'aconsegueixen "
 "puntuacions molt més elevades que en una partida duplicada normal."
 
 #: qt/ui/new_game.ui.h:248
@@ -1670,7 +1670,7 @@ msgstr "Partida explosiva"
 
 #: qt/ui/new_game.ui.h:249
 msgid "7 among 8"
-msgstr ""
+msgstr "7 entre 8"
 
 #: qt/ui/new_game.ui.h:251
 msgid "Name:"
@@ -1812,7 +1812,7 @@ msgstr "Avisa abans de tornar a jugar un torn"
 
 #: qt/ui/prefs_dialog.ui.h:306
 msgid "Default computer level:"
-msgstr ""
+msgstr "Nivell predeterminat de l'ordinador:"
 
 #: qt/ui/prefs_dialog.ui.h:309 qt/ui/prefs_dialog.ui.h:322
 msgid ""
@@ -1828,7 +1828,7 @@ msgstr "Rebutja fer jugades no vàlides"
 
 #: qt/ui/prefs_dialog.ui.h:312
 msgid "Min. players for a solo:"
-msgstr "Mínim per a jug. única:"
+msgstr "Mínim per a jugada única:"
 
 #: qt/ui/prefs_dialog.ui.h:313
 msgid "Solo value:"
@@ -1836,7 +1836,9 @@ msgstr "Valor de jugada única:"
 
 #: qt/ui/prefs_dialog.ui.h:315
 msgid "Value of the solo bonus. Set it to 0 if you don't want solo bonus"
-msgstr "Valor de la bonificació per jugada única. "
+msgstr ""
+"Valor de la bonificació per jugada única. Indiqueu 0 si no voleu bonificar "
+"les jugades úniques"
 
 #: qt/ui/prefs_dialog.ui.h:318
 msgid "Minimum number of players needed to take into account the solo bonus"

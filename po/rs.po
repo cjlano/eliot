@@ -351,7 +351,6 @@ msgid "Not enough vowels or consonants in this rack"
 msgstr "Недовољно самогласмика или сугласника у овом сталку"
 
 #: game/game_factory.cpp:154
-#, fuzzy
 msgid "Player %1%"
 msgstr "Играч %1"
 
@@ -1030,7 +1029,6 @@ msgid "Player %1"
 msgstr "Играч %1"
 
 #: qt/new_game.cpp:52
-#, fuzzy
 msgid ""
 "In a joker game, each rack contains a joker.\n"
 "When a word containing the joker is played on the grid, the joker is then "
@@ -1042,14 +1040,13 @@ msgid ""
 "This variant, particularly interesting in Duplicate mode, is good to train "
 "using the joker."
 msgstr ""
-"У џокер игри, сваки сталак садржи џокер. Када је реч која садржи џокер "
-"одиграна, џокер се замењује одговарајућим словом из врећице, а џокер остаје "
-"на сталку. Када одговарајуће слово није у врећици, џокер се ставља на таблу. "
-"Ова варијанта, посебно занимљива у дуплој игри, је добра за вежбање употребе "
-"џокера."
+"У џокер игри, сваки сталак садржи џокер.\nКада је реч која садржи џокер "
+"одиграна, џокер се замењује\nодговарајућим словом из врећице, а џокер остаје "
+"на сталку.\nКада одговарајуће слово није у врећици, џокер се ставља на "
+"таблу.\nОва варијанта, посебно занимљива у дуплој игри, је добра за вежбање "
+"употребе џокера."
 
 #: qt/new_game.cpp:58
-#, fuzzy
 msgid ""
 "An explosive game is a bit like a joker game, except that when the computer "
 "chooses the rack\n"
@@ -1062,10 +1059,10 @@ msgid ""
 "much higher scores than in a normal game."
 msgstr ""
 "Експлозивна игра је помало слична џокер игри, осим када рачунар изабере "
-"сталак (који садржи џокер), онда обавља претраживање и тражи најбољу могућу "
-"реч. Тада, ако је могуће, замењује џокер у сталку са словом помоћу кога "
-"одигра најбољу реч. Ова варијанта, за разлику од џокер игре, дозвољава "
-"играње са нормалним сталком, али обично даје боље резултате него у обичној "
+"сталак\n(који садржи џокер), онда обавља претраживање и тражи најбољу могућу "
+"реч.\nТада, ако је могуће, замењује џокер у сталку са словом помоћу кога "
+"одигра најбољу реч.\nОва варијанта, за разлику од џокер игре, дозвољава "
+"играње са нормалним сталком, али обично даје\nбоље резултате него у обичној "
 "игри."
 
 #: qt/new_game.cpp:64
@@ -1074,6 +1071,9 @@ msgid ""
 "but at most 7 can be played at the same time.\n"
 "This allows for more combinations during the game, and thus higher scores."
 msgstr ""
+"У овој верзији сталак садржи 8 слова уместо 7,\nали највише 7 могу да буду "
+"одиграна у једном потезу.\nТо омогућава више комбинација за време игре, а "
+"тиме и већи резултат."
 
 #: qt/new_game.cpp:70
 msgid "Name"
@@ -1200,9 +1200,8 @@ msgid "The word is going out of the board"
 msgstr "Реч иде изван табле"
 
 #: qt/play_word_mediator.cpp:179
-#, fuzzy
 msgid "The word contains too many letters from the rack"
-msgstr "Недовољно самогласника или сугласника да допуне сталак"
+msgstr "Реч садржи превише слова са сталка"
 
 #: qt/play_word_mediator.cpp:182 utils/ncurses.cpp:583
 msgid "Incorrect or misplaced word"
@@ -1231,6 +1230,8 @@ msgid ""
 "Default level for Eliot, used when creating a new game.\n"
 "Accepted range: [0-100]"
 msgstr ""
+"Подразумевани ниво за Eliot, коришћен при покретању нове игре.\nДозвољен "
+"опсег: [0-100]"
 
 #: qt/prefs_dialog.cpp:87 qt/prefs_dialog.cpp:102 qt/prefs_dialog.cpp:164
 msgid "%1 error"
@@ -1643,7 +1644,7 @@ msgstr "Експлозивна игра"
 
 #: qt/ui/new_game.ui.h:249
 msgid "7 among 8"
-msgstr ""
+msgstr "7 међу 8"
 
 #: qt/ui/new_game.ui.h:251
 msgid "Name:"
@@ -1782,7 +1783,7 @@ msgstr "Упозори пре понављања потеза"
 
 #: qt/ui/prefs_dialog.ui.h:306
 msgid "Default computer level:"
-msgstr ""
+msgstr "Подразумевани ниво рачунара:"
 
 #: qt/ui/prefs_dialog.ui.h:309 qt/ui/prefs_dialog.ui.h:322
 msgid ""

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
 "POT-Creation-Date: 2011-12-30 19:38+0100\n"
-"PO-Revision-Date: 2011-08-03 11:06+0200\n"
+"PO-Revision-Date: 2011-12-30 21:03+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -361,9 +361,8 @@ msgid "Not enough vowels or consonants in this rack"
 msgstr "V této přihrádce není dost samohlásek nebo souhlásek"
 
 #: game/game_factory.cpp:154
-#, fuzzy
 msgid "Player %1%"
-msgstr "Hráč %1"
+msgstr "Hráč %1%"
 
 #: game/training.cpp:186 qt/ui/new_game.ui.h:239
 msgid "Training"
@@ -1040,7 +1039,6 @@ msgid "Player %1"
 msgstr "Hráč %1"
 
 #: qt/new_game.cpp:52
-#, fuzzy
 msgid ""
 "In a joker game, each rack contains a joker.\n"
 "When a word containing the joker is played on the grid, the joker is then "
@@ -1052,15 +1050,15 @@ msgid ""
 "This variant, particularly interesting in Duplicate mode, is good to train "
 "using the joker."
 msgstr ""
-"Ve hře se žolíkem obsahuje každá přihrádka žolíka. Kdy je na mřížce hráno "
-"slovo obsahující tohoto žolíka, žolík je nahrazen odpovídajícím písmenem z "
-"pytlíku, a žolík zůstává v přihrádce. Když v pytlíku není přítomno "
-"odpovídající písmeno, je žolík položen na hrací desku. Tato obměna, "
-"obzvláště zajímavá ve zdvojeném režimu, je dobrá ke cvičení za použití "
-"žolíka."
+"Ve hře se žolíkem obsahuje každá přihrádka žolíka.\n"
+"Kdy je na mřížce hráno slovo obsahující tohoto žolíka, žolík je nahrazen\n"
+"odpovídajícím písmenem z pytlíku, a žolík zůstává v přihrádce.\n"
+"Když v pytlíku není přítomno odpovídající písmeno, je žolík položen na hrací "
+"desku.\n"
+"Tato obměna, obzvláště zajímavá ve zdvojeném režimu, je dobrá ke cvičení za "
+"použití žolíka."
 
 #: qt/new_game.cpp:58
-#, fuzzy
 msgid ""
 "An explosive game is a bit like a joker game, except that when the computer "
 "chooses the rack\n"
@@ -1073,11 +1071,14 @@ msgid ""
 "much higher scores than in a normal game."
 msgstr ""
 "Výbušná hra je tak trochu jako hra se žolíkem, kromě toho případu, kdy "
-"počítač vybírá přihrádku (obsahující žolíka), provádí hledání a nalezne "
-"nejlepší možné slovo pomocí přihrádky. Potom, je-li to možné, nahradí žolíka "
-"v přihrádce písmenem, které umožňuje hrát toto nejlepší slovo. Tato obměna, "
-"na rozdíl od hry se žolíkem, umožňuje hru s běžně vypadající přihrádkou, ale "
-"obyčejně dává mnohem vyšší výsledky než v běžné hře."
+"počítač vybírá přihrádku\n"
+"(obsahující žolíka), provádí hledání a nalezne nejlepší možné slovo pomocí "
+"přihrádky.\n"
+"Potom, je-li to možné, nahradí žolíka v přihrádce písmenem, které umožňuje "
+"hrát toto nejlepší slovo.\n"
+"Tato obměna, na rozdíl od hry se žolíkem, umožňuje hru s běžně vypadající "
+"přihrádkou, ale obyčejně\n"
+"dává mnohem vyšší výsledky než v běžné hře."
 
 #: qt/new_game.cpp:64
 msgid ""
@@ -1085,6 +1086,9 @@ msgid ""
 "but at most 7 can be played at the same time.\n"
 "This allows for more combinations during the game, and thus higher scores."
 msgstr ""
+"S touto obměnou obsahuje přihrádka 8 písmen namísto 7,\n"
+"ale ve stejnou dobu je možné zahrát nejvíce 7.\n"
+"To umožňuje více kombinací v průběhu hry a tím i vyšší výsledek."
 
 #: qt/new_game.cpp:70
 msgid "Name"
@@ -1213,9 +1217,8 @@ msgid "The word is going out of the board"
 msgstr "Slovo jde mimo hrací desku"
 
 #: qt/play_word_mediator.cpp:179
-#, fuzzy
 msgid "The word contains too many letters from the rack"
-msgstr "Pro doplnění přihrádky není dost samohlásek nebo souhlásek"
+msgstr "Slovo obsahuje příliš mnoho písmen z přihrádky"
 
 #: qt/play_word_mediator.cpp:182 utils/ncurses.cpp:583
 msgid "Incorrect or misplaced word"
@@ -1244,6 +1247,8 @@ msgid ""
 "Default level for Eliot, used when creating a new game.\n"
 "Accepted range: [0-100]"
 msgstr ""
+"Výchozí úroveň pro Eliot, používaná při vytváření nové hry.\n"
+"Přijímaný rozsah: [0-100]"
 
 #: qt/prefs_dialog.cpp:87 qt/prefs_dialog.cpp:102 qt/prefs_dialog.cpp:164
 msgid "%1 error"
@@ -1661,7 +1666,7 @@ msgstr "Výbušná hra"
 
 #: qt/ui/new_game.ui.h:249
 msgid "7 among 8"
-msgstr ""
+msgstr "7 mezi 8"
 
 #: qt/ui/new_game.ui.h:251
 msgid "Name:"
@@ -1801,7 +1806,7 @@ msgstr "Upozornit před opakováním kola"
 
 #: qt/ui/prefs_dialog.ui.h:306
 msgid "Default computer level:"
-msgstr ""
+msgstr "Výchozí úroveň počítače:"
 
 #: qt/ui/prefs_dialog.ui.h:309 qt/ui/prefs_dialog.ui.h:322
 msgid ""
