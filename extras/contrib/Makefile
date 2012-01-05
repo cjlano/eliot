@@ -159,8 +159,8 @@ $(QT_DIR_FLAG): $(QT_ARCHIVE)
 	touch $@
 
 .qt: $(QT_DIR_FLAG)
-	#(cd $<; mkdir -p $(PREFIX)/bin; mkdir -p $(PREFIX)/include; mkdir -p $(PREFIX)/lib/pkgconfig; rm -f $(PREFIX)/lib/pkgconfig/Qt*; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtCore.pc.in > $(PREFIX)/lib/pkgconfig/QtCore.pc; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtGui.pc.in > $(PREFIX)/lib/pkgconfig/QtGui.pc; cp -r include/* $(PREFIX)/include; cp lib/*a $(PREFIX)/lib; mkdir -p $(PREFIX)/share/qt4/translations; cp -r share/translations/* $(PREFIX)/share/qt4/translations)
-	(cd $(QT_DIR); cp -r bin include lib share $(PREFIX); sed 's,@@PREFIX@@,$(PREFIX),' $(PREFIX)/lib/pkgconfig/QtCore.pc.in > $(PREFIX)/lib/pkgconfig/QtCore.pc; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtGui.pc.in > $(PREFIX)/lib/pkgconfig/QtGui.pc; rm $(PREFIX)/lib/pkgconfig/*.in)
+	# The final mv is needed, because of the way the QT4LOCALEDIR variable is computed
+	(cd $(QT_DIR); cp -r bin include lib share $(PREFIX); sed 's,@@PREFIX@@,$(PREFIX),' $(PREFIX)/lib/pkgconfig/QtCore.pc.in > $(PREFIX)/lib/pkgconfig/QtCore.pc; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtGui.pc.in > $(PREFIX)/lib/pkgconfig/QtGui.pc; rm $(PREFIX)/lib/pkgconfig/*.in; mkdir -p $(PREFIX)/share/qt4; mv $(PREFIX)/share/translations $(PREFIX)/share/qt4)
 	touch $@
 
 
