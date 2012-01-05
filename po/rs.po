@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.13\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2011-12-30 19:38+0100\n"
+"POT-Creation-Date: 2012-01-05 20:46+0100\n"
 "PO-Revision-Date: 2011-07-30 10:35+0100\n"
 "Last-Translator: Uroš Stefanović <urostajms @@ gmail.com>\n"
 "Language-Team: Serbian <traduc@traduc.org>\n"
@@ -297,6 +297,36 @@ msgstr "Приказ"
 msgid "Alt. input"
 msgstr "Алт. унос"
 
+#: dic/listdicmain.cpp:68
+#, c-format
+msgid "offset binary   | structure\n"
+msgstr ""
+
+#: dic/listdicmain.cpp:77
+#, fuzzy, c-format
+msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
+msgstr "користи се: %s речник"
+
+#: dic/listdicmain.cpp:78
+#, c-format
+msgid "  -a: print all\n"
+msgstr ""
+
+#: dic/listdicmain.cpp:79
+#, c-format
+msgid "  -h: print header\n"
+msgstr ""
+
+#: dic/listdicmain.cpp:80
+#, c-format
+msgid "  -l: print dictionary word list\n"
+msgstr ""
+
+#: dic/listdicmain.cpp:81
+#, c-format
+msgid "  -x: print dictionary in hex\n"
+msgstr ""
+
 #: dic/regexpmain.cpp:45
 #, c-format
 msgid "usage: %s dictionary"
@@ -354,7 +384,7 @@ msgstr "Недовољно самогласмика или сугласника 
 msgid "Player %1%"
 msgstr "Играч %1"
 
-#: game/training.cpp:186 qt/ui/new_game.ui.h:239
+#: game/training.cpp:188 game/training.cpp:189 qt/ui/new_game.ui.h:239
 msgid "Training"
 msgstr "Тренинг"
 
@@ -1040,11 +1070,12 @@ msgid ""
 "This variant, particularly interesting in Duplicate mode, is good to train "
 "using the joker."
 msgstr ""
-"У џокер игри, сваки сталак садржи џокер.\nКада је реч која садржи џокер "
-"одиграна, џокер се замењује\nодговарајућим словом из врећице, а џокер остаје "
-"на сталку.\nКада одговарајуће слово није у врећици, џокер се ставља на "
-"таблу.\nОва варијанта, посебно занимљива у дуплој игри, је добра за вежбање "
-"употребе џокера."
+"У џокер игри, сваки сталак садржи џокер.\n"
+"Када је реч која садржи џокер одиграна, џокер се замењује\n"
+"одговарајућим словом из врећице, а џокер остаје на сталку.\n"
+"Када одговарајуће слово није у врећици, џокер се ставља на таблу.\n"
+"Ова варијанта, посебно занимљива у дуплој игри, је добра за вежбање употребе "
+"џокера."
 
 #: qt/new_game.cpp:58
 msgid ""
@@ -1059,11 +1090,13 @@ msgid ""
 "much higher scores than in a normal game."
 msgstr ""
 "Експлозивна игра је помало слична џокер игри, осим када рачунар изабере "
-"сталак\n(који садржи џокер), онда обавља претраживање и тражи најбољу могућу "
-"реч.\nТада, ако је могуће, замењује џокер у сталку са словом помоћу кога "
-"одигра најбољу реч.\nОва варијанта, за разлику од џокер игре, дозвољава "
-"играње са нормалним сталком, али обично даје\nбоље резултате него у обичној "
-"игри."
+"сталак\n"
+"(који садржи џокер), онда обавља претраживање и тражи најбољу могућу реч.\n"
+"Тада, ако је могуће, замењује џокер у сталку са словом помоћу кога одигра "
+"најбољу реч.\n"
+"Ова варијанта, за разлику од џокер игре, дозвољава играње са нормалним "
+"сталком, али обично даје\n"
+"боље резултате него у обичној игри."
 
 #: qt/new_game.cpp:64
 msgid ""
@@ -1071,9 +1104,9 @@ msgid ""
 "but at most 7 can be played at the same time.\n"
 "This allows for more combinations during the game, and thus higher scores."
 msgstr ""
-"У овој верзији сталак садржи 8 слова уместо 7,\nали највише 7 могу да буду "
-"одиграна у једном потезу.\nТо омогућава више комбинација за време игре, а "
-"тиме и већи резултат."
+"У овој верзији сталак садржи 8 слова уместо 7,\n"
+"али највише 7 могу да буду одиграна у једном потезу.\n"
+"То омогућава више комбинација за време игре, а тиме и већи резултат."
 
 #: qt/new_game.cpp:70
 msgid "Name"
@@ -1086,40 +1119,6 @@ msgstr "Тип"
 #: qt/new_game.cpp:72
 msgid "Level"
 msgstr "Ниво"
-
-#: qt/player_widget.cpp:181
-msgid ""
-"Cannot pass turn:\n"
-"%1"
-msgstr ""
-"Не можете да прескочите потез:\n"
-"%1"
-
-#: qt/player_widget.cpp:183
-msgid ""
-"Cannot change letters '%1':\n"
-"%2"
-msgstr ""
-"Не можете да замените слова '%1':\n"
-"%2"
-
-#: qt/player_widget.cpp:185
-msgid ""
-"Changing letters is not allowed when there are less than 7 tiles left in the "
-"bag"
-msgstr "Није дозвољена замена слова када је мање од 7 плочица остало у врећици"
-
-#: qt/player_widget.cpp:187
-msgid "The rack of the current player does not contain all the listed letters"
-msgstr "Сталак играча не садржи сва излистана слова"
-
-#: qt/player_widget.cpp:189
-msgid "The game is already finished!"
-msgstr "Игра је већ завршена!"
-
-#: qt/player_widget.cpp:193
-msgid "Unknown error"
-msgstr "Непозната грешка"
 
 #: qt/play_word_mediator.cpp:67
 msgid ""
@@ -1211,6 +1210,40 @@ msgstr "Нетачна или погрешна реч"
 msgid "Cannot play word: misplaced parentheses"
 msgstr "Не може да одигра реч: погрешне заграде"
 
+#: qt/player_widget.cpp:181
+msgid ""
+"Cannot pass turn:\n"
+"%1"
+msgstr ""
+"Не можете да прескочите потез:\n"
+"%1"
+
+#: qt/player_widget.cpp:183
+msgid ""
+"Cannot change letters '%1':\n"
+"%2"
+msgstr ""
+"Не можете да замените слова '%1':\n"
+"%2"
+
+#: qt/player_widget.cpp:185
+msgid ""
+"Changing letters is not allowed when there are less than 7 tiles left in the "
+"bag"
+msgstr "Није дозвољена замена слова када је мање од 7 плочица остало у врећици"
+
+#: qt/player_widget.cpp:187
+msgid "The rack of the current player does not contain all the listed letters"
+msgstr "Сталак играча не садржи сва излистана слова"
+
+#: qt/player_widget.cpp:189
+msgid "The game is already finished!"
+msgstr "Игра је већ завршена!"
+
+#: qt/player_widget.cpp:193
+msgid "Unknown error"
+msgstr "Непозната грешка"
+
 #: qt/prefs_dialog.cpp:48
 msgid ""
 "URL of the site used to display word definitions.\n"
@@ -1230,8 +1263,8 @@ msgid ""
 "Default level for Eliot, used when creating a new game.\n"
 "Accepted range: [0-100]"
 msgstr ""
-"Подразумевани ниво за Eliot, коришћен при покретању нове игре.\nДозвољен "
-"опсег: [0-100]"
+"Подразумевани ниво за Eliot, коришћен при покретању нове игре.\n"
+"Дозвољен опсег: [0-100]"
 
 #: qt/prefs_dialog.cpp:87 qt/prefs_dialog.cpp:102 qt/prefs_dialog.cpp:164
 msgid "%1 error"
@@ -1506,6 +1539,20 @@ msgstr "Џокер игра"
 #: utils/ncurses.cpp:1121
 msgid "[h for help]"
 msgstr "[h за помоћ]"
+
+#: qt/ui/bag_widget.ui.h:110
+#, fuzzy
+msgid "Remaining vowels:"
+msgstr "Тренинг"
+
+#: qt/ui/bag_widget.ui.h:112
+msgid "Remaining consonants:"
+msgstr ""
+
+#: qt/ui/bag_widget.ui.h:114
+#, fuzzy
+msgid "Remaining jokers:"
+msgstr "Тренинг"
 
 #: qt/ui/dic_tools_widget.ui.h:265
 msgid "Check"

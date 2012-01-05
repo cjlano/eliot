@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.13\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2011-12-30 19:38+0100\n"
+"POT-Creation-Date: 2012-01-05 20:46+0100\n"
 "PO-Revision-Date: 2009-06-28 10:35+0100\n"
 "Last-Translator: Olivier Teulière <ipkiss @@ via.ecp.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -313,6 +313,36 @@ msgstr "Affichage"
 msgid "Alt. input"
 msgstr "Saisies alt."
 
+#: dic/listdicmain.cpp:68
+#, c-format
+msgid "offset binary   | structure\n"
+msgstr "offset binaire  | structure\n"
+
+#: dic/listdicmain.cpp:77
+#, c-format
+msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
+msgstr "Usage : %s [-a|-h|-l|-x] dictionnaire\n"
+
+#: dic/listdicmain.cpp:78
+#, c-format
+msgid "  -a: print all\n"
+msgstr "  -a : affiche tout\n"
+
+#: dic/listdicmain.cpp:79
+#, c-format
+msgid "  -h: print header\n"
+msgstr "  -h : affiche l'en-tête\n"
+
+#: dic/listdicmain.cpp:80
+#, c-format
+msgid "  -l: print dictionary word list\n"
+msgstr "  -l : affiche la liste de mots du dictionnaire\n"
+
+#: dic/listdicmain.cpp:81
+#, c-format
+msgid "  -x: print dictionary in hex\n"
+msgstr "  -x : affiche le dictionnaire en hexadécimal\n"
+
 #: dic/regexpmain.cpp:45
 #, c-format
 msgid "usage: %s dictionary"
@@ -370,7 +400,7 @@ msgstr "Pas assez de voyelles ou de consonnes dans ce tirage"
 msgid "Player %1%"
 msgstr "Joueur %1%"
 
-#: game/training.cpp:186 qt/ui/new_game.ui.h:239
+#: game/training.cpp:188 game/training.cpp:189 qt/ui/new_game.ui.h:239
 msgid "Training"
 msgstr "Entraînement"
 
@@ -1115,42 +1145,6 @@ msgstr "Type"
 msgid "Level"
 msgstr "Niveau"
 
-#: qt/player_widget.cpp:181
-msgid ""
-"Cannot pass turn:\n"
-"%1"
-msgstr ""
-"Impossible de passer le tour :\n"
-"%1"
-
-#: qt/player_widget.cpp:183
-msgid ""
-"Cannot change letters '%1':\n"
-"%2"
-msgstr ""
-"Impossible de changer les lettres '%1' :\n"
-"%2"
-
-#: qt/player_widget.cpp:185
-msgid ""
-"Changing letters is not allowed when there are less than 7 tiles left in the "
-"bag"
-msgstr ""
-"Changer des lettres n'est pas autorisé quand il reste moins de 7 lettres "
-"dans le sac"
-
-#: qt/player_widget.cpp:187
-msgid "The rack of the current player does not contain all the listed letters"
-msgstr "Le tirage du joueur courant ne contient pas toutes les lettres listées"
-
-#: qt/player_widget.cpp:189
-msgid "The game is already finished!"
-msgstr "La partie est déjà finie !"
-
-#: qt/player_widget.cpp:193
-msgid "Unknown error"
-msgstr "erreur inconnue"
-
 #: qt/play_word_mediator.cpp:67
 msgid ""
 "Enter the word to play (case-insensitive).\n"
@@ -1241,6 +1235,42 @@ msgstr "Mot incorrect ou mal placé"
 #: qt/play_word_mediator.cpp:206
 msgid "Cannot play word: misplaced parentheses"
 msgstr "Impossible de jouer le mot : parenthèses mal placées"
+
+#: qt/player_widget.cpp:181
+msgid ""
+"Cannot pass turn:\n"
+"%1"
+msgstr ""
+"Impossible de passer le tour :\n"
+"%1"
+
+#: qt/player_widget.cpp:183
+msgid ""
+"Cannot change letters '%1':\n"
+"%2"
+msgstr ""
+"Impossible de changer les lettres '%1' :\n"
+"%2"
+
+#: qt/player_widget.cpp:185
+msgid ""
+"Changing letters is not allowed when there are less than 7 tiles left in the "
+"bag"
+msgstr ""
+"Changer des lettres n'est pas autorisé quand il reste moins de 7 lettres "
+"dans le sac"
+
+#: qt/player_widget.cpp:187
+msgid "The rack of the current player does not contain all the listed letters"
+msgstr "Le tirage du joueur courant ne contient pas toutes les lettres listées"
+
+#: qt/player_widget.cpp:189
+msgid "The game is already finished!"
+msgstr "La partie est déjà finie !"
+
+#: qt/player_widget.cpp:193
+msgid "Unknown error"
+msgstr "erreur inconnue"
 
 #: qt/prefs_dialog.cpp:48
 msgid ""
@@ -1540,6 +1570,18 @@ msgstr "Partie joker"
 #: utils/ncurses.cpp:1121
 msgid "[h for help]"
 msgstr "[h pour l'aide]"
+
+#: qt/ui/bag_widget.ui.h:110
+msgid "Remaining vowels:"
+msgstr "Voyelles restantes :"
+
+#: qt/ui/bag_widget.ui.h:112
+msgid "Remaining consonants:"
+msgstr "Consonnes restantes :"
+
+#: qt/ui/bag_widget.ui.h:114
+msgid "Remaining jokers:"
+msgstr "Jokers restants :"
 
 #: qt/ui/dic_tools_widget.ui.h:265
 msgid "Check"
@@ -1908,24 +1950,6 @@ msgstr "Jouer sélection"
 #~ msgid "Incorrect or misplaced word (%1)"
 #~ msgstr "Mot incorrect ou mal placé (%1)"
 
-#~ msgid "offset binary   | structure\n"
-#~ msgstr "offset binaire  | structure\n"
-
-#~ msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
-#~ msgstr "Usage : %s [-a|-h|-l|-x] dictionnaire\n"
-
-#~ msgid "  -a: print all\n"
-#~ msgstr "  -a : affiche tout\n"
-
-#~ msgid "  -h: print header\n"
-#~ msgstr "  -h : affiche l'en-tête\n"
-
-#~ msgid "  -l: print dictionary word list\n"
-#~ msgstr "  -l : affiche la liste de mots du dictionnaire\n"
-
-#~ msgid "  -x: print dictionary in hex\n"
-#~ msgstr "  -x : affiche le dictionnaire en hexadécimal\n"
-
 #~ msgid "Dictionary creation"
 #~ msgstr "Création de dictionnaire"
 
@@ -1980,9 +2004,6 @@ msgstr "Jouer sélection"
 
 #~ msgid "vowel"
 #~ msgstr "voyelle"
-
-#~ msgid "consonant"
-#~ msgstr "consonne"
 
 #~ msgid "one or more space(s)."
 #~ msgstr "un ou plusieurs espace(s)."

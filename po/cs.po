@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2011-12-30 19:38+0100\n"
+"POT-Creation-Date: 2012-01-05 20:46+0100\n"
 "PO-Revision-Date: 2011-12-30 21:03+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -307,6 +307,36 @@ msgstr "Zobrazení"
 msgid "Alt. input"
 msgstr "Vše, vstup"
 
+#: dic/listdicmain.cpp:68
+#, c-format
+msgid "offset binary   | structure\n"
+msgstr "posun dvojitý   | stavba\n"
+
+#: dic/listdicmain.cpp:77
+#, c-format
+msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
+msgstr "použití: %s [-a|-h|-l|-x] slovník\n"
+
+#: dic/listdicmain.cpp:78
+#, c-format
+msgid "  -a: print all\n"
+msgstr "  -a: Tisknout vše\n"
+
+#: dic/listdicmain.cpp:79
+#, c-format
+msgid "  -h: print header\n"
+msgstr "  -h: Tisknout záhlaví\n"
+
+#: dic/listdicmain.cpp:80
+#, c-format
+msgid "  -l: print dictionary word list\n"
+msgstr "  -l:  Tisknout slovníkový seznam slov\n"
+
+#: dic/listdicmain.cpp:81
+#, c-format
+msgid "  -x: print dictionary in hex\n"
+msgstr "  -x: Tisknout slovník v šestnáctkové soustavě (hex)\n"
+
 #: dic/regexpmain.cpp:45
 #, c-format
 msgid "usage: %s dictionary"
@@ -364,7 +394,7 @@ msgstr "V této přihrádce není dost samohlásek nebo souhlásek"
 msgid "Player %1%"
 msgstr "Hráč %1%"
 
-#: game/training.cpp:186 qt/ui/new_game.ui.h:239
+#: game/training.cpp:188 game/training.cpp:189 qt/ui/new_game.ui.h:239
 msgid "Training"
 msgstr "Procvičování"
 
@@ -1102,41 +1132,6 @@ msgstr "Druh"
 msgid "Level"
 msgstr "Úroveň"
 
-#: qt/player_widget.cpp:181
-msgid ""
-"Cannot pass turn:\n"
-"%1"
-msgstr ""
-"Nelze vzdát kolo:\n"
-"%1"
-
-#: qt/player_widget.cpp:183
-msgid ""
-"Cannot change letters '%1':\n"
-"%2"
-msgstr ""
-"Nelze změnit písmena '%1':\n"
-"%2"
-
-#: qt/player_widget.cpp:185
-msgid ""
-"Changing letters is not allowed when there are less than 7 tiles left in the "
-"bag"
-msgstr ""
-"Změna písmen není povolena, když v pytlíku zůstalo méně než 7 hracích kamenů"
-
-#: qt/player_widget.cpp:187
-msgid "The rack of the current player does not contain all the listed letters"
-msgstr "Pytlík nynějšího hráče neobsahuje všechna tato vypsaná písmena"
-
-#: qt/player_widget.cpp:189
-msgid "The game is already finished!"
-msgstr "Hra již skončila!"
-
-#: qt/player_widget.cpp:193
-msgid "Unknown error"
-msgstr "Neznámá chyba"
-
 #: qt/play_word_mediator.cpp:67
 msgid ""
 "Enter the word to play (case-insensitive).\n"
@@ -1227,6 +1222,41 @@ msgstr "Nesprávné nebo špatně umístěné slovo"
 #: qt/play_word_mediator.cpp:206
 msgid "Cannot play word: misplaced parentheses"
 msgstr "Se slovem nelze hrát: špatně umístěné kulaté závorky"
+
+#: qt/player_widget.cpp:181
+msgid ""
+"Cannot pass turn:\n"
+"%1"
+msgstr ""
+"Nelze vzdát kolo:\n"
+"%1"
+
+#: qt/player_widget.cpp:183
+msgid ""
+"Cannot change letters '%1':\n"
+"%2"
+msgstr ""
+"Nelze změnit písmena '%1':\n"
+"%2"
+
+#: qt/player_widget.cpp:185
+msgid ""
+"Changing letters is not allowed when there are less than 7 tiles left in the "
+"bag"
+msgstr ""
+"Změna písmen není povolena, když v pytlíku zůstalo méně než 7 hracích kamenů"
+
+#: qt/player_widget.cpp:187
+msgid "The rack of the current player does not contain all the listed letters"
+msgstr "Pytlík nynějšího hráče neobsahuje všechna tato vypsaná písmena"
+
+#: qt/player_widget.cpp:189
+msgid "The game is already finished!"
+msgstr "Hra již skončila!"
+
+#: qt/player_widget.cpp:193
+msgid "Unknown error"
+msgstr "Neznámá chyba"
 
 #: qt/prefs_dialog.cpp:48
 msgid ""
@@ -1527,6 +1557,20 @@ msgstr "Hra se žolíkem"
 #: utils/ncurses.cpp:1121
 msgid "[h for help]"
 msgstr "[h pro nápovědu]"
+
+#: qt/ui/bag_widget.ui.h:110
+#, fuzzy
+msgid "Remaining vowels:"
+msgstr "Režim cvičení"
+
+#: qt/ui/bag_widget.ui.h:112
+msgid "Remaining consonants:"
+msgstr ""
+
+#: qt/ui/bag_widget.ui.h:114
+#, fuzzy
+msgid "Remaining jokers:"
+msgstr "Režim cvičení"
 
 #: qt/ui/dic_tools_widget.ui.h:265
 msgid "Check"
@@ -1887,21 +1931,3 @@ msgstr "Hrát vybrané"
 
 #~ msgid "Incorrect or misplaced word (%1)"
 #~ msgstr "Nesprávné nebo špatně umístěné slovo (%1)"
-
-#~ msgid "offset binary   | structure\n"
-#~ msgstr "posun dvojitý   | stavba\n"
-
-#~ msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
-#~ msgstr "použití: %s [-a|-h|-l|-x] slovník\n"
-
-#~ msgid "  -a: print all\n"
-#~ msgstr "  -a: Tisknout vše\n"
-
-#~ msgid "  -h: print header\n"
-#~ msgstr "  -h: Tisknout záhlaví\n"
-
-#~ msgid "  -l: print dictionary word list\n"
-#~ msgstr "  -l:  Tisknout slovníkový seznam slov\n"
-
-#~ msgid "  -x: print dictionary in hex\n"
-#~ msgstr "  -x: Tisknout slovník v šestnáctkové soustavě (hex)\n"

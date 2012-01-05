@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Eliot 1.12\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2011-12-30 19:38+0100\n"
+"POT-Creation-Date: 2012-01-05 20:46+0100\n"
 "PO-Revision-Date: 2010-11-26 00:22+0100\n"
 "Last-Translator: Switchu Legitri\n"
 "Language-Team: \n"
@@ -316,6 +316,36 @@ msgstr "Tampilan"
 msgid "Alt. input"
 msgstr "Alternative input"
 
+#: dic/listdicmain.cpp:68
+#, c-format
+msgid "offset binary   | structure\n"
+msgstr ""
+
+#: dic/listdicmain.cpp:77
+#, c-format
+msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
+msgstr "penggunaan: %s [-a|-h|-l|-x] kamus\n"
+
+#: dic/listdicmain.cpp:78
+#, c-format
+msgid "  -a: print all\n"
+msgstr "  -a: cetak semua\n"
+
+#: dic/listdicmain.cpp:79
+#, c-format
+msgid "  -h: print header\n"
+msgstr "  -h: cetak header\n"
+
+#: dic/listdicmain.cpp:80
+#, c-format
+msgid "  -l: print dictionary word list\n"
+msgstr "  -l: cetak daftar kata kamus\n"
+
+#: dic/listdicmain.cpp:81
+#, c-format
+msgid "  -x: print dictionary in hex\n"
+msgstr "  -x: cetak kamus di hex\n"
+
 #: dic/regexpmain.cpp:45
 #, c-format
 msgid "usage: %s dictionary"
@@ -374,7 +404,7 @@ msgstr "Tidak ada cukup vowel atau konsonan di rak ini"
 msgid "Player %1%"
 msgstr "Pemain %1"
 
-#: game/training.cpp:186 qt/ui/new_game.ui.h:239
+#: game/training.cpp:188 game/training.cpp:189 qt/ui/new_game.ui.h:239
 msgid "Training"
 msgstr "Latihan"
 
@@ -1112,39 +1142,6 @@ msgstr "Tipe"
 msgid "Level"
 msgstr "Level"
 
-#: qt/player_widget.cpp:181
-#, fuzzy
-msgid ""
-"Cannot pass turn:\n"
-"%1"
-msgstr "Tidak dapat abaikan giliran (%1)"
-
-#: qt/player_widget.cpp:183
-#, fuzzy
-msgid ""
-"Cannot change letters '%1':\n"
-"%2"
-msgstr "Tidak dapat mengganti huruf '%1' (%2)"
-
-#: qt/player_widget.cpp:185
-msgid ""
-"Changing letters is not allowed when there are less than 7 tiles left in the "
-"bag"
-msgstr ""
-
-#: qt/player_widget.cpp:187
-#, fuzzy
-msgid "The rack of the current player does not contain all the listed letters"
-msgstr "Kantongnya tidak mempunyai semua huruf ini"
-
-#: qt/player_widget.cpp:189
-msgid "The game is already finished!"
-msgstr ""
-
-#: qt/player_widget.cpp:193
-msgid "Unknown error"
-msgstr ""
-
 #: qt/play_word_mediator.cpp:67
 msgid ""
 "Enter the word to play (case-insensitive).\n"
@@ -1238,6 +1235,39 @@ msgstr "Kata yang tidak benar atau salah tempat"
 #: qt/play_word_mediator.cpp:206
 msgid "Cannot play word: misplaced parentheses"
 msgstr "Tidak dapat mainkan kata: tanda kurung salah tempat"
+
+#: qt/player_widget.cpp:181
+#, fuzzy
+msgid ""
+"Cannot pass turn:\n"
+"%1"
+msgstr "Tidak dapat abaikan giliran (%1)"
+
+#: qt/player_widget.cpp:183
+#, fuzzy
+msgid ""
+"Cannot change letters '%1':\n"
+"%2"
+msgstr "Tidak dapat mengganti huruf '%1' (%2)"
+
+#: qt/player_widget.cpp:185
+msgid ""
+"Changing letters is not allowed when there are less than 7 tiles left in the "
+"bag"
+msgstr ""
+
+#: qt/player_widget.cpp:187
+#, fuzzy
+msgid "The rack of the current player does not contain all the listed letters"
+msgstr "Kantongnya tidak mempunyai semua huruf ini"
+
+#: qt/player_widget.cpp:189
+msgid "The game is already finished!"
+msgstr ""
+
+#: qt/player_widget.cpp:193
+msgid "Unknown error"
+msgstr ""
 
 #: qt/prefs_dialog.cpp:48
 msgid ""
@@ -1530,6 +1560,20 @@ msgstr "Permainan joker"
 #: utils/ncurses.cpp:1121
 msgid "[h for help]"
 msgstr "[h untuk help]"
+
+#: qt/ui/bag_widget.ui.h:110
+#, fuzzy
+msgid "Remaining vowels:"
+msgstr "Mode latihan"
+
+#: qt/ui/bag_widget.ui.h:112
+msgid "Remaining consonants:"
+msgstr ""
+
+#: qt/ui/bag_widget.ui.h:114
+#, fuzzy
+msgid "Remaining jokers:"
+msgstr "Mode latihan"
 
 #: qt/ui/dic_tools_widget.ui.h:265
 msgid "Check"
@@ -1891,18 +1935,3 @@ msgstr "Mainkan yang dipilih"
 
 #~ msgid "Incorrect or misplaced word (%1)"
 #~ msgstr "Kata yang tidak benar atau salah tempat (%1)"
-
-#~ msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
-#~ msgstr "penggunaan: %s [-a|-h|-l|-x] kamus\n"
-
-#~ msgid "  -a: print all\n"
-#~ msgstr "  -a: cetak semua\n"
-
-#~ msgid "  -h: print header\n"
-#~ msgstr "  -h: cetak header\n"
-
-#~ msgid "  -l: print dictionary word list\n"
-#~ msgstr "  -l: cetak daftar kata kamus\n"
-
-#~ msgid "  -x: print dictionary in hex\n"
-#~ msgstr "  -x: cetak kamus di hex\n"
