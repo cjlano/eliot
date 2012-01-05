@@ -174,7 +174,7 @@ private:
     void destroyCurrentGame();
 
     /// Ask for a confirmation
-    bool requestConfirmation(QString msg);
+    bool requestConfirmation(QString msg, QString question = "");
 
 };
 

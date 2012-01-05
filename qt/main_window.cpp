@@ -358,6 +358,18 @@ void MainWindow::showDefinition(QString iWord)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    if (m_game)
+    {
+        QString msg = _q("A game has been started.");
+        if (!requestConfirmation(msg, _q("Do you really want to quit?")))
+        {
+            event->ignore();
+            return;
+        }
+    }
+
+    LOG_INFO("Exiting");
+
     // Make sure auxiliary windows don't survive after the main one
     if (m_bagWindow)
         m_bagWindow->close();
@@ -436,11 +448,14 @@ void MainWindow::changeDictionary(QString iFileName)
 }
 
 
-bool MainWindow::requestConfirmation(QString msg)
+bool MainWindow::requestConfirmation(QString msg, QString question)
 {
     QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), msg,
                                 QMessageBox::Yes | QMessageBox::No, this);
-    confirmationBox.setInformativeText(_q("Do you want to continue?"));
+    if (question != "")
+        confirmationBox.setInformativeText(question);
+    else
+        confirmationBox.setInformativeText(_q("Do you want to continue?"));
     confirmationBox.setDefaultButton(QMessageBox::Yes);
     confirmationBox.setEscapeButton(QMessageBox::No);
     int res = confirmationBox.exec();
@@ -803,7 +818,6 @@ void MainWindow::onGamePrint()
 
 void MainWindow::onGameQuit()
 {
-    LOG_INFO("Exiting");
     close();
 }
 
