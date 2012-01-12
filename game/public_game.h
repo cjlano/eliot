@@ -196,8 +196,6 @@ public:
     void trainingTestPlay(unsigned int iResultIndex);
     /// Remove the temporary word
     void trainingRemoveTestPlay();
-    /// Get the temporary word
-    wstring trainingGetTestPlayWord() const;
 
     /***************
      * Duplicate games

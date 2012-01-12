@@ -192,7 +192,6 @@ void Training::addPlayer(Player *iPlayer)
 void Training::testPlay(unsigned int num)
 {
     ASSERT(num < m_results.size(), "Wrong result number");
-    m_testRound = m_results.get(num);
     m_board.testRound(m_results.get(num));
 }
 
@@ -200,12 +199,5 @@ void Training::testPlay(unsigned int num)
 void Training::removeTestPlay()
 {
     m_board.removeTestRound();
-    m_testRound = Round();
-}
-
-
-wstring Training::getTestPlayWord() const
-{
-    return m_testRound.getWord();
 }
 

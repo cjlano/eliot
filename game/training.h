@@ -92,8 +92,6 @@ public:
     void testPlay(unsigned int iResultIndex);
     /// Remove the temporary word
     void removeTestPlay();
-    /// Get the temporary word
-    wstring getTestPlayWord() const;
 
 private:
     /// Private constructor and destructor to force using the GameFactory class
@@ -106,9 +104,6 @@ private:
 
     /// Search results, with all the possible rounds up to a predefined limit
     LimitResults m_results;
-
-    /// Round corresponding to the last test play (if any)
-    Round m_testRound;
 };
 
 #endif /* _TRAINING_H_ */

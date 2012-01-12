@@ -206,12 +206,6 @@ void PublicGame::trainingRemoveTestPlay()
     getTrainingGame(m_game).removeTestPlay();
 }
 
-
-wstring PublicGame::trainingGetTestPlayWord() const
-{
-    return getTrainingGame(m_game).getTestPlayWord();
-}
-
 /***************************/
 
 static Duplicate & getDuplicateGame(Game &iGame)
