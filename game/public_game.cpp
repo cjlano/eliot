@@ -150,6 +150,18 @@ void PublicGame::shuffleRack()
     m_game.shuffleRack();
 }
 
+
+void PublicGame::setTestRound(const Round &iRound)
+{
+    m_game.setTestRound(iRound);
+}
+
+
+void PublicGame::removeTestRound()
+{
+    m_game.removeTestRound();
+}
+
 /***************************/
 
 static Training & getTrainingGame(Game &iGame)
@@ -192,18 +204,6 @@ void PublicGame::trainingSetRackRandom(bool iCheck, RackMode iRackMode)
 void PublicGame::trainingSetRackManual(bool iCheck, const wstring &iLetters)
 {
     getTrainingGame(m_game).setRackManual(iCheck, iLetters);
-}
-
-
-void PublicGame::trainingTestPlay(unsigned int iResultIndex)
-{
-    getTrainingGame(m_game).testPlay(iResultIndex);
-}
-
-
-void PublicGame::trainingRemoveTestPlay()
-{
-    getTrainingGame(m_game).removeTestPlay();
 }
 
 /***************************/

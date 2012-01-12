@@ -90,7 +90,7 @@ int Training::play(const wstring &iCoord, const wstring &iWord)
     // Perform all the validity checks, and fill a round
     Round round;
 
-    removeTestPlay();
+    m_board.removeTestRound();
 
     int res = checkPlayedWord(iCoord, iWord, round);
     if (res != 0)
@@ -186,18 +186,5 @@ void Training::addPlayer(Player *iPlayer)
     // Force the name of the player
     iPlayer->setName(wfl(_("Training")));
     Game::addPlayer(iPlayer);
-}
-
-
-void Training::testPlay(unsigned int num)
-{
-    ASSERT(num < m_results.size(), "Wrong result number");
-    m_board.testRound(m_results.get(num));
-}
-
-
-void Training::removeTestPlay()
-{
-    m_board.removeTestRound();
 }
 

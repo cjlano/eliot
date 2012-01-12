@@ -77,21 +77,11 @@ public:
      */
     void setRackManual(bool iCheck, const wstring &iLetters);
 
-    /*************************
+    /**
      * Override the default behaviour of addPlayer(), because in training
      * mode we only want a human player
-     *************************/
+     */
     virtual void addPlayer(Player *iPlayer);
-
-    /*************************
-     * Functions to access the current search results
-     * The int parameter should be 0 <= int < getNResults
-     *************************/
-
-    /// Place a temporary word on the board for preview purposes
-    void testPlay(unsigned int iResultIndex);
-    /// Remove the temporary word
-    void removeTestPlay();
 
 private:
     /// Private constructor and destructor to force using the GameFactory class

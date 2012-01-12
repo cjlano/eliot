@@ -33,6 +33,7 @@
 #include "game_exception.h"
 #include "player.h"
 #include "results.h"
+#include "debug.h"
 
 using namespace std;
 
@@ -240,13 +241,17 @@ void TrainingWidget::enablePlayButton(const QItemSelection &iSelected,
 void TrainingWidget::showPreview(const QItemSelection &iSelected,
                                  const QItemSelection &)
 {
-    m_game->trainingRemoveTestPlay();
+    m_game->removeTestRound();
     if (!iSelected.indexes().empty())
     {
         // Use the hidden column to get the result number
         const QModelIndex &index =
             m_model->index(iSelected.indexes().first().row(), HIDDEN_COLUMN);
-        m_game->trainingTestPlay(m_model->data(index).toUInt());
+        unsigned int resNb = m_model->data(index).toUInt();
+
+        const Results &results = m_game->trainingGetResults();
+        ASSERT(resNb < results.size(), "Wrong result number");
+        m_game->setTestRound(results.get(resNb));
         emit gameUpdated();
     }
 }
@@ -275,7 +280,7 @@ void TrainingWidget::lockSizesChanged(bool checked)
 void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
 {
     // FIXME: first parameter is hardcoded
-    m_game->trainingRemoveTestPlay();
+    m_game->removeTestRound();
     if (!lineEditRack->hasAcceptableInput())
     {
         lineEditRack->setPalette(redPalette);
@@ -300,7 +305,7 @@ void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
 
 void TrainingWidget::on_pushButtonRack_clicked()
 {
-    m_game->trainingRemoveTestPlay();
+    m_game->removeTestRound();
     try
     {
         // FIXME: first parameter is hardcoded
@@ -316,7 +321,7 @@ void TrainingWidget::on_pushButtonRack_clicked()
 
 void TrainingWidget::on_pushButtonComplement_clicked()
 {
-    m_game->trainingRemoveTestPlay();
+    m_game->removeTestRound();
     try
     {
         // FIXME: first parameter is hardcoded
@@ -332,7 +337,7 @@ void TrainingWidget::on_pushButtonComplement_clicked()
 
 void TrainingWidget::on_pushButtonSearch_clicked()
 {
-    m_game->trainingRemoveTestPlay();
+    m_game->removeTestRound();
     emit notifyInfo(_q("Searching with rack '%1'...").arg(lineEditRack->text()));
     m_game->trainingSearch();
     emit notifyInfo(_q("Search done"));
@@ -354,7 +359,7 @@ void TrainingWidget::on_treeViewResults_doubleClicked(const QModelIndex &iIndex)
 {
     if (!iIndex.isValid())
         return;
-    m_game->trainingRemoveTestPlay();
+    m_game->removeTestRound();
     // Use the hidden column to get the result number
     const QModelIndex &index = m_model->index(iIndex.row(), HIDDEN_COLUMN);
     m_game->trainingPlayResult(m_model->data(index).toUInt());

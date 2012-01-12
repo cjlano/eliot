@@ -194,6 +194,15 @@ public:
                         Round &oRound,
                         bool checkRack = true) const;
 
+    /**
+     * Preview the given round on the board.
+     * It is up to the caller to provide a Round
+     * which makes sense for the current game.
+     */
+    void setTestRound(const Round &iRound);
+    /** Remove the round set with setTestRound */
+    void removeTestRound();
+
 private:
     /// Game characteristics
     GameParams m_params;

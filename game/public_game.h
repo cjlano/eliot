@@ -31,6 +31,7 @@ class Board;
 class History;
 class Player;
 class Navigation;
+class Round;
 class Results;
 
 using namespace std;
@@ -155,17 +156,13 @@ public:
      */
     int computePoints(const wstring &iWord, const wstring &iCoord) const;
 
-    /**
-     * Go back to turn iTurn.
-     * We must have: iTurn < getHistory().getSize()
-     * Possible return values:
-     *  0: everything went fine
-     *  1: iTurn is invalid
-     */
-    //int back(unsigned int iTurn);
-
     /// Shuffle the rack of the current player
     void shuffleRack();
+
+    /// Place a temporary word on the board for preview purposes
+    void setTestRound(const Round &iRound);
+    /// Remove the temporary word
+    void removeTestRound();
 
     /***************
      * Training games
@@ -191,11 +188,6 @@ public:
     void trainingSetRackRandom(bool iCheck, RackMode iRackMode);
 
     void trainingSetRackManual(bool iCheck, const wstring &iLetters);
-
-    /// Place a temporary word on the board for preview purposes
-    void trainingTestPlay(unsigned int iResultIndex);
-    /// Remove the temporary word
-    void trainingRemoveTestPlay();
 
     /***************
      * Duplicate games
