@@ -179,15 +179,12 @@ int Training::playResult(unsigned int n)
 }
 
 
-#include "logging.h"
 void Training::addPlayer(Player *iPlayer)
 {
     ASSERT(getNPlayers() == 0,
            "Only one player can be added in Training mode");
     // Force the name of the player
-    LOG_ERROR(_("Training"));
     iPlayer->setName(wfl(_("Training")));
-    LOG_ERROR(lfw(iPlayer->getName()));
     Game::addPlayer(iPlayer);
 }
 
