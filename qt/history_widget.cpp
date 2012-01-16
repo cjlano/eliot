@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2008 Olivier Teulière
+ * Copyright (C) 2008-2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -160,6 +160,11 @@ void HistoryWidget::updateModel()
                                  "<" + qfw(m.getBadWord()) + ">");
                 m_model->setData(m_model->index(rowNum, 3), qfw(m.getBadCoord()));
                 color = Qt::red;
+            }
+            else if (m.getType() == Move::NO_MOVE)
+            {
+                m_model->setData(m_model->index(rowNum, 2), _q("(NO MOVE)"));
+                color = Qt::blue;
             }
             else if (m.getType() == Move::PASS)
             {

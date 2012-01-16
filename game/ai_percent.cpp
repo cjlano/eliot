@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2005-2009 Olivier Teulière
+ * Copyright (C) 2005-2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -66,8 +66,8 @@ Move AIPercent::getMove() const
     if (m_results->size() == 0)
     {
         // If there is no result, pass the turn.
-        // XXX: it is forbidden in duplicate mode (even passing is forbidden),
-        // but well, what else to do?
+        // FIXME: in duplicate mode, we should return a move of type NO_MOVE
+        // instead of one of type PASS
         return Move(L"");
     }
     else

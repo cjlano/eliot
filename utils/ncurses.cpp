@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (C) 2005-2008 Eliot
+ * Copyright (C) 2005-2012 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -420,7 +420,9 @@ void CursesIntf::drawHistory(Box &ioBox) const
         {
             // The move corresponds to a passed turn or changed letters
             wstring action;
-            if (m.getType() == Move::PASS)
+            if (m.getType() == Move::NO_MOVE)
+                action = wfl(_("(NO MOVE)"));
+            else if (m.getType() == Move::PASS)
                 action = wfl(_("(PASS)"));
             else if (m.getType() == Move::CHANGE_LETTERS)
                 action = L"(-" + m.getChangedLetters() + L")";

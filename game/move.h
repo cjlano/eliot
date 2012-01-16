@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2007 Olivier Teulière
+ * Copyright (C) 2007-2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -36,18 +36,20 @@ using std::wstring;
  *  - play an invalid or misplaced word
  *  - pass the turn (freegame only)
  *  - change letters (freegame only)
- *  - play nothing (timeout) (not supported yet)
+ *  - play nothing (timeout, for example)
  *
  * Moves are useful to record what happened, even if the board doesn't keep
  * a trace of the move (e.g.: an invalid move which was rejected will still
  * be remembered in the player history).
- *
- * Currently, moves are not used by the interfaces (they are only used
- * internally), but this could change in the future.
  */
 class Move
 {
     public:
+        /**
+         * Default constructor, corresponding to no move
+         */
+        Move();
+
         /**
          * Constructor taking a (valid) round
          */
@@ -59,7 +61,7 @@ class Move
          * letters not corresponding to the rack, ...)
          * Note: the invalid word must be given in the display form.
          */
-        explicit Move(const wstring &iWord, const wstring &iCoord);
+        Move(const wstring &iWord, const wstring &iCoord);
 
         /**
          * Constructor taking letters to change.
@@ -67,14 +69,15 @@ class Move
          * changing any letter.
          * The given letters must have been already validated for correctness.
          */
-        explicit Move(const wstring &iLetters);
+        Move(const wstring &iLetters);
 
         enum Type
         {
             VALID_ROUND,
             INVALID_WORD,
             PASS,
-            CHANGE_LETTERS
+            CHANGE_LETTERS,
+            NO_MOVE,
         };
 
         /// Return the type of move

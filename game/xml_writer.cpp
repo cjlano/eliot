@@ -1,6 +1,6 @@
 /*******************************************************************
  * Eliot
- * Copyright (C) 2009 Olivier Teulière
+ * Copyright (C) 2009-2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -77,6 +77,8 @@ static void writeMove(ostream &out, const Move &iMove,
         out << "change\" letters=\"" << toUtf8(iMove.getChangedLetters()) << "\" />";
     else if (iMove.getType() == Move::PASS)
         out << "pass\" />";
+    else if (iMove.getType() == Move::NO_MOVE)
+        out << "none\" />";
     else
         throw SaveGameException("Unsupported move: " + lfw(iMove.toString()));
 }

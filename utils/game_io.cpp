@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
+ * Copyright (C) 1999-2012 Eliot
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
@@ -312,9 +312,13 @@ void GameIO::printGameDebug(ostream &out, const PublicGame &iGame)
             {
                 fmter % padAndConvert(L"[" + move.getChangedLetters() + L"]", 14, false) % " - ";
             }
-            else
+            else if (move.getType() == Move::PASS)
             {
                 fmter % padAndConvert(L"(PASS)", 14, false) % " - ";
+            }
+            else
+            {
+                fmter % padAndConvert(L"(NO MOVE)", 14, false) % " - ";
             }
             fmter % "  0" % " ";
         }

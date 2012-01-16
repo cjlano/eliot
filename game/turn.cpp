@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2005-2007 Antoine Fraboulet & Olivier Teulière
+ * Copyright (C) 2005-2012 Antoine Fraboulet & Olivier Teulière
  * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *          Olivier Teulière <ipkiss @@ gmail.com>
  *
@@ -22,10 +22,10 @@
 #include "turn.h"
 
 
-// FIXME: move set to an arbitrary one (pass). It would be better to get rid of this
+// FIXME: move set to an arbitrary one (no move). It would be better to get rid of this
 // constructor completely
 Turn::Turn()
-    : m_playerId(0), m_move(L"")
+    : m_playerId(0), m_move()
 {
 }
 

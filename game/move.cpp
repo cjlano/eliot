@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2007 Olivier Teulière
+ * Copyright (C) 2007-2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -28,6 +28,13 @@
 #include "rack.h"
 #include "pldrack.h"
 #include "debug.h"
+
+
+Move::Move()
+    :m_score(0)
+{
+    m_type = NO_MOVE;
+}
 
 
 Move::Move(const Round &iRound)
@@ -127,7 +134,9 @@ Rack Move::ComputeRackForMove(const PlayedRack &iOldRack, const Move &iMove)
 wstring Move::toString() const
 {
     wstringstream wss;
-    if (m_type == PASS)
+    if (m_type == NO_MOVE)
+        wss << "NO_MOVE";
+    else if (m_type == PASS)
         wss << "PASS";
     else if (m_type == CHANGE_LETTERS)
         wss << "CHANGE=" << m_letters;

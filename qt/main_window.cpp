@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2008-2010 Olivier Teulière
+ * Copyright (C) 2008-2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -785,6 +785,12 @@ void MainWindow::onGamePrint()
                                  "<" + qfw(m.getBadWord()) + ">");
                 curWidth += colWidths[2];
                 painter.drawText(curWidth, nextHeight, qfw(m.getBadCoord()));
+                curWidth += colWidths[3];
+            }
+            else if (m.getType() == Move::NO_MOVE)
+            {
+                painter.drawText(curWidth, nextHeight, _q("(NO MOVE)"));
+                curWidth += colWidths[2];
                 curWidth += colWidths[3];
             }
             else if (m.getType() == Move::PASS)
