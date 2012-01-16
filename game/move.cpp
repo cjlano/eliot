@@ -27,6 +27,7 @@
 #include "move.h"
 #include "rack.h"
 #include "pldrack.h"
+#include "debug.h"
 
 
 Move::Move(const Round &iRound)
@@ -61,45 +62,29 @@ Move::Move(const wstring &iLetters)
 
 const Round & Move::getRound() const
 {
-    if (m_type != VALID_ROUND)
-    {
-        // FIXME: throw an exception object instead
-        throw 1;
-    }
+    ASSERT(m_type == VALID_ROUND, "Incorrect move type");
     return m_round;
 }
 
 
 const wstring & Move::getBadWord() const
 {
-    if (m_type != INVALID_WORD)
-    {
-        // FIXME: throw an exception object instead
-        throw 1;
-    }
+    ASSERT(m_type == INVALID_WORD, "Incorrect move type");
     return m_word;
 }
 
 
 const wstring & Move::getBadCoord() const
 {
-    if (m_type != INVALID_WORD)
-    {
-        // FIXME: throw an exception object instead
-        throw 1;
-    }
+    ASSERT(m_type == INVALID_WORD, "Incorrect move type");
     return m_coord;
 }
 
 
 const wstring & Move::getChangedLetters() const
 {
-    if (m_type != CHANGE_LETTERS &&
-        m_type != PASS)
-    {
-        // FIXME: throw an exception object instead
-        throw 1;
-    }
+    ASSERT(m_type == CHANGE_LETTERS && m_type != PASS,
+           "Incorrect move type");
     return m_letters;
 }
 
