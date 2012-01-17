@@ -134,6 +134,10 @@ void Duplicate::start()
             Command *pCmd2 = new MarkPlayedCmd(*this, player->getId(), false);
             accessNavigation().addAndExecute(pCmd2);
         }
+
+        // Reset the master move
+        setMasterMove(Move());
+
         // Change the turn _after_ setting the new rack, so that when going
         // back in the history the rack is already there. The turn boundaries
         // must be just before player actions, otherwise restoring the game
@@ -199,51 +203,79 @@ void Duplicate::recordPlayerMove(const Move &iMove, Player &ioPlayer, bool isFor
 }
 
 
-void Duplicate::endTurn()
+Player * Duplicate::findBestPlayer() const
 {
-    // Find the player with the best score
     Player *bestPlayer = NULL;
-    int bestScore = 0;
+    int bestScore = -1;
     BOOST_FOREACH(Player *player, m_players)
     {
-        if (player->getLastMove().getScore() > bestScore)
+        const Move &move = player->getLastMove();
+        if (move.getType() == Move::VALID_ROUND &&
+            move.getScore() > bestScore)
         {
-            bestScore = player->getLastMove().getScore();
+            bestScore = move.getScore();
             bestPlayer = player;
         }
     }
+    return bestPlayer;
+}
+
+
+void Duplicate::endTurn()
+{
+    static const unsigned int REF_PLAYER_ID = 0;
+
+    // Define the master move if it is not already defined
+    if (m_masterMove.getType() != Move::VALID_ROUND)
+    {
+        // The chosen implementation is to find the best move among the players' moves.
+        // It is more user-friendly than forcing the best move when nobody found it.
+        // If you want the best move instead, simply add an AI player to the game!
+
+        // Find the player with the best score
+        const Player *bestPlayer = findBestPlayer();
+        if (bestPlayer != NULL)
+        {
+            setMasterMove(bestPlayer->getLastMove());
+        }
+        else
+        {
+            // If nobody played a valid round, we are forced to play a valid move.
+            // So let's take the best one...
+            BestResults results;
+            // Take the first player's rack
+            Rack r;
+            m_players[REF_PLAYER_ID]->getLastRack().getRack(r);
+            results.search(getDic(), getBoard(), r, getHistory().beforeFirstRound());
+            if (results.size() == 0)
+            {
+                // This would be very bad luck that no move is possible...
+                // It's probably not even possible, but let's be safe.
+                throw EndGameException(_("No possible move"));
+            }
+            setMasterMove(Move(results.get(0)));
+        }
+    }
+
+    // Find the player with the best score
+    Player *bestPlayer = findBestPlayer();
 
     // If nobody played a valid round, go to the next turn
     if (bestPlayer == NULL)
     {
-        // In fact, maybe someone played a valid round with a score of 0
-        // (just playing a joker, for example)
-        BOOST_FOREACH(Player *player, m_players)
-        {
-            if (player->getLastMove().getType() == Move::VALID_ROUND)
-            {
-                bestPlayer = player;
-                break;
-            }
-        }
-        if (bestPlayer == NULL)
-        {
-            // Nobody played a valid round. Go to the next turn...
-            start();
-            return;
-        }
+        // Nobody played a valid round. Go to the next turn...
+        start();
+        return;
     }
-
-    // Get the best valid move
-    const Move &bestMove = bestPlayer->getLastMove();
 
     // Handle solo bonus
     // First check whether there are enough players in the game for the
     // bonus to apply
     unsigned int minNbPlayers = Settings::Instance().getInt("duplicate.solo-players");
     if (getNPlayers() >= minNbPlayers &&
-        bestMove.getType() == Move::VALID_ROUND)
+        bestPlayer->getLastMove().getType() == Move::VALID_ROUND)
     {
+        int bestScore = bestPlayer->getLastMove().getScore();
         // Find whether other players than imax have the same score
         bool otherWithSameScore = false;
         BOOST_FOREACH(const Player *player, m_players)
@@ -266,11 +298,10 @@ void Duplicate::endTurn()
         }
     }
 
-    // Play the best word on the board
+    // Play the master word on the board
     // We assign it to player 0 arbitrarily (this is only used
     // to retrieve the rack, which is the same for all players...)
-    static const unsigned int REF_PLAYER_ID = 0;
-    Command *pCmd = new GameMoveCmd(*this, bestMove, REF_PLAYER_ID);
+    Command *pCmd = new GameMoveCmd(*this, m_masterMove, REF_PLAYER_ID);
     accessNavigation().addAndExecute(pCmd);
 
     // Leave the same reliquate to all players

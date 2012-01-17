@@ -122,6 +122,13 @@ private:
     void playAI(unsigned int p);
 
     /**
+     * Find the player who scored the most  (with a valid move) at this turn.
+     * If several players have the same score, one is returned arbitrarily.
+     * If nobody played a valid move, the method returns a null pointer.
+     */
+    Player * findBestPlayer() const;
+
+    /**
      * This function does not terminate the turn itself, but performs some
      * checks to know whether or not it should be terminated (with a call to
      * endTurn()).
