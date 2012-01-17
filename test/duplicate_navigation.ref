@@ -267,7 +267,7 @@ Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
     1 | 0 |  IMEJVSL | VIMES          |  H4 |  26 |  
-    2 | 1 | JL+NHAYG | JAN            |  G7 |  38 |  
+    2 | 0 | JL+NHAYG | JAN            |  G7 |  38 |  
 
 
 Rack 0: GHLY+ELA
@@ -301,7 +301,7 @@ Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
     1 | 0 |  IMEJVSL | VIMES          |  H4 |  26 |  
-    2 | 1 | JL+NHAYG | JAN            |  G7 |  38 |  
+    2 | 0 | JL+NHAYG | JAN            |  G7 |  38 |  
 
 
 Rack 0: EGHLL
@@ -404,7 +404,7 @@ Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
     1 | 0 |  IMEJVSL | VIMES          |  H4 |  26 |  
-    2 | 1 | JL+NHAYG | JAN            |  G7 |  38 |  
+    2 | 0 | JL+NHAYG | JAN            |  G7 |  38 |  
 
 
 Rack 0: EGHLL
@@ -438,7 +438,7 @@ Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
     1 | 0 |  IMEJVSL | VIMES          |  H4 |  26 |  
-    2 | 1 | JL+NHAYG | JAN            |  G7 |  38 |  
+    2 | 0 | JL+NHAYG | JAN            |  G7 |  38 |  
 
 
 Rack 0: GHLY+ELA
@@ -541,7 +541,7 @@ Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
     1 | 0 |  IMEJVSL | VIMES          |  H4 |  26 |  
-    2 | 1 | JL+NHAYG | JAN            |  G7 |  38 |  
+    2 | 0 | JL+NHAYG | JAN            |  G7 |  38 |  
 
 
 Rack 0: GHLY+ITA

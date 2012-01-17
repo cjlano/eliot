@@ -61,8 +61,8 @@ Game: mode=Duplicate
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
-    1 | 2 |  ATOYDSI | OYATS          |  H4 |  30 |  
-    2 | 2 | DI+AEINS | DENIAISA       |  6A |  63 | *
+    1 | 0 |  ATOYDSI | OYATS          |  H4 |  30 |  
+    2 | 0 | DI+AEINS | DENIAISA       |  6A |  63 | *
     3 | 0 |  P?RBFEG | FRaYE          |  5E |  45 |  
 
 

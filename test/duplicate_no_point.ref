@@ -20,7 +20,7 @@ Game: mode=Duplicate
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
-    1 | 1 |  ATNE??A | ay             |  H8 |   0 |  
+    1 | 0 |  ATNE??A | ay             |  H8 |   0 |  
 
 
 Rack 0: AAENT+UL

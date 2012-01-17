@@ -266,20 +266,20 @@ void Duplicate::endTurn()
     }
 
     // Play the best word on the board
-    Command *pCmd = new GameMoveCmd(*this, bestMove, bestPlayer->getId());
+    // We assign it to player 0 arbitrarily (this is only used
+    // to retrieve the rack, which is the same for all players...)
+    static const unsigned int REF_PLAYER_ID = 0;
+    Command *pCmd = new GameMoveCmd(*this, bestMove, REF_PLAYER_ID);
     accessNavigation().addAndExecute(pCmd);
 
     // Leave the same reliquate to all players
     // This is required by the start() method which will be called to
     // start the next turn
-    const PlayedRack& pld = bestPlayer->getCurrentRack();
+    const PlayedRack& pld = getHistory().getCurrentRack();
     BOOST_FOREACH(Player *player, m_players)
     {
-        if (player != bestPlayer)
-        {
-            Command *pCmd = new PlayerRackCmd(*player, pld);
-            accessNavigation().addAndExecute(pCmd);
-        }
+        Command *pCmd = new PlayerRackCmd(*player, pld);
+        accessNavigation().addAndExecute(pCmd);
     }
 
     // Start next turn...

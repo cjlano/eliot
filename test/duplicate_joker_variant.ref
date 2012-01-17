@@ -36,7 +36,7 @@ Game: variant=joker
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
-    1 | 1 |  AK?EZEN | AKENEs         |  H3 |  48 |  
+    1 | 0 |  AK?EZEN | AKENEs         |  H3 |  48 |  
 
 
 Rack 0: Z+IL?ENT
@@ -71,7 +71,7 @@ Game: variant=joker
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
-    1 | 1 |  AK?EZEN | AKENEs         |  H3 |  48 |  
+    1 | 0 |  AK?EZEN | AKENEs         |  H3 |  48 |  
     2 | 0 | Z+IL?ENT | pLANTIEZ       |  3F |  86 | *
 
 
@@ -107,7 +107,7 @@ Game: variant=joker
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
-    1 | 1 |  AK?EZEN | AKENEs         |  H3 |  48 |  
+    1 | 0 |  AK?EZEN | AKENEs         |  H3 |  48 |  
     2 | 0 | Z+IL?ENT | pLANTIEZ       |  3F |  86 | *
     3 | 0 |  DEDOTC? | DECODaT        |  G5 |  79 | *
 
@@ -144,10 +144,10 @@ Game: variant=joker
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
-    1 | 1 |  AK?EZEN | AKENEs         |  H3 |  48 |  
+    1 | 0 |  AK?EZEN | AKENEs         |  H3 |  48 |  
     2 | 0 | Z+IL?ENT | pLANTIEZ       |  3F |  86 | *
     3 | 0 |  DEDOTC? | DECODaT        |  G5 |  79 | *
-    4 | 1 |  RABEGE? | hEBERGEA       |  L2 |  72 | *
+    4 | 0 |  RABEGE? | hEBERGEA       |  L2 |  72 | *
 
 
 Rack 0: X?MFETR
@@ -179,7 +179,7 @@ Game: variant=joker
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
-    1 | 1 |  AK?EZEN | AKENEs         |  H3 |  48 |  
+    1 | 0 |  AK?EZEN | AKENEs         |  H3 |  48 |  
     2 | 0 | Z+IL?ENT | pLANTIEZ       |  3F |  86 | *
     3 | 0 |  DEDOTC? | DECODaT        |  G5 |  79 | *
 
@@ -213,7 +213,7 @@ Game: variant=joker
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
-    1 | 1 |  AK?EZEN | AKENEs         |  H3 |  48 |  
+    1 | 0 |  AK?EZEN | AKENEs         |  H3 |  48 |  
     2 | 0 | Z+IL?ENT | pLANTIEZ       |  3F |  86 | *
 
 
