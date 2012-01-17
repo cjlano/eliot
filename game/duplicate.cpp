@@ -257,23 +257,13 @@ void Duplicate::endTurn()
         }
     }
 
-    // Find the player with the best score
-    Player *bestPlayer = findBestPlayer();
-
-    // If nobody played a valid round, go to the next turn
-    if (bestPlayer == NULL)
-    {
-        // Nobody played a valid round. Go to the next turn...
-        start();
-        return;
-    }
-
     // Handle solo bonus
     // First check whether there are enough players in the game for the
     // bonus to apply
     unsigned int minNbPlayers = Settings::Instance().getInt("duplicate.solo-players");
-    if (getNPlayers() >= minNbPlayers &&
-        bestPlayer->getLastMove().getType() == Move::VALID_ROUND)
+    // Find the player with the best score
+    Player *bestPlayer = findBestPlayer();
+    if (getNPlayers() >= minNbPlayers && bestPlayer != NULL)
     {
         int bestScore = bestPlayer->getLastMove().getScore();
         // Find whether other players than imax have the same score

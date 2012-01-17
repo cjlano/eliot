@@ -9,8 +9,8 @@ ILERERU
 commande> j RELIEUR 8E
 commande> j ERROR H2
 commande> a T
-Rack 0: EEILRRU
-Rack 1: EEILRRU
+Rack 0: GUAUVBP
+Rack 1: GUAUVBP
 commande> a S
 Score 0:    0
 Score 1:    0
@@ -20,33 +20,35 @@ Game: mode=Duplicate
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
+    1 | 0 |  ILERERU | RELIEUR        |  H2 |  66 | *
 
 
-Rack 0: EEILRRU
-Rack 1: EEILRRU
+Rack 0: GUAUVBP
+Rack 1: GUAUVBP
 Score 0:    0
 Score 1:    0
-commande> j RELIURE h4
-commande> j RELIEUR h4
+commande> j BURGAU 2f
+commande> j BU 7g
 commande> a S
-Score 0:   66
-Score 1:   66
+Score 0:   17
+Score 1:    7
 commande> a T
-Rack 0: GUAUVBP
-Rack 1: GUAUVBP
+Rack 0: PV+REOWF
+Rack 1: PV+REOWF
 commande> a p
 Game: player 1 out of 2
 Game: mode=Duplicate
 Game: history:
     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
    ===|===|==========|================|=====|=====|======
-    1 | 0 |  EEILRRU | RELIURE        |  H4 |  66 | *
+    1 | 0 |  ILERERU | RELIEUR        |  H2 |  66 | *
+    2 | 0 |  GUAUVBP | BURGAU         |  2F |  17 |  
 
 
-Rack 0: GUAUVBP
-Rack 1: GUAUVBP
-Score 0:   66
-Score 1:   66
+Rack 0: PV+REOWF
+Rack 1: PV+REOWF
+Score 0:   17
+Score 1:    7
 commande> q
 fin du mode duplicate
 commande> q
