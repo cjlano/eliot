@@ -37,6 +37,7 @@
 #include "player_rack_cmd.h"
 #include "player_move_cmd.h"
 #include "player_points_cmd.h"
+#include "master_move_cmd.h"
 #include "navigation.h"
 
 using namespace std;
@@ -299,6 +300,18 @@ void XmlReader::endElement(const string& namespaceURI,
         PlayerRackCmd *cmd = new PlayerRackCmd(p, pldrack);
         m_game->accessNavigation().addAndExecute(cmd);
         LOG_DEBUG("rack: " << lfw(pldrack.toString()));
+    }
+
+    else if (tag == "MasterMove")
+    {
+        const Move &move = buildMove(*m_game, m_attributes, false);
+        Duplicate *duplicateGame = dynamic_cast<Duplicate*>(m_game);
+        if (duplicateGame == NULL)
+        {
+            throw LoadGameException("The MasterMove tag should only be present for duplicate games");
+        }
+        MasterMoveCmd *cmd = new MasterMoveCmd(*duplicateGame, move);
+        m_game->accessNavigation().addAndExecute(cmd);
     }
 
     else if (tag == "PlayerMove")

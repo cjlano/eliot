@@ -36,6 +36,7 @@
 #include "player_rack_cmd.h"
 #include "player_move_cmd.h"
 #include "player_points_cmd.h"
+#include "master_move_cmd.h"
 #include "mark_played_cmd.h"
 
 using namespace std;
@@ -194,6 +195,14 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
                 out << indent;
                 writeMove(out, moveCmd->getMove(), "GameMove", id);
                 out << endl;
+            }
+            else if (dynamic_cast<const MasterMoveCmd*>(cmd))
+            {
+                const MasterMoveCmd *moveCmd = static_cast<const MasterMoveCmd*>(cmd);
+                out << indent;
+                writeMove(out, moveCmd->getMove(), "MasterMove", -1);
+                out << endl;
+
             }
             else if (dynamic_cast<const MarkPlayedCmd*>(cmd))
             {

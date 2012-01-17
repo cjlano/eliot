@@ -36,6 +36,8 @@ class MasterMoveCmd: public Command
         MasterMoveCmd(Duplicate &ioDuplicate,
                       const Move &iMove);
 
+        const Move &getMove() const { return m_newMove; }
+
         virtual wstring toString() const;
 
     protected:
