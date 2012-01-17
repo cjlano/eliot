@@ -43,6 +43,7 @@
 #include "player_rack_cmd.h"
 #include "game_move_cmd.h"
 #include "mark_played_cmd.h"
+#include "master_move_cmd.h"
 #include "ai_player.h"
 #include "settings.h"
 #include "encoding.h"
@@ -324,5 +325,25 @@ void Duplicate::setPlayedFlag(unsigned int iPlayerId, bool iNewFlag)
     ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
 
     m_hasPlayed[iPlayerId] = iNewFlag;
+}
+
+
+void Duplicate::innerSetMasterMove(const Move &iMove)
+{
+    m_masterMove = iMove;
+}
+
+
+void Duplicate::setMasterMove(const Move &iMove)
+{
+    ASSERT(iMove.getType() == Move::VALID_ROUND ||
+           iMove.getType() == Move::NO_MOVE,
+           "Invalid move type");
+
+    // If this method is called several times for the same turn, it will
+    // result in many MasterMoveCmd commands in the command stack.
+    // This shouldn't be a problem though.
+    Command *pCmd = new MasterMoveCmd(*this, iMove);
+    accessNavigation().addAndExecute(pCmd);
 }
 

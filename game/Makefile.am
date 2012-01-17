@@ -52,6 +52,7 @@ libgame_a_SOURCES= \
     turn_cmd.cpp turn_cmd.h \
     duplicate.cpp duplicate.h \
     mark_played_cmd.h mark_played_cmd.cpp \
+    master_move_cmd.h master_move_cmd.cpp \
     freegame.cpp freegame.h \
     training.cpp training.h \
     public_game.cpp public_game.h \

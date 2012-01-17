@@ -22,6 +22,7 @@
 #define DUPLICATE_H_
 
 #include "game.h"
+#include "move.h"
 #include "command.h"
 #include "logging.h"
 
@@ -57,6 +58,7 @@ class Duplicate: public Game
     DEFINE_LOGGER();
     friend class GameFactory;
     friend class MarkPlayedCmd;
+    friend class MasterMoveCmd;
 public:
 
     /*************************
@@ -90,8 +92,24 @@ public:
      */
     void setPlayer(unsigned int p);
 
+    /**
+     * Set the master move.
+     * Two move types are possible: VALID_ROUND and NO_MOVE.
+     * Setting a master move to NO_MOVE means reseting it.
+     */
+    void setMasterMove(const Move &iMove);
+
+    const Move &getMasterMove() const { return m_masterMove; }
+
     /// Return true if the player has played for the current turn
     virtual bool hasPlayed(unsigned int iPlayerId) const;
+
+private: // Used by friend classes
+    /// Change the "has played" status of the given player to the given status
+    // Note: only used by friend classes
+    void setPlayedFlag(unsigned int iPlayerId, bool iNewFlag);
+
+    void innerSetMasterMove(const Move &iMove);
 
 private:
     // Private constructor to force using the GameFactory class
@@ -102,9 +120,6 @@ private:
 
     /// Make the AI player whose ID is p play its turn
     void playAI(unsigned int p);
-
-    /// Change the "has played" status of the given player to the given status
-    void setPlayedFlag(unsigned int iPlayerId, bool iNewFlag);
 
     /**
      * This function does not terminate the turn itself, but performs some
@@ -135,6 +150,14 @@ private:
 
     /// m_hasPlayed[p] is true iff player p has played for this turn
     map<unsigned int, bool> m_hasPlayed;
+
+    /**
+     * Master move, i.e. the move that will be played on the board
+     * at this turn (even if no player actually played it).
+     * This is particularly useful for arbitration mode, but could also
+     * be used in normal Duplicate games.
+     */
+    Move m_masterMove;
 };
 
 #endif /* _DUPLICATE_H_ */
