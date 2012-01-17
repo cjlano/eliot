@@ -235,10 +235,21 @@ void PlayWordMediator::lineEditCoord_textChanged(const QString &iText)
 
 void PlayWordMediator::updateCoord(const Coord &, const Coord &iNewCoord)
 {
+    // Ignore updates to non-visible controls (which happens when there
+    // are several human players).
+    // It fixes a focus problem.
+    if (!m_lineEditPlay.isVisible())
+        return;
+
     if (iNewCoord.isValid() && m_lineEditCoord.text() != qfw(iNewCoord.toString()))
         m_lineEditCoord.setText(qfw(iNewCoord.toString()));
     else if (!iNewCoord.isValid() && m_lineEditCoord.hasAcceptableInput())
         m_lineEditCoord.setText("");
+    // Set the focus to the "Play word" zone is the focus is not
+    // already on a QLineEdit (because of a click on the board)
+    if (!m_lineEditPlay.hasFocus() && !m_lineEditCoord.hasFocus())
+        m_lineEditPlay.setFocus();
+
     lineEditPlay_textChanged();
 }
 
