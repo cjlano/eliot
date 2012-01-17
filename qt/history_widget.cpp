@@ -34,6 +34,7 @@
 #include "history.h"
 #include "turn.h"
 #include "move.h"
+#include "game_params.h"
 
 using namespace std;
 
@@ -228,12 +229,14 @@ void HistoryTabWidget::setGame(const PublicGame *iGame)
     if (m_game == NULL)
     {
         // Tell the remaining tab that there is no more history to display
-        m_gameHistoryWidget->setHistory(NULL);
+        m_gameHistoryWidget->setHistory(NULL, NULL, false);
     }
     else
     {
         // Refresh the Game tab
-        m_gameHistoryWidget->setHistory(&m_game->getHistory(), m_game);
+        const bool showPlayerColumn =
+            m_game->getParams().getMode() == GameParams::kFREEGAME;
+        m_gameHistoryWidget->setHistory(&m_game->getHistory(), m_game, !showPlayerColumn);
         QObject::connect(this, SIGNAL(refreshSignal()),
                          m_gameHistoryWidget, SLOT(refresh()));
         QObject::connect(m_gameHistoryWidget, SIGNAL(requestDefinition(QString)),

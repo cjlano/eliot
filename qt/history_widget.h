@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2008 Olivier Teulière
+ * Copyright (C) 2008-2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -39,8 +39,8 @@ public:
     explicit HistoryWidget(QWidget *parent = 0);
 
     void setHistory(const History *iHistory,
-                    const PublicGame *iGame = NULL,
-                    bool iIsForPlayer = false);
+                    const PublicGame *iGame,
+                    bool iIsForPlayer);
 
 public slots:
     void refresh();
