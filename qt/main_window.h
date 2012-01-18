@@ -36,6 +36,7 @@ class PublicGame;
 class NewGame;
 class PrefsDialog;
 class PlayerTabWidget;
+class ScoreWidget;
 class AuxWindow;
 class QLabel;
 class QAction;
@@ -99,7 +100,7 @@ private slots:
      * Perform several updates when the game changes (title bar, status bar,
      * grey out some menu items, ...)
      */
-    void updateForGame(const PublicGame *iGame);
+    void updateForGame(PublicGame *iGame);
 
     /// Update the status bar contents
     void updateStatusBar(const Dictionary *iDic);
@@ -125,6 +126,9 @@ private:
 
     /// Widget for the players
     PlayerTabWidget *m_playersWidget;
+
+    /// Widget for the scores
+    ScoreWidget *m_scoresWidget;
 
     /// Actions enabled or disabled depending on the game state
     QAction *m_actionGamePrint;

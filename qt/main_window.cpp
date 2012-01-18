@@ -67,8 +67,10 @@ INIT_LOGGER(qt, MainWindow);
 const char *MainWindow::m_windowName = "MainWindow";
 
 MainWindow::MainWindow(QWidget *iParent)
-    : QMainWindow(iParent), m_dic(NULL), m_game(NULL), m_newGameDialog(NULL),
-    m_prefsDialog(NULL), m_bagWindow(NULL), m_boardWindow(NULL),
+    : QMainWindow(iParent), m_dic(NULL), m_game(NULL),
+    m_newGameDialog(NULL), m_prefsDialog(NULL),
+    m_playersWidget(NULL), m_scoresWidget(NULL),
+    m_bagWindow(NULL), m_boardWindow(NULL),
     m_historyWindow(NULL), m_dicToolsWindow(NULL), m_dicNameLabel(NULL)
 {
 #ifdef DEBUG
@@ -93,8 +95,8 @@ MainWindow::MainWindow(QWidget *iParent)
     // Make it easier to reproduce bugs
     LOG_DEBUG("Rand seed: " << val);
 
-    QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
-                     this, SLOT(updateForGame(const PublicGame*)));
+    QObject::connect(this, SIGNAL(gameChangedNonConst(PublicGame*)),
+                     this, SLOT(updateForGame(PublicGame*)));
     QObject::connect(this, SIGNAL(gameUpdated()),
                      this, SLOT(refresh()));
     refresh();
@@ -143,27 +145,8 @@ MainWindow::MainWindow(QWidget *iParent)
     m_ui.groupBoxHistory->hide();
 #endif
 
-    // Players racks
+    // Hide the players group box
     m_ui.groupBoxPlayers->hide();
-    m_playersWidget = new PlayerTabWidget(m_coordModel, NULL);
-    m_ui.groupBoxPlayers->layout()->addWidget(m_playersWidget);
-    QObject::connect(this, SIGNAL(gameChangedNonConst(PublicGame*)),
-                     m_playersWidget, SLOT(setGame(PublicGame*)));
-    QObject::connect(this, SIGNAL(gameUpdated()), m_playersWidget, SLOT(refresh()));
-
-    QObject::connect(m_playersWidget, SIGNAL(gameUpdated()), this, SIGNAL(gameUpdated()));
-    QObject::connect(m_playersWidget, SIGNAL(notifyProblem(QString)),
-                     this, SLOT(displayErrorMsg(QString)));
-    QObject::connect(m_playersWidget, SIGNAL(requestDefinition(QString)),
-                     this, SLOT(showDefinition(QString)));
-
-    // Players score
-    ScoreWidget *scores = new ScoreWidget;
-    QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
-                     scores, SLOT(setGame(const PublicGame*)));
-    QObject::connect(this, SIGNAL(gameUpdated()),
-                     scores, SLOT(refresh()));
-    m_ui.groupBoxPlayers->layout()->addWidget(scores);
 
     emit gameChangedNonConst(NULL);
     emit gameChanged(NULL);
@@ -272,7 +255,7 @@ void MainWindow::prefsUpdated()
 }
 
 
-void MainWindow::updateForGame(const PublicGame *iGame)
+void MainWindow::updateForGame(PublicGame *iGame)
 {
     if (iGame == NULL)
     {
@@ -284,6 +267,24 @@ void MainWindow::updateForGame(const PublicGame *iGame)
         m_actionHistoryLastTurn->setEnabled(false);
         m_actionHistoryReplayTurn->setEnabled(false);
         setWindowTitle(_q("No game") + " - Eliot");
+
+        // Destroy the players widget
+        if (m_playersWidget != NULL)
+        {
+            m_playersWidget->hide();
+            disconnect(m_playersWidget);
+            m_playersWidget->deleteLater();
+            m_playersWidget = NULL;
+        }
+
+        // Destroy the scores widget
+        if (m_scoresWidget != NULL)
+        {
+            m_scoresWidget->hide();
+            disconnect(m_scoresWidget);
+            m_scoresWidget->deleteLater();
+            m_scoresWidget = NULL;
+        }
     }
     else
     {
@@ -301,6 +302,27 @@ void MainWindow::updateForGame(const PublicGame *iGame)
         {
             setWindowTitle(_q("Free game") + " - Eliot");
         }
+
+        // Players widget
+        m_playersWidget = new PlayerTabWidget(m_coordModel, NULL);
+        m_ui.groupBoxPlayers->layout()->addWidget(m_playersWidget);
+        QObject::connect(m_playersWidget, SIGNAL(gameUpdated()),
+                         this, SIGNAL(gameUpdated()));
+        QObject::connect(m_playersWidget, SIGNAL(notifyInfo(QString)),
+                         this, SLOT(displayInfoMsg(QString)));
+        QObject::connect(m_playersWidget, SIGNAL(notifyProblem(QString)),
+                         this, SLOT(displayErrorMsg(QString)));
+        QObject::connect(m_playersWidget, SIGNAL(requestDefinition(QString)),
+                         this, SLOT(showDefinition(QString)));
+        QObject::connect(this, SIGNAL(gameUpdated()),
+                         m_playersWidget, SLOT(refresh()));
+        m_playersWidget->setGame(iGame);
+
+        // Scores widget
+        m_scoresWidget = new ScoreWidget;
+        m_ui.groupBoxPlayers->layout()->addWidget(m_scoresWidget);
+        QObject::connect(this, SIGNAL(gameUpdated()),
+                         m_scoresWidget, SLOT(refresh()));
     }
 }
 
