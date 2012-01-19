@@ -20,7 +20,6 @@
 
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QKeyEvent>
-#include <QtGui/QMessageBox>
 #include <QtGui/QComboBox>
 #include <QtGui/QSpinBox>
 #include <QtCore/QSettings>
