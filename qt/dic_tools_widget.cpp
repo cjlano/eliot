@@ -26,15 +26,14 @@
 #include <fstream>
 #include <QtGui/QTreeView>
 #include <QtGui/QStandardItemModel>
-#include <QtGui/QVBoxLayout>
 #include <QtGui/QLineEdit>
-#include <QtGui/QToolTip>
 #include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
 #include <QtCore/QString>
 
 #include "dic_tools_widget.h"
 #include "custom_popup.h"
+#include "validator_factory.h"
 #include "qtcommon.h"
 #include "dic.h"
 #include "header.h"
@@ -42,34 +41,6 @@
 #include "dic_exception.h"
 
 using namespace std;
-
-
-/// Validator used for the line edits accepting only dictionary characters
-class DicRackValidator: public QValidator
-{
-public:
-    explicit DicRackValidator(QObject *parent,
-                              const Dictionary *iDic,
-                              bool acceptJoker = false);
-    virtual State validate(QString &input, int &pos) const;
-
-private:
-    const Dictionary *m_dic;
-    const bool m_acceptJoker;
-};
-
-
-/// Validator used for the regexp line edit
-class RegexpValidator: public QValidator
-{
-public:
-    explicit RegexpValidator(QObject *parent,
-                             const Dictionary *iDic);
-    virtual State validate(QString &input, int &pos) const;
-
-private:
-    const Dictionary *m_dic;
-};
 
 
 DicToolsWidget::DicToolsWidget(QWidget *parent)
@@ -138,9 +109,9 @@ void DicToolsWidget::setDic(const Dictionary *iDic)
         lineEditPlus1->clear();
         lineEditRegexp->clear();
         // Create new validators
-        lineEditCheck->setValidator(new DicRackValidator(this, m_dic));
-        lineEditPlus1->setValidator(new DicRackValidator(this, m_dic, true));
-        lineEditRegexp->setValidator(new RegexpValidator(this, m_dic));
+        lineEditCheck->setValidator(ValidatorFactory::newDicRackValidator(this, m_dic));
+        lineEditPlus1->setValidator(ValidatorFactory::newDicRackValidator(this, m_dic, true));
+        lineEditRegexp->setValidator(ValidatorFactory::newRegexpValidator(this, m_dic));
         // Refresh
         refreshCheck();
         refreshPlus1();
@@ -412,78 +383,5 @@ void DicToolsWidget::populateMenuRegexp(QMenu &iMenu, const QPoint &iPoint)
     QString selectedWord = m_regexpModel->data(wordIndex).toString();
 
     m_customPopupRegexp->addShowDefinitionEntry(iMenu, selectedWord);
-}
-
-
-
-DicRackValidator::DicRackValidator(QObject *parent,
-                                   const Dictionary *iDic,
-                                   bool acceptJoker)
-    : QValidator(parent), m_dic(iDic), m_acceptJoker(acceptJoker)
-{
-}
-
-
-QValidator::State DicRackValidator::validate(QString &input, int &) const
-{
-    if (m_dic == NULL)
-        return Invalid;
-
-    if (input == "")
-        return Intermediate;
-
-    // The string is invalid if it contains invalid input characters
-    const wistring &winput = wfq(input);
-    if (!m_dic->validateInputChars(winput))
-        return Invalid;
-
-    // Convert the string to internal letters
-    const wstring &intInput = m_dic->convertFromInput(winput);
-    // The string is invalid if it contains characters not present
-    // in the dictionary
-    if (!m_dic->validateLetters(intInput))
-        return Intermediate;
-
-    // A '?' may not be acceptable
-    if (!m_acceptJoker && input.contains('?'))
-        return Invalid;
-    // Do not accept more than 2 jokers
-    if (input.count('?') > 2)
-        return Invalid;
-    return Acceptable;
-}
-
-
-
-RegexpValidator::RegexpValidator(QObject *parent,
-                                 const Dictionary *iDic)
-    : QValidator(parent), m_dic(iDic)
-{
-}
-
-
-QValidator::State RegexpValidator::validate(QString &input, int &) const
-{
-    if (m_dic == NULL)
-        return Invalid;
-
-    if (input == "")
-        return Intermediate;
-
-    wstring authorizedChars = L".[]()*+?:^";
-
-    // The string is invalid if it contains invalid input characters
-    const wistring &winput = wfq(input);
-    if (!m_dic->validateInputChars(winput, authorizedChars))
-        return Invalid;
-
-    // Convert the string to internal letters
-    const wstring &intInput = m_dic->convertFromInput(winput);
-    // The string is invalid if it contains characters not present
-    // in the dictionary
-    if (!m_dic->validateLetters(intInput, authorizedChars))
-        return Intermediate;
-
-    return Acceptable;
 }
 

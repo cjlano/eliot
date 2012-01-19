@@ -19,13 +19,12 @@
  *****************************************************************************/
 
 #include <QtGui/QStandardItemModel>
-#include <QtGui/QValidator>
-#include <QtGui/QHeaderView>
 
 #include "training_widget.h"
 #include "qtcommon.h"
 #include "play_word_mediator.h"
 #include "custom_popup.h"
+#include "validator_factory.h"
 
 #include "dic.h"
 #include "bag.h"
@@ -39,17 +38,6 @@ using namespace std;
 
 
 static const int HIDDEN_COLUMN = 6;
-
-/// Validator used for the rack line edit
-class RackValidator: public QValidator
-{
-public:
-    explicit RackValidator(QObject *parent, const Bag *iBag);
-    virtual State validate(QString &input, int &pos) const;
-
-private:
-    const Bag *m_bag;
-};
 
 
 TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicGame *iGame)
@@ -117,7 +105,10 @@ TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicG
                      SLOT(showPreview(const QItemSelection&, const QItemSelection&)));
 
     if (m_game)
-        lineEditRack->setValidator(new RackValidator(this, &m_game->getBag()));
+    {
+        QValidator * val = ValidatorFactory::newRackValidator(this, &m_game->getBag());
+        lineEditRack->setValidator(val);
+    }
 
     // Notify that the rack changed
     QObject::connect(lineEditRack, SIGNAL(textChanged(const QString&)),
@@ -371,49 +362,4 @@ QSize TrainingWidget::sizeHint() const
 {
     return QSize(160, 300);
 }
-
-
-
-RackValidator::RackValidator(QObject *parent, const Bag *iBag)
-    : QValidator(parent), m_bag(iBag)
-{
-}
-
-
-QValidator::State RackValidator::validate(QString &input, int &) const
-{
-    // This should never happen, since the control should be disabled in
-    // such a case, but checking doesn't hurt...
-    if (m_bag == NULL)
-        return Invalid;
-
-    input = input.toUpper();
-
-    const Dictionary &dic = m_bag->getDic();
-
-    // The string is invalid if it contains invalid input characters
-    const wistring &winput = wfq(input);
-    if (!dic.validateInputChars(winput))
-        return Invalid;
-
-    // Convert the string to internal letters
-    const wstring &intInput = dic.convertFromInput(winput);
-    // The string is invalid if it contains characters not present
-    // in the dictionary
-    if (!dic.validateLetters(intInput))
-        return Intermediate;
-
-    QString qinput = qfw(intInput);
-    // The letters must be in the bag
-    for (int i = 0; i < qinput.size(); ++i)
-    {
-        if ((unsigned int)qinput.count(qinput[i], Qt::CaseInsensitive) >
-            m_bag->in(intInput[i]))
-        {
-            return Invalid;
-        }
-    }
-    return Acceptable;
-}
-
 

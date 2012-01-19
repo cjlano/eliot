@@ -18,13 +18,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtGui/QLineEdit>
 #include <QtGui/QHBoxLayout>
-#include <QtGui/QValidator>
 #include <QtCore/QStringList>
 
 #include "player_widget.h"
 #include "play_word_mediator.h"
+#include "validator_factory.h"
 #include "qtcommon.h"
 #include "public_game.h"
 #include "player.h"
@@ -35,21 +34,6 @@
 #include "debug.h"
 
 #include "encoding.h"
-
-
-/// Validator used for the "change letters" line edit
-class ChangeValidator: public QValidator
-{
-public:
-    explicit ChangeValidator(QObject *parent,
-                             const QLineEdit &iLineEdit,
-                             const Dictionary &iDic);
-    virtual State validate(QString &input, int &pos) const;
-
-private:
-    const QLineEdit &m_lineEdit;
-    const Dictionary &m_dic;
-};
 
 
 PlayerWidget::PlayerWidget(QWidget *parent, CoordModel &iCoordModel,
@@ -85,8 +69,8 @@ PlayerWidget::PlayerWidget(QWidget *parent, CoordModel &iCoordModel,
     }
     else
     {
-        lineEditChange->setValidator(new ChangeValidator(this, *lineEditRack,
-                                                         m_game->getDic()));
+        QValidator * val = ValidatorFactory::newChangeValidator(this, *lineEditRack, m_game->getDic());
+        lineEditChange->setValidator(val);
     }
 
     refresh();
@@ -191,49 +175,6 @@ void PlayerWidget::pass(QString inputLetters)
             msg = msg.arg(_q("Unknown error"));
         emit notifyProblem(msg);
     }
-}
-
-
-
-ChangeValidator::ChangeValidator(QObject *parent,
-                                 const QLineEdit &iLineEdit,
-                                 const Dictionary &iDic)
-    : QValidator(parent), m_lineEdit(iLineEdit), m_dic(iDic)
-{
-}
-
-
-QValidator::State ChangeValidator::validate(QString &input, int &) const
-{
-    // The string is invalid if it contains invalid input characters
-    const wistring &winput = wfq(input);
-    if (!m_dic.validateInputChars(winput))
-        return Invalid;
-
-    // Convert the string to internal letters
-    const wstring &intInput = m_dic.convertFromInput(winput);
-    // The string is invalid if it contains characters not present
-    // in the dictionary
-    if (!m_dic.validateLetters(intInput))
-        return Intermediate;
-
-    const wstring &rack = m_dic.convertFromInput(wfq(m_lineEdit.text()));
-    if (intInput.size() > rack.size())
-        return Intermediate;
-    // The letters to change must be in the rack
-    // We convert back to QString objects, because their count() method is
-    // very practical...
-    QString qrack = qfw(rack);
-    QString qinput = qfw(intInput);
-    for (int i = 0; i < qinput.size(); ++i)
-    {
-        if (qinput.count(qinput[i], Qt::CaseInsensitive) >
-            qrack.count(qinput[i], Qt::CaseInsensitive))
-        {
-            return Intermediate;
-        }
-    }
-    return Acceptable;
 }
 
 

@@ -22,6 +22,7 @@
 #include <QtGui/QPushButton>
 
 #include "play_word_mediator.h"
+#include "validator_factory.h"
 #include "coord_model.h"
 #include "qtcommon.h"
 
@@ -29,29 +30,6 @@
 #include "coord.h"
 #include "dic.h"
 #include "debug.h"
-
-
-/// Validator used for the "play word" line edit
-class PlayWordValidator: public QValidator
-{
-public:
-    explicit PlayWordValidator(QObject *parent,
-                               const Dictionary &iDic);
-    virtual State validate(QString &input, int &pos) const;
-
-private:
-    const Dictionary &m_dic;
-};
-
-
-/// Validator used for the "coords" line edit
-class CoordsValidator: public QValidator
-{
-public:
-    explicit CoordsValidator(QObject *parent);
-    virtual State validate(QString &input, int &pos) const;
-};
-
 
 
 PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
@@ -75,8 +53,8 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
     /// Set validators;
     if (m_game)
     {
-        m_lineEditPlay.setValidator(new PlayWordValidator(this, m_game->getDic()));
-        m_lineEditCoord.setValidator(new CoordsValidator(this));
+        m_lineEditPlay.setValidator(ValidatorFactory::newPlayWordValidator(this, m_game->getDic()));
+        m_lineEditCoord.setValidator(ValidatorFactory::newCoordsValidator(this));
     }
 
     // Set all the connections
@@ -252,77 +230,4 @@ void PlayWordMediator::updateCoord(const Coord &, const Coord &iNewCoord)
 
     lineEditPlay_textChanged();
 }
-
-
-// ------ Validators ------
-
-PlayWordValidator::PlayWordValidator(QObject *parent,
-                                     const Dictionary &iDic)
-    : QValidator(parent), m_dic(iDic)
-{
-}
-
-
-QValidator::State PlayWordValidator::validate(QString &input, int &) const
-{
-    if (input == "")
-        return Intermediate;
-
-    const wistring &winput = wfq(input);
-    // The string is invalid if it contains invalid input characters
-    if (!m_dic.validateInputChars(winput, L"()") || input.contains('?'))
-        return Invalid;
-
-    // Convert the string to internal letters
-    const wstring &intInput = m_dic.convertFromInput(winput);
-    // The string is invalid if it contains characters not present
-    // in the dictionary (ignoring parentheses)
-    if (!m_dic.validateLetters(intInput, L"()"))
-        return Intermediate;
-
-    // Check the parentheses pairs
-    QString qintInput = qfw(intInput);
-    int pos;
-    while ((pos = qintInput.indexOf('(')) != -1)
-    {
-        if (qintInput.size() < pos + 3 || qintInput[pos + 2] != ')' ||
-            !m_dic.validateLetters(wfq(QString(qintInput[pos + 1]))))
-        {
-            return Intermediate;
-        }
-        else
-        {
-            qintInput.remove(pos, 3);
-        }
-    }
-    if (qintInput.indexOf(')') != -1)
-        return Intermediate;
-
-    return Acceptable;
-}
-
-
-
-CoordsValidator::CoordsValidator(QObject *parent)
-    : QValidator(parent)
-{
-}
-
-
-QValidator::State CoordsValidator::validate(QString &input, int &) const
-{
-    // Only authorize characters part of a valid coordinate
-    wstring copy = wfq(input.toUpper());
-    wstring authorized = L"ABCDEFGHIJKLMNO1234567890";
-    if (copy.find_first_not_of(authorized) != wstring::npos)
-        return Invalid;
-
-    // Check coordinates
-    Coord c(wfq(input));
-    if (!c.isValid())
-        return Intermediate;
-
-    return Acceptable;
-}
-
 

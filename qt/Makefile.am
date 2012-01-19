@@ -59,6 +59,7 @@ eliot_SOURCES = \
     coord_model.h coord_model.cpp \
     tile_widget.cpp tile_widget.h \
     tile_layout.cpp tile_layout.h \
+    validator_factory.h validator_factory.cpp \
     custom_popup.cpp custom_popup.h \
     bag_widget.cpp bag_widget.h \
     bag_widget2.cpp bag_widget2.h \
@@ -90,6 +91,7 @@ nodist_eliot_SOURCES = \
     coord_model.moc.cpp \
     tile_widget.moc.cpp \
     tile_layout.moc.cpp \
+    validator_factory.moc.cpp \
     custom_popup.moc.cpp \
     new_game.moc.cpp \
     dic_tools_widget.moc.cpp \
