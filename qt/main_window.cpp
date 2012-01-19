@@ -100,10 +100,13 @@ MainWindow::MainWindow(QWidget *iParent)
                      this, SLOT(updateForGame(PublicGame*)));
     QObject::connect(this, SIGNAL(gameUpdated()),
                      this, SLOT(refresh()));
-    refresh();
 
     // Status bar
     statusBar()->addWidget(new QLabel, 1);
+    // First widget, not added yet
+    m_turnLabel = new QLabel;
+    m_turnLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
+    // Second widget
     m_dicNameLabel = new QLabel;
     m_dicNameLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
     statusBar()->addPermanentWidget(m_dicNameLabel);
@@ -209,6 +212,9 @@ void MainWindow::refresh()
 {
     if (m_game != NULL)
     {
+        m_turnLabel->setText(_q("Turn %1/%2")
+                             .arg(m_game->getCurrTurn())
+                             .arg(m_game->getNbTurns()));
         bool isFirstTurn = m_game->isFirstTurn();
         bool isLastTurn = m_game->isLastTurn();
         m_actionHistoryFirstTurn->setEnabled(!isFirstTurn);
@@ -278,6 +284,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
         m_actionHistoryLastTurn->setEnabled(false);
         m_actionHistoryReplayTurn->setEnabled(false);
         setWindowTitle(_q("No game") + " - Eliot");
+        statusBar()->removeWidget(m_turnLabel);
 
         // Destroy the players widget
         QtCommon::DestroyObject(m_playersWidget, this);
@@ -295,6 +302,8 @@ void MainWindow::updateForGame(PublicGame *iGame)
     {
         m_actionGamePrint->setEnabled(true);
         m_actionGameSaveAs->setEnabled(true);
+        statusBar()->addWidget(m_turnLabel);
+        m_turnLabel->show();
 
         if (iGame->getMode() == PublicGame::kTRAINING)
         {

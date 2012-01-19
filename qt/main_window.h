@@ -158,7 +158,9 @@ private:
     AuxWindow *m_dicToolsWindow;
     //@}
 
-    /// Label indicating the name of the current dictionary
+    /// Status bar label indicating the current turn (when there is a game)
+    QLabel *m_turnLabel;
+    /// Status bar label indicating the name of the current dictionary
     QLabel *m_dicNameLabel;
 
     /// Model for the coordinates of the word to play
