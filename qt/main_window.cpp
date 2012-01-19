@@ -52,6 +52,7 @@
 #include "board_widget.h"
 #include "score_widget.h"
 #include "player_widget.h"
+#include "training_widget.h"
 #include "history_widget.h"
 #include "dic_tools_widget.h"
 #include "dic_wizard.h"
@@ -69,7 +70,7 @@ const char *MainWindow::m_windowName = "MainWindow";
 MainWindow::MainWindow(QWidget *iParent)
     : QMainWindow(iParent), m_dic(NULL), m_game(NULL),
     m_newGameDialog(NULL), m_prefsDialog(NULL),
-    m_playersWidget(NULL), m_scoresWidget(NULL),
+    m_playersWidget(NULL), m_trainingWidget(NULL), m_scoresWidget(NULL),
     m_bagWindow(NULL), m_boardWindow(NULL),
     m_historyWindow(NULL), m_dicToolsWindow(NULL), m_dicNameLabel(NULL)
 {
@@ -229,17 +230,20 @@ void MainWindow::prefsUpdated()
     LOG_DEBUG("Preferences updated");
     // Disconnect the training rack updates from the "Plus 1" tab of the
     // dictionary tools
-    m_playersWidget->disconnect(SIGNAL(trainingRackUpdated(const QString&)));
-    // Reconnect it only if needed
-    if (m_dicToolsWindow != NULL)
+    if (m_trainingWidget != NULL)
     {
-        QSettings qs(ORGANIZATION, PACKAGE_NAME);
-        if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
+        m_trainingWidget->disconnect(SIGNAL(rackUpdated(const QString&)));
+        // Reconnect it only if needed
+        if (m_dicToolsWindow != NULL)
         {
-            QObject::connect(m_playersWidget,
-                             SIGNAL(trainingRackUpdated(const QString&)),
-                             &m_dicToolsWindow->getWidget(),
-                             SLOT(setPlus1Rack(const QString&)));
+            QSettings qs(ORGANIZATION, PACKAGE_NAME);
+            if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
+            {
+                QObject::connect(m_trainingWidget,
+                                 SIGNAL(rackUpdated(const QString&)),
+                                 &m_dicToolsWindow->getWidget(),
+                                 SLOT(setPlus1Rack(const QString&)));
+            }
         }
     }
 
@@ -273,8 +277,19 @@ void MainWindow::updateForGame(PublicGame *iGame)
         {
             m_playersWidget->hide();
             disconnect(m_playersWidget);
+            m_playersWidget->disconnect();
             m_playersWidget->deleteLater();
             m_playersWidget = NULL;
+        }
+
+        // Destroy the training widget
+        if (m_trainingWidget != NULL)
+        {
+            m_trainingWidget->hide();
+            disconnect(m_trainingWidget);
+            m_trainingWidget->disconnect();
+            m_trainingWidget->deleteLater();
+            m_trainingWidget = NULL;
         }
 
         // Destroy the scores widget
@@ -282,6 +297,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
         {
             m_scoresWidget->hide();
             disconnect(m_scoresWidget);
+            m_scoresWidget->disconnect();
             m_scoresWidget->deleteLater();
             m_scoresWidget = NULL;
         }
@@ -290,39 +306,73 @@ void MainWindow::updateForGame(PublicGame *iGame)
     {
         m_actionGamePrint->setEnabled(true);
         m_actionGameSaveAs->setEnabled(true);
+
         if (iGame->getMode() == PublicGame::kTRAINING)
         {
             setWindowTitle(_q("Training mode") + " - Eliot");
-        }
-        else if (iGame->getMode() == PublicGame::kDUPLICATE)
-        {
-            setWindowTitle(_q("Duplicate game") + " - Eliot");
+            m_ui.groupBoxPlayers->setTitle(_q("Training"));
+
+            // Training widget
+            m_trainingWidget = new TrainingWidget(NULL, m_coordModel, iGame);
+            m_ui.groupBoxPlayers->layout()->addWidget(m_trainingWidget);
+            QObject::connect(m_trainingWidget, SIGNAL(gameUpdated()),
+                             this, SIGNAL(gameUpdated()));
+            QObject::connect(m_trainingWidget, SIGNAL(notifyInfo(QString)),
+                             this, SLOT(displayInfoMsg(QString)));
+            QObject::connect(m_trainingWidget, SIGNAL(notifyProblem(QString)),
+                             this, SLOT(displayErrorMsg(QString)));
+            QObject::connect(m_trainingWidget, SIGNAL(requestDefinition(QString)),
+                             this, SLOT(showDefinition(QString)));
+            QObject::connect(this, SIGNAL(gameUpdated()),
+                             m_trainingWidget, SLOT(refresh()));
+            // Connect with the dictionary tools only if needed
+            if (m_dicToolsWindow != NULL)
+            {
+                QSettings qs(ORGANIZATION, PACKAGE_NAME);
+                if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
+                {
+                    QObject::connect(m_trainingWidget,
+                                     SIGNAL(rackUpdated(const QString&)),
+                                     &m_dicToolsWindow->getWidget(),
+                                     SLOT(setPlus1Rack(const QString&)));
+                }
+            }
+
+            // Players score
+            m_scoresWidget = new ScoreWidget;
+            m_ui.groupBoxPlayers->layout()->addWidget(m_scoresWidget);
+            QObject::connect(this, SIGNAL(gameUpdated()),
+                             m_scoresWidget, SLOT(refresh()));
         }
         else
         {
-            setWindowTitle(_q("Free game") + " - Eliot");
+            if (iGame->getMode() == PublicGame::kDUPLICATE)
+                setWindowTitle(_q("Duplicate game") + " - Eliot");
+            else
+                setWindowTitle(_q("Free game") + " - Eliot");
+            m_ui.groupBoxPlayers->setTitle(_q("Players"));
+
+            // Players widget
+            m_playersWidget = new PlayerTabWidget(m_coordModel, NULL);
+            m_ui.groupBoxPlayers->layout()->addWidget(m_playersWidget);
+            QObject::connect(m_playersWidget, SIGNAL(gameUpdated()),
+                             this, SIGNAL(gameUpdated()));
+            QObject::connect(m_playersWidget, SIGNAL(notifyInfo(QString)),
+                             this, SLOT(displayInfoMsg(QString)));
+            QObject::connect(m_playersWidget, SIGNAL(notifyProblem(QString)),
+                             this, SLOT(displayErrorMsg(QString)));
+            QObject::connect(m_playersWidget, SIGNAL(requestDefinition(QString)),
+                             this, SLOT(showDefinition(QString)));
+            QObject::connect(this, SIGNAL(gameUpdated()),
+                             m_playersWidget, SLOT(refresh()));
+            m_playersWidget->setGame(iGame);
+
+            // Players score
+            m_scoresWidget = new ScoreWidget;
+            m_ui.groupBoxPlayers->layout()->addWidget(m_scoresWidget);
+            QObject::connect(this, SIGNAL(gameUpdated()),
+                             m_scoresWidget, SLOT(refresh()));
         }
-
-        // Players widget
-        m_playersWidget = new PlayerTabWidget(m_coordModel, NULL);
-        m_ui.groupBoxPlayers->layout()->addWidget(m_playersWidget);
-        QObject::connect(m_playersWidget, SIGNAL(gameUpdated()),
-                         this, SIGNAL(gameUpdated()));
-        QObject::connect(m_playersWidget, SIGNAL(notifyInfo(QString)),
-                         this, SLOT(displayInfoMsg(QString)));
-        QObject::connect(m_playersWidget, SIGNAL(notifyProblem(QString)),
-                         this, SLOT(displayErrorMsg(QString)));
-        QObject::connect(m_playersWidget, SIGNAL(requestDefinition(QString)),
-                         this, SLOT(showDefinition(QString)));
-        QObject::connect(this, SIGNAL(gameUpdated()),
-                         m_playersWidget, SLOT(refresh()));
-        m_playersWidget->setGame(iGame);
-
-        // Scores widget
-        m_scoresWidget = new ScoreWidget;
-        m_ui.groupBoxPlayers->layout()->addWidget(m_scoresWidget);
-        QObject::connect(this, SIGNAL(gameUpdated()),
-                         m_scoresWidget, SLOT(refresh()));
     }
 }
 
@@ -961,10 +1011,11 @@ void MainWindow::onWindowsDicTools()
                          this, SLOT(showDefinition(QString)));
         // Link the training rack with the "Plus 1" one
         QSettings qs(ORGANIZATION, PACKAGE_NAME);
-        if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
+        if (m_trainingWidget != NULL &&
+            qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
         {
-            QObject::connect(m_playersWidget,
-                             SIGNAL(trainingRackUpdated(const QString&)),
+            QObject::connect(m_trainingWidget,
+                             SIGNAL(rackUpdated(const QString&)),
                              dicTools, SLOT(setPlus1Rack(const QString&)));
         }
         // Fake a dictionary selection

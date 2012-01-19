@@ -24,7 +24,6 @@
 #include <QtCore/QStringList>
 
 #include "player_widget.h"
-#include "training_widget.h"
 #include "play_word_mediator.h"
 #include "qtcommon.h"
 #include "public_game.h"
@@ -68,14 +67,13 @@ PlayerWidget::PlayerWidget(QWidget *parent, CoordModel &iCoordModel,
     QObject::connect(m_mediator, SIGNAL(notifyProblem(QString)),
                      this, SIGNAL(notifyProblem(QString)));
 
+    lineEditRack->setReadOnly(true);
+
     if (m_game)
     {
         // Do not allow messing with AI players
         if (!m_game->getPlayer(m_player).isHuman())
             setEnabled(false);
-
-        // Changing the rack is authorized only in training mode
-        lineEditRack->setReadOnly(m_game->getMode() != PublicGame::kTRAINING);
     }
     if (m_game == NULL || m_game->getMode() != PublicGame::kFREEGAME)
     {
@@ -265,47 +263,24 @@ void PlayerTabWidget::setGame(PublicGame *iGame)
 
     if (iGame != NULL)
     {
-        // Training mode: use a dedicated widget
-        if (iGame->getMode() == PublicGame::kTRAINING)
+        // Add one tab per player
+        for (unsigned int i = 0; i < iGame->getNbPlayers(); ++i)
         {
-            const Player &player = iGame->getPlayer(0);
-            TrainingWidget *trWidget = new TrainingWidget(NULL, m_coordModel, iGame);
-            QObject::connect(this, SIGNAL(refreshSignal()),
-                             trWidget, SLOT(refresh()));
+            const Player &player = iGame->getPlayer(i);
+            PlayerWidget *p = new PlayerWidget(NULL, m_coordModel, i, iGame);
+            QObject::connect(this, SIGNAL(refreshSignal()), p, SLOT(refresh()));
             // Forward signals to the outside
-            QObject::connect(trWidget, SIGNAL(notifyProblem(QString)),
+            QObject::connect(p, SIGNAL(notifyProblem(QString)),
                              this, SIGNAL(notifyProblem(QString)));
-            QObject::connect(trWidget, SIGNAL(notifyInfo(QString)),
-                             this, SIGNAL(notifyInfo(QString)));
-            QObject::connect(trWidget, SIGNAL(gameUpdated()),
+            QObject::connect(p, SIGNAL(gameUpdated()),
                              this, SIGNAL(gameUpdated()));
-            QObject::connect(trWidget, SIGNAL(rackUpdated(const QString&)),
-                             this, SIGNAL(trainingRackUpdated(const QString&)));
-            QObject::connect(trWidget, SIGNAL(requestDefinition(QString)),
-                             this, SIGNAL(requestDefinition(QString)));
-            addTab(trWidget, qfw(player.getName()));
+            addTab(p, qfw(player.getName()));
+            // Switching to a tab corresponding to an AI player
+            // is forbidden
+            if (!player.isHuman())
+                setTabEnabled(i, false);
         }
-        else
-        {
-            // Add one tab per player
-            for (unsigned int i = 0; i < iGame->getNbPlayers(); ++i)
-            {
-                const Player &player = iGame->getPlayer(i);
-                PlayerWidget *p = new PlayerWidget(NULL, m_coordModel, i, iGame);
-                QObject::connect(this, SIGNAL(refreshSignal()), p, SLOT(refresh()));
-                // Forward signals to the outside
-                QObject::connect(p, SIGNAL(notifyProblem(QString)),
-                                 this, SIGNAL(notifyProblem(QString)));
-                QObject::connect(p, SIGNAL(gameUpdated()),
-                                 this, SIGNAL(gameUpdated()));
-                addTab(p, qfw(player.getName()));
-                // Switching to a tab corresponding to an AI player
-                // is forbidden
-                if (!player.isHuman())
-                    setTabEnabled(i, false);
-            }
-            setCurrentIndex(iGame->getCurrentPlayer().getId());
-        }
+        setCurrentIndex(iGame->getCurrentPlayer().getId());
     }
 }
 

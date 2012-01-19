@@ -37,6 +37,7 @@ class NewGame;
 class PrefsDialog;
 class PlayerTabWidget;
 class ScoreWidget;
+class TrainingWidget;
 class AuxWindow;
 class QLabel;
 class QAction;
@@ -126,6 +127,9 @@ private:
 
     /// Widget for the players
     PlayerTabWidget *m_playersWidget;
+
+    /// Widget for the training mode
+    TrainingWidget *m_trainingWidget;
 
     /// Widget for the scores
     ScoreWidget *m_scoresWidget;
