@@ -76,7 +76,7 @@ MainWindow::MainWindow(QWidget *iParent)
 {
 #ifdef DEBUG
     // Check that the string conversion routines are not buggy
-    checkConversions();
+    QtCommon::CheckConversions();
 #endif
 
     LOG_DEBUG("Creating main window");
@@ -225,27 +225,34 @@ void MainWindow::refresh()
 }
 
 
+void MainWindow::linkTrainingAnd7P1()
+{
+    if (m_trainingWidget == NULL || m_dicToolsWindow == NULL)
+        return;
+
+    // Disconnect the training rack updates from the "Plus 1" tab of the
+    // dictionary tools
+    m_trainingWidget->disconnect(SIGNAL(rackUpdated(const QString&)));
+    // Reconnect it only if needed
+    if (m_dicToolsWindow != NULL)
+    {
+        QSettings qs(ORGANIZATION, PACKAGE_NAME);
+        if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
+        {
+            QObject::connect(m_trainingWidget,
+                             SIGNAL(rackUpdated(const QString&)),
+                             &m_dicToolsWindow->getWidget(),
+                             SLOT(setPlus1Rack(const QString&)));
+        }
+    }
+}
+
+
 void MainWindow::prefsUpdated()
 {
     LOG_DEBUG("Preferences updated");
-    // Disconnect the training rack updates from the "Plus 1" tab of the
-    // dictionary tools
-    if (m_trainingWidget != NULL)
-    {
-        m_trainingWidget->disconnect(SIGNAL(rackUpdated(const QString&)));
-        // Reconnect it only if needed
-        if (m_dicToolsWindow != NULL)
-        {
-            QSettings qs(ORGANIZATION, PACKAGE_NAME);
-            if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
-            {
-                QObject::connect(m_trainingWidget,
-                                 SIGNAL(rackUpdated(const QString&)),
-                                 &m_dicToolsWindow->getWidget(),
-                                 SLOT(setPlus1Rack(const QString&)));
-            }
-        }
-    }
+    // Refresh one signal/slot connection
+    linkTrainingAnd7P1();
 
     // Refresh the default level for the Eliot player
     if (m_newGameDialog != NULL)
@@ -273,34 +280,16 @@ void MainWindow::updateForGame(PublicGame *iGame)
         setWindowTitle(_q("No game") + " - Eliot");
 
         // Destroy the players widget
-        if (m_playersWidget != NULL)
-        {
-            m_playersWidget->hide();
-            disconnect(m_playersWidget);
-            m_playersWidget->disconnect();
-            m_playersWidget->deleteLater();
-            m_playersWidget = NULL;
-        }
+        QtCommon::DestroyObject(m_playersWidget, this);
+        m_playersWidget = NULL;
 
         // Destroy the training widget
-        if (m_trainingWidget != NULL)
-        {
-            m_trainingWidget->hide();
-            disconnect(m_trainingWidget);
-            m_trainingWidget->disconnect();
-            m_trainingWidget->deleteLater();
-            m_trainingWidget = NULL;
-        }
+        QtCommon::DestroyObject(m_trainingWidget, this);
+        m_trainingWidget = NULL;
 
         // Destroy the scores widget
-        if (m_scoresWidget != NULL)
-        {
-            m_scoresWidget->hide();
-            disconnect(m_scoresWidget);
-            m_scoresWidget->disconnect();
-            m_scoresWidget->deleteLater();
-            m_scoresWidget = NULL;
-        }
+        QtCommon::DestroyObject(m_scoresWidget, this);
+        m_scoresWidget = NULL;
     }
     else
     {
@@ -326,17 +315,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
             QObject::connect(this, SIGNAL(gameUpdated()),
                              m_trainingWidget, SLOT(refresh()));
             // Connect with the dictionary tools only if needed
-            if (m_dicToolsWindow != NULL)
-            {
-                QSettings qs(ORGANIZATION, PACKAGE_NAME);
-                if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
-                {
-                    QObject::connect(m_trainingWidget,
-                                     SIGNAL(rackUpdated(const QString&)),
-                                     &m_dicToolsWindow->getWidget(),
-                                     SLOT(setPlus1Rack(const QString&)));
-                }
-            }
+            linkTrainingAnd7P1();
 
             // Players score
             m_scoresWidget = new ScoreWidget;
@@ -1010,14 +989,7 @@ void MainWindow::onWindowsDicTools()
         QObject::connect(dicTools, SIGNAL(requestDefinition(QString)),
                          this, SLOT(showDefinition(QString)));
         // Link the training rack with the "Plus 1" one
-        QSettings qs(ORGANIZATION, PACKAGE_NAME);
-        if (m_trainingWidget != NULL &&
-            qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
-        {
-            QObject::connect(m_trainingWidget,
-                             SIGNAL(rackUpdated(const QString&)),
-                             dicTools, SLOT(setPlus1Rack(const QString&)));
-        }
+        linkTrainingAnd7P1();
         // Fake a dictionary selection
         dicTools->setDic(m_dic);
         dicTools->setFocus();

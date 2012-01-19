@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2008 Olivier Teulière
+ * Copyright (C) 2008-2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -180,6 +180,12 @@ private:
 
     /// Destroy the current game (if any) and the associated widgets
     void destroyCurrentGame();
+
+    /**
+     * Handle correctly the signal/slot connection between the Training
+     * widget and the 7+1 dictionary tool
+     */
+    void linkTrainingAnd7P1();
 
     /// Ask for a confirmation
     bool requestConfirmation(QString msg, QString question = "");

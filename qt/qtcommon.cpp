@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <QtGui/QWidget>
+
 #include "qtcommon.h"
 #include <iostream>
 
@@ -54,7 +56,8 @@ static void logFailedTest(const string &testName)
     cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl << endl;
 }
 
-void checkConversions()
+
+void QtCommon::CheckConversions()
 {
     string s = "abcdéöùßĿ";
 
@@ -99,5 +102,18 @@ void checkConversions()
         logFailedTest("16");
     if (s != lfw(wfq(qfu(ufl(s)))))
         logFailedTest("17");
+}
+
+
+void QtCommon::DestroyObject(QWidget *ioObjectToDestroy,
+                             QObject *iSource)
+{
+    if (ioObjectToDestroy == NULL)
+        return;
+    ioObjectToDestroy->hide();
+    ioObjectToDestroy->disconnect();
+    if (iSource != NULL)
+        iSource->disconnect(ioObjectToDestroy);
+    ioObjectToDestroy->deleteLater();
 }
 
