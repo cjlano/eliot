@@ -160,6 +160,8 @@ private:
 
     /// Status bar label indicating the current turn (when there is a game)
     QLabel *m_turnLabel;
+    /// Status bar label indicating the remaining letters (when there is a game)
+    QLabel *m_lettersLabel;
     /// Status bar label indicating the name of the current dictionary
     QLabel *m_dicNameLabel;
 

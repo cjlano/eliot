@@ -104,9 +104,12 @@ MainWindow::MainWindow(QWidget *iParent)
     // Status bar
     statusBar()->addWidget(new QLabel, 1);
     // First widget, not added yet
+    m_lettersLabel = new QLabel;
+    m_lettersLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
+    // Second widget, not added yet
     m_turnLabel = new QLabel;
     m_turnLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
-    // Second widget
+    // Third widget
     m_dicNameLabel = new QLabel;
     m_dicNameLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
     statusBar()->addPermanentWidget(m_dicNameLabel);
@@ -212,6 +215,11 @@ void MainWindow::refresh()
 {
     if (m_game != NULL)
     {
+        const Bag &bag = m_game->getBag();
+        m_lettersLabel->setText(_q("Consonants: %1 | Vowels: %2 | Jokers: %3")
+                                .arg(bag.getNbConsonants())
+                                .arg(bag.getNbVowels())
+                                .arg(bag.in(Tile::Joker())));
         m_turnLabel->setText(_q("Turn %1/%2")
                              .arg(m_game->getCurrTurn())
                              .arg(m_game->getNbTurns()));
@@ -284,6 +292,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
         m_actionHistoryLastTurn->setEnabled(false);
         m_actionHistoryReplayTurn->setEnabled(false);
         setWindowTitle(_q("No game") + " - Eliot");
+        statusBar()->removeWidget(m_lettersLabel);
         statusBar()->removeWidget(m_turnLabel);
 
         // Destroy the players widget
@@ -302,6 +311,8 @@ void MainWindow::updateForGame(PublicGame *iGame)
     {
         m_actionGamePrint->setEnabled(true);
         m_actionGameSaveAs->setEnabled(true);
+        statusBar()->addWidget(m_lettersLabel);
+        m_lettersLabel->show();
         statusBar()->addWidget(m_turnLabel);
         m_turnLabel->show();
 
