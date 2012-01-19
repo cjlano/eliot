@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2009 Olivier Teulière
+ * Copyright (C) 2009-2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -41,14 +41,7 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
     m_pushButtonPlay(iButtonPlay), m_coordModel(iCoordModel)
 {
     m_lineEditPlay.setFocus();
-    // These strings cannot be in the .ui file, because of the newlines
-    m_lineEditPlay.setToolTip(_q("Enter the word to play (case-insensitive).\n"
-            "A joker from the rack must be written in parentheses.\n"
-            "E.g.: w(o)rd or W(O)RD"));
-    m_lineEditCoord.setToolTip(_q("Enter the coordinates of the word.\n"
-            "Specify the row before the column for horizontal words,\n"
-            "and the column before the row for vertical words.\n"
-            "E.g.: H4 or 4H"));
+    SetTooltips(m_lineEditPlay, m_lineEditCoord);
 
     /// Set validators;
     if (m_game)
@@ -70,6 +63,52 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
                      this, SLOT(pushButtonPlay_clicked()));
     QObject::connect(&m_coordModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
                      this, SLOT(updateCoord(const Coord&, const Coord&)));
+}
+
+
+void PlayWordMediator::SetTooltips(QLineEdit &iEditWord, QLineEdit &iEditCoord)
+{
+    // These strings cannot be in the .ui file, because of the newlines
+    iEditWord.setToolTip(_q("Enter the word to play (case-insensitive).\n"
+            "A joker from the rack must be written in parentheses.\n"
+            "E.g.: w(o)rd or W(O)RD"));
+    iEditCoord.setToolTip(_q("Enter the coordinates of the word.\n"
+            "Specify the row before the column for horizontal words,\n"
+            "and the column before the row for vertical words.\n"
+            "E.g.: H4 or 4H"));
+}
+
+
+bool PlayWordMediator::GetPlayedWord(QLineEdit &iEditWord,
+                                     const Dictionary &iDic,
+                                     wstring *oPlayedWord,
+                                     QString *oProblemCause)
+{
+    // Convert the jokers to lowercase
+    const wistring &inputWord = wfq(iEditWord.text().toUpper());
+    // Convert to internal representation, then back to QString
+    QString word = qfw(iDic.convertFromInput(inputWord));
+
+    int pos;
+    while ((pos = word.indexOf('(')) != -1)
+    {
+        if (word.size() < pos + 3 || word[pos + 2] != ')' ||
+            !iDic.validateLetters(wfq(QString(word[pos + 1]))))
+        {
+            // Cannot parse the string...
+            *oPlayedWord = wfq(word);
+            *oProblemCause = _q("Cannot play word: misplaced parentheses");
+            return false;
+        }
+
+        QChar chr = word[pos + 1].toLower();
+        word.remove(pos, 3);
+        word.insert(pos, chr);
+    }
+
+    // Convert the input string into an internal one
+    *oPlayedWord = wfq(word);
+    return true;
 }
 
 
@@ -102,7 +141,7 @@ void PlayWordMediator::lineEditPlay_returnPressed()
         !m_lineEditCoord.hasAcceptableInput())
         return;
 
-    const wstring &word = getWord(true);
+    const wstring &word = getWord();
     QString coords = m_lineEditCoord.text();
     int res = m_game->play(word, wfq(coords));
     if (res == 0)
@@ -164,44 +203,6 @@ void PlayWordMediator::lineEditPlay_returnPressed()
 }
 
 
-wstring PlayWordMediator::getWord(bool emitSignal)
-{
-    // Convert the jokers to lowercase
-    const wistring &inputWord = wfq(m_lineEditPlay.text().toUpper());
-    // Convert to internal representation, then back to QString
-    QString word = qfw(m_game->getDic().convertFromInput(inputWord));
-
-    int pos;
-    while ((pos = word.indexOf('(')) != -1)
-    {
-        if (word.size() < pos + 3 || word[pos + 2] != ')' ||
-            !m_game->getDic().validateLetters(wfq(QString(word[pos + 1]))))
-        {
-            // Bug in validate()!
-            // This should never happen
-            if (emitSignal)
-            {
-                QString msg = _q("Cannot play word: misplaced parentheses");
-                emit notifyProblem(msg);
-            }
-            break;
-        }
-        else
-        {
-            QChar chr = word[pos + 1].toLower();
-            word.remove(pos, 3);
-            word.insert(pos, chr);
-        }
-    }
-
-    // Convert the input string into an internal one
-    const wstring intWord =
-        m_game->getDic().convertFromInput(wfq(word));
-
-    return intWord;
-}
-
-
 void PlayWordMediator::lineEditCoord_textChanged(const QString &iText)
 {
     Coord c(wfq(iText));
@@ -229,5 +230,16 @@ void PlayWordMediator::updateCoord(const Coord &, const Coord &iNewCoord)
         m_lineEditPlay.setFocus();
 
     lineEditPlay_textChanged();
+}
+
+
+wstring PlayWordMediator::getWord()
+{
+    wstring playedWord;
+    QString msg;
+    bool ok = GetPlayedWord(m_lineEditPlay, m_game->getDic(), &playedWord, &msg);
+    // The method should only be called for a correct input
+    ASSERT(ok, "Invalid word (should not be possible)");
+    return playedWord;
 }
 

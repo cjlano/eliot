@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2008 Olivier Teulière
+ * Copyright (C) 2009-2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -57,6 +57,23 @@ public:
                      QPushButton &iButtonPlay,
                      CoordModel &iCoordModel, PublicGame *iGame);
 
+    /**
+     * Set tooltips on the given widgets, to help
+     * the user know how to enter a word.
+     */
+    static void SetTooltips(QLineEdit &iEditWord, QLineEdit &iEditCoord);
+
+    /**
+     * Return the word entered in the given line edit, and convert it
+     * to the internal format.
+     * If the result is false, the conversion failed, and an error message
+     * can be found in *oProblemCause.
+     */
+    static bool GetPlayedWord(QLineEdit &iEditWord,
+                              const Dictionary &iDic,
+                              wstring *oPlayedWord,
+                              QString *oProblemCause);
+
 signals:
     void gameUpdated();
     void notifyProblem(QString iMsg);
@@ -77,7 +94,11 @@ private:
     QPushButton &m_pushButtonPlay;
     CoordModel &m_coordModel;
 
-    wstring getWord(bool emitSignal = false);
+    /**
+     * Wrapper around GetPlayedWord(), more practical to use.
+     * But it should be called only for a valid input!
+     */
+    wstring getWord();
 };
 
 #endif
