@@ -1020,20 +1020,23 @@ void MainWindow::onWindowsDicTools()
 
 void MainWindow::onHelpAbout()
 {
-    QString msg;
-    msg.sprintf("Eliot %s\n\n", VERSION);
+    QString msg = QString("Eliot %1<br><br>").arg(VERSION);
+    msg += _q("Copyright (C) 1999-2012 - Antoine Fraboulet & Olivier Teuliere.");
+    msg += "<br><br>";
     msg += _q( \
-        "Copyright (C) 1999-2011 - Antoine Fraboulet & Olivier Teuliere\n\n" \
         "This program is free software; you can redistribute it and/or " \
         "modify it under the terms of the GNU General Public License as " \
         "published by the Free Software Foundation; either version 2 of " \
         "the License, or (at your option) any later version.");
-    msg += "\n\n";
-    msg += _q("Web site: http://www.nongnu.org/eliot/en/");
+    msg += "<br><br>";
+    // Translate the URL, because the web site is translated in French
+    QString url = _q("http://www.nongnu.org/eliot/en/");
+    msg += _q("Web site: %1").arg(QString("<a href=\"%1\">%2</a>").arg(url).arg(url));
     // QMessageBox::about() doesn't add the nice information icon, so we create
     // the box manually (not much work...)
     QMessageBox aboutBox(QMessageBox::Information, _q("About Eliot"),
                          msg, QMessageBox::Ok, this);
+    aboutBox.setTextFormat(Qt::RichText);
     aboutBox.exec();
 }
 
