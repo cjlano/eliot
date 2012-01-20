@@ -103,8 +103,8 @@ void HistoryWidget::updateModel()
     m_model->removeRows(0, m_model->rowCount());
     if (m_forPlayer)
     {
-        // Empty column
-        m_model->setHeaderData(5, Qt::Horizontal, "", Qt::DisplayRole);
+        // Display the cumulative score
+        m_model->setHeaderData(5, Qt::Horizontal, _q("Total"), Qt::DisplayRole);
     }
     else
     {
@@ -120,6 +120,7 @@ void HistoryWidget::updateModel()
         if (!align)
             m_model->insertRow(0);
 
+        int totalScore = 0;
         for (unsigned int i = 0; i < m_history->getSize(); ++i)
         {
             int rowNum = m_model->rowCount();
@@ -140,10 +141,15 @@ void HistoryWidget::updateModel()
             m_model->setData(m_model->index(prevRowNum, 1),
                              qfw(t.getPlayedRack().toString()));
             m_model->setData(m_model->index(rowNum, 4), m.getScore());
+            totalScore += m.getScore();
             if (!m_forPlayer && m_game != NULL)
             {
                 const wstring &name = m_game->getPlayer(t.getPlayer()).getName();
                 m_model->setData(m_model->index(rowNum, 5), qfw(name));
+            }
+            else
+            {
+                m_model->setData(m_model->index(rowNum, 5), totalScore);
             }
 
             // Set the rest
