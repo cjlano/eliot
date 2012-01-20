@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #include <QtGui/QWidget>
+#include <QtGui/QMessageBox>
 
 #include "qtcommon.h"
 #include <iostream>
@@ -115,5 +116,20 @@ void QtCommon::DestroyObject(QWidget *ioObjectToDestroy,
     if (iSource != NULL)
         iSource->disconnect(ioObjectToDestroy);
     ioObjectToDestroy->deleteLater();
+}
+
+
+bool QtCommon::requestConfirmation(QString iMsg, QString iQuestion, QWidget *iParent)
+{
+    QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), iMsg,
+                                QMessageBox::Yes | QMessageBox::No, iParent);
+    if (iQuestion != "")
+        confirmationBox.setInformativeText(iQuestion);
+    else
+        confirmationBox.setInformativeText(_q("Do you want to continue?"));
+    confirmationBox.setDefaultButton(QMessageBox::Yes);
+    confirmationBox.setEscapeButton(QMessageBox::No);
+    int res = confirmationBox.exec();
+    return res == QMessageBox::Yes;
 }
 

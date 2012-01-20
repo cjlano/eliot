@@ -191,9 +191,6 @@ private:
      */
     void linkTrainingAnd7P1();
 
-    /// Ask for a confirmation
-    bool requestConfirmation(QString msg, QString question = "");
-
 };
 
 #endif

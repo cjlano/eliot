@@ -432,7 +432,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if (m_game)
     {
         QString msg = _q("A game has been started.");
-        if (!requestConfirmation(msg, _q("Do you really want to quit?")))
+        QString question = _q("Do you really want to quit?");
+        if (!QtCommon::requestConfirmation(msg, question, this))
         {
             event->ignore();
             return;
@@ -491,7 +492,7 @@ void MainWindow::changeDictionary(QString iFileName)
         if (m_game)
         {
             QString msg = _q("Loading a dictionary will stop the current game.");
-            if (!requestConfirmation(msg))
+            if (!QtCommon::requestConfirmation(msg, "", this))
                 return;
         }
 
@@ -516,21 +517,6 @@ void MainWindow::changeDictionary(QString iFileName)
             displayErrorMsg(e.what());
         }
     }
-}
-
-
-bool MainWindow::requestConfirmation(QString msg, QString question)
-{
-    QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), msg,
-                                QMessageBox::Yes | QMessageBox::No, this);
-    if (question != "")
-        confirmationBox.setInformativeText(question);
-    else
-        confirmationBox.setInformativeText(_q("Do you want to continue?"));
-    confirmationBox.setDefaultButton(QMessageBox::Yes);
-    confirmationBox.setEscapeButton(QMessageBox::No);
-    int res = confirmationBox.exec();
-    return res == QMessageBox::Yes;
 }
 
 
@@ -662,7 +648,7 @@ void MainWindow::onGameNew()
     if (m_game)
     {
         QString msg = _q("Starting a new game will stop the current one.");
-        if (!requestConfirmation(msg))
+        if (!QtCommon::requestConfirmation(msg, "", this))
             return;
     }
 
@@ -1105,7 +1091,7 @@ void MainWindow::onHistoryReplayTurn()
         QString msg = _q("Replaying this turn will modify the game history "
                          "by deleting the turns after the displayed one (i.e. "
                          "turns \"in the future\").");
-        if (!requestConfirmation(msg))
+        if (!QtCommon::requestConfirmation(msg, "", this))
             return;
     }
 

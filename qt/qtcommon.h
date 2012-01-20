@@ -75,6 +75,17 @@ public:
      */
     static void DestroyObject(QWidget *ioWidgetToDestroy,
                               QObject *iSource = NULL);
+
+    /**
+     * Ask for a confirmation.
+     * Return true if the user confirms, false otherwise.
+     * By default, the question is "Do you want to continue?".
+     * If a parent is provided, the window is centered on it.
+     */
+    static bool requestConfirmation(QString iMsg,
+                                    QString iQuestion = "",
+                                    QWidget *iParent = 0);
+
 };
 
 #endif
