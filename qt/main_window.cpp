@@ -338,7 +338,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
             linkTrainingAnd7P1();
 
             // Players score
-            m_scoresWidget = new ScoreWidget;
+            m_scoresWidget = new ScoreWidget(NULL, iGame);
             m_ui.groupBoxPlayers->layout()->addWidget(m_scoresWidget);
             QObject::connect(this, SIGNAL(gameUpdated()),
                              m_scoresWidget, SLOT(refresh()));
@@ -367,7 +367,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_playersWidget->setGame(iGame);
 
             // Players score
-            m_scoresWidget = new ScoreWidget;
+            m_scoresWidget = new ScoreWidget(NULL, iGame);
             m_ui.groupBoxPlayers->layout()->addWidget(m_scoresWidget);
             QObject::connect(this, SIGNAL(gameUpdated()),
                              m_scoresWidget, SLOT(refresh()));
