@@ -35,7 +35,8 @@ using namespace std;
 
 
 BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
-    : QFrame(parent), m_game(NULL), m_coordModel(iCoordModel),
+    : QFrame(parent), m_game(NULL),
+    m_coordModel(iCoordModel), m_showTemporarySigns(true),
     m_widgetsMatrix(BOARD_MAX + 1, BOARD_MAX + 1, 0)
 {
     // Try to have a black background... FIXME: not working well!
@@ -110,6 +111,10 @@ void BoardWidget::updateArrow(const Coord &iOldCoord, const Coord &iNewCoord)
         TileWidget *t = m_widgetsMatrix[iOldCoord.getRow()][iOldCoord.getCol()];
         t->arrowChanged(false, false);
     }
+
+    if (!m_showTemporarySigns)
+        return;
+
     if (iNewCoord.isValid())
     {
         TileWidget *t = m_widgetsMatrix[iNewCoord.getRow()][iNewCoord.getCol()];
@@ -131,10 +136,19 @@ void BoardWidget::refresh()
         {
             for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
             {
-                m_widgetsMatrix[row][col]->tileChanged(
-                        board.getTile(row, col),
-                        board.isJoker(row, col),
-                        board.isTestChar(row, col) ?  TileWidget::PREVIEW : TileWidget::NORMAL);
+                if (!m_showTemporarySigns && board.isTestChar(row, col))
+                {
+                    // Force an empty square.
+                    m_widgetsMatrix[row][col]->tileChanged(
+                            Tile(), false, TileWidget::NORMAL);
+                }
+                else
+                {
+                    m_widgetsMatrix[row][col]->tileChanged(
+                            board.getTile(row, col),
+                            board.isJoker(row, col),
+                            board.isTestChar(row, col) ?  TileWidget::PREVIEW : TileWidget::NORMAL);
+                }
             }
         }
     }

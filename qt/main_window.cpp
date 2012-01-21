@@ -962,6 +962,7 @@ void MainWindow::onWindowsBoard()
     {
         // Create the window
         BoardWidget *board = new BoardWidget(m_coordModel, NULL);
+        board->setShowTempSigns(false);
         board->setGame(m_game);
         m_boardWindow = new AuxWindow(*board, _q("Board"), "BoardWindow",
                                       m_actionWindowsBoard);

@@ -36,6 +36,7 @@ class BoardWidget: public QFrame
 
 public:
     explicit BoardWidget(CoordModel &iCoordModel, QWidget *parent = 0);
+    void setShowTempSigns(bool iShow) { m_showTemporarySigns = iShow; }
 
 public slots:
     void setGame(const PublicGame *iGame);
@@ -59,6 +60,9 @@ private:
 
     /// Coordinates of the next word to play
     CoordModel &m_coordModel;
+
+    /// Indicate whether to draw the arrow and the previewed word on the board
+    bool m_showTemporarySigns;
 
     Matrix<TileWidget*> m_widgetsMatrix;
 };
