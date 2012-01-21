@@ -39,6 +39,7 @@ class PlayerTabWidget;
 class ScoreWidget;
 class TrainingWidget;
 class AuxWindow;
+class TimerModel;
 class QLabel;
 class QAction;
 
@@ -79,6 +80,7 @@ private slots:
     void onWindowsBag();
     void onWindowsBoard();
     void onWindowsHistory();
+    void onWindowsTimer();
     void onWindowsDicTools();
     void onHelpAbout();
 
@@ -154,6 +156,8 @@ private:
     AuxWindow *m_boardWindow;
     QAction *m_actionWindowsHistory;
     AuxWindow *m_historyWindow;
+    QAction *m_actionWindowsTimer;
+    AuxWindow *m_timerWindow;
     QAction *m_actionWindowsDicTools;
     AuxWindow *m_dicToolsWindow;
     //@}
@@ -167,6 +171,9 @@ private:
 
     /// Model for the coordinates of the word to play
     CoordModel m_coordModel;
+
+    /// Model for the timer widgets
+    TimerModel *m_timerModel;
 
     /// Save window state
     void writeSettings() const;

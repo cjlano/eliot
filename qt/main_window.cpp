@@ -20,7 +20,6 @@
 
 #include "config.h"
 
-//#include <iostream>
 #include <QtGui/QLabel>
 #include <QtGui/QMessageBox>
 #include <QtGui/QFileDialog>
@@ -55,6 +54,7 @@
 #include "training_widget.h"
 #include "history_widget.h"
 #include "dic_tools_widget.h"
+#include "timer_widget.h"
 #include "dic_wizard.h"
 #include "aux_window.h"
 #include "qtcommon.h"
@@ -72,7 +72,8 @@ MainWindow::MainWindow(QWidget *iParent)
     m_newGameDialog(NULL), m_prefsDialog(NULL),
     m_playersWidget(NULL), m_trainingWidget(NULL), m_scoresWidget(NULL),
     m_bagWindow(NULL), m_boardWindow(NULL),
-    m_historyWindow(NULL), m_dicToolsWindow(NULL), m_dicNameLabel(NULL)
+    m_historyWindow(NULL), m_timerWindow(NULL),
+    m_dicToolsWindow(NULL), m_dicNameLabel(NULL), m_timerModel(NULL)
 {
 #ifdef DEBUG
     // Check that the string conversion routines are not buggy
@@ -95,6 +96,9 @@ MainWindow::MainWindow(QWidget *iParent)
 
     // Make it easier to reproduce bugs
     LOG_DEBUG("Rand seed: " << val);
+
+    m_timerModel = new TimerModel;
+    // TODO: connect to some of the timer signals (alert() and expired())
 
     QObject::connect(this, SIGNAL(gameChangedNonConst(PublicGame*)),
                      this, SLOT(updateForGame(PublicGame*)));
@@ -184,9 +188,11 @@ MainWindow::~MainWindow()
     delete m_bagWindow;
     delete m_boardWindow;
     delete m_historyWindow;
+    delete m_timerWindow;
     delete m_dicToolsWindow;
     delete m_game;
     delete m_dic;
+    delete m_timerModel;
 }
 
 
@@ -449,6 +455,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
         m_boardWindow->close();
     if (m_historyWindow)
         m_historyWindow->close();
+    if (m_timerWindow)
+        m_timerWindow->close();
     if (m_dicToolsWindow)
         m_dicToolsWindow->close();
     writeSettings();
@@ -613,6 +621,8 @@ void MainWindow::createMenu()
     m_actionWindowsHistory = addMenuAction(menuWindows, _q("&History"), _q("Ctrl+H"),
                   _q("Show/hide the game history"), SLOT(onWindowsHistory()),
                   true, QIcon(":/images/playlist_16px.png"));
+    m_actionWindowsTimer = addMenuAction(menuWindows, _q("&Timer"), QString(""),
+                  _q("Show/hide the timer"), SLOT(onWindowsTimer()), true);
     m_actionWindowsDicTools = addMenuAction(menuWindows, _q("&Dictionary tools"), _q("Ctrl+D"),
                   _q("Show/hide the dictionary tools"), SLOT(onWindowsDicTools()), true);
 
@@ -979,6 +989,19 @@ void MainWindow::onWindowsHistory()
                          history, SLOT(refresh()));
     }
     m_historyWindow->toggleVisibility();
+}
+
+
+void MainWindow::onWindowsTimer()
+{
+    if (m_timerWindow == NULL)
+    {
+        // Create the window
+        TimerWidget *timer = new TimerWidget(NULL, *m_timerModel);
+        m_timerWindow = new AuxWindow(*timer, _q("Timer"), "TimerWindow",
+                                      m_actionWindowsTimer);
+    }
+    m_timerWindow->toggleVisibility();
 }
 
 
