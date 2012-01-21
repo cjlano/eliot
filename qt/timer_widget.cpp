@@ -26,77 +26,32 @@
 INIT_LOGGER(qt, TimerWidget);
 
 
-TimerWidget::TimerWidget(QWidget *parent, int iTotalDuration, int iAlertDuration)
-    : QLCDNumber(parent)
+TimerModel::TimerModel(int iTotalDuration, int iAlertDuration)
 {
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
     m_timer = new QTimer(this);
 
     setTotalDuration(iTotalDuration);
     setAlertDuration(iAlertDuration);
     m_remaining = m_totalDuration;
+    m_alertTriggered = false;
 
     QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(updateTime()));
-    QObject::connect(this, SIGNAL(alert(int)), this, SLOT(alertTriggered()));
 }
 
 
-void TimerWidget::startTimer()
+void TimerModel::setValue(int iNewValue)
 {
-    // Timeout every second
-    m_timer->start(1000);
-}
-
-
-void TimerWidget::resetTimer()
-{
-    m_timer->stop();
-    displayTime(m_totalDuration);
-    m_remaining = m_totalDuration;
-
-    // Restore the default color
-    QPalette pal = palette();
-    pal.setColor(QPalette::Foreground, Qt::black);
-    setPalette(pal);
-}
-
-
-void TimerWidget::alertTriggered()
-{
-    QPalette pal = palette();
-    pal.setColor(QPalette::Foreground, Qt::red);
-    setPalette(pal);
-}
-
-
-void TimerWidget::setTotalDuration(int iSeconds)
-{
-    m_totalDuration = iSeconds;
-    if (m_totalDuration < 0)
-        m_totalDuration = 0;
-    // Make sure we don't exceed the digit count
-    int minutesLength = QString("%1").arg(m_totalDuration / 60).length();
-    setDigitCount(minutesLength + 3);
-
-    if (!m_timer->isActive())
+    if (iNewValue != m_remaining)
     {
-        displayTime(m_totalDuration);
+        m_remaining = iNewValue;
+        emit valueChanged(iNewValue);
     }
 }
 
 
-void TimerWidget::setAlertDuration(int iSeconds)
+void TimerModel::updateTime()
 {
-    m_alertDuration = iSeconds;
-}
-
-
-void TimerWidget::updateTime()
-{
-    --m_remaining;
-
-    displayTime(m_remaining);
+    setValue(m_remaining - 1);
 
     if (m_remaining <= 0)
     {
@@ -108,8 +63,77 @@ void TimerWidget::updateTime()
 
     if (m_remaining == m_alertDuration)
     {
-        emit alert(m_remaining);
+        m_alertTriggered = true;
+        emit alert(m_alertDuration);
     }
+}
+
+
+void TimerModel::startTimer()
+{
+    // Timeout every second
+    m_timer->start(1000);
+}
+
+
+void TimerModel::pauseTimer()
+{
+    m_timer->stop();
+}
+
+
+void TimerModel::resetTimer()
+{
+    pauseTimer();
+    m_alertTriggered = false;
+    setValue(m_totalDuration);
+    emit timerReset();
+}
+
+
+bool TimerModel::isActiveTimer() const
+{
+    return m_timer->isActive();
+}
+
+
+void TimerModel::setTotalDuration(int iSeconds)
+{
+    m_totalDuration = iSeconds;
+    if (m_totalDuration < 0)
+        m_totalDuration = 0;
+    emit newTotalDuration(m_totalDuration);
+    resetTimer();
+}
+
+
+void TimerModel::setAlertDuration(int iSeconds)
+{
+    m_alertDuration = iSeconds;
+    resetTimer();
+}
+
+// ---------------------------------------
+
+TimerWidget::TimerWidget(QWidget *parent, TimerModel &iTimerModel)
+    : QLCDNumber(parent), m_model(iTimerModel)
+{
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    QObject::connect(&m_model, SIGNAL(valueChanged(int)),
+                     this, SLOT(displayTime(int)));
+    QObject::connect(&m_model, SIGNAL(alert(int)),
+                     this, SLOT(alertTriggered()));
+    QObject::connect(&m_model, SIGNAL(timerReset()),
+                     this, SLOT(timerReset()));
+    QObject::connect(&m_model, SIGNAL(newTotalDuration(int)),
+                     this, SLOT(newTotalDuration(int)));
+
+    // Initialize the display
+    newTotalDuration(m_model.getTotalDuration());
+    if (m_model.wasAlertTriggered())
+        alertTriggered();
+    displayTime(m_model.getValue());
 }
 
 
@@ -121,38 +145,63 @@ void TimerWidget::displayTime(int iSeconds)
 }
 
 
+void TimerWidget::newTotalDuration(int iNewTotal)
+{
+    // Adapt the number of digits dynamically
+    int minutesLength = QString("%1").arg(iNewTotal / 60).length();
+    setDigitCount(minutesLength + 3);
+}
+
+
+void TimerWidget::alertTriggered()
+{
+    QPalette pal = palette();
+    pal.setColor(QPalette::Foreground, Qt::red);
+    setPalette(pal);
+}
+
+
+void TimerWidget::timerReset()
+{
+    // Restore the default color
+    QPalette pal = palette();
+    pal.setColor(QPalette::Foreground, Qt::black);
+    setPalette(pal);
+}
+
+
 void TimerWidget::mousePressEvent(QMouseEvent *iEvent)
 {
     if (iEvent->button() == Qt::LeftButton)
     {
-        if (m_timer->isActive())
+        if (m_model.isActiveTimer())
         {
             // Pause execution
-            m_timer->stop();
+            m_model.pauseTimer();
         }
-        else if (m_remaining > 0)
+        else if (m_model.getValue() > 0)
         {
             // Resume execution
-            startTimer();
+            m_model.startTimer();
         }
         else
         {
             // Restart timer
-            resetTimer();
-            startTimer();
+            m_model.resetTimer();
+            m_model.startTimer();
         }
     }
     else if (iEvent->button() == Qt::RightButton)
     {
-        resetTimer();
+        m_model.resetTimer();
     }
 }
 
 
 void TimerWidget::mouseDoubleClickEvent(QMouseEvent*)
 {
-    resetTimer();
-    startTimer();
+    m_model.resetTimer();
+    m_model.startTimer();
 }
 
 

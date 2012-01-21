@@ -28,34 +28,43 @@
 
 class QTimer;
 
-class TimerWidget : public QLCDNumber
+
+/// Helper class, used to synchronize the various instances of TimerWidget
+class TimerModel : public QObject
 {
     Q_OBJECT;
-    DEFINE_LOGGER();
 
 public:
-    TimerWidget(QWidget *parent = 0,
-                int iTotalDuration = 180,
-                int iAlertDuration = 30);
+    TimerModel(int iTotalDuration = 8, int iAlertDuration = 3);
+
+    // Accessors
+    int getValue() const { return m_remaining; }
+    void setValue(int iNewValue);
+
+    int getTotalDuration() const { return m_totalDuration; }
+    void setTotalDuration(int iSeconds);
+
+    int getAlertDuration() const { return m_alertDuration; }
+    void setAlertDuration(int iSeconds);
+
+    bool wasAlertTriggered() const { return m_alertTriggered; }
+    bool isExpired() const { return m_remaining == 0; }
+
+    // Timer handling
+    void startTimer();
+    void pauseTimer();
+    void resetTimer();
+    bool isActiveTimer() const;
 
 signals:
+    void valueChanged(int iNewValue);
     void alert(int iRemainingSeconds);
     void expired();
-
-public slots:
-    void setTotalDuration(int iSeconds);
-    void setAlertDuration(int iSeconds);
+    void timerReset();
+    void newTotalDuration(int iNewTotal);
 
 private slots:
     void updateTime();
-    void alertTriggered();
-
-protected:
-    // Events handling
-    virtual void mousePressEvent(QMouseEvent*);
-    virtual void mouseDoubleClickEvent(QMouseEvent*);
-    /// Define a default size
-    virtual QSize sizeHint() const;
 
 private:
     /// Total duration of the timer, in seconds
@@ -67,17 +76,40 @@ private:
     /// Number of remaining seconds
     int m_remaining;
 
+    /// Indicate whether we triggered an alert
+    bool m_alertTriggered;
+
     /// Timer used for the countdown
     QTimer *m_timer;
+};
 
-    /// Start the timer
-    void startTimer();
 
-    /// Reset the timer
-    void resetTimer();
+class TimerWidget : public QLCDNumber
+{
+    Q_OBJECT;
+    DEFINE_LOGGER();
 
+public:
+    TimerWidget(QWidget *parent, TimerModel &iTimerModel);
+
+private slots:
     /// Format the given time and display it
     void displayTime(int iSeconds);
+
+    void newTotalDuration(int iNewTotal);
+    void alertTriggered();
+    void timerReset();
+
+protected:
+    // Events handling
+    virtual void mousePressEvent(QMouseEvent*);
+    virtual void mouseDoubleClickEvent(QMouseEvent*);
+    /// Define a default size
+    virtual QSize sizeHint() const;
+
+private:
+    /// Model representing the number of remaining seconds
+    TimerModel &m_model;
 };
 
 #endif
