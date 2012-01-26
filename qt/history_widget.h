@@ -63,6 +63,7 @@ private:
      * is associated to a Player
      */
     bool m_forPlayer;
+    bool m_isFreeGame;
 
     /// Model of the history
     QStandardItemModel *m_model;

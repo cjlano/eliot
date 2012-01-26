@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <cmath>
 #include <QtGui/QTreeView>
 #include <QtGui/QTabWidget>
 #include <QtGui/QStandardItemModel>
@@ -40,7 +41,7 @@ using namespace std;
 
 
 HistoryWidget::HistoryWidget(QWidget *parent)
-    : QTreeView(parent), m_history(NULL), m_forPlayer(false)
+    : QTreeView(parent), m_history(NULL), m_forPlayer(false), m_isFreeGame(false)
 {
     // Create the tree view
     setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -56,7 +57,7 @@ HistoryWidget::HistoryWidget(QWidget *parent)
     // Associate the model to the view
     m_model = new QStandardItemModel(this);
     setModel(m_model);
-    m_model->setColumnCount(6);
+    m_model->setColumnCount(7);
     m_model->setHeaderData(0, Qt::Horizontal, _q("Turn"), Qt::DisplayRole);
     m_model->setHeaderData(1, Qt::Horizontal, _q("Rack"), Qt::DisplayRole);
     m_model->setHeaderData(2, Qt::Horizontal, _q("Word"), Qt::DisplayRole);
@@ -73,6 +74,7 @@ void HistoryWidget::setHistory(const History *iHistory,
     m_history = iHistory;
     m_game = iGame;
     m_forPlayer = iIsForPlayer;
+    m_isFreeGame = (iGame != 0 && iGame->getMode() == PublicGame::kFREEGAME);
     updateModel();
 }
 
@@ -103,12 +105,20 @@ void HistoryWidget::updateModel()
     m_model->removeRows(0, m_model->rowCount());
     if (m_forPlayer)
     {
-        // Display the cumulative score
+        // Display the cumulative score and percentage
         m_model->setHeaderData(5, Qt::Horizontal, _q("Total"), Qt::DisplayRole);
+        if (m_isFreeGame)
+            m_model->setHeaderData(6, Qt::Horizontal, "", Qt::DisplayRole);
+        else
+            m_model->setHeaderData(6, Qt::Horizontal, _q("Game %"), Qt::DisplayRole);
     }
     else
     {
-        m_model->setHeaderData(5, Qt::Horizontal, _q("Player"), Qt::DisplayRole);
+        if (m_isFreeGame)
+            m_model->setHeaderData(5, Qt::Horizontal, _q("Player"), Qt::DisplayRole);
+        else
+            m_model->setHeaderData(5, Qt::Horizontal, _q("Total"), Qt::DisplayRole);
+        m_model->setHeaderData(6, Qt::Horizontal, "", Qt::DisplayRole);
     }
 
     if (m_history != NULL && m_history->getSize() != 0)
@@ -121,6 +131,7 @@ void HistoryWidget::updateModel()
             m_model->insertRow(0);
 
         int totalScore = 0;
+        int gameScore = 0;
         for (unsigned int i = 0; i < m_history->getSize(); ++i)
         {
             int rowNum = m_model->rowCount();
@@ -142,7 +153,21 @@ void HistoryWidget::updateModel()
                              qfw(t.getPlayedRack().toString()));
             m_model->setData(m_model->index(rowNum, 4), m.getScore());
             totalScore += m.getScore();
-            if (!m_forPlayer && m_game != NULL)
+            if (m_game != NULL)
+            {
+                gameScore += m_game->getHistory().getTurn(i).getMove().getScore();
+            }
+            if (m_forPlayer)
+            {
+                m_model->setData(m_model->index(rowNum, 5), totalScore);
+                if (!m_isFreeGame)
+                {
+                    int percentage = totalScore * 100 / gameScore;
+                    m_model->setData(m_model->index(rowNum, 6),
+                                     QString("%1%").arg(percentage));
+                }
+            }
+            else if (m_isFreeGame)
             {
                 const wstring &name = m_game->getPlayer(t.getPlayer()).getName();
                 m_model->setData(m_model->index(rowNum, 5), qfw(name));
@@ -240,9 +265,7 @@ void HistoryTabWidget::setGame(const PublicGame *iGame)
     else
     {
         // Refresh the Game tab
-        const bool showPlayerColumn =
-            m_game->getParams().getMode() == GameParams::kFREEGAME;
-        m_gameHistoryWidget->setHistory(&m_game->getHistory(), m_game, !showPlayerColumn);
+        m_gameHistoryWidget->setHistory(&m_game->getHistory(), m_game, false);
         QObject::connect(this, SIGNAL(refreshSignal()),
                          m_gameHistoryWidget, SLOT(refresh()));
         QObject::connect(m_gameHistoryWidget, SIGNAL(requestDefinition(QString)),
