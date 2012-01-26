@@ -45,9 +45,9 @@ public:
     void reset();
     void resetNew();
 
-    void getOld(Rack &oRack) const;
-    void getNew(Rack &oRack) const;
-    void getRack(Rack &oRack) const;
+    Rack getOld() const;
+    Rack getNew() const;
+    Rack getRack() const;
 
     void setOld(const Rack &iRack);
     void setNew(const Rack &iRack);

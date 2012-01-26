@@ -55,8 +55,7 @@ void AIPercent::compute(const Dictionary &iDic, const Board &iBoard, bool iFirst
 {
     m_results->clear();
 
-    Rack rack;
-    getCurrentRack().getRack(rack);
+    const Rack &rack = getCurrentRack().getRack();
     m_results->search(iDic, iBoard, rack, iFirstWord);
 }
 

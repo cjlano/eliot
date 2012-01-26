@@ -80,33 +80,36 @@ void PlayedRack::resetNew()
 }
 
 
-void PlayedRack::getOld(Rack &oRack) const
+Rack PlayedRack::getOld() const
 {
-    oRack.clear();
+    Rack rack;
     BOOST_FOREACH(const Tile &tile, m_oldTiles)
     {
-        oRack.add(tile);
+        rack.add(tile);
     }
+    return rack;
 }
 
 
-void PlayedRack::getNew(Rack &oRack) const
+Rack PlayedRack::getNew() const
 {
-    oRack.clear();
+    Rack rack;
     BOOST_FOREACH(const Tile &tile, m_newTiles)
     {
-        oRack.add(tile);
+        rack.add(tile);
     }
+    return rack;
 }
 
 
-void PlayedRack::getRack(Rack &oRack) const
+Rack PlayedRack::getRack() const
 {
-    getOld(oRack);
+    Rack rack = getOld();
     BOOST_FOREACH(const Tile &tile, m_newTiles)
     {
-        oRack.add(tile);
+        rack.add(tile);
     }
+    return rack;
 }
 
 

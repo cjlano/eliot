@@ -155,11 +155,11 @@ void Training::endTurn()
 void Training::search()
 {
     // Search for the current player
-    Rack r;
-    m_players[m_currPlayer]->getCurrentRack().getRack(r);
+    const Rack &rack =
+        m_players[m_currPlayer]->getCurrentRack().getRack();
     int limit = Settings::Instance().getInt("training.search-limit");
     m_results.setLimit(limit);
-    m_results.search(getDic(), getBoard(), r, getHistory().beforeFirstRound());
+    m_results.search(getDic(), getBoard(), rack, getHistory().beforeFirstRound());
 }
 
 

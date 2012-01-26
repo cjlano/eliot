@@ -332,8 +332,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
     // A joker coming from a previous rack is not replaced
     if (m_params.hasVariant(GameParams::kEXPLOSIVE) && jokerAdded)
     {
-        Rack rack;
-        pld.getRack(rack);
+        const Rack &rack = pld.getRack();
 
         BestResults res;
         res.search(getDic(), getBoard(), rack,  getHistory().beforeFirstRound());
@@ -364,8 +363,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
                         // The bag contains the replacing letter
                         // We need to swap the joker (it is necessarily in the
                         // new tiles, because jokerAdded is true)
-                        Rack tmpRack;
-                        pld.getNew(tmpRack);
+                        Rack tmpRack = pld.getNew();
                         ASSERT(tmpRack.in(Tile::Joker()),
                                "No joker found in the new tiles!");
                         tmpRack.remove(Tile::Joker());
@@ -413,8 +411,7 @@ PlayedRack Game::helperSetRackManual(bool iCheck, const wstring &iLetters) const
     PlayedRack pld;
     pld.setManual(iLetters);
 
-    Rack rack;
-    pld.getRack(rack);
+    const Rack &rack = pld.getRack();
     if (!rackInBag(rack, m_bag))
     {
         throw GameException(_("The bag does not contain all these letters"));
@@ -573,9 +570,8 @@ int Game::checkPlayedWord(const wstring &iCoord,
         // Check that the word can be formed with the tiles in the rack:
         // we first create a copy of the rack, then we remove the tiles
         // one by one
-        Rack rack;
         Player *player = m_players[m_currPlayer];
-        player->getCurrentRack().getRack(rack);
+        Rack rack = player->getCurrentRack().getRack();
 
         Tile t;
         for (unsigned int i = 0; i < oRound.getWordLen(); i++)

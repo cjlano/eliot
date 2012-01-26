@@ -244,9 +244,9 @@ void Duplicate::endTurn()
             // So let's take the best one...
             BestResults results;
             // Take the first player's rack
-            Rack r;
-            m_players[REF_PLAYER_ID]->getLastRack().getRack(r);
-            results.search(getDic(), getBoard(), r, getHistory().beforeFirstRound());
+            const Rack &rack =
+                m_players[REF_PLAYER_ID]->getLastRack().getRack();
+            results.search(getDic(), getBoard(), rack, getHistory().beforeFirstRound());
             if (results.size() == 0)
             {
                 // This would be very bad luck that no move is possible...

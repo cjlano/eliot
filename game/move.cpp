@@ -99,8 +99,7 @@ const wstring & Move::getChangedLetters() const
 Rack Move::ComputeRackForMove(const PlayedRack &iOldRack, const Move &iMove)
 {
     // Start from the given rack
-    Rack newRack;
-    iOldRack.getRack(newRack);
+    Rack newRack = iOldRack.getRack();
 
     if (iMove.getType() == Move::VALID_ROUND)
     {

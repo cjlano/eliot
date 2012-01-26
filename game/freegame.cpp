@@ -265,8 +265,7 @@ int FreeGame::checkPass(const Player &iPlayer,
 
     // Check that the letters are all present in the player's rack
     const PlayedRack &pld = iPlayer.getCurrentRack();
-    Rack rack;
-    pld.getRack(rack);
+    Rack rack = pld.getRack();
     BOOST_FOREACH(wchar_t wch, iToChange)
     {
         // Remove the letter from the rack
