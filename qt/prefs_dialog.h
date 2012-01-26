@@ -44,6 +44,8 @@ public:
     static const QString kINTF_SHOW_TOOLBAR;
     static const QString kINTF_LINK_TRAINING_7P1;
     static const QString kINTF_DEFAULT_AI_LEVEL;
+    static const QString kINTF_TIMER_TOTAL_DURATION;
+    static const QString kINTF_TIMER_ALERT_DURATION;
 
     static const QString kDEFAULT_DEF_SITE;
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>491</width>
-    <height>563</height>
+    <width>443</width>
+    <height>629</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -108,15 +108,29 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>_(&quot;Timer total duration (in seconds):&quot;)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>_(&quot;Timer alert (in seconds):&quot;)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
          <widget class="QLabel" name="label_6">
           <property name="text">
            <string>_(&quot;Default computer level:&quot;)</string>
           </property>
          </widget>
         </item>
-        <item>
+        <item row="0" column="1">
          <widget class="QSpinBox" name="spinBoxDefaultLevel">
           <property name="maximum">
            <number>100</number>
@@ -126,8 +140,8 @@
           </property>
          </widget>
         </item>
-        <item>
-         <spacer name="horizontalSpacer_3">
+        <item row="0" column="2">
+         <spacer name="horizontalSpacer_4">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -138,6 +152,29 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="spinBoxTimerTotal">
+          <property name="maximum">
+           <number>999</number>
+          </property>
+          <property name="value">
+           <number>180</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="spinBoxTimerAlert">
+          <property name="minimum">
+           <number>-1</number>
+          </property>
+          <property name="maximum">
+           <number>999</number>
+          </property>
+          <property name="value">
+           <number>30</number>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -311,6 +348,8 @@
   <tabstop>checkBoxIntfAlignHistory</tabstop>
   <tabstop>checkBoxIntfWarnReplayTurn</tabstop>
   <tabstop>spinBoxDefaultLevel</tabstop>
+  <tabstop>spinBoxTimerTotal</tabstop>
+  <tabstop>spinBoxTimerAlert</tabstop>
   <tabstop>checkBoxDuplRefuseInvalid</tabstop>
   <tabstop>spinBoxDuplSoloPlayers</tabstop>
   <tabstop>spinBoxDuplSoloValue</tabstop>
@@ -328,8 +367,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>619</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -344,8 +383,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>619</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

@@ -38,6 +38,8 @@ const QString PrefsDialog::kINTF_WARN_REPLAY_TURN = "Interface/WarnReplayTurn";
 const QString PrefsDialog::kINTF_SHOW_TOOLBAR = "Interface/ShowToolBar";
 const QString PrefsDialog::kINTF_LINK_TRAINING_7P1 = "Interface/LinkTrainingRackWith7P1";
 const QString PrefsDialog::kINTF_DEFAULT_AI_LEVEL = "Interface/DefaultAiLevel";
+const QString PrefsDialog::kINTF_TIMER_TOTAL_DURATION = "Interface/TimerTotalDuration";
+const QString PrefsDialog::kINTF_TIMER_ALERT_DURATION = "Interface/TimerAlertDuration";
 const QString PrefsDialog::kDEFAULT_DEF_SITE = "http://fr.wiktionary.org/wiki/%w";
 
 
@@ -45,14 +47,19 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     : QDialog(iParent)
 {
     setupUi(this);
-    lineEditDefSite->setToolTip(_("URL of the site used to display word definitions.\n"
-                                  "In the URL, %w will be replaced with the word in lower case. Examples:\n"
-                                  "\thttp://fr.wiktionary.org/wiki/%w\n"
-                                  "\thttp://en.wiktionary.org/wiki/%w\n"
-                                  "\thttp://images.google.com/images?q=%w"));
-    spinBoxDefaultLevel->setToolTip(_("Default level for Eliot, "
-                                      "used when creating a new game.\n"
-                                      "Accepted range: [0-100]"));
+    lineEditDefSite->setToolTip(_q("URL of the site used to display word definitions.\n"
+                                   "In the URL, %w will be replaced with the word in lower case. Examples:\n"
+                                   "\thttp://fr.wiktionary.org/wiki/%w\n"
+                                   "\thttp://en.wiktionary.org/wiki/%w\n"
+                                   "\thttp://images.google.com/images?q=%w"));
+    spinBoxDefaultLevel->setToolTip(_q("Default level for Eliot, "
+                                       "used when creating a new game.\n"
+                                       "Accepted range: [0-100]"));
+    spinBoxTimerTotal->setToolTip(_q("Total duration of the timer, in seconds.\n"
+                                     "Changing this value will reset the timer."));
+    spinBoxTimerAlert->setToolTip(_q("Number of remaining seconds when an alert is triggered.\n"
+                                     "Use a value of -1 to disable the alert.\n"
+                                     "Changing this value will reset the timer."));
 
     try
     {
@@ -70,6 +77,10 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         checkBoxIntfLinkTraining7P1->setChecked(linkTraining7P1);
         int defaultAiLevel = qs.value(kINTF_DEFAULT_AI_LEVEL, 100).toInt();
         spinBoxDefaultLevel->setValue(defaultAiLevel);
+        int timerTotal = qs.value(kINTF_TIMER_TOTAL_DURATION, 180).toInt();
+        spinBoxTimerTotal->setValue(timerTotal);
+        int timerAlert = qs.value(kINTF_TIMER_ALERT_DURATION, 30).toInt();
+        spinBoxTimerAlert->setValue(timerAlert);
 
         // Duplicate settings
         checkBoxDuplRefuseInvalid->setChecked(Settings::Instance().getBool("duplicate.reject-invalid"));
@@ -141,6 +152,18 @@ void PrefsDialog::updateSettings()
             // We need to change the default AI level
             shouldEmitUpdate = true;
             qs.setValue(kINTF_DEFAULT_AI_LEVEL, spinBoxDefaultLevel->value());
+        }
+        if (qs.value(kINTF_TIMER_TOTAL_DURATION, 180).toInt() != spinBoxTimerTotal->value())
+        {
+            // We need to change the default AI level
+            shouldEmitUpdate = true;
+            qs.setValue(kINTF_TIMER_TOTAL_DURATION, spinBoxTimerTotal->value());
+        }
+        if (qs.value(kINTF_TIMER_ALERT_DURATION, 30).toInt() != spinBoxTimerAlert->value())
+        {
+            // We need to change the default AI level
+            shouldEmitUpdate = true;
+            qs.setValue(kINTF_TIMER_ALERT_DURATION, spinBoxTimerAlert->value());
         }
 
         // Duplicate settings

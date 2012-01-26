@@ -97,7 +97,10 @@ MainWindow::MainWindow(QWidget *iParent)
     // Make it easier to reproduce bugs
     LOG_DEBUG("Rand seed: " << val);
 
-    m_timerModel = new TimerModel;
+    QSettings qs(ORGANIZATION, PACKAGE_NAME);
+    int timerTotal = qs.value(PrefsDialog::kINTF_TIMER_TOTAL_DURATION, 180).toInt();
+    int timerAlert = qs.value(PrefsDialog::kINTF_TIMER_ALERT_DURATION, 30).toInt();
+    m_timerModel = new TimerModel(timerTotal, timerAlert);
     // TODO: connect to some of the timer signals (alert() and expired())
 
     QObject::connect(this, SIGNAL(gameChangedNonConst(PublicGame*)),
@@ -163,7 +166,6 @@ MainWindow::MainWindow(QWidget *iParent)
     emit gameChanged(NULL);
 
     // Load dictionary
-    QSettings qs(ORGANIZATION, PACKAGE_NAME);
     QString dicPath = qs.value(PrefsDialog::kINTF_DIC_PATH, "").toString();
     if (dicPath != "")
     {
@@ -279,6 +281,13 @@ void MainWindow::prefsUpdated()
     {
         m_newGameDialog->refresh();
     }
+
+    // Refresh the timer values
+    QSettings qs(ORGANIZATION, PACKAGE_NAME);
+    int timerTotal = qs.value(PrefsDialog::kINTF_TIMER_TOTAL_DURATION).toInt();
+    int timerAlert = qs.value(PrefsDialog::kINTF_TIMER_ALERT_DURATION).toInt();
+    m_timerModel->setTotalDuration(timerTotal);
+    m_timerModel->setAlertDuration(timerAlert);
 
     // Probably useless in most cases (currently only used for
     // the History alignment)

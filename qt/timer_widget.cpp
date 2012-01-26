@@ -99,6 +99,8 @@ bool TimerModel::isActiveTimer() const
 
 void TimerModel::setTotalDuration(int iSeconds)
 {
+    if (iSeconds == m_totalDuration)
+        return;
     m_totalDuration = iSeconds;
     if (m_totalDuration < 0)
         m_totalDuration = 0;
@@ -109,6 +111,8 @@ void TimerModel::setTotalDuration(int iSeconds)
 
 void TimerModel::setAlertDuration(int iSeconds)
 {
+    if (iSeconds == m_alertDuration)
+        return;
     m_alertDuration = iSeconds;
     resetTimer();
 }

@@ -35,7 +35,7 @@ class TimerModel : public QObject
     Q_OBJECT;
 
 public:
-    TimerModel(int iTotalDuration = 8, int iAlertDuration = 3);
+    TimerModel(int iTotalDuration, int iAlertDuration);
 
     // Accessors
     int getValue() const { return m_remaining; }
