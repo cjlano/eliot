@@ -160,7 +160,7 @@ void HistoryWidget::updateModel()
             if (m_forPlayer)
             {
                 m_model->setData(m_model->index(rowNum, 5), totalScore);
-                if (!m_isFreeGame)
+                if (!m_isFreeGame && gameScore != 0)
                 {
                     int percentage = totalScore * 100 / gameScore;
                     m_model->setData(m_model->index(rowNum, 6),
