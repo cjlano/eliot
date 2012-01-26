@@ -41,7 +41,7 @@ elsif (-x "$root_path/utils/eliottxt.exe")
 }
 else
 {
-    die "Cannot find the text interface executable"
+    die "Cannot find the text interface executable in $root_path/utils (missing symbolic link?)";
 }
 
 
