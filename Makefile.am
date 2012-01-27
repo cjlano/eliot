@@ -66,25 +66,28 @@ package-macosx:
 		cp $(top_srcdir)/po/$${lang}.gmo $(MACOSX_PACKAGE_DIR)/locale/$${lang}/LC_MESSAGES/eliot.mo; \
 	done
 	mkdir -p $(MACOSX_PACKAGE_DIR)/locale/qt4
-	cp $(QT4LOCALEDIR)/*.qm $(MACOSX_PACKAGE_DIR)/locale/qt4/ || true
+	cp $(QT4LOCALEDIR)/qt_*.qm $(MACOSX_PACKAGE_DIR)/locale/qt4/ || true
 
-# Copy the shared libraries
+# Copy the shared libraries (up to 3 levels of recursive dependencies)
 	mkdir -p $(MACOSX_PACKAGE_DIR)/Contents/Frameworks
-	for lib in `otool -L $(MACOSX_PACKAGE_DIR)/Contents/MacOS/Eliot | grep /opt/local/ | sed 's/ (.*//'`; do \
+	otool -L $(MACOSX_PACKAGE_DIR)/Contents/MacOS/Eliot | grep /opt/local/ | sed 's/ (.*//' > dylib.list1
+	otool -L `cat dylib.list1` | grep /opt/local/ | grep " (" | sed 's/ (.*//' | sort -u > dylib.list2
+	otool -L `cat dylib.list2` | grep /opt/local/ | grep " (" | sed 's/ (.*//' | sort -u > dylib.list3
+	for lib in `cat dylib.list3`; do \
 		cp $$lib $(MACOSX_PACKAGE_DIR)/Contents/Frameworks; \
-		install_name_tool -change $$lib @executable_path/../Frameworks/`basename $$lib` $(MACOSX_PACKAGE_DIR)/Contents/MacOS/Eliot; \
 	done
+	rm -f dylib.list*
 
 # Copy needed Qt resources
 	mkdir -p $(MACOSX_PACKAGE_DIR)/Contents/Resources
-	cp -r /opt/local/libexec/qt4-mac/lib/QtGui.framework/Versions/4/Resources/* $(MACOSX_PACKAGE_DIR)/Contents/Resources
+	cp -r /opt/local/lib/Resources/qt* $(MACOSX_PACKAGE_DIR)/Contents/Resources
 
 # Change the dependencies, so that we point to the libraries inside the bundle
 	cd $(MACOSX_PACKAGE_DIR)/Contents/Frameworks; \
 	for lib in `ls`; do \
-		install_name_tool -id @executable_path/../Frameworks/$$lib $$lib; \
 		for dep in `otool -L $$lib | grep /opt/local/ | sed 's/ (.*//'`; do \
 			install_name_tool -change $$dep @executable_path/../Frameworks/`basename $$dep` $$lib; \
+			install_name_tool -change $$dep @executable_path/../Frameworks/`basename $$dep` ../MacOS/Eliot; \
 		done; \
 	done
 
