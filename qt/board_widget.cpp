@@ -47,7 +47,7 @@ BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     setForegroundRole(QPalette::Window);
     setBackgroundRole(QPalette::Window);
 
-    TileLayout *layout = new TileLayout(BOARD_MAX + 1, 1);
+    TileLayout *layout = new TileLayout(1, BOARD_MAX + 1, BOARD_MAX + 1);
     // Line full of coordinates
     layout->addWidget(new BasicTileWidget(this, ""));
     for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)

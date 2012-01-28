@@ -29,8 +29,9 @@ using namespace std;
 INIT_LOGGER(qt, TileLayout);
 
 
-TileLayout::TileLayout(int nbCols, int spacing)
-    : m_dynamic(nbCols == 0), m_nbCols(nbCols), m_nbRows(nbCols), m_space(spacing)
+TileLayout::TileLayout(int spacing, int nbRows, int nbCols)
+    : m_dynamicRow(nbRows == 0), m_dynamicCol(nbCols == 0),
+    m_nbCols(nbCols), m_nbRows(nbRows), m_space(spacing)
 {
     setContentsMargins(0, 0, 0, 0);
 }
@@ -101,7 +102,7 @@ void TileLayout::doLayout(const QRect &rect)
 
     const int width = rect.width() + m_space;
     const int height = rect.height() + m_space;
-    if (m_dynamic)
+    if (m_dynamicCol && m_dynamicRow)
     {
         // Dynamic number of columns. The square size is the biggest one
         // allowing to place all the tiles in the given rect without scrolling.
@@ -136,7 +137,11 @@ void TileLayout::doLayout(const QRect &rect)
             m_nbRows = (tilesCount - 1) / m_nbCols + 1;
         }
     }
-    else
+    else if (m_dynamicCol)
+    {
+        m_nbCols = (m_items.size() - 1) / m_nbRows + 1;
+    }
+    else if (m_dynamicRow)
     {
         m_nbRows = (m_items.size() - 1) / m_nbCols + 1;
     }

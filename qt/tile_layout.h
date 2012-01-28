@@ -32,7 +32,7 @@ class TileLayout : public QLayout
     DEFINE_LOGGER();
 
 public:
-    TileLayout(int nbCols, int spacing);
+    TileLayout(int spacing, int nbRows = 0, int nbCols = 0);
     virtual ~TileLayout();
 
     void clear();
@@ -55,7 +55,8 @@ public:
 
 private:
     QList<QLayoutItem *> m_items;
-    bool m_dynamic;
+    bool m_dynamicRow;
+    bool m_dynamicCol;
     int m_nbCols;
     int m_nbRows;
     int m_space;
