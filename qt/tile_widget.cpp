@@ -162,8 +162,11 @@ void TileWidget::paintEvent(QPaintEvent *)
         if (m_isJoker)
             painter.setPen(JokerColour);
         painter.setFont(letterFont);
-        painter.drawText(0, 0, squareSize, squareSize,
-                         Qt::AlignCenter, qfw(chr));
+        if (!m_tile.isPureJoker())
+        {
+            painter.drawText(0, 0, squareSize, squareSize,
+                             Qt::AlignCenter, qfw(chr));
+        }
         painter.setPen(NormalColour);
 
         // Should we display the tiles points?
