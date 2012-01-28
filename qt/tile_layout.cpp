@@ -92,6 +92,9 @@ void TileLayout::setGeometry(const QRect &rect)
 
 void TileLayout::doLayout(const QRect &rect)
 {
+    if (m_items.isEmpty())
+        return;
+
     const int width = rect.width() + m_space;
     const int height = rect.height() + m_space;
     if (m_dynamic)
@@ -128,6 +131,10 @@ void TileLayout::doLayout(const QRect &rect)
             m_nbCols = bestNbCols;
             m_nbRows = (tilesCount - 1) / m_nbCols + 1;
         }
+    }
+    else
+    {
+        m_nbRows = (m_items.size() - 1) / m_nbCols + 1;
     }
 
     if (m_nbCols == 0)
