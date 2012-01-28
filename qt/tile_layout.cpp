@@ -25,6 +25,8 @@
 
 using namespace std;
 
+INIT_LOGGER(qt, TileLayout);
+
 
 TileLayout::TileLayout(int nbCols, int spacing)
     : m_dynamic(nbCols == 0), m_nbCols(nbCols), m_nbRows(nbCols), m_space(spacing)

@@ -23,10 +23,13 @@
 
 #include <QtGui/QLayout>
 
+#include "logging.h"
+
 
 class TileLayout : public QLayout
 {
-    Q_OBJECT
+    Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     TileLayout(int nbCols, int spacing);

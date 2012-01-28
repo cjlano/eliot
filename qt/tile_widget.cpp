@@ -30,6 +30,10 @@
 
 using namespace std;
 
+INIT_LOGGER(qt, BasicTileWidget);
+INIT_LOGGER(qt, TileWidget);
+INIT_LOGGER(qt, TileWidgetDecorator);
+
 
 const QColor TileWidget::EmptyColour(Qt::white);
 const QColor TileWidget::L2Colour(34, 189, 240);

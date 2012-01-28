@@ -23,6 +23,7 @@
 
 #include <QtGui/QWidget>
 #include "tile.h"
+#include "logging.h"
 
 
 /**
@@ -30,6 +31,8 @@
  */
 class BasicTileWidget: public QWidget
 {
+    DEFINE_LOGGER();
+
 public:
     BasicTileWidget(QWidget *parent = 0, QString text = "");
 
@@ -54,6 +57,7 @@ private:
 class TileWidget: public BasicTileWidget
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     enum Multiplier
@@ -132,6 +136,7 @@ private:
 class TileWidgetDecorator : public TileWidget
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     TileWidgetDecorator(QWidget *parent, TileWidget &wrapped);
