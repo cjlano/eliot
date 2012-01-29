@@ -154,6 +154,7 @@ void TimerWidget::newTotalDuration(int iNewTotal)
     // Adapt the number of digits dynamically
     int minutesLength = QString("%1").arg(iNewTotal / 60).length();
     setDigitCount(minutesLength + 3);
+    setMinimumSize(QSize(60 + 20 * minutesLength, 40));
 }
 
 
