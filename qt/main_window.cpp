@@ -47,7 +47,7 @@
 #include "debug.h"
 #include "new_game.h"
 #include "prefs_dialog.h"
-#include "bag_widget.h"
+#include "bag_widget2.h"
 #include "board_widget.h"
 #include "score_widget.h"
 #include "player_widget.h"
@@ -952,7 +952,7 @@ void MainWindow::onWindowsBag()
     if (m_bagWindow == NULL)
     {
         // Create the window
-        BagWidget *bag = new BagWidget(NULL);
+        BagWidget2 *bag = new BagWidget2(NULL);
         bag->setGame(m_game);
         m_bagWindow = new AuxWindow(*bag, _q("Bag"), "BagWindow",
                                     m_actionWindowsBag);
