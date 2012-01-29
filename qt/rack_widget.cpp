@@ -40,7 +40,9 @@ RackWidget::RackWidget(QWidget *parent)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    setLayout(new TileLayout(5, 1));
+    TileLayout *layout = new TileLayout(1);
+    layout->setSpacing(5);
+    setLayout(layout);
 }
 
 
@@ -88,7 +90,6 @@ void RackWidget::refresh()
         TileWidget *tileWidget = m_tilesVect[i];
         tileWidget->tileChanged(TileWidget::NORMAL, tiles[i]);
     }
-    setMinimumSize(layout()->minimumSize());
 }
 
 

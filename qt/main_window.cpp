@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <QtGui/QLabel>
+#include <QtGui/QFrame>
 #include <QtGui/QMessageBox>
 #include <QtGui/QFileDialog>
 #include <QtGui/QDockWidget>
@@ -49,6 +50,7 @@
 #include "prefs_dialog.h"
 #include "bag_widget2.h"
 #include "board_widget.h"
+#include "rack_widget.h"
 #include "score_widget.h"
 #include "player_widget.h"
 #include "training_widget.h"
@@ -970,15 +972,57 @@ void MainWindow::onWindowsBoard()
     if (m_boardWindow == NULL)
     {
         // Create the window
-        BoardWidget *board = new BoardWidget(m_coordModel, NULL);
+        QFrame *frame = new QFrame;
+        QLayout *hLayout = new QHBoxLayout;
+        frame->setLayout(hLayout);
+
+        QSplitter *vSplitter = new QSplitter(Qt::Vertical);
+        hLayout->addWidget(vSplitter);
+
+        BoardWidget *board = new BoardWidget(m_coordModel);
         board->setShowTempSigns(false);
         board->setGame(m_game);
-        m_boardWindow = new AuxWindow(*board, _q("Board"), "BoardWindow",
-                                      m_actionWindowsBoard);
         QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
                          board, SLOT(setGame(const PublicGame*)));
         QObject::connect(this, SIGNAL(gameUpdated()),
                          board, SLOT(refresh()));
+        vSplitter->addWidget(board);
+
+        vSplitter->addWidget(new QWidget);
+
+        QSplitter *hSplitter = new QSplitter(Qt::Horizontal);
+        vSplitter->addWidget(hSplitter);
+
+        RackWidget *rackWidget = new RackWidget;
+        rackWidget->setGame(m_game);
+        QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+                         rackWidget, SLOT(setGame(const PublicGame*)));
+        QObject::connect(this, SIGNAL(gameUpdated()),
+                         rackWidget, SLOT(refresh()));
+        hSplitter->addWidget(rackWidget);
+
+        hSplitter->addWidget(new QWidget);
+
+        TimerWidget *timerWidget = new TimerWidget(NULL, *m_timerModel);
+        hSplitter->addWidget(timerWidget);
+
+        m_boardWindow = new AuxWindow(*frame, _q("Board"), "BoardWindow",
+                                      m_actionWindowsBoard);
+
+        // Try to have decent initial sizes
+        QList<int> sizesVertical;
+        sizesVertical << 1 << 20 << 80;
+        vSplitter->setSizes(sizesVertical);
+        vSplitter->setStretchFactor(0, 1);
+        vSplitter->setStretchFactor(1, 0);
+        vSplitter->setStretchFactor(2, 0);
+
+        QList<int> sizesHorizontal;
+        sizesHorizontal << 1 << 40 << 150;
+        hSplitter->setSizes(sizesHorizontal);
+        hSplitter->setStretchFactor(0, 1);
+        hSplitter->setStretchFactor(1, 0);
+        hSplitter->setStretchFactor(2, 0);
     }
     m_boardWindow->toggleVisibility();
 }
