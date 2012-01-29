@@ -81,10 +81,20 @@ QLayoutItem *TileLayout::takeAt(int index)
 
 QSize TileLayout::minimumSize() const
 {
-    QSize size(m_space, m_space);
-    if (!m_items.empty())
-        size += m_items.at(0)->minimumSize();
-    return size * m_nbCols + QSize(5, 5);
+    int size = m_space;
+    if (m_items.empty())
+        return QSize(size, size);
+
+    size += m_items.at(0)->minimumSize().width();
+
+    if (m_dynamicCol && m_dynamicRow)
+        return QSize(size, size);
+    else if (m_dynamicCol)
+        return QSize(size * ((m_items.size() - 1) / m_nbRows + 1) - m_space, size * m_nbRows - m_space);
+    else if (m_dynamicRow)
+        return QSize(size * m_nbCols - m_space, size * ((m_items.size() - 1) / m_nbCols + 1) - m_space);
+    else
+        return QSize(size * m_nbCols - m_space, size * m_nbRows - m_space);
 }
 
 
@@ -145,9 +155,6 @@ void TileLayout::doLayout(const QRect &rect)
     {
         m_nbRows = (m_items.size() - 1) / m_nbCols + 1;
     }
-
-    if (m_nbCols == 0)
-        return;
 
     // Now the number of columns and rows are defined.
     // Use that to draw the tiles.

@@ -44,8 +44,6 @@ public:
     int getSpacing() const { return m_space; }
 
     virtual void addItem(QLayoutItem *item) { m_items.append(item); }
-    virtual bool hasHeightForWidth() const { return true; }
-    virtual int heightForWidth(int width) const { return width; }
     virtual int count() const { return m_items.size(); }
     virtual QLayoutItem *itemAt(int index) const { return m_items.value(index); }
     virtual QLayoutItem *takeAt(int index);
