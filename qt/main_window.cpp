@@ -608,7 +608,7 @@ void MainWindow::createMenu()
     QMenu *menuSettings = new QMenu(m_ui.menubar);
     m_ui.menubar->addAction(menuSettings->menuAction());
     menuSettings->setTitle(_q("&Settings"));
-    addMenuAction(menuSettings, _q("&Choose dictionary..."), _q("Ctrl+C"),
+    addMenuAction(menuSettings, _q("&Choose dictionary..."), _q("Ctrl+I"),
                   _q("Select a new dictionary"), SLOT(onSettingsChooseDic()));
     addMenuAction(menuSettings, _q("Create &new dictionary..."), QString(""),
                   _q("Start the wizard for creating a new dictionary "
