@@ -58,6 +58,7 @@ eliot_SOURCES = \
     qtcommon.h qtcommon.cpp \
     coord_model.h coord_model.cpp \
     tile_widget.cpp tile_widget.h \
+    rack_widget.cpp rack_widget.h \
     timer_widget.cpp timer_widget.h \
     tile_layout.cpp tile_layout.h \
     validator_factory.h validator_factory.cpp \
@@ -91,6 +92,7 @@ nodist_eliot_SOURCES = \
     ui/dic_wizard_conclusion_page.ui.h \
     coord_model.moc.cpp \
     tile_widget.moc.cpp \
+    rack_widget.moc.cpp \
     timer_widget.moc.cpp \
     tile_layout.moc.cpp \
     validator_factory.moc.cpp \
