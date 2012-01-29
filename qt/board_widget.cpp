@@ -47,7 +47,8 @@ BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     setForegroundRole(QPalette::Window);
     setBackgroundRole(QPalette::Window);
 
-    TileLayout *layout = new TileLayout(1, BOARD_MAX + 1, BOARD_MAX + 1);
+    TileLayout *layout = new TileLayout(BOARD_MAX + 1, BOARD_MAX + 1);
+    layout->setSpacing(1);
     // Line full of coordinates
     layout->addWidget(new BasicTileWidget(this, ""));
     for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
@@ -180,7 +181,7 @@ void BoardWidget::paintEvent(QPaintEvent *)
     QPainter painter(this);
     QRect rect = boardLayout->getBoardRect();
     const int size = boardLayout->getSquareSize();
-    const int spacing = boardLayout->getSpacing();
+    const int spacing = boardLayout->spacing();
 
     QLine hLine(0, 0, rect.width() + 1, 0);
     QLine vLine(0, 0, 0, rect.height() + 1);

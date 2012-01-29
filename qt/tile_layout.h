@@ -32,7 +32,7 @@ class TileLayout : public QLayout
     DEFINE_LOGGER();
 
 public:
-    TileLayout(int spacing, int nbRows = 0, int nbCols = 0);
+    TileLayout(int nbRows = 0, int nbCols = 0);
     virtual ~TileLayout();
 
     void clear();
@@ -40,8 +40,6 @@ public:
     QRect getBoardRect() const;
 
     int getSquareSize() const;
-
-    int getSpacing() const { return m_space; }
 
     virtual void addItem(QLayoutItem *item) { m_items.append(item); }
     virtual int count() const { return m_items.size(); }
@@ -57,7 +55,6 @@ private:
     bool m_dynamicCol;
     int m_nbCols;
     int m_nbRows;
-    int m_space;
 
     void doLayout(const QRect &rect);
 };

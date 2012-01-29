@@ -29,9 +29,9 @@ using namespace std;
 INIT_LOGGER(qt, TileLayout);
 
 
-TileLayout::TileLayout(int spacing, int nbRows, int nbCols)
+TileLayout::TileLayout(int nbRows, int nbCols)
     : m_dynamicRow(nbRows == 0), m_dynamicCol(nbCols == 0),
-    m_nbCols(nbCols), m_nbRows(nbRows), m_space(spacing)
+    m_nbCols(nbCols), m_nbRows(nbRows)
 {
     setContentsMargins(0, 0, 0, 0);
 }
@@ -81,7 +81,7 @@ QLayoutItem *TileLayout::takeAt(int index)
 
 QSize TileLayout::minimumSize() const
 {
-    int size = m_space;
+    int size = spacing();
     if (m_items.empty())
         return QSize(size, size);
 
@@ -90,11 +90,11 @@ QSize TileLayout::minimumSize() const
     if (m_dynamicCol && m_dynamicRow)
         return QSize(size, size);
     else if (m_dynamicCol)
-        return QSize(size * ((m_items.size() - 1) / m_nbRows + 1) - m_space, size * m_nbRows - m_space);
+        return QSize(size * ((m_items.size() - 1) / m_nbRows + 1) - spacing(), size * m_nbRows - spacing());
     else if (m_dynamicRow)
-        return QSize(size * m_nbCols - m_space, size * ((m_items.size() - 1) / m_nbCols + 1) - m_space);
+        return QSize(size * m_nbCols - spacing(), size * ((m_items.size() - 1) / m_nbCols + 1) - spacing());
     else
-        return QSize(size * m_nbCols - m_space, size * m_nbRows - m_space);
+        return QSize(size * m_nbCols - spacing(), size * m_nbRows - spacing());
 }
 
 
@@ -129,8 +129,8 @@ void TileLayout::doLayout(const QRect &rect)
     if (m_items.isEmpty())
         return;
 
-    const int width = rect.width() + m_space;
-    const int height = rect.height() + m_space;
+    const int width = rect.width() + spacing();
+    const int height = rect.height() + spacing();
     if (m_dynamicCol && m_dynamicRow)
     {
         // Dynamic number of columns. The square size is the biggest one
@@ -177,7 +177,7 @@ void TileLayout::doLayout(const QRect &rect)
 
     // Now the number of columns and rows are defined.
     // Use that to draw the tiles.
-    const int squareSize = std::min(width / m_nbCols, height / m_nbRows) - m_space;
+    const int squareSize = std::min(width / m_nbCols, height / m_nbRows) - spacing();
     int x = 0;
     int y = 0;
     int nbInRow = 1;
@@ -186,12 +186,12 @@ void TileLayout::doLayout(const QRect &rect)
     {
         QRect itemRect(QPoint(x, y), QSize(squareSize, squareSize));
         item->setGeometry(itemRect);
-        x += squareSize + m_space;
+        x += squareSize + spacing();
         ++nbInRow;
         if (nbInRow > m_nbCols)
         {
             x = 0;
-            y += squareSize + m_space;
+            y += squareSize + spacing();
             nbInRow = 1;
         }
     }

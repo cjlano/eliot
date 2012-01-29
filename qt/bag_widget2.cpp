@@ -36,7 +36,8 @@ using namespace std;
 BagWidget2::BagWidget2(QWidget *parent)
     : QWidget(parent), m_game(NULL)
 {
-    TileLayout *layout = new TileLayout(5);
+    TileLayout *layout = new TileLayout;
+    layout->setSpacing(5);
     setLayout(layout);
 }
 
