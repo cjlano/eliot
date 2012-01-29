@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2010 Olivier Teulière
+ * Copyright (C) 2010-2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -30,9 +30,7 @@
 
 using namespace std;
 
-INIT_LOGGER(qt, BasicTileWidget);
 INIT_LOGGER(qt, TileWidget);
-INIT_LOGGER(qt, TileWidgetDecorator);
 
 
 const QColor TileWidget::EmptyColour(Qt::white);
@@ -48,53 +46,63 @@ const QColor TileWidget::JokerColour(255, 0, 0);
 const QColor TileWidget::ArrowColour(10, 10, 10);
 
 
-BasicTileWidget::BasicTileWidget(QWidget *parent, QString text)
-    : QWidget(parent), m_text(text)
-{
-    setMinimumSize(10, 10);
-}
-
-
-int BasicTileWidget::heightForWidth(int width) const
-{
-    return width;
-}
-
-
-QSize BasicTileWidget::sizeHint() const
-{
-    return QSize(30, 30);
-}
-
-
-int BasicTileWidget::getSquareSize() const
-{
-    return std::min(width(), height());
-}
-
-
-void BasicTileWidget::paintEvent(QPaintEvent *)
-{
-    const int squareSize = getSquareSize();
-    QFont letterFont = font();
-    letterFont.setPixelSize(squareSize * 2 / 3);
-
-    QPainter painter(this);
-    painter.setFont(letterFont);
-    painter.drawText(1, 1, squareSize, squareSize, Qt::AlignCenter, m_text);
-}
-
-// --------------
-
 TileWidget::TileWidget(QWidget *parent, Multiplier multiplier,
                        int row, int col)
-    : BasicTileWidget(parent), m_multiplier(multiplier),
+    : QFrame(parent), m_multiplier(multiplier),
     m_row(row), m_col(col), m_isJoker(false),
     m_state(NORMAL), m_showArrow(false), m_horizontalArrow(true)
 {
     QSizePolicy policy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     policy.setHeightForWidth(true);
     setSizePolicy(policy);
+
+    setMidLineWidth(0);
+    setBorder(0);
+}
+
+
+void TileWidget::setCoordText(QString iText)
+{
+    m_state = COORDS;
+    m_text = iText;
+    setBorder(0);
+}
+
+
+void TileWidget::setBorder(int width)
+{
+    if (frameWidth() == width)
+        return;
+
+    if (width <= 0)
+    {
+        setFrameStyle(QFrame::NoFrame | QFrame::Plain);
+    }
+    else
+    {
+        setFrameStyle(QFrame::Box | QFrame::Plain);
+        setLineWidth(width);
+    }
+    setMinimumSize(QSize(15, 15) + 2 * QSize(width, width));
+}
+
+
+int TileWidget::heightForWidth(int width) const
+{
+    return width;
+}
+
+
+QSize TileWidget::sizeHint() const
+{
+    const int width = frameWidth();
+    return QSize(30, 30) + 2 * QSize(width, width);
+}
+
+
+int TileWidget::getSquareSize() const
+{
+    return std::min(contentsRect().width(), contentsRect().height());
 }
 
 
@@ -115,20 +123,32 @@ void TileWidget::arrowChanged(bool showArrow, bool horizontalArrow)
 }
 
 
-void TileWidget::paintEvent(QPaintEvent *)
+void TileWidget::paintEvent(QPaintEvent *iEvent)
 {
+    QFrame::paintEvent(iEvent);
+
     const int squareSize = getSquareSize();
+
+    QPainter painter(this);
+    painter.translate(QPoint(contentsMargins().left(), contentsMargins().top()));
 
     // The font must grow with the square size
     QFont letterFont = font();
     letterFont.setPixelSize(squareSize * 2 / 3);
+
+    if (m_state == COORDS)
+    {
+        painter.setFont(letterFont);
+        painter.drawText(1, 1, squareSize, squareSize, Qt::AlignCenter, m_text);
+
+        return;
+    }
 
     QFont pointsFont = font();
     const double pointsCoeff = 8. / 25.;
     pointsFont.setPixelSize(squareSize * pointsCoeff);
 
     // XXX: Naive implementation: we repaint everything every time
-    QPainter painter(this);
 
     // Set the square color
     QColor color;
@@ -221,37 +241,5 @@ void TileWidget::paintEvent(QPaintEvent *)
 void TileWidget::mousePressEvent(QMouseEvent *iEvent)
 {
     emit mousePressed(m_row, m_col, iEvent);
-}
-
-// --------------
-
-TileWidgetDecorator::TileWidgetDecorator(QWidget *parent, TileWidget &wrapped)
-    : TileWidget(parent), m_wrapped(wrapped)
-{
-    QVBoxLayout *layout = new QVBoxLayout;
-    layout->setContentsMargins(1, 1, 1, 1);
-    layout->addWidget(&m_wrapped);
-    setLayout(layout);
-
-    QObject::connect(&m_wrapped, SIGNAL(mousePressed(int, int, QMouseEvent*)),
-                     this, SIGNAL(mousePressed(int, int, QMouseEvent*)));
-}
-
-
-void TileWidgetDecorator::tileChanged(const Tile &iTile, bool isJoker, State state)
-{
-    m_wrapped.tileChanged(iTile, isJoker, state);
-}
-
-
-void TileWidgetDecorator::arrowChanged(bool showArrow, bool horizontalArrow)
-{
-    m_wrapped.arrowChanged(showArrow, horizontalArrow);
-}
-
-void TileWidgetDecorator::paintEvent(QPaintEvent *)
-{
-    QPainter painter(this);
-    painter.drawRect(0, 0, width() - 1, height() - 1);
 }
 

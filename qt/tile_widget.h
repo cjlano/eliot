@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2010 Olivier Teulière
+ * Copyright (C) 2010-2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -21,40 +21,17 @@
 #ifndef TILE_WIDGET_H_
 #define TILE_WIDGET_H_
 
-#include <QtGui/QWidget>
+#include <QtGui/QFrame>
 #include "tile.h"
 #include "logging.h"
 
 
 /**
- * Simplified tile, only used to draw the coordinates of the board
- */
-class BasicTileWidget: public QWidget
-{
-    DEFINE_LOGGER();
-
-public:
-    BasicTileWidget(QWidget *parent = 0, QString text = "");
-
-    int getSquareSize() const;
-
-    virtual int heightForWidth(int w) const;
-
-protected:
-    /// Define a default size
-    virtual QSize sizeHint() const;
-    /// Paint the square
-    virtual void paintEvent(QPaintEvent *iEvent);
-
-private:
-    QString m_text;
-};
-
-
-/**
  * Widget used to display a square on the board, with or without letter.
+ * It can also be used to display coordinates, if the setCoordText() method
+ * has been called.
  */
-class TileWidget: public BasicTileWidget
+class TileWidget: public QFrame
 {
     Q_OBJECT;
     DEFINE_LOGGER();
@@ -71,6 +48,7 @@ public:
 
     enum State
     {
+        COORDS,
         NORMAL,
         PREVIEW,
         PLAYED,
@@ -79,6 +57,17 @@ public:
 
     explicit TileWidget(QWidget *parent = 0, Multiplier multiplier = NONE,
                         int row = 0, int col = 0);
+
+    void setCoordText(QString iText);
+
+    void setBorder(int width = 2);
+
+    int getSquareSize() const;
+
+    virtual int heightForWidth(int w) const;
+
+    /// Define a default size
+    virtual QSize sizeHint() const;
 
 public slots:
     virtual void tileChanged(const Tile &iTile, bool isJoker, State state);
@@ -117,6 +106,9 @@ private:
     /// Whether the arrow is horizontal
     bool m_horizontalArrow;
 
+    /// Text used for coordinates
+    QString m_text;
+
     /// Define a few background colours
     //@{
     static const QColor EmptyColour;
@@ -131,29 +123,6 @@ private:
     static const QColor JokerColour;
     static const QColor ArrowColour;
     //@}
-};
-
-class TileWidgetDecorator : public TileWidget
-{
-    Q_OBJECT;
-    DEFINE_LOGGER();
-
-public:
-    TileWidgetDecorator(QWidget *parent, TileWidget &wrapped);
-
-public slots:
-    virtual void tileChanged(const Tile &iTile, bool isJoker, State state);
-    virtual void arrowChanged(bool showArrow, bool horizontalArrow);
-
-signals:
-    void mousePressed(int row, int col, QMouseEvent *iEvent);
-
-protected:
-    /// Paint the square
-    virtual void paintEvent(QPaintEvent *iEvent);
-
-private:
-    TileWidget & m_wrapped;
 };
 
 #endif

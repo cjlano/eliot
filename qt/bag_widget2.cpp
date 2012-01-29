@@ -56,10 +56,10 @@ void BagWidget2::setGame(const PublicGame *iGame)
         {
             for (unsigned i = 0; i < tile.maxNumber(); ++i)
             {
-                TileWidget *tileWidget = new TileWidget(this, TileWidget::NONE, 0, 0);
-                TileWidgetDecorator *decoWidget = new TileWidgetDecorator(this, *tileWidget);
-                decoWidget->tileChanged(tile, false, TileWidget::NORMAL);
-                layout->addWidget(decoWidget);
+                TileWidget *tileWidget = new TileWidget(NULL, TileWidget::NONE, 0, 0);
+                tileWidget->setBorder();
+                tileWidget->tileChanged(tile, false, TileWidget::NORMAL);
+                layout->addWidget(tileWidget);
             }
         }
     }

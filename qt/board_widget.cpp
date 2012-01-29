@@ -50,19 +50,21 @@ BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     TileLayout *layout = new TileLayout(BOARD_MAX + 1, BOARD_MAX + 1);
     layout->setSpacing(1);
     // Line full of coordinates
-    layout->addWidget(new BasicTileWidget(this, ""));
+    TileWidget *cornerTile = new TileWidget;
+    cornerTile->setCoordText("");
+    layout->addWidget(cornerTile);
     for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
     {
-        BasicTileWidget *coordTile =
-            new BasicTileWidget(this, QString("%1").arg(col));
+        TileWidget *coordTile = new TileWidget;
+        coordTile->setCoordText(QString("%1").arg(col));
         layout->addWidget(coordTile);
     }
     // Rest of the board
     for (unsigned int row = BOARD_MIN; row <= BOARD_MAX; ++row)
     {
         // Add the coordinate
-        BasicTileWidget *coordTile =
-            new BasicTileWidget(this, QString(QChar('A' + row - BOARD_MIN)));
+        TileWidget *coordTile = new TileWidget;
+        coordTile->setCoordText(QString(QChar('A' + row - BOARD_MIN)));
         layout->addWidget(coordTile);
         // Add the squares
         for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
