@@ -70,8 +70,8 @@ public:
     virtual QSize sizeHint() const;
 
 public slots:
-    virtual void tileChanged(const Tile &iTile, bool isJoker, State state);
-    virtual void arrowChanged(bool showArrow, bool horizontalArrow);
+    //void tileChanged(const Tile &iTile, bool isJoker, State state);
+    void arrowChanged(bool showArrow, bool horizontalArrow);
 
 signals:
     void mousePressed(int row, int col, QMouseEvent *iEvent);
@@ -111,16 +111,16 @@ private:
 
     /// Define a few background colours
     //@{
-    static const QColor EmptyColour;
-    static const QColor L2Colour;
-    static const QColor L3Colour;
-    static const QColor W2Colour;
-    static const QColor W3Colour;
-    static const QColor TileColour;
-    static const QColor PreviewColour;
-    static const QColor PlayedColour;
-    static const QColor NormalColour;
-    static const QColor JokerColour;
+    static const QColor BoardEmptyColour;
+    static const QColor BoardL2Colour;
+    static const QColor BoardL3Colour;
+    static const QColor BoardW2Colour;
+    static const QColor BoardW3Colour;
+    static const QColor TileNormalColour;
+    static const QColor TilePreviewColour;
+    static const QColor TilePlayedColour;
+    static const QColor TextNormalColour;
+    static const QColor TextJokerColour;
     static const QColor ArrowColour;
     //@}
 };

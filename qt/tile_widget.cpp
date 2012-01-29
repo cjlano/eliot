@@ -33,16 +33,16 @@ using namespace std;
 INIT_LOGGER(qt, TileWidget);
 
 
-const QColor TileWidget::EmptyColour(Qt::white);
-const QColor TileWidget::L2Colour(34, 189, 240);
-const QColor TileWidget::L3Colour(29, 104, 240);
-const QColor TileWidget::W2Colour(255, 147, 196);
-const QColor TileWidget::W3Colour(240, 80, 94);
-const QColor TileWidget::TileColour(255, 235, 205);
-const QColor TileWidget::PreviewColour(183, 183, 123);
-const QColor TileWidget::PlayedColour(Qt::white);
-const QColor TileWidget::NormalColour(0, 0, 0);
-const QColor TileWidget::JokerColour(255, 0, 0);
+const QColor TileWidget::BoardEmptyColour(Qt::white);
+const QColor TileWidget::BoardL2Colour(34, 189, 240);
+const QColor TileWidget::BoardL3Colour(29, 104, 240);
+const QColor TileWidget::BoardW2Colour(255, 147, 196);
+const QColor TileWidget::BoardW3Colour(240, 80, 94);
+const QColor TileWidget::TileNormalColour(255, 235, 205);
+const QColor TileWidget::TilePreviewColour(183, 183, 123);
+const QColor TileWidget::TilePlayedColour(Qt::white);
+const QColor TileWidget::TextNormalColour(0, 0, 0);
+const QColor TileWidget::TextJokerColour(255, 0, 0);
 const QColor TileWidget::ArrowColour(10, 10, 10);
 
 
@@ -160,22 +160,22 @@ void TileWidget::paintEvent(QPaintEvent *iEvent)
     if (!m_tile.isEmpty())
     {
         if (m_state == PREVIEW)
-            color = PreviewColour;
+            color = TilePreviewColour;
         else if (m_state == PLAYED)
-            color = PlayedColour;
+            color = TilePlayedColour;
         else
-            color = TileColour;
+            color = TileNormalColour;
     }
     else if (m_multiplier == WORD_TRIPLE)
-        color = W3Colour;
+        color = BoardW3Colour;
     else if (m_multiplier == WORD_DOUBLE)
-        color = W2Colour;
+        color = BoardW2Colour;
     else if (m_multiplier == LETTER_TRIPLE)
-        color = L3Colour;
+        color = BoardL3Colour;
     else if (m_multiplier == LETTER_DOUBLE)
-        color = L2Colour;
+        color = BoardL2Colour;
     else
-        color = EmptyColour;
+        color = BoardEmptyColour;
     painter.fillRect(0, 0, squareSize, squareSize, color);
 
     // Draw the letter
@@ -184,15 +184,14 @@ void TileWidget::paintEvent(QPaintEvent *iEvent)
         wstring chr = m_tile.getDisplayStr();
         // Make the display char in upper case
         std::transform(chr.begin(), chr.end(), chr.begin(), towupper);
-        if (m_isJoker)
-            painter.setPen(JokerColour);
+        painter.setPen(m_isJoker ? TextJokerColour : TextNormalColour);
         painter.setFont(letterFont);
         if (!m_tile.isPureJoker())
         {
             painter.drawText(0, 0, squareSize, squareSize,
                              Qt::AlignCenter, qfw(chr));
         }
-        painter.setPen(NormalColour);
+        painter.setPen(TextNormalColour);
 
         // Should we display the tiles points?
         QSettings qs(ORGANIZATION, PACKAGE_NAME);
@@ -209,10 +208,11 @@ void TileWidget::paintEvent(QPaintEvent *iEvent)
                              QString("%1").arg(m_tile.getPoints()));
         }
     }
+
     // Draw the arrow
     if (m_showArrow)
     {
-        painter.setPen(QPen(painter.brush().color(), 0));
+        painter.setPen(ArrowColour);
         painter.setBrush(ArrowColour);
         const int mid = squareSize / 2;
         const int fifth = squareSize / 5;
@@ -231,12 +231,11 @@ void TileWidget::paintEvent(QPaintEvent *iEvent)
             QPoint(-mid + fifth - 1, width + 1)
         };
         painter.drawPolygon(points, 7);
-
-        painter.setPen(QPen());
-        painter.setBrush(NormalColour);
     }
+
     if (m_state == PLAYED)
     {
+        painter.setPen(TextNormalColour);
         painter.drawLine(QLine(0, 0, squareSize, squareSize));
         painter.drawLine(QLine(0, squareSize, squareSize, 0));
     }
