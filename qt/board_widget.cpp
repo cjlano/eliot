@@ -130,10 +130,8 @@ void BoardWidget::refresh()
 {
     if (m_game != NULL)
     {
-        // XXX: in the future, this code could be changed to use signals
-        // emitted from the core. This would allow repainting only the needed
-        // tiles (the same performance improvement could be done with caching
-        // in the TileWidget class, though)
+        // Note: the TileWidget class will redraw the tile only if something
+        // has changed, to avoid useless repainting.
         const Board &board = m_game->getBoard();
         for (unsigned int row = BOARD_MIN; row <= BOARD_MAX; ++row)
         {

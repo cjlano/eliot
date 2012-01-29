@@ -108,6 +108,11 @@ int TileWidget::getSquareSize() const
 
 void TileWidget::tileChanged(const Tile &iTile, bool isJoker, State state)
 {
+    // This avoids a lot of useless redraws
+    if (m_state == state && m_tile == iTile && m_isJoker == isJoker)
+        return;
+
+    m_state = state;
     m_tile = iTile;
     m_isJoker = isJoker;
     m_state = state;
