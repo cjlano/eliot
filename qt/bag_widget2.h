@@ -21,9 +21,14 @@
 #ifndef BAG_WIDGET2_H_
 #define BAG_WIDGET2_H_
 
+#include <vector>
 #include <QtGui/QWidget>
 
+using std::vector;
+
 class PublicGame;
+class TileWidget;
+
 
 class BagWidget2: public QWidget
 {
@@ -34,6 +39,7 @@ public:
 
 public slots:
     void setGame(const PublicGame *iGame);
+    void setShowPlayedTiles(bool iShow);
     void refresh();
 
 protected:
@@ -43,6 +49,15 @@ protected:
 private:
     /// Encapsulated game, can be NULL
     const PublicGame *m_game;
+
+    /// Encapsulated tiles
+    vector<TileWidget *> m_tilesVect;
+
+    /// Indicate whether the played tiles should be displayed
+    bool m_showPlayedTiles;
+
+    /// Cached value, storing the total number of tiles in the game
+    unsigned int m_totalNbTiles;
 
 };
 
