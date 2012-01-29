@@ -26,29 +26,40 @@
 #include "tile_layout.h"
 #include "tile_widget.h"
 #include "qtcommon.h"
+
 #include "public_game.h"
 #include "dic.h"
 #include "tile.h"
 #include "bag.h"
+#include "rack.h"
+#include "player.h"
+#include "debug.h"
 
 using namespace std;
 
 
 BagWidget2::BagWidget2(QWidget *parent)
-    : QWidget(parent), m_game(NULL), m_totalNbTiles(0)
+    : QWidget(parent), m_game(NULL), m_totalNbTiles(0),
+    m_showPlayedTiles(true), m_showTilesInRack(true)
 {
     TileLayout *layout = new TileLayout;
     layout->setSpacing(5);
     setLayout(layout);
-    m_showPlayedTiles = true;
 
-    // Define an action for the context menu
-    QAction *action = new QAction(_q("Show played tiles"), this);
-    action->setCheckable(true);
-    action->setChecked(true);
-    addAction(action);
-    QObject::connect(action, SIGNAL(toggled(bool)),
+    // Define actions for the context menu
+    QAction *actionPlayed = new QAction(_q("Show played tiles"), this);
+    actionPlayed->setCheckable(true);
+    actionPlayed->setChecked(true);
+    addAction(actionPlayed);
+    QObject::connect(actionPlayed, SIGNAL(toggled(bool)),
                      this, SLOT(setShowPlayedTiles(bool)));
+
+    QAction *actionInRack = new QAction(_q("Highlight tiles present in the rack"), this);
+    actionInRack->setCheckable(true);
+    actionInRack->setChecked(true);
+    addAction(actionInRack);
+    QObject::connect(actionInRack, SIGNAL(toggled(bool)),
+                     this, SLOT(setShowTilesInRack(bool)));
 
     setContextMenuPolicy(Qt::ActionsContextMenu);
 }
@@ -103,23 +114,33 @@ void BagWidget2::refresh()
         m_tilesVect.push_back(tileWidget);
     }
 
+    // XXX: ugly (and wrong) way to get the rack
+    const Rack &rack = m_game->getCurrentPlayer().getCurrentRack().getRack();
+    TileWidget::State previewState =
+        m_showTilesInRack ? TileWidget::PREVIEW : TileWidget::NORMAL;
+
     // Set the correct content for all the tiles
     unsigned int index = 0;
     BOOST_FOREACH(const Tile &tile, m_game->getDic().getAllTiles())
     {
-        unsigned int nbInBag = bag.in(tile);
-        for (unsigned i = 0; i < nbInBag; ++i)
+        const unsigned int nbInBag = bag.in(tile);
+        const unsigned int nbInRack = rack.in(tile);
+        ASSERT(nbInBag >= nbInRack, "Unexpected letters in the rack");
+        for (unsigned i = 0; i < nbInBag - nbInRack; ++i)
         {
-            TileWidget *tileWidget = m_tilesVect[index];
-            tileWidget->tileChanged(TileWidget::NORMAL, tile);
+            m_tilesVect[index]->tileChanged(TileWidget::NORMAL, tile);
+            ++index;
+        }
+        for (unsigned i = 0; i < nbInRack; ++i)
+        {
+            m_tilesVect[index]->tileChanged(previewState, tile);
             ++index;
         }
         if (m_showPlayedTiles)
         {
             for (unsigned i = nbInBag; i < tile.maxNumber(); ++i)
             {
-                TileWidget *tileWidget = m_tilesVect[index];
-                tileWidget->tileChanged(TileWidget::RACK_PLAYED, tile);
+                m_tilesVect[index]->tileChanged(TileWidget::RACK_PLAYED, tile);
                 ++index;
             }
         }
@@ -132,6 +153,15 @@ void BagWidget2::setShowPlayedTiles(bool iShow)
     if (m_showPlayedTiles == iShow)
         return;
     m_showPlayedTiles = iShow;
+    refresh();
+}
+
+
+void BagWidget2::setShowTilesInRack(bool iShow)
+{
+    if (m_showTilesInRack == iShow)
+        return;
+    m_showTilesInRack = iShow;
     refresh();
 }
 

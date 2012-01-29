@@ -40,6 +40,7 @@ public:
 public slots:
     void setGame(const PublicGame *iGame);
     void setShowPlayedTiles(bool iShow);
+    void setShowTilesInRack(bool iShow);
     void refresh();
 
 protected:
@@ -53,11 +54,14 @@ private:
     /// Encapsulated tiles
     vector<TileWidget *> m_tilesVect;
 
+    /// Cached value, storing the total number of tiles in the game
+    unsigned int m_totalNbTiles;
+
     /// Indicate whether the played tiles should be displayed
     bool m_showPlayedTiles;
 
-    /// Cached value, storing the total number of tiles in the game
-    unsigned int m_totalNbTiles;
+    /// Indicate whether the tiles in the current rack should be displayed highlighted
+    bool m_showTilesInRack;
 
 };
 
