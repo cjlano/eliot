@@ -22,6 +22,7 @@
 
 #include "tile_layout.h"
 #include "tile_widget.h"
+#include "qtcommon.h"
 
 using namespace std;
 
@@ -45,7 +46,10 @@ void TileLayout::clear()
 {
     QLayoutItem *item;
     while ((item = takeAt(0)))
+    {
+        QtCommon::DestroyObject(item->widget());
         delete item;
+    }
 }
 
 
