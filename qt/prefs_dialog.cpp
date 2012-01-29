@@ -24,6 +24,8 @@
 #include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
 #include <QtCore/QStringList>
+#include <QtGui/QCompleter>
+#include <QtGui/QFileSystemModel>
 
 #include "prefs_dialog.h"
 #include "game_exception.h"
@@ -60,6 +62,13 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     spinBoxTimerAlert->setToolTip(_q("Number of remaining seconds when an alert is triggered.\n"
                                      "Use a value of -1 to disable the alert.\n"
                                      "Changing this value will reset the timer."));
+
+    // Auto-completion on the dictionary path
+    QCompleter *completer = new QCompleter(this);
+    QFileSystemModel *model = new QFileSystemModel(completer);
+    model->setRootPath(QDir::currentPath());
+    completer->setModel(model);
+    lineEditIntfDicPath->setCompleter(completer);
 
     try
     {

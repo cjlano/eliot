@@ -28,6 +28,8 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QSet>
 #include <QtCore/QList>
+#include <QtGui/QCompleter>
+#include <QtGui/QFileSystemModel>
 
 #include "dic_wizard.h"
 #include "qtcommon.h"
@@ -72,6 +74,19 @@ WizardInfoPage::WizardInfoPage(QWidget *parent) : QWizardPage(parent)
     registerField("dicName*", editDicName);
     registerField("genDic*", editGenDic);
     registerField("wordList*", editWordList);
+
+    // Auto-completion on the paths
+    QCompleter *completer1 = new QCompleter(this);
+    QFileSystemModel *model1 = new QFileSystemModel(this);
+    model1->setRootPath(QDir::currentPath());
+    completer1->setModel(model1);
+    editGenDic->setCompleter(completer1);
+
+    QCompleter *completer2 = new QCompleter(this);
+    QFileSystemModel *model2 = new QFileSystemModel(this);
+    model2->setRootPath(QDir::currentPath());
+    completer2->setModel(model2);
+    editWordList->setCompleter(completer2);
 }
 
 
