@@ -58,7 +58,7 @@ void BagWidget2::setGame(const PublicGame *iGame)
             {
                 TileWidget *tileWidget = new TileWidget(NULL, TileWidget::NONE, 0, 0);
                 tileWidget->setBorder();
-                tileWidget->tileChanged(tile, false, TileWidget::NORMAL);
+                tileWidget->tileChanged(TileWidget::NORMAL, tile);
                 layout->addWidget(tileWidget);
             }
         }
@@ -81,13 +81,13 @@ void BagWidget2::refresh()
         for (unsigned i = 0; i < nbInBag; ++i)
         {
             TileWidget *tileWidget = (TileWidget*) layout()->itemAt(index)->widget();
-            tileWidget->tileChanged(tile, false, TileWidget::NORMAL);
+            tileWidget->tileChanged(TileWidget::NORMAL, tile);
             ++index;
         }
         for (unsigned i = nbInBag; i < tile.maxNumber(); ++i)
         {
             TileWidget *tileWidget = (TileWidget*) layout()->itemAt(index)->widget();
-            tileWidget->tileChanged(tile, false, TileWidget::PLAYED);
+            tileWidget->tileChanged(TileWidget::RACK_PLAYED, tile);
             ++index;
         }
     }

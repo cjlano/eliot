@@ -137,18 +137,18 @@ void BoardWidget::refresh()
         {
             for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
             {
-                if (!m_showTemporarySigns && board.isTestChar(row, col))
+                if (board.isVacant(row, col) ||
+                    (board.isTestChar(row, col) && !m_showTemporarySigns))
                 {
                     // Force an empty square.
-                    m_widgetsMatrix[row][col]->tileChanged(
-                            Tile(), false, TileWidget::NORMAL);
+                    m_widgetsMatrix[row][col]->tileChanged(TileWidget::BOARD_EMPTY);
                 }
                 else
                 {
                     m_widgetsMatrix[row][col]->tileChanged(
+                            board.isTestChar(row, col) ?  TileWidget::PREVIEW : TileWidget::NORMAL,
                             board.getTile(row, col),
-                            board.isJoker(row, col),
-                            board.isTestChar(row, col) ?  TileWidget::PREVIEW : TileWidget::NORMAL);
+                            board.isJoker(row, col));
                 }
             }
         }
@@ -160,8 +160,7 @@ void BoardWidget::refresh()
         {
             for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
             {
-                m_widgetsMatrix[row][col]->tileChanged(
-                        Tile(), false, TileWidget::NORMAL);
+                m_widgetsMatrix[row][col]->tileChanged(TileWidget::BOARD_EMPTY);
             }
         }
     }

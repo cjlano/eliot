@@ -106,7 +106,7 @@ int TileWidget::getSquareSize() const
 }
 
 
-void TileWidget::tileChanged(const Tile &iTile, bool isJoker, State state)
+void TileWidget::tileChanged(State state, const Tile &iTile, bool isJoker)
 {
     // This avoids a lot of useless redraws
     if (m_state == state && m_tile == iTile && m_isJoker == isJoker)
@@ -157,11 +157,11 @@ void TileWidget::paintEvent(QPaintEvent *iEvent)
 
     // Set the square color
     QColor color;
-    if (!m_tile.isEmpty())
+    if (!m_tile.isEmpty() && m_state != BOARD_EMPTY)
     {
         if (m_state == PREVIEW)
             color = TilePreviewColour;
-        else if (m_state == PLAYED)
+        else if (m_state == RACK_PLAYED)
             color = TilePlayedColour;
         else
             color = TileNormalColour;
@@ -233,7 +233,7 @@ void TileWidget::paintEvent(QPaintEvent *iEvent)
         painter.drawPolygon(points, 7);
     }
 
-    if (m_state == PLAYED)
+    if (m_state == RACK_PLAYED)
     {
         painter.setPen(TextNormalColour);
         painter.drawLine(QLine(0, 0, squareSize, squareSize));

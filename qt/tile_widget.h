@@ -51,8 +51,8 @@ public:
         COORDS,
         NORMAL,
         PREVIEW,
-        PLAYED,
-        IN_RACK
+        BOARD_EMPTY,
+        RACK_PLAYED,
     };
 
     explicit TileWidget(QWidget *parent = 0, Multiplier multiplier = NONE,
@@ -70,7 +70,7 @@ public:
     virtual QSize sizeHint() const;
 
 public slots:
-    //void tileChanged(const Tile &iTile, bool isJoker, State state);
+    void tileChanged(State state, const Tile &iTile = Tile(), bool isJoker = false);
     void arrowChanged(bool showArrow, bool horizontalArrow);
 
 signals:
