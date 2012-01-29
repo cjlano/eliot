@@ -48,8 +48,8 @@ public:
     virtual QLayoutItem *itemAt(int index) const { return m_items.value(index); }
     virtual QLayoutItem *takeAt(int index);
     virtual QSize minimumSize() const;
+    virtual QSize sizeHint() const;
     virtual void setGeometry(const QRect &rect);
-    virtual QSize sizeHint() const { return minimumSize(); }
 
 private:
     QList<QLayoutItem *> m_items;

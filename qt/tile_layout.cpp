@@ -98,6 +98,25 @@ QSize TileLayout::minimumSize() const
 }
 
 
+QSize TileLayout::sizeHint() const
+{
+    int size = spacing();
+    if (m_items.empty())
+        return QSize(size, size);
+
+    size += m_items.at(0)->sizeHint().width();
+
+    if (m_dynamicCol && m_dynamicRow)
+        return QSize(size, size);
+    else if (m_dynamicCol)
+        return QSize(size * ((m_items.size() - 1) / m_nbRows + 1) - spacing(), size * m_nbRows - spacing());
+    else if (m_dynamicRow)
+        return QSize(size * m_nbCols - spacing(), size * ((m_items.size() - 1) / m_nbCols + 1) - spacing());
+    else
+        return QSize(size * m_nbCols - spacing(), size * m_nbRows - spacing());
+}
+
+
 void TileLayout::setGeometry(const QRect &rect)
 {
     QLayout::setGeometry(rect);
