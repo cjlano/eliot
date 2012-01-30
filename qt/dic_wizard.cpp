@@ -92,7 +92,6 @@ WizardInfoPage::WizardInfoPage(QWidget *parent) : QWizardPage(parent)
 
 bool WizardInfoPage::isComplete() const
 {
-    return true; // XXX XXX XXX: temporary
     if (!QWizardPage::isComplete())
         return false;
 
