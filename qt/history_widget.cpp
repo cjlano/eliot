@@ -124,7 +124,7 @@ void HistoryWidget::updateModel()
     if (m_history != NULL && m_history->getSize() != 0)
     {
         // Should we align the rack with its solution?
-        QSettings qs(ORGANIZATION, PACKAGE_NAME);
+        QSettings qs;
         bool align = qs.value(PrefsDialog::kINTF_ALIGN_HISTORY).toBool();
 
         if (!align)

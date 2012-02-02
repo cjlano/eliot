@@ -125,7 +125,7 @@ NewGame::NewGame(QWidget *iParent)
 void NewGame::refresh()
 {
     // Retrieve the default computer level
-    QSettings qs(ORGANIZATION, PACKAGE_NAME);
+    QSettings qs;
     int defLevel = qs.value(PrefsDialog::kINTF_DEFAULT_AI_LEVEL, 100).toInt();
     // Ensure a valid range
     if (defLevel < 0)

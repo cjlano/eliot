@@ -194,7 +194,7 @@ void TileWidget::paintEvent(QPaintEvent *iEvent)
         painter.setPen(TextNormalColour);
 
         // Should we display the tiles points?
-        QSettings qs(ORGANIZATION, PACKAGE_NAME);
+        QSettings qs;
         const bool showPoints = qs.value(PrefsDialog::kINTF_SHOW_TILES_POINTS, true).toBool();
 
         // Draw the points of the tile

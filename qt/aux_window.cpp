@@ -85,7 +85,7 @@ void AuxWindow::closeEvent(QCloseEvent *event)
 
 void AuxWindow::writeSettings() const
 {
-    QSettings settings(ORGANIZATION, PACKAGE_NAME);
+    QSettings settings;
     settings.beginGroup(m_windowName);
     settings.setValue("size", size());
     settings.setValue("pos", pos());
@@ -95,7 +95,7 @@ void AuxWindow::writeSettings() const
 
 void AuxWindow::readSettings()
 {
-    QSettings settings(ORGANIZATION, PACKAGE_NAME);
+    QSettings settings;
     settings.beginGroup(m_windowName);
     QSize size = settings.value("size").toSize();
     if (size.isValid())

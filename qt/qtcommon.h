@@ -55,9 +55,6 @@ QString qfw(const wstring &wstr);
 #    define _q(s) QString::fromLocal8Bit(_(s))
 #endif
 
-// Used for QSettings
-#define ORGANIZATION "eliot"
-
 
 class QObject;
 class QWidget;

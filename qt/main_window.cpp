@@ -99,7 +99,7 @@ MainWindow::MainWindow(QWidget *iParent)
     // Make it easier to reproduce bugs
     LOG_DEBUG("Rand seed: " << val);
 
-    QSettings qs(ORGANIZATION, PACKAGE_NAME);
+    QSettings qs;
     int timerTotal = qs.value(PrefsDialog::kINTF_TIMER_TOTAL_DURATION, 180).toInt();
     int timerAlert = qs.value(PrefsDialog::kINTF_TIMER_ALERT_DURATION, 30).toInt();
     m_timerModel = new TimerModel(timerTotal, timerAlert);
@@ -260,7 +260,7 @@ void MainWindow::linkTrainingAnd7P1()
     // Reconnect it only if needed
     if (m_dicToolsWindow != NULL)
     {
-        QSettings qs(ORGANIZATION, PACKAGE_NAME);
+        QSettings qs;
         if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
         {
             QObject::connect(m_trainingWidget,
@@ -285,7 +285,7 @@ void MainWindow::prefsUpdated()
     }
 
     // Refresh the timer values
-    QSettings qs(ORGANIZATION, PACKAGE_NAME);
+    QSettings qs;
     int timerTotal = qs.value(PrefsDialog::kINTF_TIMER_TOTAL_DURATION).toInt();
     int timerAlert = qs.value(PrefsDialog::kINTF_TIMER_ALERT_DURATION).toInt();
     m_timerModel->setTotalDuration(timerTotal);
@@ -424,7 +424,7 @@ void MainWindow::displayInfoMsg(QString iMsg)
 
 void MainWindow::showDefinition(QString iWord)
 {
-    QSettings qs(ORGANIZATION, PACKAGE_NAME);
+    QSettings qs;
     QString url = qs.value(PrefsDialog::kINTF_DEFINITIONS_SITE_URL,
                            PrefsDialog::kDEFAULT_DEF_SITE).toString();
     if (url == "")
@@ -477,7 +477,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::writeSettings() const
 {
-    QSettings settings(ORGANIZATION, PACKAGE_NAME);
+    QSettings settings;
     settings.beginGroup(m_windowName);
     settings.setValue("size", size());
     settings.setValue("pos", pos());
@@ -492,7 +492,7 @@ void MainWindow::writeSettings() const
 
 void MainWindow::readSettings()
 {
-    QSettings settings(ORGANIZATION, PACKAGE_NAME);
+    QSettings settings;
     settings.beginGroup(m_windowName);
     QSize size = settings.value("size").toSize();
     if (size.isValid())
@@ -528,7 +528,7 @@ void MainWindow::changeDictionary(QString iFileName)
             displayInfoMsg(_q("Loaded dictionary '%1'").arg(iFileName));
 
             // Save the location of the dictionary in the preferences
-            QSettings qs(ORGANIZATION, PACKAGE_NAME);
+            QSettings qs;
             qs.setValue(PrefsDialog::kINTF_DIC_PATH, iFileName);
         }
         catch (std::exception &e)
@@ -558,7 +558,7 @@ QAction * MainWindow::addMenuAction(QMenu *menu, QString iText,
 void MainWindow::createMenu()
 {
     // Decide whether to show the toolbar
-    QSettings qs(ORGANIZATION, PACKAGE_NAME);
+    QSettings qs;
     bool showToolBar = qs.value(PrefsDialog::kINTF_SHOW_TOOLBAR, true).toBool();
     m_ui.toolBar->setVisible(showToolBar);
 
@@ -944,7 +944,7 @@ void MainWindow::onWindowsToolbar()
         m_ui.toolBar->hide();
     else
         m_ui.toolBar->show();
-    QSettings qs(ORGANIZATION, PACKAGE_NAME);
+    QSettings qs;
     qs.setValue(PrefsDialog::kINTF_SHOW_TOOLBAR, m_ui.toolBar->isVisible());
 }
 
@@ -1161,7 +1161,7 @@ void MainWindow::onHistoryReplayTurn()
     if (m_game == NULL)
         return;
 
-    QSettings settings(ORGANIZATION, PACKAGE_NAME);
+    QSettings settings;
     bool warn = settings.value(PrefsDialog::kINTF_WARN_REPLAY_TURN, true).toBool();
     if (warn) {
         // Ask for a confirmation, because this may lead to data loss

@@ -73,7 +73,7 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     try
     {
         // Interface settings
-        QSettings qs(ORGANIZATION, PACKAGE_NAME);
+        QSettings qs;
         lineEditIntfDicPath->setText(qs.value(kINTF_DIC_PATH, "").toString());
         lineEditDefSite->setText(qs.value(kINTF_DEFINITIONS_SITE_URL,
                                           kDEFAULT_DEF_SITE).toString());
@@ -133,7 +133,7 @@ void PrefsDialog::updateSettings()
     try
     {
         // Interface settings
-        QSettings qs(ORGANIZATION, PACKAGE_NAME);
+        QSettings qs;
         qs.setValue(kINTF_DIC_PATH, lineEditIntfDicPath->text());
         qs.setValue(kINTF_DEFINITIONS_SITE_URL, lineEditDefSite->text());
         if (qs.value(kINTF_ALIGN_HISTORY, true).toBool() != checkBoxIntfAlignHistory->isChecked())

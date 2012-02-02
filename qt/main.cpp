@@ -119,6 +119,9 @@ int main(int argc, char **argv)
 
     MyApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/images/eliot.xpm"));
+    // Used for QSettings
+    app.setApplicationName(PACKAGE_NAME);
+    app.setOrganizationName("eliot");
 
 #ifdef ENABLE_NLS
     // Set the message domain
