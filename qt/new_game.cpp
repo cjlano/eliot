@@ -276,9 +276,12 @@ void NewGame::on_pushButtonAdd_clicked()
 
 void NewGame::on_pushButtonRemove_clicked()
 {
-    QList<QTableWidgetItem *> selectedItems = tablePlayers->selectedItems();
-    if (!selectedItems.isEmpty())
-        tablePlayers->removeRow(selectedItems.first()->row());
+    QItemSelectionModel *selModel = tablePlayers->selectionModel();
+    for (int i = tablePlayers->rowCount() - 1; i >= 0; --i)
+    {
+        if (selModel->isRowSelected(i, QModelIndex()))
+            tablePlayers->removeRow(i);
+    }
 }
 
 void NewGame::on_checkBoxJoker_stateChanged(int newState)
