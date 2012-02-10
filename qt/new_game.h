@@ -26,14 +26,16 @@
 
 #include <ui/new_game.ui.h>
 
+#include "logging.h"
+
 
 class Dictionary;
 class PublicGame;
-class QStandardItemModel;
 
 class NewGame: public QDialog, private Ui::NewGameDialog
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     explicit NewGame(QWidget *iParent = 0);
@@ -54,18 +56,15 @@ public slots:
 private slots:
     void enableLevelSpinBox(int);
     void enableOkButton();
-    void enableRemoveButton(const QItemSelection&, const QItemSelection&);
+    void enableRemoveButton();
     void enablePlayers(bool);
+    void addRow(QString iName, QString iType, QString iLevel);
 
     // The following slots are automatically connected
     void on_pushButtonAdd_clicked();
     void on_pushButtonRemove_clicked();
     void on_checkBoxJoker_stateChanged(int);
     void on_checkBoxExplosive_stateChanged(int);
-
-private:
-    /// Model of the players
-    QStandardItemModel *m_model;
 };
 
 

@@ -18,7 +18,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtGui/QStandardItemModel>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QComboBox>
 #include <QtGui/QSpinBox>
@@ -36,6 +35,8 @@
 #include "player.h"
 #include "ai_percent.h"
 
+
+INIT_LOGGER(qt, NewGame);
 
 const char * NewGame::kHUMAN = _("Human");
 const char * NewGame::kAI = _("Computer");
@@ -65,40 +66,36 @@ NewGame::NewGame(QWidget *iParent)
             "This allows for more combinations during the game, and thus higher scores."));
 
     // Initialize the model of the default players
-    m_model = new QStandardItemModel(2, 3, this);
-    m_model->setHeaderData(0, Qt::Horizontal, _q("Name"), Qt::DisplayRole);
-    m_model->setHeaderData(1, Qt::Horizontal, _q("Type"), Qt::DisplayRole);
-    m_model->setHeaderData(2, Qt::Horizontal, _q("Level"), Qt::DisplayRole);
-    m_model->setData(m_model->index(0, 0), _q("Player %1").arg(1));
-    m_model->setData(m_model->index(0, 1), _q(kHUMAN));
-    m_model->setData(m_model->index(1, 0), _q("Eliot"));
-    m_model->setData(m_model->index(1, 1), _q(kAI));
-    m_model->setData(m_model->index(1, 2), 100);
+    addRow(_q("Player %1").arg(1), _q(kHUMAN), "");
+    addRow(_q("Eliot"), _q(kAI), "100");
 
     // Change the default AI level
     refresh();
 
-    // Initialize the QTreeView with the model we just created
-    treeViewPlayers->setModel(m_model);
     PlayersTypeDelegate *typeDelegate = new PlayersTypeDelegate(this);
-    treeViewPlayers->setItemDelegateForColumn(1, typeDelegate);
+    tablePlayers->setItemDelegateForColumn(1, typeDelegate);
     PlayersLevelDelegate *levelDelegate = new PlayersLevelDelegate(this);
-    treeViewPlayers->setItemDelegateForColumn(2, levelDelegate);
-    treeViewPlayers->resizeColumnToContents(2);
+    tablePlayers->setItemDelegateForColumn(2, levelDelegate);
+    // Improve the header
+    QHeaderView *header = tablePlayers->horizontalHeader();
+    header->setDefaultAlignment(Qt::AlignLeft);
+    header->resizeSection(0, 200);
+    header->resizeSection(1, 100);
+    header->resizeSection(2, 50);
 
     // Enable the Level spinbox only when the player is a computer
     QObject::connect(comboBoxType, SIGNAL(currentIndexChanged(int)),
                      this, SLOT(enableLevelSpinBox(int)));
     // Enable the Remove button only when there is a selection in the tree
-    QObject::connect(treeViewPlayers->selectionModel(),
-                     SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-                     this,
-                     SLOT(enableRemoveButton(const QItemSelection&, const QItemSelection&)));
+    QObject::connect(tablePlayers, SIGNAL(itemSelectionChanged()),
+                     this, SLOT(enableRemoveButton()));
     // Enable the Ok button only if there are enough players for the
     // current mode
-    QObject::connect(m_model, SIGNAL(rowsInserted(const QModelIndex&, int, int)),
+    QObject::connect(tablePlayers->model(),
+                     SIGNAL(rowsInserted(const QModelIndex&, int, int)),
                      this, SLOT(enableOkButton()));
-    QObject::connect(m_model, SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
+    QObject::connect(tablePlayers->model(),
+                     SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
                      this, SLOT(enableOkButton()));
     QObject::connect(radioButtonDuplicate, SIGNAL(toggled(bool)),
                      this, SLOT(enableOkButton()));
@@ -106,6 +103,7 @@ NewGame::NewGame(QWidget *iParent)
                      this, SLOT(enableOkButton()));
     QObject::connect(radioButtonTraining, SIGNAL(toggled(bool)),
                      this, SLOT(enableOkButton()));
+
     QObject::connect(radioButtonDuplicate, SIGNAL(toggled(bool)),
                      this, SLOT(enablePlayers(bool)));
     QObject::connect(radioButtonFreeGame, SIGNAL(toggled(bool)),
@@ -116,7 +114,7 @@ NewGame::NewGame(QWidget *iParent)
     // Install a custom event filter, to remove the selection when the
     // "Delete" key is pressed
     PlayersEventFilter *filter = new PlayersEventFilter(this);
-    treeViewPlayers->installEventFilter(filter);
+    tablePlayers->installEventFilter(filter);
     QObject::connect(filter, SIGNAL(deletePressed()),
                      this, SLOT(on_pushButtonRemove_clicked()));
 }
@@ -134,13 +132,13 @@ void NewGame::refresh()
         defLevel = 100;
 
     // Update the level of the "Eliot" player only
-    for (int num = 0; num < m_model->rowCount(); ++num)
+    for (int num = 0; num < tablePlayers->rowCount(); ++num)
     {
-        QString name = m_model->data(m_model->index(num, 0)).toString();
-        QString type = m_model->data(m_model->index(num, 1)).toString();
+        QString name = tablePlayers->item(num, 0)->text();
+        QString type = tablePlayers->item(num, 1)->text();
         if (name == _q("Eliot") && type == _q(kAI))
         {
-            m_model->setData(m_model->index(num, 2), defLevel);
+            tablePlayers->item(num, 2)->setText(QString("%1").arg(defLevel));
         }
     }
 }
@@ -172,9 +170,9 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
     if (!radioButtonTraining->isChecked())
     {
         set<QString> allNames;
-        for (int num = 0; num < m_model->rowCount(); ++num)
+        for (int num = 0; num < tablePlayers->rowCount(); ++num)
         {
-            QString name = m_model->data(m_model->index(num, 0)).toString();
+            QString name = tablePlayers->item(num, 0)->text();
             if (name == "")
                 name = _q("Player %1").arg(num + 1);
             // Ensure unicity of the players names
@@ -189,13 +187,13 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
             }
             allNames.insert(name);
 
-            QString type = m_model->data(m_model->index(num, 1)).toString();
+            QString type = tablePlayers->item(num, 1)->text();
             Player *player;
             if (type == _q(kHUMAN))
                 player = new HumanPlayer;
             else
             {
-                double level = m_model->data(m_model->index(num, 2)).toInt();
+                double level = tablePlayers->item(num, 2)->text().toInt();
                 player = new AIPercent(level / 100.);
             }
             player->setName(wfq(name));
@@ -224,18 +222,17 @@ void NewGame::enableOkButton()
     // - if there is at least one player in duplicate mode
     // - if there are at least 2 players in free game mode
     bool disable =
-        (radioButtonDuplicate->isChecked() && m_model->rowCount() < 1) ||
-        (radioButtonFreeGame->isChecked() && m_model->rowCount() < 2);
+        (radioButtonDuplicate->isChecked() && tablePlayers->rowCount() < 1) ||
+        (radioButtonFreeGame->isChecked() && tablePlayers->rowCount() < 2);
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!disable);
 }
 
 
-void NewGame::enableRemoveButton(const QItemSelection &iSelected,
-                                 const QItemSelection &)
+void NewGame::enableRemoveButton()
 {
-    // Enable the "Remove" button iff at least one line in the tree view
+    // Enable the "Remove" button iff at least one line in the table
     // is selected
-    pushButtonRemove->setEnabled(!iSelected.indexes().empty());
+    pushButtonRemove->setEnabled(!tablePlayers->selectedItems().isEmpty());
 }
 
 
@@ -249,19 +246,23 @@ void NewGame::enablePlayers(bool checked)
 }
 
 
+void NewGame::addRow(QString iName, QString iType, QString iLevel)
+{
+    const int row = tablePlayers->rowCount();
+    tablePlayers->setRowCount(row + 1);
+    tablePlayers->setRowHeight(row, 24);
+    tablePlayers->setItem(row, 0, new QTableWidgetItem(iName));
+    tablePlayers->setItem(row, 1, new QTableWidgetItem(iType));
+    tablePlayers->setItem(row, 2, new QTableWidgetItem(iLevel));
+}
+
+
 void NewGame::on_pushButtonAdd_clicked()
 {
     // Add a new row
-    int rowNum = m_model->rowCount();
-    bool res = m_model->insertRow(rowNum);
-    if (!res)
-        return;
-
-    // Change the contents of the row
-    m_model->setData(m_model->index(rowNum, 0), lineEditName->displayText());
-    m_model->setData(m_model->index(rowNum, 1), comboBoxType->currentText());
-    if (spinBoxLevel->isEnabled())
-        m_model->setData(m_model->index(rowNum, 2), spinBoxLevel->value());
+    addRow(lineEditName->displayText(),
+           comboBoxType->currentText(),
+           spinBoxLevel->isEnabled() ? QString("%1").arg(spinBoxLevel->value()) : "");
 
     // Increment the player ID
     static int currPlayer = 2;
@@ -275,10 +276,9 @@ void NewGame::on_pushButtonAdd_clicked()
 
 void NewGame::on_pushButtonRemove_clicked()
 {
-    QModelIndexList indexList = treeViewPlayers->selectionModel()->selectedIndexes();
-    if (indexList.empty())
-        return;
-    m_model->removeRow(indexList.front().row());
+    QList<QTableWidgetItem *> selectedItems = tablePlayers->selectedItems();
+    if (!selectedItems.isEmpty())
+        tablePlayers->removeRow(selectedItems.first()->row());
 }
 
 void NewGame::on_checkBoxJoker_stateChanged(int newState)
