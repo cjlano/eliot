@@ -75,6 +75,7 @@ private slots:
     void onGameQuit();
     void onSettingsChooseDic();
     void onSettingsCreateDic();
+    void onSettingsFavPlayers();
     void onSettingsPreferences();
     void onWindowsToolbar();
     void onWindowsBag();

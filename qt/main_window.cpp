@@ -56,6 +56,7 @@
 #include "training_widget.h"
 #include "history_widget.h"
 #include "dic_tools_widget.h"
+#include "fav_players_dialog.h"
 #include "timer_widget.h"
 #include "dic_wizard.h"
 #include "aux_window.h"
@@ -618,6 +619,10 @@ void MainWindow::createMenu()
     addMenuAction(menuSettings, _q("Create &new dictionary..."), QString(""),
                   _q("Start the wizard for creating a new dictionary "
                      "from an existing word list"), SLOT(onSettingsCreateDic()));
+    menuSettings->addSeparator();
+    addMenuAction(menuSettings, _q("&Favorite players..."), QString(""),
+                  _q("Define frequently used players for faster game creation"),
+                  SLOT(onSettingsFavPlayers()));
     addMenuAction(menuSettings, _q("&Preferences..."), _q("Ctrl+F"),
                   _q("Edit the preferences"), SLOT(onSettingsPreferences()),
                   false, QIcon(":/images/preferences.png"));
@@ -938,6 +943,13 @@ void MainWindow::onSettingsCreateDic()
     connect(wizard, SIGNAL(loadDictionary(QString)),
             this, SLOT(changeDictionary(QString)));
     wizard->show();
+}
+
+
+void MainWindow::onSettingsFavPlayers()
+{
+    FavPlayersDialog *favPlayersDialog = new FavPlayersDialog(this);
+    favPlayersDialog->exec();
 }
 
 
