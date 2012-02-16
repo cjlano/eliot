@@ -278,11 +278,14 @@ void MainWindow::prefsUpdated()
     // Refresh one signal/slot connection
     linkTrainingAnd7P1();
 
+    // XXX: is this preference still useful?
+#if 0
     // Refresh the default level for the Eliot player
     if (m_newGameDialog != NULL)
     {
         m_newGameDialog->refresh();
     }
+#endif
 
     // Refresh the timer values
     QSettings qs;

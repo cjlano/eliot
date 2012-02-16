@@ -66,6 +66,7 @@ eliot_SOURCES = \
     bag_widget.cpp bag_widget.h \
     bag_widget2.cpp bag_widget2.h \
     dic_tools_widget.cpp dic_tools_widget.h \
+    players_table_helper.cpp players_table_helper.h \
     new_game.cpp new_game.h \
     score_widget.cpp score_widget.h \
     dic_wizard.cpp dic_wizard.h \
@@ -97,6 +98,7 @@ nodist_eliot_SOURCES = \
     tile_layout.moc.cpp \
     validator_factory.moc.cpp \
     custom_popup.moc.cpp \
+    players_table_helper.moc.cpp \
     new_game.moc.cpp \
     dic_tools_widget.moc.cpp \
     bag_widget.moc.cpp \

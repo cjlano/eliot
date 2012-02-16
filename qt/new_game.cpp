@@ -18,12 +18,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtGui/QKeyEvent>
-#include <QtGui/QComboBox>
-#include <QtGui/QSpinBox>
 #include <QtCore/QSettings>
 
 #include "new_game.h"
+#include "players_table_helper.h"
 #include "qtcommon.h"
 #include "prefs_dialog.h"
 #include "game_factory.h"
@@ -65,63 +63,8 @@ NewGame::NewGame(QWidget *iParent)
             "but at most 7 can be played at the same time.\n"
             "This allows for more combinations during the game, and thus higher scores."));
 
-    // Initialize the model of the default players
-    addRow(_q("Player %1").arg(1), _q(kHUMAN), "");
-    addRow(_q("Eliot"), _q(kAI), "100");
+    m_helper = new PlayersTableHelper(this, tablePlayers, NULL, pushButtonRemove);
 
-    // Change the default AI level
-    refresh();
-
-    PlayersTypeDelegate *typeDelegate = new PlayersTypeDelegate(this);
-    tablePlayers->setItemDelegateForColumn(1, typeDelegate);
-    PlayersLevelDelegate *levelDelegate = new PlayersLevelDelegate(this);
-    tablePlayers->setItemDelegateForColumn(2, levelDelegate);
-    // Improve the header
-    QHeaderView *header = tablePlayers->horizontalHeader();
-    header->setDefaultAlignment(Qt::AlignLeft);
-    header->resizeSection(0, 200);
-    header->resizeSection(1, 100);
-    header->resizeSection(2, 50);
-
-    // Enable the Level spinbox only when the player is a computer
-    QObject::connect(comboBoxType, SIGNAL(currentIndexChanged(int)),
-                     this, SLOT(enableLevelSpinBox(int)));
-    // Enable the Remove button only when there is a selection in the tree
-    QObject::connect(tablePlayers, SIGNAL(itemSelectionChanged()),
-                     this, SLOT(enableRemoveButton()));
-    // Enable the Ok button only if there are enough players for the
-    // current mode
-    QObject::connect(tablePlayers->model(),
-                     SIGNAL(rowsInserted(const QModelIndex&, int, int)),
-                     this, SLOT(enableOkButton()));
-    QObject::connect(tablePlayers->model(),
-                     SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
-                     this, SLOT(enableOkButton()));
-    QObject::connect(radioButtonDuplicate, SIGNAL(toggled(bool)),
-                     this, SLOT(enableOkButton()));
-    QObject::connect(radioButtonFreeGame, SIGNAL(toggled(bool)),
-                     this, SLOT(enableOkButton()));
-    QObject::connect(radioButtonTraining, SIGNAL(toggled(bool)),
-                     this, SLOT(enableOkButton()));
-
-    QObject::connect(radioButtonDuplicate, SIGNAL(toggled(bool)),
-                     this, SLOT(enablePlayers(bool)));
-    QObject::connect(radioButtonFreeGame, SIGNAL(toggled(bool)),
-                     this, SLOT(enablePlayers(bool)));
-    QObject::connect(radioButtonTraining, SIGNAL(toggled(bool)),
-                     this, SLOT(enablePlayers(bool)));
-
-    // Install a custom event filter, to remove the selection when the
-    // "Delete" key is pressed
-    PlayersEventFilter *filter = new PlayersEventFilter(this);
-    tablePlayers->installEventFilter(filter);
-    QObject::connect(filter, SIGNAL(deletePressed()),
-                     this, SLOT(on_pushButtonRemove_clicked()));
-}
-
-
-void NewGame::refresh()
-{
     // Retrieve the default computer level
     QSettings qs;
     int defLevel = qs.value(PrefsDialog::kINTF_DEFAULT_AI_LEVEL, 100).toInt();
@@ -131,16 +74,30 @@ void NewGame::refresh()
     if (defLevel > 100)
         defLevel = 100;
 
-    // Update the level of the "Eliot" player only
-    for (int num = 0; num < tablePlayers->rowCount(); ++num)
-    {
-        QString name = tablePlayers->item(num, 0)->text();
-        QString type = tablePlayers->item(num, 1)->text();
-        if (name == _q("Eliot") && type == _q(kAI))
-        {
-            tablePlayers->item(num, 2)->setText(QString("%1").arg(defLevel));
-        }
-    }
+    // Initialize the model of the default players
+    m_helper->addRow(_q("Player %1").arg(1), _q(kHUMAN), "");
+    m_helper->addRow(_q("Eliot"), _q(kAI), QString("%1").arg(defLevel));
+
+    // Enable the Level spinbox only when the player is a computer
+    QObject::connect(comboBoxType, SIGNAL(currentIndexChanged(int)),
+                     this, SLOT(enableLevelSpinBox(int)));
+    // Enable the Ok button only if there are enough players for the
+    // current mode
+    QObject::connect(m_helper, SIGNAL(rowCountChanged()),
+                     this, SLOT(enableOkButton()));
+    QObject::connect(radioButtonDuplicate, SIGNAL(toggled(bool)),
+                     this, SLOT(enableOkButton()));
+    QObject::connect(radioButtonFreeGame, SIGNAL(toggled(bool)),
+                     this, SLOT(enableOkButton()));
+    QObject::connect(radioButtonTraining, SIGNAL(toggled(bool)),
+                     this, SLOT(enableOkButton()));
+
+    QObject::connect(radioButtonDuplicate, SIGNAL(toggled(bool)),
+                     this, SLOT(enablePlayers(bool)));
+    QObject::connect(radioButtonFreeGame, SIGNAL(toggled(bool)),
+                     this, SLOT(enablePlayers(bool)));
+    QObject::connect(radioButtonTraining, SIGNAL(toggled(bool)),
+                     this, SLOT(enablePlayers(bool)));
 }
 
 
@@ -169,10 +126,11 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
     // Add the players
     if (!radioButtonTraining->isChecked())
     {
+        const QList<PlayersTableHelper::PlayerDef> &players = m_helper->getPlayers(false);
         set<QString> allNames;
-        for (int num = 0; num < tablePlayers->rowCount(); ++num)
+        for (int num = 0; num < players.size(); ++num)
         {
-            QString name = tablePlayers->item(num, 0)->text();
+            QString name = players.at(num).name;
             if (name == "")
                 name = _q("Player %1").arg(num + 1);
             // Ensure unicity of the players names
@@ -187,13 +145,13 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
             }
             allNames.insert(name);
 
-            QString type = tablePlayers->item(num, 1)->text();
+            QString type = players.at(num).type;
             Player *player;
             if (type == _q(kHUMAN))
                 player = new HumanPlayer;
             else
             {
-                double level = tablePlayers->item(num, 2)->text().toInt();
+                double level = players.at(num).level;
                 player = new AIPercent(level / 100.);
             }
             player->setName(wfq(name));
@@ -222,17 +180,9 @@ void NewGame::enableOkButton()
     // - if there is at least one player in duplicate mode
     // - if there are at least 2 players in free game mode
     bool disable =
-        (radioButtonDuplicate->isChecked() && tablePlayers->rowCount() < 1) ||
-        (radioButtonFreeGame->isChecked() && tablePlayers->rowCount() < 2);
+        (radioButtonDuplicate->isChecked() && m_helper->getRowCount() < 1) ||
+        (radioButtonFreeGame->isChecked() && m_helper->getRowCount() < 2);
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!disable);
-}
-
-
-void NewGame::enableRemoveButton()
-{
-    // Enable the "Remove" button iff at least one line in the table
-    // is selected
-    pushButtonRemove->setEnabled(!tablePlayers->selectedItems().isEmpty());
 }
 
 
@@ -246,23 +196,13 @@ void NewGame::enablePlayers(bool checked)
 }
 
 
-void NewGame::addRow(QString iName, QString iType, QString iLevel)
-{
-    const int row = tablePlayers->rowCount();
-    tablePlayers->setRowCount(row + 1);
-    tablePlayers->setRowHeight(row, 24);
-    tablePlayers->setItem(row, 0, new QTableWidgetItem(iName));
-    tablePlayers->setItem(row, 1, new QTableWidgetItem(iType));
-    tablePlayers->setItem(row, 2, new QTableWidgetItem(iLevel));
-}
-
-
 void NewGame::on_pushButtonAdd_clicked()
 {
     // Add a new row
-    addRow(lineEditName->displayText(),
-           comboBoxType->currentText(),
-           spinBoxLevel->isEnabled() ? QString("%1").arg(spinBoxLevel->value()) : "");
+    m_helper->addRow(lineEditName->displayText(),
+                     comboBoxType->currentText(),
+                     spinBoxLevel->isEnabled() ?
+                        QString("%1").arg(spinBoxLevel->value()) : "");
 
     // Increment the player ID
     static int currPlayer = 2;
@@ -273,16 +213,6 @@ void NewGame::on_pushButtonAdd_clicked()
     }
 }
 
-
-void NewGame::on_pushButtonRemove_clicked()
-{
-    QItemSelectionModel *selModel = tablePlayers->selectionModel();
-    for (int i = tablePlayers->rowCount() - 1; i >= 0; --i)
-    {
-        if (selModel->isRowSelected(i, QModelIndex()))
-            tablePlayers->removeRow(i);
-    }
-}
 
 void NewGame::on_checkBoxJoker_stateChanged(int newState)
 {
@@ -295,127 +225,5 @@ void NewGame::on_checkBoxExplosive_stateChanged(int newState)
 {
     if (newState == Qt::Checked)
         checkBoxJoker->setChecked(false);
-}
-
-
-PlayersTypeDelegate::PlayersTypeDelegate(QObject *parent)
-    : QItemDelegate(parent)
-{
-}
-
-
-QWidget *PlayersTypeDelegate::createEditor(QWidget *parent,
-                                           const QStyleOptionViewItem &,
-                                           const QModelIndex &) const
-{
-    QComboBox *editor = new QComboBox(parent);
-    editor->addItem(_q(NewGame::kHUMAN));
-    editor->addItem(_q(NewGame::kAI));
-    return editor;
-}
-
-
-void PlayersTypeDelegate::setEditorData(QWidget *editor,
-                                        const QModelIndex &index) const
-{
-    QComboBox *combo = static_cast<QComboBox*>(editor);
-    QString text = index.model()->data(index, Qt::DisplayRole).toString();
-    combo->setCurrentIndex(combo->findText(text));
-}
-
-
-void PlayersTypeDelegate::setModelData(QWidget *editor,
-                                       QAbstractItemModel *model,
-                                       const QModelIndex &index) const
-{
-    QComboBox *combo = static_cast<QComboBox*>(editor);
-    model->setData(index, combo->currentText());
-    // Adapt the level to the chosen type of player
-    QModelIndex levelIndex = model->index(index.row(), 2);
-    if (combo->currentText() == _q(NewGame::kHUMAN))
-        model->setData(levelIndex, QVariant());
-    else
-        model->setData(levelIndex, 100);
-}
-
-
-void PlayersTypeDelegate::updateEditorGeometry(QWidget *editor,
-                                               const QStyleOptionViewItem &option,
-                                               const QModelIndex &) const
-{
-    editor->setGeometry(option.rect);
-}
-
-
-
-PlayersLevelDelegate::PlayersLevelDelegate(QObject *parent)
-    : QItemDelegate(parent)
-{
-}
-
-
-QWidget *PlayersLevelDelegate::createEditor(QWidget *parent,
-                                            const QStyleOptionViewItem &,
-                                            const QModelIndex &index) const
-{
-    // Allow changing the level only for computer players, i.e.
-    // if there is a level defined
-    if (index.model()->data(index, Qt::DisplayRole).isNull())
-        return NULL;
-    QSpinBox *editor = new QSpinBox(parent);
-    editor->setMinimum(0);
-    editor->setMaximum(100);
-    return editor;
-}
-
-
-void PlayersLevelDelegate::setEditorData(QWidget *editor,
-                                         const QModelIndex &index) const
-{
-    QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
-    int value = index.model()->data(index, Qt::DisplayRole).toInt();
-    spinBox->setValue(value);
-}
-
-
-void PlayersLevelDelegate::setModelData(QWidget *editor,
-                                        QAbstractItemModel *model,
-                                        const QModelIndex &index) const
-{
-    QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
-    model->setData(index, spinBox->value());
-}
-
-
-void PlayersLevelDelegate::updateEditorGeometry(QWidget *editor,
-                                                const QStyleOptionViewItem &option,
-                                                const QModelIndex &) const
-{
-    editor->setGeometry(option.rect);
-}
-
-
-
-    PlayersEventFilter::PlayersEventFilter(QObject *parent)
-: QObject(parent)
-{
-}
-
-
-bool PlayersEventFilter::eventFilter(QObject *obj, QEvent *event)
-{
-    // If the Delete key is pressed, remove the selected line, if any
-    if (event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == Qt::Key_Delete)
-        {
-            emit deletePressed();
-            return true;
-        }
-    }
-
-    // Standard event processing
-    return QObject::eventFilter(obj, event);
 }
 

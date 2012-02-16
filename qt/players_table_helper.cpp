@@ -1,0 +1,327 @@
+/*****************************************************************************
+ * Eliot
+ * Copyright (C) 2012 Olivier Teulière
+ * Authors: Olivier Teulière <ipkiss @@ gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *****************************************************************************/
+
+#include "config.h"
+
+#include <QtGui/QTableWidget>
+#include <QtGui/QPushButton>
+#include <QtGui/QHeaderView>
+#include <QtGui/QComboBox>
+#include <QtGui/QSpinBox>
+#include <QtGui/QKeyEvent>
+#include <QtCore/QSettings>
+
+#include "players_table_helper.h"
+#include "qtcommon.h"
+
+
+INIT_LOGGER(qt, PlayersTableHelper);
+
+
+const char * PlayersTableHelper::kHUMAN = _("Human");
+const char * PlayersTableHelper::kAI = _("Computer");
+
+
+PlayersTableHelper::PlayersTableHelper(QObject *parent,
+                                       QTableWidget *tablePlayers,
+                                       QPushButton *addButton,
+                                       QPushButton *removeButton)
+    : QObject(parent), m_tablePlayers(tablePlayers),
+    m_buttonAdd(addButton), m_buttonRemove(removeButton)
+{
+    // Initialize the table headers
+    tablePlayers->setColumnCount(3);
+    tablePlayers->setHorizontalHeaderItem(0, new QTableWidgetItem(_("Name")));
+    tablePlayers->setHorizontalHeaderItem(1, new QTableWidgetItem(_("Type")));
+    tablePlayers->setHorizontalHeaderItem(2, new QTableWidgetItem(_("Level")));
+    QHeaderView *header = tablePlayers->horizontalHeader();
+    header->setHighlightSections(false);
+    header->setStretchLastSection(true);
+    header->setDefaultAlignment(Qt::AlignLeft);
+    header->resizeSection(0, 200);
+    header->resizeSection(1, 100);
+    header->resizeSection(2, 50);
+    tablePlayers->verticalHeader()->setVisible(false);
+
+    // Set other table properties
+    tablePlayers->setAlternatingRowColors(true);
+    tablePlayers->setSelectionBehavior(QAbstractItemView::SelectRows);
+    tablePlayers->setShowGrid(false);
+
+    if (m_buttonAdd)
+    {
+        QObject::connect(m_buttonAdd, SIGNAL(clicked()),
+                         this, SLOT(addRow()));
+    }
+    if (m_buttonRemove)
+    {
+        QObject::connect(tablePlayers, SIGNAL(itemSelectionChanged()),
+                         this, SLOT(enableRemoveButton()));
+        QObject::connect(m_buttonRemove, SIGNAL(clicked()),
+                         this, SLOT(removeSelectedRows()));
+    }
+
+    PlayersTypeDelegate *typeDelegate = new PlayersTypeDelegate(this);
+    m_tablePlayers->setItemDelegateForColumn(1, typeDelegate);
+    PlayersLevelDelegate *levelDelegate = new PlayersLevelDelegate(this);
+    m_tablePlayers->setItemDelegateForColumn(2, levelDelegate);
+
+    // Install a custom event filter, to remove the selection when the
+    // "Delete" key is pressed
+    PlayersEventFilter *filter = new PlayersEventFilter(this);
+    m_tablePlayers->installEventFilter(filter);
+    QObject::connect(filter, SIGNAL(deletePressed()),
+                     this, SLOT(removeSelectedRows()));
+}
+
+
+void PlayersTableHelper::enableRemoveButton()
+{
+    m_buttonRemove->setEnabled(!m_tablePlayers->selectedItems().isEmpty());
+}
+
+
+void PlayersTableHelper::removeSelectedRows()
+{
+    bool changed = false;
+    QItemSelectionModel *selModel = m_tablePlayers->selectionModel();
+    for (int i = m_tablePlayers->rowCount() - 1; i >= 0; --i)
+    {
+        if (selModel->isRowSelected(i, QModelIndex()))
+        {
+            changed = true;
+            m_tablePlayers->removeRow(i);
+        }
+    }
+    if (changed)
+        emit rowCountChanged();
+}
+
+
+void PlayersTableHelper::addRow()
+{
+    addRow(_q("New player"), _q(kHUMAN), "");
+    // Give focus to the newly created cell containing the player name,
+    // to allow fast edition
+    m_tablePlayers->setFocus();
+    m_tablePlayers->setCurrentCell(m_tablePlayers->rowCount() - 1, 0,
+                                   QItemSelectionModel::ClearAndSelect |
+                                   QItemSelectionModel::Current |
+                                   QItemSelectionModel::Rows);
+}
+
+
+QList<PlayersTableHelper::PlayerDef> PlayersTableHelper::getPlayers(bool onlySelected) const
+{
+    QList<PlayerDef> playersList;
+    QItemSelectionModel *selModel = m_tablePlayers->selectionModel();
+    for (int i = 0; i < m_tablePlayers->rowCount(); ++i)
+    {
+        if (onlySelected && !selModel->isRowSelected(i, QModelIndex()))
+            continue;
+        PlayerDef playerDef;
+        playerDef.name = m_tablePlayers->item(i, 0)->text();
+        playerDef.type = m_tablePlayers->item(i, 1)->text();
+        playerDef.level = m_tablePlayers->item(i, 2)->text().toInt();
+        playersList.push_back(playerDef);
+    }
+    return playersList;
+}
+
+
+int PlayersTableHelper::getRowCount() const
+{
+    return m_tablePlayers->rowCount();
+}
+
+
+void PlayersTableHelper::addPlayers(const QList<PlayerDef> &iList)
+{
+    Q_FOREACH(const PlayerDef &player, iList)
+    {
+        addRow(player.name, player.type, QString("%1").arg(player.level));
+    }
+}
+
+
+void PlayersTableHelper::addRow(QString iName, QString iType, QString iLevel)
+{
+    const int row = m_tablePlayers->rowCount();
+    m_tablePlayers->setRowCount(row + 1);
+    m_tablePlayers->setRowHeight(row, 24);
+    m_tablePlayers->setItem(row, 0, new QTableWidgetItem(iName));
+    m_tablePlayers->setItem(row, 1, new QTableWidgetItem(iType));
+    m_tablePlayers->setItem(row, 2, new QTableWidgetItem(iLevel));
+    emit rowCountChanged();
+}
+
+
+void PlayersTableHelper::fillWithFavPlayers()
+{
+    QSettings qs;
+    int size = qs.beginReadArray("FavPlayers");
+    for (int i = 0; i < size; ++i)
+    {
+        qs.setArrayIndex(i);
+        addRow(qs.value("name").toString(),
+               qs.value("type").toString(),
+               qs.value("level").toString());
+    }
+    qs.endArray();
+}
+
+
+void PlayersTableHelper::saveAsFavPlayers()
+{
+    QSettings qs;
+    qs.beginWriteArray("FavPlayers");
+    for (int i = 0; i < m_tablePlayers->rowCount(); ++i)
+    {
+        qs.setArrayIndex(i);
+        qs.setValue("name", m_tablePlayers->item(i, 0)->text());
+        qs.setValue("type", m_tablePlayers->item(i, 1)->text());
+        qs.setValue("level", m_tablePlayers->item(i, 2)->text());
+    }
+    qs.endArray();
+}
+
+
+
+PlayersTypeDelegate::PlayersTypeDelegate(QObject *parent)
+    : QItemDelegate(parent)
+{
+}
+
+
+QWidget *PlayersTypeDelegate::createEditor(QWidget *parent,
+                                           const QStyleOptionViewItem &,
+                                           const QModelIndex &) const
+{
+    QComboBox *editor = new QComboBox(parent);
+    editor->addItem(_q(PlayersTableHelper::kHUMAN));
+    editor->addItem(_q(PlayersTableHelper::kAI));
+    return editor;
+}
+
+
+void PlayersTypeDelegate::setEditorData(QWidget *editor,
+                                        const QModelIndex &index) const
+{
+    QComboBox *combo = static_cast<QComboBox*>(editor);
+    QString text = index.model()->data(index, Qt::DisplayRole).toString();
+    combo->setCurrentIndex(combo->findText(text));
+}
+
+
+void PlayersTypeDelegate::setModelData(QWidget *editor,
+                                       QAbstractItemModel *model,
+                                       const QModelIndex &index) const
+{
+    QComboBox *combo = static_cast<QComboBox*>(editor);
+    model->setData(index, combo->currentText());
+    // Adapt the level to the chosen type of player
+    QModelIndex levelIndex = model->index(index.row(), 2);
+    if (combo->currentText() == _q(PlayersTableHelper::kHUMAN))
+        model->setData(levelIndex, QVariant());
+    else
+        model->setData(levelIndex, 100);
+}
+
+
+void PlayersTypeDelegate::updateEditorGeometry(QWidget *editor,
+                                               const QStyleOptionViewItem &option,
+                                               const QModelIndex &) const
+{
+    editor->setGeometry(option.rect);
+}
+
+
+
+PlayersLevelDelegate::PlayersLevelDelegate(QObject *parent)
+    : QItemDelegate(parent)
+{
+}
+
+
+QWidget *PlayersLevelDelegate::createEditor(QWidget *parent,
+                                            const QStyleOptionViewItem &,
+                                            const QModelIndex &index) const
+{
+    // Allow changing the level only for computer players, i.e.
+    // if there is a level defined
+    if (index.model()->data(index, Qt::DisplayRole).isNull())
+        return NULL;
+    QSpinBox *editor = new QSpinBox(parent);
+    editor->setMinimum(0);
+    editor->setMaximum(100);
+    return editor;
+}
+
+
+void PlayersLevelDelegate::setEditorData(QWidget *editor,
+                                         const QModelIndex &index) const
+{
+    QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
+    int value = index.model()->data(index, Qt::DisplayRole).toInt();
+    spinBox->setValue(value);
+}
+
+
+void PlayersLevelDelegate::setModelData(QWidget *editor,
+                                        QAbstractItemModel *model,
+                                        const QModelIndex &index) const
+{
+    QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
+    model->setData(index, spinBox->value());
+}
+
+
+void PlayersLevelDelegate::updateEditorGeometry(QWidget *editor,
+                                                const QStyleOptionViewItem &option,
+                                                const QModelIndex &) const
+{
+    editor->setGeometry(option.rect);
+}
+
+
+
+PlayersEventFilter::PlayersEventFilter(QObject *parent)
+    : QObject(parent)
+{
+}
+
+
+bool PlayersEventFilter::eventFilter(QObject *obj, QEvent *event)
+{
+    // If the Delete key is pressed, remove the selected line, if any
+    if (event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Delete)
+        {
+            emit deletePressed();
+            return true;
+        }
+    }
+
+    // Standard event processing
+    return QObject::eventFilter(obj, event);
+}
+
