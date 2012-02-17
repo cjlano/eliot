@@ -81,8 +81,8 @@ NewGame::NewGame(QWidget *iParent)
         defLevel = 100;
 
     // Initialize the model of the default players
-    m_helper->addRow(_q("Player %1").arg(1), _q(kHUMAN), "");
-    m_helper->addRow(_q("Eliot"), _q(kAI), QString("%1").arg(defLevel));
+    m_helper->addPlayer(PlayerDef(_q("Player %1").arg(1), _q(kHUMAN), ""));
+    m_helper->addPlayer(PlayerDef(_q("Eliot"), _q(kAI), QString("%1").arg(defLevel)));
 
     // Enable the Level spinbox only when the player is a computer
     QObject::connect(comboBoxType, SIGNAL(currentIndexChanged(int)),
@@ -244,10 +244,11 @@ void NewGame::addFavoritePlayers()
 void NewGame::on_pushButtonAdd_clicked()
 {
     // Add a new row
-    m_helper->addRow(lineEditName->displayText(),
-                     comboBoxType->currentText(),
-                     spinBoxLevel->isEnabled() ?
-                        QString("%1").arg(spinBoxLevel->value()) : "");
+    PlayerDef def(lineEditName->displayText(),
+                  comboBoxType->currentText(),
+                  spinBoxLevel->isEnabled() ?
+                  QString("%1").arg(spinBoxLevel->value()) : "");
+    m_helper->addPlayer(def);
 
     // Increment the player ID
     static int currPlayer = 2;

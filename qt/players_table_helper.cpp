@@ -41,6 +41,25 @@ INIT_LOGGER(qt, PlayersTableHelper);
 const char * PlayersTableHelper::kHUMAN = _("Human");
 const char * PlayersTableHelper::kAI = _("Computer");
 
+// Global function, used to put PlayerDef in a QSet
+uint qHash(const PlayerDef &key)
+{
+    return qHash(key.name) ^ qHash(key.type) ^ qHash(key.level);
+}
+
+
+PlayerDef::PlayerDef(QString iName, QString iType, QString iLevel)
+    : name(iName), type(iType), level(iLevel)
+{
+}
+
+bool PlayerDef::operator==(const PlayerDef &iOther) const
+{
+    return name == iOther.name
+        && type == iOther.type
+        && level == iOther.level;
+}
+
 
 PlayersTableHelper::PlayersTableHelper(QObject *parent,
                                        QTableWidget *tablePlayers,
@@ -155,7 +174,7 @@ void PlayersTableHelper::removeSelectedRows()
 
 void PlayersTableHelper::addRow()
 {
-    addRow(_q("New player"), _q(kHUMAN), "");
+    addRow(PlayerDef(_q("New player"), _q(kHUMAN), ""));
     // Give focus to the newly created cell containing the player name,
     // to allow fast edition
     m_tablePlayers->setFocus();
@@ -174,10 +193,9 @@ QList<PlayerDef> PlayersTableHelper::getPlayers(bool onlySelected) const
     {
         if (onlySelected && !selModel->isRowSelected(i, QModelIndex()))
             continue;
-        PlayerDef playerDef;
-        playerDef.name = m_tablePlayers->item(i, 0)->text();
-        playerDef.type = m_tablePlayers->item(i, 1)->text();
-        playerDef.level = m_tablePlayers->item(i, 2)->text();
+        PlayerDef playerDef(m_tablePlayers->item(i, 0)->text(),
+                            m_tablePlayers->item(i, 1)->text(),
+                            m_tablePlayers->item(i, 2)->text());
         playersList.push_back(playerDef);
     }
     return playersList;
@@ -192,21 +210,35 @@ int PlayersTableHelper::getRowCount() const
 
 void PlayersTableHelper::addPlayers(const QList<PlayerDef> &iList)
 {
+    // Only add players which are not already there
+    QSet<PlayerDef> tmpSet = getPlayers(false).toSet();
     Q_FOREACH(const PlayerDef &player, iList)
     {
-        addRow(player.name, player.type, player.level);
+        if (!tmpSet.contains(player))
+        {
+            addRow(player);
+            tmpSet.insert(player);
+        }
     }
 }
 
 
-void PlayersTableHelper::addRow(QString iName, QString iType, QString iLevel)
+void PlayersTableHelper::addPlayer(const PlayerDef &iPlayer)
+{
+    QList<PlayerDef> tmpList;
+    tmpList.push_back(iPlayer);
+    addPlayers(tmpList);
+}
+
+
+void PlayersTableHelper::addRow(const PlayerDef &iDef)
 {
     const int row = m_tablePlayers->rowCount();
     m_tablePlayers->setRowCount(row + 1);
     m_tablePlayers->setRowHeight(row, 24);
-    m_tablePlayers->setItem(row, 0, new QTableWidgetItem(iName));
-    m_tablePlayers->setItem(row, 1, new QTableWidgetItem(iType));
-    m_tablePlayers->setItem(row, 2, new QTableWidgetItem(iLevel));
+    m_tablePlayers->setItem(row, 0, new QTableWidgetItem(iDef.name));
+    m_tablePlayers->setItem(row, 1, new QTableWidgetItem(iDef.type));
+    m_tablePlayers->setItem(row, 2, new QTableWidgetItem(iDef.level));
     emit rowCountChanged();
 }
 
@@ -219,10 +251,9 @@ QList<PlayerDef> PlayersTableHelper::getFavPlayers()
     for (int i = 0; i < size; ++i)
     {
         qs.setArrayIndex(i);
-        PlayerDef playerDef;
-        playerDef.name = qs.value("name").toString();
-        playerDef.type = qs.value("type").toString();
-        playerDef.level = qs.value("level").toString();
+        PlayerDef playerDef(qs.value("name").toString(),
+                            qs.value("type").toString(),
+                            qs.value("level").toString());
         playersList.push_back(playerDef);
     }
     qs.endArray();

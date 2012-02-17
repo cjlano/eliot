@@ -37,9 +37,12 @@ class QPoint;
 
 struct PlayerDef
 {
+    PlayerDef(QString name, QString type, QString level);
     QString name;
     QString type;
     QString level;
+
+    bool operator==(const PlayerDef &) const;
 };
 
 
@@ -60,12 +63,12 @@ public:
 
     QList<PlayerDef> getPlayers(bool onlySelected) const;
     void addPlayers(const QList<PlayerDef> &iList);
+    void addPlayer(const PlayerDef &iPlayer);
 
     static QList<PlayerDef> getFavPlayers();
     static void saveFavPlayers(const QList<PlayerDef> &iFavPlayers);
 
     int getRowCount() const;
-    void addRow(QString iName, QString iType, QString iLevel);
 
     void addPopupAction(QAction *iAction);
     QAction * getRemoveAction();
@@ -78,6 +81,7 @@ private slots:
     void enableRemoveButton();
     void removeSelectedRows();
     void addRow();
+    void addRow(const PlayerDef &iDef);
 
 private:
     QTableWidget *m_tablePlayers;
