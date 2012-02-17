@@ -51,14 +51,12 @@ public:
     PublicGame * createGame(const Dictionary& iDic) const;
 
 private slots:
-    void enableLevelSpinBox(int);
     void enableOkButton();
     void enablePlayers(bool);
     void addSelectedToFav();
     void addFavoritePlayers();
 
     // The following slots are automatically connected
-    void on_pushButtonAdd_clicked();
     void on_checkBoxJoker_stateChanged(int);
     void on_checkBoxExplosive_stateChanged(int);
 

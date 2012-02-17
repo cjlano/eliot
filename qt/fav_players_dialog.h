@@ -42,9 +42,6 @@ public slots:
     /// Update the settings when the user selects "OK"
     virtual void accept();
 
-private slots:
-    void addRow();
-
 private:
     PlayersTableHelper *m_helper;
 

@@ -44,7 +44,6 @@ NewGame::NewGame(QWidget *iParent)
     : QDialog(iParent)
 {
     setupUi(this);
-    lineEditName->setText(_q("Player %1").arg(2));
 
     checkBoxJoker->setToolTip(_q(
             "In a joker game, each rack contains a joker.\n"
@@ -63,7 +62,7 @@ NewGame::NewGame(QWidget *iParent)
             "but at most 7 can be played at the same time.\n"
             "This allows for more combinations during the game, and thus higher scores."));
 
-    m_helper = new PlayersTableHelper(this, tablePlayers, NULL, pushButtonRemove);
+    m_helper = new PlayersTableHelper(this, tablePlayers, pushButtonAdd);
     m_helper->addPopupRemoveAction();
     QAction *addToFavAction = new QAction(_q("Mark the selected player(s) as favorites"), this);
     addToFavAction->setStatusTip(_q("Add the selected player(s) to the list of favorite players"));
@@ -84,9 +83,6 @@ NewGame::NewGame(QWidget *iParent)
     m_helper->addPlayer(PlayerDef(_q("Player %1").arg(1), _q(kHUMAN), ""));
     m_helper->addPlayer(PlayerDef(_q("Eliot"), _q(kAI), QString("%1").arg(defLevel)));
 
-    // Enable the Level spinbox only when the player is a computer
-    QObject::connect(comboBoxType, SIGNAL(currentIndexChanged(int)),
-                     this, SLOT(enableLevelSpinBox(int)));
     // Enable the Ok button only if there are enough players for the
     // current mode
     QObject::connect(m_helper, SIGNAL(rowCountChanged()),
@@ -176,12 +172,6 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
 }
 
 
-void NewGame::enableLevelSpinBox(int index)
-{
-    spinBoxLevel->setEnabled(index == 1);
-}
-
-
 void NewGame::enableOkButton()
 {
     // Enable the "Ok" button:
@@ -237,25 +227,6 @@ void NewGame::addFavoritePlayers()
     if (dialog->exec() == QDialog::Accepted)
     {
         m_helper->addPlayers(helper->getPlayers(true));
-    }
-}
-
-
-void NewGame::on_pushButtonAdd_clicked()
-{
-    // Add a new row
-    PlayerDef def(lineEditName->displayText(),
-                  comboBoxType->currentText(),
-                  spinBoxLevel->isEnabled() ?
-                  QString("%1").arg(spinBoxLevel->value()) : "");
-    m_helper->addPlayer(def, true);
-
-    // Increment the player ID
-    static int currPlayer = 2;
-    if (lineEditName->displayText() == _q("Player %1").arg(currPlayer))
-    {
-        ++currPlayer;
-        lineEditName->setText(_q("Player %1").arg(currPlayer));
     }
 }
 

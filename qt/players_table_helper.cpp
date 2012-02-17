@@ -174,14 +174,8 @@ void PlayersTableHelper::removeSelectedRows()
 
 void PlayersTableHelper::addRow()
 {
-    addRow(PlayerDef(_q("New player"), _q(kHUMAN), ""));
-    // Give focus to the newly created cell containing the player name,
-    // to allow fast edition
-    m_tablePlayers->setFocus();
-    m_tablePlayers->setCurrentCell(m_tablePlayers->rowCount() - 1, 0,
-                                   QItemSelectionModel::ClearAndSelect |
-                                   QItemSelectionModel::Current |
-                                   QItemSelectionModel::Rows);
+    addPlayer(PlayerDef(_q("New player"), _q(kHUMAN), ""),
+              true, true);
 }
 
 
