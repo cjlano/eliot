@@ -71,7 +71,7 @@ public:
     int getRowCount() const;
 
     void addPopupAction(QAction *iAction);
-    QAction * getRemoveAction();
+    void addPopupRemoveAction();
 
 signals:
     void rowCountChanged();

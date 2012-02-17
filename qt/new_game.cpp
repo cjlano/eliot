@@ -64,7 +64,7 @@ NewGame::NewGame(QWidget *iParent)
             "This allows for more combinations during the game, and thus higher scores."));
 
     m_helper = new PlayersTableHelper(this, tablePlayers, NULL, pushButtonRemove);
-    m_helper->addPopupAction(m_helper->getRemoveAction());
+    m_helper->addPopupRemoveAction();
     QAction *addToFavAction = new QAction(_q("Mark the selected player(s) as favorites"), this);
     addToFavAction->setStatusTip(_q("Add the selected player(s) to the list of favorite players"));
     QObject::connect(addToFavAction, SIGNAL(triggered()),

@@ -105,13 +105,6 @@ PlayersTableHelper::PlayersTableHelper(QObject *parent,
     PlayersLevelDelegate *levelDelegate = new PlayersLevelDelegate(this);
     m_tablePlayers->setItemDelegateForColumn(2, levelDelegate);
 
-    // Install a custom event filter, to remove the selection when the
-    // "Delete" key is pressed
-    PlayersEventFilter *filter = new PlayersEventFilter(this);
-    m_tablePlayers->installEventFilter(filter);
-    QObject::connect(filter, SIGNAL(deletePressed()),
-                     this, SLOT(removeSelectedRows()));
-
     // Add a context menu for the results
     CustomPopup *popup = new CustomPopup(m_tablePlayers);
     QObject::connect(popup, SIGNAL(popupCreated(QMenu&, const QPoint&)),
@@ -138,14 +131,21 @@ void PlayersTableHelper::addPopupAction(QAction *iAction)
 }
 
 
-QAction * PlayersTableHelper::getRemoveAction()
+void PlayersTableHelper::addPopupRemoveAction()
 {
     QAction *removeAction = new QAction(_q("Remove selected player(s)"), this);
     removeAction->setStatusTip(_q("Remove the selected player(s) from the list"));
     removeAction->setShortcut(Qt::Key_Delete);
     QObject::connect(removeAction, SIGNAL(triggered()),
                      this, SLOT(removeSelectedRows()));
-    return removeAction;
+    addPopupAction(removeAction);
+
+    // Install a custom event filter, to remove the selection when the
+    // "Delete" key is pressed
+    PlayersEventFilter *filter = new PlayersEventFilter(this);
+    m_tablePlayers->installEventFilter(filter);
+    QObject::connect(filter, SIGNAL(deletePressed()),
+                     this, SLOT(removeSelectedRows()));
 }
 
 

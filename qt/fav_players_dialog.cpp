@@ -36,7 +36,7 @@ FavPlayersDialog::FavPlayersDialog(QWidget *iParent)
     setupUi(this);
 
     m_helper = new PlayersTableHelper(this, tablePlayers, NULL, buttonRemove);
-    m_helper->addPopupAction(m_helper->getRemoveAction());
+    m_helper->addPopupRemoveAction();
 
     QObject::connect(buttonAdd, SIGNAL(clicked()),
                      this, SLOT(addRow()));
