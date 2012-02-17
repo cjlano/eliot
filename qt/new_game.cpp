@@ -135,7 +135,7 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
     // Add the players
     if (!radioButtonTraining->isChecked())
     {
-        const QList<PlayersTableHelper::PlayerDef> &players = m_helper->getPlayers(false);
+        const QList<PlayerDef> &players = m_helper->getPlayers(false);
         set<QString> allNames;
         for (int num = 0; num < players.size(); ++num)
         {
@@ -207,9 +207,9 @@ void NewGame::enablePlayers(bool checked)
 
 void NewGame::addSelectedToFav()
 {
-    QList<PlayersTableHelper::PlayerDef> fav = m_helper->getFavPlayers();
-    const QList<PlayersTableHelper::PlayerDef> &selected = m_helper->getPlayers(true);
-    Q_FOREACH(const PlayersTableHelper::PlayerDef &def, selected)
+    QList<PlayerDef> fav = m_helper->getFavPlayers();
+    const QList<PlayerDef> &selected = m_helper->getPlayers(true);
+    Q_FOREACH(const PlayerDef &def, selected)
     {
         fav.push_back(def);
     }

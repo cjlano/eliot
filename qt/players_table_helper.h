@@ -34,19 +34,21 @@ class QPushButton;
 class QMenu;
 class QPoint;
 
+
+struct PlayerDef
+{
+    QString name;
+    QString type;
+    QString level;
+};
+
+
 class PlayersTableHelper : public QObject
 {
     Q_OBJECT;
     DEFINE_LOGGER();
 
 public:
-    struct PlayerDef
-    {
-        QString name;
-        QString type;
-        QString level;
-    };
-
     /// Possible values for the player type
     static const char * kHUMAN;
     static const char * kAI;

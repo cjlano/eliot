@@ -166,7 +166,7 @@ void PlayersTableHelper::addRow()
 }
 
 
-QList<PlayersTableHelper::PlayerDef> PlayersTableHelper::getPlayers(bool onlySelected) const
+QList<PlayerDef> PlayersTableHelper::getPlayers(bool onlySelected) const
 {
     QList<PlayerDef> playersList;
     QItemSelectionModel *selModel = m_tablePlayers->selectionModel();
@@ -211,7 +211,7 @@ void PlayersTableHelper::addRow(QString iName, QString iType, QString iLevel)
 }
 
 
-QList<PlayersTableHelper::PlayerDef> PlayersTableHelper::getFavPlayers()
+QList<PlayerDef> PlayersTableHelper::getFavPlayers()
 {
     QList<PlayerDef> playersList;
     QSettings qs;
