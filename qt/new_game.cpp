@@ -64,6 +64,7 @@ NewGame::NewGame(QWidget *iParent)
             "This allows for more combinations during the game, and thus higher scores."));
 
     m_helper = new PlayersTableHelper(this, tablePlayers, NULL, pushButtonRemove);
+    m_helper->addPopupAction(m_helper->getRemoveAction());
 
     // Retrieve the default computer level
     QSettings qs;
@@ -98,6 +99,9 @@ NewGame::NewGame(QWidget *iParent)
                      this, SLOT(enablePlayers(bool)));
     QObject::connect(radioButtonTraining, SIGNAL(toggled(bool)),
                      this, SLOT(enablePlayers(bool)));
+
+    QObject::connect(buttonAddFav, SIGNAL(clicked()),
+                     this, SLOT(addFavoritePlayers()));
 }
 
 
@@ -151,7 +155,7 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
                 player = new HumanPlayer;
             else
             {
-                double level = players.at(num).level;
+                double level = players.at(num).level.toInt();
                 player = new AIPercent(level / 100.);
             }
             player->setName(wfq(name));
@@ -192,6 +196,30 @@ void NewGame::enablePlayers(bool checked)
     if (checked)
     {
         groupBoxPlayers->setEnabled(!radioButtonTraining->isChecked());
+    }
+}
+
+
+void NewGame::addFavoritePlayers()
+{
+    QDialog *dialog = new QDialog(this);
+    dialog->setWindowTitle(_q("Select the players to add"));
+    dialog->resize(400, 500);
+    dialog->setLayout(new QVBoxLayout);
+    QTableWidget *tableFav = new QTableWidget;
+    dialog->layout()->addWidget(tableFav);
+    QDialogButtonBox *buttonBox =
+        new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    dialog->layout()->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
+
+    PlayersTableHelper *helper = new PlayersTableHelper(dialog, tableFav);
+    helper->fillWithFavPlayers();
+
+    if (dialog->exec() == QDialog::Accepted)
+    {
+        m_helper->addPlayers(helper->getPlayers(true));
     }
 }
 

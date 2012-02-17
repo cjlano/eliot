@@ -26,9 +26,12 @@
 #include <QtGui/QComboBox>
 #include <QtGui/QSpinBox>
 #include <QtGui/QKeyEvent>
+#include <QtGui/QMenu>
+#include <QtGui/QAction>
 #include <QtCore/QSettings>
 
 #include "players_table_helper.h"
+#include "custom_popup.h"
 #include "qtcommon.h"
 
 
@@ -89,6 +92,41 @@ PlayersTableHelper::PlayersTableHelper(QObject *parent,
     m_tablePlayers->installEventFilter(filter);
     QObject::connect(filter, SIGNAL(deletePressed()),
                      this, SLOT(removeSelectedRows()));
+
+    // Add a context menu for the results
+    CustomPopup *popup = new CustomPopup(m_tablePlayers);
+    QObject::connect(popup, SIGNAL(popupCreated(QMenu&, const QPoint&)),
+                     this, SLOT(populateMenu(QMenu&, const QPoint&)));
+}
+
+
+void PlayersTableHelper::populateMenu(QMenu &iMenu, const QPoint &iPoint)
+{
+    const QModelIndex &index = m_tablePlayers->indexAt(iPoint);
+    if (!index.isValid())
+        return;
+
+    Q_FOREACH(QAction *action, m_popupActions)
+    {
+        iMenu.addAction(action);
+    }
+}
+
+
+void PlayersTableHelper::addPopupAction(QAction *iAction)
+{
+    m_popupActions.push_back(iAction);
+}
+
+
+QAction * PlayersTableHelper::getRemoveAction()
+{
+    QAction *removeAction = new QAction(_q("Remove selected player(s)"), this);
+    removeAction->setStatusTip(_q("Remove the selected player(s) from the list"));
+    removeAction->setShortcut(Qt::Key_Delete);
+    QObject::connect(removeAction, SIGNAL(triggered()),
+                     this, SLOT(removeSelectedRows()));
+    return removeAction;
 }
 
 
@@ -139,7 +177,7 @@ QList<PlayersTableHelper::PlayerDef> PlayersTableHelper::getPlayers(bool onlySel
         PlayerDef playerDef;
         playerDef.name = m_tablePlayers->item(i, 0)->text();
         playerDef.type = m_tablePlayers->item(i, 1)->text();
-        playerDef.level = m_tablePlayers->item(i, 2)->text().toInt();
+        playerDef.level = m_tablePlayers->item(i, 2)->text();
         playersList.push_back(playerDef);
     }
     return playersList;
@@ -156,7 +194,7 @@ void PlayersTableHelper::addPlayers(const QList<PlayerDef> &iList)
 {
     Q_FOREACH(const PlayerDef &player, iList)
     {
-        addRow(player.name, player.type, QString("%1").arg(player.level));
+        addRow(player.name, player.type, player.level);
     }
 }
 
@@ -266,7 +304,9 @@ QWidget *PlayersLevelDelegate::createEditor(QWidget *parent,
 {
     // Allow changing the level only for computer players, i.e.
     // if there is a level defined
-    if (index.model()->data(index, Qt::DisplayRole).isNull())
+    const QAbstractItemModel *model = index.model();
+    QString type = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
+    if (type != _q(PlayersTableHelper::kAI))
         return NULL;
     QSpinBox *editor = new QSpinBox(parent);
     editor->setMinimum(0);

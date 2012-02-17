@@ -31,6 +31,8 @@
 
 class QTableWidget;
 class QPushButton;
+class QMenu;
+class QPoint;
 
 class PlayersTableHelper : public QObject
 {
@@ -42,7 +44,7 @@ public:
     {
         QString name;
         QString type;
-        int level;
+        QString level;
     };
 
     /// Possible values for the player type
@@ -63,10 +65,14 @@ public:
     int getRowCount() const;
     void addRow(QString iName, QString iType, QString iLevel);
 
+    void addPopupAction(QAction *iAction);
+    QAction * getRemoveAction();
+
 signals:
     void rowCountChanged();
 
 private slots:
+    void populateMenu(QMenu &, const QPoint &);
     void enableRemoveButton();
     void removeSelectedRows();
     void addRow();
@@ -75,6 +81,7 @@ private:
     QTableWidget *m_tablePlayers;
     QPushButton *m_buttonAdd;
     QPushButton *m_buttonRemove;
+    QList<QAction*> m_popupActions;
 
 };
 
