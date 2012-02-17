@@ -54,6 +54,7 @@ private slots:
     void enableLevelSpinBox(int);
     void enableOkButton();
     void enablePlayers(bool);
+    void addSelectedToFav();
     void addFavoritePlayers();
 
     // The following slots are automatically connected

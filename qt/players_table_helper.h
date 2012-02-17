@@ -59,8 +59,8 @@ public:
     QList<PlayerDef> getPlayers(bool onlySelected) const;
     void addPlayers(const QList<PlayerDef> &iList);
 
-    void fillWithFavPlayers();
-    void saveAsFavPlayers();
+    static QList<PlayerDef> getFavPlayers();
+    static void saveFavPlayers(const QList<PlayerDef> &iFavPlayers);
 
     int getRowCount() const;
     void addRow(QString iName, QString iType, QString iLevel);

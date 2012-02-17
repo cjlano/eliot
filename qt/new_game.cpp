@@ -65,6 +65,11 @@ NewGame::NewGame(QWidget *iParent)
 
     m_helper = new PlayersTableHelper(this, tablePlayers, NULL, pushButtonRemove);
     m_helper->addPopupAction(m_helper->getRemoveAction());
+    QAction *addToFavAction = new QAction(_q("Mark the selected player(s) as favorites"), this);
+    addToFavAction->setStatusTip(_q("Add the selected player(s) to the list of favorite players"));
+    QObject::connect(addToFavAction, SIGNAL(triggered()),
+                     this, SLOT(addSelectedToFav()));
+    m_helper->addPopupAction(addToFavAction);
 
     // Retrieve the default computer level
     QSettings qs;
@@ -200,6 +205,18 @@ void NewGame::enablePlayers(bool checked)
 }
 
 
+void NewGame::addSelectedToFav()
+{
+    QList<PlayersTableHelper::PlayerDef> fav = m_helper->getFavPlayers();
+    const QList<PlayersTableHelper::PlayerDef> &selected = m_helper->getPlayers(true);
+    Q_FOREACH(const PlayersTableHelper::PlayerDef &def, selected)
+    {
+        fav.push_back(def);
+    }
+    m_helper->saveFavPlayers(fav);
+}
+
+
 void NewGame::addFavoritePlayers()
 {
     QDialog *dialog = new QDialog(this);
@@ -215,7 +232,7 @@ void NewGame::addFavoritePlayers()
     connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
 
     PlayersTableHelper *helper = new PlayersTableHelper(dialog, tableFav);
-    helper->fillWithFavPlayers();
+    helper->addPlayers(m_helper->getFavPlayers());
 
     if (dialog->exec() == QDialog::Accepted)
     {

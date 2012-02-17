@@ -211,31 +211,35 @@ void PlayersTableHelper::addRow(QString iName, QString iType, QString iLevel)
 }
 
 
-void PlayersTableHelper::fillWithFavPlayers()
+QList<PlayersTableHelper::PlayerDef> PlayersTableHelper::getFavPlayers()
 {
+    QList<PlayerDef> playersList;
     QSettings qs;
     int size = qs.beginReadArray("FavPlayers");
     for (int i = 0; i < size; ++i)
     {
         qs.setArrayIndex(i);
-        addRow(qs.value("name").toString(),
-               qs.value("type").toString(),
-               qs.value("level").toString());
+        PlayerDef playerDef;
+        playerDef.name = qs.value("name").toString();
+        playerDef.type = qs.value("type").toString();
+        playerDef.level = qs.value("level").toString();
+        playersList.push_back(playerDef);
     }
     qs.endArray();
+    return playersList;
 }
 
 
-void PlayersTableHelper::saveAsFavPlayers()
+void PlayersTableHelper::saveFavPlayers(const QList<PlayerDef> &iFavPlayers)
 {
     QSettings qs;
     qs.beginWriteArray("FavPlayers");
-    for (int i = 0; i < m_tablePlayers->rowCount(); ++i)
+    for (int i = 0; i < iFavPlayers.size(); ++i)
     {
         qs.setArrayIndex(i);
-        qs.setValue("name", m_tablePlayers->item(i, 0)->text());
-        qs.setValue("type", m_tablePlayers->item(i, 1)->text());
-        qs.setValue("level", m_tablePlayers->item(i, 2)->text());
+        qs.setValue("name", iFavPlayers.at(i).name);
+        qs.setValue("type", iFavPlayers.at(i).type);
+        qs.setValue("level", iFavPlayers.at(i).level);
     }
     qs.endArray();
 }

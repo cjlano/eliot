@@ -41,7 +41,7 @@ FavPlayersDialog::FavPlayersDialog(QWidget *iParent)
     QObject::connect(buttonAdd, SIGNAL(clicked()),
                      this, SLOT(addRow()));
 
-    m_helper->fillWithFavPlayers();
+    m_helper->addPlayers(m_helper->getFavPlayers());
 }
 
 
@@ -61,7 +61,7 @@ void FavPlayersDialog::addRow()
 
 void FavPlayersDialog::accept()
 {
-    m_helper->saveAsFavPlayers();
+    m_helper->saveFavPlayers(m_helper->getPlayers(false));
 
     QDialog::accept();
 }
