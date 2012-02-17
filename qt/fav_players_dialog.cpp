@@ -47,15 +47,8 @@ FavPlayersDialog::FavPlayersDialog(QWidget *iParent)
 
 void FavPlayersDialog::addRow()
 {
-    m_helper->addPlayer(PlayerDef(_q("New player"), _q(PlayersTableHelper::kHUMAN), ""));
-
-    // Give focus to the newly created cell containing the player name,
-    // to allow fast edition
-    tablePlayers->setFocus();
-    tablePlayers->setCurrentCell(tablePlayers->rowCount() - 1, 0,
-                                 QItemSelectionModel::ClearAndSelect |
-                                 QItemSelectionModel::Current |
-                                 QItemSelectionModel::Rows);
+    m_helper->addPlayer(PlayerDef(_q("New player"), _q(PlayersTableHelper::kHUMAN), ""),
+                        true);
 }
 
 

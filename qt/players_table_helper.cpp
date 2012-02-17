@@ -223,11 +223,23 @@ void PlayersTableHelper::addPlayers(const QList<PlayerDef> &iList)
 }
 
 
-void PlayersTableHelper::addPlayer(const PlayerDef &iPlayer)
+void PlayersTableHelper::addPlayer(const PlayerDef &iPlayer, bool selectAndEdit)
 {
     QList<PlayerDef> tmpList;
     tmpList.push_back(iPlayer);
     addPlayers(tmpList);
+
+    if (selectAndEdit)
+    {
+        int row = m_tablePlayers->rowCount() - 1;
+        // Give focus to the newly created cell containing the player name
+        m_tablePlayers->setCurrentCell(row, 0,
+                                       QItemSelectionModel::ClearAndSelect |
+                                       QItemSelectionModel::Current |
+                                       QItemSelectionModel::Rows);
+        // Edit the name
+        m_tablePlayers->editItem(m_tablePlayers->item(row, 0));
+    }
 }
 
 

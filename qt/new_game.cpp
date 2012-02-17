@@ -248,7 +248,7 @@ void NewGame::on_pushButtonAdd_clicked()
                   comboBoxType->currentText(),
                   spinBoxLevel->isEnabled() ?
                   QString("%1").arg(spinBoxLevel->value()) : "");
-    m_helper->addPlayer(def);
+    m_helper->addPlayer(def, true);
 
     // Increment the player ID
     static int currPlayer = 2;
