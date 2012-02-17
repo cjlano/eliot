@@ -63,7 +63,9 @@ public:
 
     QList<PlayerDef> getPlayers(bool onlySelected) const;
     void addPlayers(const QList<PlayerDef> &iList);
-    void addPlayer(const PlayerDef &iPlayer, bool selectAndEdit = false);
+    void addPlayer(const PlayerDef &iPlayer,
+                   bool selectAndEdit = false,
+                   bool renameIfDuplicate = false);
 
     static QList<PlayerDef> getFavPlayers();
     static void saveFavPlayers(const QList<PlayerDef> &iFavPlayers);

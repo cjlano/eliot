@@ -223,11 +223,28 @@ void PlayersTableHelper::addPlayers(const QList<PlayerDef> &iList)
 }
 
 
-void PlayersTableHelper::addPlayer(const PlayerDef &iPlayer, bool selectAndEdit)
+void PlayersTableHelper::addPlayer(const PlayerDef &iPlayer,
+                                   bool selectAndEdit,
+                                   bool renameIfDuplicate)
 {
-    QList<PlayerDef> tmpList;
-    tmpList.push_back(iPlayer);
-    addPlayers(tmpList);
+    QSet<PlayerDef> tmpSet = getPlayers(false).toSet();
+    PlayerDef def = iPlayer;
+    // Generate a unique name if needed
+    if (renameIfDuplicate)
+    {
+        int i = 1;
+        while (tmpSet.contains(def))
+        {
+            def.name = QString("%1 (%2)").arg(iPlayer.name).arg(i);
+            ++i;
+        }
+    }
+    else if (tmpSet.contains(def))
+    {
+        return;
+    }
+    // Add the player
+    addRow(def);
 
     if (selectAndEdit)
     {

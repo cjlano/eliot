@@ -48,7 +48,7 @@ FavPlayersDialog::FavPlayersDialog(QWidget *iParent)
 void FavPlayersDialog::addRow()
 {
     m_helper->addPlayer(PlayerDef(_q("New player"), _q(PlayersTableHelper::kHUMAN), ""),
-                        true);
+                        true, true);
 }
 
 
