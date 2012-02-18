@@ -162,13 +162,8 @@ bool Tile::operator<(const Tile &iOther) const
 
 bool Tile::operator==(const Tile &iOther) const
 {
-    if (m_joker || iOther.m_joker)
-    {
-        if (m_joker != iOther.m_joker)
-            return false;
-        return m_char == iOther.m_char;
-    }
-    return m_char == iOther.m_char;
+    return m_char == iOther.m_char
+        && m_joker == iOther.m_joker;
 }
 
 
