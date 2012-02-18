@@ -24,6 +24,7 @@
 
 #include <map>
 #include "tile.h"
+#include "logging.h"
 
 using std::map;
 
@@ -35,6 +36,7 @@ class Dictionary;
  */
 class Bag
 {
+    DEFINE_LOGGER();
 public:
     explicit Bag(const Dictionary &iDic);
 

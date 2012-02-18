@@ -21,6 +21,9 @@
 #include "coord_model.h"
 
 
+INIT_LOGGER(qt, CoordModel);
+
+
 void CoordModel::setCoord(const Coord &iCoord)
 {
     m_prevCoord = m_currCoord;

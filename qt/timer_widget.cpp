@@ -23,6 +23,8 @@
 
 #include "timer_widget.h"
 
+
+INIT_LOGGER(qt, TimerModel);
 INIT_LOGGER(qt, TimerWidget);
 
 

@@ -23,6 +23,8 @@
 
 #include <iosfwd>
 
+#include "logging.h"
+
 
 class Dictionary;
 
@@ -31,7 +33,7 @@ using namespace std;
 
 class ListDic
 {
-
+    DEFINE_LOGGER();
 public:
     ListDic();
 

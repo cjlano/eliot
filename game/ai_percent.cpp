@@ -28,6 +28,9 @@
 #include "ai_percent.h"
 
 
+INIT_LOGGER(game, AIPercent);
+
+
 AIPercent::AIPercent(float iPercent)
 {
     if (iPercent < 0)

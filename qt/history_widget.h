@@ -24,6 +24,8 @@
 #include <QtGui/QTreeView>
 #include <QtGui/QTabWidget>
 
+#include "logging.h"
+
 
 class History;
 class PublicGame;
@@ -34,6 +36,7 @@ class CustomPopup;
 class HistoryWidget: public QTreeView
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     explicit HistoryWidget(QWidget *parent = 0);

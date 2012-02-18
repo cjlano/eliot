@@ -23,6 +23,7 @@
 
 #include "command.h"
 #include "pldrack.h"
+#include "logging.h"
 
 class Player;
 
@@ -33,6 +34,8 @@ class Player;
  */
 class PlayerRackCmd: public Command
 {
+    DEFINE_LOGGER();
+
     public:
         PlayerRackCmd(Player &ioPlayer, const PlayedRack &iNewRack);
 

@@ -36,6 +36,9 @@
 using namespace std;
 
 
+INIT_LOGGER(dic, StackTrace);
+
+
 string StackTrace::GetStack()
 {
 #if defined HAVE_EXECINFO_H && defined(DEBUG)

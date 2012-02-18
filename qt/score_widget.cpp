@@ -29,6 +29,9 @@
 using namespace std;
 
 
+INIT_LOGGER(qt, ScoreWidget);
+
+
 ScoreWidget::ScoreWidget(QWidget *parent, const PublicGame *iGame)
     : QTreeView(parent), m_game(iGame)
 {

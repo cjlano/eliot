@@ -53,6 +53,10 @@
 using namespace std;
 
 
+INIT_LOGGER(utils, Box);
+INIT_LOGGER(utils, CursesIntf);
+
+
 Box::Box(WINDOW *win, int y, int x, int h, int w,
          unsigned int iHeadingLines)
     : m_win(win),  m_x(x), m_y(y), m_w(w), m_h(h),

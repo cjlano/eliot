@@ -21,11 +21,14 @@
 #ifndef DIC_AUTOMATON_H_
 #define DIC_AUTOMATON_H_
 
+#include "logging.h"
+
 class AutomatonHelper;
 struct searchRegExpLists;
 
 class Automaton
 {
+    DEFINE_LOGGER();
 public:
     /// Constructor
     /**

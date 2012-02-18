@@ -34,6 +34,9 @@
 using namespace std;
 
 
+INIT_LOGGER(qt, BagWidget);
+
+
 BagWidget::BagWidget(QWidget *parent)
     : QWidget(parent), m_game(NULL)
 {

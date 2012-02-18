@@ -22,6 +22,9 @@
 #include "turn.h"
 
 
+INIT_LOGGER(game, Turn);
+
+
 // FIXME: move set to an arbitrary one (no move). It would be better to get rid of this
 // constructor completely
 Turn::Turn()

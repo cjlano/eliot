@@ -39,6 +39,10 @@
 
 using namespace std;
 
+
+INIT_LOGGER(dic, Automaton);
+
+
 #ifdef DEBUG_AUTOMATON
 #   define DMSG(a) (a)
 #else

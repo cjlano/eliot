@@ -25,6 +25,8 @@
 #include <string>
 #include <vector>
 
+#include "logging.h"
+
 using std::wstring;
 using std::vector;
 
@@ -52,7 +54,8 @@ class PlayedRack;
  */
 class History
 {
- public:
+    DEFINE_LOGGER();
+public:
     History();
     ~History();
 

@@ -43,6 +43,9 @@
 using namespace std;
 
 
+INIT_LOGGER(qt, DicToolsWidget);
+
+
 DicToolsWidget::DicToolsWidget(QWidget *parent)
     : QWidget(parent), m_dic(NULL)
 {

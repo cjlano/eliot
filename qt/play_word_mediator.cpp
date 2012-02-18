@@ -32,6 +32,9 @@
 #include "debug.h"
 
 
+INIT_LOGGER(qt, PlayWordMediator);
+
+
 PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
                                    QLineEdit &iEditCoord, QLineEdit &iEditPoints,
                                    QPushButton &iButtonPlay,

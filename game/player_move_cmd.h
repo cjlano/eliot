@@ -24,6 +24,7 @@
 #include "command.h"
 #include "move.h"
 #include "pldrack.h"
+#include "logging.h"
 
 class Player;
 class Rack;
@@ -41,6 +42,8 @@ class Rack;
  */
 class PlayerMoveCmd: public Command
 {
+    DEFINE_LOGGER();
+
     public:
         PlayerMoveCmd(Player &ioPlayer, const Move &iMove);
 

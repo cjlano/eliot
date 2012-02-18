@@ -26,6 +26,9 @@
 #define CROSS_MASK 0xFFFFFFFF
 
 
+INIT_LOGGER(game, Cross);
+
+
 Cross::Cross()
 {
     // The default behaviour is to match everything

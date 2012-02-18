@@ -24,7 +24,8 @@
 #include <QtGui/QDialog>
 #include <QtCore/QString>
 
-#include <ui/prefs_dialog.ui.h>
+#include "ui/prefs_dialog.ui.h"
+#include "logging.h"
 
 class QStringList;
 
@@ -32,6 +33,7 @@ class QStringList;
 class PrefsDialog: public QDialog, private Ui::PrefsDialog
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     explicit PrefsDialog(QWidget *iParent = 0);

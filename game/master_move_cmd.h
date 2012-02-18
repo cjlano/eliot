@@ -23,6 +23,7 @@
 
 #include "command.h"
 #include "move.h"
+#include "logging.h"
 
 class Duplicate;
 
@@ -32,6 +33,8 @@ class Duplicate;
  */
 class MasterMoveCmd: public Command
 {
+    DEFINE_LOGGER();
+
     public:
         MasterMoveCmd(Duplicate &ioDuplicate,
                       const Move &iMove);

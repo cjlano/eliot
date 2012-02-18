@@ -25,6 +25,7 @@
 #include <vector>
 #include <map>
 #include "round.h"
+#include "logging.h"
 
 using namespace std;
 
@@ -46,6 +47,7 @@ class Rack;
  */
 class Results
 {
+    DEFINE_LOGGER();
 public:
     virtual ~Results() {}
     unsigned int size() const { return m_rounds.size(); }

@@ -25,6 +25,7 @@
 #include "move.h"
 #include "pldrack.h"
 #include "round.h"
+#include "logging.h"
 
 class Game;
 
@@ -42,6 +43,8 @@ class Game;
  */
 class GameMoveCmd: public Command
 {
+    DEFINE_LOGGER();
+
     public:
         GameMoveCmd(Game &ioGame, const Move &iMove,
                     unsigned int iPlayerId);

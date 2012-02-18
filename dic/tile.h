@@ -26,6 +26,8 @@
 #include <vector>
 #include <string>
 
+#include "logging.h"
+
 using namespace std;
 
 class Header;
@@ -37,6 +39,7 @@ class Header;
  */
 class Tile
 {
+    DEFINE_LOGGER();
     friend class Dictionary;
 public:
 

@@ -29,6 +29,9 @@
 #include "dic_exception.h"
 
 
+INIT_LOGGER(dic, Tile);
+
+
 const Header * Tile::m_header = NULL;
 Tile Tile::m_TheJoker;
 

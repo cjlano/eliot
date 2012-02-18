@@ -25,6 +25,9 @@
 #include "debug.h"
 
 
+INIT_LOGGER(game, Rack);
+
+
 Rack::Rack()
     : m_tiles(Dictionary::GetDic().getTileNumber() + 1, 0), m_ntiles(0)
 {

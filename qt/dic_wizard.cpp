@@ -39,6 +39,12 @@
 using namespace std;
 
 
+INIT_LOGGER(qt, DicWizard);
+INIT_LOGGER(qt, WizardInfoPage);
+INIT_LOGGER(qt, WizardLettersDefPage);
+INIT_LOGGER(qt, WizardConclusionPage);
+
+
 // ---------- WizardInfoPage ----------
 
 WizardInfoPage::WizardInfoPage(QWidget *parent) : QWizardPage(parent)

@@ -22,12 +22,15 @@
 #define COORD_MODEL_H_
 
 #include <QObject>
+
 #include "coord.h"
+#include "logging.h"
 
 
 class CoordModel: public QObject
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     void setCoord(const Coord &iCoord);

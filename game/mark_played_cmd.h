@@ -22,6 +22,7 @@
 #define MARK_PLAYED_CMD_H_
 
 #include "command.h"
+#include "logging.h"
 
 class Duplicate;
 
@@ -32,6 +33,8 @@ class Duplicate;
  */
 class MarkPlayedCmd: public Command
 {
+    DEFINE_LOGGER();
+
     public:
         MarkPlayedCmd(Duplicate &ioDuplicate,
                       unsigned int iPlayerId,

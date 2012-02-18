@@ -24,6 +24,8 @@
 #include <string>
 #include <QtGui/QValidator>
 
+#include "logging.h"
+
 using std::wstring;
 
 
@@ -50,6 +52,7 @@ class Dictionary;
 class PlayWordMediator: public QObject
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     PlayWordMediator(QObject *parent, QLineEdit &iEditWord,

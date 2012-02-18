@@ -38,6 +38,9 @@
 using namespace std;
 
 
+INIT_LOGGER(qt, BagWidget2);
+
+
 BagWidget2::BagWidget2(QWidget *parent)
     : QWidget(parent), m_game(NULL), m_totalNbTiles(0),
     m_showPlayedTiles(true), m_showTilesInRack(true)

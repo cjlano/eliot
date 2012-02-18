@@ -28,6 +28,9 @@
 #include "turn.h"
 
 
+INIT_LOGGER(game, GameMoveCmd);
+
+
 GameMoveCmd::GameMoveCmd(Game &ioGame, const Move &iMove,
                          unsigned int iPlayerId)
     : m_game(ioGame), m_move(iMove),

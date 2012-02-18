@@ -23,6 +23,8 @@
 
 #include <string>
 
+#include "logging.h"
+
 using std::wstring;
 
 
@@ -32,6 +34,8 @@ using std::wstring;
  */
 class Command
 {
+    DEFINE_LOGGER();
+
     public:
         Command();
         virtual ~Command() {}

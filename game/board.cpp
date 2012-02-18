@@ -42,6 +42,9 @@
 #define W3 3
 
 
+INIT_LOGGER(game, Board);
+
+
 const int Board::m_tileMultipliers[BOARD_REALDIM][BOARD_REALDIM] =
 {
     { oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo },

@@ -28,6 +28,7 @@
 #include <map>
 
 #include "tile.h"
+#include "logging.h"
 
 using namespace std;
 
@@ -59,6 +60,7 @@ typedef wstring wistring;
 
 class Dictionary
 {
+    DEFINE_LOGGER();
 public:
     /**
      * Dictionary creation and loading from a file

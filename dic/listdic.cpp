@@ -35,6 +35,10 @@
 
 using namespace std;
 
+
+INIT_LOGGER(dic, ListDic);
+
+
 static void printDicRec(ostream &out, const Dictionary &iDic, const wchar_t * const buf, wchar_t *s, DicEdge edge)
 {
     if (edge.term)  /* edge points at a complete word */

@@ -24,6 +24,7 @@
 #include <QtGui/QWidget>
 
 #include <ui/bag_widget.ui.h>
+#include "logging.h"
 
 class PublicGame;
 //class QTreeView;
@@ -32,6 +33,7 @@ class QStandardItemModel;
 class BagWidget: public QWidget, private Ui::BagWidget
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     explicit BagWidget(QWidget *parent = 0);

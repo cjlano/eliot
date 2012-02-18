@@ -24,7 +24,9 @@
 #include <string>
 #include <QtGui/QWidget>
 #include <QtGui/QPalette>
+
 #include "ui/dic_tools_widget.ui.h"
+#include "logging.h"
 
 class QStandardItemModel;
 class QString;
@@ -34,6 +36,7 @@ class CustomPopup;
 class DicToolsWidget: public QWidget, private Ui::DicToolsWidget
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     explicit DicToolsWidget(QWidget *parent = 0);

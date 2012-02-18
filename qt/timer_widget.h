@@ -33,6 +33,7 @@ class QTimer;
 class TimerModel : public QObject
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     TimerModel(int iTotalDuration, int iAlertDuration);

@@ -25,6 +25,7 @@
 #include <vector>
 #include <string>
 #include "tile.h"
+#include "logging.h"
 
 class Rack;
 
@@ -39,6 +40,7 @@ using namespace std;
  */
 class PlayedRack
 {
+    DEFINE_LOGGER();
 public:
     PlayedRack();
 

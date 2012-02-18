@@ -24,6 +24,7 @@
 #include <vector>
 
 #include "command.h"
+#include "logging.h"
 
 using namespace std;
 
@@ -34,6 +35,8 @@ using namespace std;
  */
 class TurnCmd: public Command
 {
+    DEFINE_LOGGER();
+
     public:
         TurnCmd();
         virtual ~TurnCmd();

@@ -41,6 +41,9 @@
 using namespace libconfig;
 
 
+INIT_LOGGER(game, Settings);
+
+
 Settings *Settings::m_instance = NULL;
 
 

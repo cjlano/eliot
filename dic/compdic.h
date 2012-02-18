@@ -26,9 +26,9 @@
 #include <iosfwd>
 #include <boost/unordered_map.hpp>
 
-#include "logging.h"
 #include "header.h"
 #include "dic_internals.h"
+#include "logging.h"
 
 class DicEdge;
 class DictHeaderInfo;

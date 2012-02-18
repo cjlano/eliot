@@ -23,6 +23,7 @@
 
 #include <QtGui/QWidget>
 #include "ui/training_widget.ui.h"
+#include "logging.h"
 
 
 class QStandardItemModel;
@@ -36,6 +37,7 @@ class PublicGame;
 class TrainingWidget: public QWidget, private Ui::TrainingWidget
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     explicit TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicGame *iGame);

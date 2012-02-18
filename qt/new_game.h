@@ -23,8 +23,7 @@
 
 #include <QDialog>
 
-#include <ui/new_game.ui.h>
-
+#include "ui/new_game.ui.h"
 #include "logging.h"
 
 

@@ -24,6 +24,9 @@
 #include "player.h"
 
 
+INIT_LOGGER(game, PlayerPointsCmd);
+
+
 PlayerPointsCmd::PlayerPointsCmd(Player &ioPlayer, int iPoints)
     : m_player(ioPlayer), m_points(iPoints)
 {

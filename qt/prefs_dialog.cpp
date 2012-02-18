@@ -32,6 +32,9 @@
 #include "settings.h"
 
 
+INIT_LOGGER(qt, PrefsDialog);
+
+
 const QString PrefsDialog::kINTF_ALIGN_HISTORY = "Interface/AlignHistory";
 const QString PrefsDialog::kINTF_DIC_PATH = "Interface/DicPath";
 const QString PrefsDialog::kINTF_DEFINITIONS_SITE_URL = "Interface/DefinitionsSiteUrl";

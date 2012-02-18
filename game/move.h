@@ -24,6 +24,7 @@
 #include <string>
 
 #include "round.h"
+#include "logging.h"
 
 class Rack;
 class PlayedRack;
@@ -44,6 +45,8 @@ using std::wstring;
  */
 class Move
 {
+    DEFINE_LOGGER();
+
     public:
         /**
          * Default constructor, corresponding to no move

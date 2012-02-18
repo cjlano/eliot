@@ -26,6 +26,7 @@
 #include <string>
 
 #include "tile.h"
+#include "logging.h"
 
 using namespace std;
 
@@ -36,6 +37,7 @@ using namespace std;
  */
 class Rack
 {
+    DEFINE_LOGGER();
 public:
     Rack();
 

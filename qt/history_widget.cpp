@@ -40,6 +40,9 @@
 using namespace std;
 
 
+INIT_LOGGER(qt, HistoryWidget);
+
+
 HistoryWidget::HistoryWidget(QWidget *parent)
     : QTreeView(parent), m_history(NULL), m_forPlayer(false), m_isFreeGame(false)
 {

@@ -28,6 +28,7 @@
 #include "ui/dic_wizard_info_page.ui.h"
 #include "ui/dic_wizard_letters_def_page.ui.h"
 #include "ui/dic_wizard_conclusion_page.ui.h"
+#include "logging.h"
 
 class QStandardItemModel;
 class QItemSelection;
@@ -37,6 +38,7 @@ class QModelIndex;
 class DicWizard: public QWizard
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     DicWizard(QWidget *parent);
@@ -53,7 +55,8 @@ signals:
 
 class WizardInfoPage: public QWizardPage, private Ui::WizardInfoPage
 {
-    Q_OBJECT
+    Q_OBJECT;
+    DEFINE_LOGGER();
 public:
     explicit WizardInfoPage(QWidget *parent = 0);
     virtual bool isComplete() const;
@@ -67,7 +70,8 @@ private slots:
 
 class WizardLettersDefPage: public QWizardPage, private Ui::WizardLettersDefPage
 {
-    Q_OBJECT
+    Q_OBJECT;
+    DEFINE_LOGGER();
 public:
     explicit WizardLettersDefPage(QWidget *parent = 0);
     const QStandardItemModel * getModel() const { return m_model; }
@@ -82,7 +86,8 @@ private slots:
 
 class WizardConclusionPage: public QWizardPage, private Ui::WizardConclusionPage
 {
-    Q_OBJECT
+    Q_OBJECT;
+    DEFINE_LOGGER();
 public:
     explicit WizardConclusionPage(QWidget *parent = 0);
     virtual void initializePage();

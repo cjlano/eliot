@@ -31,6 +31,9 @@
 #include "qtcommon.h"
 
 
+INIT_LOGGER(qt, AuxWindow);
+
+
 AuxWindow::AuxWindow(QWidget &iWidget, QString iWindowTitle,
                      QString iWindowName, QAction *iAction)
     : m_widget(iWidget), m_windowName(iWindowName), m_action(iAction)

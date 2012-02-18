@@ -31,6 +31,9 @@
 #include "encoding.h"
 
 
+INIT_LOGGER(game, Bag);
+
+
 Bag::Bag(const Dictionary &iDic)
     : m_dic(iDic), m_ntiles(0)
 {

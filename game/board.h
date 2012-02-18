@@ -27,6 +27,7 @@
 #include "matrix.h"
 #include "tile.h"
 #include "cross.h"
+#include "logging.h"
 
 class GameParams;
 class Dictionary;
@@ -50,6 +51,7 @@ using namespace std;
  */
 class Board
 {
+    DEFINE_LOGGER();
 public:
     Board(const GameParams &iParams);
 

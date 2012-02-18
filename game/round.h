@@ -25,6 +25,7 @@
 #include <vector>
 #include "tile.h"
 #include "coord.h"
+#include "logging.h"
 
 using namespace std;
 
@@ -37,6 +38,7 @@ using namespace std;
  */
 class Round
 {
+    DEFINE_LOGGER();
 public:
 
     /*************************

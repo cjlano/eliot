@@ -24,6 +24,9 @@
 #include "qtcommon.h"
 
 
+INIT_LOGGER(qt, CustomPopup);
+
+
 CustomPopup::CustomPopup(QWidget *iWidget)
     : QObject(iWidget), m_widget(iWidget)
 {

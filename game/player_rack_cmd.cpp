@@ -24,6 +24,9 @@
 #include "player.h"
 
 
+INIT_LOGGER(game, PlayerRackCmd);
+
+
 PlayerRackCmd::PlayerRackCmd(Player &ioPlayer, const PlayedRack &iNewRack)
     : m_player(ioPlayer), m_newRack(iNewRack)
 {

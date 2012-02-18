@@ -23,7 +23,9 @@
 
 #include <QtGui/QWidget>
 #include <QtGui/QTabWidget>
+
 #include "ui/player_widget.ui.h"
+#include "logging.h"
 
 
 class QLineEdit;
@@ -35,6 +37,7 @@ class Coord;
 class PlayerWidget: public QWidget, private Ui::PlayerWidget
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     explicit PlayerWidget(QWidget *parent,

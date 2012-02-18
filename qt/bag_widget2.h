@@ -24,6 +24,8 @@
 #include <vector>
 #include <QtGui/QWidget>
 
+#include "logging.h"
+
 using std::vector;
 
 class PublicGame;
@@ -33,6 +35,7 @@ class TileWidget;
 class BagWidget2: public QWidget
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     explicit BagWidget2(QWidget *parent = 0);

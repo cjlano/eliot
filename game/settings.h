@@ -24,6 +24,8 @@
 #include <string>
 #include <map>
 
+#include "logging.h"
+
 using std::string;
 using std::map;
 
@@ -44,6 +46,7 @@ namespace libconfig
  */
 class Settings
 {
+    DEFINE_LOGGER();
 public:
     /// Access to the singleton
     static Settings& Instance();

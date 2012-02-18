@@ -22,6 +22,7 @@
 #define PLAYER_POINTS_CMD_H_
 
 #include "command.h"
+#include "logging.h"
 
 class Player;
 
@@ -32,6 +33,8 @@ class Player;
  */
 class PlayerPointsCmd: public Command
 {
+    DEFINE_LOGGER();
+
     public:
         PlayerPointsCmd(Player &ioPlayer, int iPoints);
 

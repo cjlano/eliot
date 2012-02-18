@@ -27,6 +27,8 @@
 #include <time.h>
 #include <stdint.h>
 
+#include "logging.h"
+
 using namespace std;
 
 // XXX: duplicated typedef (also present in dic.h)
@@ -76,6 +78,7 @@ struct DictHeaderInfo
  */
 class Header
 {
+    DEFINE_LOGGER();
 public:
 
     /// Dictionary type

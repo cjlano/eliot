@@ -23,11 +23,14 @@
 
 #include <string>
 
+#include "logging.h"
+
 using std::string;
 
 
 class StackTrace
 {
+    DEFINE_LOGGER();
 public:
     static string GetStack();
 

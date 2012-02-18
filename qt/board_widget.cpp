@@ -34,6 +34,9 @@
 using namespace std;
 
 
+INIT_LOGGER(qt, BoardWidget);
+
+
 BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     : QFrame(parent), m_game(NULL),
     m_coordModel(iCoordModel), m_showTemporarySigns(true),

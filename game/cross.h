@@ -24,6 +24,7 @@
 
 #include <set>
 #include "tile.h"
+#include "logging.h"
 
 using namespace std;
 
@@ -35,6 +36,7 @@ using namespace std;
 // TODO: implement using the bitset class
 class Cross
 {
+    DEFINE_LOGGER();
 public:
     Cross();
 

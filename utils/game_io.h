@@ -23,6 +23,8 @@
 
 #include <iostream>
 
+#include "logging.h"
+
 class PublicGame;
 class Results;
 
@@ -39,6 +41,7 @@ using std::ostream;
  */
 class GameIO
 {
+    DEFINE_LOGGER();
 public:
     static void printBoard(ostream &out, const PublicGame &iGame);
     static void printBoardDebug(ostream &out, const PublicGame &iGame);

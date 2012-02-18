@@ -28,6 +28,9 @@
 #include "encoding.h"
 
 
+INIT_LOGGER(game, Round);
+
+
 #define FROMBOARD 0x1
 #define FROMRACK  0x2
 #define JOKER     0x4

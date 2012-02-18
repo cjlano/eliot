@@ -23,6 +23,8 @@
 
 #include <QtGui/QTreeView>
 
+#include "logging.h"
+
 
 class PublicGame;
 class QStandardItemModel;
@@ -30,6 +32,7 @@ class QStandardItemModel;
 class ScoreWidget: public QTreeView
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     explicit ScoreWidget(QWidget *parent = 0, const PublicGame *iGame = NULL);

@@ -28,6 +28,9 @@
 #include "encoding.h"
 
 
+INIT_LOGGER(game, Coord);
+
+
 Coord::Coord(int iRow, int iCol, Direction iDir)
 {
     m_row = iRow;

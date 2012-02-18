@@ -37,6 +37,9 @@
 using namespace std;
 
 
+INIT_LOGGER(qt, TrainingWidget);
+
+
 static const int HIDDEN_COLUMN = 6;
 
 

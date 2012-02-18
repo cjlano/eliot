@@ -25,6 +25,9 @@
 using namespace std;
 
 
+INIT_LOGGER(game, MasterMoveCmd);
+
+
 MasterMoveCmd::MasterMoveCmd(Duplicate &ioDuplicate,
                              const Move &iMove)
     : m_duplicateGame(ioDuplicate), m_newMove(iMove)

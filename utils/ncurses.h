@@ -23,6 +23,8 @@
 #include <ncursesw/curses.h>
 #include <string>
 
+#include "logging.h"
+
 class PublicGame;
 
 using std::string;
@@ -31,6 +33,8 @@ using std::wstring;
 
 class Box
 {
+    DEFINE_LOGGER();
+
     public:
         // Create a titled box with the specified position and size,
         // containing iHeadingLines non-scrolling lines.
@@ -97,6 +101,7 @@ class Box
  */
 class CursesIntf
 {
+    DEFINE_LOGGER();
 public:
     // Pre-requisite: the given Game object MUST have been allocated with new
     // (in particular: not on the stack)

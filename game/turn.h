@@ -25,6 +25,7 @@
 #include <string>
 #include "pldrack.h"
 #include "move.h"
+#include "logging.h"
 
 using std::wstring;
 
@@ -38,6 +39,7 @@ using std::wstring;
  */
 class Turn
 {
+    DEFINE_LOGGER();
 public:
     Turn();
     Turn(unsigned int iPlayerId,

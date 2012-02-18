@@ -31,6 +31,9 @@
 #include "debug.h"
 
 
+INIT_LOGGER(game, History);
+
+
 History::History()
 {
     Turn* t = new Turn();

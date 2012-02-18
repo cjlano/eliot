@@ -25,6 +25,9 @@
 using namespace std;
 
 
+INIT_LOGGER(game, MarkPlayedCmd);
+
+
 MarkPlayedCmd::MarkPlayedCmd(Duplicate &ioDuplicate,
                              unsigned int iPlayerId,
                              bool iPlayedFlag)

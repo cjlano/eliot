@@ -45,6 +45,9 @@ using boost::format;
 using boost::wformat;
 
 
+INIT_LOGGER(utils, GameIO);
+
+
 #define __UNUSED__ __attribute__((unused))
 
 void GameIO::printBoard(ostream &out, const PublicGame &iGame)

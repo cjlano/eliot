@@ -24,6 +24,8 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
+#include "logging.h"
+
 class QWidget;
 class QPoint;
 class QMenu;
@@ -32,6 +34,7 @@ class QMenu;
 class CustomPopup: public QObject
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     CustomPopup(QWidget *iWidget);

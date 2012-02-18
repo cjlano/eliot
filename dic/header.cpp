@@ -56,6 +56,9 @@ using boost::format;
 using boost::wformat;
 
 
+INIT_LOGGER(dic, Header);
+
+
 #if defined(WORDS_BIGENDIAN)
 // Nothing to do on big-endian machines
 #   define ntohll(x) (x)

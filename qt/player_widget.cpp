@@ -36,6 +36,9 @@
 #include "encoding.h"
 
 
+INIT_LOGGER(qt, PlayerWidget);
+
+
 PlayerWidget::PlayerWidget(QWidget *parent, CoordModel &iCoordModel,
                            unsigned int iPlayerNb, PublicGame *iGame)
     : QWidget(parent), m_game(iGame), m_player(iPlayerNb)

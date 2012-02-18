@@ -26,6 +26,7 @@
 #include <string>
 #include "pldrack.h"
 #include "history.h"
+#include "logging.h"
 
 using std::wstring;
 
@@ -39,6 +40,7 @@ class Rack;
  */
 class Player
 {
+    DEFINE_LOGGER();
 public:
     explicit Player();
     virtual ~Player() {}

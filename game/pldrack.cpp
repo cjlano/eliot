@@ -26,6 +26,9 @@
 #include "rack.h"
 
 
+INIT_LOGGER(game, PlayedRack);
+
+
 PlayedRack::PlayedRack()
     : m_reject(false)
 {

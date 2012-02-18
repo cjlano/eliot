@@ -32,6 +32,9 @@
 #include "debug.h"
 
 
+INIT_LOGGER(game, Results);
+
+
 bool tileCompare(const Tile &t1, const Tile &t2)
 {
     return t1.toCode() < t2.toCode();

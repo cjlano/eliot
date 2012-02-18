@@ -23,6 +23,8 @@
 
 #include <QtGui/QWidget>
 
+#include "logging.h"
+
 class QAction;
 
 
@@ -34,6 +36,7 @@ class QAction;
 class AuxWindow: public QWidget
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     /**

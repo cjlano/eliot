@@ -25,6 +25,9 @@
 #include "player.h"
 
 
+INIT_LOGGER(game, TurnCmd);
+
+
 TurnCmd::TurnCmd()
 {
     // Fake execution

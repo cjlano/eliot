@@ -24,6 +24,8 @@
 
 #include <string>
 
+#include "logging.h"
+
 using std::wstring;
 
 
@@ -33,6 +35,7 @@ using std::wstring;
  */
 class Coord
 {
+    DEFINE_LOGGER();
 public:
 
     enum Direction {VERTICAL, HORIZONTAL};

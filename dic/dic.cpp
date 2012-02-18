@@ -48,6 +48,9 @@
 #include "tile.h"
 
 
+INIT_LOGGER(dic, Dictionary);
+
+
 const Dictionary *Dictionary::m_dic = NULL;
 
 

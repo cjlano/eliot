@@ -23,6 +23,7 @@
 
 #include "ai_player.h"
 #include "results.h"
+#include "logging.h"
 
 /**
  * This kind of AI is parameterized by a percentage p.
@@ -37,6 +38,7 @@
  */
 class AIPercent: public AIPlayer
 {
+    DEFINE_LOGGER();
 public:
     /// Constructor, taking the percentage (0.0 <= iPercent <= 1.0)
     AIPercent(float iPercent);

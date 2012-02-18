@@ -66,6 +66,7 @@
 
 INIT_LOGGER(dic, CompDic);
 
+
 CompDic::CompDic()
     : m_currentRec(0), m_maxRec(0), m_loadTime(0), m_buildTime(0)
 {

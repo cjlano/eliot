@@ -22,7 +22,9 @@
 #define BOARD_WIDGET_H_
 
 #include <QtGui/QFrame>
+
 #include "matrix.h"
+#include "logging.h"
 
 
 class PublicGame;
@@ -33,6 +35,7 @@ class Coord;
 class BoardWidget: public QFrame
 {
     Q_OBJECT;
+    DEFINE_LOGGER();
 
 public:
     explicit BoardWidget(CoordModel &iCoordModel, QWidget *parent = 0);

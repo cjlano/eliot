@@ -30,6 +30,9 @@
 #include "debug.h"
 
 
+INIT_LOGGER(game, Move);
+
+
 Move::Move()
     :m_score(0)
 {
