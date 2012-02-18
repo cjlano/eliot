@@ -45,7 +45,6 @@ EXTRA_DIST = \
     ui/dic_wizard_letters_def_page.ui \
     ui/dic_wizard_conclusion_page.ui \
     ui/bag_widget.ui \
-    ui/fav_players_dialog.ui \
     ui/main_window.ui \
     ui/new_game.ui \
     ui/player_widget.ui \
@@ -76,7 +75,6 @@ eliot_SOURCES = \
     play_word_mediator.cpp play_word_mediator.h \
     training_widget.cpp training_widget.h \
     player_widget.cpp player_widget.h \
-    fav_players_dialog.cpp fav_players_dialog.h \
     prefs_dialog.cpp prefs_dialog.h \
     aux_window.cpp aux_window.h \
     main_window.cpp main_window.h \
@@ -85,7 +83,6 @@ eliot_SOURCES = \
 nodist_eliot_SOURCES = \
     ui/main_window.ui.h \
     ui/bag_widget.ui.h \
-    ui/fav_players_dialog.ui.h \
     ui/new_game.ui.h \
     ui/player_widget.ui.h \
     ui/training_widget.ui.h \
@@ -113,7 +110,6 @@ nodist_eliot_SOURCES = \
     play_word_mediator.moc.cpp \
     player_widget.moc.cpp \
     training_widget.moc.cpp \
-    fav_players_dialog.moc.cpp \
     prefs_dialog.moc.cpp \
     aux_window.moc.cpp \
     main_window.moc.cpp \
