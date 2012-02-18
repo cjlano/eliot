@@ -64,6 +64,11 @@ public:
     wstring getDisplayStr() const;
     vector<wstring> getInputStr() const;
 
+    /// Return a copy of this tile, as a (non pure) joker
+    Tile toLower() const;
+    /// Return a copy of this tile, without joker information
+    Tile toUpper() const;
+
     static const Tile &Joker()  { return m_TheJoker; }
 
     bool operator <(const Tile &iOther) const;

@@ -113,8 +113,7 @@ void GameMoveCmd::playRound()
             if (m_round.isPlayedFromRack(i) && m_round.isJoker(i))
             {
                 // Is the represented letter still available in the bag?
-                // XXX: this way to get the represented letter sucks...
-                Tile t(towupper(m_round.getTile(i).toChar()));
+                const Tile &t = m_round.getTile(i).toUpper();
                 if (bag.in(t))
                 {
                     bag.replaceTile(Tile::Joker());

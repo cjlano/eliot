@@ -27,6 +27,7 @@
 #include "header.h"
 #include "encoding.h"
 #include "dic_exception.h"
+#include "debug.h"
 
 
 INIT_LOGGER(dic, Tile);
@@ -146,6 +147,22 @@ wchar_t Tile::toChar() const
 unsigned int Tile::toCode() const
 {
     return m_code;
+}
+
+
+Tile Tile::toLower() const
+{
+    ASSERT(iswalpha(m_char),
+           "toLower() should be called on alphabetical tiles");
+    return Tile(towlower(m_char));
+}
+
+
+Tile Tile::toUpper() const
+{
+    ASSERT(iswalpha(m_char),
+           "toUpper() should be called on alphabetical tiles");
+    return Tile(towupper(m_char));
 }
 
 

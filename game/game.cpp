@@ -352,7 +352,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
                 if (bestRound.isJoker(i) && bestRound.isPlayedFromRack(i))
                 {
                     const Tile &jokerTile = bestRound.getTile(i);
-                    Tile replacingTile(towupper(jokerTile.toChar()));
+                    const Tile &replacingTile = jokerTile.toUpper();
                     LOG_DEBUG("helperSetRackRandom(): replacing Joker with "
                               << lfw(replacingTile.toChar()));
 

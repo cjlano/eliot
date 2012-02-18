@@ -417,10 +417,11 @@ void Board::testRound(const Round &iRound)
         {
             if (isVacant(row, col + i))
             {
-                Tile t = iRound.getTile(i);
+                const Tile &t = iRound.getTile(i);
                 if (iRound.isJoker(i))
-                    t = Tile(towlower(t.toChar()));
-                m_testsRow[row][col + i] = t;
+                    m_testsRow[row][col + i] = t.toLower();
+                else
+                    m_testsRow[row][col + i] = t;
             }
         }
     }
@@ -430,10 +431,11 @@ void Board::testRound(const Round &iRound)
         {
             if (isVacant(row + i, col))
             {
-                Tile t = iRound.getTile(i);
+                const Tile &t = iRound.getTile(i);
                 if (iRound.isJoker(i))
-                    t = Tile(towlower(t.toChar()));
-                m_testsRow[row + i][col] = t;
+                    m_testsRow[row + i][col] = t.toLower();
+                else
+                    m_testsRow[row + i][col] = t;
             }
         }
     }
