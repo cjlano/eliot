@@ -34,13 +34,10 @@ static void Board_checkout_tile(const Dictionary &iDic,
                                 int& oPoints,
                                 int index)
 {
-    int i, left;
-    unsigned int node, succ;
-
     oPoints = 0;
 
     /* Points on the left part */
-    left = index;
+    int left = index;
     while (!iTiles[left - 1].isEmpty())
     {
         left--;
@@ -52,15 +49,17 @@ static void Board_checkout_tile(const Dictionary &iDic,
     wchar_t leftTiles [BOARD_DIM + 1];
     wchar_t rightTiles[BOARD_DIM + 1];
 
-    for (i = left; i < index; i++)
+    for (int i = left; i < index; i++)
         leftTiles[i - left] = towupper(iTiles[i].toChar());
     leftTiles[index - left] = 0;
 
+    int i;
     for (i = index + 1; !iTiles[i].isEmpty(); i++)
         rightTiles[i - index - 1] = towupper(iTiles[i].toChar());
     rightTiles[i - index - 1] = 0;
 
     /* Tiles that can be played */
+    unsigned int node, succ;
     node = iDic.charLookup(iDic.getRoot(), leftTiles);
     if (node == 0)
     {
