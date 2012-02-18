@@ -99,7 +99,7 @@ Board::Board(const GameParams &iParams):
     m_crossCol(BOARD_REALDIM, Cross()),
     m_pointRow(BOARD_REALDIM, -1),
     m_pointCol(BOARD_REALDIM, -1),
-    m_testsRow(BOARD_REALDIM, false),
+    m_testsRow(BOARD_REALDIM, Tile()),
     m_isEmpty(true)
 {
     // No cross check allowed around the board
@@ -183,10 +183,13 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
         }
     }
     buildCross(iDic);
-    m_isEmpty = false;
 #ifdef DEBUG
     checkDouble();
 #endif
+
+    removeTestRound();
+
+    m_isEmpty = false;
 }
 
 
@@ -233,6 +236,8 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
 #ifdef DEBUG
     checkDouble();
 #endif
+
+    removeTestRound();
 
     // Update the m_isEmpty flag
     for (int i = 1; i <= BOARD_DIM; i++)
@@ -402,7 +407,7 @@ int Board::checkRound(Round &iRound) const
 
 void Board::testRound(const Round &iRound)
 {
-    Tile t;
+    removeTestRound();
 
     int row = iRound.getCoord().getRow();
     int col = iRound.getCoord().getCol();
@@ -412,13 +417,10 @@ void Board::testRound(const Round &iRound)
         {
             if (isVacant(row, col + i))
             {
-                t = iRound.getTile(i);
-                m_tilesRow[row][col + i] = t;
-                m_jokerRow[row][col + i] = iRound.isJoker(i);
-                m_testsRow[row][col + i] = true;
-
-                m_tilesCol[col + i][row] = t;
-                m_jokerCol[col + i][row] = iRound.isJoker(i);
+                Tile t = iRound.getTile(i);
+                if (iRound.isJoker(i))
+                    t = Tile(towlower(t.toChar()));
+                m_testsRow[row][col + i] = t;
             }
         }
     }
@@ -428,13 +430,10 @@ void Board::testRound(const Round &iRound)
         {
             if (isVacant(row + i, col))
             {
-                t = iRound.getTile(i);
-                m_tilesRow[row + i][col] = t;
-                m_jokerRow[row + i][col] = iRound.isJoker(i);
-                m_testsRow[row + i][col] = true;
-
-                m_tilesCol[col][row + i] = t;
-                m_jokerCol[col][row + i] = iRound.isJoker(i);
+                Tile t = iRound.getTile(i);
+                if (iRound.isJoker(i))
+                    t = Tile(towlower(t.toChar()));
+                m_testsRow[row + i][col] = t;
             }
         }
     }
@@ -443,26 +442,19 @@ void Board::testRound(const Round &iRound)
 
 void Board::removeTestRound()
 {
-    for (int row = 1; row <= BOARD_DIM; row++)
-    {
-        for (int col = 1; col <= BOARD_DIM; col++)
-        {
-            if (m_testsRow[row][col])
-            {
-                m_tilesRow[row][col] = Tile();
-                m_testsRow[row][col] = false;
-                m_jokerRow[row][col] = false;
-
-                m_tilesCol[col][row] = Tile();
-                m_jokerCol[col][row] = false;
-            }
-        }
-    }
+    m_testsRow = m_tilesRow;
 }
 
 
 bool Board::isTestChar(int iRow, int iCol) const
 {
+    return !m_testsRow[iRow][iCol].isEmpty() && isVacant(iRow, iCol);
+}
+
+
+const Tile& Board::getTestTile(int iRow, int iCol) const
+{
+    ASSERT(isTestChar(iRow, iCol), "The requested tile is not a test tile");
     return m_testsRow[iRow][iCol];
 }
 

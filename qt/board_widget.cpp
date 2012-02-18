@@ -140,18 +140,27 @@ void BoardWidget::refresh()
         {
             for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
             {
-                if (board.isVacant(row, col) ||
-                    (board.isTestChar(row, col) && !m_showTemporarySigns))
+                if (board.isTestChar(row, col) && m_showTemporarySigns)
                 {
-                    // Force an empty square.
-                    m_widgetsMatrix[row][col]->tileChanged(TileWidget::BOARD_EMPTY);
+                    const Tile &tile = board.getTestTile(row, col);
+                    m_widgetsMatrix[row][col]->tileChanged(
+                                TileWidget::PREVIEW,
+                                tile, tile.isJoker());
                 }
                 else
                 {
-                    m_widgetsMatrix[row][col]->tileChanged(
-                            board.isTestChar(row, col) ?  TileWidget::PREVIEW : TileWidget::NORMAL,
-                            board.getTile(row, col),
-                            board.isJoker(row, col));
+                    if (board.isVacant(row, col))
+                    {
+                        // Force an empty square.
+                        m_widgetsMatrix[row][col]->tileChanged(TileWidget::BOARD_EMPTY);
+                    }
+                    else
+                    {
+                        m_widgetsMatrix[row][col]->tileChanged(
+                                TileWidget::NORMAL,
+                                board.getTile(row, col),
+                                board.isJoker(row, col));
+                    }
                 }
             }
         }

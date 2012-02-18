@@ -66,9 +66,10 @@ public:
     int  checkRound(Round &iRound) const;
 
     /**
-     *
+     * Preview
      */
     bool isTestChar(int iRow, int iCol) const;
+    const Tile& getTestTile(int iRow, int iCol) const;
     void testRound(const Round &iRound);
     void removeTestRound();
 
@@ -108,7 +109,7 @@ private:
     Matrix<int> m_pointRow;
     Matrix<int> m_pointCol;
 
-    Matrix<bool> m_testsRow;
+    Matrix<Tile> m_testsRow;
 
     /// Flag indicating if the board is empty or if it has letters
     bool m_isEmpty;
