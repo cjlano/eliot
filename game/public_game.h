@@ -159,9 +159,13 @@ public:
     /// Shuffle the rack of the current player
     void shuffleRack();
 
-    /// Place a temporary word on the board for preview purposes
+    /**
+     * Place a temporary word on the board for preview purposes.
+     * It is up to the caller to provide a Round
+     * which makes sense for the current game.
+     */
     void setTestRound(const Round &iRound);
-    /// Remove the temporary word
+    /** Remove the round set with setTestRound */
     void removeTestRound();
 
     /***************

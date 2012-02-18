@@ -434,17 +434,6 @@ PlayedRack Game::helperSetRackManual(bool iCheck, const wstring &iLetters) const
 }
 
 
-void Game::setTestRound(const Round &iRound)
-{
-    m_board.testRound(iRound);
-}
-
-
-void Game::removeTestRound()
-{
-    m_board.removeTestRound();
-}
-
 /*********************************************************
  *********************************************************/
 

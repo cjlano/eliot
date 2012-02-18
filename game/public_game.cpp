@@ -153,13 +153,13 @@ void PublicGame::shuffleRack()
 
 void PublicGame::setTestRound(const Round &iRound)
 {
-    m_game.setTestRound(iRound);
+    m_game.accessBoard().testRound(iRound);
 }
 
 
 void PublicGame::removeTestRound()
 {
-    m_game.removeTestRound();
+    m_game.accessBoard().removeTestRound();
 }
 
 /***************************/
