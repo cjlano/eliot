@@ -41,19 +41,14 @@ class Round
     DEFINE_LOGGER();
 public:
 
-    /*************************
-     *
-     *************************/
     Round();
-    void init();
 
     /*************************
      *
      *************************/
-    void addRightFromBoard(Tile);
-    void removeRightToBoard(Tile);
-    void addRightFromRack(Tile, bool);
-    void removeRightToRack(Tile, bool);
+    void addRightFromBoard(const Tile &iTile);
+    void addRightFromRack(const Tile &iTile, bool iJoker);
+    void removeRight();
 
     /*************************
      * General setters

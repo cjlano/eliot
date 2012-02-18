@@ -63,11 +63,10 @@ void BoardSearch::search(Rack &iRack, Results &oResults, Coord::Direction iDir) 
     vector<Tile> rackTiles;
     iRack.getTiles(rackTiles);
     vector<Tile>::const_iterator it;
-    Round partialWord;
 
     for (int row = 1; row <= BOARD_DIM; row++)
     {
-        partialWord.init();
+        Round partialWord;
         partialWord.accessCoord().setDir(iDir);
         partialWord.accessCoord().setRow(row);
         int lastanchor = 0;
@@ -150,7 +149,7 @@ void BoardSearch::leftPart(Rack &iRack, Round &ioPartialWord,
                 leftPart(iRack, ioPartialWord, oResults,
                          succ, iRow, iAnchor, iLimit - 1);
                 ioPartialWord.accessCoord().setCol(ioPartialWord.getCoord().getCol() + 1);
-                ioPartialWord.removeRightToRack(l, false);
+                ioPartialWord.removeRight();
                 iRack.add(l);
             }
             if (hasJokerInRack)
@@ -161,7 +160,7 @@ void BoardSearch::leftPart(Rack &iRack, Round &ioPartialWord,
                 leftPart(iRack, ioPartialWord, oResults,
                          succ, iRow, iAnchor, iLimit - 1);
                 ioPartialWord.accessCoord().setCol(ioPartialWord.getCoord().getCol() + 1);
-                ioPartialWord.removeRightToRack(l, true);
+                ioPartialWord.removeRight();
                 iRack.add(Tile::Joker());
             }
         }
@@ -198,7 +197,7 @@ void BoardSearch::extendRight(Rack &iRack, Round &ioPartialWord,
                     ioPartialWord.addRightFromRack(l, false);
                     extendRight(iRack, ioPartialWord, oResults,
                                 succ, iRow, iCol + 1, iAnchor);
-                    ioPartialWord.removeRightToRack(l, false);
+                    ioPartialWord.removeRight();
                     iRack.add(l);
                 }
                 if (hasJokerInRack)
@@ -207,7 +206,7 @@ void BoardSearch::extendRight(Rack &iRack, Round &ioPartialWord,
                     ioPartialWord.addRightFromRack(l, true);
                     extendRight(iRack, ioPartialWord, oResults,
                                 succ, iRow, iCol + 1, iAnchor);
-                    ioPartialWord.removeRightToRack(l, true);
+                    ioPartialWord.removeRight();
                     iRack.add(Tile::Joker());
                 }
             }
@@ -224,7 +223,7 @@ void BoardSearch::extendRight(Rack &iRack, Round &ioPartialWord,
                 ioPartialWord.addRightFromBoard(l);
                 extendRight(iRack, ioPartialWord,
                             oResults, succ, iRow, iCol + 1, iAnchor);
-                ioPartialWord.removeRightToBoard(l);
+                ioPartialWord.removeRight();
                 // The letter will be present only once in the dictionary,
                 // so we can stop looping
                 break;

@@ -35,24 +35,10 @@ INIT_LOGGER(game, Round);
 #define FROMRACK  0x2
 #define JOKER     0x4
 
-#define __UNUSED__ __attribute__((unused))
-
 
 Round::Round()
+    : m_coord(1, 1, Coord::HORIZONTAL), m_points(0), m_bonus(false)
 {
-    init();
-}
-
-
-void Round::init()
-{
-    m_word.clear();
-    m_tileOrigin.clear();
-    m_coord.setRow(1);
-    m_coord.setCol(1);
-    m_coord.setDir(Coord::HORIZONTAL);
-    m_points = 0;
-    m_bonus  = false;
 }
 
 
@@ -105,24 +91,16 @@ bool Round::isPlayedFromRack(unsigned int iIndex) const
 }
 
 
-void Round::addRightFromBoard(Tile c)
+void Round::addRightFromBoard(const Tile &iTile)
 {
-    m_word.push_back(c);
+    m_word.push_back(iTile);
     m_tileOrigin.push_back(FROMBOARD);
 }
 
 
-void Round::removeRightToBoard(Tile __UNUSED__ c)
+void Round::addRightFromRack(const Tile &iTile, bool iJoker)
 {
-    // c is unused.
-    m_word.pop_back();
-    m_tileOrigin.pop_back();
-}
-
-
-void Round::addRightFromRack(Tile c, bool iJoker)
-{
-    m_word.push_back(c);
+    m_word.push_back(iTile);
     char origin = FROMRACK;
     if (iJoker)
     {
@@ -132,12 +110,12 @@ void Round::addRightFromRack(Tile c, bool iJoker)
 }
 
 
-void Round::removeRightToRack(Tile __UNUSED__ c, bool __UNUSED__ iJoker)
+void Round::removeRight()
 {
-    // c is unused.
     m_word.pop_back();
     m_tileOrigin.pop_back();
 }
+
 
 wstring Round::getWord() const
 {
@@ -152,6 +130,7 @@ wstring Round::getWord() const
     }
     return s;
 }
+
 
 wstring Round::toString() const
 {

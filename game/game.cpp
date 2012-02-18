@@ -513,7 +513,7 @@ int Game::checkPlayedWord(const wstring &iCoord,
         return 1;
 
     // Init the round with the given coordinates
-    oRound.init();
+    oRound = Round();
     oRound.accessCoord().setFromString(iCoord);
     if (!oRound.getCoord().isValid())
     {
