@@ -59,6 +59,5 @@ libgame_a_SOURCES= \
     game_factory.cpp game_factory.h \
     game_io.cpp \
     xml_writer.cpp xml_writer.h \
-    xml_reader.cpp xml_reader.h \
-    debug.h
+    xml_reader.cpp xml_reader.h
 

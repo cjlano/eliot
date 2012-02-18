@@ -37,7 +37,8 @@ libdic_a_SOURCES = \
 	regexp.cpp regexp.h \
 	grammar.cpp grammar.h \
 	compdic.cpp compdic.h \
-	listdic.cpp listdic.h
+	listdic.cpp listdic.h \
+	debug.h
 
 #####################################
 if BUILD_DICTOOLS
