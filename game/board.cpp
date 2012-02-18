@@ -142,11 +142,8 @@ bool Board::isJoker(int iRow, int iCol) const
 
 bool Board::isVacant(int iRow, int iCol) const
 {
-    if (iRow < 1 || iRow > BOARD_DIM ||
-        iCol < 1 || iCol > BOARD_DIM)
-    {
-        return false;
-    }
+    ASSERT(iRow >= BOARD_MIN && iRow <= BOARD_MAX &&
+           iCol >= BOARD_MIN && iCol <= BOARD_MAX, "Invalid coordinates");
     return m_tilesRow[iRow][iCol].isEmpty();
 }
 
@@ -160,7 +157,7 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
         Tile t;
         for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
-            if (m_tilesRow[row][col + i].isEmpty())
+            if (isVacant(row, col + i))
             {
                 t = iRound.getTile(i);
                 m_tilesRow[row][col + i] = t;
@@ -175,7 +172,7 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
         Tile t;
         for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
-            if (m_tilesRow[row + i][col].isEmpty())
+            if (isVacant(row + i, col))
             {
                 t = iRound.getTile(i);
                 m_tilesRow[row + i][col] = t;
@@ -242,7 +239,7 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
     {
         for (int j = 1; j <= BOARD_DIM; j++)
         {
-            if (!m_tilesRow[i][j].isEmpty())
+            if (!isVacant(i, j))
                 return;
         }
     }
@@ -413,7 +410,7 @@ void Board::testRound(const Round &iRound)
     {
         for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
-            if (m_tilesRow[row][col + i].isEmpty())
+            if (isVacant(row, col + i))
             {
                 t = iRound.getTile(i);
                 m_tilesRow[row][col + i] = t;
@@ -429,7 +426,7 @@ void Board::testRound(const Round &iRound)
     {
         for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
-            if (m_tilesRow[row + i][col].isEmpty())
+            if (isVacant(row + i, col))
             {
                 t = iRound.getTile(i);
                 m_tilesRow[row + i][col] = t;
