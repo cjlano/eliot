@@ -159,11 +159,17 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
         {
             if (isVacant(row, col + i))
             {
+                ASSERT(iRound.isPlayedFromRack(i), "Invalid round (1)");
                 t = iRound.getTile(i);
                 m_tilesRow[row][col + i] = t;
                 m_jokerRow[row][col + i] = iRound.isJoker(i);
                 m_tilesCol[col + i][row] = t;
                 m_jokerCol[col + i][row] = iRound.isJoker(i);
+            }
+            else
+            {
+                ASSERT(!iRound.isPlayedFromRack(i), "Invalid round (2)");
+                ASSERT(t == m_tilesRow[row][col + i].toUpper(), "Invalid round (3)");
             }
         }
     }
@@ -174,11 +180,17 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
         {
             if (isVacant(row + i, col))
             {
+                ASSERT(iRound.isPlayedFromRack(i), "Invalid round (1)");
                 t = iRound.getTile(i);
                 m_tilesRow[row + i][col] = t;
                 m_jokerRow[row + i][col] = iRound.isJoker(i);
                 m_tilesCol[col][row + i] = t;
                 m_jokerCol[col][row + i] = iRound.isJoker(i);
+            }
+            else
+            {
+                ASSERT(!iRound.isPlayedFromRack(i), "Invalid round (2)");
+                ASSERT(t == m_tilesRow[row + i][col].toUpper(), "Invalid round (3)");
             }
         }
     }
@@ -206,6 +218,8 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
                    "Invalid round removal");
             if (iRound.isPlayedFromRack(i))
             {
+                ASSERT(iRound.isJoker(i) == m_jokerRow[row][col + i],
+                       "Invalid round removal");
                 m_tilesRow[row][col + i] = Tile();
                 m_jokerRow[row][col + i] = false;
                 m_crossRow[row][col + i].setAny();
@@ -223,6 +237,8 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
                    "Invalid round removal");
             if (iRound.isPlayedFromRack(i))
             {
+                ASSERT(iRound.isJoker(i) == m_jokerRow[row + i][col],
+                       "Invalid round removal");
                 m_tilesRow[row + i][col] = Tile();
                 m_jokerRow[row + i][col] = false;
                 m_crossRow[row + i][col].setAny();

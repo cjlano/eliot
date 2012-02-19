@@ -55,7 +55,7 @@ public:
      *************************/
     void setPoints(int iPoints)    { m_points = iPoints; }
     void setBonus(bool iBonus)     { m_bonus = iBonus; }
-    void setTile(unsigned int iIndex, const Tile &iTile) { m_word[iIndex] = iTile; }
+    void setTile(unsigned int iIndex, const Tile &iTile);
     void setWord(const vector<Tile> &iTiles);
     void setFromRack(unsigned int iIndex);
     void setFromBoard(unsigned int iIndex);

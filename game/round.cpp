@@ -26,6 +26,7 @@
 #include "tile.h"
 #include "round.h"
 #include "encoding.h"
+#include "debug.h"
 
 
 INIT_LOGGER(game, Round);
@@ -45,32 +46,44 @@ void Round::setWord(const vector<Tile> &iTiles)
 }
 
 
+void Round::setTile(unsigned int iIndex, const Tile &iTile)
+{
+    ASSERT(iIndex < m_word.size(), "Invalid index");
+    m_word[iIndex] = iTile;
+}
+
+
 void Round::setFromRack(unsigned int iIndex)
 {
+    ASSERT(iIndex < m_word.size(), "Invalid index");
     m_rackOrigin[iIndex] = true;
 }
 
 
 void Round::setFromBoard(unsigned int iIndex)
 {
+    ASSERT(iIndex < m_word.size(), "Invalid index");
     m_rackOrigin[iIndex] = false;
 }
 
 
 bool Round::isJoker(unsigned int iIndex) const
 {
+    ASSERT(iIndex < m_word.size(), "Invalid index");
      return m_word[iIndex].isJoker();
 }
 
 
 const Tile& Round::getTile(unsigned int iIndex) const
 {
+    ASSERT(iIndex < m_word.size(), "Invalid index");
      return m_word[iIndex];
 }
 
 
 bool Round::isPlayedFromRack(unsigned int iIndex) const
 {
+    ASSERT(iIndex < m_word.size(), "Invalid index");
      return m_rackOrigin[iIndex];
 }
 
@@ -96,6 +109,8 @@ void Round::addRightFromRack(const Tile &iTile, bool iJoker)
 
 void Round::removeRight()
 {
+    ASSERT(!m_word.empty() && !m_rackOrigin.empty(),
+           "Trying to remove tiles that were never added");
     m_word.pop_back();
     m_rackOrigin.pop_back();
 }
