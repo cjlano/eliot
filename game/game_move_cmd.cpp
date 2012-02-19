@@ -37,6 +37,7 @@ GameMoveCmd::GameMoveCmd(Game &ioGame, const Move &iMove,
     m_moveRack(ioGame.getPlayer(iPlayerId).getHistory().getPreviousTurn().getPlayedRack()),
     m_playerId(iPlayerId)
 {
+    setAutoExecutable(false);
 }
 
 

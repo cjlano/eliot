@@ -61,6 +61,8 @@ class Command
          * allowed to call undo()), false otherwise.
          */
         bool isExecuted() const { return m_executed; }
+        /// Return true if the command is auto-executable
+        virtual bool isAutoExecutable() const { return m_autoExecutable; }
 
         /**
          * Mark the command as human independent, which means that it will
@@ -82,9 +84,19 @@ class Command
         virtual void doExecute() = 0;
         virtual void doUndo() = 0;
 
+        /**
+         * Mark the command as auto-executable.
+         * When the commands history is set to a particular turn, all the
+         * auto-executable commands for this turn will be executed until
+         * the first non-auto-executable one (excluded).
+         * This allows replaying some actions (like setting the rack) at the beginning of a turn.
+         */
+        void setAutoExecutable(bool autoExec) { m_autoExecutable = autoExec; }
+
     private:
         bool m_executed;
         bool m_humanIndependent;
+        bool m_autoExecutable;
 };
 
 #endif

@@ -31,6 +31,7 @@ INIT_LOGGER(game, PlayerMoveCmd);
 PlayerMoveCmd::PlayerMoveCmd(Player &ioPlayer, const Move &iMove)
     : m_player(ioPlayer), m_move(iMove)
 {
+    setAutoExecutable(false);
 }
 
 
