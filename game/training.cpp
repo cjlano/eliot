@@ -124,11 +124,6 @@ void Training::recordPlayerMove(const Move &iMove, Player &ioPlayer)
 void Training::start()
 {
     firstPlayer();
-    // Dummy new turn, because the navigation prevents undoing the first turn.
-    // Since in this mode the player can set the rack, we cannot do like in the
-    // duplicate and free game modes, where we change turn just before a move
-    // is played...
-    accessNavigation().newTurn();
 }
 
 

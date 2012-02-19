@@ -24,12 +24,14 @@
 #include "turn_cmd.h"
 #include "command.h"
 #include "player.h"
+#include "debug.h"
 
 
 INIT_LOGGER(game, TurnCmd);
 
 
 TurnCmd::TurnCmd()
+    : m_firstNotExecuted(0)
 {
 }
 
@@ -45,29 +47,100 @@ TurnCmd::~TurnCmd()
 
 void TurnCmd::addAndExecute(Command *iCmd)
 {
+    ASSERT(isFullyExecuted(), "Adding a command to a partially executed turn");
     m_commands.push_back(iCmd);
     iCmd->execute();
+    ++m_firstNotExecuted;
 }
 
 
 void TurnCmd::execute()
 {
-    BOOST_FOREACH(Command *cmd, m_commands)
+    for (unsigned i = m_firstNotExecuted; i < m_commands.size(); ++i)
     {
-        if (!cmd->isExecuted())
-            cmd->execute();
+        Command *cmd = m_commands[i];
+        ASSERT(!cmd->isExecuted(), "Bug with m_firstNotExecuted");
+        cmd->execute();
     }
+    m_firstNotExecuted = m_commands.size();
 }
 
 
 void TurnCmd::undo()
 {
     // Undo commands in the reverse order of execution
-    vector<Command*>::reverse_iterator it;
-    for (it = m_commands.rbegin(); it != m_commands.rend(); ++it)
+    unsigned firstToUndo = m_firstNotExecuted - 1;
+    for (unsigned i = 0; i < m_firstNotExecuted; ++i)
     {
-        (*it)->undo();
+        Command *cmd = m_commands[firstToUndo - i];
+        ASSERT(cmd->isExecuted(), "Bug with m_firstNotExecuted");
+        cmd->undo();
     }
+    m_firstNotExecuted = 0;
+}
+
+
+void TurnCmd::partialExecute()
+{
+    for (unsigned i = m_firstNotExecuted; i < m_commands.size(); ++i)
+    {
+        Command *cmd = m_commands[i];
+        if (!cmd->isAutoExecutable())
+            break;
+        ASSERT(!cmd->isExecuted(), "Bug with m_firstNotExecuted");
+        cmd->execute();
+        ++m_firstNotExecuted;
+    }
+    ASSERT(isPartiallyExecuted(), "Bug in partialExecute()");
+}
+
+
+void TurnCmd::partialUndo()
+{
+    // Lazy implementation :)
+    undo();
+    partialExecute();
+}
+
+
+void TurnCmd::dropNonExecutedCommands()
+{
+    while (m_commands.size() > m_firstNotExecuted)
+    {
+        delete m_commands.back();
+        m_commands.pop_back();
+    }
+}
+
+
+bool TurnCmd::isFullyExecuted() const
+{
+    return m_firstNotExecuted == m_commands.size();
+}
+
+
+bool TurnCmd::isPartiallyExecuted() const
+{
+    if (isFullyExecuted())
+        return true;
+    return !m_commands[m_firstNotExecuted]->isAutoExecutable();
+}
+
+
+bool TurnCmd::isNotAtAllExecuted() const
+{
+    return m_firstNotExecuted == 0;
+}
+
+
+bool TurnCmd::hasNonAutoExecCmd() const
+{
+    BOOST_FOREACH(Command *cmd, m_commands)
+    {
+        if (!cmd->isAutoExecutable())
+            return true;
+    }
+    return false;
 }
 
 
@@ -88,7 +161,8 @@ wstring TurnCmd::toString() const
     oss << L"TurnCmd:";
     BOOST_FOREACH(Command *cmd, m_commands)
     {
-        oss << endl << L"    " << cmd->toString();
+        oss << endl << L"  " << (cmd->isExecuted() ? "> " : "  " )
+            << (cmd->isAutoExecutable() ? "* " : "  ") << cmd->toString();
     }
     return oss.str();
 }

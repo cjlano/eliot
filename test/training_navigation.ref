@@ -107,7 +107,7 @@ Game: history:
     2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
 
 
-Rack 0: ORSU
+Rack 0: ORSU+SCD
 Score 0:   63
 commande> h p
 commande> a g
@@ -136,7 +136,7 @@ Game: history:
     1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
 
 
-Rack 0: SU
+Rack 0: SU+XULRO
 Score 0:   16
 commande> h p
 commande> a g
@@ -164,7 +164,7 @@ Game: history:
    ===|===|==========|================|=====|=====|======
 
 
-Rack 0: 
+Rack 0: SEUTISG
 Score 0:    0
 commande> h l
 commande> a g
@@ -218,7 +218,7 @@ commande> a g
  G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  H   -  -  -  G  I  T  E  S  -  -  -  -  -  -  - 
  I   -  -  -  -  L  U  X  -  -  -  -  -  -  -  - 
- J   -  -  -  -  -  S  O  U  R  D  S  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
@@ -232,11 +232,10 @@ Game: history:
    ===|===|==========|================|=====|=====|======
     1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
     2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
-    3 | 0 | ORSU+SCD | SOURDS         |  J6 |  30 |  
 
 
-Rack 0: C
-Score 0:   93
+Rack 0: ORSU+SCD
+Score 0:   63
 commande> +
 Cannot add a command to an old turn
 commande> h f
@@ -265,7 +264,7 @@ Game: history:
    ===|===|==========|================|=====|=====|======
 
 
-Rack 0: 
+Rack 0: SEUTISG
 Score 0:    0
 commande> h n
 commande> a g
@@ -294,7 +293,7 @@ Game: history:
     1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
 
 
-Rack 0: SU
+Rack 0: SU+XULRO
 Score 0:   16
 commande> h n
 commande> a g
@@ -324,7 +323,7 @@ Game: history:
     2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
 
 
-Rack 0: ORSU
+Rack 0: ORSU+SCD
 Score 0:   63
 commande> *
 Cannot add a command to an old turn
@@ -333,7 +332,7 @@ Cannot add a command to an old turn
 commande> t HELLO
 Cannot add a command to an old turn
 commande> a t
-ORSU
+ORSUSCD
 commande> h r
 commande> t HELLO
 commande> r

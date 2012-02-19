@@ -260,7 +260,8 @@ void PublicGame::save(const string &iFileName) const
 
 unsigned int PublicGame::getCurrTurn() const
 {
-    return m_game.getNavigation().getCurrTurn();
+    // +1 to have a 1-based index (more user-friendly)
+    return m_game.getNavigation().getCurrTurn() + 1;
 }
 
 

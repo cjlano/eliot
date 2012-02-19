@@ -30,10 +30,12 @@
 
 INIT_LOGGER(game, Navigation);
 
+
 Navigation::Navigation()
     : m_currTurn(0)
 {
-    newTurn();
+    // Start with an empty turn
+    m_turnCommands.push_back(new TurnCmd);
 }
 
 
@@ -59,76 +61,81 @@ void Navigation::addAndExecute(Command *iCmd)
 {
     if (!isLastTurn())
         throw GameException("Cannot add a command to an old turn");
-
-    ASSERT(m_currTurn >= 1, "Bug in the turns vector (1)");
-    ASSERT(m_currTurn - 1 < m_turnCommands.size(), "Bug in the turns vector (2)");
-    m_turnCommands[m_currTurn - 1]->addAndExecute(iCmd);
+    m_turnCommands[m_currTurn]->addAndExecute(iCmd);
 }
 
 
 unsigned int Navigation::getCurrTurn() const
 {
-    unsigned int currTurn = m_currTurn;
-    if (isLastTurn() && m_turnCommands.back()->isEmpty())
-        --currTurn;
-    return currTurn - 1;
+    return m_currTurn;
 }
 
 
 unsigned int Navigation::getNbTurns() const
 {
-    unsigned int count = m_turnCommands.size();
-    if (m_turnCommands.back()->isEmpty())
-        --count;
-    return count - 1;
+    return m_turnCommands.size();
 }
 
 
 bool Navigation::isFirstTurn() const
 {
-    return m_currTurn == 1 ||
-        (m_currTurn == 2 && m_turnCommands[1]->isEmpty());
+    return m_currTurn == 0 &&
+        m_turnCommands[m_currTurn]->isPartiallyExecuted() &&
+        !m_turnCommands[m_currTurn]->isFullyExecuted();
 }
 
 
 bool Navigation::isLastTurn() const
 {
-    return m_currTurn == m_turnCommands.size();
+    return m_currTurn == m_turnCommands.size() - 1 &&
+        m_turnCommands[m_currTurn]->isFullyExecuted();
 }
 
 
 void Navigation::prevTurn()
 {
-    if (m_currTurn > 1)
+    if (isFirstTurn())
+        return;
+
+    LOG_DEBUG("Navigating to the previous turn");
+    TurnCmd *turn = m_turnCommands[m_currTurn];
+    if (turn->isFullyExecuted() && turn->hasNonAutoExecCmd())
     {
-        LOG_DEBUG("Navigating to the previous turn");
-        --m_currTurn;
-        m_turnCommands[m_currTurn]->undo();
-        // Special case: when the last turn is empty, automatically
-        // undo the previous turn as well
-        if (m_currTurn + 1 == m_turnCommands.size() &&
-            m_turnCommands[m_currTurn]->isEmpty())
-        {
-            prevTurn();
-        }
+        ASSERT(isLastTurn(), "Unexpected turn state");
+        turn->partialUndo();
+        return;
     }
+
+    ASSERT(m_currTurn > 0, "Trying to go before the first turn");
+    ASSERT(turn->isPartiallyExecuted(), "Unexpected turn state");
+    turn->undo();
+
+    --m_currTurn;
+    m_turnCommands[m_currTurn]->partialUndo();
 }
 
 
 void Navigation::nextTurn()
 {
-    if (m_currTurn < m_turnCommands.size())
+    if (isLastTurn())
+        return;
+
+    LOG_DEBUG("Navigating to the next turn");
+    TurnCmd *turn = m_turnCommands[m_currTurn];
+    ASSERT(turn->isPartiallyExecuted(), "Unexpected turn state");
+
+    if (m_currTurn + 1 < m_turnCommands.size())
     {
-        LOG_DEBUG("Navigating to the next turn");
-        m_turnCommands[m_currTurn]->execute();
+        // Finish executing the current turn (if needed)
+        turn->execute();
+
         ++m_currTurn;
-        // Special case: when the last turn is empty, automatically
-        // execute it
-        if (m_currTurn + 1 == m_turnCommands.size() &&
-            m_turnCommands[m_currTurn]->isEmpty())
-        {
-            nextTurn();
-        }
+        m_turnCommands[m_currTurn]->partialExecute();
+    }
+    else
+    {
+        ASSERT(!turn->isFullyExecuted(), "Unexpected turn state");
+        turn->execute();
     }
 }
 
@@ -136,7 +143,7 @@ void Navigation::nextTurn()
 void Navigation::firstTurn()
 {
     LOG_DEBUG("Navigating to the first turn");
-    while (m_currTurn > 1)
+    while (!isFirstTurn())
     {
         prevTurn();
     }
@@ -146,7 +153,7 @@ void Navigation::firstTurn()
 void Navigation::lastTurn()
 {
     LOG_DEBUG("Navigating to the last turn");
-    while (m_currTurn < m_turnCommands.size())
+    while (!isLastTurn())
     {
         nextTurn();
     }
@@ -155,29 +162,37 @@ void Navigation::lastTurn()
 
 void Navigation::clearFuture()
 {
-    LOG_DEBUG("Erasing all the future turns");
+    LOG_INFO("Erasing all the future turns");
 
-    // Replay the auto-execution turns
-    // (i.e. turns where only the AI was involved)
+    // Replay the auto-execution turns (i.e. turns where only the AI was involved).
+    // This is needed for a correct handling of free games
     while (!isLastTurn() && m_turnCommands[m_currTurn]->isHumanIndependent())
+    {
+        LOG_DEBUG("Replaying a human independent turn");
         nextTurn();
+    }
 
     // When there is no future, don't do anything
     if (isLastTurn())
         return;
 
-    for (unsigned int i = m_currTurn; i < m_turnCommands.size(); ++i)
+    // Destroy future turns
+    while (m_turnCommands.size() > m_currTurn + 1)
     {
-        delete m_turnCommands[i];
-    }
-    while (m_turnCommands.size() > m_currTurn)
-    {
+        delete m_turnCommands.back();
         m_turnCommands.pop_back();
     }
-    newTurn();
-    // Sanity check
+
+    TurnCmd *turn = m_turnCommands[m_currTurn];
+
+    // Destroy non executed commands for the current turn
+    ASSERT(turn->isPartiallyExecuted(), "Invalid state");
+    turn->dropNonExecutedCommands();
+
+    // Sanity checks
     ASSERT(isLastTurn(),
            "After removing the next turns, we should be at the last turn");
+    ASSERT(turn->isFullyExecuted(), "Invalid final state");
 }
 
 
@@ -187,10 +202,16 @@ const vector<TurnCmd *> & Navigation::getTurns() const
 }
 
 
+const TurnCmd & Navigation::getCurrentTurn() const
+{
+    return *m_turnCommands[m_currTurn];
+}
+
+
 void Navigation::print() const
 {
     LOG_DEBUG("=== Commands history ===");
-    LOG_DEBUG("Current position right after turn " << m_currTurn  - 1);
+    LOG_DEBUG("Current position at turn " << m_currTurn);
     int index = 0;
     BOOST_FOREACH(const TurnCmd *c, m_turnCommands)
     {

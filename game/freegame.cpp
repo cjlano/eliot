@@ -138,8 +138,6 @@ void FreeGame::start()
 
     firstPlayer();
 
-    accessNavigation().newTurn();
-
     // If the first player is an AI, make it play now
     if (!m_players[m_currPlayer]->isHuman())
     {

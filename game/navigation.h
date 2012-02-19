@@ -30,6 +30,19 @@ class Command;
 using namespace std;
 
 
+/**
+ * Handle the navigation in the game history.
+ *
+ * A few assumptions are made for the design:
+ *  - each turn in the game is represented by a TurnCmd object
+ *  - the current TurnCmd object is always in the "partially executed" state
+ *    (see class documentation), except maybe for the last turn
+ *  - previous turns are fully executed, and future turns are never executed
+ *  - addind a command can only be done if the current turn is the last one
+ *    and is fully executed
+ *
+ * Many assertions are there to help enforce this design.
+ */
 class Navigation
 {
     DEFINE_LOGGER();
@@ -56,6 +69,7 @@ class Navigation
         void clearFuture();
 
         const vector<TurnCmd *> & getTurns() const;
+        const TurnCmd & getCurrentTurn() const;
 
         /**
          * Print the contents of the commands history, to ease debugging

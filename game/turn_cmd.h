@@ -35,7 +35,27 @@ class Command;
  * The main difference with a normal command (and thus with the composite pattern)
  * is that a TurnCmd provides partial execution: some of the commands it contains
  * (the first ones) can be executed, whereas others not.
- * The ones which can be executed are the ones flagged "auto-executable".
+ * The ones which can be executed are the ones flagged "auto-executable", and are
+ * named AE commands (or AEC) in the following comments.
+ * The non AE commands are named NAEC.
+ *
+ * Without loss of generality, the commands in a TurnCmd can always be structured
+ * like this in a unique way:
+ *      - a (possibly empty) sequence of AEC
+ *      - a (possibly empty) sequence of AEC and NAEC, starting with a NAEC
+ *
+ * There are only 3 valid "states" for a TurnCmd:
+ *      - not at all executed (none of the commands is executed)
+ *      - partially executed (all the AEC until the first NAEC are executed)
+ *      - fully executed (all the commands are executed)
+ * These states are not at all exclusive. For example, for a TurnCmd object without
+ * any command, the three states are equal.
+ *
+ * Here are a few "graphical" examples, where x represents an AEC, N represents,
+ * a NAEC, and ^ indicates the position of m_firstNotExecuted if the state is
+ * "partially executed":
+ *      |xxxxNNxNxN|  |xxxx|  |Nxxx|  ||
+ *           ^             ^   ^       ^
  */
 class TurnCmd
 {
@@ -51,19 +71,51 @@ class TurnCmd
          */
         void addAndExecute(Command *iCmd);
 
-        bool isEmpty() const { return m_commands.empty(); }
+        // Getters for the execution status.
+
+        /// Return true iff all the commands have been executed
+        bool isFullyExecuted() const;
+
+        /**
+         * Indicate whether all the auto-executable commands have been executed
+         * (whether or not there are AE commands, and whether or not there are
+         * non AE commands).
+         * When isFullyExecuted() returns true, this methods also returns true.
+         */
+        bool isPartiallyExecuted() const;
+
+        /// Return true iff no command has been executed
+        bool isNotAtAllExecuted() const;
+
+
+        bool hasNonAutoExecCmd() const;
 
         const vector<Command *> & getCommands() const { return m_commands; }
 
-        virtual bool isHumanIndependent() const;
+        bool isHumanIndependent() const;
 
-        virtual wstring toString() const;
+        wstring toString() const;
 
+        /// Execute all the commands which were not yet executed
         void execute();
+        /// Undo all the commands which were not yet undone
         void undo();
+
+        /// Execute all the AE commands, until a non AE one is found, to reach the "isPartiallyExecuted" state
+        void partialExecute();
+        /// Undo all the non AE commands, to reach the "isPartiallyExecuted" state
+        void partialUndo();
+
+        /// Drop the non-executed commands. Use it with care...
+        void dropNonExecutedCommands();
 
     private:
         vector<Command *> m_commands;
+        /**
+         * Pointer to the first not executed command.
+         * If it is equal to m_commands.size(), all the commands have been executed.
+         */
+        unsigned int m_firstNotExecuted;
 };
 
 #endif

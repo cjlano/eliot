@@ -137,12 +137,6 @@ void Duplicate::start()
 
         // Reset the master move
         setMasterMove(Move());
-
-        // Change the turn _after_ setting the new rack, so that when going
-        // back in the history the rack is already there. The turn boundaries
-        // must be just before player actions, otherwise restoring the game
-        // doesn't work properly.
-        accessNavigation().newTurn();
     }
     catch (EndGameException &e)
     {
@@ -293,6 +287,11 @@ void Duplicate::endTurn()
     // to retrieve the rack, which is the same for all players...)
     Command *pCmd = new GameMoveCmd(*this, m_masterMove, REF_PLAYER_ID);
     accessNavigation().addAndExecute(pCmd);
+
+    // Change the turn after doing all the game changes.
+    // The navigation system expects auto-executable commands (like setting
+    // the players racks) at the beginning of the turn, to work properly.
+    accessNavigation().newTurn();
 
     // Leave the same reliquate to all players
     // This is required by the start() method which will be called to
