@@ -51,7 +51,7 @@ class TurnCmd: public Command
 
         const vector<Command *> & getCommands() const { return m_commands; }
 
-        virtual bool isAutoExecution() const;
+        virtual bool isHumanIndependent() const;
 
         virtual wstring toString() const;
 

@@ -26,7 +26,7 @@ INIT_LOGGER(game, Command);
 
 
 Command::Command()
-    : m_executed(false), m_autoExecution(true)
+    : m_executed(false), m_humanIndependent(true)
 {
 }
 

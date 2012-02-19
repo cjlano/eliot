@@ -72,11 +72,11 @@ void TurnCmd::doUndo()
 }
 
 
-bool TurnCmd::isAutoExecution() const
+bool TurnCmd::isHumanIndependent() const
 {
     BOOST_FOREACH(Command *cmd, m_commands)
     {
-        if (!cmd->isAutoExecution())
+        if (!cmd->isHumanIndependent())
             return false;
     }
     return true;

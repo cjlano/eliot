@@ -63,15 +63,15 @@ class Command
         bool isExecuted() const { return m_executed; }
 
         /**
-         * Mark the command as auto-executable, which means that it will
+         * Mark the command as human independent, which means that it will
          * be automatically executed if the commands history is cleared
          * just before this command.
-         * Auto-executable commands correspond to commands for AI players,
-         * for which the user cannot change the behaviour.
+         * It is mostly useful in FreeGame mode, where a turn played by an AI
+         * player should be re-executed, because the user cannot control it.
          */
-        void setAutoExecution(bool autoExec) { m_autoExecution = autoExec; }
-        /// Return true if the command is auto-executable
-        virtual bool isAutoExecution() const { return m_autoExecution; }
+        void setHumanIndependent(bool humanIndependent) { m_humanIndependent = humanIndependent; }
+        /// Return true if the command is human independent
+        virtual bool isHumanIndependent() const { return m_humanIndependent; }
 
         /**
          * Description of the command, for debugging purposes
@@ -84,7 +84,7 @@ class Command
 
     private:
         bool m_executed;
-        bool m_autoExecution;
+        bool m_humanIndependent;
 };
 
 #endif

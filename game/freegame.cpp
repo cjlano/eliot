@@ -118,7 +118,7 @@ void FreeGame::recordPlayerMove(const Move &iMove, Player &ioPlayer,
 {
     LOG_INFO("Player " << ioPlayer.getId() << " plays: " << lfw(iMove.toString()));
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
-    pCmd->setAutoExecution(!isForHuman);
+    pCmd->setHumanIndependent(!isForHuman);
     accessNavigation().addAndExecute(pCmd);
 }
 

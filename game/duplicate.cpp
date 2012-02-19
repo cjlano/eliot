@@ -194,11 +194,11 @@ void Duplicate::recordPlayerMove(const Move &iMove, Player &ioPlayer, bool isFor
 {
     LOG_INFO("Player " << ioPlayer.getId() << " plays: " << lfw(iMove.toString()));
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
-    pCmd->setAutoExecution(!isForHuman);
+    pCmd->setHumanIndependent(!isForHuman);
     accessNavigation().addAndExecute(pCmd);
 
     Command *pCmd2 = new MarkPlayedCmd(*this, ioPlayer.getId(), true);
-    pCmd2->setAutoExecution(!isForHuman);
+    pCmd2->setHumanIndependent(!isForHuman);
     accessNavigation().addAndExecute(pCmd2);
 }
 
