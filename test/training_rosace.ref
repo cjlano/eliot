@@ -130,13 +130,13 @@ commande> a gd # r2
 commande> r
 commande> a r
   1: SaUGRENU        *  82 E4
-  2: eNjUGUES        *  66 D8
+  2: ENjUGUES        *  66 D8
   3: GUEUSANt        *  66 11C
-  4: NUaGEUSe        *  66 D1
-  5: ENjUGUeS        *  64 D2
-  6: GUEUSeNt        *  64 D3
-  7: GUeUSENt        *  64 D6
-  8: NUaGeUSE        *  64 D4
+  4: NUaGEUSE        *  66 D1
+  5: ENjUGUES        *  64 D2
+  6: GUEUSENt        *  64 D3
+  7: GUEUSENt        *  64 D6
+  8: NUaGEUSE        *  64 D4
   9: GUeUSENT        *  62 F1
  10: GUEUSaNT        *  60 F1
 commande> a gd # r3

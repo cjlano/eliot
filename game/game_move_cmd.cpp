@@ -119,12 +119,6 @@ void GameMoveCmd::playRound()
                     bag.replaceTile(Tile::Joker());
                     bag.takeTile(t);
                     m_round.setTile(i, t);
-                    // FIXME: This shouldn't be necessary, this is only
-                    // needed because of the stupid way of handling jokers in
-                    // rounds
-                    // This is also needed for the unplayRound() method
-                    // to work correctly
-                    m_round.setJoker(i, false);
                 }
 
                 // In a joker game we should have only 1 joker in the rack

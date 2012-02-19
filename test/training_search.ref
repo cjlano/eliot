@@ -863,39 +863,39 @@ commande> a r 50
  15: Es                  5 G7
  16: Ex                  5 G7
  17: aIE                 2 8G
- 18: buE                 2 7G
- 19: duE                 2 7G
+ 18: bUE                 2 7G
+ 19: dUE                 2 7G
  20: EpI                 2 8F
- 21: Eu                  2 7G
- 22: Eue                 2 7G
- 23: euE                 2 7G
- 24: Euh                 2 7G
- 25: Eus                 2 7G
- 26: Eut                 2 7G
- 27: Eux                 2 7G
- 28: fEu                 2 7F
+ 21: EU                  2 7G
+ 22: EUe                 2 7G
+ 23: eUE                 2 7G
+ 24: EUh                 2 7G
+ 25: EUs                 2 7G
+ 26: EUt                 2 7G
+ 27: EUx                 2 7G
+ 28: fEU                 2 7F
  29: fIE                 2 8G
- 30: guE                 2 7G
- 31: hEu                 2 7F
+ 30: gUE                 2 7G
+ 31: hEU                 2 7F
  32: hIE                 2 8G
- 33: huE                 2 7G
+ 33: hUE                 2 7G
  34: IdE                 2 8H
  35: IlE                 2 8H
  36: IpE                 2 8H
  37: IrE                 2 8H
  38: IvE                 2 8H
  39: IxE                 2 8H
- 40: jEu                 2 7F
+ 40: jEU                 2 7F
  41: lEI                 2 8F
- 42: lEu                 2 7F
+ 42: lEU                 2 7F
  43: lIE                 2 8G
- 44: luE                 2 7G
+ 44: lUE                 2 7G
  45: mIE                 2 8G
- 46: muE                 2 7G
+ 46: mUE                 2 7G
  47: nIE                 2 8G
- 48: nuE                 2 7G
+ 48: nUE                 2 7G
  49: oIE                 2 8G
- 50: pEu                 2 7F
+ 50: pEU                 2 7F
 commande> q
 fin du mode entraînement
 commande> q

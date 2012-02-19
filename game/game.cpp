@@ -536,11 +536,6 @@ int Game::checkPlayedWord(const wstring &iCoord,
         tiles.push_back(Tile(iWord[i]));
     }
     oRound.setWord(tiles);
-    for (unsigned int i = 0; i < iWord.size(); i++)
-    {
-        if (islower(iWord[i]))
-            oRound.setJoker(i);
-    }
 
     // Check the word position, compute its points,
     // and specify the origin of each letter (board or rack)

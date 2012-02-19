@@ -59,7 +59,6 @@ public:
     void setWord(const vector<Tile> &iTiles);
     void setFromRack(unsigned int iIndex);
     void setFromBoard(unsigned int iIndex);
-    void setJoker(unsigned int iIndex, bool value = true);
 
     /*************************
      * General getters
@@ -85,7 +84,7 @@ public:
 
 private:
     vector<Tile> m_word;
-    vector<char> m_tileOrigin;
+    vector<bool> m_rackOrigin;
     Coord m_coord;
     int m_points;
     bool m_bonus;

@@ -31,11 +31,6 @@
 INIT_LOGGER(game, Round);
 
 
-#define FROMBOARD 0x1
-#define FROMRACK  0x2
-#define JOKER     0x4
-
-
 Round::Round()
     : m_coord(1, 1, Coord::HORIZONTAL), m_points(0), m_bonus(false)
 {
@@ -46,36 +41,25 @@ void Round::setWord(const vector<Tile> &iTiles)
 {
     m_word = iTiles;
     // XXX: always from rack?
-    m_tileOrigin = vector<char>(iTiles.size(), FROMRACK);
+    m_rackOrigin = vector<bool>(iTiles.size(), true);
 }
 
 
 void Round::setFromRack(unsigned int iIndex)
 {
-    m_tileOrigin[iIndex] &= ~FROMBOARD;
-    m_tileOrigin[iIndex] |= FROMRACK;
+    m_rackOrigin[iIndex] = true;
 }
 
 
 void Round::setFromBoard(unsigned int iIndex)
 {
-    m_tileOrigin[iIndex] &= ~FROMRACK;
-    m_tileOrigin[iIndex] |= FROMBOARD;
-}
-
-
-void Round::setJoker(unsigned int iIndex, bool value)
-{
-    if (value)
-        m_tileOrigin[iIndex] |= JOKER;
-    else
-        m_tileOrigin[iIndex] &= ~JOKER;
+    m_rackOrigin[iIndex] = false;
 }
 
 
 bool Round::isJoker(unsigned int iIndex) const
 {
-     return m_tileOrigin[iIndex] & JOKER;
+     return m_word[iIndex].isJoker();
 }
 
 
@@ -87,33 +71,33 @@ const Tile& Round::getTile(unsigned int iIndex) const
 
 bool Round::isPlayedFromRack(unsigned int iIndex) const
 {
-     return m_tileOrigin[iIndex] & FROMRACK;
+     return m_rackOrigin[iIndex];
 }
 
 
 void Round::addRightFromBoard(const Tile &iTile)
 {
-    m_word.push_back(iTile);
-    m_tileOrigin.push_back(FROMBOARD);
+    // The call to toUpper() is necessary to avoid that a joker
+    // on the board appears as a joker in the Round
+    m_word.push_back(iTile.toUpper());
+    m_rackOrigin.push_back(false);
 }
 
 
 void Round::addRightFromRack(const Tile &iTile, bool iJoker)
 {
-    m_word.push_back(iTile);
-    char origin = FROMRACK;
     if (iJoker)
-    {
-        origin |= JOKER;
-    }
-    m_tileOrigin.push_back(origin);
+        m_word.push_back(iTile.toLower());
+    else
+        m_word.push_back(iTile);
+    m_rackOrigin.push_back(true);
 }
 
 
 void Round::removeRight()
 {
     m_word.pop_back();
-    m_tileOrigin.pop_back();
+    m_rackOrigin.pop_back();
 }
 
 
