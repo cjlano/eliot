@@ -287,20 +287,13 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
         t = iRound.getTile(i);
         if (!iTilesMx[row][col + i].isEmpty())
         {
-            // There is already a letter on the board
-            if (iTilesMx[row][col + i] != t)
+            // Using a joker tile to emulate the letter on the board is not allowed,
+            // the plain letter should be used instead.
+            // Also, make sure the played letter is the same as the one on the board
+            if (iRound.isJoker(i) || iTilesMx[row][col+i].toCode() != t.toCode())
             {
-                // Check if it is only a joker
-                if ((iTilesMx[row][col+i].toCode() == t.toCode()) && iTilesMx[row][col+i].isJoker())
-                {
-                    // Do nothing, we don't need to change the tile in the round
-                    //iRound.setJoker(i,true);
-                }
-                else
-                {
-                    // Trying to overwrite a placed letter
-                    return 2;
-                }
+                // Trying to overwrite a placed letter
+                return 2;
             }
 
             isolated = false;

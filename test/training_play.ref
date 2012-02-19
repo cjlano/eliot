@@ -72,11 +72,17 @@ commande> j DEPASSE b12
 Mot incorrect ou mal placé (12)
 commande> a t
 ADEEPSS
-commande> t W?
+commande> t WE?
 commande> j WuS i5
 Mot incorrect ou mal placé (7)
+commande> j JEUX H6
+Mot incorrect ou mal placé (4)
+commande> j JEUx H6
+commande> j Ex 9G
+Mot incorrect ou mal placé (6)
+commande> j EX 9G
 commande> a t
-W?
+W
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
  A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
@@ -85,8 +91,8 @@ commande> a g
  D   -  -  -  -  -  -  I  -  -  -  -  -  -  -  - 
  E   -  -  -  -  -  -  E  -  -  -  -  -  -  -  - 
  F   -  -  -  -  -  -  G  -  -  -  -  -  -  -  - 
- G   -  -  -  -  -  -  E  -  -  -  -  -  -  -  - 
- H   -  -  -  -  -  J  E  U  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  E  -  E  -  -  -  -  -  - 
+ H   -  -  -  -  -  J  E  U  x  -  -  -  -  -  - 
  I   -  -  -  -  -  -  S  -  -  -  -  -  -  -  - 
  J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
