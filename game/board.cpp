@@ -154,13 +154,12 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
     int col = iRound.getCoord().getCol();
     if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
     {
-        Tile t;
         for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
+            const Tile &t = iRound.getTile(i);
             if (isVacant(row, col + i))
             {
                 ASSERT(iRound.isPlayedFromRack(i), "Invalid round (1)");
-                t = iRound.getTile(i);
                 m_tilesRow[row][col + i] = t;
                 m_jokerRow[row][col + i] = iRound.isJoker(i);
                 m_tilesCol[col + i][row] = t;
@@ -175,13 +174,12 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
     }
     else
     {
-        Tile t;
         for (unsigned int i = 0; i < iRound.getWordLen(); i++)
         {
+            const Tile &t = iRound.getTile(i);
             if (isVacant(row + i, col))
             {
                 ASSERT(iRound.isPlayedFromRack(i), "Invalid round (1)");
-                t = iRound.getTile(i);
                 m_tilesRow[row + i][col] = t;
                 m_jokerRow[row + i][col] = iRound.isJoker(i);
                 m_tilesCol[col][row + i] = t;
@@ -222,10 +220,8 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
                        "Invalid round removal");
                 m_tilesRow[row][col + i] = Tile();
                 m_jokerRow[row][col + i] = false;
-                m_crossRow[row][col + i].setAny();
                 m_tilesCol[col + i][row] = Tile();
                 m_jokerCol[col + i][row] = false;
-                m_crossCol[col + i][row].setAny();
             }
         }
     }
@@ -241,13 +237,13 @@ void Board::removeRound(const Dictionary &iDic, const Round &iRound)
                        "Invalid round removal");
                 m_tilesRow[row + i][col] = Tile();
                 m_jokerRow[row + i][col] = false;
-                m_crossRow[row + i][col].setAny();
                 m_tilesCol[col][row + i] = Tile();
                 m_jokerCol[col][row + i] = false;
-                m_crossCol[col][row + i].setAny();
             }
         }
     }
+
+    // Rebuild all the cross checks, because they are now invalid
     buildCross(iDic);
 #ifdef DEBUG
     checkDouble();
@@ -276,8 +272,6 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
                          const Matrix<bool> &iJokerMx,
                          Round &iRound) const
 {
-    Tile t;
-    int l, p;
     bool isolated = true;
 
     int fromrack = 0;
@@ -300,7 +294,7 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
 
     for (unsigned int i = 0; i < iRound.getWordLen(); i++)
     {
-        t = iRound.getTile(i);
+        const Tile &t = iRound.getTile(i);
         if (!iTilesMx[row][col + i].isEmpty())
         {
             // Using a joker tile to emulate the letter on the board is not allowed,
@@ -327,6 +321,7 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
                 if (!iCrossMx[row][col + i].isAny())
                     isolated = false;
 
+                int l;
                 if (!iRound.isJoker(i))
                     l = t.getPoints() * m_tileMultipliers[row][col + i];
                 else
@@ -334,7 +329,7 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
                 pts += l;
                 wordmul *= m_wordMultipliers[row][col + i];
 
-                p = iPointsMx[row][col + i];
+                int p = iPointsMx[row][col + i];
                 if (p >= 0)
                 {
                     ptscross += (p + l) * m_wordMultipliers[row][col + i];

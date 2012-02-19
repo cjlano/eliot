@@ -136,11 +136,10 @@ void BoardSearch::leftPart(Rack &iRack, Round &ioPartialWord,
 
     if (iLimit > 0)
     {
-        Tile l;
         bool hasJokerInRack = iRack.in(Tile::Joker());
         for (unsigned int succ = m_dic.getSucc(n); succ; succ = m_dic.getNext(succ))
         {
-            l = Tile(m_dic.getChar(succ));
+            const Tile &l = Tile(m_dic.getChar(succ));
             if (iRack.in(l))
             {
                 iRack.remove(l);
@@ -172,8 +171,6 @@ void BoardSearch::extendRight(Rack &iRack, Round &ioPartialWord,
                               Results &oResults, unsigned int iNode,
                               int iRow, int iCol, int iAnchor) const
 {
-    Tile l;
-
     if (m_tilesMx[iRow][iCol].isEmpty())
     {
         if (m_dic.isEndOfWord(iNode) && iCol > iAnchor)
@@ -188,7 +185,7 @@ void BoardSearch::extendRight(Rack &iRack, Round &ioPartialWord,
         bool hasJokerInRack = iRack.in(Tile::Joker());
         for (unsigned int succ = m_dic.getSucc(iNode); succ; succ = m_dic.getNext(succ))
         {
-            l = Tile(m_dic.getChar(succ));
+            const Tile &l = Tile(m_dic.getChar(succ));
             if (m_crossMx[iRow][iCol].check(l))
             {
                 if (iRack.in(l))
@@ -214,7 +211,7 @@ void BoardSearch::extendRight(Rack &iRack, Round &ioPartialWord,
     }
     else
     {
-        l = m_tilesMx[iRow][iCol];
+        const Tile &l = m_tilesMx[iRow][iCol];
         wint_t upperChar = towupper(l.toChar());
         for (unsigned int succ = m_dic.getSucc(iNode); succ ; succ = m_dic.getNext(succ))
         {
