@@ -23,17 +23,21 @@
 
 #include <vector>
 
-#include "command.h"
 #include "logging.h"
 
 using namespace std;
 
+class Command;
+
 
 /**
- * This class implements both the Command and Composite design patterns.
- * It encapsulates commands, while still behaving like one.
+ * This class encapsulates commands, and almost behaves as one itself.
+ * The main difference with a normal command (and thus with the composite pattern)
+ * is that a TurnCmd provides partial execution: some of the commands it contains
+ * (the first ones) can be executed, whereas others not.
+ * The ones which can be executed are the ones flagged "auto-executable".
  */
-class TurnCmd: public Command
+class TurnCmd
 {
     DEFINE_LOGGER();
 
@@ -55,9 +59,8 @@ class TurnCmd: public Command
 
         virtual wstring toString() const;
 
-    protected:
-        virtual void doExecute();
-        virtual void doUndo();
+        void execute();
+        void undo();
 
     private:
         vector<Command *> m_commands;

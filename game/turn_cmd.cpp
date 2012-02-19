@@ -22,6 +22,7 @@
 #include <sstream>
 
 #include "turn_cmd.h"
+#include "command.h"
 #include "player.h"
 
 
@@ -30,8 +31,6 @@ INIT_LOGGER(game, TurnCmd);
 
 TurnCmd::TurnCmd()
 {
-    // Fake execution
-    execute();
 }
 
 
@@ -51,7 +50,7 @@ void TurnCmd::addAndExecute(Command *iCmd)
 }
 
 
-void TurnCmd::doExecute()
+void TurnCmd::execute()
 {
     BOOST_FOREACH(Command *cmd, m_commands)
     {
@@ -61,7 +60,7 @@ void TurnCmd::doExecute()
 }
 
 
-void TurnCmd::doUndo()
+void TurnCmd::undo()
 {
     // Undo commands in the reverse order of execution
     vector<Command*>::reverse_iterator it;

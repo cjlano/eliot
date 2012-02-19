@@ -55,7 +55,7 @@ class Navigation
          */
         void clearFuture();
 
-        const vector<TurnCmd *> & getCommands() const;
+        const vector<TurnCmd *> & getTurns() const;
 
         /**
          * Print the contents of the commands history, to ease debugging

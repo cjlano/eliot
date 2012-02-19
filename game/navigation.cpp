@@ -22,6 +22,7 @@
 
 #include "navigation.h"
 #include "turn_cmd.h"
+#include "command.h"
 #include "game_exception.h"
 #include "debug.h"
 #include "encoding.h"
@@ -38,7 +39,7 @@ Navigation::Navigation()
 
 Navigation::~Navigation()
 {
-    BOOST_FOREACH(Command *c, m_turnCommands)
+    BOOST_FOREACH(TurnCmd *c, m_turnCommands)
     {
         delete c;
     }
@@ -180,7 +181,7 @@ void Navigation::clearFuture()
 }
 
 
-const vector<TurnCmd *> & Navigation::getCommands() const
+const vector<TurnCmd *> & Navigation::getTurns() const
 {
     return m_turnCommands;
 }
@@ -191,7 +192,7 @@ void Navigation::print() const
     LOG_DEBUG("=== Commands history ===");
     LOG_DEBUG("Current position right after turn " << m_currTurn  - 1);
     int index = 0;
-    BOOST_FOREACH(const Command *c, m_turnCommands)
+    BOOST_FOREACH(const TurnCmd *c, m_turnCommands)
     {
         LOG_DEBUG(index << " " << lfw(c->toString()));
         ++index;
