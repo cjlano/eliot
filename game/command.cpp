@@ -23,6 +23,7 @@
 
 
 INIT_LOGGER(game, Command);
+INIT_LOGGER(game, UndoCmd);
 
 
 Command::Command()
@@ -44,5 +45,45 @@ void Command::undo()
     ASSERT(m_executed, "Command already undone!");
     doUndo();
     m_executed = false;
+}
+
+
+
+UndoCmd::UndoCmd(Command *cmd)
+    : m_cmd(cmd)
+{
+    ASSERT(m_cmd != 0, "Null command given");
+}
+
+
+UndoCmd::~UndoCmd()
+{
+    delete m_cmd;
+}
+
+
+bool UndoCmd::isAutoExecutable() const
+{
+    return m_cmd->isAutoExecutable();
+}
+
+
+void UndoCmd::doExecute()
+{
+    ASSERT(m_cmd->isExecuted(), "The wrapped command is not executed");
+    m_cmd->undo();
+}
+
+
+void UndoCmd::doUndo()
+{
+    ASSERT(!m_cmd->isExecuted(), "The wrapped command is already executed");
+    m_cmd->execute();
+}
+
+
+wstring UndoCmd::toString() const
+{
+    return L"UndoCmd (" + m_cmd->toString() + L")";
 }
 

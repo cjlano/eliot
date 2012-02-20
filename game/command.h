@@ -99,5 +99,45 @@ class Command
         bool m_autoExecutable;
 };
 
+
+/**
+ * Command allowing to undo any other command (decorator pattern).
+ */
+class UndoCmd : public Command
+{
+    DEFINE_LOGGER();
+
+    public:
+        /**
+         * Constructor from the wrapped command.
+         * This class takes ownership of the given command.
+         *
+         * Note that you should usually pass a copy of the command you want
+         * to undo, instead of passing it directly, for 3 reasons:
+         *  - you may not have ownership of the passed command
+         *  - you may hold a const pointer, which would oblige youi
+         *    do do a const_cast first
+         *  - if both the command and its undo version are in the history,
+         *    executing the UndoCmd will silently mark the original command
+         *    as not executed. This is not a problem currently, but might
+         *    become one in the future...
+         */
+        UndoCmd(Command *cmd);
+        ~UndoCmd();
+
+        const Command & getWrappedCommand() const { return *m_cmd; }
+
+        virtual bool isAutoExecutable() const;
+
+        virtual wstring toString() const;
+
+    protected:
+        virtual void doExecute();
+        virtual void doUndo();
+
+    private:
+        Command *m_cmd;
+};
+
 #endif
 
