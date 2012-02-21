@@ -57,6 +57,7 @@ signals:
     void gameChanged(const PublicGame *iGame);
     void gameChangedNonConst(PublicGame *iGame);
     void gameUpdated();
+    void turnChanged(int iCurrTurn, bool isLastTurn);
 
 public slots:
     /// Display an error message to the user
@@ -175,6 +176,9 @@ private:
 
     /// Model for the timer widgets
     TimerModel *m_timerModel;
+
+    /// Last known turn number. Used to emit turnChanged().
+    unsigned m_currentTurn;
 
     /// Save window state
     void writeSettings() const;

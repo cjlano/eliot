@@ -51,11 +51,13 @@ public:
     bool wasAlertTriggered() const { return m_alertTriggered; }
     bool isExpired() const { return m_remaining == 0; }
 
+    bool isActiveTimer() const;
+
+public slots:
     // Timer handling
     void startTimer();
     void pauseTimer();
     void resetTimer();
-    bool isActiveTimer() const;
 
 signals:
     void valueChanged(int iNewValue);

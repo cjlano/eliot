@@ -76,7 +76,8 @@ MainWindow::MainWindow(QWidget *iParent)
     m_playersWidget(NULL), m_trainingWidget(NULL), m_scoresWidget(NULL),
     m_bagWindow(NULL), m_boardWindow(NULL),
     m_historyWindow(NULL), m_timerWindow(NULL),
-    m_dicToolsWindow(NULL), m_dicNameLabel(NULL), m_timerModel(NULL)
+    m_dicToolsWindow(NULL), m_dicNameLabel(NULL), m_timerModel(NULL),
+    m_currentTurn(0)
 {
 #ifdef DEBUG
     // Check that the string conversion routines are not buggy
@@ -104,6 +105,9 @@ MainWindow::MainWindow(QWidget *iParent)
     int timerTotal = qs.value(PrefsDialog::kINTF_TIMER_TOTAL_DURATION, 180).toInt();
     int timerAlert = qs.value(PrefsDialog::kINTF_TIMER_ALERT_DURATION, 30).toInt();
     m_timerModel = new TimerModel(timerTotal, timerAlert);
+    // Reset the timer when the turn changes
+    QObject::connect(this, SIGNAL(turnChanged(int, bool)),
+                     m_timerModel, SLOT(resetTimer()));
     // TODO: connect to some of the timer signals (alert() and expired())
 
     QObject::connect(this, SIGNAL(gameChangedNonConst(PublicGame*)),
@@ -231,8 +235,9 @@ void MainWindow::refresh()
                                 .arg(bag.getNbConsonants())
                                 .arg(bag.getNbVowels())
                                 .arg(bag.in(Tile::Joker())));
+        unsigned currTurn = m_game->getCurrTurn();
         m_turnLabel->setText(_q("Turn %1/%2")
-                             .arg(m_game->getCurrTurn())
+                             .arg(currTurn)
                              .arg(m_game->getNbTurns()));
         bool isFirstTurn = m_game->isFirstTurn();
         bool isLastTurn = m_game->isLastTurn();
@@ -243,6 +248,12 @@ void MainWindow::refresh()
         m_actionHistoryReplayTurn->setEnabled(!isLastTurn);
         if (m_game->isFinished())
             displayInfoMsg(_q("End of the game"));
+        // Emit the turnChanged() sign if needed.
+        if (currTurn != m_currentTurn)
+        {
+            m_currentTurn = currTurn;
+            emit turnChanged(currTurn, isLastTurn);
+        }
 #ifdef DEBUG
         //m_game->printTurns();
 #endif
