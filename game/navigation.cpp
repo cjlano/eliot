@@ -81,7 +81,7 @@ bool Navigation::isFirstTurn() const
 {
     return m_currTurn == 0 &&
         m_turnCommands[m_currTurn]->isPartiallyExecuted() &&
-        (m_turnCommands.size() == 1 ||
+        (!m_turnCommands[m_currTurn]->hasNonAutoExecCmd() ||
          !m_turnCommands[m_currTurn]->isFullyExecuted());
 }
 
