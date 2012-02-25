@@ -255,7 +255,7 @@ void MainWindow::refresh()
             emit turnChanged(currTurn, isLastTurn);
         }
 #ifdef DEBUG
-        //m_game->printTurns();
+        m_game->printTurns();
 #endif
     }
 }

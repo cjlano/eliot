@@ -34,7 +34,7 @@ GameRackCmd::GameRackCmd(Game &ioGame, const PlayedRack &iNewRack)
 void GameRackCmd::doExecute()
 {
     // Get what was the rack for the current turn
-    m_oldRack = m_game.accessHistory().getCurrentRack();
+    m_oldRack = m_game.getHistory().getCurrentRack();
     // Update the game rack
     m_game.accessHistory().setCurrentRack(m_newRack);
 }

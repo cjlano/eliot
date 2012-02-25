@@ -42,6 +42,7 @@
 #include "player_move_cmd.h"
 #include "player_rack_cmd.h"
 #include "game_move_cmd.h"
+#include "game_rack_cmd.h"
 #include "mark_played_cmd.h"
 #include "master_move_cmd.h"
 #include "ai_player.h"
@@ -120,11 +121,14 @@ void Duplicate::start()
     // Arbitrary player, since they should all have the same rack
     m_currPlayer = 0;
 
-    // Complete the rack for the player that just played
+    // Complete the racks
     try
     {
         const PlayedRack &newRack =
-            helperSetRackRandom(getCurrentPlayer().getCurrentRack(), true, RACK_NEW);
+            helperSetRackRandom(getHistory().getCurrentRack(), true, RACK_NEW);
+        // Set the game rack
+        Command *pCmd = new GameRackCmd(*this, newRack);
+        accessNavigation().addAndExecute(pCmd);
         // All the players have the same rack
         BOOST_FOREACH(Player *player, m_players)
         {

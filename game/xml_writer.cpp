@@ -32,6 +32,7 @@
 #include "ai_percent.h"
 #include "game_exception.h"
 #include "turn_cmd.h"
+#include "game_rack_cmd.h"
 #include "game_move_cmd.h"
 #include "player_rack_cmd.h"
 #include "player_move_cmd.h"
@@ -165,7 +166,14 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
         addIndent(indent);
         BOOST_FOREACH(const Command *cmd, turn->getCommands())
         {
-            if (dynamic_cast<const PlayerRackCmd*>(cmd))
+            if (dynamic_cast<const GameRackCmd*>(cmd))
+            {
+                const GameRackCmd *rackCmd = static_cast<const GameRackCmd*>(cmd);
+                out << indent << "<GameRack>"
+                    << toUtf8(rackCmd->getRack().toString())
+                    << "</GameRack>" << endl;
+            }
+            else if (dynamic_cast<const PlayerRackCmd*>(cmd))
             {
                 const PlayerRackCmd *rackCmd = static_cast<const PlayerRackCmd*>(cmd);
                 unsigned int id = rackCmd->getPlayer().getId() + 1;

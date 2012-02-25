@@ -33,6 +33,7 @@
 #include "player.h"
 #include "ai_percent.h"
 #include "encoding.h"
+#include "game_rack_cmd.h"
 #include "game_move_cmd.h"
 #include "player_rack_cmd.h"
 #include "player_move_cmd.h"
@@ -185,7 +186,8 @@ void XmlReader::startElement(const string& namespaceURI,
             m_attributes[atts.getLocalName(i)] = atts.getValue(i);
         }
     }
-    else if (tag == "PlayerRack" || tag == "PlayerMove" || tag == "GameMove")
+    else if (tag == "GameRack" || tag == "PlayerRack" ||
+             tag == "PlayerMove" || tag == "GameMove")
     {
         m_attributes.clear();
         for (int i = 0; i < atts.getLength(); ++i)
@@ -282,6 +284,23 @@ void XmlReader::endElement(const string& namespaceURI,
     else if (tag == "Turn")
     {
         m_game->accessNavigation().newTurn();
+    }
+
+    else if (tag == "GameRack")
+    {
+        // Build a rack for the correct player
+        const wstring &rackStr = m_dic.convertFromInput(fromUtf8(m_data));
+        PlayedRack pldrack;
+        if (!m_dic.validateLetters(rackStr, L"-+"))
+        {
+            throw LoadGameException("Rack invalid for the current dictionary: " + m_data);
+        }
+        pldrack.setManual(rackStr);
+        LOG_DEBUG("loaded rack: " << lfw(pldrack.toString()));
+
+        GameRackCmd *cmd = new GameRackCmd(*m_game, pldrack);
+        m_game->accessNavigation().addAndExecute(cmd);
+        LOG_DEBUG("rack: " << lfw(pldrack.toString()));
     }
 
     else if (tag == "PlayerRack")

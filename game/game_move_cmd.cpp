@@ -34,7 +34,7 @@ INIT_LOGGER(game, GameMoveCmd);
 GameMoveCmd::GameMoveCmd(Game &ioGame, const Move &iMove,
                          unsigned int iPlayerId)
     : m_game(ioGame), m_move(iMove),
-    m_moveRack(ioGame.getPlayer(iPlayerId).getHistory().getPreviousTurn().getPlayedRack()),
+    m_moveRack(ioGame.getHistory().getCurrentRack()),
     m_playerId(iPlayerId)
 {
     setAutoExecutable(false);
@@ -48,7 +48,6 @@ void GameMoveCmd::doExecute()
 
     // History of the game
     History &history = m_game.accessHistory();
-    history.setCurrentRack(m_moveRack);
     history.playMove(m_playerId, m_move, newRack);
 
     // Points

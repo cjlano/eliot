@@ -42,6 +42,7 @@
 #include "player_move_cmd.h"
 #include "player_rack_cmd.h"
 #include "game_move_cmd.h"
+#include "game_rack_cmd.h"
 #include "encoding.h"
 
 #include "debug.h"
@@ -60,10 +61,13 @@ void Training::setRackRandom(bool iCheck, set_rack_mode mode)
 {
     m_results.clear();
     const PlayedRack &newRack =
-        helperSetRackRandom(getCurrentPlayer().getCurrentRack(), iCheck, mode);
-    Command *pCmd = new PlayerRackCmd(*m_players[m_currPlayer], newRack);
-    pCmd->setHumanIndependent(false);
-    accessNavigation().addAndExecute(pCmd);
+        helperSetRackRandom(getHistory().getCurrentRack(), iCheck, mode);
+    Command *pCmd1 = new GameRackCmd(*this, newRack);
+    pCmd1->setHumanIndependent(false);
+    accessNavigation().addAndExecute(pCmd1);
+    Command *pCmd2 = new PlayerRackCmd(*m_players[m_currPlayer], newRack);
+    pCmd2->setHumanIndependent(false);
+    accessNavigation().addAndExecute(pCmd2);
 }
 
 
@@ -77,9 +81,12 @@ void Training::setRackManual(bool iCheck, const wstring &iLetters)
     std::transform(upperLetters.begin(), upperLetters.end(),
                    upperLetters.begin(), towupper);
     const PlayedRack &newRack = helperSetRackManual(iCheck, upperLetters);
-    Command *pCmd = new PlayerRackCmd(*m_players[m_currPlayer], newRack);
-    pCmd->setHumanIndependent(false);
-    accessNavigation().addAndExecute(pCmd);
+    Command *pCmd1 = new GameRackCmd(*this, newRack);
+    pCmd1->setHumanIndependent(false);
+    accessNavigation().addAndExecute(pCmd1);
+    Command *pCmd2 = new PlayerRackCmd(*m_players[m_currPlayer], newRack);
+    pCmd2->setHumanIndependent(false);
+    accessNavigation().addAndExecute(pCmd2);
     // Clear the results if everything went well
     m_results.clear();
 }
@@ -150,8 +157,7 @@ void Training::endTurn()
 void Training::search()
 {
     // Search for the current player
-    const Rack &rack =
-        m_players[m_currPlayer]->getCurrentRack().getRack();
+    const Rack &rack = getHistory().getCurrentRack().getRack();
     int limit = Settings::Instance().getInt("training.search-limit");
     m_results.setLimit(limit);
     m_results.search(getDic(), getBoard(), rack, getHistory().beforeFirstRound());

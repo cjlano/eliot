@@ -37,6 +37,7 @@
 #include "player_move_cmd.h"
 #include "player_rack_cmd.h"
 #include "game_move_cmd.h"
+#include "game_rack_cmd.h"
 #include "ai_player.h"
 #include "settings.h"
 #include "turn.h"
@@ -136,6 +137,10 @@ void FreeGame::start()
         accessNavigation().addAndExecute(pCmd);
     }
 
+    // Set the game rack to the rack of the current player
+    Command *pCmd = new GameRackCmd(*this, getPlayer(0).getCurrentRack());
+    accessNavigation().addAndExecute(pCmd);
+
     firstPlayer();
 
     // If the first player is an AI, make it play now
@@ -167,9 +172,8 @@ int FreeGame::endTurn()
         {
             const PlayedRack &newRack =
                 helperSetRackRandom(getCurrentPlayer().getCurrentRack(), false, RACK_NEW);
-            Command *pCmd = new PlayerRackCmd(*m_players[m_currPlayer],
-                                              newRack);
-            accessNavigation().addAndExecute(pCmd);
+            Command *pCmd2 = new PlayerRackCmd(*m_players[m_currPlayer], newRack);
+            accessNavigation().addAndExecute(pCmd2);
         }
         catch (EndGameException &e)
         {
@@ -181,6 +185,10 @@ int FreeGame::endTurn()
 
     // Next player
     nextPlayer();
+
+    // Set the game rack to the rack of the current player
+    Command *pCmd3 = new GameRackCmd(*this, getCurrentPlayer().getCurrentRack());
+    accessNavigation().addAndExecute(pCmd3);
 
     accessNavigation().newTurn();
 
