@@ -73,6 +73,10 @@ private:
     CustomPopup *m_customPopupRegexp;
 
 private slots:
+
+    void enableSearchPlus1();
+    void enableSearchRegexp();
+
     /// Force synchronizing the model with the "check" results
     void refreshCheck();
     /// Force synchronizing the model with the "plus 1" results

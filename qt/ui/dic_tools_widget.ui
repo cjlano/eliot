@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>435</width>
+    <width>464</width>
     <height>386</height>
    </rect>
   </property>
@@ -55,12 +55,29 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QLineEdit" name="lineEditPlus1"/>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLineEdit" name="lineEditPlus1"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="buttonSearchPlus1">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>_(&quot;Search&quot;)</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QTreeView" name="treeViewPlus1">
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -72,7 +89,21 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QLineEdit" name="lineEditRegexp"/>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLineEdit" name="lineEditRegexp"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="buttonSearchRegexp">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>_(&quot;Search&quot;)</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
@@ -119,6 +150,9 @@
         <widget class="QTreeView" name="treeViewRegexp">
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
          </property>
          <property name="rootIsDecorated">
           <bool>false</bool>
@@ -249,8 +283,10 @@
   <tabstop>tabWidget</tabstop>
   <tabstop>lineEditCheck</tabstop>
   <tabstop>lineEditPlus1</tabstop>
+  <tabstop>buttonSearchPlus1</tabstop>
   <tabstop>treeViewPlus1</tabstop>
   <tabstop>lineEditRegexp</tabstop>
+  <tabstop>buttonSearchRegexp</tabstop>
   <tabstop>spinBoxMinLength</tabstop>
   <tabstop>spinBoxMaxLength</tabstop>
   <tabstop>treeViewRegexp</tabstop>
