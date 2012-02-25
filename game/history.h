@@ -33,6 +33,7 @@ using std::vector;
 class Move;
 class Turn;
 class PlayedRack;
+class Rack;
 
 /**
  * History stores all the turns that have been played

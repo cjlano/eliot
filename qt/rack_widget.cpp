@@ -26,7 +26,7 @@
 #include "qtcommon.h"
 
 #include "public_game.h"
-#include "player.h"
+#include "history.h"
 #include "pldrack.h"
 #include "debug.h"
 
@@ -65,9 +65,9 @@ void RackWidget::refresh()
     if (m_game == NULL)
         return;
 
-    // XXX: ugly (and wrong) way to get the rack
+    // Get the rack
     vector<Tile> tiles;
-    m_game->getCurrentPlayer().getCurrentRack().getAllTiles(tiles);
+    m_game->getHistory().getCurrentRack().getAllTiles(tiles);
 
     // Make sure we have as many widgets as there are letters in the rack
     while (m_tilesVect.size() > tiles.size())
