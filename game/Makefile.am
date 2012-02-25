@@ -49,6 +49,7 @@ libgame_a_SOURCES= \
     navigation.cpp navigation.h \
     game.cpp game.h \
     game_move_cmd.h game_move_cmd.cpp \
+    game_rack_cmd.h game_rack_cmd.cpp \
     turn_cmd.cpp turn_cmd.h \
     duplicate.cpp duplicate.h \
     mark_played_cmd.h mark_played_cmd.cpp \
