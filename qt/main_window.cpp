@@ -718,6 +718,13 @@ void MainWindow::onGameLoad()
         return;
     }
 
+    if (m_game)
+    {
+        QString msg = _q("Loading a saved game will stop the current game.");
+        if (!QtCommon::requestConfirmation(msg, "", this))
+            return;
+    }
+
     QString fileName = QFileDialog::getOpenFileName(this, _q("Load a game"));
     if (fileName != "")
     {
