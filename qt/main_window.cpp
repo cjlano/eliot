@@ -433,7 +433,7 @@ void MainWindow::displayErrorMsg(QString iMsg, QString iContext)
 void MainWindow::displayInfoMsg(QString iMsg)
 {
     LOG_INFO("Displayed message: " << lfq(iMsg));
-    statusBar()->showMessage(iMsg);
+    statusBar()->showMessage(iMsg, 2000);
 }
 
 
