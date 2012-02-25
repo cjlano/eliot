@@ -103,6 +103,16 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QPushButton" name="buttonSaveRegexp">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>_(&quot;Save list...&quot;)</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item>
@@ -121,6 +131,9 @@
            </property>
            <property name="maximum">
             <number>15</number>
+           </property>
+           <property name="value">
+            <number>2</number>
            </property>
           </widget>
          </item>
@@ -287,6 +300,7 @@
   <tabstop>treeViewPlus1</tabstop>
   <tabstop>lineEditRegexp</tabstop>
   <tabstop>buttonSearchRegexp</tabstop>
+  <tabstop>buttonSaveRegexp</tabstop>
   <tabstop>spinBoxMinLength</tabstop>
   <tabstop>spinBoxMaxLength</tabstop>
   <tabstop>treeViewRegexp</tabstop>

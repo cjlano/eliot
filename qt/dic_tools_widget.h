@@ -77,6 +77,8 @@ private slots:
     void enableSearchPlus1();
     void enableSearchRegexp();
 
+    void saveRegexpResults();
+
     /// Force synchronizing the model with the "check" results
     void refreshCheck();
     /// Force synchronizing the model with the "plus 1" results

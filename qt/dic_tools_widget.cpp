@@ -75,6 +75,8 @@ DicToolsWidget::DicToolsWidget(QWidget *parent)
                      this, SLOT(refreshRegexp()));
     QObject::connect(buttonSearchRegexp, SIGNAL(clicked()),
                      this, SLOT(refreshRegexp()));
+    QObject::connect(buttonSaveRegexp, SIGNAL(clicked()),
+                     this, SLOT(saveRegexpResults()));
     QObject::connect(buttonSaveWords, SIGNAL(clicked()),
                      this, SLOT(exportWordsList()));
 
@@ -244,7 +246,9 @@ void DicToolsWidget::refreshPlus1()
 
 void DicToolsWidget::enableSearchRegexp()
 {
-    buttonSearchRegexp->setEnabled(lineEditRegexp->text() != "");
+    bool hasText = lineEditRegexp->text() != "";
+    buttonSearchRegexp->setEnabled(hasText);
+    buttonSaveRegexp->setEnabled(m_dic != NULL && hasText);
 }
 
 
@@ -302,6 +306,47 @@ void DicToolsWidget::refreshRegexp()
             labelLimitReached->hide();
         else
             labelLimitReached->show();
+    }
+}
+
+
+void DicToolsWidget::saveRegexpResults()
+{
+    if (m_dic == NULL)
+        return;
+
+    QString fileName = QFileDialog::getSaveFileName(this, _q("Save words list"));
+    if (fileName != "")
+    {
+        const wstring &input = m_dic->convertFromInput(wfq(lineEditRegexp->text().toUpper()));
+        unsigned lmin = spinBoxMinLength->value();
+        unsigned lmax = spinBoxMaxLength->value();
+        vector<wstring> wordList;
+        try
+        {
+            m_dic->searchRegExp(input, wordList, lmin, lmax, 0);
+        }
+        catch (InvalidRegexpException &e)
+        {
+            QMessageBox::warning(this, _q("Eliot - Error"),
+                                 _q("Invalid regular expression: %1").arg(qfl(e.what())));
+            return;
+        }
+        try
+        {
+            ofstream file(lfq(fileName).c_str());
+            foreach (const wstring &word, wordList)
+            {
+                file << lfw(word) << endl;
+            }
+            QMessageBox::information(this, _q("Save words list"),
+                                     _q("File '%1' successfully saved").arg(fileName));
+        }
+        catch (std::exception &e)
+        {
+            QMessageBox::warning(this, _q("Eliot - Error"),
+                                 _q("Cannot save the words list: %1").arg(e.what()));
+        }
     }
 }
 
@@ -366,14 +411,14 @@ void DicToolsWidget::exportWordsList()
 {
     if (m_dic == NULL)
         return;
-    QString fileName = QFileDialog::getSaveFileName(this, _q("Export words list"));
+    QString fileName = QFileDialog::getSaveFileName(this, _q("Save words list"));
     if (fileName != "")
     {
         try
         {
             ofstream file(lfq(fileName).c_str());
             ListDic::printWords(file, *m_dic);
-            QMessageBox::information(this, _q("Export words list"),
+            QMessageBox::information(this, _q("Save words list"),
                                      _q("File '%1' successfully saved").arg(fileName));
         }
         catch (std::exception &e)
