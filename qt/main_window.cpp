@@ -1054,17 +1054,6 @@ void MainWindow::onWindowsBoard()
         QSplitter *vSplitter = new QSplitter(Qt::Vertical);
         hLayout->addWidget(vSplitter);
 
-        BoardWidget *board = new BoardWidget(m_coordModel);
-        board->setShowTempSigns(false);
-        board->setGame(m_game);
-        QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
-                         board, SLOT(setGame(const PublicGame*)));
-        QObject::connect(this, SIGNAL(gameUpdated()),
-                         board, SLOT(refresh()));
-        vSplitter->addWidget(board);
-
-        vSplitter->addWidget(new QWidget);
-
         QSplitter *hSplitter = new QSplitter(Qt::Horizontal);
         vSplitter->addWidget(hSplitter);
 
@@ -1081,16 +1070,27 @@ void MainWindow::onWindowsBoard()
         TimerWidget *timerWidget = new TimerWidget(NULL, *m_timerModel);
         hSplitter->addWidget(timerWidget);
 
+        vSplitter->addWidget(new QWidget);
+
+        BoardWidget *board = new BoardWidget(m_coordModel);
+        board->setShowTempSigns(false);
+        board->setGame(m_game);
+        QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+                         board, SLOT(setGame(const PublicGame*)));
+        QObject::connect(this, SIGNAL(gameUpdated()),
+                         board, SLOT(refresh()));
+        vSplitter->addWidget(board);
+
         m_boardWindow = new AuxWindow(*frame, _q("Board"), "BoardWindow",
                                       m_actionWindowsBoard);
 
         // Try to have decent initial sizes
         QList<int> sizesVertical;
-        sizesVertical << 1 << 20 << 80;
+        sizesVertical << 80 << 20 << 1;
         vSplitter->setSizes(sizesVertical);
-        vSplitter->setStretchFactor(0, 1);
+        vSplitter->setStretchFactor(0, 0);
         vSplitter->setStretchFactor(1, 0);
-        vSplitter->setStretchFactor(2, 0);
+        vSplitter->setStretchFactor(2, 1);
 
         QList<int> sizesHorizontal;
         sizesHorizontal << 1 << 40 << 150;
