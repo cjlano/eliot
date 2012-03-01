@@ -48,8 +48,8 @@ void CustomPopup::addShowDefinitionEntry(QMenu &iPopup, QString iWord)
 {
     m_word = iWord;
 
-    QAction *definitionAction = new QAction(_q("Show definition"), this);
-    definitionAction->setStatusTip(_q("Show definition of the selected word in an external browser"));
+    QAction *definitionAction = new QAction(_q("Show definition"), m_widget);
+    definitionAction->setStatusTip(_q("Show definition of '%1' in an external browser").arg(m_word));
     QObject::connect(definitionAction, SIGNAL(triggered()),
                      this, SLOT(definitionRequested()));
 
