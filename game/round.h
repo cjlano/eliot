@@ -73,6 +73,8 @@ public:
     bool getBonus() const           { return m_bonus; }
     const vector<Tile> &getTiles() const { return m_word; }
 
+    unsigned countJokersFromRack() const;
+
     /*************************
      * Coordinates
      *************************/

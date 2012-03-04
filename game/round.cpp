@@ -131,6 +131,18 @@ wstring Round::getWord() const
 }
 
 
+unsigned Round::countJokersFromRack() const
+{
+    unsigned count = 0;
+    for (unsigned int i = 0; i < getWordLen(); i++)
+    {
+        if (isJoker(i) && isPlayedFromRack(i))
+            ++count;
+    }
+    return count;
+}
+
+
 wstring Round::toString() const
 {
     wostringstream oss;
