@@ -177,6 +177,12 @@ Settings::Settings()
     // be rejected in any case.
     freegame.add("reject-invalid", Setting::TypeBoolean) = true;
 
+    // ============== Arbitration mode options ==============
+    Setting &arbitration = m_conf->getRoot().add("arbitration", Setting::TypeGroup);
+
+    // Number of search results kept in a search
+    arbitration.add("search-limit", Setting::TypeInt) = 100;
+
     // Try to read the values from the configuration file
     try
     {
@@ -190,6 +196,7 @@ Settings::Settings()
         copySetting<int>(tmpConf, *m_conf, "duplicate.solo-value");
         copySetting<bool>(tmpConf, *m_conf, "duplicate.reject-invalid");
         copySetting<bool>(tmpConf, *m_conf, "freegame.reject-invalid");
+        copySetting<int>(tmpConf, *m_conf, "arbitration.search-limit");
     }
     catch (...)
     {
@@ -272,6 +279,8 @@ int Settings::getInt(const string &iName) const
         return 16;
     else if (iName == "duplicate.solo-value")
         return 10;
+    else if (iName == "arbitration.search-limit")
+        return 100;
     return 0;
 #endif
 }

@@ -70,6 +70,11 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     checkBoxArbitAutoMaster->setToolTip(_q("If checked, a Master move will be selected "
                                            "by default when searching the results.\n"
                                            "It is still possible to change the Master move afterwards."));
+    spinBoxTrainSearchLimit->setToolTip(_q("Maximum number of results returned by a search.\n"
+                                           "The returned results will always be the best ones.\n"
+                                           "Use 0 to disable the limit (warning: searches yielding many "
+                                           "results could be very slow in this case!)."));
+    spinBoxArbitSearchLimit->setToolTip(spinBoxTrainSearchLimit->toolTip());
 
     // Auto-completion on the dictionary path
     QCompleter *completer = new QCompleter(this);
@@ -115,6 +120,7 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         checkBoxArbitAutoMaster->setChecked(autoAssignMaster);
         bool linkArbit7P1 = qs.value(kARBIT_LINK_7P1, false).toBool();
         checkBoxArbitLink7P1->setChecked(linkArbit7P1);
+        spinBoxArbitSearchLimit->setValue(Settings::Instance().getInt("arbitration.search-limit"));
     }
     catch (GameException &e)
     {
@@ -214,6 +220,8 @@ void PrefsDialog::updateSettings()
             shouldEmitUpdate = true;
             qs.setValue(kARBIT_LINK_7P1, checkBoxArbitLink7P1->isChecked());
         }
+        Settings::Instance().setInt("arbitration.search-limit",
+                                    spinBoxArbitSearchLimit->value());
     }
     catch (GameException &e)
     {

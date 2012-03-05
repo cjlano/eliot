@@ -40,9 +40,7 @@ void Arbitration::search()
     // Search for the current player
     const Rack &rack = m_players[m_currPlayer]->getCurrentRack().getRack();
     LOG_DEBUG("Performing search for rack " + lfw(rack.toString()));
-    // FIXME arbitration begin
-    int limit = Settings::Instance().getInt("training.search-limit");
-    // FIXME arbitration end
+    int limit = Settings::Instance().getInt("arbitration.search-limit");
     m_results.setLimit(limit);
     m_results.search(getDic(), getBoard(), rack, getHistory().beforeFirstRound());
     LOG_DEBUG("Found " << m_results.size() << " results");
