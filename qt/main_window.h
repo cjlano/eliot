@@ -34,7 +34,6 @@ class Board;
 class History;
 class PublicGame;
 class NewGame;
-class PrefsDialog;
 class PlayerTabWidget;
 class ScoreWidget;
 class TrainingWidget;
@@ -126,9 +125,6 @@ private:
 
     /// Dialog for creating a new game
     NewGame *m_newGameDialog;
-
-    /// Dialog for the preferences
-    PrefsDialog *m_prefsDialog;
 
     /// Widget for the players
     PlayerTabWidget *m_playersWidget;

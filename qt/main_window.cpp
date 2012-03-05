@@ -73,7 +73,7 @@ const char *MainWindow::m_windowName = "MainWindow";
 
 MainWindow::MainWindow(QWidget *iParent)
     : QMainWindow(iParent), m_dic(NULL), m_game(NULL),
-    m_newGameDialog(NULL), m_prefsDialog(NULL),
+    m_newGameDialog(NULL),
     m_playersWidget(NULL), m_trainingWidget(NULL),
     m_arbitrationWidget(NULL), m_scoresWidget(NULL),
     m_bagWindow(NULL), m_boardWindow(NULL),
@@ -978,13 +978,10 @@ void MainWindow::onGameQuit()
 
 void MainWindow::onSettingsPreferences()
 {
-    if (m_prefsDialog == NULL)
-    {
-        m_prefsDialog = new PrefsDialog(this);
-        QObject::connect(m_prefsDialog, SIGNAL(prefsUpdated()),
-                         this, SLOT(prefsUpdated()));
-    }
-    m_prefsDialog->exec();
+    PrefsDialog *prefsDialog = new PrefsDialog(this);
+    QObject::connect(prefsDialog, SIGNAL(prefsUpdated()),
+                     this, SLOT(prefsUpdated()));
+    prefsDialog->exec();
 }
 
 
