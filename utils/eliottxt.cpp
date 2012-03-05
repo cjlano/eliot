@@ -898,6 +898,10 @@ void mainLoop(const Dictionary &iDic)
                                     case PublicGame::kDUPLICATE:
                                         loopDuplicate(*game);
                                         break;
+                                    case PublicGame::kARBITRATION:
+                                        // TODO
+                                        printf("The Arbitration mode is not yet supported\n");
+                                        break;
                                 }
                                 //GameFactory::Instance()->releaseGame(*game);
                                 delete game;

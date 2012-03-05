@@ -212,6 +212,8 @@ Game* Game::gameLoadFormat_15(FILE *fin, const Dictionary& iDic)
                 mode = GameParams::kFREEGAME;
             else if (strstr(buff, "Duplicate"))
                 mode = GameParams::kDUPLICATE;
+            else if (strstr(buff, "Arbitration"))
+                mode = GameParams::kARBITRATION;
             else
                 throw GameException("Unknown game type");
 

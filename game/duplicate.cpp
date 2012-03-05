@@ -46,6 +46,8 @@
 #include "mark_played_cmd.h"
 #include "master_move_cmd.h"
 #include "ai_player.h"
+#include "navigation.h"
+#include "turn_cmd.h"
 #include "settings.h"
 #include "encoding.h"
 #include "debug.h"
@@ -62,6 +64,8 @@ Duplicate::Duplicate(const GameParams &iParams)
 
 int Duplicate::play(const wstring &iCoord, const wstring &iWord)
 {
+    ASSERT(!hasPlayed(m_currPlayer), "Human player has already played");
+
     // Perform all the validity checks, and try to fill a round
     Round round;
     int res = checkPlayedWord(iCoord, iWord, round);
@@ -97,6 +101,7 @@ int Duplicate::play(const wstring &iCoord, const wstring &iWord)
 void Duplicate::playAI(unsigned int p)
 {
     ASSERT(p < getNPlayers(), "Wrong player number");
+    ASSERT(!hasPlayed(p), "AI player has already played");
 
     AIPlayer *player = dynamic_cast<AIPlayer*>(m_players[p]);
     ASSERT(player != NULL, "AI requested for a human player");
@@ -129,6 +134,7 @@ void Duplicate::start()
         // Set the game rack
         Command *pCmd = new GameRackCmd(*this, newRack);
         accessNavigation().addAndExecute(pCmd);
+        LOG_INFO("Setting players rack to '" + lfw(newRack.toString()) + "'");
         // All the players have the same rack
         BOOST_FOREACH(Player *player, m_players)
         {
@@ -175,9 +181,11 @@ void Duplicate::tryEndTurn()
 
     // Now that all the human players have played,
     // make AI players play their turn
+    // Some may have already played, in arbitration mode, if the future turns
+    // were removed (because of the isHumanIndependent() behaviour)
     for (unsigned int i = 0; i < getNPlayers(); i++)
     {
-        if (!m_players[i]->isHuman())
+        if (!m_players[i]->isHuman() && !m_hasPlayed[i])
         {
             playAI(i);
         }
@@ -191,13 +199,51 @@ void Duplicate::tryEndTurn()
 void Duplicate::recordPlayerMove(const Move &iMove, Player &ioPlayer, bool isForHuman)
 {
     LOG_INFO("Player " << ioPlayer.getId() << " plays: " << lfw(iMove.toString()));
-    Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
+    bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
+    Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitration);
     pCmd->setHumanIndependent(!isForHuman);
     accessNavigation().addAndExecute(pCmd);
 
     Command *pCmd2 = new MarkPlayedCmd(*this, ioPlayer.getId(), true);
     pCmd2->setHumanIndependent(!isForHuman);
     accessNavigation().addAndExecute(pCmd2);
+}
+
+
+struct MatchingPlayer : public unary_function<PlayerMoveCmd, bool>
+{
+    MatchingPlayer(unsigned iPlayerId) : m_playerId(iPlayerId) {}
+
+    bool operator()(const PlayerMoveCmd *cmd)
+    {
+        return cmd->getPlayer().getId() == m_playerId;
+    }
+
+    const unsigned m_playerId;
+};
+
+
+void Duplicate::undoPlayerMove(Player &ioPlayer)
+{
+    ASSERT(hasPlayed(ioPlayer.getId()), "The player has no assigned move yet!");
+    // There must be no NAEC in the current (i.e. last) turn.
+    // If there was, it might not be such a big deal, though.
+    ASSERT(!getNavigation().getTurns().back()->hasNonAutoExecCmd(),
+           "Cannot undo a player move when there are some NAEC commands");
+
+    // Find the PlayerMoveCmd we want to undo
+    MatchingPlayer predicate(ioPlayer.getId());
+    const PlayerMoveCmd *cmd =
+        getNavigation().getCurrentTurn().findMatchingCmd<PlayerMoveCmd>(predicate);
+    ASSERT(cmd != 0, "No matching PlayerMoveCmd found");
+
+    // Undo the player move
+    Command *copyCmd = new PlayerMoveCmd(*cmd);
+    accessNavigation().addAndExecute(new UndoCmd(copyCmd));
+
+    // OK, now flag the player as "not played". We can do it more directly...
+    Command *pCmd = new MarkPlayedCmd(*this, ioPlayer.getId(), false);
+    accessNavigation().addAndExecute(pCmd);
 }
 
 
@@ -367,6 +413,7 @@ void Duplicate::setMasterMove(const Move &iMove)
     // If this method is called several times for the same turn, it will
     // result in many MasterMoveCmd commands in the command stack.
     // This shouldn't be a problem though.
+    LOG_DEBUG("Setting master move: " + lfw(iMove.toString()));
     Command *pCmd = new MasterMoveCmd(*this, iMove);
     accessNavigation().addAndExecute(pCmd);
 }

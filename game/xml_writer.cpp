@@ -61,7 +61,7 @@ static string toUtf8(const wstring &s)
 }
 
 static void writeMove(ostream &out, const Move &iMove,
-                      const string &iTag, unsigned int iPlayerId)
+                      const string &iTag, int iPlayerId)
 {
     out << "<" << iTag << " playerid=\"" << iPlayerId << "\" type=\"";
     if (iMove.getType() == Move::VALID_ROUND)
@@ -109,6 +109,8 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
         out << "duplicate";
     else if (iGame.getMode() == GameParams::kFREEGAME)
         out << "freegame";
+    else if (iGame.getMode() == GameParams::kARBITRATION)
+        out << "arbitration";
     else
         out << "training";
     out << "</Mode>" << endl;

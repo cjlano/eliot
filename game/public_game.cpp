@@ -23,6 +23,7 @@
 #include "game.h"
 #include "training.h"
 #include "duplicate.h"
+#include "arbitration.h"
 #include "freegame.h"
 #include "game_factory.h"
 #include "game_exception.h"
@@ -43,7 +44,9 @@ PublicGame::~PublicGame()
 
 PublicGame::GameMode PublicGame::getMode() const
 {
-    if (dynamic_cast<Duplicate*>(&m_game))
+    if (dynamic_cast<Arbitration*>(&m_game))
+        return kARBITRATION;
+    else if (dynamic_cast<Duplicate*>(&m_game))
         return kDUPLICATE;
     else if (dynamic_cast<FreeGame*>(&m_game))
         return kFREEGAME;
@@ -164,82 +167,102 @@ void PublicGame::removeTestRound()
 
 /***************************/
 
-static Training & getTrainingGame(Game &iGame)
+template <typename T>
+static T & getTypedGame(Game &iGame)
 {
-    Training *trGame = dynamic_cast<Training *>(&iGame);
-    if (trGame == NULL)
+    T *typedGame = dynamic_cast<T*>(&iGame);
+    if (typedGame == NULL)
     {
         throw GameException("Invalid game type");
     }
-    return *trGame;
+    return *typedGame;
 }
+
+/***************************/
 
 void PublicGame::trainingSearch()
 {
-    getTrainingGame(m_game).search();
+    getTypedGame<Training>(m_game).search();
 }
 
 
 const Results& PublicGame::trainingGetResults() const
 {
-    return getTrainingGame(m_game).getResults();
+    return getTypedGame<Training>(m_game).getResults();
 }
 
 
 int PublicGame::trainingPlayResult(unsigned int iResultIndex)
 {
-    return getTrainingGame(m_game).playResult(iResultIndex);
+    return getTypedGame<Training>(m_game).playResult(iResultIndex);
 }
 
 
 void PublicGame::trainingSetRackRandom(bool iCheck, RackMode iRackMode)
 {
     if (iRackMode == kRACK_NEW)
-        getTrainingGame(m_game).setRackRandom(iCheck, Game::RACK_NEW);
+        getTypedGame<Training>(m_game).setRackRandom(iCheck, Game::RACK_NEW);
     else
-        getTrainingGame(m_game).setRackRandom(iCheck, Game::RACK_ALL);
+        getTypedGame<Training>(m_game).setRackRandom(iCheck, Game::RACK_ALL);
 }
 
 
 void PublicGame::trainingSetRackManual(bool iCheck, const wstring &iLetters)
 {
-    getTrainingGame(m_game).setRackManual(iCheck, iLetters);
+    getTypedGame<Training>(m_game).setRackManual(iCheck, iLetters);
 }
 
 /***************************/
-
-static Duplicate & getDuplicateGame(Game &iGame)
-{
-    Duplicate *dupGame = dynamic_cast<Duplicate *>(&iGame);
-    if (dupGame == NULL)
-    {
-        throw GameException("Invalid game type");
-    }
-    return *dupGame;
-}
-
 
 void PublicGame::duplicateSetPlayer(unsigned int p)
 {
-    getDuplicateGame(m_game).setPlayer(p);
+    getTypedGame<Duplicate>(m_game).setPlayer(p);
+}
+
+void PublicGame::duplicateSetMasterMove(const Move &iMove)
+{
+    getTypedGame<Duplicate>(m_game).setMasterMove(iMove);
+}
+
+const Move & PublicGame::duplicateGetMasterMove() const
+{
+    return getTypedGame<Duplicate>(m_game).getMasterMove();
 }
 
 /***************************/
 
-static FreeGame & getFreeGameGame(Game &iGame)
+int PublicGame::freeGamePass(const wstring &iToChange)
 {
-    FreeGame *frGame = dynamic_cast<FreeGame *>(&iGame);
-    if (frGame == NULL)
-    {
-        throw GameException("Invalid game type");
-    }
-    return *frGame;
+    return getTypedGame<FreeGame>(m_game).pass(iToChange);
+}
+
+/***************************/
+
+void PublicGame::arbitrationSearch()
+{
+    return getTypedGame<Arbitration>(m_game).search();
 }
 
 
-int PublicGame::freeGamePass(const wstring &iToChange)
+const Results & PublicGame::arbitrationGetResults() const
 {
-    return getFreeGameGame(m_game).pass(iToChange);
+    return getTypedGame<Arbitration>(m_game).getResults();
+}
+
+Move PublicGame::arbitrationCheckWord(const wstring &iWord,
+                                      const wstring &iCoords) const
+{
+    return getTypedGame<Arbitration>(m_game).checkWord(iWord, iCoords);
+}
+
+void PublicGame::arbitrationAssign(unsigned int playerId, const Move &iMove)
+{
+    getTypedGame<Arbitration>(m_game).assignMove(playerId, iMove);
+}
+
+void PublicGame::arbitrationFinalizeTurn()
+{
+    getTypedGame<Arbitration>(m_game).finalizeTurn();
 }
 
 /***************************/

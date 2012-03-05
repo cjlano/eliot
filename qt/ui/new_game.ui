@@ -65,6 +65,13 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QRadioButton" name="radioButtonArbitration">
+          <property name="text">
+           <string>_(&quot;Arbitration (duplicate)&quot;)</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>

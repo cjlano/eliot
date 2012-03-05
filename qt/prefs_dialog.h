@@ -49,6 +49,9 @@ public:
     static const QString kINTF_TIMER_TOTAL_DURATION;
     static const QString kINTF_TIMER_ALERT_DURATION;
 
+    static const QString kARBIT_AUTO_MASTER;
+    static const QString kARBIT_LINK_7P1;
+
     static const QString kDEFAULT_DEF_SITE;
 
 public slots:

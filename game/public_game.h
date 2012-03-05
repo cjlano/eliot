@@ -33,6 +33,7 @@ class Player;
 class Navigation;
 class Round;
 class Results;
+class Move;
 
 using namespace std;
 
@@ -66,7 +67,8 @@ public:
     {
         kTRAINING,
         kFREEGAME,
-        kDUPLICATE
+        kDUPLICATE,
+        kARBITRATION,
     };
     GameMode getMode() const;
 
@@ -209,6 +211,9 @@ public:
      */
     void duplicateSetPlayer(unsigned int p);
 
+    void duplicateSetMasterMove(const Move &iMove);
+    const Move & duplicateGetMasterMove() const;
+
     /***************
      * FreeGame games
      * These methods throw an exception if the current game is not in
@@ -230,6 +235,21 @@ public:
      *  4: some letters are invalid for the current dictionary
      */
     int freeGamePass(const wstring &iToChange);
+
+    /***************
+     * Arbitration games
+     * These methods throw an exception if the current game is not in
+     * the Arbitration mode
+     ***************/
+
+    void arbitrationSearch();
+    const Results& arbitrationGetResults() const;
+
+    Move arbitrationCheckWord(const wstring &iWord,
+                              const wstring &iCoords) const;
+
+    void arbitrationAssign(unsigned int playerId, const Move &iMove);
+    void arbitrationFinalizeTurn();
 
     /***************
      * Saved games handling

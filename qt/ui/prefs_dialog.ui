@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>443</width>
-    <height>629</height>
+    <height>693</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -281,7 +281,7 @@
       <item>
        <widget class="QCheckBox" name="checkBoxIntfLinkTraining7P1">
         <property name="toolTip">
-         <string>_(&quot;If checked, any change to the player rack in training mode will update the 'Plus 1' tab of the 'Dictionary tools' window&quot;)</string>
+         <string>_(&quot;If checked, any change to the rack in arbitration mode will update the 'Plus 1' tab of the 'Dictionary tools' window&quot;)</string>
         </property>
         <property name="text">
          <string>_(&quot;Copy rack to the 'Plus 1' dictionary tool&quot;)</string>
@@ -324,6 +324,35 @@
          </spacer>
         </item>
        </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>_(&quot;Arbitration mode&quot;)</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QCheckBox" name="checkBoxArbitAutoMaster">
+        <property name="toolTip">
+         <string>_(&quot;If checked, a Master move will be selected by default when searching the results. It is still possible to change the Master move afterwards.&quot;)</string>
+        </property>
+        <property name="text">
+         <string>_(&quot;Choose a Master move automatically&quot;)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxArbitLink7P1">
+        <property name="toolTip">
+         <string>_(&quot;If checked, any change to the player rack in training mode will update the 'Plus 1' tab of the 'Dictionary tools' window&quot;)</string>
+        </property>
+        <property name="text">
+         <string>_(&quot;Copy rack to the 'Plus 1' dictionary tool&quot;)</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

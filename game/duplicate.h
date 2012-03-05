@@ -104,29 +104,15 @@ public:
     /// Return true if the player has played for the current turn
     virtual bool hasPlayed(unsigned int iPlayerId) const;
 
-private: // Used by friend classes
-    /// Change the "has played" status of the given player to the given status
-    // Note: only used by friend classes
-    void setPlayedFlag(unsigned int iPlayerId, bool iNewFlag);
-
-    void innerSetMasterMove(const Move &iMove);
-
-private:
-    // Private constructor to force using the GameFactory class
+protected:
+    // Protected constructor to force using the GameFactory class
     Duplicate(const GameParams &iParams);
 
     /// Record a player move
     void recordPlayerMove(const Move &iMove, Player &ioPlayer, bool isForHuman);
 
-    /// Make the AI player whose ID is p play its turn
-    void playAI(unsigned int p);
-
-    /**
-     * Find the player who scored the most  (with a valid move) at this turn.
-     * If several players have the same score, one is returned arbitrarily.
-     * If nobody played a valid move, the method returns a null pointer.
-     */
-    Player * findBestPlayer() const;
+    /// Cancel the last move of a player (in the current turn)
+    void undoPlayerMove(Player &ioPlayer);
 
     /**
      * This function does not terminate the turn itself, but performs some
@@ -141,6 +127,24 @@ private:
      *     and we finish the turn.
      */
     void tryEndTurn();
+
+private: // Used by friend classes
+    /// Change the "has played" status of the given player to the given status
+    // Note: only used by friend classes
+    void setPlayedFlag(unsigned int iPlayerId, bool iNewFlag);
+
+    void innerSetMasterMove(const Move &iMove);
+
+private:
+    /// Make the AI player whose ID is p play its turn
+    void playAI(unsigned int p);
+
+    /**
+     * Find the player who scored the most  (with a valid move) at this turn.
+     * If several players have the same score, one is returned arbitrarily.
+     * If nobody played a valid move, the method returns a null pointer.
+     */
+    Player * findBestPlayer() const;
 
     /**
      * This function really changes the turn, i.e. the best word is played,

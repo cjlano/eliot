@@ -279,6 +279,8 @@ void GameIO::printGameDebug(ostream &out, const PublicGame &iGame)
         out << "Game: mode=Free game" << endl;
     else if (iGame.getParams().getMode() == GameParams::kTRAINING)
         out << "Game: mode=Training" << endl;
+    else if (iGame.getParams().getMode() == GameParams::kARBITRATION)
+        out << "Game: mode=Arbitration" << endl;
     if (iGame.getParams().hasVariant(GameParams::kJOKER))
         out << "Game: variant=joker" << endl;
     if (iGame.getParams().hasVariant(GameParams::kEXPLOSIVE))

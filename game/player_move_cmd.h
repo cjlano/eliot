@@ -45,7 +45,8 @@ class PlayerMoveCmd: public Command
     DEFINE_LOGGER();
 
     public:
-        PlayerMoveCmd(Player &ioPlayer, const Move &iMove);
+        PlayerMoveCmd(Player &ioPlayer, const Move &iMove,
+                      bool iAutoExec = false);
 
         virtual wstring toString() const;
 

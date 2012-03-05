@@ -41,6 +41,7 @@ class GameParams
         kTRAINING,
         kFREEGAME,
         kDUPLICATE,
+        kARBITRATION,
     };
 
     /**

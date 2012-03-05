@@ -40,6 +40,7 @@
 #include "training.h"
 #include "freegame.h"
 #include "duplicate.h"
+#include "arbitration.h"
 #include "player.h"
 #include "ai_percent.h"
 #include "dic.h"
@@ -96,6 +97,12 @@ Game *GameFactory::createGame(const GameParams &iParams)
     {
         LOG_INFO("Creating a duplicate game");
         Duplicate *game = new Duplicate(iParams);
+        return game;
+    }
+    if (iParams.getMode() == GameParams::kARBITRATION)
+    {
+        LOG_INFO("Creating an arbitration game");
+        Arbitration *game = new Arbitration(iParams);
         return game;
     }
     throw GameException("Unknown game type");

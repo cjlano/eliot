@@ -27,9 +27,6 @@
 #include "game_factory.h"
 #include "game.h"
 #include "public_game.h"
-#include "training.h"
-#include "freegame.h"
-#include "duplicate.h"
 #include "player.h"
 #include "ai_percent.h"
 
@@ -100,6 +97,8 @@ NewGame::NewGame(QWidget *iParent)
                      this, SLOT(enablePlayers(bool)));
     QObject::connect(radioButtonTraining, SIGNAL(toggled(bool)),
                      this, SLOT(enablePlayers(bool)));
+    QObject::connect(radioButtonArbitration, SIGNAL(toggled(bool)),
+                     this, SLOT(enablePlayers(bool)));
 
     QObject::connect(buttonAddFav, SIGNAL(clicked()),
                      this, SLOT(addFavoritePlayers()));
@@ -114,8 +113,10 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
         params.setMode(GameParams::kTRAINING);
     else if (radioButtonFreeGame->isChecked())
         params.setMode(GameParams::kFREEGAME);
-    else
+    else if (radioButtonDuplicate->isChecked())
         params.setMode(GameParams::kDUPLICATE);
+    else
+        params.setMode(GameParams::kARBITRATION);
 
     if (checkBoxJoker->isChecked())
         params.addVariant(GameParams::kJOKER);

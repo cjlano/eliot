@@ -54,6 +54,7 @@
 #include "score_widget.h"
 #include "player_widget.h"
 #include "training_widget.h"
+#include "arbitration_widget.h"
 #include "history_widget.h"
 #include "dic_tools_widget.h"
 #include "players_table_helper.h"
@@ -73,7 +74,8 @@ const char *MainWindow::m_windowName = "MainWindow";
 MainWindow::MainWindow(QWidget *iParent)
     : QMainWindow(iParent), m_dic(NULL), m_game(NULL),
     m_newGameDialog(NULL), m_prefsDialog(NULL),
-    m_playersWidget(NULL), m_trainingWidget(NULL), m_scoresWidget(NULL),
+    m_playersWidget(NULL), m_trainingWidget(NULL),
+    m_arbitrationWidget(NULL), m_scoresWidget(NULL),
     m_bagWindow(NULL), m_boardWindow(NULL),
     m_historyWindow(NULL), m_timerWindow(NULL),
     m_dicToolsWindow(NULL), m_dicNameLabel(NULL), m_timerModel(NULL),
@@ -270,16 +272,33 @@ void MainWindow::linkTrainingAnd7P1()
     // dictionary tools
     m_trainingWidget->disconnect(SIGNAL(rackUpdated(const QString&)));
     // Reconnect it only if needed
-    if (m_dicToolsWindow != NULL)
+    QSettings qs;
+    if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
     {
-        QSettings qs;
-        if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
-        {
-            QObject::connect(m_trainingWidget,
-                             SIGNAL(rackUpdated(const QString&)),
-                             &m_dicToolsWindow->getWidget(),
-                             SLOT(setPlus1Rack(const QString&)));
-        }
+        QObject::connect(m_trainingWidget,
+                         SIGNAL(rackUpdated(const QString&)),
+                         &m_dicToolsWindow->getWidget(),
+                         SLOT(setPlus1Rack(const QString&)));
+    }
+}
+
+
+void MainWindow::linkArbitrationAnd7P1()
+{
+    if (m_arbitrationWidget == NULL || m_dicToolsWindow == NULL)
+        return;
+
+    // Disconnect the arbitration rack updates from the "Plus 1" tab of the
+    // dictionary tools
+    m_arbitrationWidget->disconnect(SIGNAL(rackUpdated(const QString&)));
+    // Reconnect it only if needed
+    QSettings qs;
+    if (qs.value(PrefsDialog::kARBIT_LINK_7P1, false).toBool())
+    {
+        QObject::connect(m_arbitrationWidget,
+                         SIGNAL(rackUpdated(const QString&)),
+                         &m_dicToolsWindow->getWidget(),
+                         SLOT(setPlus1Rack(const QString&)));
     }
 }
 
@@ -289,6 +308,7 @@ void MainWindow::prefsUpdated()
     LOG_DEBUG("Preferences updated");
     // Refresh one signal/slot connection
     linkTrainingAnd7P1();
+    linkArbitrationAnd7P1();
 
     // XXX: is this preference still useful?
 #if 0
@@ -335,6 +355,10 @@ void MainWindow::updateForGame(PublicGame *iGame)
         QtCommon::DestroyObject(m_trainingWidget, this);
         m_trainingWidget = NULL;
 
+        // Destroy the arbitration widget
+        QtCommon::DestroyObject(m_arbitrationWidget, this);
+        m_arbitrationWidget = NULL;
+
         // Destroy the scores widget
         QtCommon::DestroyObject(m_scoresWidget, this);
         m_scoresWidget = NULL;
@@ -374,6 +398,26 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_ui.groupBoxPlayers->layout()->addWidget(m_scoresWidget);
             QObject::connect(this, SIGNAL(gameUpdated()),
                              m_scoresWidget, SLOT(refresh()));
+        }
+        else if (iGame->getMode() == PublicGame::kARBITRATION)
+        {
+            setWindowTitle(_q("Arbitration game") + " - Eliot");
+            m_ui.groupBoxPlayers->setTitle(_q("Arbitration"));
+
+            m_arbitrationWidget = new ArbitrationWidget(NULL, iGame, m_coordModel);
+            m_ui.groupBoxPlayers->layout()->addWidget(m_arbitrationWidget);
+            QObject::connect(m_arbitrationWidget, SIGNAL(gameUpdated()),
+                             this, SIGNAL(gameUpdated()));
+            QObject::connect(m_arbitrationWidget, SIGNAL(notifyInfo(QString)),
+                             this, SLOT(displayInfoMsg(QString)));
+            QObject::connect(m_arbitrationWidget, SIGNAL(notifyProblem(QString)),
+                             this, SLOT(displayErrorMsg(QString)));
+            QObject::connect(m_arbitrationWidget, SIGNAL(requestDefinition(QString)),
+                             this, SLOT(showDefinition(QString)));
+            QObject::connect(this, SIGNAL(gameUpdated()),
+                             m_arbitrationWidget, SLOT(refresh()));
+            // Connect with the dictionary tools only if needed
+            linkArbitrationAnd7P1();
         }
         else
         {
@@ -1146,8 +1190,9 @@ void MainWindow::onWindowsDicTools()
                          dicTools, SLOT(setDic(const Dictionary*)));
         QObject::connect(dicTools, SIGNAL(requestDefinition(QString)),
                          this, SLOT(showDefinition(QString)));
-        // Link the training rack with the "Plus 1" one
+        // Link the training or arbitration rack with the "Plus 1" one
         linkTrainingAnd7P1();
+        linkArbitrationAnd7P1();
         // Fake a dictionary selection
         dicTools->setDic(m_dic);
         dicTools->setFocus();

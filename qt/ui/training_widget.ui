@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>540</width>
+    <width>673</width>
     <height>300</height>
    </rect>
   </property>
@@ -44,12 +44,6 @@
          <width>60</width>
          <height>0</height>
         </size>
-       </property>
-       <property name="toolTip">
-        <string>_(&quot;Enter the word to play (case-insensitive). A joker from the rack must be written in parentheses. E.g.: w(o)rd or W(O)RD&quot;)</string>
-       </property>
-       <property name="statusTip">
-        <string>_(&quot;Enter the word to play (case-insensitive). A joker from the rack must be written in parentheses. E.g.: w(o)rd or W(O)RD&quot;)</string>
        </property>
       </widget>
      </item>
@@ -165,6 +159,12 @@
        <widget class="QTreeView" name="treeViewResults">
         <property name="editTriggers">
          <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="indentation">
+         <number>0</number>
         </property>
         <property name="sortingEnabled">
          <bool>true</bool>

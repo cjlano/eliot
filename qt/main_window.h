@@ -38,6 +38,7 @@ class PrefsDialog;
 class PlayerTabWidget;
 class ScoreWidget;
 class TrainingWidget;
+class ArbitrationWidget;
 class AuxWindow;
 class TimerModel;
 class QLabel;
@@ -135,6 +136,9 @@ private:
     /// Widget for the training mode
     TrainingWidget *m_trainingWidget;
 
+    /// Widget for the arbitration mode
+    ArbitrationWidget *m_arbitrationWidget;
+
     /// Widget for the scores
     ScoreWidget *m_scoresWidget;
 
@@ -202,6 +206,12 @@ private:
      * widget and the 7+1 dictionary tool
      */
     void linkTrainingAnd7P1();
+
+    /**
+     * Handle correctly the signal/slot connection between the Arbitration
+     * widget and the 7+1 dictionary tool
+     */
+    void linkArbitrationAnd7P1();
 
 };
 

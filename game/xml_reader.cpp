@@ -187,7 +187,7 @@ void XmlReader::startElement(const string& namespaceURI,
         }
     }
     else if (tag == "GameRack" || tag == "PlayerRack" ||
-             tag == "PlayerMove" || tag == "GameMove")
+             tag == "PlayerMove" || tag == "GameMove" || tag == "MasterMove")
     {
         m_attributes.clear();
         for (int i = 0; i < atts.getLength(); ++i)
@@ -219,6 +219,8 @@ void XmlReader::endElement(const string& namespaceURI,
             m_params.setMode(GameParams::kFREEGAME);
         else if (m_data == "training")
             m_params.setMode(GameParams::kTRAINING);
+        else if (m_data == "arbitration")
+            m_params.setMode(GameParams::kARBITRATION);
         else
             throw GameException("Invalid game mode: " + m_data);
         return;

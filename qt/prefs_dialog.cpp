@@ -45,6 +45,8 @@ const QString PrefsDialog::kINTF_LINK_TRAINING_7P1 = "Interface/LinkTrainingRack
 const QString PrefsDialog::kINTF_DEFAULT_AI_LEVEL = "Interface/DefaultAiLevel";
 const QString PrefsDialog::kINTF_TIMER_TOTAL_DURATION = "Interface/TimerTotalDuration";
 const QString PrefsDialog::kINTF_TIMER_ALERT_DURATION = "Interface/TimerAlertDuration";
+const QString PrefsDialog::kARBIT_AUTO_MASTER = "Arbitration/AutoAssignMaster";
+const QString PrefsDialog::kARBIT_LINK_7P1 = "Arbitration/LinkRackWith7P1";
 const QString PrefsDialog::kDEFAULT_DEF_SITE = "http://fr.wiktionary.org/wiki/%w";
 
 
@@ -65,6 +67,9 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     spinBoxTimerAlert->setToolTip(_q("Number of remaining seconds when an alert is triggered.\n"
                                      "Use a value of -1 to disable the alert.\n"
                                      "Changing this value will reset the timer."));
+    checkBoxArbitAutoMaster->setToolTip(_q("If checked, a Master move will be selected "
+                                           "by default when searching the results.\n"
+                                           "It is still possible to change the Master move afterwards."));
 
     // Auto-completion on the dictionary path
     QCompleter *completer = new QCompleter(this);
@@ -104,6 +109,12 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
 
         // Training settings
         spinBoxTrainSearchLimit->setValue(Settings::Instance().getInt("training.search-limit"));
+
+        // Arbitration settings
+        bool autoAssignMaster = qs.value(kARBIT_AUTO_MASTER, false).toBool();
+        checkBoxArbitAutoMaster->setChecked(autoAssignMaster);
+        bool linkArbit7P1 = qs.value(kARBIT_LINK_7P1, false).toBool();
+        checkBoxArbitLink7P1->setChecked(linkArbit7P1);
     }
     catch (GameException &e)
     {
@@ -193,6 +204,16 @@ void PrefsDialog::updateSettings()
         // Training settings
         Settings::Instance().setInt("training.search-limit",
                                     spinBoxTrainSearchLimit->value());
+
+        // Arbitration settings
+        qs.setValue(kARBIT_AUTO_MASTER, checkBoxArbitAutoMaster->isChecked());
+        if (qs.value(kARBIT_LINK_7P1, false).toBool() != checkBoxArbitLink7P1->isChecked())
+        {
+            // We need to (dis)connect the arbitration widget with the dictionary
+            // tools window
+            shouldEmitUpdate = true;
+            qs.setValue(kARBIT_LINK_7P1, checkBoxArbitLink7P1->isChecked());
+        }
     }
     catch (GameException &e)
     {
