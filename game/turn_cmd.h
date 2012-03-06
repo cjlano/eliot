@@ -109,6 +109,28 @@ class TurnCmd
         /// Drop the non-executed commands. Use it with care...
         void dropNonExecutedCommands();
 
+        /**
+         * Find the commend matching the given predicate, or 0 if not found.
+         * The commands are iterated from the last one to the first one.
+         */
+        template<typename CMD, typename PRED>
+        const CMD * findMatchingCmd(PRED predicate) const
+        {
+            // Iterate backwards, to be sure to have the latest one for the player
+            vector<Command*>::const_reverse_iterator it;
+            for (it = m_commands.rbegin(); it != m_commands.rend(); ++it)
+            {
+                const CMD *cmd = dynamic_cast<const CMD*>(*it);
+                if (cmd != 0 && predicate(cmd))
+                {
+                    // Found it!
+                    return cmd;
+                }
+            }
+            return 0;
+        }
+
+
     private:
         vector<Command *> m_commands;
         /**
