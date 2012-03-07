@@ -214,9 +214,9 @@ struct MatchingPlayer : public unary_function<PlayerMoveCmd, bool>
 {
     MatchingPlayer(unsigned iPlayerId) : m_playerId(iPlayerId) {}
 
-    bool operator()(const PlayerMoveCmd *cmd)
+    bool operator()(const PlayerMoveCmd &cmd)
     {
-        return cmd->getPlayer().getId() == m_playerId;
+        return cmd.getPlayer().getId() == m_playerId;
     }
 
     const unsigned m_playerId;

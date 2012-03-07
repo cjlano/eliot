@@ -110,8 +110,9 @@ class TurnCmd
         void dropNonExecutedCommands();
 
         /**
-         * Find the commend matching the given predicate, or 0 if not found.
-         * The commands are iterated from the last one to the first one.
+         * Find the command matching the given predicate, or 0 if not found.
+         * The commands are iterated from the last one to the first one,
+         * and the first one to match the predicate is returned.
          */
         template<typename CMD, typename PRED>
         const CMD * findMatchingCmd(PRED predicate) const
@@ -121,7 +122,7 @@ class TurnCmd
             for (it = m_commands.rbegin(); it != m_commands.rend(); ++it)
             {
                 const CMD *cmd = dynamic_cast<const CMD*>(*it);
-                if (cmd != 0 && predicate(cmd))
+                if (cmd != 0 && predicate(*cmd))
                 {
                     // Found it!
                     return cmd;
@@ -130,6 +131,15 @@ class TurnCmd
             return 0;
         }
 
+        /**
+         * Find a command of the template type.
+         * The last (most recent) one is returned, or 0 if not found.
+         */
+        template<typename CMD>
+        const CMD * findMatchingCmd() const
+        {
+            return findMatchingCmd<CMD, TruePred<CMD> >(TruePred<CMD>());
+        }
 
     private:
         vector<Command *> m_commands;
@@ -138,6 +148,12 @@ class TurnCmd
          * If it is equal to m_commands.size(), all the commands have been executed.
          */
         unsigned int m_firstNotExecuted;
+
+        template<typename T>
+        struct TruePred : public unary_function<T, bool>
+        {
+            bool operator()(const T &) const { return true; }
+        };
 };
 
 #endif
