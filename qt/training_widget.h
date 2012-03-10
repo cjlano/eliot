@@ -84,11 +84,11 @@ private:
     /// Mediator for the "play word" controls
     PlayWordMediator *m_mediator;
 
-    /// Palette to write text in red
-    QPalette redPalette;
-
     /// Palette to write text in black
     QPalette blackPalette;
+
+    /// Palette to write text in red
+    QPalette redPalette;
 
     /// Popup menu for words definition
     CustomPopup *m_customPopup;

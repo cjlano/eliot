@@ -58,6 +58,7 @@ public slots:
 
 private slots:
     void setRackRandom();
+    void rackEdited(const QString &);
     void on_buttonSearch_clicked();
     void on_checkBoxHideAssigned_toggled(bool);
     void resultsFilterChanged(const QString &);
@@ -99,6 +100,12 @@ private:
 
     /// Container for the moves manually entered in the interface
     QVector<Move> m_addedMoves;
+
+    /// Palette to write text in black
+    QPalette blackPalette;
+
+    /// Palette to write text in red
+    QPalette redPalette;
 
     /// Force synchronizing the model with the search results
     void updateResultsModel();

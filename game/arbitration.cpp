@@ -64,7 +64,7 @@ void Arbitration::setRackManual(const wstring &iLetters)
     wstring upperLetters = iLetters;
     std::transform(upperLetters.begin(), upperLetters.end(),
                    upperLetters.begin(), towupper);
-    const PlayedRack &newRack = helperSetRackManual(true, upperLetters);
+    const PlayedRack &newRack = helperSetRackManual(false, upperLetters);
     setGameAndPlayersRack(newRack);
 
     // Clear the results if everything went well

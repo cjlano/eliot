@@ -68,6 +68,15 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     splitter->setStretchFactor(1, 2);
     // FIXME arbitration end
 
+    blackPalette = lineEditRack->palette();
+    redPalette = lineEditRack->palette();
+    redPalette.setColor(QPalette::Text, Qt::red);
+
+    // Define validators
+    QValidator * val =
+        ValidatorFactory::newRackValidator(this, m_game->getBag(),
+                                           true, &m_game->getHistory());
+    lineEditRack->setValidator(val);
     lineEditCoords->setValidator(ValidatorFactory::newCoordsValidator(this));
 
     // Associate a model to the players view.
@@ -117,6 +126,9 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     treeViewResults->setColumnWidth(1, 40);
     treeViewResults->setColumnWidth(2, 70);
 
+    // Validate manual rack changes
+    QObject::connect(lineEditRack, SIGNAL(textEdited(const QString&)),
+                     this, SLOT(rackEdited(const QString&)));
     // Propagate the information on rack change
     QObject::connect(lineEditRack, SIGNAL(textChanged(const QString&)),
                      this, SIGNAL(rackUpdated(const QString&)));
@@ -390,7 +402,8 @@ int ArbitrationWidget::addSingleMove(const Move &iMove, int moveType,
 
 void ArbitrationWidget::setRackRandom()
 {
-    ASSERT(m_game->isLastTurn(), "The Random button should have been disabled");
+    ASSERT(m_game->isLastTurn(),
+           "The Random button should only be active in the last turn");
 
     // Warn if some players have already played
     bool someoneHasPlayed = false;
@@ -417,6 +430,57 @@ void ArbitrationWidget::setRackRandom()
     catch (const std::exception &e)
     {
         emit notifyProblem(_q(e.what()));
+    }
+}
+
+
+void ArbitrationWidget::rackEdited(const QString &iText)
+{
+    ASSERT(m_game->isLastTurn(),
+           "Rack edition button should only be active in the last turn");
+
+    // Warn if some players have already played
+    bool someoneHasPlayed = false;
+    for (unsigned int i = 0; i < m_game->getNbPlayers(); ++i)
+    {
+        if (m_game->hasPlayed(i))
+            someoneHasPlayed = true;
+    }
+    if (someoneHasPlayed)
+    {
+        QString msg = _q("Some player(s) already have an assigned move. "
+                         "These moves will be lost if you change the rack.");
+        QString question = _q("Do you really want to change the rack?");
+        if (!QtCommon::requestConfirmation(msg, question))
+        {
+            // Restore the rack (visually)
+            const PlayedRack &pldRack = m_game->getHistory().getCurrentRack();
+            QString qrack = qfw(pldRack.toString(PlayedRack::RACK_SIMPLE));
+            lineEditRack->setText(qrack);
+
+            return;
+        }
+    }
+
+    m_game->removeTestRound();
+    if (!lineEditRack->hasAcceptableInput())
+    {
+        lineEditRack->setPalette(redPalette);
+        return;
+    }
+    try
+    {
+        lineEditRack->setPalette(blackPalette);
+        const wstring &input = m_game->getDic().convertFromInput(wfq(iText));
+        m_game->arbitrationSetRackManual(input);
+        buttonSearch->setEnabled(m_resultsModel->rowCount() == 0 &&
+                                 lineEditRack->text() != "");
+        emit gameUpdated();
+    }
+    catch (std::exception &e)
+    {
+        lineEditRack->setPalette(redPalette);
+        emit notifyProblem(_q("Warning: Cannot set the rack to '%1':\n%2").arg(iText).arg(e.what()));
     }
 }
 

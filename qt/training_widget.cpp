@@ -49,10 +49,9 @@ TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicG
     setupUi(this);
     treeViewResults->setAlternatingRowColors(true);
 
+    blackPalette = lineEditRack->palette();
     redPalette = lineEditRack->palette();
     redPalette.setColor(QPalette::Text, Qt::red);
-    blackPalette = lineEditRack->palette();
-    blackPalette.setColor(QPalette::Text, Qt::black);
 
     // Use the mediator
     m_mediator = new PlayWordMediator(this, *lineEditPlay, *lineEditCoords,
@@ -109,7 +108,7 @@ TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicG
 
     if (m_game)
     {
-        QValidator * val = ValidatorFactory::newRackValidator(this, &m_game->getBag());
+        QValidator * val = ValidatorFactory::newRackValidator(this, m_game->getBag());
         lineEditRack->setValidator(val);
     }
 
@@ -273,7 +272,6 @@ void TrainingWidget::lockSizesChanged(bool checked)
 
 void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
 {
-    // FIXME: first parameter is hardcoded
     m_game->removeTestRound();
     if (!lineEditRack->hasAcceptableInput())
     {
@@ -292,7 +290,7 @@ void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
     catch (std::exception &e)
     {
         lineEditRack->setPalette(redPalette);
-        emit notifyProblem(_q("Warning: Cannot set the rack to '%1'").arg(iText));
+        emit notifyProblem(_q("Warning: Cannot set the rack to '%1'\n%2").arg(iText).arg(e.what()));
     }
 }
 

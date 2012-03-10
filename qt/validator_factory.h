@@ -28,6 +28,7 @@ class QValidator;
 class QLineEdit;
 class Dictionary;
 class Bag;
+class History;
 
 
 class ValidatorFactory: public QObject
@@ -48,7 +49,9 @@ public:
      * Create a validator suitable for setting rack letters.
      */
     static QValidator *newRackValidator(QObject *parent,
-                                        const Bag *iBag);
+                                        const Bag &iBag,
+                                        bool checkDuplicate = false,
+                                        const History *iHistory = 0);
 
     /**
      * Create a validator suitable for setting rack letters

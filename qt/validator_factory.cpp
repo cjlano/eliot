@@ -27,6 +27,8 @@
 #include "dic.h"
 #include "bag.h"
 #include "coord.h"
+#include "history.h"
+#include "pldrack.h"
 
 // TODO: There is probably a good potential for code factorization in this file
 
@@ -103,30 +105,33 @@ QValidator *ValidatorFactory::newChangeValidator(QObject *parent,
 class RackValidator: public QValidator
 {
 public:
-    explicit RackValidator(QObject *parent, const Bag *iBag);
+    RackValidator(QObject *parent, const Bag &iBag,
+                  const History *iHistory, bool checkDuplicate);
     virtual State validate(QString &input, int &pos) const;
 
 private:
-    const Bag *m_bag;
+    const Bag &m_bag;
+    const History *m_history;
+    bool m_checkDuplicate;
 };
 
 
-RackValidator::RackValidator(QObject *parent, const Bag *iBag)
-    : QValidator(parent), m_bag(iBag)
+RackValidator::RackValidator(QObject *parent, const Bag &iBag,
+                             const History *iHistory, bool checkDuplicate)
+    : QValidator(parent), m_bag(iBag),
+    m_history(iHistory), m_checkDuplicate(checkDuplicate)
 {
 }
 
 
 QValidator::State RackValidator::validate(QString &input, int &) const
 {
-    // This should never happen, since the control should be disabled in
-    // such a case, but checking doesn't hurt...
-    if (m_bag == NULL)
-        return Invalid;
+    if (input == "")
+        return Intermediate;
 
     input = input.toUpper();
 
-    const Dictionary &dic = m_bag->getDic();
+    const Dictionary &dic = m_bag.getDic();
 
     // The string is invalid if it contains invalid input characters
     const wistring &winput = wfq(input);
@@ -145,19 +150,38 @@ QValidator::State RackValidator::validate(QString &input, int &) const
     for (int i = 0; i < qinput.size(); ++i)
     {
         if ((unsigned int)qinput.count(qinput[i], Qt::CaseInsensitive) >
-            m_bag->in(intInput[i]))
+            m_bag.in(intInput[i]))
         {
             return Invalid;
         }
     }
+
+    // Check that the rack has 2 consonants and 2 vocals
+    if (m_checkDuplicate)
+    {
+        PlayedRack pld;
+        pld.setManual(intInput);
+
+        int min;
+        if (m_bag.getNbVowels() > 1 && m_bag.getNbConsonants() > 1
+            && m_history->getSize() < 15)
+            min = 2;
+        else
+            min = 1;
+        if (!pld.checkRack(min, min))
+            return Intermediate;
+    }
+
     return Acceptable;
 }
 
 
 QValidator *ValidatorFactory::newRackValidator(QObject *parent,
-                                               const Bag *iBag)
+                                               const Bag &iBag,
+                                               bool checkDuplicate,
+                                               const History *iHistory)
 {
-    return new RackValidator(parent, iBag);
+    return new RackValidator(parent, iBag, iHistory, checkDuplicate);
 }
 // }}}
 
