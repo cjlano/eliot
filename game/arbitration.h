@@ -35,6 +35,20 @@ class Arbitration: public Duplicate
     DEFINE_LOGGER();
     friend class GameFactory;
 public:
+    /**
+     * Complete (or reset) the rack randomly.
+     * @exception EndGameException if it is impossible to complete the rack
+     * for some reason...
+     */
+    void setRackRandom();
+
+    /**
+     * Set the rack with the given letters
+     * @exception EndGameException if the game is over
+     * @exception GameException if any other error occurs
+     */
+    void setRackManual(const wstring &iLetters);
+
     void search();
     const Results& getResults() const { return m_results; }
 
@@ -46,6 +60,9 @@ public:
 private:
     // Private constructor to force using the GameFactory class
     Arbitration(const GameParams &iParams);
+
+    /// Undo the current rack, and subsequent commands
+    void undoCurrentRack();
 
     /// Search results, with all the possible rounds up to a predefined limit
     LimitResults m_results;

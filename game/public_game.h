@@ -242,6 +242,20 @@ public:
      * the Arbitration mode
      ***************/
 
+    /**
+     * Complete the rack randomly.
+     * @exception EndGameException if it is impossible to complete the rack
+     * for some reason...
+     */
+    void arbitrationSetRackRandom();
+
+    /**
+     * Set the rack manually
+     * @exception EndGameException if the game is over
+     * @exception GameException if any other error occurs
+     */
+    void arbitrationSetRackManual(const wstring &iLetters);
+
     void arbitrationSearch();
     const Results& arbitrationGetResults() const;
 

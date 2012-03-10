@@ -23,10 +23,11 @@
 
 #include "game.h"
 #include "move.h"
-#include "command.h"
 #include "logging.h"
 
 class Player;
+class PlayedRack;
+class Move;
 
 using std::string;
 using std::wstring;
@@ -113,6 +114,9 @@ protected:
 
     /// Cancel the last move of a player (in the current turn)
     void undoPlayerMove(Player &ioPlayer);
+
+    /// Helper function to set the game rack and the players rack at the same time
+    void setGameAndPlayersRack(const PlayedRack &iRack);
 
     /**
      * This function does not terminate the turn itself, but performs some

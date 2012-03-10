@@ -134,19 +134,7 @@ void Duplicate::start()
 
         const PlayedRack &newRack =
             helperSetRackRandom(getHistory().getCurrentRack(), true, RACK_NEW);
-        // Set the game rack
-        Command *pCmd = new GameRackCmd(*this, newRack);
-        accessNavigation().addAndExecute(pCmd);
-        LOG_INFO("Setting players rack to '" + lfw(newRack.toString()) + "'");
-        // All the players have the same rack
-        BOOST_FOREACH(Player *player, m_players)
-        {
-            Command *pCmd = new PlayerRackCmd(*player, newRack);
-            accessNavigation().addAndExecute(pCmd);
-            // Nobody has played yet in this round
-            Command *pCmd2 = new MarkPlayedCmd(*this, player->getId(), false);
-            accessNavigation().addAndExecute(pCmd2);
-        }
+        setGameAndPlayersRack(newRack);
     }
     catch (EndGameException &e)
     {
@@ -419,4 +407,23 @@ void Duplicate::setMasterMove(const Move &iMove)
     Command *pCmd = new MasterMoveCmd(*this, iMove);
     accessNavigation().addAndExecute(pCmd);
 }
+
+
+void Duplicate::setGameAndPlayersRack(const PlayedRack &iRack)
+{
+    // Set the game rack
+    Command *pCmd = new GameRackCmd(*this, iRack);
+    accessNavigation().addAndExecute(pCmd);
+    LOG_INFO("Setting players rack to '" + lfw(iRack.toString()) + "'");
+    // All the players have the same rack
+    BOOST_FOREACH(Player *player, m_players)
+    {
+        Command *pCmd = new PlayerRackCmd(*player, iRack);
+        accessNavigation().addAndExecute(pCmd);
+        // Nobody has played yet in this round
+        Command *pCmd2 = new MarkPlayedCmd(*this, player->getId(), false);
+        accessNavigation().addAndExecute(pCmd2);
+    }
+}
+
 

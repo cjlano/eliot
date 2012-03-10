@@ -113,6 +113,33 @@ void TurnCmd::dropNonExecutedCommands()
 }
 
 
+void TurnCmd::dropFrom(const Command &iCmd)
+{
+    // Find the command index
+    unsigned idx = m_commands.size();
+    for (unsigned i = 0; i < m_commands.size(); ++i)
+    {
+        if (m_commands[i] == &iCmd)
+        {
+            idx = i;
+            break;
+        }
+    }
+    ASSERT(idx != m_commands.size(), "Cannot find command to drop");
+    LOG_DEBUG("Deleting last turn commands, starting from " << idx);
+
+    while (m_commands.size() > idx)
+    {
+        if (m_commands.back()->isExecuted())
+            m_commands.back()->undo();
+        delete m_commands.back();
+        m_commands.pop_back();
+    }
+    if (m_firstNotExecuted > m_commands.size())
+        m_firstNotExecuted = m_commands.size();
+}
+
+
 bool TurnCmd::isFullyExecuted() const
 {
     return m_firstNotExecuted == m_commands.size();

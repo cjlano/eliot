@@ -238,6 +238,17 @@ int PublicGame::freeGamePass(const wstring &iToChange)
 
 /***************************/
 
+void PublicGame::arbitrationSetRackRandom()
+{
+    getTypedGame<Arbitration>(m_game).setRackRandom();
+}
+
+
+void PublicGame::arbitrationSetRackManual(const wstring &iLetters)
+{
+    getTypedGame<Arbitration>(m_game).setRackManual(iLetters);
+}
+
 void PublicGame::arbitrationSearch()
 {
     return getTypedGame<Arbitration>(m_game).search();

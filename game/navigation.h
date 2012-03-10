@@ -68,6 +68,11 @@ class Navigation
          */
         void clearFuture();
 
+        /**
+         * Remove the commands of the last turn, starting from the given one.
+         */
+        void dropFrom(const Command &iCmd);
+
         const vector<TurnCmd *> & getTurns() const;
         const TurnCmd & getCurrentTurn() const;
 

@@ -109,6 +109,9 @@ class TurnCmd
         /// Drop the non-executed commands. Use it with care...
         void dropNonExecutedCommands();
 
+        /// Drop (and undo if needed) all the commands, starting with the given one. Use it with care...
+        void dropFrom(const Command &iCmd);
+
         /**
          * Find the command matching the given predicate, or 0 if not found.
          * The commands are iterated from the last one to the first one,

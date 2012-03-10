@@ -197,6 +197,12 @@ void Navigation::clearFuture()
 }
 
 
+void Navigation::dropFrom(const Command &iCmd)
+{
+    m_turnCommands.back()->dropFrom(iCmd);
+}
+
+
 const vector<TurnCmd *> & Navigation::getTurns() const
 {
     return m_turnCommands;

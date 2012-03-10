@@ -57,6 +57,7 @@ public slots:
     void refresh();
 
 private slots:
+    void setRackRandom();
     void on_buttonSearch_clicked();
     void on_checkBoxHideAssigned_toggled(bool);
     void resultsFilterChanged(const QString &);

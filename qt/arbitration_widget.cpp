@@ -124,6 +124,10 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     QObject::connect(lineEditRack, SIGNAL(textChanged(const QString&)),
                      this, SLOT(clearResults()));
 
+    // Set a random rack
+    QObject::connect(buttonRandom, SIGNAL(clicked()),
+                     this, SLOT(setRackRandom()));
+
     // Display a preview of the selected word on the board
     QObject::connect(treeViewResults->selectionModel(),
                      SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
@@ -214,6 +218,11 @@ void ArbitrationWidget::refresh()
     QString qrack = qfw(pldRack.toString(PlayedRack::RACK_SIMPLE));
     if (qrack != lineEditRack->text())
         lineEditRack->setText(qrack);
+
+    if (m_game->isFinished())
+    {
+        setEnabled(false);
+    }
 }
 
 
@@ -376,6 +385,39 @@ int ArbitrationWidget::addSingleMove(const Move &iMove, int moveType,
     m_resultsModel->setData(m_resultsModel->index(rowNum, 0), index, MOVE_INDEX_ROLE);
 
     return rowNum;
+}
+
+
+void ArbitrationWidget::setRackRandom()
+{
+    ASSERT(m_game->isLastTurn(), "The Random button should have been disabled");
+
+    // Warn if some players have already played
+    bool someoneHasPlayed = false;
+    for (unsigned int i = 0; i < m_game->getNbPlayers(); ++i)
+    {
+        if (m_game->hasPlayed(i))
+            someoneHasPlayed = true;
+    }
+    if (someoneHasPlayed)
+    {
+        QString msg = _q("Some player(s) already have an assigned move. "
+                         "These moves will be lost if you change the rack.");
+        QString question = _q("Do you really want to change the rack?");
+        if (!QtCommon::requestConfirmation(msg, question))
+            return;
+    }
+
+    m_game->removeTestRound();
+    try
+    {
+        m_game->arbitrationSetRackRandom();
+        emit gameUpdated();
+    }
+    catch (const std::exception &e)
+    {
+        emit notifyProblem(_q(e.what()));
+    }
 }
 
 
