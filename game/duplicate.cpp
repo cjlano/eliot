@@ -129,6 +129,9 @@ void Duplicate::start()
     // Complete the racks
     try
     {
+        // Reset the master move
+        setMasterMove(Move());
+
         const PlayedRack &newRack =
             helperSetRackRandom(getHistory().getCurrentRack(), true, RACK_NEW);
         // Set the game rack
@@ -144,9 +147,6 @@ void Duplicate::start()
             Command *pCmd2 = new MarkPlayedCmd(*this, player->getId(), false);
             accessNavigation().addAndExecute(pCmd2);
         }
-
-        // Reset the master move
-        setMasterMove(Move());
     }
     catch (EndGameException &e)
     {
@@ -361,6 +361,8 @@ void Duplicate::endTurn()
 void Duplicate::endGame()
 {
     LOG_INFO("End of the game");
+    // No more master move
+    setMasterMove(Move());
     m_finished = true;
 }
 
