@@ -74,8 +74,7 @@ void Arbitration::setRackManual(const wstring &iLetters)
 
 void Arbitration::search()
 {
-    // Search for the current player
-    const Rack &rack = m_players[m_currPlayer]->getCurrentRack().getRack();
+    const Rack &rack = getHistory().getCurrentRack().getRack();
     LOG_DEBUG("Performing search for rack " + lfw(rack.toString()));
     int limit = Settings::Instance().getInt("arbitration.search-limit");
     m_results.setLimit(limit);
