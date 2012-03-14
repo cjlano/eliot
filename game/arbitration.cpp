@@ -18,6 +18,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <boost/foreach.hpp>
 #include <algorithm> // For transform
 #include <cwctype> // For towupper
 
@@ -115,9 +116,18 @@ void Arbitration::finalizeTurn()
 {
     m_results.clear();
 
-    // FIXME arbitration begin
+    // Assign a default empty move to the human players which have
+    // not played yet, to be able to end the turn.
+    BOOST_FOREACH(Player *player, m_players)
+    {
+        if (player->isHuman() && !hasPlayed(player->getId()))
+        {
+            LOG_INFO("Assigning a default move to player " << player->getId());
+            recordPlayerMove(*player, Move());
+        }
+    }
+
     tryEndTurn();
-    // FIXME arbitration end
 }
 
 

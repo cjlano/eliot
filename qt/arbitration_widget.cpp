@@ -945,23 +945,25 @@ QString ArbitrationWidget::formatMove(const Move &iMove) const
 
 void ArbitrationWidget::endTurn()
 {
-    QSet<unsigned int> notPlayerIdSet;
-    unsigned int nbPlayers = m_game->getNbPlayers();
-    for (unsigned int i = 0; i < nbPlayers; ++i)
-    {
-        if (!m_game->hasPlayed(i) && m_game->getPlayer(i).isHuman())
-            notPlayerIdSet.insert(i);
-    }
-    if (!notPlayerIdSet.empty())
-    {
-        notifyProblem(_q("All the players must have an assigned move before ending the turn."));
-        return;
-    }
-
     if (m_game->duplicateGetMasterMove().getType() != Move::VALID_ROUND)
     {
         notifyProblem(_q("You must select a master move before ending the turn."));
         return;
+    }
+
+    bool allPlayed = true;
+    for (unsigned int i = 0; i < m_game->getNbPlayers(); ++i)
+    {
+        if (!m_game->hasPlayed(i) && m_game->getPlayer(i).isHuman())
+            allPlayed = false;
+    }
+    if (!allPlayed)
+    {
+        QString msg = _q("Some player(s) have no assigned move. "
+                         "If you continue, they will be assigned a \"(NO MOVE)\" "
+                         "pseudo-move, but you will be able to change that later.");
+        if (!QtCommon::requestConfirmation(msg))
+            return;
     }
 
     m_addedMoves.clear();
@@ -970,6 +972,7 @@ void ArbitrationWidget::endTurn()
 
     m_game->removeTestRound();
     m_game->arbitrationFinalizeTurn();
+    // FIXME: shouldn't be done here
     setEnabled(!m_game->isFinished());
 
     emit gameUpdated();
