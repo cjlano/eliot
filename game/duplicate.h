@@ -110,10 +110,10 @@ protected:
     Duplicate(const GameParams &iParams);
 
     /// Record a player move
-    void recordPlayerMove(const Move &iMove, Player &ioPlayer, bool isForHuman);
+    void recordPlayerMove(Player &ioPlayer, const Move &iMove);
 
     /// Cancel the last move of a player (in the current turn)
-    void undoPlayerMove(Player &ioPlayer);
+    void replacePlayerMove(Player &ioPlayer, const Move &iMove);
 
     /// Helper function to set the game rack and the players rack at the same time
     void setGameAndPlayersRack(const PlayedRack &iRack);

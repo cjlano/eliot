@@ -64,6 +64,9 @@ Duplicate::Duplicate(const GameParams &iParams)
 
 int Duplicate::play(const wstring &iCoord, const wstring &iWord)
 {
+    Player &currPlayer = *m_players[m_currPlayer];
+
+    ASSERT(currPlayer.isHuman(), "Human player expected");
     ASSERT(!hasPlayed(m_currPlayer), "Human player has already played");
 
     // Perform all the validity checks, and try to fill a round
@@ -76,18 +79,17 @@ int Duplicate::play(const wstring &iCoord, const wstring &iWord)
 
     // If we reach this point, either the move is valid and we can use the
     // "round" variable, or it is invalid but played nevertheless
-    Player &currPlayer = *m_players[m_currPlayer];
     if (res == 0)
     {
         // Everything is OK, we can play the word
-        recordPlayerMove(Move(round), currPlayer, true);
+        recordPlayerMove(currPlayer, Move(round));
     }
     else
     {
         // Convert the invalid word for display
         const wdstring &dispWord = getDic().convertToDisplay(iWord);
         // Record the invalid move of the player
-        recordPlayerMove(Move(dispWord, iCoord), currPlayer, true);
+        recordPlayerMove(currPlayer, Move(dispWord, iCoord));
     }
 
     // Little hack to handle duplicate games with only AI players.
@@ -115,7 +117,7 @@ void Duplicate::playAI(unsigned int p)
         ASSERT(false, "AI tried to cheat!");
     }
 
-    recordPlayerMove(move, *player, false);
+    recordPlayerMove(*player, move);
 }
 
 
@@ -184,16 +186,18 @@ void Duplicate::tryEndTurn()
 }
 
 
-void Duplicate::recordPlayerMove(const Move &iMove, Player &ioPlayer, bool isForHuman)
+void Duplicate::recordPlayerMove(Player &ioPlayer, const Move &iMove)
 {
+    ASSERT(!hasPlayed(ioPlayer.getId()), "Player has already played");
+
     LOG_INFO("Player " << ioPlayer.getId() << " plays: " << lfw(iMove.toString()));
     bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitration);
-    pCmd->setHumanIndependent(!isForHuman);
+    pCmd->setHumanIndependent(!ioPlayer.isHuman());
     accessNavigation().addAndExecute(pCmd);
 
     Command *pCmd2 = new MarkPlayedCmd(*this, ioPlayer.getId(), true);
-    pCmd2->setHumanIndependent(!isForHuman);
+    pCmd2->setHumanIndependent(!ioPlayer.isHuman());
     accessNavigation().addAndExecute(pCmd2);
 }
 
@@ -211,13 +215,9 @@ struct MatchingPlayer : public unary_function<PlayerMoveCmd, bool>
 };
 
 
-void Duplicate::undoPlayerMove(Player &ioPlayer)
+void Duplicate::replacePlayerMove(Player &ioPlayer, const Move &iMove)
 {
     ASSERT(hasPlayed(ioPlayer.getId()), "The player has no assigned move yet!");
-    // There must be no NAEC in the current (i.e. last) turn.
-    // If there was, it might not be such a big deal, though.
-    ASSERT(!getNavigation().getTurns().back()->hasNonAutoExecCmd(),
-           "Cannot undo a player move when there are some NAEC commands");
 
     // Find the PlayerMoveCmd we want to undo
     MatchingPlayer predicate(ioPlayer.getId());
@@ -225,13 +225,11 @@ void Duplicate::undoPlayerMove(Player &ioPlayer)
         getNavigation().getCurrentTurn().findMatchingCmd<PlayerMoveCmd>(predicate);
     ASSERT(cmd != 0, "No matching PlayerMoveCmd found");
 
-    // Undo the player move
-    Command *copyCmd = new PlayerMoveCmd(*cmd);
-    accessNavigation().addAndExecute(new UndoCmd(copyCmd));
-
-    // OK, now flag the player as "not played". We can do it more directly...
-    Command *pCmd = new MarkPlayedCmd(*this, ioPlayer.getId(), false);
-    accessNavigation().addAndExecute(pCmd);
+    // Replace the player move
+    bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
+    Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitration);
+    pCmd->setHumanIndependent(!ioPlayer.isHuman());
+    accessNavigation().replaceCommand(*cmd, pCmd);
 }
 
 

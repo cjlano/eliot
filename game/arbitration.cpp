@@ -97,16 +97,17 @@ Move Arbitration::checkWord(const wstring &iWord,
 void Arbitration::assignMove(unsigned int iPlayerId, const Move &iMove)
 {
     ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
-    // A move can only be assigned for the last turn
-    ASSERT(accessNavigation().isLastTurn(), "This is not the last turn!");
 
     Player &player = *m_players[iPlayerId];
     if (hasPlayed(iPlayerId))
     {
         LOG_INFO("Re-assigning move for player " << iPlayerId);
-        undoPlayerMove(player);
+        replacePlayerMove(player, iMove);
     }
-    recordPlayerMove(iMove, player, true);
+    else
+    {
+        recordPlayerMove(player, iMove);
+    }
 }
 
 
