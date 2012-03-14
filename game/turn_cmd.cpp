@@ -20,6 +20,7 @@
 
 #include <boost/foreach.hpp>
 #include <sstream>
+#include <typeinfo>
 
 #include "turn_cmd.h"
 #include "command.h"
@@ -116,16 +117,9 @@ void TurnCmd::dropNonExecutedCommands()
 void TurnCmd::dropFrom(const Command &iCmd)
 {
     // Find the command index
-    unsigned idx = m_commands.size();
-    for (unsigned i = 0; i < m_commands.size(); ++i)
-    {
-        if (m_commands[i] == &iCmd)
-        {
-            idx = i;
-            break;
-        }
-    }
+    unsigned idx = findIndex(iCmd);
     ASSERT(idx != m_commands.size(), "Cannot find command to drop");
+
     LOG_DEBUG("Deleting last turn commands, starting from " << idx);
 
     while (m_commands.size() > idx)
@@ -137,6 +131,41 @@ void TurnCmd::dropFrom(const Command &iCmd)
     }
     if (m_firstNotExecuted > m_commands.size())
         m_firstNotExecuted = m_commands.size();
+}
+
+
+void TurnCmd::replaceCommand(const Command &iOldCmd,
+                             Command *iNewCmd)
+{
+    ASSERT(string(typeid(iOldCmd).name()) == string(typeid(*iNewCmd).name()),
+           "The commands should be of the same type (" +
+           string(typeid(iOldCmd).name()) + " vs. " +
+           string(typeid(*iNewCmd).name()));
+
+    unsigned idx = findIndex(iOldCmd);
+    ASSERT(idx != m_commands.size(), "Cannot find command");
+
+    // Save the execution status
+    unsigned tmpIdx = m_firstNotExecuted;
+
+    // Undo commands after the interesting one (included)
+    while (tmpIdx > idx)
+    {
+        --tmpIdx;
+        m_commands[tmpIdx]->undo();
+    }
+    ASSERT(!iOldCmd.isExecuted(), "Logic error");
+
+    // Replace the command
+    delete m_commands[idx];
+    m_commands[idx] = iNewCmd;
+
+    // Re-execute the commands
+    while (tmpIdx != m_firstNotExecuted)
+    {
+        m_commands[tmpIdx]->execute();
+        ++tmpIdx;
+    }
 }
 
 
@@ -179,6 +208,17 @@ bool TurnCmd::isHumanIndependent() const
             return false;
     }
     return true;
+}
+
+
+unsigned TurnCmd::findIndex(const Command &iCmd) const
+{
+    for (unsigned i = 0; i < m_commands.size(); ++i)
+    {
+        if (m_commands[i] == &iCmd)
+            return i;
+    }
+    return m_commands.size();
 }
 
 

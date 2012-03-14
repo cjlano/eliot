@@ -113,6 +113,14 @@ class TurnCmd
         void dropFrom(const Command &iCmd);
 
         /**
+         * Replace the first command with the second one.
+         * The TurnCmd object takes ownership of the given Command.
+         * Use with care...
+         */
+        void replaceCommand(const Command &iOldCmd,
+                            Command *iNewCmd);
+
+        /**
          * Find the command matching the given predicate, or 0 if not found.
          * The commands are iterated from the last one to the first one,
          * and the first one to match the predicate is returned.
@@ -151,6 +159,12 @@ class TurnCmd
          * If it is equal to m_commands.size(), all the commands have been executed.
          */
         unsigned int m_firstNotExecuted;
+
+        /**
+         * Return the index of the given command,
+         * or m_commands.size() if not found
+         */
+        unsigned findIndex(const Command &iCmd) const;
 
         template<typename T>
         struct TruePred : public unary_function<T, bool>

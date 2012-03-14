@@ -203,6 +203,13 @@ void Navigation::dropFrom(const Command &iCmd)
 }
 
 
+void Navigation::replaceCommand(const Command &iOldCmd,
+                                Command *iNewCmd)
+{
+    m_turnCommands[m_currTurn]->replaceCommand(iOldCmd, iNewCmd);
+}
+
+
 const vector<TurnCmd *> & Navigation::getTurns() const
 {
     return m_turnCommands;

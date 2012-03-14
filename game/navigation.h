@@ -73,6 +73,13 @@ class Navigation
          */
         void dropFrom(const Command &iCmd);
 
+        /**
+         * Replace one existing command (for the current turn) with another one
+         * (of the same type).
+         */
+        void replaceCommand(const Command &iOldCmd,
+                            Command *iNewCmd);
+
         const vector<TurnCmd *> & getTurns() const;
         const TurnCmd & getCurrentTurn() const;
 
