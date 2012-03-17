@@ -234,6 +234,11 @@ void ArbitrationWidget::refresh()
         labelMasterMove->setText(label);
     }
 
+    // The rack can only be changed at the last turn
+    bool isLastTurn = m_game->isLastTurn();
+    lineEditRack->setReadOnly(!isLastTurn);
+    buttonRandom->setEnabled(isLastTurn);
+
     if (m_game->isFinished())
     {
         setEnabled(false);
