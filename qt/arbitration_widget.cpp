@@ -34,6 +34,7 @@
 #include "validator_factory.h"
 #include "play_word_mediator.h"
 #include "custom_popup.h"
+#include "misc_helpers.h"
 
 #include "public_game.h"
 #include "player.h"
@@ -979,31 +980,5 @@ void ArbitrationWidget::endTurn()
     setEnabled(!m_game->isFinished());
 
     emit gameUpdated();
-}
-
-
-
-KeyEventFilter::KeyEventFilter(QObject *parent, int key, int modifiers)
-    : QObject(parent), m_modifiers(modifiers), m_key(key)
-{
-}
-
-
-bool KeyEventFilter::eventFilter(QObject *obj, QEvent *event)
-{
-    // If the Delete key is pressed, remove the selected line, if any
-    if (event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == m_key &&
-            keyEvent->modifiers() == m_modifiers)
-        {
-            emit keyPressed();
-            return true;
-        }
-    }
-
-    // Standard event processing
-    return QObject::eventFilter(obj, event);
 }
 

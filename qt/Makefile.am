@@ -63,6 +63,7 @@ eliot_SOURCES = \
     timer_widget.cpp timer_widget.h \
     tile_layout.cpp tile_layout.h \
     validator_factory.h validator_factory.cpp \
+    misc_helpers.cpp misc_helpers.h \
     custom_popup.cpp custom_popup.h \
     arbitration_widget.cpp arbitration_widget.h \
     bag_widget.cpp bag_widget.h \
@@ -100,6 +101,7 @@ nodist_eliot_SOURCES = \
     timer_widget.moc.cpp \
     tile_layout.moc.cpp \
     validator_factory.moc.cpp \
+    misc_helpers.moc.cpp \
     custom_popup.moc.cpp \
     players_table_helper.moc.cpp \
     new_game.moc.cpp \

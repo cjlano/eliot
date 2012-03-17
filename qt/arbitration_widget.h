@@ -141,26 +141,5 @@ private:
     QString formatMove(const Move &iMove) const;
 };
 
-
-/// Event filter used for the edition of the players display
-class KeyEventFilter: public QObject
-{
-    Q_OBJECT;
-
-public:
-    KeyEventFilter(QObject *parent, int key, int modifier = Qt::NoModifier);
-
-signals:
-    /// As its name indicates...
-    void keyPressed();
-
-protected:
-    virtual bool eventFilter(QObject *obj, QEvent *event);
-
-private:
-    int m_modifiers;
-    int m_key;
-};
-
 #endif
 
