@@ -249,16 +249,11 @@ void PublicGame::arbitrationSetRackManual(const wstring &iLetters)
     getTypedGame<Arbitration>(m_game).setRackManual(iLetters);
 }
 
-void PublicGame::arbitrationSearch()
+void PublicGame::arbitrationSearch(LimitResults &oResults)
 {
-    return getTypedGame<Arbitration>(m_game).search();
+    return getTypedGame<Arbitration>(m_game).search(oResults);
 }
 
-
-const Results & PublicGame::arbitrationGetResults() const
-{
-    return getTypedGame<Arbitration>(m_game).getResults();
-}
 
 Move PublicGame::arbitrationCheckWord(const wstring &iWord,
                                       const wstring &iCoords) const

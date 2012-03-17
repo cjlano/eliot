@@ -33,6 +33,7 @@ class Player;
 class Navigation;
 class Round;
 class Results;
+class LimitResults;
 class Move;
 
 using namespace std;
@@ -256,8 +257,7 @@ public:
      */
     void arbitrationSetRackManual(const wstring &iLetters);
 
-    void arbitrationSearch();
-    const Results& arbitrationGetResults() const;
+    void arbitrationSearch(LimitResults &oResults);
 
     Move arbitrationCheckWord(const wstring &iWord,
                               const wstring &iCoords) const;

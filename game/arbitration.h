@@ -22,9 +22,10 @@
 #define ARBITRATION_H_
 
 #include "duplicate.h"
-#include "results.h"
 #include "logging.h"
 
+
+class LimitResults;
 
 /**
  * This class simply extends the Duplicate game,
@@ -49,8 +50,7 @@ public:
      */
     void setRackManual(const wstring &iLetters);
 
-    void search();
-    const Results& getResults() const { return m_results; }
+    void search(LimitResults &oResults);
 
     Move checkWord(const wstring &iWord, const wstring &iCoords) const;
 
@@ -63,9 +63,6 @@ private:
 
     /// Undo the current rack, and subsequent commands
     void undoCurrentRack();
-
-    /// Search results, with all the possible rounds up to a predefined limit
-    LimitResults m_results;
 
 };
 

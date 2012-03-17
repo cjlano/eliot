@@ -58,7 +58,7 @@ INIT_LOGGER(qt, ArbitrationWidget);
 
 ArbitrationWidget::ArbitrationWidget(QWidget *parent,
                                      PublicGame *iGame, CoordModel &iCoordModel)
-    : QWidget(parent), m_game(iGame), m_coordModel(iCoordModel)
+    : QWidget(parent), m_game(iGame), m_coordModel(iCoordModel), m_results(10)
 {
     setupUi(this);
 
@@ -210,6 +210,15 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
 
 void ArbitrationWidget::refresh()
 {
+    const PlayedRack &pldRack = m_game->getHistory().getCurrentRack();
+    // Update the rack only if needed, to avoid losing cursor position
+    QString qrack = qfw(pldRack.toString(PlayedRack::RACK_SIMPLE));
+    if (qrack != lineEditRack->text()) {
+        // Must be done before updateResultsModel(), because it will
+        // indirectly call the clearResults() slot
+        lineEditRack->setText(qrack);
+    }
+
     updateResultsModel();
     updatePlayersModel();
 
@@ -225,12 +234,6 @@ void ArbitrationWidget::refresh()
         labelMasterMove->setText(label);
     }
 
-    const PlayedRack &pldRack = m_game->getHistory().getCurrentRack();
-    // Update the rack only if needed, to avoid losing cursor position
-    QString qrack = qfw(pldRack.toString(PlayedRack::RACK_SIMPLE));
-    if (qrack != lineEditRack->text())
-        lineEditRack->setText(qrack);
-
     if (m_game->isFinished())
     {
         setEnabled(false);
@@ -244,8 +247,8 @@ void ArbitrationWidget::updateResultsModel()
     // FIXME arbitration begin
     // Consider that there is nothing to do if the number of lines is correct
     // This avoids problems when the game is updated for a test play
-    if (m_game != NULL && m_game->isLastTurn() &&
-        m_game->arbitrationGetResults().size() + m_addedMoves.size() ==
+    if (m_game != NULL &&
+        m_results.size() + m_addedMoves.size() ==
                 static_cast<unsigned int>(m_resultsModel->rowCount()))
     {
         return;
@@ -254,16 +257,15 @@ void ArbitrationWidget::updateResultsModel()
 #endif
 
     m_resultsModel->removeRows(0, m_resultsModel->rowCount());
-    if (m_game == NULL || !m_game->isLastTurn())
+    if (m_game == NULL)
         return;
 
     // First step: add the search results (type TYPE_ROUND)
-    const Results &results = m_game->arbitrationGetResults();
     // Find the highest score
     int bestScore = getBestScore();
-    for (unsigned int i = 0; i < results.size(); ++i)
+    for (unsigned int i = 0; i < m_results.size(); ++i)
     {
-        Move move(results.get(i));
+        Move move(m_results.get(i));
         addSingleMove(move, TYPE_ROUND, i, bestScore);
     }
 
@@ -542,7 +544,8 @@ void ArbitrationWidget::on_buttonSearch_clicked()
 {
     m_game->removeTestRound();
     emit notifyInfo(_q("Searching with rack '%1'...").arg(lineEditRack->text()));
-    m_game->arbitrationSearch();
+    m_results.clear();
+    m_game->arbitrationSearch(m_results);
     emit notifyInfo(_q("Search done"));
     emit gameUpdated();
 
@@ -683,9 +686,8 @@ Move ArbitrationWidget::getSelectedMove() const
     if (origin == TYPE_ROUND)
     {
         unsigned int resNb = m_resultsModel->data(index, MOVE_INDEX_ROLE).toUInt();
-        const Results &results = m_game->arbitrationGetResults();
-        ASSERT(resNb < results.size(), "Wrong result number");
-        return Move(results.get(resNb));
+        ASSERT(resNb < m_results.size(), "Wrong result number");
+        return Move(m_results.get(resNb));
     }
     else
     {
@@ -719,12 +721,8 @@ QSet<unsigned int> ArbitrationWidget::getSelectedPlayers() const
 
 void ArbitrationWidget::clearResults()
 {
-#if 0
-    // FIXME arbitration begin
     m_game->removeTestRound();
-    m_resultsModel->clear();
-    // FIXME arbitration end
-#endif
+    m_results.clear();
 }
 
 

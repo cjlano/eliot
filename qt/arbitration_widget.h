@@ -24,6 +24,7 @@
 #include <QtGui/QWidget>
 
 #include <ui/arbitration_widget.ui.h>
+#include "results.h"
 #include "move.h"
 #include "logging.h"
 
@@ -84,6 +85,9 @@ private:
 
     /// Coordinates of the next word to play
     CoordModel &m_coordModel;
+
+    /// Search results
+    LimitResults m_results;
 
     /// Model for the search results
     QStandardItemModel *m_resultsModel;

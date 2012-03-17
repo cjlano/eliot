@@ -27,6 +27,7 @@
 #include "player.h"
 #include "turn_cmd.h"
 #include "game_rack_cmd.h"
+#include "results.h"
 #include "settings.h"
 #include "encoding.h"
 #include "debug.h"
@@ -36,7 +37,7 @@ INIT_LOGGER(game, Arbitration);
 
 
 Arbitration::Arbitration(const GameParams &iParams)
-    : Duplicate(iParams), m_results(1000)
+    : Duplicate(iParams)
 {
 }
 
@@ -48,9 +49,6 @@ void Arbitration::setRackRandom()
     const PlayedRack &newRack =
         helperSetRackRandom(getHistory().getCurrentRack(), true, RACK_NEW);
     setGameAndPlayersRack(newRack);
-
-    // Clear the results if everything went well
-    m_results.clear();
 }
 
 
@@ -67,20 +65,17 @@ void Arbitration::setRackManual(const wstring &iLetters)
                    upperLetters.begin(), towupper);
     const PlayedRack &newRack = helperSetRackManual(false, upperLetters);
     setGameAndPlayersRack(newRack);
-
-    // Clear the results if everything went well
-    m_results.clear();
 }
 
 
-void Arbitration::search()
+void Arbitration::search(LimitResults &oResults)
 {
     const Rack &rack = getHistory().getCurrentRack().getRack();
     LOG_DEBUG("Performing search for rack " + lfw(rack.toString()));
     int limit = Settings::Instance().getInt("arbitration.search-limit");
-    m_results.setLimit(limit);
-    m_results.search(getDic(), getBoard(), rack, getHistory().beforeFirstRound());
-    LOG_DEBUG("Found " << m_results.size() << " results");
+    oResults.setLimit(limit);
+    oResults.search(getDic(), getBoard(), rack, getHistory().beforeFirstRound());
+    LOG_DEBUG("Found " << oResults.size() << " results");
 }
 
 
@@ -114,8 +109,6 @@ void Arbitration::assignMove(unsigned int iPlayerId, const Move &iMove)
 
 void Arbitration::finalizeTurn()
 {
-    m_results.clear();
-
     // Assign a default empty move to the human players which have
     // not played yet, to be able to end the turn.
     BOOST_FOREACH(Player *player, m_players)
