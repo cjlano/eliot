@@ -143,23 +143,5 @@ public:
                                       const QModelIndex &index) const;
 };
 
-
-/// Event filter used for the edition of the players display
-class PlayersEventFilter: public QObject
-{
-    Q_OBJECT;
-
-public:
-    explicit PlayersEventFilter(QObject *parent = 0);
-    virtual ~PlayersEventFilter() {}
-
-signals:
-    /// As its name indicates...
-    void deletePressed();
-
-protected:
-    virtual bool eventFilter(QObject *obj, QEvent *event);
-};
-
 #endif
 

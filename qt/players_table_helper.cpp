@@ -32,6 +32,7 @@
 
 #include "players_table_helper.h"
 #include "custom_popup.h"
+#include "misc_helpers.h"
 #include "qtcommon.h"
 
 
@@ -142,9 +143,9 @@ void PlayersTableHelper::addPopupRemoveAction()
 
     // Install a custom event filter, to remove the selection when the
     // "Delete" key is pressed
-    PlayersEventFilter *filter = new PlayersEventFilter(this);
+    KeyEventFilter *filter = new KeyEventFilter(this, Qt::Key_Delete);
     m_tablePlayers->installEventFilter(filter);
-    QObject::connect(filter, SIGNAL(deletePressed()),
+    QObject::connect(filter, SIGNAL(keyPressed()),
                      this, SLOT(removeSelectedRows()));
 }
 
@@ -396,30 +397,5 @@ void PlayersLevelDelegate::updateEditorGeometry(QWidget *editor,
                                                 const QModelIndex &) const
 {
     editor->setGeometry(option.rect);
-}
-
-
-
-PlayersEventFilter::PlayersEventFilter(QObject *parent)
-    : QObject(parent)
-{
-}
-
-
-bool PlayersEventFilter::eventFilter(QObject *obj, QEvent *event)
-{
-    // If the Delete key is pressed, remove the selected line, if any
-    if (event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == Qt::Key_Delete)
-        {
-            emit deletePressed();
-            return true;
-        }
-    }
-
-    // Standard event processing
-    return QObject::eventFilter(obj, event);
 }
 
