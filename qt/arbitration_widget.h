@@ -67,6 +67,7 @@ private slots:
     void enableAssignmentButtons();
     void clearResults();
     void showPreview(const QItemSelection &);
+    void showMasterPreview();
     void updateCoordText(const Coord&, const Coord&);
     void updateCoordModel(const QString&);
     void populateResultsMenu(QMenu &iMenu, const QPoint &iPoint);

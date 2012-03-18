@@ -145,6 +145,9 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     QObject::connect(treeViewResults->selectionModel(),
                      SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
                      this, SLOT(showPreview(const QItemSelection&)));
+    // Display a preview of the master word when clicked
+    QObject::connect(labelMasterMove, SIGNAL(clicked()),
+                     this, SLOT(showMasterPreview()));
 
     // Dynamic filter for search results
     QObject::connect(lineEditFilter, SIGNAL(textChanged(const QString&)),
@@ -744,6 +747,18 @@ void ArbitrationWidget::showPreview(const QItemSelection &iSelected)
         }
         emit gameUpdated();
     }
+}
+
+
+void ArbitrationWidget::showMasterPreview()
+{
+    const Move &move = m_game->duplicateGetMasterMove();
+    if (move.getType() == Move::VALID_ROUND)
+    {
+        treeViewResults->clearSelection();
+        m_game->setTestRound(move.getRound());
+    }
+    emit gameUpdated();
 }
 
 

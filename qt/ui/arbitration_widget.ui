@@ -174,7 +174,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="labelMasterMove">
+             <widget class="ClickableLabel" name="labelMasterMove">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -290,6 +290,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ClickableLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">misc_helpers.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>lineEditRack</tabstop>
   <tabstop>buttonRandom</tabstop>
