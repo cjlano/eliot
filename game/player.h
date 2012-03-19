@@ -53,9 +53,13 @@ public:
     /// Set the name of the player
     void setName(const wstring &iName) { m_name = iName; }
 
+    /// Accessors for the table number
+    unsigned getTableNb() const { return m_tableNb; }
+    void setTableNb(unsigned tableNb) { m_tableNb = tableNb; }
+
     /// ID handling
     unsigned int getId() const { return m_id; }
-    void setId(unsigned int iId) { m_id = iId; }
+    void setId(unsigned int iId);
 
     /**************************
      * General getters
@@ -94,6 +98,9 @@ private:
 
     /// Name of the player
     wstring m_name;
+
+    // Table number (optional: set to 0 if not used)
+    unsigned m_tableNb;
 
     /// History of the racks and rounds for the player
     History m_history;

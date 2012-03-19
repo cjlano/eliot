@@ -99,6 +99,7 @@ public:
      * Methods to access players.
      ***************/
 
+    Player & accessPlayer(unsigned int iNum);
     const Player& getPlayer(unsigned int iNum) const;
     const Player& getCurrentPlayer() const { return getPlayer(currPlayer()); };
     unsigned int getNPlayers() const { return m_players.size(); }

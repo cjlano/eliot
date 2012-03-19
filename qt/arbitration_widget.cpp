@@ -88,16 +88,18 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     m_proxyPlayersModel->setSourceModel(m_playersModel);
     treeViewPlayers->setModel(m_proxyPlayersModel);
     m_playersModel->setColumnCount(4);
-    m_playersModel->setHeaderData(0, Qt::Horizontal, _q("Player"), Qt::DisplayRole);
-    m_playersModel->setHeaderData(1, Qt::Horizontal, _q("Word"), Qt::DisplayRole);
-    m_playersModel->setHeaderData(2, Qt::Horizontal, _q("Ref"), Qt::DisplayRole);
-    m_playersModel->setHeaderData(3, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
+    m_playersModel->setHeaderData(0, Qt::Horizontal, _q("Table"), Qt::DisplayRole);
+    m_playersModel->setHeaderData(1, Qt::Horizontal, _q("Player"), Qt::DisplayRole);
+    m_playersModel->setHeaderData(2, Qt::Horizontal, _q("Word"), Qt::DisplayRole);
+    m_playersModel->setHeaderData(3, Qt::Horizontal, _q("Ref"), Qt::DisplayRole);
+    m_playersModel->setHeaderData(4, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
     treeViewPlayers->sortByColumn(0, Qt::AscendingOrder);
 
-    treeViewPlayers->setColumnWidth(0, 160);
+    treeViewPlayers->setColumnWidth(0, 70);
     treeViewPlayers->setColumnWidth(1, 160);
-    treeViewPlayers->setColumnWidth(2, 40);
-    treeViewPlayers->setColumnWidth(3, 50);
+    treeViewPlayers->setColumnWidth(2, 160);
+    treeViewPlayers->setColumnWidth(3, 40);
+    treeViewPlayers->setColumnWidth(4, 50);
 
     KeyEventFilter *filter = new KeyEventFilter(this, Qt::Key_T);
     QObject::connect(filter, SIGNAL(keyPressed()),
@@ -313,7 +315,8 @@ void ArbitrationWidget::updatePlayersModel()
             continue;
         const int rowNum = m_playersModel->rowCount();
         m_playersModel->insertRow(rowNum);
-        m_playersModel->setData(m_playersModel->index(rowNum, 0), qfw(player.getName()));
+        m_playersModel->setData(m_playersModel->index(rowNum, 0), player.getTableNb());
+        m_playersModel->setData(m_playersModel->index(rowNum, 1), qfw(player.getName()));
         // Store the player ID
         m_playersModel->setData(m_playersModel->index(rowNum, 0),
                                 player.getId(), Qt::UserRole);
@@ -321,32 +324,32 @@ void ArbitrationWidget::updatePlayersModel()
         if (m_game->hasPlayed(player.getId()))
         {
             const Move &move = player.getLastMove();
-            m_playersModel->setData(m_playersModel->index(rowNum, 3), move.getScore());
+            m_playersModel->setData(m_playersModel->index(rowNum, 4), move.getScore());
 
             QPalette palette = treeViewPlayers->palette();
             QColor color = palette.color(QPalette::Normal, QPalette::WindowText);
             if (move.getType() == Move::VALID_ROUND)
             {
                 const Round &round = move.getRound();
-                m_playersModel->setData(m_playersModel->index(rowNum, 1), qfw(round.getWord()));
-                m_playersModel->setData(m_playersModel->index(rowNum, 2), qfw(round.getCoord().toString()));
+                m_playersModel->setData(m_playersModel->index(rowNum, 2), qfw(round.getWord()));
+                m_playersModel->setData(m_playersModel->index(rowNum, 3), qfw(round.getCoord().toString()));
             }
             else if (move.getType() == Move::NO_MOVE)
             {
-                m_playersModel->setData(m_playersModel->index(rowNum, 1), _q("(NO MOVE)"));
+                m_playersModel->setData(m_playersModel->index(rowNum, 2), _q("(NO MOVE)"));
                 color = Qt::blue;
             }
             else if (move.getType() == Move::INVALID_WORD)
             {
-                m_playersModel->setData(m_playersModel->index(rowNum, 1), "<" + qfw(move.getBadWord()) + ">");
-                m_playersModel->setData(m_playersModel->index(rowNum, 2), qfw(move.getBadCoord()));
+                m_playersModel->setData(m_playersModel->index(rowNum, 2), "<" + qfw(move.getBadWord()) + ">");
+                m_playersModel->setData(m_playersModel->index(rowNum, 3), qfw(move.getBadCoord()));
                 color = Qt::red;
             }
             // Apply the color
             const QBrush brush(color);
-            m_playersModel->setData(m_playersModel->index(rowNum, 1),
-                                    brush, Qt::ForegroundRole);
             m_playersModel->setData(m_playersModel->index(rowNum, 2),
+                                    brush, Qt::ForegroundRole);
+            m_playersModel->setData(m_playersModel->index(rowNum, 3),
                                     brush, Qt::ForegroundRole);
         }
         // Restore the selection

@@ -47,6 +47,7 @@
 #include "move.h"
 #include "debug.h"
 #include "new_game.h"
+#include "tables_dialog.h"
 #include "prefs_dialog.h"
 #include "bag_widget2.h"
 #include "board_widget.h"
@@ -343,6 +344,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
         m_actionHistoryNextTurn->setEnabled(false);
         m_actionHistoryLastTurn->setEnabled(false);
         m_actionHistoryReplayTurn->setEnabled(false);
+        m_actionSettingsDefineTables->setEnabled(false);
         setWindowTitle(_q("No game") + " - Eliot");
         statusBar()->removeWidget(m_lettersLabel);
         statusBar()->removeWidget(m_turnLabel);
@@ -367,6 +369,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
     {
         m_actionGamePrint->setEnabled(true);
         m_actionGameSaveAs->setEnabled(true);
+        m_actionSettingsDefineTables->setEnabled(iGame->getMode() == PublicGame::kARBITRATION);
         statusBar()->addWidget(m_lettersLabel);
         m_lettersLabel->show();
         statusBar()->addWidget(m_turnLabel);
@@ -678,6 +681,10 @@ void MainWindow::createMenu()
     addMenuAction(menuSettings, _q("&Favorite players..."), QString(""),
                   _q("Define frequently used players for faster game creation"),
                   SLOT(onSettingsFavPlayers()));
+    m_actionSettingsDefineTables =
+        addMenuAction(menuSettings, _q("&Define players tables..."), QString(""),
+                  _q("Define the tables where the players are sitting, in arbitration mode"),
+                  SLOT(onSettingsDefineTables()));
     addMenuAction(menuSettings, _q("&Preferences..."), _q("Ctrl+F"),
                   _q("Edit the preferences"), SLOT(onSettingsPreferences()),
                   false, QIcon(":/images/preferences.png"));
@@ -1050,6 +1057,20 @@ void MainWindow::onSettingsFavPlayers()
     if (dialog->exec() == QDialog::Accepted)
     {
         helper->saveFavPlayers(helper->getPlayers(false));
+    }
+}
+
+
+void MainWindow::onSettingsDefineTables()
+{
+    ASSERT(m_game != NULL, "A game should have been started");
+
+    TablesDialog *dialog = new TablesDialog(this, *m_game);
+    QObject::connect(dialog, SIGNAL(notifyProblem(QString)),
+                     this, SLOT(displayErrorMsg(QString)));
+    if (dialog->exec() == QDialog::Accepted)
+    {
+        emit gameUpdated();
     }
 }
 

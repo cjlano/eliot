@@ -28,6 +28,7 @@
 #include "game_factory.h"
 #include "game_exception.h"
 #include "xml_writer.h"
+#include "player.h"
 
 
 PublicGame::PublicGame(Game &iGame)
@@ -113,6 +114,19 @@ unsigned int PublicGame::getNbHumanPlayers() const
 {
     return m_game.getNHumanPlayers();
 }
+
+
+void PublicGame::setPlayerName(unsigned iPlayerId, const wstring &iName)
+{
+    m_game.accessPlayer(iPlayerId).setName(iName);
+}
+
+
+void PublicGame::setPlayerTableNb(unsigned iPlayerId, unsigned iTableNb)
+{
+    m_game.accessPlayer(iPlayerId).setTableNb(iTableNb);
+}
+
 
 
 bool PublicGame::hasPlayed(unsigned int player) const

@@ -77,6 +77,7 @@ private slots:
     void onSettingsChooseDic();
     void onSettingsCreateDic();
     void onSettingsFavPlayers();
+    void onSettingsDefineTables();
     void onSettingsPreferences();
     void onWindowsToolbar();
     void onWindowsBag();
@@ -147,6 +148,7 @@ private:
     QAction *m_actionHistoryLastTurn;
     QAction *m_actionHistoryReplayTurn;
     QAction *m_actionWindowsToolbar;
+    QAction *m_actionSettingsDefineTables;
 
     static const char * m_windowName;
 

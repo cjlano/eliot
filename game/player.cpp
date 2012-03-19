@@ -37,8 +37,17 @@ INIT_LOGGER(game, Player);
 
 
 Player::Player()
-    : m_id(0), m_score(0)
+    : m_id(0), m_score(0), m_tableNb(0)
 {
+}
+
+
+void Player::setId(unsigned iId)
+{
+    m_id = iId;
+    // Default table nb, equal to the player ID + 1
+    if (m_tableNb == 0)
+        m_tableNb = iId + 1;
 }
 
 

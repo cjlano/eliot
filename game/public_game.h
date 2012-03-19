@@ -110,6 +110,9 @@ public:
     unsigned int getNbPlayers() const;
     unsigned int getNbHumanPlayers() const;
 
+    void setPlayerName(unsigned iPlayerId, const wstring &iName);
+    void setPlayerTableNb(unsigned iPlayerId, unsigned iTableNb);
+
     /// Return true if the player has played for the current turn
     // XXX: not very nice API, should be a player property...
     bool hasPlayed(unsigned int player) const;

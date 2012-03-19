@@ -67,6 +67,13 @@ Game::~Game()
 }
 
 
+Player& Game::accessPlayer(unsigned int iNum)
+{
+    ASSERT(iNum < m_players.size(), "Wrong player number");
+    return *(m_players[iNum]);
+}
+
+
 const Player& Game::getPlayer(unsigned int iNum) const
 {
     ASSERT(iNum < m_players.size(), "Wrong player number");
