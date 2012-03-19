@@ -21,8 +21,10 @@
 #ifndef MISC_HELPERS_H_
 #define MISC_HELPERS_H_
 
+#include <vector>
 #include <QtGui/QLabel>
 
+using std::vector;
 
 class QMouseEvent;
 class QEvent;
@@ -35,17 +37,18 @@ class KeyEventFilter: public QObject
 
 public:
     KeyEventFilter(QObject *parent, int key, int modifier = Qt::NoModifier);
+    void addKey(int key, int modifier = Qt::NoModifier);
 
 signals:
     /// As its name indicates...
-    void keyPressed();
+    void keyPressed(int key, int modifiers);
 
 protected:
     virtual bool eventFilter(QObject *obj, QEvent *event);
 
 private:
-    int m_modifiers;
-    int m_key;
+    vector<int> m_keyVect;
+    vector<int> m_modifiersVect;
 };
 
 

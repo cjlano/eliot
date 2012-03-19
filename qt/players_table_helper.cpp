@@ -145,7 +145,7 @@ void PlayersTableHelper::addPopupRemoveAction()
     // "Delete" key is pressed
     KeyEventFilter *filter = new KeyEventFilter(this, Qt::Key_Delete);
     m_tablePlayers->installEventFilter(filter);
-    QObject::connect(filter, SIGNAL(keyPressed()),
+    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
                      this, SLOT(removeSelectedRows()));
 }
 

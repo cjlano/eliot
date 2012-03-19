@@ -24,8 +24,16 @@
 
 
 KeyEventFilter::KeyEventFilter(QObject *parent, int key, int modifiers)
-    : QObject(parent), m_modifiers(modifiers), m_key(key)
+    : QObject(parent)
 {
+    addKey(key, modifiers);
+}
+
+
+void KeyEventFilter::addKey(int key, int modifiers)
+{
+    m_keyVect.push_back(key);
+    m_modifiersVect.push_back(modifiers);
 }
 
 
@@ -35,11 +43,14 @@ bool KeyEventFilter::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::KeyPress)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == m_key &&
-            keyEvent->modifiers() == m_modifiers)
+        for (unsigned i = 0; i < m_keyVect.size(); ++i)
         {
-            emit keyPressed();
-            return true;
+            if (keyEvent->key() == m_keyVect[i] &&
+                keyEvent->modifiers() == m_modifiersVect[i])
+            {
+                emit keyPressed(m_keyVect[i], m_modifiersVect[i]);
+                return true;
+            }
         }
     }
 

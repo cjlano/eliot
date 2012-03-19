@@ -102,7 +102,7 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     treeViewPlayers->setColumnWidth(4, 50);
 
     KeyEventFilter *filter = new KeyEventFilter(this, Qt::Key_T);
-    QObject::connect(filter, SIGNAL(keyPressed()),
+    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
                      this, SLOT(assignTopMove()));
     treeViewPlayers->installEventFilter(filter);
 
