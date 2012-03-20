@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #include <QtGui/QStandardItemModel>
+#include <QtGui/QMenu>
 
 #include "training_widget.h"
 #include "qtcommon.h"
@@ -260,7 +261,7 @@ void TrainingWidget::populateMenu(QMenu &iMenu, const QPoint &iPoint)
     const QModelIndex &wordIndex = m_model->index(index.row(), 0);
     QString selectedWord = m_model->data(wordIndex).toString();
 
-    m_customPopup->addShowDefinitionEntry(iMenu, selectedWord);
+    iMenu.addAction(m_customPopup->getShowDefinitionEntry(selectedWord));
 }
 
 

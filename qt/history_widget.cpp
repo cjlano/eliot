@@ -24,6 +24,7 @@
 #include <QtGui/QTreeView>
 #include <QtGui/QTabWidget>
 #include <QtGui/QStandardItemModel>
+#include <QtGui/QMenu>
 #include <QtCore/QSettings>
 
 #include "history_widget.h"
@@ -99,7 +100,7 @@ void HistoryWidget::populateMenu(QMenu &iMenu, const QPoint &iPoint)
     QString selectedWord = m_model->data(wordIndex).toString();
 
     if (selectedWord != "")
-        m_customPopup->addShowDefinitionEntry(iMenu, selectedWord);
+        iMenu.addAction(m_customPopup->getShowDefinitionEntry(selectedWord));
 }
 
 

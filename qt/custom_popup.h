@@ -27,6 +27,7 @@
 #include "logging.h"
 
 class QWidget;
+class QAction;
 class QPoint;
 class QMenu;
 
@@ -38,7 +39,7 @@ class CustomPopup: public QObject
 
 public:
     CustomPopup(QWidget *iWidget);
-    void addShowDefinitionEntry(QMenu &iPopup, QString iWord);
+    QAction * getShowDefinitionEntry(QString iWord);
 
 signals:
     void requestDefinition(QString iWord);

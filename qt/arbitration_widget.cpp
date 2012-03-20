@@ -598,37 +598,38 @@ void ArbitrationWidget::populateResultsMenu(QMenu &iMenu, const QPoint &iPoint)
         return;
 
     const Move &move = getSelectedMove();
-    if (move.getType() == Move::VALID_ROUND)
-    {
-        // Action to display the word definition
-        const QModelIndex &wordIndex = m_resultsModel->index(index.row(), 0);
-        QString selectedWord = m_resultsModel->data(wordIndex).toString();
-        m_resultsPopup->addShowDefinitionEntry(iMenu, selectedWord);
 
-        // Action to select as master move
-        QAction *setAsMasterAction =
-            new QAction(_q("Use as master move"), this);
-        setAsMasterAction->setStatusTip(_q("Use the selected move (%1) as master move")
-                                        .arg(formatMove(move)));
-        setAsMasterAction->setShortcut(Qt::Key_M);
-        QObject::connect(setAsMasterAction, SIGNAL(triggered()),
-                         this, SLOT(assignMasterMove()));
-        iMenu.addAction(setAsMasterAction);
-    }
+    // Action to display the word definition
+    const QModelIndex &wordIndex = m_resultsModel->index(index.row(), 0);
+    QString selectedWord = m_resultsModel->data(wordIndex).toString();
+    QAction *showDefAction = m_resultsPopup->getShowDefinitionEntry(selectedWord);
+    iMenu.addAction(showDefAction);
+    if (move.getType() != Move::VALID_ROUND)
+        showDefAction->setEnabled(false);
+
+    // Action to select as master move
+    QAction *setAsMasterAction =
+        new QAction(_q("Use as master move"), this);
+    setAsMasterAction->setStatusTip(_q("Use the selected move (%1) as master move")
+                                    .arg(formatMove(move)));
+    setAsMasterAction->setShortcut(Qt::Key_M);
+    QObject::connect(setAsMasterAction, SIGNAL(triggered()),
+                     this, SLOT(assignMasterMove()));
+    iMenu.addAction(setAsMasterAction);
+    if (move.getType() != Move::VALID_ROUND)
+        setAsMasterAction->setEnabled(false);
 
     // Action to assign the selected move
-    if (treeViewPlayers->selectionModel()->hasSelection())
-    {
-        const Move &move = getSelectedMove();
-        QAction *assignSelMoveAction =
-            new QAction(_q("Assign selected move (%1)").arg(formatMove(move)), this);
-        assignSelMoveAction->setStatusTip(_q("Assign move (%1) to the selected player(s)")
-                        .arg(formatMove(move)));
-        assignSelMoveAction->setShortcut(Qt::Key_Enter);
-        QObject::connect(assignSelMoveAction, SIGNAL(triggered()),
-                         this, SLOT(assignSelectedMove()));
-        iMenu.addAction(assignSelMoveAction);
-    }
+    QAction *assignSelMoveAction =
+        new QAction(_q("Assign selected move (%1)").arg(formatMove(move)), this);
+    assignSelMoveAction->setStatusTip(_q("Assign move (%1) to the selected player(s)")
+                                      .arg(formatMove(move)));
+    assignSelMoveAction->setShortcut(Qt::Key_Enter);
+    QObject::connect(assignSelMoveAction, SIGNAL(triggered()),
+                     this, SLOT(assignSelectedMove()));
+    iMenu.addAction(assignSelMoveAction);
+    if (!treeViewPlayers->selectionModel()->hasSelection())
+        assignSelMoveAction->setEnabled(false);
 }
 
 
@@ -652,7 +653,6 @@ void ArbitrationWidget::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
         iMenu.addAction(assignSelMoveAction);
     }
 
-#if 1
     // Action to assign the top move
     QAction *assignTopMoveAction =
         new QAction(_q("Assign top move"), this);
@@ -661,7 +661,6 @@ void ArbitrationWidget::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
     QObject::connect(assignTopMoveAction, SIGNAL(triggered()),
                      this, SLOT(assignTopMove()));
     iMenu.addAction(assignTopMoveAction);
-#endif
 
     // TODO: add other actions
 }

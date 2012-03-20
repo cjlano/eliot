@@ -44,7 +44,7 @@ void CustomPopup::showPopup(const QPoint &iPoint)
 }
 
 
-void CustomPopup::addShowDefinitionEntry(QMenu &iPopup, QString iWord)
+QAction * CustomPopup::getShowDefinitionEntry(QString iWord)
 {
     m_word = iWord;
 
@@ -53,7 +53,7 @@ void CustomPopup::addShowDefinitionEntry(QMenu &iPopup, QString iWord)
     QObject::connect(definitionAction, SIGNAL(triggered()),
                      this, SLOT(definitionRequested()));
 
-    iPopup.addAction(definitionAction);
+    return definitionAction;
 }
 
 

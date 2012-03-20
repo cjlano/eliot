@@ -29,6 +29,7 @@
 #include <QtGui/QLineEdit>
 #include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
+#include <QtGui/QMenu>
 #include <QtCore/QString>
 
 #include "dic_tools_widget.h"
@@ -440,7 +441,7 @@ void DicToolsWidget::populateMenuPlus1(QMenu &iMenu, const QPoint &iPoint)
     const QModelIndex &wordIndex = m_plus1Model->index(index.row(), 0, index.parent());
     QString selectedWord = m_plus1Model->data(wordIndex).toString();
 
-    m_customPopupPlus1->addShowDefinitionEntry(iMenu, selectedWord);
+    iMenu.addAction(m_customPopupPlus1->getShowDefinitionEntry(selectedWord));
 }
 
 
@@ -454,6 +455,6 @@ void DicToolsWidget::populateMenuRegexp(QMenu &iMenu, const QPoint &iPoint)
     const QModelIndex &wordIndex = m_regexpModel->index(index.row(), 0);
     QString selectedWord = m_regexpModel->data(wordIndex).toString();
 
-    m_customPopupRegexp->addShowDefinitionEntry(iMenu, selectedWord);
+    iMenu.addAction(m_customPopupRegexp->getShowDefinitionEntry(selectedWord));
 }
 
