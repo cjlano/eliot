@@ -63,6 +63,8 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
 {
     setupUi(this);
 
+    m_keyAccum = new KeyAccumulator(this, 400);
+
     // FIXME arbitration begin
     // The players widget uses more space by default
     splitter->setStretchFactor(0, 1);
@@ -129,6 +131,26 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     treeViewResults->setColumnWidth(1, 40);
     treeViewResults->setColumnWidth(2, 70);
 
+    KeyEventFilter *masterFilter = new KeyEventFilter(this, Qt::Key_M);
+    QObject::connect(masterFilter, SIGNAL(keyPressed(int, int)),
+                     this, SLOT(assignMasterMove()));
+    treeViewResults->installEventFilter(masterFilter);
+
+    KeyEventFilter *numFilter = new KeyEventFilter(this, Qt::Key_0);
+    numFilter->addKey(Qt::Key_1);
+    numFilter->addKey(Qt::Key_2);
+    numFilter->addKey(Qt::Key_3);
+    numFilter->addKey(Qt::Key_4);
+    numFilter->addKey(Qt::Key_5);
+    numFilter->addKey(Qt::Key_6);
+    numFilter->addKey(Qt::Key_7);
+    numFilter->addKey(Qt::Key_8);
+    numFilter->addKey(Qt::Key_9);
+    numFilter->setIgnoreModifiers();
+    QObject::connect(numFilter, SIGNAL(keyPressed(int, int)),
+                     this, SLOT(selectTableNumber(int)));
+    treeViewResults->installEventFilter(numFilter);
+
     // Validate manual rack changes
     QObject::connect(lineEditRack, SIGNAL(textEdited(const QString&)),
                      this, SLOT(rackEdited(const QString&)));
@@ -184,14 +206,14 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
                      this, SLOT(checkWord()));
 
     // Move assignment
-    QObject::connect(treeViewResults, SIGNAL(activated(const QModelIndex&)),
-                     this, SLOT(assignMasterMove()));
     QObject::connect(buttonSelectMaster, SIGNAL(clicked()),
                      this, SLOT(assignMasterMove()));
-    QObject::connect(buttonAssign, SIGNAL(clicked()),
-                     this, SLOT(assignSelectedMove()));
     QObject::connect(buttonNoMove, SIGNAL(clicked()),
                      this, SLOT(assignNoMove()));
+    QObject::connect(buttonAssign, SIGNAL(clicked()),
+                     this, SLOT(assignSelectedMove()));
+    QObject::connect(treeViewResults, SIGNAL(activated(const QModelIndex&)),
+                     this, SLOT(assignSelectedMove()));
     QObject::connect(treeViewPlayers, SIGNAL(activated(const QModelIndex&)),
                      this, SLOT(assignSelectedMove()));
 
@@ -588,10 +610,24 @@ void ArbitrationWidget::populateResultsMenu(QMenu &iMenu, const QPoint &iPoint)
             new QAction(_q("Use as master move"), this);
         setAsMasterAction->setStatusTip(_q("Use the selected move (%1) as master move")
                                         .arg(formatMove(move)));
-        setAsMasterAction->setShortcut(Qt::Key_Enter);
+        setAsMasterAction->setShortcut(Qt::Key_M);
         QObject::connect(setAsMasterAction, SIGNAL(triggered()),
                          this, SLOT(assignMasterMove()));
         iMenu.addAction(setAsMasterAction);
+    }
+
+    // Action to assign the selected move
+    if (treeViewPlayers->selectionModel()->hasSelection())
+    {
+        const Move &move = getSelectedMove();
+        QAction *assignSelMoveAction =
+            new QAction(_q("Assign selected move (%1)").arg(formatMove(move)), this);
+        assignSelMoveAction->setStatusTip(_q("Assign move (%1) to the selected player(s)")
+                        .arg(formatMove(move)));
+        assignSelMoveAction->setShortcut(Qt::Key_Enter);
+        QObject::connect(assignSelMoveAction, SIGNAL(triggered()),
+                         this, SLOT(assignSelectedMove()));
+        iMenu.addAction(assignSelMoveAction);
     }
 }
 
@@ -672,6 +708,50 @@ void ArbitrationWidget::checkWord()
     treeViewResults->selectionModel()->select(index,
                     QItemSelectionModel::Select | QItemSelectionModel::Rows);
     treeViewResults->setFocus();
+}
+
+
+void ArbitrationWidget::selectTableNumber(int key)
+{
+    QString keyStr = "";
+    if (key == Qt::Key_0) keyStr = "0";
+    else if (key == Qt::Key_1) keyStr = "1";
+    else if (key == Qt::Key_2) keyStr = "2";
+    else if (key == Qt::Key_3) keyStr = "3";
+    else if (key == Qt::Key_4) keyStr = "4";
+    else if (key == Qt::Key_5) keyStr = "5";
+    else if (key == Qt::Key_6) keyStr = "6";
+    else if (key == Qt::Key_7) keyStr = "7";
+    else if (key == Qt::Key_8) keyStr = "8";
+    else if (key == Qt::Key_9) keyStr = "9";
+    ASSERT(keyStr != "", "Unexpected key");
+
+    // Build (and retrieve) the table number
+    QString tableNum = m_keyAccum->addText(keyStr);
+
+    // Select the player with this table number
+    LOG_DEBUG("Selecting player with table number: " + lfq(tableNum));
+    treeViewPlayers->selectionModel()->clearSelection();
+    unsigned tabNb = tableNum.toUInt();
+    for (int rowNum = 0; rowNum < m_playersModel->rowCount(); ++rowNum)
+    {
+        const QModelIndex &modelIndex = m_playersModel->index(rowNum, 0);
+        if (m_playersModel->data(modelIndex).toUInt() == tabNb)
+        {
+            const QModelIndex &index = m_proxyPlayersModel->mapFromSource(modelIndex);
+            treeViewPlayers->scrollTo(index);
+            treeViewPlayers->selectionModel()->select(index,
+                    QItemSelectionModel::Select | QItemSelectionModel::Rows);
+            // Keep the focus in the results view
+            treeViewResults->setFocus();
+
+            // Write a nice message on the status bar
+            QString name = m_playersModel->data(m_playersModel->index(rowNum, 1)).toString();
+            emit notifyInfo(_q("Player at table %1 selected (%2)").arg(tabNb).arg(name));
+            return;
+        }
+    }
+    LOG_DEBUG("Not found");
 }
 
 
@@ -885,8 +965,11 @@ void ArbitrationWidget::assignDefaultMasterMove()
 
 void ArbitrationWidget::assignSelectedMove()
 {
-    if (!treeViewResults->selectionModel()->hasSelection())
+    if (!treeViewResults->selectionModel()->hasSelection() ||
+        !treeViewPlayers->selectionModel()->hasSelection())
+    {
         return;
+    }
     helperAssignMove(getSelectedMove());
 }
 

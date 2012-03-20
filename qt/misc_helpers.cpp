@@ -19,12 +19,13 @@
  *****************************************************************************/
 
 #include <QtGui/QKeyEvent>
+#include <QtCore/QTimer>
 
 #include "misc_helpers.h"
 
 
 KeyEventFilter::KeyEventFilter(QObject *parent, int key, int modifiers)
-    : QObject(parent)
+    : QObject(parent), m_ignoreModifiers(false)
 {
     addKey(key, modifiers);
 }
@@ -37,6 +38,12 @@ void KeyEventFilter::addKey(int key, int modifiers)
 }
 
 
+void KeyEventFilter::setIgnoreModifiers(bool ignore)
+{
+    m_ignoreModifiers = ignore;
+}
+
+
 bool KeyEventFilter::eventFilter(QObject *obj, QEvent *event)
 {
     // If the Delete key is pressed, remove the selected line, if any
@@ -46,7 +53,7 @@ bool KeyEventFilter::eventFilter(QObject *obj, QEvent *event)
         for (unsigned i = 0; i < m_keyVect.size(); ++i)
         {
             if (keyEvent->key() == m_keyVect[i] &&
-                keyEvent->modifiers() == m_modifiersVect[i])
+                (m_ignoreModifiers || keyEvent->modifiers() == m_modifiersVect[i]))
             {
                 emit keyPressed(m_keyVect[i], m_modifiersVect[i]);
                 return true;
@@ -56,6 +63,27 @@ bool KeyEventFilter::eventFilter(QObject *obj, QEvent *event)
 
     // Standard event processing
     return QObject::eventFilter(obj, event);
+}
+
+
+
+KeyAccumulator::KeyAccumulator(QObject *parent, int delayMs)
+    : QObject(parent), m_delayMs(delayMs), m_currText("")
+{
+    m_timer = new QTimer(this);
+    m_timer->setSingleShot(true);
+}
+
+
+QString KeyAccumulator::addText(QString iAddedText)
+{
+    if (m_timer->isActive())
+        m_timer->stop();
+    else
+        m_currText = "";
+    m_currText += iAddedText;
+    m_timer->start(m_delayMs);
+    return m_currText;
 }
 
 

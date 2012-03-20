@@ -31,6 +31,7 @@
 class PublicGame;
 class CoordModel;
 class CustomPopup;
+class KeyAccumulator;
 class QStandardItemModel;
 class QSortFilterProxyModel;
 class QMenu;
@@ -73,6 +74,7 @@ private slots:
     void populateResultsMenu(QMenu &iMenu, const QPoint &iPoint);
     void populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint);
     void checkWord();
+    void selectTableNumber(int key);
     void assignMasterMove();
     void assignDefaultMasterMove();
     void assignSelectedMove();
@@ -105,6 +107,9 @@ private:
 
     /// Container for the moves manually entered in the interface
     QVector<Move> m_addedMoves;
+
+    /// Accumulator used to build the table number
+    KeyAccumulator *m_keyAccum;
 
     /// Palette to write text in black
     QPalette blackPalette;

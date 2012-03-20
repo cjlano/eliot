@@ -23,11 +23,13 @@
 
 #include <vector>
 #include <QtGui/QLabel>
+#include <QtCore/QString>
 
 using std::vector;
 
 class QMouseEvent;
 class QEvent;
+class QTimer;
 
 
 /// Event filter used for the edition of the players display
@@ -38,6 +40,7 @@ class KeyEventFilter: public QObject
 public:
     KeyEventFilter(QObject *parent, int key, int modifier = Qt::NoModifier);
     void addKey(int key, int modifier = Qt::NoModifier);
+    void setIgnoreModifiers(bool ignore = true);
 
 signals:
     /// As its name indicates...
@@ -49,6 +52,28 @@ protected:
 private:
     vector<int> m_keyVect;
     vector<int> m_modifiersVect;
+    bool m_ignoreModifiers;
+};
+
+
+/**
+ * Concatenate the given strings, as long as the delay between 2 consecutive
+ * strings is not higher than the delayMs constructor parameter.
+ * Otherwise, the string restarts fom scratch.
+ */
+class KeyAccumulator: public QObject
+{
+    Q_OBJECT;
+
+public:
+    KeyAccumulator(QObject *parent, int delayMs);
+
+    QString addText(QString iAddedText);
+
+private:
+    int m_delayMs;
+    QTimer *m_timer;
+    QString m_currText;
 };
 
 
