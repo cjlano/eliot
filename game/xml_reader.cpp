@@ -40,6 +40,7 @@
 #include "player_points_cmd.h"
 #include "master_move_cmd.h"
 #include "navigation.h"
+#include "header.h"
 
 using namespace std;
 
@@ -178,7 +179,11 @@ void XmlReader::startElement(const string& namespaceURI,
 
     m_data.clear();
     const string &tag = localName;
-    if (tag == "Player")
+    if (tag == "Dictionary")
+    {
+        m_context = "Dictionary";
+    }
+    else if (tag == "Player")
     {
         m_context = "Player";
         for (int i = 0; i < atts.getLength(); ++i)
@@ -206,6 +211,25 @@ void XmlReader::endElement(const string& namespaceURI,
     LOG_DEBUG("endElement: " << namespaceURI << ":" << localName << "(" << m_data << ")");
 
     const string &tag = localName;
+
+    // Dictionary section
+    if (m_context == "Dictionary")
+    {
+        if (tag == "Letters")
+        {
+            if (m_dic.getHeader().getLetters() != fromUtf8(m_data))
+                throw LoadGameException("The current dictionary is different from the one used in the saved game");
+        }
+        else if (tag == "WordNb")
+        {
+            if (m_dic.getHeader().getNbWords() != atoi(m_data.c_str()))
+                throw LoadGameException("The current dictionary is different from the one used in the saved game");
+        }
+        else if (tag == "Dictionary")
+            m_context = "";
+        return;
+    }
+
     if (tag == "Mode")
     {
         // The game should not be created yet

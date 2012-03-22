@@ -39,6 +39,8 @@
 #include "player_points_cmd.h"
 #include "master_move_cmd.h"
 #include "mark_played_cmd.h"
+#include "dic.h"
+#include "header.h"
 
 using namespace std;
 
@@ -63,7 +65,8 @@ static string toUtf8(const wstring &s)
 static void writeMove(ostream &out, const Move &iMove,
                       const string &iTag, int iPlayerId)
 {
-    out << "<" << iTag << " playerid=\"" << iPlayerId << "\" type=\"";
+    out << "<" << iTag << " playerid=\"" << iPlayerId
+        << "\" points=\"" << iMove.getScore() << "\" type=\"";
     if (iMove.getType() == Move::VALID_ROUND)
     {
         const Round &round = iMove.getRound();
@@ -100,7 +103,28 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
     addIndent(indent);
 
     // ------------------------
-    // Write the header
+    // Write the dictionary information
+    out << indent << "<Dictionary>" << endl;
+    addIndent(indent);
+    const Header &header = iGame.getDic().getHeader();
+    out << indent << "<Name>" << toUtf8(header.getName()) << "</Name>" << endl;
+    out << indent << "<Type>";
+    if (header.getType() == Header::kDAWG)
+        out << "dawg";
+    else if (header.getType() == Header::kGADDAG)
+        out << "gaddag";
+    else
+        throw SaveGameException("Invalid dictionary type");
+    out << "</Type>" << endl;
+    out << indent << "<Letters>" << toUtf8(header.getLetters()) << "</Letters>" << endl;
+    out << indent << "<WordNb>" << header.getNbWords() << "</WordNb>" << endl;
+    removeIndent(indent);
+    out << indent << "</Dictionary>" << endl;
+    // End of dictionary information
+    // ------------------------
+
+    // ------------------------
+    // Write the game header
     out << indent << "<Game>" << endl;
     addIndent(indent);
     // Game type
