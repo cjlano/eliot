@@ -57,41 +57,21 @@ void TurnCmd::addAndExecute(Command *iCmd)
 
 void TurnCmd::execute()
 {
-    for (unsigned i = m_firstNotExecuted; i < m_commands.size(); ++i)
-    {
-        Command *cmd = m_commands[i];
-        ASSERT(!cmd->isExecuted(), "Bug with m_firstNotExecuted");
-        cmd->execute();
-    }
-    m_firstNotExecuted = m_commands.size();
+    execTo(m_commands.size());
+    ASSERT(isFullyExecuted(), "Bug in execute()");
 }
 
 
 void TurnCmd::undo()
 {
-    // Undo commands in the reverse order of execution
-    unsigned firstToUndo = m_firstNotExecuted - 1;
-    for (unsigned i = 0; i < m_firstNotExecuted; ++i)
-    {
-        Command *cmd = m_commands[firstToUndo - i];
-        ASSERT(cmd->isExecuted(), "Bug with m_firstNotExecuted");
-        cmd->undo();
-    }
-    m_firstNotExecuted = 0;
+    undoTo(0);
+    ASSERT(isNotAtAllExecuted(), "Bug in undo()");
 }
 
 
 void TurnCmd::partialExecute()
 {
-    for (unsigned i = m_firstNotExecuted; i < m_commands.size(); ++i)
-    {
-        Command *cmd = m_commands[i];
-        if (!cmd->isAutoExecutable())
-            break;
-        ASSERT(!cmd->isExecuted(), "Bug with m_firstNotExecuted");
-        cmd->execute();
-        ++m_firstNotExecuted;
-    }
+    execTo(findIndexFirstNaec());
     ASSERT(isPartiallyExecuted(), "Bug in partialExecute()");
 }
 
@@ -106,11 +86,8 @@ void TurnCmd::partialUndo()
 
 void TurnCmd::dropNonExecutedCommands()
 {
-    while (m_commands.size() > m_firstNotExecuted)
-    {
-        delete m_commands.back();
-        m_commands.pop_back();
-    }
+    if (!isFullyExecuted())
+        dropFrom(m_firstNotExecuted);
 }
 
 
@@ -120,17 +97,7 @@ void TurnCmd::dropFrom(const Command &iCmd)
     unsigned idx = findIndex(iCmd);
     ASSERT(idx != m_commands.size(), "Cannot find command to drop");
 
-    LOG_DEBUG("Deleting last turn commands, starting from " << idx);
-
-    while (m_commands.size() > idx)
-    {
-        if (m_commands.back()->isExecuted())
-            m_commands.back()->undo();
-        delete m_commands.back();
-        m_commands.pop_back();
-    }
-    if (m_firstNotExecuted > m_commands.size())
-        m_firstNotExecuted = m_commands.size();
+    dropFrom(idx);
 }
 
 
@@ -145,15 +112,8 @@ void TurnCmd::dropCommand(const Command &iCmd)
 
     LOG_DEBUG("Dropping single command");
 
-    // Save the execution status
-    unsigned tmpIdx = m_firstNotExecuted;
-
     // Undo commands after the interesting one (included)
-    while (tmpIdx > idx)
-    {
-        --tmpIdx;
-        m_commands[tmpIdx]->undo();
-    }
+    unsigned tmpIdx = undoTo(idx);
     ASSERT(!iCmd.isExecuted(), "Logic error");
 
     // Drop the command
@@ -161,14 +121,10 @@ void TurnCmd::dropCommand(const Command &iCmd)
     m_commands.erase(m_commands.begin() + idx);
 
     // We have deleted one command, so the index should be decreased
-    --m_firstNotExecuted;
+    --tmpIdx;
 
     // Re-execute the commands
-    while (tmpIdx != m_firstNotExecuted)
-    {
-        m_commands[tmpIdx]->execute();
-        ++tmpIdx;
-    }
+    execTo(tmpIdx);
 }
 
 
@@ -182,15 +138,8 @@ void TurnCmd::insertCommand(Command *iCmd)
 
     LOG_DEBUG("Inserting command");
 
-    // Save the execution status
-    unsigned tmpIdx = m_firstNotExecuted;
-
     // Undo commands after the interesting one (included)
-    while (tmpIdx > idx)
-    {
-        --tmpIdx;
-        m_commands[tmpIdx]->undo();
-    }
+    unsigned tmpIdx = undoTo(idx);
 
     // Insert the command (possibly at the end, if there is no NAEC)
     if (idx == m_commands.size())
@@ -199,14 +148,10 @@ void TurnCmd::insertCommand(Command *iCmd)
         m_commands.insert(m_commands.begin() + idx, iCmd);
 
     // We have inserted one command, so the index should be increased
-    ++m_firstNotExecuted;
+    ++tmpIdx;
 
     // Re-execute the commands
-    while (tmpIdx != m_firstNotExecuted)
-    {
-        m_commands[tmpIdx]->execute();
-        ++tmpIdx;
-    }
+    execTo(tmpIdx);
 }
 
 
@@ -221,15 +166,8 @@ void TurnCmd::replaceCommand(const Command &iOldCmd,
     unsigned idx = findIndex(iOldCmd);
     ASSERT(idx != m_commands.size(), "Cannot find command");
 
-    // Save the execution status
-    unsigned tmpIdx = m_firstNotExecuted;
-
     // Undo commands after the interesting one (included)
-    while (tmpIdx > idx)
-    {
-        --tmpIdx;
-        m_commands[tmpIdx]->undo();
-    }
+    unsigned tmpIdx = undoTo(idx);
     ASSERT(!iOldCmd.isExecuted(), "Logic error");
 
     // Replace the command
@@ -237,11 +175,7 @@ void TurnCmd::replaceCommand(const Command &iOldCmd,
     m_commands[idx] = iNewCmd;
 
     // Re-execute the commands
-    while (tmpIdx != m_firstNotExecuted)
-    {
-        m_commands[tmpIdx]->execute();
-        ++tmpIdx;
-    }
+    execTo(tmpIdx);
 }
 
 
@@ -301,6 +235,50 @@ unsigned TurnCmd::findIndexFirstNaec() const
             return i;
     }
     return m_commands.size();
+}
+
+
+unsigned TurnCmd::execTo(unsigned iNewFirstNotExec)
+{
+    ASSERT(iNewFirstNotExec <= m_commands.size(), "Invalid index");
+    unsigned oldVal = m_firstNotExecuted;
+    while (m_firstNotExecuted < iNewFirstNotExec)
+    {
+        Command *cmd = m_commands[m_firstNotExecuted];
+        ASSERT(!cmd->isExecuted(), "Bug with m_firstNotExecuted");
+        cmd->execute();
+        ++m_firstNotExecuted;
+    }
+    return oldVal;
+}
+
+
+unsigned TurnCmd::undoTo(unsigned iNewFirstNotExec)
+{
+    unsigned oldVal = m_firstNotExecuted;
+    while (m_firstNotExecuted > iNewFirstNotExec)
+    {
+        --m_firstNotExecuted;
+        Command *cmd = m_commands[m_firstNotExecuted];
+        ASSERT(cmd->isExecuted(), "Bug with m_firstNotExecuted");
+        cmd->undo();
+    }
+    return oldVal;
+}
+
+
+void TurnCmd::dropFrom(unsigned iFirstToDrop)
+{
+    ASSERT(iFirstToDrop < m_commands.size(), "Invalid index");
+    LOG_DEBUG("Deleting turn commands, starting from index " << iFirstToDrop);
+
+    undoTo(iFirstToDrop);
+    while (m_commands.size() > iFirstToDrop)
+    {
+        delete m_commands.back();
+        m_commands.pop_back();
+    }
+    ASSERT(m_firstNotExecuted <= m_commands.size(), "Invalid state");
 }
 
 

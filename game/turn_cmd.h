@@ -180,6 +180,26 @@ class TurnCmd
          */
         unsigned findIndexFirstNaec() const;
 
+        /**
+         * Helper method to execute the commands (if needed) up to
+         * the given position (included).
+         * The previous value of m_firstNotExecuted is returned.
+         */
+        unsigned execTo(unsigned iNewFirstNotExec);
+
+        /**
+         * Helper method to undo the commands (if needed) up to
+         * the given position (included).
+         * The previous value of m_firstNotExecuted is returned.
+         */
+        unsigned undoTo(unsigned iNewFirstNotExec);
+
+        /**
+         * Helper method to drop everything (after undoing, if needed),
+         * starting at the given index
+         */
+        void dropFrom(unsigned iFirstToDrop);
+
         template<typename T>
         struct TruePred : public unary_function<T, bool>
         {
