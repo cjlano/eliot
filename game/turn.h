@@ -48,17 +48,28 @@ public:
     void setPlayer(unsigned int iPlayerId)         { m_playerId = iPlayerId; }
     void setPlayedRack(const PlayedRack& iPldRack) { m_pldrack = iPldRack; }
     void setMove(const Move& iMove)             { m_move = iMove; }
+    // Setters for warnings, penalties and solos
+    void addWarning(unsigned iNb = 1) { m_warningsNb += iNb; }
+    void addPenaltyPoints(unsigned iPoints) { m_penaltyPoints += iPoints; }
+    void addSoloPoints(unsigned iPoints) { m_soloPoints += iPoints; }
 
     unsigned int      getPlayer()     const { return m_playerId; }
     const PlayedRack& getPlayedRack() const { return m_pldrack; }
     const Move&       getMove()       const { return m_move; }
+    // Getters for warnings, penalties and solos
+    unsigned getWarningsNb() const { return m_warningsNb; }
+    unsigned getPenaltyPoints() const { return m_penaltyPoints; }
+    unsigned getSoloPoints() const { return m_soloPoints; }
 
-    wstring toString(bool iShowExtraSigns = false) const;
+    wstring toString() const;
 
 private:
     unsigned int m_playerId;
-    PlayedRack   m_pldrack;
-    Move         m_move;
+    PlayedRack m_pldrack;
+    Move m_move;
+    int m_warningsNb;
+    int m_penaltyPoints;
+    int m_soloPoints;
 };
 
 #endif

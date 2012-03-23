@@ -28,6 +28,7 @@
 #include "turn_cmd.h"
 #include "game_rack_cmd.h"
 #include "results.h"
+#include "player_event_cmd.h"
 #include "settings.h"
 #include "encoding.h"
 #include "debug.h"
@@ -90,6 +91,50 @@ Move Arbitration::checkWord(const wstring &iWord,
 }
 
 
+/// Predicate to help retrieving commands
+struct MatchingPlayerAndEventType : public unary_function<PlayerEventCmd, bool>
+{
+    MatchingPlayerAndEventType(unsigned iPlayerId, int iEventType)
+        : m_playerId(iPlayerId), m_eventType(iEventType) {}
+
+    bool operator()(const PlayerEventCmd &cmd)
+    {
+        return cmd.getPlayer().getId() == m_playerId
+            && cmd.getEventType() == m_eventType;
+    }
+
+    const unsigned m_playerId;
+    const int m_eventType;
+};
+
+
+void Arbitration::addWarning(unsigned iPlayerId)
+{
+    ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
+    Command *pCmd = new PlayerEventCmd(*m_players[iPlayerId],
+                                       PlayerEventCmd::WARNING, 0);
+    accessNavigation().insertCommand(pCmd);
+}
+
+
+void Arbitration::removeWarning(unsigned iPlayerId)
+{
+    ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
+    const PlayerEventCmd *cmd = getPlayerEvent(iPlayerId, PlayerEventCmd::WARNING);
+    ASSERT(cmd != 0, "No matching PlayerEventCmd found");
+
+    accessNavigation().dropCommand(*cmd);
+}
+
+
+bool Arbitration::hasWarning(unsigned iPlayerId) const
+{
+    ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
+    const PlayerEventCmd *cmd = getPlayerEvent(iPlayerId, PlayerEventCmd::WARNING);
+    return cmd != 0;
+}
+
+
 void Arbitration::assignMove(unsigned int iPlayerId, const Move &iMove)
 {
     ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
@@ -130,12 +175,21 @@ void Arbitration::undoCurrentRack()
     ASSERT(getNavigation().isLastTurn(),
            "Cannot change rack for an old turn");
 
-    // TODO
-    // Find the PlayerMoveCmd we want to undo
+    // Find the GameRackCmd we want to undo
     const GameRackCmd *cmd =
         getNavigation().getCurrentTurn().findMatchingCmd<GameRackCmd>();
     ASSERT(cmd != 0, "No matching GameRackCmd found");
 
     accessNavigation().dropFrom(*cmd);
+}
+
+
+const PlayerEventCmd * Arbitration::getPlayerEvent(unsigned iPlayerId,
+                                                   int iEventType) const
+{
+    ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
+    MatchingPlayerAndEventType predicate(iPlayerId, iEventType);
+    const TurnCmd &currTurn = getNavigation().getCurrentTurn();
+    return currTurn.findMatchingCmd<PlayerEventCmd>(predicate);
 }
 

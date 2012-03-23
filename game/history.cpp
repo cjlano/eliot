@@ -137,6 +137,30 @@ void History::removeLastTurn()
 }
 
 
+void History::addWarning()
+{
+    m_history.back()->addWarning();
+}
+
+
+void History::removeWarning()
+{
+    m_history.back()->addWarning(-1);
+}
+
+
+void History::addPenaltyPoints(int iPoints)
+{
+    m_history.back()->addPenaltyPoints(iPoints);
+}
+
+
+void History::addSoloPoints(int iPoints)
+{
+    m_history.back()->addSoloPoints(iPoints);
+}
+
+
 wstring History::toString() const
 {
     wstring rs;

@@ -265,7 +265,9 @@ public:
     Move arbitrationCheckWord(const wstring &iWord,
                               const wstring &iCoords) const;
 
-    void arbitrationAssign(unsigned int playerId, const Move &iMove);
+    void arbitrationToggleWarning(unsigned iPlayerId);
+
+    void arbitrationAssign(unsigned playerId, const Move &iMove);
     void arbitrationFinalizeTurn();
 
     /***************

@@ -94,6 +94,13 @@ public:
     /// Remove last turn
     void removeLastTurn();
 
+    void addWarning();
+    void removeWarning();
+
+    void addPenaltyPoints(int iPoints);
+
+    void addSoloPoints(int iPoints);
+
     /// String handling
     wstring toString() const;
 

@@ -275,9 +275,18 @@ Move PublicGame::arbitrationCheckWord(const wstring &iWord,
     return getTypedGame<Arbitration>(m_game).checkWord(iWord, iCoords);
 }
 
-void PublicGame::arbitrationAssign(unsigned int playerId, const Move &iMove)
+void PublicGame::arbitrationToggleWarning(unsigned iPlayerId)
 {
-    getTypedGame<Arbitration>(m_game).assignMove(playerId, iMove);
+    Arbitration &game = getTypedGame<Arbitration>(m_game);
+    if (game.hasWarning(iPlayerId))
+        game.removeWarning(iPlayerId);
+    else
+        game.addWarning(iPlayerId);
+}
+
+void PublicGame::arbitrationAssign(unsigned iPlayerId, const Move &iMove)
+{
+    getTypedGame<Arbitration>(m_game).assignMove(iPlayerId, iMove);
 }
 
 void PublicGame::arbitrationFinalizeTurn()

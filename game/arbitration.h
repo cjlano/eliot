@@ -26,6 +26,7 @@
 
 
 class LimitResults;
+class PlayerEventCmd;
 
 /**
  * This class simply extends the Duplicate game,
@@ -54,6 +55,10 @@ public:
 
     Move checkWord(const wstring &iWord, const wstring &iCoords) const;
 
+    void addWarning(unsigned iPlayerId);
+    void removeWarning(unsigned iPlayerId);
+    bool hasWarning(unsigned iPlayerId) const;
+
     void assignMove(unsigned int iPlayerId, const Move &iMove);
     void finalizeTurn();
 
@@ -63,6 +68,14 @@ private:
 
     /// Undo the current rack, and subsequent commands
     void undoCurrentRack();
+
+    /**
+     * Return the first player event of the given type (for the given player)
+     * in the commands history for the current turn.
+     * If none is found, return 0.
+     */
+    const PlayerEventCmd * getPlayerEvent(unsigned iPlayerId,
+                                          int iEventType) const;
 
 };
 

@@ -35,6 +35,7 @@ libgame_a_SOURCES= \
     turn.cpp turn.h \
     history.cpp history.h \
     player.cpp player.h \
+    player_event_cmd.cpp player_event_cmd.h \
     player_points_cmd.cpp player_points_cmd.h \
     player_move_cmd.cpp player_move_cmd.h \
     player_rack_cmd.cpp player_rack_cmd.h \

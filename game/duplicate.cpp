@@ -41,6 +41,7 @@
 #include "player.h"
 #include "player_move_cmd.h"
 #include "player_rack_cmd.h"
+#include "player_event_cmd.h"
 #include "game_move_cmd.h"
 #include "game_rack_cmd.h"
 #include "mark_played_cmd.h"
@@ -312,9 +313,8 @@ void Duplicate::endTurn()
         {
             // Give the bonus to the player of the best move
             int bonus = Settings::Instance().getInt("duplicate.solo-value");
-            bestPlayer->addPoints(bonus);
-            // TODO: keep a trace of the solo, so the interface
-            // can be aware of it...
+            Command *pCmd = new PlayerEventCmd(*bestPlayer, PlayerEventCmd::SOLO, bonus);
+            accessNavigation().addAndExecute(pCmd);
         }
     }
 
