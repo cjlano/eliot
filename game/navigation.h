@@ -74,6 +74,18 @@ class Navigation
         void dropFrom(const Command &iCmd);
 
         /**
+         * Remove the given command from the current turn
+         * (only if it is an insertable and non auto-executable command)
+         */
+        void dropCommand(const Command &iCmd);
+
+        /**
+         * Insert the given command in the current turn, before the first NAEC
+         * (only if it is an insertable and non auto-executable command)
+         */
+        void insertCommand(Command *iCmd);
+
+        /**
          * Replace one existing command (for the current turn) with another one
          * (of the same type).
          */

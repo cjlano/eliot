@@ -199,7 +199,20 @@ void Navigation::clearFuture()
 
 void Navigation::dropFrom(const Command &iCmd)
 {
+    ASSERT(isLastTurn(), "Only possible in the last turn");
     m_turnCommands.back()->dropFrom(iCmd);
+}
+
+
+void Navigation::dropCommand(const Command &iCmd)
+{
+    m_turnCommands[m_currTurn]->dropCommand(iCmd);
+}
+
+
+void Navigation::insertCommand(Command *iCmd)
+{
+    m_turnCommands[m_currTurn]->insertCommand(iCmd);
 }
 
 

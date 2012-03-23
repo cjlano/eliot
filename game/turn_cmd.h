@@ -112,6 +112,15 @@ class TurnCmd
         /// Drop (and undo if needed) all the commands, starting with the given one. Use it with care...
         void dropFrom(const Command &iCmd);
 
+        /// Drop an insertable command. Use it with care...
+        void dropCommand(const Command &iCmd);
+
+        /**
+         * Insert the given command before the first NAEC (or at the end if
+         * there is no NAEC). The command must be flagged insertable and NAEC.
+         */
+        void insertCommand(Command *iCmd);
+
         /**
          * Replace the first command with the second one.
          * The TurnCmd object takes ownership of the given Command.
@@ -165,6 +174,11 @@ class TurnCmd
          * or m_commands.size() if not found
          */
         unsigned findIndex(const Command &iCmd) const;
+
+        /**
+         * or m_commands.size() if not found
+         */
+        unsigned findIndexFirstNaec() const;
 
         template<typename T>
         struct TruePred : public unary_function<T, bool>

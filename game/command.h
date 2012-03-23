@@ -76,6 +76,13 @@ class Command
         virtual bool isHumanIndependent() const { return m_humanIndependent; }
 
         /**
+         * Return true if the command can be inserted safely between existing
+         * commands. This is mostly useful for player events, such as warnings,
+         * solos and penalties.
+         */
+        virtual bool isInsertable() const { return false; }
+
+        /**
          * Description of the command, for debugging purposes
          */
         virtual wstring toString() const = 0;

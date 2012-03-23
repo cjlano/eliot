@@ -134,6 +134,82 @@ void TurnCmd::dropFrom(const Command &iCmd)
 }
 
 
+void TurnCmd::dropCommand(const Command &iCmd)
+{
+    ASSERT(iCmd.isInsertable(), "Only insertable commands can be dropped");
+    ASSERT(iCmd.isAutoExecutable(), "Non auto-executable commands cannot be dropped");
+
+    // Find the command index
+    unsigned idx = findIndex(iCmd);
+    ASSERT(idx != m_commands.size(), "Cannot find command to drop");
+
+    LOG_DEBUG("Dropping single command");
+
+    // Save the execution status
+    unsigned tmpIdx = m_firstNotExecuted;
+
+    // Undo commands after the interesting one (included)
+    while (tmpIdx > idx)
+    {
+        --tmpIdx;
+        m_commands[tmpIdx]->undo();
+    }
+    ASSERT(!iCmd.isExecuted(), "Logic error");
+
+    // Drop the command
+    delete m_commands[idx];
+    m_commands.erase(m_commands.begin() + idx);
+
+    // We have deleted one command, so the index should be decreased
+    --m_firstNotExecuted;
+
+    // Re-execute the commands
+    while (tmpIdx != m_firstNotExecuted)
+    {
+        m_commands[tmpIdx]->execute();
+        ++tmpIdx;
+    }
+}
+
+
+void TurnCmd::insertCommand(Command *iCmd)
+{
+    ASSERT(iCmd->isInsertable(), "Only insertable commands can be inserted");
+    ASSERT(iCmd->isAutoExecutable(), "Non auto-executable commands cannot be inserted");
+
+    // Find the insertion index
+    unsigned idx = findIndexFirstNaec();
+
+    LOG_DEBUG("Inserting command");
+
+    // Save the execution status
+    unsigned tmpIdx = m_firstNotExecuted;
+
+    // Undo commands after the interesting one (included)
+    while (tmpIdx > idx)
+    {
+        --tmpIdx;
+        m_commands[tmpIdx]->undo();
+    }
+
+    // Insert the command (possibly at the end, if there is no NAEC)
+    if (idx == m_commands.size())
+        m_commands.push_back(iCmd);
+    else
+        m_commands.insert(m_commands.begin() + idx, iCmd);
+
+    // We have inserted one command, so the index should be increased
+    ++m_firstNotExecuted;
+
+    // Re-execute the commands
+    while (tmpIdx != m_firstNotExecuted)
+    {
+        m_commands[tmpIdx]->execute();
+        ++tmpIdx;
+    }
+}
+
+
 void TurnCmd::replaceCommand(const Command &iOldCmd,
                              Command *iNewCmd)
 {
@@ -191,12 +267,7 @@ bool TurnCmd::isNotAtAllExecuted() const
 
 bool TurnCmd::hasNonAutoExecCmd() const
 {
-    BOOST_FOREACH(Command *cmd, m_commands)
-    {
-        if (!cmd->isAutoExecutable())
-            return true;
-    }
-    return false;
+    return findIndexFirstNaec() != m_commands.size();
 }
 
 
@@ -216,6 +287,17 @@ unsigned TurnCmd::findIndex(const Command &iCmd) const
     for (unsigned i = 0; i < m_commands.size(); ++i)
     {
         if (m_commands[i] == &iCmd)
+            return i;
+    }
+    return m_commands.size();
+}
+
+
+unsigned TurnCmd::findIndexFirstNaec() const
+{
+    for (unsigned i = 0; i < m_commands.size(); ++i)
+    {
+        if (!m_commands[i]->isAutoExecutable())
             return i;
     }
     return m_commands.size();
