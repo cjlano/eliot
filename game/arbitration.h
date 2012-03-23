@@ -59,6 +59,9 @@ public:
     void removeWarning(unsigned iPlayerId);
     bool hasWarning(unsigned iPlayerId) const;
 
+    void addPenalty(unsigned iPlayerId, int iPoints);
+    int getPenalty(unsigned iPlayerId) const;
+
     void assignMove(unsigned int iPlayerId, const Move &iMove);
     void finalizeTurn();
 

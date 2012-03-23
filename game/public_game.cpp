@@ -263,6 +263,7 @@ void PublicGame::arbitrationSetRackManual(const wstring &iLetters)
     getTypedGame<Arbitration>(m_game).setRackManual(iLetters);
 }
 
+
 void PublicGame::arbitrationSearch(LimitResults &oResults)
 {
     return getTypedGame<Arbitration>(m_game).search(oResults);
@@ -275,6 +276,7 @@ Move PublicGame::arbitrationCheckWord(const wstring &iWord,
     return getTypedGame<Arbitration>(m_game).checkWord(iWord, iCoords);
 }
 
+
 void PublicGame::arbitrationToggleWarning(unsigned iPlayerId)
 {
     Arbitration &game = getTypedGame<Arbitration>(m_game);
@@ -284,10 +286,31 @@ void PublicGame::arbitrationToggleWarning(unsigned iPlayerId)
         game.addWarning(iPlayerId);
 }
 
+
+bool PublicGame::arbitrationHasWarning(unsigned iPlayerId) const
+{
+    return getTypedGame<Arbitration>(m_game).hasWarning(iPlayerId);
+}
+
+
+void PublicGame::arbitrationAddPenalty(unsigned iPlayerId, int iPoints)
+{
+    Arbitration &game = getTypedGame<Arbitration>(m_game);
+    game.addPenalty(iPlayerId, iPoints);
+}
+
+
+int PublicGame::arbitrationGetPenalty(unsigned iPlayerId) const
+{
+    return getTypedGame<Arbitration>(m_game).getPenalty(iPlayerId);
+}
+
+
 void PublicGame::arbitrationAssign(unsigned iPlayerId, const Move &iMove)
 {
     getTypedGame<Arbitration>(m_game).assignMove(iPlayerId, iMove);
 }
+
 
 void PublicGame::arbitrationFinalizeTurn()
 {

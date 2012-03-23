@@ -135,6 +135,45 @@ bool Arbitration::hasWarning(unsigned iPlayerId) const
 }
 
 
+void Arbitration::addPenalty(unsigned iPlayerId, int iPoints)
+{
+    ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
+
+    if (iPoints == 0)
+    {
+        // Retrieve the default value of the penalty
+        iPoints = Settings::Instance().getInt("arbitration.default-penalty");
+    }
+    LOG_INFO("Giving a penalty of " << iPoints << " to player " << iPlayerId);
+
+    // If an existing penalty exists, merge it with the new one
+    const PlayerEventCmd *cmd = getPlayerEvent(iPlayerId, PlayerEventCmd::PENALTY);
+    if (cmd == 0)
+    {
+        Command *pCmd = new PlayerEventCmd(*m_players[iPlayerId],
+                                           PlayerEventCmd::PENALTY, iPoints);
+        accessNavigation().insertCommand(pCmd);
+    }
+    else
+    {
+        Command *pCmd = new PlayerEventCmd(*m_players[iPlayerId],
+                                           PlayerEventCmd::PENALTY,
+                                           iPoints + cmd->getPoints());
+        accessNavigation().replaceCommand(*cmd, pCmd);
+    }
+}
+
+
+int Arbitration::getPenalty(unsigned iPlayerId) const
+{
+    ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
+    const PlayerEventCmd *cmd = getPlayerEvent(iPlayerId, PlayerEventCmd::PENALTY);
+    if (cmd == 0)
+        return 0;
+    return cmd->getPoints();
+}
+
+
 void Arbitration::assignMove(unsigned int iPlayerId, const Move &iMove)
 {
     ASSERT(iPlayerId < getNPlayers(), "Wrong player number");

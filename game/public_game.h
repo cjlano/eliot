@@ -266,6 +266,10 @@ public:
                               const wstring &iCoords) const;
 
     void arbitrationToggleWarning(unsigned iPlayerId);
+    bool arbitrationHasWarning(unsigned iPlayerId) const;
+
+    void arbitrationAddPenalty(unsigned iPlayerId, int iPoints);
+    int arbitrationGetPenalty(unsigned iPlayer) const;
 
     void arbitrationAssign(unsigned playerId, const Move &iMove);
     void arbitrationFinalizeTurn();

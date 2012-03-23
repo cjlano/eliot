@@ -180,6 +180,9 @@ Settings::Settings()
     // ============== Arbitration mode options ==============
     Setting &arbitration = m_conf->getRoot().add("arbitration", Setting::TypeGroup);
 
+    // Default value of a penalty
+    arbitration.add("default-penalty", Setting::TypeInt) = 5;
+
     // Number of search results kept in a search
     arbitration.add("search-limit", Setting::TypeInt) = 100;
 
@@ -197,6 +200,7 @@ Settings::Settings()
         copySetting<bool>(tmpConf, *m_conf, "duplicate.reject-invalid");
         copySetting<bool>(tmpConf, *m_conf, "freegame.reject-invalid");
         copySetting<int>(tmpConf, *m_conf, "arbitration.search-limit");
+        copySetting<int>(tmpConf, *m_conf, "arbitration.default-penalty");
     }
     catch (...)
     {
@@ -281,6 +285,8 @@ int Settings::getInt(const string &iName) const
         return 10;
     else if (iName == "arbitration.search-limit")
         return 100;
+    else if (iName == "arbitration.default-penalty")
+        return 5;
     return 0;
 #endif
 }
