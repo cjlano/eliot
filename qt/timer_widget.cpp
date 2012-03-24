@@ -29,12 +29,12 @@ INIT_LOGGER(qt, TimerWidget);
 
 
 TimerModel::TimerModel(int iTotalDuration, int iAlertDuration)
+    : m_totalDuration(0), m_alertDuration(0), m_remaining(m_totalDuration)
 {
     m_timer = new QTimer(this);
 
     setTotalDuration(iTotalDuration);
     setAlertDuration(iAlertDuration);
-    m_remaining = m_totalDuration;
     m_alertTriggered = false;
 
     QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(updateTime()));
