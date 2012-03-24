@@ -121,6 +121,7 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         bool linkArbit7P1 = qs.value(kARBIT_LINK_7P1, false).toBool();
         checkBoxArbitLink7P1->setChecked(linkArbit7P1);
         spinBoxArbitSearchLimit->setValue(Settings::Instance().getInt("arbitration.search-limit"));
+        spinBoxArbitDefPenalty->setValue(Settings::Instance().getInt("arbitration.default-penalty"));
     }
     catch (GameException &e)
     {
@@ -222,6 +223,8 @@ void PrefsDialog::updateSettings()
         }
         Settings::Instance().setInt("arbitration.search-limit",
                                     spinBoxArbitSearchLimit->value());
+        Settings::Instance().setInt("arbitration.default-penalty",
+                                    spinBoxArbitDefPenalty->value());
     }
     catch (GameException &e)
     {

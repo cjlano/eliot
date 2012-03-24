@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>443</width>
-    <height>756</height>
+    <height>789</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -352,25 +352,15 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
          <widget class="QLabel" name="label_9">
           <property name="text">
            <string>_(&quot;Search results limit:&quot;)</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QSpinBox" name="spinBoxArbitSearchLimit">
-          <property name="maximum">
-           <number>100000</number>
-          </property>
-          <property name="value">
-           <number>100</number>
-          </property>
-         </widget>
-        </item>
-        <item>
+        <item row="0" column="2">
          <spacer name="horizontalSpacer_3">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -382,6 +372,36 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="spinBoxArbitSearchLimit">
+          <property name="maximum">
+           <number>100000</number>
+          </property>
+          <property name="value">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>_(&quot;Default penalty value:&quot;)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="spinBoxArbitDefPenalty">
+          <property name="toolTip">
+           <string>_(&quot;Default number of points for a penalty&quot;)</string>
+          </property>
+          <property name="maximum">
+           <number>100000</number>
+          </property>
+          <property name="value">
+           <number>5</number>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -418,7 +438,6 @@
   <tabstop>spinBoxTrainSearchLimit</tabstop>
   <tabstop>checkBoxArbitAutoMaster</tabstop>
   <tabstop>checkBoxArbitLink7P1</tabstop>
-  <tabstop>spinBoxArbitSearchLimit</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
@@ -430,8 +449,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>619</y>
+     <x>266</x>
+     <y>746</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -446,8 +465,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>619</y>
+     <x>334</x>
+     <y>746</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

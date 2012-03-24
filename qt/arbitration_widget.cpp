@@ -108,6 +108,16 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
                      this, SLOT(assignTopMove()));
     treeViewPlayers->installEventFilter(filter);
 
+    filter = new KeyEventFilter(this, Qt::Key_W);
+    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
+                     this, SLOT(addRemoveWarning()));
+    treeViewPlayers->installEventFilter(filter);
+
+    filter = new KeyEventFilter(this, Qt::Key_P);
+    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
+                     this, SLOT(addPenalty()));
+    treeViewPlayers->installEventFilter(filter);
+
     // Associate a model to the results view.
     // We use a proxy, to enable easy sorting/filtering of the results.
     m_proxyResultsModel = new QSortFilterProxyModel(this);
@@ -654,13 +664,28 @@ void ArbitrationWidget::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
     }
 
     // Action to assign the top move
-    QAction *assignTopMoveAction =
-        new QAction(_q("Assign top move"), this);
+    QAction *assignTopMoveAction = new QAction(_q("Assign top move"), this);
     assignTopMoveAction->setStatusTip(_q("Assign the top move (if unique) to the selected player(s)"));
     assignTopMoveAction->setShortcut(Qt::Key_T);
     QObject::connect(assignTopMoveAction, SIGNAL(triggered()),
                      this, SLOT(assignTopMove()));
     iMenu.addAction(assignTopMoveAction);
+
+    // Action to warn (or "unwarn") players
+    QAction *warningAction = new QAction(_q("Give (or remove) a warning"), this);
+    warningAction->setStatusTip(_q("Give a warning to the selected player(s), or remove it if they already have one"));
+    warningAction->setShortcut(Qt::Key_W);
+    QObject::connect(warningAction, SIGNAL(triggered()),
+                     this, SLOT(addRemoveWarning()));
+    iMenu.addAction(warningAction);
+
+    // Action to give a penalty to players
+    QAction *penaltyAction = new QAction(_q("Give a penalty"), this);
+    penaltyAction->setStatusTip(_q("Give a penalty to the selected player(s)"));
+    penaltyAction->setShortcut(Qt::Key_P);
+    QObject::connect(penaltyAction, SIGNAL(triggered()),
+                     this, SLOT(addPenalty()));
+    iMenu.addAction(penaltyAction);
 
     // TODO: add other actions
 }
@@ -1023,6 +1048,34 @@ void ArbitrationWidget::helperAssignMove(const Move &iMove)
         m_game->arbitrationAssign(id, iMove);
     }
     emit notifyInfo(_q("Move assigned to player(s)"));
+    emit gameUpdated();
+}
+
+
+void ArbitrationWidget::addRemoveWarning()
+{
+    QSet<unsigned int> playersIdSet = getSelectedPlayers();
+    if (playersIdSet.isEmpty())
+        return;
+
+    BOOST_FOREACH(unsigned int id, playersIdSet)
+    {
+        m_game->arbitrationToggleWarning(id);
+    }
+    emit gameUpdated();
+}
+
+
+void ArbitrationWidget::addPenalty()
+{
+    QSet<unsigned int> playersIdSet = getSelectedPlayers();
+    if (playersIdSet.isEmpty())
+        return;
+
+    BOOST_FOREACH(unsigned int id, playersIdSet)
+    {
+        m_game->arbitrationAddPenalty(id, 0);
+    }
     emit gameUpdated();
 }
 

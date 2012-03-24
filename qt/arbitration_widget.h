@@ -80,6 +80,8 @@ private slots:
     void assignSelectedMove();
     void assignTopMove();
     void assignNoMove();
+    void addRemoveWarning();
+    void addPenalty();
     void endTurn();
 
 private:
