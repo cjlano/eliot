@@ -45,6 +45,7 @@ EXTRA_DIST = \
     ui/dic_wizard_letters_def_page.ui \
     ui/dic_wizard_conclusion_page.ui \
     ui/arbitration_widget.ui \
+    ui/arbit_assignments.ui \
     ui/bag_widget.ui \
     ui/main_window.ui \
     ui/new_game.ui \
@@ -67,6 +68,7 @@ eliot_SOURCES = \
     misc_helpers.cpp misc_helpers.h \
     custom_popup.cpp custom_popup.h \
     arbitration_widget.cpp arbitration_widget.h \
+    arbit_assignments.cpp arbit_assignments.h \
     bag_widget.cpp bag_widget.h \
     bag_widget2.cpp bag_widget2.h \
     dic_tools_widget.cpp dic_tools_widget.h \
@@ -88,6 +90,7 @@ eliot_SOURCES = \
 nodist_eliot_SOURCES = \
     ui/main_window.ui.h \
     ui/arbitration_widget.ui.h \
+    ui/arbit_assignments.ui.h \
     ui/bag_widget.ui.h \
     ui/new_game.ui.h \
     ui/player_widget.ui.h \
@@ -110,6 +113,7 @@ nodist_eliot_SOURCES = \
     new_game.moc.cpp \
     dic_tools_widget.moc.cpp \
     arbitration_widget.moc.cpp \
+    arbit_assignments.moc.cpp \
     bag_widget.moc.cpp \
     bag_widget2.moc.cpp \
     score_widget.moc.cpp \

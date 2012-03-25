@@ -29,6 +29,7 @@
 #include "logging.h"
 
 class PublicGame;
+class ArbitAssignments;
 class CoordModel;
 class CustomPopup;
 class KeyAccumulator;
@@ -36,7 +37,6 @@ class QStandardItemModel;
 class QSortFilterProxyModel;
 class QMenu;
 class QPoint;
-class QKeyEvent;
 
 class ArbitrationWidget: public QWidget, private Ui::ArbitrationWidget
 {
@@ -62,31 +62,23 @@ private slots:
     void setRackRandom();
     void rackEdited(const QString &);
     void on_buttonSearch_clicked();
-    void on_checkBoxHideAssigned_toggled(bool);
     void resultsFilterChanged(const QString &);
     void enableCheckWordButton();
-    void enableAssignmentButtons();
+    void checkWord();
     void clearResults();
+    void updateSelectedMove();
     void showPreview(const QItemSelection &);
-    void showMasterPreview();
     void updateCoordText(const Coord&, const Coord&);
     void updateCoordModel(const QString&);
     void populateResultsMenu(QMenu &iMenu, const QPoint &iPoint);
-    void populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint);
-    void checkWord();
     void selectTableNumber(int key);
-    void assignMasterMove();
-    void assignDefaultMasterMove();
-    void assignSelectedMove();
-    void assignTopMove();
-    void assignNoMove();
-    void addRemoveWarning();
-    void addPenalty();
-    void endTurn();
 
 private:
     /// Encapsulated game, can be NULL
     PublicGame *m_game;
+
+    /// Assignments widget (right part of the splitter)
+    ArbitAssignments * m_assignmentsWidget;
 
     /// Coordinates of the next word to play
     CoordModel &m_coordModel;
@@ -98,11 +90,6 @@ private:
     QStandardItemModel *m_resultsModel;
     /// Proxy for the results model
     QSortFilterProxyModel *m_proxyResultsModel;
-
-    /// Model for the players list
-    QStandardItemModel *m_playersModel;
-    /// Proxy for the players model
-    QSortFilterProxyModel *m_proxyPlayersModel;
 
     /// Popup menu for the search results
     CustomPopup *m_resultsPopup;
@@ -121,8 +108,6 @@ private:
 
     /// Force synchronizing the model with the search results
     void updateResultsModel();
-    /// Force synchronizing the model with the players
-    void updatePlayersModel();
 
     /**
      * Add the given move to the results list.
@@ -139,11 +124,6 @@ private:
 
     /// Helper method to return a structured move for the selected result
     Move getSelectedMove() const;
-    /// Helper method to return the ID of the selected player(s)
-    QSet<unsigned int> getSelectedPlayers() const;
-
-    /// Helper method to assign the given move to the selected player(s)
-    void helperAssignMove(const Move &iMove);
 
     /// Format the given move under the format WORD - Ref - Pts
     QString formatMove(const Move &iMove) const;
