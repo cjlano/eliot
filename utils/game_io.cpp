@@ -215,7 +215,7 @@ void GameIO::printNonPlayed(ostream &out, const PublicGame &iGame)
 
 void GameIO::printPlayedRack(ostream &out, const PublicGame &iGame, int __UNUSED__ n)
 {
-    out << lfw(iGame.getHistory().getCurrentRack().toString(PlayedRack::RACK_SIMPLE)) << endl;
+    out << lfw(iGame.getCurrentRack().toString(PlayedRack::RACK_SIMPLE)) << endl;
 }
 
 

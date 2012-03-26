@@ -197,7 +197,7 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
 
 void ArbitrationWidget::refresh()
 {
-    const PlayedRack &pldRack = m_game->getHistory().getCurrentRack();
+    const PlayedRack &pldRack = m_game->getCurrentRack();
     // Update the rack only if needed, to avoid losing cursor position
     QString qrack = qfw(pldRack.toString(PlayedRack::RACK_SIMPLE));
     if (qrack != lineEditRack->text()) {
@@ -369,7 +369,7 @@ void ArbitrationWidget::rackEdited(const QString &iText)
         if (!QtCommon::requestConfirmation(msg, question))
         {
             // Restore the rack (visually)
-            const PlayedRack &pldRack = m_game->getHistory().getCurrentRack();
+            const PlayedRack &pldRack = m_game->getCurrentRack();
             QString qrack = qfw(pldRack.toString(PlayedRack::RACK_SIMPLE));
             lineEditRack->setText(qrack);
 
@@ -632,18 +632,13 @@ void ArbitrationWidget::showPreview(const QItemSelection &iSelected)
 }
 
 
-Rack ArbitrationWidget::getRack() const
-{
-    return m_game->getHistory().getCurrentRack().getRack();
-}
-
-
 int ArbitrationWidget::getBestScore() const
 {
     // Note: we could cache the result of this method
     BestResults results;
     results.search(m_game->getDic(), m_game->getBoard(),
-                   getRack(), m_game->getHistory().beforeFirstRound());
+                   m_game->getCurrentRack().getRack(),
+                   m_game->getHistory().beforeFirstRound());
     ASSERT(results.size() != 0, "No possible valid move");
     return results.get(0).getPoints();
 }

@@ -346,12 +346,6 @@ void ArbitAssignments::showMasterPreview()
 }
 
 
-Rack ArbitAssignments::getRack() const
-{
-    return m_game->getHistory().getCurrentRack().getRack();
-}
-
-
 void ArbitAssignments::assignMasterMove()
 {
     if (m_game->isFinished())
@@ -377,7 +371,8 @@ void ArbitAssignments::assignMasterMove()
     // Warn if the selected move is not a top move
     BestResults results;
     results.search(m_game->getDic(), m_game->getBoard(),
-                   getRack(), m_game->getHistory().beforeFirstRound());
+                   m_game->getCurrentRack().getRack(),
+                   m_game->getHistory().beforeFirstRound());
     ASSERT(results.size() != 0, "No possible valid move");
     int bestScore = results.get(0).getPoints();
     if (bestScore > move.getScore())
@@ -427,7 +422,8 @@ void ArbitAssignments::assignDefaultMasterMove()
     // Search the best moves
     BestResults results;
     results.search(m_game->getDic(), m_game->getBoard(),
-                   getRack(), m_game->getHistory().beforeFirstRound());
+                   m_game->getCurrentRack().getRack(),
+                   m_game->getHistory().beforeFirstRound());
     // XXX: End of game
     if (results.size() == 0)
         return;
@@ -468,7 +464,8 @@ void ArbitAssignments::assignTopMove()
 {
     BestResults results;
     results.search(m_game->getDic(), m_game->getBoard(),
-                   getRack(), m_game->getHistory().beforeFirstRound());
+                   m_game->getCurrentRack().getRack(),
+                   m_game->getHistory().beforeFirstRound());
     // TODO: what if there are several moves?
     if (results.size() == 1)
         helperAssignMove(Move(results.get(0)));

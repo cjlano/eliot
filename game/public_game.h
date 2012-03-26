@@ -35,6 +35,7 @@ class Round;
 class Results;
 class LimitResults;
 class Move;
+class PlayedRack;
 
 using namespace std;
 
@@ -91,6 +92,8 @@ public:
     const Board& getBoard() const;
     /// Get the bag
     const Bag& getBag() const;
+    /// Get the rack
+    const PlayedRack & getCurrentRack() const;
 
     /// Get the history of the game */
     const History& getHistory() const;

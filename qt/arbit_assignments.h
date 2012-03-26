@@ -93,10 +93,6 @@ private:
     /// Force synchronizing the model with the players
     void updatePlayersModel();
 
-    /// Return the rack for the current turn
-    // FIXME: this feature should be provided by the core
-    Rack getRack() const;
-
     /// Helper method to return the ID of the selected player(s)
     QSet<unsigned int> getSelectedPlayers() const;
 

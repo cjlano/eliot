@@ -116,10 +116,6 @@ private:
     int addSingleMove(const Move &iMove, int moveType,
                       unsigned int index, int bestScore);
 
-    /// Return the rack for the current turn
-    // FIXME: this feature should be provided by the core
-    Rack getRack() const;
-
     int getBestScore() const;
 
     /// Helper method to return a structured move for the selected result

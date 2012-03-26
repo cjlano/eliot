@@ -117,7 +117,7 @@ void BagWidget2::refresh()
         m_tilesVect.push_back(tileWidget);
     }
 
-    const Rack &rack = m_game->getHistory().getCurrentRack().getRack();
+    const Rack &rack = m_game->getCurrentRack().getRack();
     TileWidget::State previewState =
         m_showTilesInRack ? TileWidget::PREVIEW : TileWidget::NORMAL;
 

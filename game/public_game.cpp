@@ -29,6 +29,7 @@
 #include "game_exception.h"
 #include "xml_writer.h"
 #include "player.h"
+#include "pldrack.h"
 
 
 PublicGame::PublicGame(Game &iGame)
@@ -77,6 +78,12 @@ const Board& PublicGame::getBoard() const
 const Bag& PublicGame::getBag() const
 {
     return m_game.getBag();
+}
+
+
+const PlayedRack& PublicGame::getCurrentRack() const
+{
+    return m_game.getHistory().getCurrentRack();
 }
 
 
