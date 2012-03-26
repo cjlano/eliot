@@ -6,11 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>761</width>
-    <height>312</height>
+    <width>440</width>
+    <height>330</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_7">
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QSplitter" name="splitter">
      <property name="orientation">
@@ -163,16 +166,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>lineEditRack</tabstop>
-  <tabstop>buttonRandom</tabstop>
-  <tabstop>buttonSearch</tabstop>
-  <tabstop>lineEditFilter</tabstop>
-  <tabstop>treeViewResults</tabstop>
-  <tabstop>lineEditWord</tabstop>
-  <tabstop>lineEditCoords</tabstop>
-  <tabstop>buttonCheck</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>
