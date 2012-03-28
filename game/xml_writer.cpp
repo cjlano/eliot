@@ -116,7 +116,14 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
     else
         throw SaveGameException("Invalid dictionary type");
     out << "</Type>" << endl;
-    out << indent << "<Letters>" << toUtf8(header.getLetters()) << "</Letters>" << endl;
+    // Retrieve the dictionary letters, ans separate them with spaces
+    wstring lettersWithSpaces = header.getLetters();
+    for (size_t i = lettersWithSpaces.size() - 1; i > 0; --i)
+        lettersWithSpaces.insert(i, 1, L' ');
+    // Convert to a display string
+    const wstring &displayLetters =
+        iGame.getDic().convertToDisplay(lettersWithSpaces);
+    out << indent << "<Letters>" << toUtf8(displayLetters) << "</Letters>" << endl;
     out << indent << "<WordNb>" << header.getNbWords() << "</WordNb>" << endl;
     removeIndent(indent);
     out << indent << "</Dictionary>" << endl;

@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #include <fstream>
+#include <algorithm>
 #include <SAX/XMLReader.hpp>
 #include <SAX/InputSource.hpp>
 
@@ -202,7 +203,13 @@ void XmlReader::endElement(const string& namespaceURI,
     {
         if (tag == "Letters")
         {
-            if (m_dic.getHeader().getLetters() != fromUtf8(m_data))
+            const wdstring & displayLetters = m_dic.convertToDisplay(m_dic.getHeader().getLetters());
+            // Remove spaces
+            string::iterator it;
+            it = remove(m_data.begin(), m_data.end(), L' ');
+            m_data.erase(it, m_data.end());
+            // Compare
+            if (displayLetters != fromUtf8(m_data))
                 throw LoadGameException("The current dictionary is different from the one used in the saved game");
         }
         else if (tag == "WordNb")
