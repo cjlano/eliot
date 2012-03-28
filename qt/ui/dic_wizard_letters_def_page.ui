@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
-    <height>501</height>
+    <width>546</width>
+    <height>497</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -42,6 +42,19 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonLoadFromDic">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>_(&quot;Use the values for the current dictionary for all the letters below (unknown letters will be ignored)&quot;)</string>
+       </property>
+       <property name="text">
+        <string>_(&quot;Use values from current dictionary&quot;)</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

@@ -23,7 +23,6 @@
 #include <QtGui/QHeaderView>
 #include <QtGui/QFileDialog>
 #include <QtGui/QStandardItemModel>
-#include <QtGui/QMessageBox>
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QSet>
@@ -34,7 +33,11 @@
 #include "dic_wizard.h"
 #include "qtcommon.h"
 #include "compdic.h"
+
+#include "dic.h"
+#include "header.h"
 #include "dic_exception.h"
+#include "debug.h"
 
 using namespace std;
 
@@ -47,7 +50,8 @@ INIT_LOGGER(qt, WizardConclusionPage);
 
 // ---------- WizardInfoPage ----------
 
-WizardInfoPage::WizardInfoPage(QWidget *parent) : QWizardPage(parent)
+WizardInfoPage::WizardInfoPage(QWidget *parent)
+    : QWizardPage(parent)
 {
     setupUi(this);
 
@@ -154,10 +158,7 @@ bool WizardInfoPage::validatePage()
             QString letterMsg = "\n\t" + _q("'%1' (ASCII code %2) at line %3");
             msg += letterMsg.arg(ch).arg((int)ch.toAscii()).arg(lettersWithLine[ch]);
         }
-        QMessageBox errorBox(QMessageBox::Critical, _q("Eliot"), msg,
-                             QMessageBox::Ok);
-        errorBox.setInformativeText(_q("Please correct the word list."));
-        errorBox.exec();
+        emit notifyProblem(msg + "\n\n" + _q("Please correct the word list."));
         return false;
     }
 
@@ -165,10 +166,7 @@ bool WizardInfoPage::validatePage()
     if (words.size() != lineNb - 1)
     {
         QString msg = _q("The word list contains duplicate entries.");
-        QMessageBox errorBox(QMessageBox::Critical, _q("Eliot"), msg,
-                             QMessageBox::Ok);
-        errorBox.setInformativeText(_q("Please correct the word list."));
-        errorBox.exec();
+        emit notifyProblem(msg + "\n\n" + _q("Please correct the word list."));
         return false;
     }
 
@@ -200,7 +198,8 @@ void WizardInfoPage::onBrowseWordListClicked()
 
 // ---------- WizardLettersDefPage ----------
 
-WizardLettersDefPage::WizardLettersDefPage(QWidget *parent) : QWizardPage(parent)
+WizardLettersDefPage::WizardLettersDefPage(const Dictionary *iCurrDic, QWidget *parent)
+    : QWizardPage(parent), m_currDic(iCurrDic)
 {
     setupUi(this);
 
@@ -228,6 +227,9 @@ WizardLettersDefPage::WizardLettersDefPage(QWidget *parent) : QWizardPage(parent
 
     connect(buttonLoadLetters, SIGNAL(clicked(bool)),
             this, SLOT(loadLettersFromWordList()));
+
+    connect(buttonLoadFromDic, SIGNAL(clicked(bool)),
+            this, SLOT(loadValuesFromDic()));
 }
 
 
@@ -291,6 +293,48 @@ void WizardLettersDefPage::loadLettersFromWordList()
             m_model->item(i, j)->setTextAlignment(Qt::AlignCenter);
         }
     }
+
+    // Enable the second button only if there is a valid dictionary
+    buttonLoadFromDic->setEnabled(m_currDic != 0);
+}
+
+
+void WizardLettersDefPage::loadValuesFromDic()
+{
+    ASSERT(m_currDic != 0, "No current dictionary");
+    const Header &header = m_currDic->getHeader();
+    bool unknown = false;
+    for (int rowNum = 0; rowNum < m_model->rowCount(); ++rowNum)
+    {
+        wstring letter = wfq(m_model->data(m_model->index(rowNum, 0)).toString());
+        if (letter.size() != 1)
+            continue;
+        try
+        {
+            unsigned code = header.getCodeFromChar(letter[0]);
+            m_model->setData(m_model->index(rowNum, 1),
+                             header.getPoints(code));
+            m_model->setData(m_model->index(rowNum, 2),
+                             header.getFrequency(code));
+            m_model->setData(m_model->index(rowNum, 3),
+                             header.isVowel(code));
+            m_model->setData(m_model->index(rowNum, 4),
+                             header.isConsonant(code));
+        }
+        catch (const DicException &e)
+        {
+            unknown = true;
+            // The current letter is probably not known in the current
+            // dictionary. Simply ignore it.
+            continue;
+        }
+    }
+
+    if (unknown)
+    {
+        emit notifyProblem(_q("Some letters were not found in the current dictionary.\n"
+                              "Please complete the values manually."));
+    }
 }
 
 
@@ -322,14 +366,22 @@ void WizardConclusionPage::initializePage()
 
 // ---------- DicWizard ----------
 
-DicWizard::DicWizard(QWidget *parent)
+DicWizard::DicWizard(QWidget *parent, const Dictionary *iCurrDic)
     : QWizard(parent)
 {
     setOption(QWizard::IndependentPages);
     setModal(true);
 
-    addPage(new WizardInfoPage);
-    m_lettersPageId = addPage(new WizardLettersDefPage());
+    QWizardPage *page = new WizardInfoPage;
+    QObject::connect(page, SIGNAL(notifyProblem(QString)),
+                     this, SIGNAL(notifyProblem(QString)));
+    addPage(page);
+
+    page = new WizardLettersDefPage(iCurrDic);
+    QObject::connect(page, SIGNAL(notifyProblem(QString)),
+                     this, SIGNAL(notifyProblem(QString)));
+    m_lettersPageId = addPage(page);
+
     addPage(new WizardConclusionPage());
 }
 
@@ -365,11 +417,11 @@ void DicWizard::accept()
     }
     catch (std::exception &e)
     {
-        QMessageBox::warning(this, _q("Eliot - Error"), e.what());
+        emit notifyProblem(_q("Could not create dictionary:") + "\n" + e.what());
         return;
     }
 
-    emit infoMsg(_q("Dictionary successfully created"));
+    emit notifyInfo(_q("Dictionary successfully created"));
 
     bool shouldLoad = field("loadDic").toBool();
     if (shouldLoad)

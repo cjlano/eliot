@@ -34,6 +34,7 @@ class QStandardItemModel;
 class QItemSelection;
 class QStyleOptionViewItem;
 class QModelIndex;
+class Dictionary;
 
 class DicWizard: public QWizard
 {
@@ -41,7 +42,7 @@ class DicWizard: public QWizard
     DEFINE_LOGGER();
 
 public:
-    DicWizard(QWidget *parent);
+    DicWizard(QWidget *parent, const Dictionary *iCurrDic);
     virtual void accept();
 
 private:
@@ -49,7 +50,8 @@ private:
 
 signals:
     void loadDictionary(QString dawgFile);
-    void infoMsg(QString message);
+    void notifyInfo(QString msg);
+    void notifyProblem(QString msg);
 };
 
 
@@ -62,6 +64,9 @@ public:
     virtual bool isComplete() const;
     virtual bool validatePage();
 
+signals:
+    void notifyProblem(QString msg);
+
 private slots:
     void onBrowseGenDicClicked();
     void onBrowseWordListClicked();
@@ -73,14 +78,19 @@ class WizardLettersDefPage: public QWizardPage, private Ui::WizardLettersDefPage
     Q_OBJECT;
     DEFINE_LOGGER();
 public:
-    explicit WizardLettersDefPage(QWidget *parent = 0);
+    explicit WizardLettersDefPage(const Dictionary *iCurrDic, QWidget *parent = 0);
     const QStandardItemModel * getModel() const { return m_model; }
+
+signals:
+    void notifyProblem(QString msg);
 
 private:
     QStandardItemModel *m_model;
+    const Dictionary *m_currDic;
 
 private slots:
     void loadLettersFromWordList();
+    void loadValuesFromDic();
 };
 
 
