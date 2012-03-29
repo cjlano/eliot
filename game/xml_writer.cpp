@@ -65,8 +65,10 @@ static string toUtf8(const wstring &s)
 static void writeMove(ostream &out, const Move &iMove,
                       const string &iTag, int iPlayerId)
 {
-    out << "<" << iTag << " playerid=\"" << iPlayerId
-        << "\" points=\"" << iMove.getScore() << "\" type=\"";
+    out << "<" << iTag;
+    if (iPlayerId != -1)
+        out << " playerid=\"" << iPlayerId << "\"";
+    out << " points=\"" << iMove.getScore() << "\" type=\"";
     if (iMove.getType() == Move::VALID_ROUND)
     {
         const Round &round = iMove.getRound();
