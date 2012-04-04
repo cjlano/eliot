@@ -150,11 +150,16 @@ void ArbitAssignments::updatePlayersModel()
     for (unsigned int i = 0; i < m_game->getNbPlayers(); ++i)
     {
         const Player &player = m_game->getPlayer(i);
-        if (hideAssignedPlayers && m_game->hasPlayed(player.getId()))
-            continue;
         // Only display human players
         if (!player.isHuman())
             continue;
+        // Hide players with an assigned move other than "No move"
+        if (hideAssignedPlayers && m_game->hasPlayed(player.getId()) &&
+            player.getLastMove().getType() != Move::NO_MOVE)
+        {
+                continue;
+        }
+
         const int rowNum = m_playersModel->rowCount();
         m_playersModel->insertRow(rowNum);
         m_playersModel->setData(m_playersModel->index(rowNum, 0), player.getTableNb());
@@ -273,7 +278,6 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
 
 void ArbitAssignments::on_checkBoxHideAssigned_toggled(bool)
 {
-    treeViewPlayers->selectionModel()->clearSelection();
     updatePlayersModel();
 }
 
@@ -486,8 +490,11 @@ void ArbitAssignments::helperAssignMove(const Move &iMove)
     QSet<unsigned int> assignedIdSet;
     BOOST_FOREACH(unsigned int id, playersIdSet)
     {
-        if (m_game->hasPlayed(id))
+        if (m_game->hasPlayed(id) &&
+            m_game->getPlayer(id).getLastMove().getType() != Move::NO_MOVE)
+        {
             assignedIdSet.insert(id);
+        }
     }
     if (!assignedIdSet.empty())
     {
