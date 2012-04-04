@@ -21,10 +21,38 @@
 #define XML_READER_H_
 
 #include <map>
+
+// Remove spurious defines, to avoid compilation warnings. They are defined
+// in config.h (which is normal) and in libarabica (which is wrong:
+// libarabica should not export them via public headers).
+// We do it a first time before including the libarabica headers (in case
+// config.h was included before the current header)...
+#undef PACKAGE
+#undef PACKAGE_BUGREPORT
+#undef PACKAGE_NAME
+#undef PACKAGE_STRING
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
+#undef VERSION
+
 #include <SAX/helpers/DefaultHandler.hpp>
 #include <SAX/Locator.hpp>
 #include <SAX/Attributes.hpp>
 #include <SAX/SAXException.hpp>
+
+// ... and a second time after including them (because we include
+// config.h right after)
+#undef PACKAGE
+#undef PACKAGE_BUGREPORT
+#undef PACKAGE_NAME
+#undef PACKAGE_STRING
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
+#undef VERSION
+// We include config.h, because a cpp file which included it expects
+// these defines
+#include "config.h"
+
 #include "logging.h"
 #include "game_params.h"
 

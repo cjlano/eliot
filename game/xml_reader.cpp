@@ -22,6 +22,16 @@
 #include <SAX/XMLReader.hpp>
 #include <SAX/InputSource.hpp>
 
+// Remove spurious defines from libarabica, to avoid compilation warnings.
+// Libarabica should not export them via public headers...
+#undef PACKAGE
+#undef PACKAGE_BUGREPORT
+#undef PACKAGE_NAME
+#undef PACKAGE_STRING
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
+#undef VERSION
+
 #include "xml_reader.h"
 #include "dic.h"
 #include "game_exception.h"
@@ -222,7 +232,7 @@ void XmlReader::endElement(const string& namespaceURI,
         }
         else if (tag == "WordNb")
         {
-            if (m_dic.getHeader().getNbWords() != atoi(m_data.c_str()))
+            if (m_dic.getHeader().getNbWords() != (unsigned)toInt(m_data))
                 throw LoadGameException("The current dictionary is different from the one used in the saved game");
         }
         else if (tag == "Dictionary")
