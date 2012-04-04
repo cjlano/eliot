@@ -42,6 +42,10 @@
 #include "dic.h"
 #include "header.h"
 
+// Current version of our save game format. Bump it when it becomes
+// incompatible (and keep it in sync with xml_reader.cpp)
+#define CURRENT_XML_VERSION "2"
+
 using namespace std;
 
 INIT_LOGGER(game, XmlWriter);
@@ -101,7 +105,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
     out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
 
     string indent = "";
-    out << indent << "<EliotGame format=\"1\">" << endl;
+    out << indent << "<EliotGame format=\"" << CURRENT_XML_VERSION << "\">" << endl;
     addIndent(indent);
 
     // ------------------------

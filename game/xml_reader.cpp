@@ -53,6 +53,10 @@
 #include "navigation.h"
 #include "header.h"
 
+// Current version of our save game format. Bump it when it becomes
+// incompatible (and keep it in sync with xml_writer.cpp)
+#define CURRENT_XML_VERSION "2"
+
 using namespace std;
 
 INIT_LOGGER(game, XmlReader);
@@ -165,7 +169,22 @@ void XmlReader::startElement(const string& namespaceURI,
 
     m_data.clear();
     const string &tag = localName;
-    if (tag == "Dictionary")
+    if (tag == "EliotGame")
+    {
+        // Make sure that we are loading the correct XML format
+        for (int i = 0; i < atts.getLength(); ++i)
+        {
+            if (atts.getLocalName(i) == "format" &&
+                atts.getValue(i) != CURRENT_XML_VERSION)
+            {
+                LOG_ERROR("Incompatible save game format: current="
+                          << CURRENT_XML_VERSION
+                          << " savegame=" << atts.getValue(i));
+                throw LoadGameException("This saved game is not compatible with the current version of Eliot.");
+            }
+        }
+    }
+    else if (tag == "Dictionary")
     {
         m_context = "Dictionary";
     }
