@@ -61,7 +61,7 @@ public slots:
 private slots:
     void setRackRandom();
     void rackEdited(const QString &);
-    void on_buttonSearch_clicked();
+    void searchResults();
     void resultsFilterChanged(const QString &);
     void enableCheckWordButton();
     void checkWord();

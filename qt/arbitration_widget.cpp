@@ -136,10 +136,17 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     // Clear the results when the rack changes
     QObject::connect(lineEditRack, SIGNAL(textChanged(const QString&)),
                      this, SLOT(clearResults()));
+    // Perform a search on Enter
+    QObject::connect(lineEditRack, SIGNAL(returnPressed()),
+                     this, SLOT(searchResults()));
 
     // Set a random rack
     QObject::connect(buttonRandom, SIGNAL(clicked()),
                      this, SLOT(setRackRandom()));
+
+    // Perform a search
+    QObject::connect(buttonSearch, SIGNAL(clicked()),
+                     this, SLOT(searchResults()));
 
     // Display a preview of the selected word on the board
     QObject::connect(treeViewResults->selectionModel(),
@@ -377,6 +384,8 @@ void ArbitrationWidget::rackEdited(const QString &iText)
         }
     }
 
+    buttonSearch->setEnabled(lineEditRack->hasAcceptableInput());
+
     m_game->removeTestRound();
     if (!lineEditRack->hasAcceptableInput())
     {
@@ -388,8 +397,6 @@ void ArbitrationWidget::rackEdited(const QString &iText)
         lineEditRack->setPalette(blackPalette);
         const wstring &input = m_game->getDic().convertFromInput(wfq(iText));
         m_game->arbitrationSetRackManual(input);
-        buttonSearch->setEnabled(m_resultsModel->rowCount() == 0 &&
-                                 lineEditRack->text() != "");
         emit gameUpdated();
     }
     catch (std::exception &e)
@@ -433,7 +440,7 @@ void ArbitrationWidget::enableCheckWordButton()
 }
 
 
-void ArbitrationWidget::on_buttonSearch_clicked()
+void ArbitrationWidget::searchResults()
 {
     m_game->removeTestRound();
     emit notifyInfo(_q("Searching with rack '%1'...").arg(lineEditRack->text()));
@@ -614,6 +621,7 @@ void ArbitrationWidget::clearResults()
     m_game->removeTestRound();
     m_results.clear();
     m_addedMoves.clear();
+    m_resultsModel->removeRows(0, m_resultsModel->rowCount());
 }
 
 
