@@ -112,6 +112,11 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
                      m_assignmentsWidget, SLOT(assignMasterMove()));
     treeViewResults->installEventFilter(masterFilter);
 
+    KeyEventFilter *selectAllFilter = new KeyEventFilter(this, Qt::Key_A);
+    QObject::connect(selectAllFilter, SIGNAL(keyPressed(int, int)),
+                     m_assignmentsWidget, SLOT(selectAllPlayers()));
+    treeViewResults->installEventFilter(selectAllFilter);
+
     KeyEventFilter *numFilter = new KeyEventFilter(this, Qt::Key_0);
     numFilter->addKey(Qt::Key_1);
     numFilter->addKey(Qt::Key_2);
@@ -484,6 +489,15 @@ void ArbitrationWidget::populateResultsMenu(QMenu &iMenu, const QPoint &iPoint)
     iMenu.addAction(setAsMasterAction);
     if (move.getType() != Move::VALID_ROUND)
         setAsMasterAction->setEnabled(false);
+
+    // Action to select all the players
+    QAction *selectAllAction =
+        new QAction(_q("Select all players"), this);
+    selectAllAction->setStatusTip(_q("Select all the players"));
+    selectAllAction->setShortcut(Qt::Key_A);
+    QObject::connect(selectAllAction, SIGNAL(triggered()),
+                     m_assignmentsWidget, SLOT(selectAllPlayers()));
+    iMenu.addAction(selectAllAction);
 
     // Action to assign the selected move
     QAction *assignSelMoveAction =

@@ -63,6 +63,7 @@ signals:
 public slots:
     void refresh();
     void enableAssignmentButtons();
+    void selectAllPlayers();
     void assignMasterMove();
     void assignSelectedMove();
     void assignDefaultMasterMove();

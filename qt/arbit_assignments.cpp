@@ -67,6 +67,11 @@ ArbitAssignments::ArbitAssignments(QWidget *parent, PublicGame *iGame)
     treeViewPlayers->setColumnWidth(3, 40);
     treeViewPlayers->setColumnWidth(4, 50);
 
+    KeyEventFilter *selectAllFilter = new KeyEventFilter(this, Qt::Key_A);
+    QObject::connect(selectAllFilter, SIGNAL(keyPressed(int, int)),
+                     this, SLOT(selectAllPlayers()));
+    treeViewPlayers->installEventFilter(selectAllFilter);
+
     KeyEventFilter *filter = new KeyEventFilter(this, Qt::Key_T);
     QObject::connect(filter, SIGNAL(keyPressed(int, int)),
                      this, SLOT(assignTopMove()));
@@ -245,6 +250,14 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
         iMenu.addAction(assignSelMoveAction);
     }
 
+    // Action to select all the players
+    QAction *selectAllAction = new QAction(_q("Select all players"), this);
+    selectAllAction->setStatusTip(_q("Select all the players"));
+    selectAllAction->setShortcut(Qt::Key_A);
+    QObject::connect(selectAllAction, SIGNAL(triggered()),
+                     this, SLOT(selectAllPlayers()));
+    iMenu.addAction(selectAllAction);
+
     // Action to assign the top move
     QAction *assignTopMoveAction = new QAction(_q("Assign top move"), this);
     assignTopMoveAction->setStatusTip(_q("Assign the top move (if unique) to the selected player(s)"));
@@ -342,6 +355,13 @@ void ArbitAssignments::showMasterPreview()
         m_game->setTestRound(move.getRound());
         emit gameUpdated();
     }
+}
+
+
+void ArbitAssignments::selectAllPlayers()
+{
+    treeViewPlayers->selectAll();
+    emit notifyInfo(_q("All players selected"));
 }
 
 
