@@ -66,6 +66,8 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
                      this, SIGNAL(notifyProblem(QString)));
     QObject::connect(m_assignmentsWidget, SIGNAL(notifyInfo(QString)),
                      this, SIGNAL(notifyInfo(QString)));
+    QObject::connect(m_assignmentsWidget, SIGNAL(endOfTurn()),
+                     this, SLOT(endOfTurnRefresh()));
 
     m_keyAccum = new KeyAccumulator(this, 400);
 
@@ -204,6 +206,11 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
                      this, SIGNAL(requestDefinition(QString)));
 
     refresh();
+
+    // Give focus to the rack
+    // FIXME: for some reason, the focus gets lost later...
+    lineEditRack->setFocus();
+    lineEditRack->selectAll();
 }
 
 
@@ -213,9 +220,16 @@ void ArbitrationWidget::refresh()
     // Update the rack only if needed, to avoid losing cursor position
     QString qrack = qfw(pldRack.toString(PlayedRack::RACK_SIMPLE));
     if (qrack != lineEditRack->text()) {
+        // Save the selection status
+        bool isAllselected = lineEditRack->text() == lineEditRack->selectedText();
+
         // Must be done before updateResultsModel(), because it will
         // indirectly call the clearResults() slot
         lineEditRack->setText(qrack);
+
+        // Restore the selection
+        if (isAllselected)
+            lineEditRack->selectAll();
     }
 
     updateResultsModel();
@@ -589,6 +603,17 @@ void ArbitrationWidget::selectTableNumber(int key)
         return;
     }
     LOG_DEBUG("Not found");
+}
+
+
+void ArbitrationWidget::endOfTurnRefresh()
+{
+    // Refresh everything
+    emit gameUpdated();
+
+    // Give focus to the rack
+    lineEditRack->setFocus();
+    lineEditRack->selectAll();
 }
 
 

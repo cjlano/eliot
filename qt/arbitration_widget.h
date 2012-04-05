@@ -72,6 +72,7 @@ private slots:
     void updateCoordModel(const QString&);
     void populateResultsMenu(QMenu &iMenu, const QPoint &iPoint);
     void selectTableNumber(int key);
+    void endOfTurnRefresh();
 
 private:
     /// Encapsulated game, can be NULL

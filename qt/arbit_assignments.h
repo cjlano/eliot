@@ -59,6 +59,7 @@ signals:
     void gameUpdated();
     void notifyProblem(QString iMsg);
     void notifyInfo(QString iMsg);
+    void endOfTurn();
 
 public slots:
     void refresh();

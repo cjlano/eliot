@@ -630,6 +630,6 @@ void ArbitAssignments::endTurn()
     // FIXME: shouldn't be done here
     setEnabled(!m_game->isFinished());
 
-    emit gameUpdated();
+    emit endOfTurn();
 }
 
