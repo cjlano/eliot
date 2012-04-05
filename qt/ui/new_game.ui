@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>527</width>
+    <width>600</width>
     <height>459</height>
    </rect>
   </property>
@@ -148,14 +148,14 @@
         <item>
          <widget class="QPushButton" name="pushButtonAdd">
           <property name="text">
-           <string>_(&quot;Add player&quot;)</string>
+           <string>_(&quot;Add &amp;player&quot;)</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="buttonAddFav">
           <property name="text">
-           <string>_(&quot;Add favorite players...&quot;)</string>
+           <string>_(&quot;Add &amp;favorite players...&quot;)</string>
           </property>
          </widget>
         </item>

@@ -127,7 +127,7 @@
            <string>_(&quot;Validate the current turn and start a new one&quot;)</string>
           </property>
           <property name="text">
-           <string>_(&quot;End turn&quot;)</string>
+           <string>_(&quot;&amp;End turn&quot;)</string>
           </property>
          </widget>
         </item>
