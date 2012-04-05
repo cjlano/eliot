@@ -181,11 +181,6 @@ void ArbitAssignments::updatePlayersModel()
                 m_playersModel->setData(m_playersModel->index(rowNum, 2), qfw(round.getWord()));
                 m_playersModel->setData(m_playersModel->index(rowNum, 3), qfw(round.getCoord().toString()));
             }
-            else if (move.getType() == Move::NO_MOVE)
-            {
-                m_playersModel->setData(m_playersModel->index(rowNum, 2), _q("(NO MOVE)"));
-                color = Qt::blue;
-            }
             else if (move.getType() == Move::INVALID_WORD)
             {
                 m_playersModel->setData(m_playersModel->index(rowNum, 2), "<" + qfw(move.getBadWord()) + ">");
@@ -592,12 +587,16 @@ void ArbitAssignments::endTurn()
     bool allPlayed = true;
     for (unsigned int i = 0; i < m_game->getNbPlayers(); ++i)
     {
-        if (!m_game->hasPlayed(i) && m_game->getPlayer(i).isHuman())
+        if (m_game->getPlayer(i).isHuman() &&
+            (!m_game->hasPlayed(i) || m_game->getPlayer(i).getLastMove().getType() == Move::NO_MOVE))
+        {
             allPlayed = false;
+            break;
+        }
     }
     if (!allPlayed)
     {
-        QString msg = _q("Some player(s) have no assigned move. "
+        QString msg = _q("Some player(s) have no assigned move for this turn. "
                          "If you continue, they will be assigned a \"(NO MOVE)\" "
                          "pseudo-move, but you will be able to change that later.");
         if (!QtCommon::requestConfirmation(msg))
