@@ -73,7 +73,7 @@ private slots:
     void showMasterPreview();
     void populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint);
     void assignTopMove();
-    void assignNoMove();
+    void suppressMove();
     void addRemoveWarning();
     void addPenalty();
     void endTurn();

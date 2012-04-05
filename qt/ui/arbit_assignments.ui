@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>404</width>
-    <height>300</height>
+    <width>446</width>
+    <height>306</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -96,7 +96,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="buttonNoMove">
+         <widget class="QPushButton" name="buttonSuppressMove">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -104,7 +104,7 @@
            <string>_(&quot;Indicate that the selected player(s) did not play&quot;)</string>
           </property>
           <property name="text">
-           <string>_(&quot;No move&quot;)</string>
+           <string>_(&quot;Suppress move&quot;)</string>
           </property>
          </widget>
         </item>

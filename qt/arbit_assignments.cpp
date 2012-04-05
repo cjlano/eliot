@@ -94,8 +94,8 @@ ArbitAssignments::ArbitAssignments(QWidget *parent, PublicGame *iGame)
     // Move assignment
     QObject::connect(buttonSelectMaster, SIGNAL(clicked()),
                      this, SLOT(assignMasterMove()));
-    QObject::connect(buttonNoMove, SIGNAL(clicked()),
-                     this, SLOT(assignNoMove()));
+    QObject::connect(buttonSuppressMove, SIGNAL(clicked()),
+                     this, SLOT(suppressMove()));
     QObject::connect(buttonAssign, SIGNAL(clicked()),
                      this, SLOT(assignSelectedMove()));
     QObject::connect(treeViewPlayers, SIGNAL(activated(const QModelIndex&)),
@@ -225,7 +225,7 @@ void ArbitAssignments::enableAssignmentButtons()
         buttonAssign->setToolTip(_q("Assign move (%1) to the selected player(s)")
                                  .arg(formatMove(move)));
     }
-    buttonNoMove->setEnabled(hasSelPlayer);
+    buttonSuppressMove->setEnabled(hasSelPlayer);
     buttonSelectMaster->setEnabled(hasSelResult);
 }
 
@@ -476,7 +476,7 @@ void ArbitAssignments::assignTopMove()
 }
 
 
-void ArbitAssignments::assignNoMove()
+void ArbitAssignments::suppressMove()
 {
     helperAssignMove(Move());
 }
@@ -498,14 +498,25 @@ void ArbitAssignments::helperAssignMove(const Move &iMove)
     }
     if (!assignedIdSet.empty())
     {
-        QString msg = _q("The following players already have an assigned move:\n");
+        QString players;
         BOOST_FOREACH(unsigned int id, assignedIdSet)
         {
-            msg += QString("\t%1\n").arg(qfw(m_game->getPlayer(id).getName()));
+            players = QString("\t%1\n").arg(qfw(m_game->getPlayer(id).getName()));
         }
-        QString question = _q("Do you want to replace it?");
-        if (!QtCommon::requestConfirmation(msg, question))
-            return;
+        // The warning is different depending on the type of move
+        if (iMove.getType() == Move::NO_MOVE)
+        {
+            QString msg = _q("You are going to suppress the assigned move for the following players:\n");
+            if (!QtCommon::requestConfirmation(msg + players))
+                return;
+        }
+        else
+        {
+            QString msg = _q("The following players already have an assigned move:\n");
+            QString question = _q("Do you want to replace it?");
+            if (!QtCommon::requestConfirmation(msg + players, question))
+                return;
+        }
     }
 
     // Assign the move to each selected player
