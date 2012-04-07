@@ -93,8 +93,7 @@ const wstring & Move::getBadCoord() const
 
 const wstring & Move::getChangedLetters() const
 {
-    ASSERT(m_type == CHANGE_LETTERS && m_type != PASS,
-           "Incorrect move type");
+    ASSERT(m_type == CHANGE_LETTERS || m_type == PASS, "Incorrect move type");
     return m_letters;
 }
 
