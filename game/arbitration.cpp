@@ -219,33 +219,12 @@ int Arbitration::getPenalty(unsigned iPlayerId) const
 void Arbitration::assignMove(unsigned int iPlayerId, const Move &iMove)
 {
     ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
-
-    Player &player = *m_players[iPlayerId];
-    if (hasPlayed(iPlayerId))
-    {
-        LOG_INFO("Re-assigning move for player " << iPlayerId);
-        replacePlayerMove(player, iMove);
-    }
-    else
-    {
-        recordPlayerMove(player, iMove);
-    }
+    recordPlayerMove(*m_players[iPlayerId], iMove);
 }
 
 
 void Arbitration::finalizeTurn()
 {
-    // Assign a default empty move to the human players which have
-    // not played yet, to be able to end the turn.
-    BOOST_FOREACH(Player *player, m_players)
-    {
-        if (player->isHuman() && !hasPlayed(player->getId()))
-        {
-            LOG_INFO("Assigning a default move to player " << player->getId());
-            recordPlayerMove(*player, Move());
-        }
-    }
-
     tryEndTurn();
 }
 

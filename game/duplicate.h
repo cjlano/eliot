@@ -112,9 +112,6 @@ protected:
     /// Record a player move
     void recordPlayerMove(Player &ioPlayer, const Move &iMove);
 
-    /// Cancel the last move of a player (in the current turn)
-    void replacePlayerMove(Player &ioPlayer, const Move &iMove);
-
     /// Helper function to set the game rack and the players rack at the same time
     void setGameAndPlayersRack(const PlayedRack &iRack);
 
@@ -136,10 +133,6 @@ protected:
     void endGame();
 
 private: // Used by friend classes
-    /// Change the "has played" status of the given player to the given status
-    // Note: only used by friend classes
-    void setPlayedFlag(unsigned int iPlayerId, bool iNewFlag);
-
     void innerSetMasterMove(const Move &iMove);
 
 private:
@@ -162,9 +155,6 @@ private:
      * turn (this should have been checked by tryEndturn())
      */
     void endTurn();
-
-    /// m_hasPlayed[p] is true iff player p has played for this turn
-    map<unsigned int, bool> m_hasPlayed;
 
     /**
      * Master move, i.e. the move that will be played on the board

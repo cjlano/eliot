@@ -38,7 +38,6 @@
 #include "player_move_cmd.h"
 #include "player_points_cmd.h"
 #include "master_move_cmd.h"
-#include "mark_played_cmd.h"
 #include "dic.h"
 #include "header.h"
 
@@ -250,10 +249,6 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
                 writeMove(out, moveCmd->getMove(), "MasterMove", -1);
                 out << endl;
 
-            }
-            else if (dynamic_cast<const MarkPlayedCmd*>(cmd))
-            {
-                // Ignore this command, as it is an implementation detail
             }
             else
             {

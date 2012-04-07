@@ -44,7 +44,6 @@
 #include "player_event_cmd.h"
 #include "game_move_cmd.h"
 #include "game_rack_cmd.h"
-#include "mark_played_cmd.h"
 #include "master_move_cmd.h"
 #include "ai_player.h"
 #include "navigation.h"
@@ -145,9 +144,13 @@ void Duplicate::start()
         return;
     }
 
-    // Little hack to handle duplicate games with only AI players.
-    // This will have no effect when there is at least one human player
-    tryEndTurn();
+    bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
+    if (!isArbitration)
+    {
+        // Little hack to handle duplicate games with only AI players.
+        // This will have no effect when there is at least one human player
+        tryEndTurn();
+    }
 }
 
 
@@ -159,14 +162,18 @@ bool Duplicate::isFinished() const
 
 void Duplicate::tryEndTurn()
 {
-    for (unsigned int i = 0; i < getNPlayers(); i++)
+    bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
+    if (!isArbitration)
     {
-        if (m_players[i]->isHuman() && !hasPlayed(i))
+        for (unsigned int i = 0; i < getNPlayers(); i++)
         {
-            // A human player has not played...
-            m_currPlayer = i;
-            // So we don't finish the turn
-            return;
+            if (m_players[i]->isHuman() && !hasPlayed(i))
+            {
+                // A human player has not played...
+                m_currPlayer = i;
+                // So we don't finish the turn
+                return;
+            }
         }
     }
 
@@ -187,22 +194,6 @@ void Duplicate::tryEndTurn()
 }
 
 
-void Duplicate::recordPlayerMove(Player &ioPlayer, const Move &iMove)
-{
-    ASSERT(!hasPlayed(ioPlayer.getId()), "Player has already played");
-
-    LOG_INFO("Player " << ioPlayer.getId() << " plays: " << lfw(iMove.toString()));
-    bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
-    Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitration);
-    pCmd->setHumanIndependent(!ioPlayer.isHuman());
-    accessNavigation().addAndExecute(pCmd);
-
-    Command *pCmd2 = new MarkPlayedCmd(*this, ioPlayer.getId(), true);
-    pCmd2->setHumanIndependent(!ioPlayer.isHuman());
-    accessNavigation().addAndExecute(pCmd2);
-}
-
-
 struct MatchingPlayer : public unary_function<PlayerMoveCmd, bool>
 {
     MatchingPlayer(unsigned iPlayerId) : m_playerId(iPlayerId) {}
@@ -216,21 +207,32 @@ struct MatchingPlayer : public unary_function<PlayerMoveCmd, bool>
 };
 
 
-void Duplicate::replacePlayerMove(Player &ioPlayer, const Move &iMove)
+void Duplicate::recordPlayerMove(Player &ioPlayer, const Move &iMove)
 {
-    ASSERT(hasPlayed(ioPlayer.getId()), "The player has no assigned move yet!");
+    LOG_INFO("Player " << ioPlayer.getId() << " plays: " << lfw(iMove.toString()));
 
-    // Find the PlayerMoveCmd we want to undo
+    bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
+
+    // Search a PlayerMoveCmd for the given player
     MatchingPlayer predicate(ioPlayer.getId());
     const PlayerMoveCmd *cmd =
         getNavigation().getCurrentTurn().findMatchingCmd<PlayerMoveCmd>(predicate);
-    ASSERT(cmd != 0, "No matching PlayerMoveCmd found");
-
-    // Replace the player move
-    bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
-    Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitration);
-    pCmd->setHumanIndependent(!ioPlayer.isHuman());
-    accessNavigation().replaceCommand(*cmd, pCmd);
+    if (cmd == 0)
+    {
+        Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitration);
+        pCmd->setHumanIndependent(!ioPlayer.isHuman());
+        accessNavigation().addAndExecute(pCmd);
+    }
+    else
+    {
+        // Replace the player move
+        LOG_DEBUG("Replacing move for player " << ioPlayer.getId());
+        if (!getNavigation().isLastTurn())
+            throw GameException("Cannot add a command to an old turn");
+        Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitration);
+        pCmd->setHumanIndependent(!ioPlayer.isHuman());
+        accessNavigation().replaceCommand(*cmd, pCmd);
+    }
 }
 
 
@@ -369,20 +371,15 @@ void Duplicate::setPlayer(unsigned int p)
 }
 
 
-bool Duplicate::hasPlayed(unsigned int p) const
-{
-    ASSERT(p < getNPlayers(), "Wrong player number");
-
-    map<unsigned int, bool>::const_iterator it = m_hasPlayed.find(p);
-    return it != m_hasPlayed.end() && it->second;
-}
-
-
-void Duplicate::setPlayedFlag(unsigned int iPlayerId, bool iNewFlag)
+bool Duplicate::hasPlayed(unsigned iPlayerId) const
 {
     ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
 
-    m_hasPlayed[iPlayerId] = iNewFlag;
+    // Search a PlayerMoveCmd for the given player
+    MatchingPlayer predicate(iPlayerId);
+    const PlayerMoveCmd *cmd =
+        getNavigation().getCurrentTurn().findMatchingCmd<PlayerMoveCmd>(predicate);
+    return cmd != 0 && cmd->isExecuted();
 }
 
 
@@ -418,9 +415,6 @@ void Duplicate::setGameAndPlayersRack(const PlayedRack &iRack)
     {
         Command *pCmd = new PlayerRackCmd(*player, iRack);
         accessNavigation().addAndExecute(pCmd);
-        // Nobody has played yet in this round
-        Command *pCmd2 = new MarkPlayedCmd(*this, player->getId(), false);
-        accessNavigation().addAndExecute(pCmd2);
     }
 }
 
