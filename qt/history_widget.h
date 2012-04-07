@@ -68,6 +68,15 @@ private:
     bool m_forPlayer;
     bool m_isFreeGame;
 
+    int m_colTurn;
+    int m_colRack;
+    int m_colWord;
+    int m_colRef;
+    int m_colPoints;
+    int m_colTotal;
+    int m_colPercent;
+    int m_colPlayer;
+
     /// Model of the history
     QStandardItemModel *m_model;
 
@@ -76,6 +85,9 @@ private:
 
     /// Force synchronizing the model with the contents of the history
     void updateModel();
+
+    /// Helper method to set the data in a table cell
+    void setCellData(int iRow, int iCol, const QVariant &iData);
 };
 
 

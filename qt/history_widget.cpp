@@ -47,6 +47,15 @@ INIT_LOGGER(qt, HistoryWidget);
 HistoryWidget::HistoryWidget(QWidget *parent)
     : QTreeView(parent), m_history(NULL), m_forPlayer(false), m_isFreeGame(false)
 {
+    m_colTurn = 0;
+    m_colRack = 1;
+    m_colWord = 2;
+    m_colRef = 3;
+    m_colPoints = 4;
+    m_colTotal = -1;
+    m_colPercent = -1;
+    m_colPlayer = -1;
+
     // Create the tree view
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setRootIsDecorated(false);
@@ -61,13 +70,12 @@ HistoryWidget::HistoryWidget(QWidget *parent)
     // Associate the model to the view
     m_model = new QStandardItemModel(this);
     setModel(m_model);
-    m_model->setColumnCount(7);
-    m_model->setHeaderData(0, Qt::Horizontal, _q("Turn"), Qt::DisplayRole);
-    m_model->setHeaderData(1, Qt::Horizontal, _q("Rack"), Qt::DisplayRole);
-    m_model->setHeaderData(2, Qt::Horizontal, _q("Word"), Qt::DisplayRole);
-    m_model->setHeaderData(3, Qt::Horizontal, _q("Ref"), Qt::DisplayRole);
-    m_model->setHeaderData(4, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
-    updateModel();
+    m_model->setColumnCount(5);
+    m_model->setHeaderData(m_colTurn, Qt::Horizontal, _q("Turn"));
+    m_model->setHeaderData(m_colRack, Qt::Horizontal, _q("Rack"));
+    m_model->setHeaderData(m_colWord, Qt::Horizontal, _q("Word"));
+    m_model->setHeaderData(m_colRef, Qt::Horizontal, _q("Ref"));
+    m_model->setHeaderData(m_colPoints, Qt::Horizontal, _q("Points"));
 }
 
 
@@ -79,7 +87,27 @@ void HistoryWidget::setHistory(const History *iHistory,
     m_game = iGame;
     m_forPlayer = iIsForPlayer;
     m_isFreeGame = (iGame != 0 && iGame->getMode() == PublicGame::kFREEGAME);
-    updateModel();
+
+    int currColumn = m_colPoints + 1;
+    if (m_forPlayer)
+    {
+        m_colTotal = currColumn++;
+        m_colPlayer = -1;
+        m_colPercent = m_isFreeGame ? -1 : currColumn++;
+    }
+    else
+    {
+        m_colTotal = m_isFreeGame ? -1 : currColumn++;
+        m_colPlayer = m_isFreeGame ? currColumn++ : -1;
+        m_colPercent = -1;
+    }
+    m_model->setColumnCount(currColumn);
+
+    m_model->setHeaderData(m_colTotal, Qt::Horizontal, _q("Total"));
+    m_model->setHeaderData(m_colPercent, Qt::Horizontal, _q("Game %"));
+    m_model->setHeaderData(m_colPlayer, Qt::Horizontal, _q("Player"));
+
+    refresh();
 }
 
 
@@ -96,7 +124,7 @@ void HistoryWidget::populateMenu(QMenu &iMenu, const QPoint &iPoint)
         return;
 
     // Find the selected word
-    const QModelIndex &wordIndex = m_model->index(index.row(), 2);
+    const QModelIndex &wordIndex = m_model->index(index.row(), m_colWord);
     QString selectedWord = m_model->data(wordIndex).toString();
 
     if (selectedWord != "")
@@ -107,23 +135,6 @@ void HistoryWidget::populateMenu(QMenu &iMenu, const QPoint &iPoint)
 void HistoryWidget::updateModel()
 {
     m_model->removeRows(0, m_model->rowCount());
-    if (m_forPlayer)
-    {
-        // Display the cumulative score and percentage
-        m_model->setHeaderData(5, Qt::Horizontal, _q("Total"), Qt::DisplayRole);
-        if (m_isFreeGame)
-            m_model->setHeaderData(6, Qt::Horizontal, "", Qt::DisplayRole);
-        else
-            m_model->setHeaderData(6, Qt::Horizontal, _q("Game %"), Qt::DisplayRole);
-    }
-    else
-    {
-        if (m_isFreeGame)
-            m_model->setHeaderData(5, Qt::Horizontal, _q("Player"), Qt::DisplayRole);
-        else
-            m_model->setHeaderData(5, Qt::Horizontal, _q("Total"), Qt::DisplayRole);
-        m_model->setHeaderData(6, Qt::Horizontal, "", Qt::DisplayRole);
-    }
 
     if (m_history != NULL && m_history->getSize() != 0)
     {
@@ -152,33 +163,24 @@ void HistoryWidget::updateModel()
             const Move& m = t.getMove();
 
             // Set data common to all moves
-            m_model->setData(m_model->index(prevRowNum, 0), i + 1);
-            m_model->setData(m_model->index(prevRowNum, 1),
-                             qfw(t.getPlayedRack().toString()));
-            m_model->setData(m_model->index(rowNum, 4), m.getScore());
+            setCellData(prevRowNum, m_colTurn, i + 1);
+            setCellData(prevRowNum, m_colRack, qfw(t.getPlayedRack().toString()));
+            setCellData(rowNum, m_colPoints, m.getScore());
             totalScore += m.getScore();
-            if (m_game != NULL)
+            setCellData(rowNum, m_colTotal, totalScore);
+            if (m_game->getHistory().getSize() > i)
             {
                 gameScore += m_game->getHistory().getTurn(i).getMove().getScore();
             }
-            if (m_forPlayer)
+            if (gameScore != 0)
             {
-                m_model->setData(m_model->index(rowNum, 5), totalScore);
-                if (!m_isFreeGame && gameScore != 0)
-                {
-                    int percentage = totalScore * 100 / gameScore;
-                    m_model->setData(m_model->index(rowNum, 6),
-                                     QString("%1%").arg(percentage));
-                }
+                int percentage = totalScore * 100 / gameScore;
+                setCellData(rowNum, m_colPercent, QString("%1%").arg(percentage));
             }
-            else if (m_isFreeGame)
+            if (m_isFreeGame)
             {
                 const wstring &name = m_game->getPlayer(t.getPlayer()).getName();
-                m_model->setData(m_model->index(rowNum, 5), qfw(name));
-            }
-            else
-            {
-                m_model->setData(m_model->index(rowNum, 5), totalScore);
+                setCellData(rowNum, m_colPlayer, qfw(name));
             }
 
             // Set the rest
@@ -186,36 +188,35 @@ void HistoryWidget::updateModel()
             {
                 const Round &r = m.getRound();
                 wstring coord = r.getCoord().toString();
-                m_model->setData(m_model->index(rowNum, 2), qfw(r.getWord()));
-                m_model->setData(m_model->index(rowNum, 3), qfw(coord));
+                setCellData(rowNum, m_colWord, qfw(r.getWord()));
+                setCellData(rowNum, m_colRef, qfw(coord));
                 color = Qt::black;
             }
             else if (m.getType() == Move::INVALID_WORD)
             {
-                m_model->setData(m_model->index(rowNum, 2),
-                                 "<" + qfw(m.getBadWord()) + ">");
-                m_model->setData(m_model->index(rowNum, 3), qfw(m.getBadCoord()));
+                setCellData(rowNum, m_colWord, "<" + qfw(m.getBadWord()) + ">");
+                setCellData(rowNum, m_colRef, qfw(m.getBadCoord()));
                 color = Qt::red;
             }
             else if (m.getType() == Move::NO_MOVE)
             {
-                m_model->setData(m_model->index(rowNum, 2), _q("(NO MOVE)"));
+                setCellData(rowNum, m_colWord, _q("(NO MOVE)"));
                 color = Qt::blue;
             }
             else if (m.getType() == Move::PASS)
             {
-                m_model->setData(m_model->index(rowNum, 2), _q("(PASS)"));
+                setCellData(rowNum, m_colWord, _q("(PASS)"));
                 color = Qt::blue;
             }
             else
             {
-                m_model->setData(m_model->index(rowNum, 2),
-                                 "[-" + qfw(m.getChangedLetters()) + "]");
+                setCellData(rowNum, m_colWord,
+                            "[-" + qfw(m.getChangedLetters()) + "]");
                 color = Qt::blue;
             }
 
             // Set the color of the text
-            for (int col = 0; col < 6; ++col)
+            for (int col = 0; col < m_model->columnCount(); ++col)
             {
                 int row = rowNum;
                 if (!align && col < 2)
@@ -226,10 +227,17 @@ void HistoryWidget::updateModel()
         }
     }
 
-    resizeColumnToContents(0);
-    resizeColumnToContents(3);
-    resizeColumnToContents(4);
-    resizeColumnToContents(5);
+    resizeColumnToContents(m_colTurn);
+    resizeColumnToContents(m_colRef);
+    resizeColumnToContents(m_colPoints);
+    resizeColumnToContents(m_colTotal);
+    resizeColumnToContents(m_colPlayer);
+}
+
+
+void HistoryWidget::setCellData(int iRow, int iCol, const QVariant &iData)
+{
+    m_model->setData(m_model->index(iRow, iCol), iData);
 }
 
 
