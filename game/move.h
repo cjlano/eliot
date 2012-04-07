@@ -26,7 +26,6 @@
 #include "round.h"
 #include "logging.h"
 
-class Rack;
 class PlayedRack;
 using std::wstring;
 
@@ -121,8 +120,8 @@ class Move
          * given move.
          * The move is supposed to be possible for the given rack.
          */
-        static Rack ComputeRackForMove(const PlayedRack &iOldRack,
-                                       const Move &iMove);
+        static PlayedRack ComputeRackForMove(const PlayedRack &iOldRack,
+                                             const Move &iMove);
 
         /// To help debugging
         wstring toString() const;

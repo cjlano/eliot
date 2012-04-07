@@ -22,7 +22,6 @@
 
 #include "player_move_cmd.h"
 #include "player.h"
-#include "rack.h"
 
 
 INIT_LOGGER(game, PlayerMoveCmd);
@@ -41,7 +40,7 @@ void PlayerMoveCmd::doExecute()
     m_originalRack = m_player.getCurrentRack();
 
     // Compute the new rack
-    const Rack &newRack = Move::ComputeRackForMove(m_originalRack, m_move);
+    const PlayedRack &newRack = Move::ComputeRackForMove(m_originalRack, m_move);
 
     // Update the score of the player
     m_player.addPoints(m_move.getScore());

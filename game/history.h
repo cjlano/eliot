@@ -33,7 +33,6 @@ using std::vector;
 class Move;
 class Turn;
 class PlayedRack;
-class Rack;
 
 /**
  * History stores all the turns that have been played
@@ -83,13 +82,9 @@ public:
      */
     bool beforeFirstRound() const;
 
-    /**
-     * Update the history with the given move and complete the turn.
-     * A new turn is created with the unplayed letters in the rack
-     * 03 sept 2000: We have to sort the tiles according to the new rules
-     */
+    /// Update the history with the given move and complete the turn.
     void playMove(unsigned int player, const Move &iMove,
-                  const Rack &iNewRack);
+                  const PlayedRack &iNewRack);
 
     /// Remove last turn
     void removeLastTurn();

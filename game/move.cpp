@@ -98,9 +98,11 @@ const wstring & Move::getChangedLetters() const
 }
 
 
-Rack Move::ComputeRackForMove(const PlayedRack &iOldRack, const Move &iMove)
+PlayedRack Move::ComputeRackForMove(const PlayedRack &iOldRack, const Move &iMove)
 {
     // Start from the given rack
+    // 03 sept 2000: We have to sort the tiles according to the new rules
+    // Using a Rack object will indirectly do it for us
     Rack newRack = iOldRack.getRack();
 
     if (iMove.getType() == Move::VALID_ROUND)
@@ -128,7 +130,9 @@ Rack Move::ComputeRackForMove(const PlayedRack &iOldRack, const Move &iMove)
         }
     }
 
-    return newRack;
+    PlayedRack newPldRack;
+    newPldRack.setOld(newRack);
+    return newPldRack;
 }
 
 

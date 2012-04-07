@@ -44,7 +44,7 @@ GameMoveCmd::GameMoveCmd(Game &ioGame, const Move &iMove,
 void GameMoveCmd::doExecute()
 {
     // Get the original rack from the player history
-    const Rack &newRack = Move::ComputeRackForMove(m_moveRack, m_move);
+    const PlayedRack &newRack = Move::ComputeRackForMove(m_moveRack, m_move);
 
     // History of the game
     History &history = m_game.accessHistory();

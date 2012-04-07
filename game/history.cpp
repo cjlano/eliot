@@ -98,7 +98,7 @@ bool History::beforeFirstRound() const
 
 void History::playMove(unsigned int iPlayer,
                        const Move &iMove,
-                       const Rack &iNewRack)
+                       const PlayedRack &iNewRack)
 {
     Turn * current_turn = m_history.back();
 
@@ -107,10 +107,8 @@ void History::playMove(unsigned int iPlayer,
     current_turn->setMove(iMove);
 
     // Create a new turn
-    PlayedRack pldrack;
-    pldrack.setOld(iNewRack);
     Turn * next_turn = new Turn();
-    next_turn->setPlayedRack(pldrack);
+    next_turn->setPlayedRack(iNewRack);
     m_history.push_back(next_turn);
 }
 
