@@ -28,6 +28,7 @@
 #include "turn_cmd.h"
 #include "game_rack_cmd.h"
 #include "results.h"
+#include "player_move_cmd.h"
 #include "player_event_cmd.h"
 #include "settings.h"
 #include "encoding.h"
@@ -40,6 +41,47 @@ INIT_LOGGER(game, Arbitration);
 Arbitration::Arbitration(const GameParams &iParams)
     : Duplicate(iParams)
 {
+}
+
+
+void Arbitration::start()
+{
+    ASSERT(getNPlayers(), "Cannot start a game without any player");
+
+    // Arbitrary player, since they should all have the same rack
+    m_currPlayer = 0;
+
+    // Complete the racks
+    try
+    {
+        // Reset the master move
+        setMasterMove(Move());
+
+        const PlayedRack &newRack =
+            helperSetRackRandom(getHistory().getCurrentRack(), true, RACK_NEW);
+        setGameAndPlayersRack(newRack);
+
+        // Assign a "no move" pseudo-move to all the players.
+        // This avoids the need to distinguish between "has not played yet"
+        // and "has played with no move".
+        // This is also practical to know at which turn the warnings, penalties
+        // and solos should be assigned.
+        BOOST_FOREACH(Player *player, m_players)
+        {
+            Command *pCmd = new PlayerMoveCmd(*player, Move(), true);
+            pCmd->setHumanIndependent(!player->isHuman());
+            accessNavigation().addAndExecute(pCmd);
+        }
+    }
+    catch (EndGameException &e)
+    {
+        endGame();
+        return;
+    }
+
+    // Little hack to handle duplicate games with only AI players.
+    // This will have no effect when there is at least one human player
+    tryEndTurn();
 }
 
 

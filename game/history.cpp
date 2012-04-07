@@ -137,25 +137,29 @@ void History::removeLastTurn()
 
 void History::addWarning()
 {
-    m_history.back()->addWarning();
+    ASSERT(m_history.size() > 1, "Too short history");
+    m_history[m_history.size() - 2]->addWarning();
 }
 
 
 void History::removeWarning()
 {
-    m_history.back()->addWarning(-1);
+    ASSERT(m_history.size() > 1, "Too short history");
+    m_history[m_history.size() - 2]->addWarning(-1);
 }
 
 
 void History::addPenaltyPoints(int iPoints)
 {
-    m_history.back()->addPenaltyPoints(iPoints);
+    ASSERT(m_history.size() > 1, "Too short history");
+    m_history[m_history.size() - 2]->addPenaltyPoints(iPoints);
 }
 
 
 void History::addSoloPoints(int iPoints)
 {
-    m_history.back()->addSoloPoints(iPoints);
+    ASSERT(m_history.size() > 1, "Too short history");
+    m_history[m_history.size() - 2]->addSoloPoints(iPoints);
 }
 
 

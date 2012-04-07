@@ -132,6 +132,9 @@ protected:
      */
     void tryEndTurn();
 
+    /// Finish the game
+    void endGame();
+
 private: // Used by friend classes
     /// Change the "has played" status of the given player to the given status
     // Note: only used by friend classes
@@ -159,9 +162,6 @@ private:
      * turn (this should have been checked by tryEndturn())
      */
     void endTurn();
-
-    /// Finish the game
-    void endGame();
 
     /// m_hasPlayed[p] is true iff player p has played for this turn
     map<unsigned int, bool> m_hasPlayed;

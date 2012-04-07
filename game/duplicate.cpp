@@ -161,7 +161,7 @@ void Duplicate::tryEndTurn()
 {
     for (unsigned int i = 0; i < getNPlayers(); i++)
     {
-        if (m_players[i]->isHuman() && !m_hasPlayed[i])
+        if (m_players[i]->isHuman() && !hasPlayed(i))
         {
             // A human player has not played...
             m_currPlayer = i;
@@ -176,7 +176,7 @@ void Duplicate::tryEndTurn()
     // were removed (because of the isHumanIndependent() behaviour)
     for (unsigned int i = 0; i < getNPlayers(); i++)
     {
-        if (!m_players[i]->isHuman() && !m_hasPlayed[i])
+        if (!m_players[i]->isHuman() && !hasPlayed(i))
         {
             playAI(i);
         }

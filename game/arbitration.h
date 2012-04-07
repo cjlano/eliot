@@ -37,6 +37,9 @@ class Arbitration: public Duplicate
     DEFINE_LOGGER();
     friend class GameFactory;
 public:
+
+    virtual void start();
+
     /**
      * Complete (or reset) the rack randomly.
      * @exception EndGameException if it is impossible to complete the rack
