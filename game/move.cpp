@@ -129,6 +129,17 @@ PlayedRack Move::ComputeRackForMove(const PlayedRack &iOldRack, const Move &iMov
             newRack.remove(Tile(ch));
         }
     }
+    else if (iMove.getType() == Move::NO_MOVE)
+    {
+        // Special case: when the player didn't play, we keep the
+        // original played rack, to avoid the implicit reordering
+        // of the "old" tiles, and to keep the nice '+' in the display.
+        // This is only used in FreeGame mode at the moment (for the Moves
+        // of the players who didn't played), and this rule is a bit arbitrary:
+        // in this mode, the distinction between "old" and "new" tiles
+        // is only useful to display the game history...
+        return iOldRack;
+    }
 
     PlayedRack newPldRack;
     newPldRack.setOld(newRack);

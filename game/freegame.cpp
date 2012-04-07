@@ -159,6 +159,18 @@ bool FreeGame::isFinished() const
 
 int FreeGame::endTurn()
 {
+    // Give a "no move" pseudo-move to all the players
+    // who didn't play at this turn
+    for (unsigned int i = 0; i < getNPlayers(); ++i)
+    {
+        if (i == m_currPlayer)
+            continue;
+        Command *pCmd = new PlayerMoveCmd(*m_players[i], Move());
+        // The pseudo-moves should be completely transparent
+        pCmd->setHumanIndependent(true);
+        accessNavigation().addAndExecute(pCmd);
+    }
+
     const Move &move = getCurrentPlayer().getLastMove();
     // Update the game
     Command *pCmd = new GameMoveCmd(*this, move, m_currPlayer);
