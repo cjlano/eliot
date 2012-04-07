@@ -227,7 +227,7 @@ void Duplicate::recordPlayerMove(Player &ioPlayer, const Move &iMove)
     {
         // Replace the player move
         LOG_DEBUG("Replacing move for player " << ioPlayer.getId());
-        if (!getNavigation().isLastTurn())
+        if (!isArbitration && !getNavigation().isLastTurn())
             throw GameException("Cannot add a command to an old turn");
         Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitration);
         pCmd->setHumanIndependent(!ioPlayer.isHuman());
@@ -379,7 +379,8 @@ bool Duplicate::hasPlayed(unsigned iPlayerId) const
     MatchingPlayer predicate(iPlayerId);
     const PlayerMoveCmd *cmd =
         getNavigation().getCurrentTurn().findMatchingCmd<PlayerMoveCmd>(predicate);
-    return cmd != 0 && cmd->isExecuted();
+    return cmd != 0 && cmd->isExecuted() &&
+        cmd->getMove().getType() != Move::NO_MOVE;
 }
 
 
@@ -414,6 +415,18 @@ void Duplicate::setGameAndPlayersRack(const PlayedRack &iRack)
     BOOST_FOREACH(Player *player, m_players)
     {
         Command *pCmd = new PlayerRackCmd(*player, iRack);
+        accessNavigation().addAndExecute(pCmd);
+    }
+
+    // Assign a "no move" pseudo-move to all the players.
+    // This avoids the need to distinguish between "has not played yet"
+    // and "has played with no move".
+    // This is also practical to know at which turn the warnings, penalties
+    // and solos should be assigned.
+    BOOST_FOREACH(Player *player, m_players)
+    {
+        Command *pCmd = new PlayerMoveCmd(*player, Move(), true);
+        pCmd->setHumanIndependent(!player->isHuman());
         accessNavigation().addAndExecute(pCmd);
     }
 }
