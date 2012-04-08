@@ -50,6 +50,7 @@
 #include "encoding.h"
 #include "game_exception.h"
 #include "settings.h"
+#include "move.h"
 
 class Game;
 
@@ -244,7 +245,7 @@ void helpTraining()
     printf("  n [] : jouer le résultat numéro []\n");
     printf("  r    : rechercher les meilleurs résultats\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
-    printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay\n");
+    printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay)\n");
     printf("  q    : quitter le mode entraînement\n");
 }
 
@@ -268,7 +269,7 @@ void helpFreegame()
     printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
     printf("  p [] : passer son tour en changeant les lettres []\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
-    printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay\n");
+    printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay)\n");
     printf("  q    : quitter le mode partie libre\n");
 }
 
@@ -296,6 +297,39 @@ void helpDuplicate()
 }
 
 
+void helpArbitration()
+{
+    printf("  ?    : aide -- cette page\n");
+    printf("  a [g|l|p|r|t] : afficher :\n");
+    printf("            g -- grille\n");
+    printf("            gj -- grille + jokers\n");
+    printf("            gm -- grille + valeur des cases\n");
+    printf("            gn -- grille + valeur des cases (variante)\n");
+    printf("            gd -- grille + debug cross (debug only)\n");
+    printf("            l -- lettres non jouées\n");
+    printf("            p -- partie\n");
+    printf("            pd -- partie (debug)\n");
+    printf("            r -- recherche\n");
+    printf("            s -- score\n");
+    printf("            S -- score de tous les joueurs\n");
+    printf("            t -- tirage\n");
+    printf("  d [] : vérifier le mot []\n");
+    printf("  *    : tirage aléatoire\n");
+    printf("  t [] : changer le tirage\n");
+    printf("  j j [] {} : jouer le mot [] aux coordonnées {} pour le joueur j\n");
+    printf("  m [] {} : définir le master move [] aux coordonnées {}\n");
+    printf("  e j [w|p|s] {} : assigner un événement au joueur j :\n");
+    printf("            w -- avertissement\n");
+    printf("            p -- pénalité\n");
+    printf("            s -- solo\n");
+    printf("            {} -- valeur de l'événement\n");
+    printf("  f    : finaliser le tour courant\n");
+    printf("  s [] : sauver la partie en cours dans le fichier []\n");
+    printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay)\n");
+    printf("  q    : quitter le mode arbitrage\n");
+}
+
+
 void help()
 {
     printf("  ?        : aide -- cette page\n");
@@ -318,6 +352,14 @@ void help()
     printf("  le [] {} : démarrer une partie libre avec\n");
     printf("                [] joueurs humains et {} joueurs IA (partie détonante)\n");
     printf("  l8 [] {} : démarrer une partie libre avec\n");
+    printf("                [] joueurs humains et {} joueurs IA (partie 7 sur 8)\n");
+    printf("  a [] {}  : démarrer une partie arbitrage avec\n");
+    printf("                [] joueurs humains et {} joueurs IA\n");
+    printf("  aj [] {} : démarrer une partie arbitrage avec\n");
+    printf("                [] joueurs humains et {} joueurs IA (partie joker)\n");
+    printf("  ae [] {} : démarrer une partie arbitrage avec\n");
+    printf("                [] joueurs humains et {} joueurs IA (partie détonante)\n");
+    printf("  a8 [] {} : démarrer une partie arbitrage avec\n");
     printf("                [] joueurs humains et {} joueurs IA (partie 7 sur 8)\n");
     printf("  c []     : charger la partie du fichier []\n");
     printf("  x [] {1} {2} {3} : expressions rationnelles\n");
@@ -846,6 +888,144 @@ void loopDuplicate(PublicGame &iGame)
 }
 
 
+void loopArbitration(PublicGame &iGame)
+{
+    printf("mode arbitrage\n");
+    printf("[?] pour l'aide\n");
+
+    bool quit = false;
+    while (!quit)
+    {
+        wstring command = rl_gets();
+        // Split the command
+        vector<wstring> tokens;
+        boost::char_separator<wchar_t> sep(L" ");
+        Tokenizer tok(command, sep);
+        BOOST_FOREACH(const wstring &wstr, tok)
+        {
+            tokens.push_back(wstr);
+        }
+
+        if (tokens.empty())
+            continue;
+        if (tokens[0].size() > 1)
+        {
+            printf("%s\n", "Invalid command");
+            continue;
+        }
+
+        try
+        {
+            switch (tokens[0][0])
+            {
+                case L'?':
+                    helpArbitration();
+                    break;
+                case L'a':
+                case L'd':
+                case L'h':
+                case L's':
+                    commonCommands(iGame, tokens);
+                    break;
+                case L'f':
+                    iGame.arbitrationFinalizeTurn();
+                    break;
+                case L'j':
+                    {
+                        const wstring &id = checkNumToken(tokens, 1);
+                        const wstring &word = checkLettersToken(tokens, 2, iGame.getDic());
+                        const wstring &coord = checkAlphaNumToken(tokens, 3);
+                        if (id == L"" || word == L"" || coord == L"")
+                        {
+                            helpArbitration();
+                            break;
+                        }
+                        int n = wtoi(id.c_str());
+                        if (n < 0 || n >= (int)iGame.getNbPlayers())
+                        {
+                            fprintf(stderr, "Numéro de joueur invalide\n");
+                            break;
+                        }
+                        const Move &move = iGame.arbitrationCheckWord(word, coord);
+                        iGame.arbitrationAssign(n, move);
+                    }
+                    break;
+                case L'm':
+                    {
+                        const wstring &word = checkLettersToken(tokens, 1, iGame.getDic());
+                        const wstring &coord = checkAlphaNumToken(tokens, 2);
+                        if (word == L"" || coord == L"")
+                        {
+                            helpArbitration();
+                            break;
+                        }
+                        const Move &move = iGame.arbitrationCheckWord(word, coord);
+                        iGame.duplicateSetMasterMove(move);
+                    }
+                    break;
+                case L'e':
+                    {
+                        const wstring &id = checkNumToken(tokens, 1);
+                        const wstring &type = checkAlphaToken(tokens, 2);
+                        const wstring &value = checkNumToken(tokens, 3);
+                        if (id == L"" || type == L"" || value == L"")
+                        {
+                            helpArbitration();
+                            break;
+                        }
+                        int n = wtoi(id.c_str());
+                        if (n < 0 || n >= (int)iGame.getNbPlayers())
+                        {
+                            fprintf(stderr, "Numéro de joueur invalide\n");
+                            break;
+                        }
+                        switch (type[0])
+                        {
+                            case L'w':
+                                iGame.arbitrationToggleWarning(n);
+                                break;
+                            case L'p':
+                                iGame.arbitrationAddPenalty(n, wtoi(value.c_str()));
+                                break;
+//                             case L's':
+//                                 iGame.arbitrationSetSolo(n, value);
+//                                 break;
+                            default:
+                                fprintf(stderr, "Invalid event type\n");
+                                break;
+                        }
+                    }
+                    break;
+                case L't':
+                    {
+                        const wstring &letters =
+                            checkLettersToken(tokens, 1, iGame.getDic());
+                        if (letters == L"")
+                            helpArbitration();
+                        else
+                            iGame.arbitrationSetRackManual(letters);
+                    }
+                    break;
+                case L'*':
+                    iGame.arbitrationSetRackRandom();
+                    break;
+                case L'q':
+                    quit = true;
+                    break;
+                default:
+                    printf("commande inconnue\n");
+                    break;
+            }
+        }
+        catch (std::exception &e)
+        {
+            printf("%s\n", e.what());
+        }
+    }
+    printf("fin du mode arbitrage\n");
+}
+
+
 void mainLoop(const Dictionary &iDic)
 {
     printf("[?] pour l'aide\n");
@@ -899,8 +1079,7 @@ void mainLoop(const Dictionary &iDic)
                                         loopDuplicate(*game);
                                         break;
                                     case PublicGame::kARBITRATION:
-                                        // TODO
-                                        printf("The Arbitration mode is not yet supported\n");
+                                        loopArbitration(*game);
                                         break;
                                 }
                                 //GameFactory::Instance()->releaseGame(*game);
@@ -973,6 +1152,32 @@ void mainLoop(const Dictionary &iDic)
                             game->addPlayer(new AIPercent(1));
                         game->start();
                         loopFreegame(*game);
+                        //GameFactory::Instance()->releaseGame(*game);
+                        delete game;
+                    }
+                    break;
+                case L'a':
+                    {
+                        if (tokens.size() != 3)
+                        {
+                            help();
+                            break;
+                        }
+                        const wstring &nbHuman = checkNumToken(tokens, 1);
+                        const wstring &nbAI = checkNumToken(tokens, 2);
+                        if (nbHuman == L"" || nbAI == L"")
+                        {
+                            help();
+                            break;
+                        }
+                        // New free game
+                        PublicGame *game = readGame(iDic, GameParams::kARBITRATION, tokens[0]);
+                        for (int i = 0; i < wtoi(nbHuman.c_str()); i++)
+                            game->addPlayer(new HumanPlayer);
+                        for (int i = 0; i < wtoi(nbAI.c_str()); i++)
+                            game->addPlayer(new AIPercent(1));
+                        game->start();
+                        loopArbitration(*game);
                         //GameFactory::Instance()->releaseGame(*game);
                         delete game;
                     }
