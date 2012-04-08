@@ -72,6 +72,7 @@ void GameIO::printBoard(ostream &out, const PublicGame &iGame)
     }
 }
 
+
 /* this mode is used for regression tests */
 void GameIO::printBoardDebug(ostream &out, const PublicGame &iGame)
 {
@@ -94,33 +95,6 @@ void GameIO::printBoardDebug(ostream &out, const PublicGame &iGame)
         for (col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
             out << iGame.getBoard().getCellContent_col(row, col);
-        }
-        out << endl;
-    }
-}
-
-void GameIO::printBoardJoker(ostream &out, const PublicGame &iGame)
-{
-    int row,col;
-
-    out << "   ";
-    for (col = BOARD_MIN; col <= BOARD_MAX; col++)
-        out << setw(3) << col - BOARD_MIN + 1;
-    out << endl;
-
-    for (row = BOARD_MIN; row <= BOARD_MAX; row++)
-    {
-        out << " " << (char)(row - BOARD_MIN + 'A') << " ";
-        for (col = BOARD_MIN; col <= BOARD_MAX; col++)
-        {
-            if (iGame.getBoard().isVacant(row, col))
-                out << " --";
-            else
-            {
-                bool j = iGame.getBoard().isJoker(row, col);
-                out << (j ? " ." : "  ")
-                    << lfw(iGame.getBoard().getDisplayStr(row, col));
-            }
         }
         out << endl;
     }
@@ -155,39 +129,6 @@ void GameIO::printBoardMultipliers(ostream &out, const PublicGame &iGame)
                 else
                     out << "  -";
             }
-        }
-        out << endl;
-    }
-}
-
-
-void GameIO::printBoardMultipliers2(ostream &out, const PublicGame &iGame)
-{
-    int row, col;
-
-    out << "   ";
-    for (col = BOARD_MIN; col <= BOARD_MAX; col++)
-        out << setw(3) << col - BOARD_MIN + 1;
-    out << endl;
-
-    for (row = BOARD_MIN; row <= BOARD_MAX; row++)
-    {
-        out << " " << (char)(row - BOARD_MIN + 'A') << " ";
-        for (col = BOARD_MIN; col <= BOARD_MAX; col++)
-        {
-            int wm = iGame.getBoard().GetWordMultiplier(row, col);
-            int tm = iGame.getBoard().GetLetterMultiplier(row, col);
-
-            if (wm > 1)
-                out << " " << ((wm == 3) ? '@' : '#');
-            else if (tm > 1)
-                out << " " << ((tm == 3) ? '*' : '+');
-            else
-                out << " -";
-            if (iGame.getBoard().isVacant(row, col))
-                out << "-";
-            else
-                out << lfw(iGame.getBoard().getDisplayStr(row, col));
         }
         out << endl;
     }

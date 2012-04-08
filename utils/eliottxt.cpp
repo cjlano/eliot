@@ -260,19 +260,17 @@ PublicGame * readGame(const Dictionary &iDic,
 void helpTraining()
 {
     printf("  ?    : aide -- cette page\n");
-    printf("  a [g|l|p|r|t] : afficher :\n");
+    printf("  a [g|gm|gd|l|p|s|S|t|T] : afficher :\n");
     printf("            g -- grille\n");
-    printf("            gj -- grille + jokers\n");
     printf("            gm -- grille + valeur des cases\n");
-    printf("            gn -- grille + valeur des cases (variante)\n");
     printf("            gd -- grille + debug cross (debug only)\n");
     printf("            l -- lettres non jouées\n");
     printf("            p -- partie\n");
-    printf("            pd -- partie (debug)\n");
     printf("            r -- recherche\n");
     printf("            s -- score\n");
     printf("            S -- score de tous les joueurs\n");
     printf("            t -- tirage\n");
+    printf("            T -- tirage de tous les joueurs\n");
     printf("  d [] : vérifier le mot []\n");
     printf("  b [b|p|r] [] : effectuer une recherche speciale à partir de []\n");
     printf("            b -- benjamins\n");
@@ -293,12 +291,10 @@ void helpTraining()
 void helpFreegame()
 {
     printf("  ?    : aide -- cette page\n");
-    printf("  a [g|l|p|s|t] : afficher :\n");
+    printf("  a [g|gm|gd|l|p|s|S|t|T] : afficher :\n");
     printf("            g -- grille\n");
-    printf("            gj -- grille + jokers\n");
     printf("            gm -- grille + valeur des cases\n");
-    printf("            gn -- grille + valeur des cases (variante)\n");
-    printf("            j -- joueur courant\n");
+    printf("            gd -- grille + debug cross (debug only)\n");
     printf("            l -- lettres non jouées\n");
     printf("            p -- partie\n");
     printf("            s -- score\n");
@@ -317,17 +313,16 @@ void helpFreegame()
 void helpDuplicate()
 {
     printf("  ?    : aide -- cette page\n");
-    printf("  a [g|l|p|s|t] : afficher :\n");
+    printf("  a [g|gm|gd|l|p|s|S|t|T] : afficher :\n");
     printf("            g -- grille\n");
-    printf("            gj -- grille + jokers\n");
     printf("            gm -- grille + valeur des cases\n");
-    printf("            gn -- grille + valeur des cases (variante)\n");
-    printf("            j -- joueur courant\n");
+    printf("            gd -- grille + debug cross (debug only)\n");
     printf("            l -- lettres non jouées\n");
     printf("            p -- partie\n");
     printf("            s -- score\n");
     printf("            S -- score de tous les joueurs\n");
     printf("            t -- tirage\n");
+    printf("            T -- tirage de tous les joueurs\n");
     printf("  d [] : vérifier le mot []\n");
     printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
     printf("  n [] : passer au joueur n°[]\n");
@@ -340,19 +335,16 @@ void helpDuplicate()
 void helpArbitration()
 {
     printf("  ?    : aide -- cette page\n");
-    printf("  a [g|l|p|r|t] : afficher :\n");
+    printf("  a [g|gm|gd|l|p|s|S|t|T] : afficher :\n");
     printf("            g -- grille\n");
-    printf("            gj -- grille + jokers\n");
     printf("            gm -- grille + valeur des cases\n");
-    printf("            gn -- grille + valeur des cases (variante)\n");
     printf("            gd -- grille + debug cross (debug only)\n");
     printf("            l -- lettres non jouées\n");
     printf("            p -- partie\n");
-    printf("            pd -- partie (debug)\n");
-    printf("            r -- recherche\n");
     printf("            s -- score\n");
     printf("            S -- score de tous les joueurs\n");
     printf("            t -- tirage\n");
+    printf("            T -- tirage de tous les joueurs\n");
     printf("  d [] : vérifier le mot []\n");
     printf("  *    : tirage aléatoire\n");
     printf("  t [] : changer le tirage\n");
@@ -420,12 +412,8 @@ void displayData(const PublicGame &iGame, const vector<wstring> &tokens)
         GameIO::printBoard(cout, iGame);
     else if (displayType == L"gd")
         GameIO::printBoardDebug(cout, iGame);
-    else if (displayType == L"gj")
-        GameIO::printBoardJoker(cout, iGame);
     else if (displayType == L"gm")
         GameIO::printBoardMultipliers(cout, iGame);
-    else if (displayType == L"gn")
-        GameIO::printBoardMultipliers2(cout, iGame);
     else if (displayType == L"j")
         cout << "Joueur " << iGame.getCurrentPlayer().getId() << endl;
     else if (displayType == L"l")
@@ -436,8 +424,6 @@ void displayData(const PublicGame &iGame, const vector<wstring> &tokens)
         GameIO::printAllRacks(cout, iGame);
         GameIO::printAllPoints(cout, iGame);
     }
-    else if (displayType == L"pd")
-        GameIO::printGameDebug(cout, iGame);
     else if (displayType == L"r")
     {
         int limit = parseNum(tokens, 2, true, 10);

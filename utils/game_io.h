@@ -45,9 +45,7 @@ class GameIO
 public:
     static void printBoard(ostream &out, const PublicGame &iGame);
     static void printBoardDebug(ostream &out, const PublicGame &iGame);
-    static void printBoardJoker(ostream &out, const PublicGame &iGame);
     static void printBoardMultipliers(ostream &out, const PublicGame &iGame);
-    static void printBoardMultipliers2(ostream &out, const PublicGame &iGame);
 
     static void printNonPlayed(ostream &out, const PublicGame &iGame);
     static void printPlayedRack(ostream &out, const PublicGame &iGame, int n);
