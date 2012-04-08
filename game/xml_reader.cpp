@@ -59,32 +59,7 @@ INIT_LOGGER(game, XmlReader);
 
 Game * XmlReader::read(const string &iFileName, const Dictionary &iDic)
 {
-    // Try to load the old format first
     LOG_INFO("Parsing savegame '" << iFileName << "'");
-
-    try
-    {
-        LOG_DEBUG("Trying old format");
-        FILE *fin = fopen(iFileName.c_str(), "r");
-        if (fin != NULL)
-        {
-            Game *game = Game::load(fin, iDic);
-            fclose(fin);
-
-            if (game != NULL)
-            {
-                LOG_INFO("Savegame parsed successfully");
-                return game;
-            }
-        }
-    }
-    catch (const GameException &e)
-    {
-        // Ignore the exception
-        LOG_DEBUG("This doesn't look like the old format");
-    }
-
-    LOG_DEBUG("Trying XML format");
 
     ifstream is(iFileName.c_str());
     if (!is.is_open())

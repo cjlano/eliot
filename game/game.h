@@ -159,19 +159,6 @@ public:
     virtual bool hasPlayed(unsigned int player) const { return player != currPlayer(); }
 
     /***************
-     * Saved games handling
-     ***************/
-
-    /**
-     * XXX FIXME XXX: these methods are deprecated, don't use them anymore.
-     * load() returns the loaded game, or NULL if there was a problem
-     * load() does need some more work to be robust enough to
-     * handle "hand written" files
-     */
-    static Game * load(FILE *fin, const Dictionary &iDic);
-    static Game * load(const string &iFileName, const Dictionary &iDic);
-
-    /***************
      * Setting the rack
      ***************/
 
@@ -294,30 +281,6 @@ protected:
      * freegames.
      */
     bool rackInBag(const Rack &iRack, const Bag &iBag) const;
-
-    /**
-     * load games from File using the first format.
-     * This format is used for Training games
-     */
-    static Game* gameLoadFormat_14(FILE *fin, const Dictionary& iDic);
-
-    /**
-     * load games from File using advanced format (since Eliot 1.5)
-     * This format is used for Duplicate, FreeGame, ...
-     */
-    static Game* gameLoadFormat_15(FILE *fin, const Dictionary& iDic);
-
-#if 0
-    /**
-     * Training games ares saved using the initial Eliot format
-     */
-    void gameSaveFormat_14(ostream &out) const;
-
-    /**
-     * Advanced game file format output
-     */
-    void gameSaveFormat_15(ostream &out) const;
-#endif
 
 };
 

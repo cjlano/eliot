@@ -48,9 +48,6 @@ training_cross3     0
 # Search with best word having a joker on the cross-set
 training_cross4     0
 
-# Joker problem on game load
-training_joker      0
-
 #################
 # Duplicate mode
 #################
@@ -99,8 +96,6 @@ freegame_7among8_variant 20
 # Load / Save
 ##############
 
-# load a standard training game (fumee)
-load_game           0
 # save and reload a training game, standard format
 load_saved_game     0  # randseed unused
 # save and load a game combining 2 variants

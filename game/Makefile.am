@@ -60,7 +60,6 @@ libgame_a_SOURCES= \
     training.cpp training.h \
     public_game.cpp public_game.h \
     game_factory.cpp game_factory.h \
-    game_io.cpp \
     xml_writer.cpp xml_writer.h \
     xml_reader.cpp xml_reader.h
 
