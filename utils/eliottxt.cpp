@@ -685,8 +685,9 @@ void loopFreegame(PublicGame &iGame)
                 {
                     letters = parseLetters(tokens, 1, iGame.getDic());
                 }
-                // TODO: check return value
-                iGame.freeGamePass(letters);
+                int res = iGame.freeGamePass(letters);
+                if (res != 0)
+                    printf("Cannot pass (%d)\n", res);
             }
             else if (command == L'q')
                 quit = true;
