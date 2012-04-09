@@ -52,6 +52,9 @@ HistoryWidget::HistoryWidget(QWidget *parent)
     m_colWord = 2;
     m_colRef = 3;
     m_colPoints = 4;
+    m_colWarning = 5;
+    m_colPenalty = 6;
+    m_colSolo = 7;
     m_colTotal = -1;
     m_colPercent = -1;
     m_colPlayer = -1;
@@ -59,6 +62,7 @@ HistoryWidget::HistoryWidget(QWidget *parent)
     // Create the tree view
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setRootIsDecorated(false);
+    header()->setMinimumSectionSize(15);
 
     // Add a context menu for the results
     m_customPopup = new CustomPopup(this);
@@ -70,12 +74,15 @@ HistoryWidget::HistoryWidget(QWidget *parent)
     // Associate the model to the view
     m_model = new QStandardItemModel(this);
     setModel(m_model);
-    m_model->setColumnCount(5);
+    m_model->setColumnCount(8);
     m_model->setHeaderData(m_colTurn, Qt::Horizontal, _q("Turn"));
     m_model->setHeaderData(m_colRack, Qt::Horizontal, _q("Rack"));
     m_model->setHeaderData(m_colWord, Qt::Horizontal, _q("Word"));
     m_model->setHeaderData(m_colRef, Qt::Horizontal, _q("Ref"));
     m_model->setHeaderData(m_colPoints, Qt::Horizontal, _q("Points"));
+    m_model->setHeaderData(m_colWarning, Qt::Horizontal, _q("W"));
+    m_model->setHeaderData(m_colPenalty, Qt::Horizontal, _q("P"));
+    m_model->setHeaderData(m_colSolo, Qt::Horizontal, _q("S"));
 }
 
 
@@ -88,7 +95,7 @@ void HistoryWidget::setHistory(const History *iHistory,
     m_forPlayer = iIsForPlayer;
     m_isFreeGame = (iGame != 0 && iGame->getMode() == PublicGame::kFREEGAME);
 
-    int currColumn = m_colPoints + 1;
+    int currColumn = m_colSolo + 1;
     if (m_forPlayer)
     {
         m_colTotal = currColumn++;
@@ -215,6 +222,20 @@ void HistoryWidget::updateModel()
                 color = Qt::blue;
             }
 
+            // Set warnings, penalties and solos
+            if (t.getWarningsNb() > 0)
+            {
+                m_model->setData(m_model->index(rowNum, m_colWarning), t.getWarningsNb());
+            }
+            if (t.getPenaltyPoints() > 0)
+            {
+                m_model->setData(m_model->index(rowNum, m_colPenalty), t.getPenaltyPoints());
+            }
+            if (t.getSoloPoints() > 0)
+            {
+                m_model->setData(m_model->index(rowNum, m_colSolo), t.getSoloPoints());
+            }
+
             // Set the color of the text
             for (int col = 0; col < m_model->columnCount(); ++col)
             {
@@ -232,6 +253,9 @@ void HistoryWidget::updateModel()
     resizeColumnToContents(m_colPoints);
     resizeColumnToContents(m_colTotal);
     resizeColumnToContents(m_colPlayer);
+    resizeColumnToContents(m_colWarning);
+    resizeColumnToContents(m_colPenalty);
+    resizeColumnToContents(m_colSolo);
 }
 
 
