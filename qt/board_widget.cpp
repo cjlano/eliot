@@ -40,6 +40,7 @@ INIT_LOGGER(qt, BoardWidget);
 BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     : QFrame(parent), m_game(NULL),
     m_coordModel(iCoordModel), m_showTemporarySigns(true),
+    m_showOnlyLastTurn(false),
     m_widgetsMatrix(BOARD_MAX + 1, BOARD_MAX + 1, 0)
 {
     // Try to have a black background... FIXME: not working well!
@@ -133,6 +134,8 @@ void BoardWidget::refresh()
 {
     if (m_game != NULL)
     {
+        if (!m_showOnlyLastTurn && !m_game->isLastTurn())
+            return;
         // Note: the TileWidget class will redraw the tile only if something
         // has changed, to avoid useless repainting.
         const Board &board = m_game->getBoard();

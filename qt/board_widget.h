@@ -40,6 +40,7 @@ class BoardWidget: public QFrame
 public:
     explicit BoardWidget(CoordModel &iCoordModel, QWidget *parent = 0);
     void setShowTempSigns(bool iShow) { m_showTemporarySigns = iShow; }
+    void setShowOnlyLastTurn(bool iShow) { m_showOnlyLastTurn = iShow; }
 
 public slots:
     void setGame(const PublicGame *iGame);
@@ -66,6 +67,12 @@ private:
 
     /// Indicate whether to draw the arrow and the previewed word on the board
     bool m_showTemporarySigns;
+
+    /**
+     * Indicate whether to show only the board as it is on the last turn
+     * (useful for on the external board, in particular in arbitration mode)
+     */
+    bool m_showOnlyLastTurn;
 
     Matrix<TileWidget*> m_widgetsMatrix;
 };

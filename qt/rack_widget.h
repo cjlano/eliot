@@ -40,6 +40,7 @@ class RackWidget: public QWidget
 
 public:
     explicit RackWidget(QWidget *parent = 0);
+    void setShowOnlyLastTurn(bool iShow) { m_showOnlyLastTurn = iShow; }
 
 public slots:
     void setGame(const PublicGame *iGame);
@@ -51,6 +52,12 @@ private:
 
     /// Encapsulated game, can be NULL
     const PublicGame *m_game;
+
+    /**
+     * Indicate whether to show only the last rack
+     * (useful for on the external board, in particular in arbitration mode)
+     */
+    bool m_showOnlyLastTurn;
 };
 
 #endif

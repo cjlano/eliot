@@ -1122,6 +1122,7 @@ void MainWindow::onWindowsBoard()
         vSplitter->addWidget(hSplitter);
 
         RackWidget *rackWidget = new RackWidget;
+        rackWidget->setShowOnlyLastTurn(true);
         rackWidget->setGame(m_game);
         QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
                          rackWidget, SLOT(setGame(const PublicGame*)));
@@ -1138,6 +1139,7 @@ void MainWindow::onWindowsBoard()
 
         BoardWidget *board = new BoardWidget(m_coordModel);
         board->setShowTempSigns(false);
+        board->setShowOnlyLastTurn(true);
         board->setGame(m_game);
         QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
                          board, SLOT(setGame(const PublicGame*)));

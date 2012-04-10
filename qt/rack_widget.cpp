@@ -35,7 +35,7 @@ INIT_LOGGER(qt, RackWidget);
 
 
 RackWidget::RackWidget(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), m_showOnlyLastTurn(false)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
@@ -62,6 +62,9 @@ void RackWidget::setGame(const PublicGame *iGame)
 void RackWidget::refresh()
 {
     if (m_game == NULL)
+        return;
+
+    if (m_showOnlyLastTurn && !m_game->isLastTurn())
         return;
 
     // Get the rack
