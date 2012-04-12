@@ -1,0 +1,250 @@
+[?] pour l'aide
+commande> a 1 1
+mode arbitrage
+[?] pour l'aide
+commande> t CHARITO
+commande> m CHARIOT h3
+commande> j 0 CHARIOT h4
+commande> f
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  C  H  A  R  I  O  T  -  -  -  -  -  - 
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Arbitration
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
+
+
+Rack 0: 
+Rack 1: 
+Score 0:   80
+Score 1:   82
+commande> t LAERSIU
+commande> m HUILERAS 4H
+commande> j 0 RECULAIS 3F
+commande> f
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  C  H  A  R  I  O  T  -  -  -  -  -  - 
+ I   -  -  -  U  -  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  I  -  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  L  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  E  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  R  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  A  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  S  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Arbitration
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
+    2 | 0 |  LAERSIU | HUILERAS       |  4H |  74 | *
+
+
+Rack 0: 
+Rack 1: 
+Score 0:  154
+Score 1:  156
+commande> h p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  C  H  A  R  I  O  T  -  -  -  -  -  - 
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Arbitration
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
+
+
+Rack 0: 
+Rack 1: 
+Score 0:  154
+Score 1:  156
+commande> h n
+commande> s arbitration.save
+commande> q
+fin du mode arbitrage
+commande> c arbitration.save
+mode arbitrage
+[?] pour l'aide
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  C  H  A  R  I  O  T  -  -  -  -  -  - 
+ I   -  -  -  U  -  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  I  -  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  L  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  E  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  R  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  A  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  S  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Arbitration
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
+    2 | 0 |  LAERSIU | HUILERAS       |  4H |  74 | *
+
+
+Rack 0: 
+Rack 1: 
+Score 0:  154
+Score 1:  156
+commande> h p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  C  H  A  R  I  O  T  -  -  -  -  -  - 
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Arbitration
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
+
+
+Rack 0: LAERSIU
+Rack 1: LAERSIU
+Score 0:   80
+Score 1:   82
+commande> h n
+commande> t TEEEPMO
+commande> m ESTOMPEE O3
+commande> f
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  C  H  A  R  I  O  T  -  -  -  -  -  - 
+ I   -  -  -  U  -  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  I  -  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  L  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  E  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  R  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  A  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  E  S  T  O  M  P  E  E  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Arbitration
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
+    2 | 0 |  LAERSIU | HUILERAS       |  4H |  74 | *
+    3 | 0 |  TEEEPMO | ESTOMPEE       |  O3 |  83 | *
+
+
+Rack 0: 
+Rack 1: 
+Score 0:  154
+Score 1:  239
+commande> s arbitration.save
+commande> q
+fin du mode arbitrage
+commande> c arbitration.save
+mode arbitrage
+[?] pour l'aide
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  C  H  A  R  I  O  T  -  -  -  -  -  - 
+ I   -  -  -  U  -  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  I  -  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  L  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  E  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  R  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  A  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  E  S  T  O  M  P  E  E  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Arbitration
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
+    2 | 0 |  LAERSIU | HUILERAS       |  4H |  74 | *
+    3 | 0 |  TEEEPMO | ESTOMPEE       |  O3 |  83 | *
+
+
+Rack 0: 
+Rack 1: 
+Score 0:  154
+Score 1:  239
+commande> q
+fin du mode arbitrage
+commande> q

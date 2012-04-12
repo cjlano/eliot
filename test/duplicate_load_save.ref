@@ -1,0 +1,234 @@
+Using seed: 22
+[?] pour l'aide
+commande> d 1 1
+mode duplicate
+[?] pour l'aide
+commande> a t
+NAMTIUO
+commande> j MONTA h4
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  M  A  N  I  T  O  U  -  -  -  -  - 
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a t
+SELEBNJ
+commande> j JEUNES 10F
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  E  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  N  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  S  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  M  A  N  I  T  O  U  -  -  -  -  - 
+ I   -  -  -  -  B  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  L  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  E  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Duplicate
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  NAMTIUO | MANITOU        |  H4 |  70 | *
+    2 | 0 |  SELEBNJ | ENSABLE        |  5E |  36 |  
+
+
+Rack 0: -IGTEIEW
+Rack 1: -IGTEIEW
+Score 0:   47
+Score 1:  106
+commande> h p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  M  A  N  I  T  O  U  -  -  -  -  - 
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Duplicate
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  NAMTIUO | MANITOU        |  H4 |  70 | *
+
+
+Rack 0: SELEBNJ
+Rack 1: SELEBNJ
+Score 0:   16
+Score 1:   70
+commande> h n
+commande> s duplicate.save
+commande> q
+fin du mode duplicate
+commande> c duplicate.save
+mode duplicate
+[?] pour l'aide
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  E  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  N  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  S  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  M  A  N  I  T  O  U  -  -  -  -  - 
+ I   -  -  -  -  B  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  L  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  E  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Duplicate
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  NAMTIUO | MANITOU        |  H4 |  70 | *
+    2 | 0 |  SELEBNJ | ENSABLE        |  5E |  36 |  
+
+
+Rack 0: -IGTEIEW
+Rack 1: -IGTEIEW
+Score 0:   47
+Score 1:  106
+commande> h p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  M  A  N  I  T  O  U  -  -  -  -  - 
+ I   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Duplicate
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  NAMTIUO | MANITOU        |  H4 |  70 | *
+
+
+Rack 0: SELEBNJ
+Rack 1: SELEBNJ
+Score 0:   16
+Score 1:   70
+commande> h n
+commande> j WEB i3
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  E  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  N  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  S  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  M  A  N  I  T  O  U  -  -  -  -  - 
+ I   -  -  -  -  B  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  L  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  E  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  E  W  E  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Duplicate
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  NAMTIUO | MANITOU        |  H4 |  70 | *
+    2 | 0 |  SELEBNJ | ENSABLE        |  5E |  36 |  
+    3 | 0 | -IGTEIEW | EWE            |  L3 |  34 |  
+
+
+Rack 0: GIIT+IIN
+Rack 1: GIIT+IIN
+Score 0:   74
+Score 1:  140
+commande> s duplicate.save
+commande> q
+fin du mode duplicate
+commande> c duplicate.save
+mode duplicate
+[?] pour l'aide
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  E  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  N  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  S  -  -  -  -  -  -  -  -  -  - 
+ H   -  -  -  M  A  N  I  T  O  U  -  -  -  -  - 
+ I   -  -  -  -  B  -  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  L  -  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  E  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  E  W  E  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Duplicate
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  NAMTIUO | MANITOU        |  H4 |  70 | *
+    2 | 0 |  SELEBNJ | ENSABLE        |  5E |  36 |  
+    3 | 0 | -IGTEIEW | EWE            |  L3 |  34 |  
+
+
+Rack 0: GIIT+IIN
+Rack 1: GIIT+IIN
+Score 0:   74
+Score 1:  140
+commande> q
+fin du mode duplicate
+commande> q

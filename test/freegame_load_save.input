@@ -1,0 +1,26 @@
+l 1 1
+a t
+j KERN h6
+p
+p
+a g
+a p
+h p
+a g
+a p
+h n
+s freegame.save
+q
+c freegame.save
+a g
+a p
+j AVEZ 8a
+a g
+a p
+s freegame.save
+q
+c freegame.save
+a g
+a p
+q
+q

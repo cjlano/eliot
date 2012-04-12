@@ -1,0 +1,206 @@
+Using seed: 23
+[?] pour l'aide
+commande> l 1 1
+mode partie libre
+[?] pour l'aide
+commande> a t
+WKRGENL
+commande> j KERN h6
+commande> p
+commande> p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  D  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  E  -  -  -  -  - 
+ D   -  -  -  -  -  -  O  Z  O  N  A  T  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  U  -  -  -  -  - 
+ F   -  -  -  -  -  C  -  -  -  D  -  -  -  -  - 
+ G   -  -  -  -  -  A  -  -  -  A  -  -  -  -  - 
+ H   -  -  -  -  -  K  E  R  N  S  -  -  -  -  - 
+ I   -  -  -  -  -  T  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  I  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Free game
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  WKRGENL | KERN           |  H6 |  26 |  
+    2 | 1 |  ASDNUED | DENUDAS        | 10B |  81 | *
+    3 | 0 | GLW+AOEV | (PASS)         |  -  |   0 |  
+    4 | 1 |  IMOCOTA | CAKTI          |  6F |  24 |  
+    5 | 0 |  AEGLOVW | (PASS)         |  -  |   0 |  
+    6 | 1 | MOO+ZATB | OZONAT         |  D7 |  50 |  
+
+
+Rack 0: AEGLOVW
+Rack 1: BM+RBOVO
+Score 0:   26
+Score 1:  155
+commande> h p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  D  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  E  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  N  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  U  -  -  -  -  - 
+ F   -  -  -  -  -  C  -  -  -  D  -  -  -  -  - 
+ G   -  -  -  -  -  A  -  -  -  A  -  -  -  -  - 
+ H   -  -  -  -  -  K  E  R  N  S  -  -  -  -  - 
+ I   -  -  -  -  -  T  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  I  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 2 out of 2
+Game: mode=Free game
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  WKRGENL | KERN           |  H6 |  26 |  
+    2 | 1 |  ASDNUED | DENUDAS        | 10B |  81 | *
+    3 | 0 | GLW+AOEV | (PASS)         |  -  |   0 |  
+    4 | 1 |  IMOCOTA | CAKTI          |  6F |  24 |  
+    5 | 0 |  AEGLOVW | (PASS)         |  -  |   0 |  
+
+
+Rack 0: AEGLOVW
+Rack 1: MOO+ZATB
+Score 0:   26
+Score 1:  105
+commande> h n
+commande> s freegame.save
+commande> q
+fin du mode partie libre
+commande> c freegame.save
+mode partie libre
+[?] pour l'aide
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  D  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  E  -  -  -  -  - 
+ D   -  -  -  -  -  -  O  Z  O  N  A  T  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  U  -  -  -  -  - 
+ F   -  -  -  -  -  C  -  -  -  D  -  -  -  -  - 
+ G   -  -  -  -  -  A  -  -  -  A  -  -  -  -  - 
+ H   -  -  -  -  -  K  E  R  N  S  -  -  -  -  - 
+ I   -  -  -  -  -  T  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  I  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Free game
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  WKRGENL | KERN           |  H6 |  26 |  
+    2 | 1 |  ASDNUED | DENUDAS        | 10B |  81 | *
+    3 | 0 | GLW+AOEV | (PASS)         |  -  |   0 |  
+    4 | 1 |  IMOCOTA | CAKTI          |  6F |  24 |  
+    5 | 0 |  AEGLOVW | (PASS)         |  -  |   0 |  
+    6 | 1 | MOO+ZATB | OZONAT         |  D7 |  50 |  
+
+
+Rack 0: AEGLOVW
+Rack 1: BM+RBOVO
+Score 0:   26
+Score 1:  155
+commande> j AVEZ 8a
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  A  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  V  -  D  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  E  -  E  -  -  -  -  - 
+ D   -  -  -  -  -  -  O  Z  O  N  A  T  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  U  -  -  -  -  - 
+ F   -  -  -  -  -  C  -  -  -  D  -  -  -  -  - 
+ G   -  -  -  B  R  A  V  O  -  A  -  -  -  -  - 
+ H   -  -  -  -  -  K  E  R  N  S  -  -  -  -  - 
+ I   -  -  -  -  -  T  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  I  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Free game
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  WKRGENL | KERN           |  H6 |  26 |  
+    2 | 1 |  ASDNUED | DENUDAS        | 10B |  81 | *
+    3 | 0 | GLW+AOEV | (PASS)         |  -  |   0 |  
+    4 | 1 |  IMOCOTA | CAKTI          |  6F |  24 |  
+    5 | 0 |  AEGLOVW | (PASS)         |  -  |   0 |  
+    6 | 1 | MOO+ZATB | OZONAT         |  D7 |  50 |  
+    7 | 0 |  AEGLOVW | AVEZ           |  8A |  48 |  
+    8 | 1 | BM+RBOVO | BRAVO          |  G4 |  25 |  
+
+
+Rack 0: GLOW+PUQ
+Rack 1: BMO+GDSI
+Score 0:   74
+Score 1:  180
+commande> s freegame.save
+commande> q
+fin du mode partie libre
+commande> c freegame.save
+mode partie libre
+[?] pour l'aide
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  A  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  V  -  D  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  E  -  E  -  -  -  -  - 
+ D   -  -  -  -  -  -  O  Z  O  N  A  T  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  U  -  -  -  -  - 
+ F   -  -  -  -  -  C  -  -  -  D  -  -  -  -  - 
+ G   -  -  -  B  R  A  V  O  -  A  -  -  -  -  - 
+ H   -  -  -  -  -  K  E  R  N  S  -  -  -  -  - 
+ I   -  -  -  -  -  T  -  -  -  -  -  -  -  -  - 
+ J   -  -  -  -  -  I  -  -  -  -  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 2
+Game: mode=Free game
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  WKRGENL | KERN           |  H6 |  26 |  
+    2 | 1 |  ASDNUED | DENUDAS        | 10B |  81 | *
+    3 | 0 | GLW+AOEV | (PASS)         |  -  |   0 |  
+    4 | 1 |  IMOCOTA | CAKTI          |  6F |  24 |  
+    5 | 0 |  AEGLOVW | (PASS)         |  -  |   0 |  
+    6 | 1 | MOO+ZATB | OZONAT         |  D7 |  50 |  
+    7 | 0 |  AEGLOVW | AVEZ           |  8A |  48 |  
+    8 | 1 | BM+RBOVO | BRAVO          |  G4 |  25 |  
+
+
+Rack 0: GLOW+PUQ
+Rack 1: BMO+GDSI
+Score 0:   74
+Score 1:  180
+commande> q
+fin du mode partie libre
+commande> q

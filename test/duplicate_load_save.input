@@ -1,0 +1,31 @@
+d 1 1
+a t
+j MONTA h4
+a g
+a t
+j JEUNES 10F
+a g
+a p
+h p
+a g
+a p
+h n
+s duplicate.save
+q
+c duplicate.save
+a g
+a p
+h p
+a g
+a p
+h n
+j WEB i3
+a g
+a p
+s duplicate.save
+q
+c duplicate.save
+a g
+a p
+q
+q

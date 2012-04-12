@@ -1,0 +1,38 @@
+a 1 1
+t CHARITO
+m CHARIOT h3
+j 0 CHARIOT h4
+f
+a g
+a p
+t LAERSIU
+m HUILERAS 4H
+j 0 RECULAIS 3F
+f
+a g
+a p
+h p
+a g
+a p
+h n
+s arbitration.save
+q
+c arbitration.save
+a g
+a p
+h p
+a g
+a p
+h n
+t TEEEPMO
+m ESTOMPEE O3
+f
+a g
+a p
+s arbitration.save
+q
+c arbitration.save
+a g
+a p
+q
+q

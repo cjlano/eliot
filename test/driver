@@ -38,6 +38,8 @@ training_joker_variant 12
 training_explosive_variant 13
 # 7 among 8 game
 training_7among8_variant 18
+# Save games handling
+training_load_save  0  # randseed unused
 
 # Board cross off by one score
 training_cross      0
@@ -70,6 +72,15 @@ duplicate_joker_variant 14
 duplicate_explosive_variant 15
 # 7 among 8 game
 duplicate_7among8_variant 19
+# Save games handling
+duplicate_load_save 22
+
+#################
+# Arbitration mode
+#################
+
+# Save games handling
+arbitration_load_save 0  # randseed unused
 
 #################
 # Free game mode
@@ -91,13 +102,13 @@ freegame_joker_variant 16
 freegame_explosive_variant 17
 # 7 among 8 game
 freegame_7among8_variant 20
+# Save games handling
+freegame_load_save  23
 
 ##############
 # Load / Save
 ##############
 
-# save and reload a training game, standard format
-load_saved_game     0  # randseed unused
 # save and load a game combining 2 variants
 load_combi_variants 21
 

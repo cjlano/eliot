@@ -1,0 +1,181 @@
+Using seed: 0
+[?] pour l'aide
+commande> e
+mode entraînement
+[?] pour l'aide
+commande> t AEOIRST
+commande> j AORISTE h4
+commande> t CDHIRZ?
+commande> j DECHIReZ 10G
+commande> t USTWUNT
+commande> j TWIST K8
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  D  -  -  -  -  - 
+ H   -  -  -  A  O  R  I  S  T  E  -  -  -  -  - 
+ I   -  -  -  -  -  -  -  -  -  C  -  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  -  H  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  T  W  I  S  T  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  R  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  e  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  Z  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 1
+Game: mode=Training
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  AEOIRST | AORISTE        |  H4 |  66 | *
+    2 | 0 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
+    3 | 0 |  USTWUNT | TWIST          |  K8 |  28 |  
+
+
+Rack 0: NUU
+Score 0:  194
+commande> h p
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  D  -  -  -  -  - 
+ H   -  -  -  A  O  R  I  S  T  E  -  -  -  -  - 
+ I   -  -  -  -  -  -  -  -  -  C  -  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  -  H  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  -  -  I  -  -  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  R  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  e  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  Z  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 1
+Game: mode=Training
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  AEOIRST | AORISTE        |  H4 |  66 | *
+    2 | 0 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
+
+
+Rack 0: USTWUNT
+Score 0:  166
+commande> h n
+commande> s training.save
+commande> q
+fin du mode entraînement
+commande> c training.save
+mode entraînement
+[?] pour l'aide
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  D  -  -  -  -  - 
+ H   -  -  -  A  O  R  I  S  T  E  -  -  -  -  - 
+ I   -  -  -  -  -  -  -  -  -  C  -  -  -  -  - 
+ J   -  -  -  -  -  -  -  -  -  H  -  -  -  -  - 
+ K   -  -  -  -  -  -  -  T  W  I  S  T  -  -  - 
+ L   -  -  -  -  -  -  -  -  -  R  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  e  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  Z  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 1
+Game: mode=Training
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  AEOIRST | AORISTE        |  H4 |  66 | *
+    2 | 0 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
+    3 | 0 |  USTWUNT | TWIST          |  K8 |  28 |  
+
+
+Rack 0: NUU
+Score 0:  194
+commande> t NUUHRRS
+commande> j HUNS 13H
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  D  -  -  -  -  - 
+ H   -  -  -  A  O  R  I  S  T  E  -  -  H  -  - 
+ I   -  -  -  -  -  -  -  -  -  C  -  -  U  -  - 
+ J   -  -  -  -  -  -  -  -  -  H  -  -  N  -  - 
+ K   -  -  -  -  -  -  -  T  W  I  S  T  S  -  - 
+ L   -  -  -  -  -  -  -  -  -  R  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  e  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  Z  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 1
+Game: mode=Training
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  AEOIRST | AORISTE        |  H4 |  66 | *
+    2 | 0 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
+    3 | 0 |  USTWUNT | TWIST          |  K8 |  28 |  
+    4 | 0 |  NUUHRRS | HUNS           | 13H |  23 |  
+
+
+Rack 0: RRU
+Score 0:  217
+commande> s training.save
+commande> q
+fin du mode entraînement
+commande> c training.save
+mode entraînement
+[?] pour l'aide
+commande> a g
+     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ A   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ B   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ C   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ D   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ E   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ F   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+ G   -  -  -  -  -  -  -  -  -  D  -  -  -  -  - 
+ H   -  -  -  A  O  R  I  S  T  E  -  -  H  -  - 
+ I   -  -  -  -  -  -  -  -  -  C  -  -  U  -  - 
+ J   -  -  -  -  -  -  -  -  -  H  -  -  N  -  - 
+ K   -  -  -  -  -  -  -  T  W  I  S  T  S  -  - 
+ L   -  -  -  -  -  -  -  -  -  R  -  -  -  -  - 
+ M   -  -  -  -  -  -  -  -  -  e  -  -  -  -  - 
+ N   -  -  -  -  -  -  -  -  -  Z  -  -  -  -  - 
+ O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+commande> a p
+Game: player 1 out of 1
+Game: mode=Training
+Game: history:
+    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|===|==========|================|=====|=====|======
+    1 | 0 |  AEOIRST | AORISTE        |  H4 |  66 | *
+    2 | 0 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
+    3 | 0 |  USTWUNT | TWIST          |  K8 |  28 |  
+    4 | 0 |  NUUHRRS | HUNS           | 13H |  23 |  
+
+
+Rack 0: RRU
+Score 0:  217
+commande> q
+fin du mode entraînement
+commande> q
