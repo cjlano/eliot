@@ -53,6 +53,9 @@ public:
     /// Destroy the singleton cleanly
     static void Destroy();
 
+    /// Return the config file directory, with a '/' (or '\') appended to it
+    static string GetConfigFileDir();
+
     ~Settings();
 
     /// Save the current value of the settings to a configuration file

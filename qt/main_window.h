@@ -21,11 +21,15 @@
 #ifndef MAIN_WINDOW_H_
 #define MAIN_WINDOW_H_
 
+#include <string>
 #include <QMainWindow>
 
 #include <ui/main_window.ui.h>
 #include "logging.h"
 #include "coord_model.h"
+
+
+using std::string;
 
 
 class Dictionary;
@@ -71,6 +75,7 @@ protected:
 private slots:
     void onGameNew();
     void onGameLoad();
+    void onGameLoadAutoSave();
     void onGameSaveAs();
     void onGamePrint();
     void onGameQuit();
@@ -152,6 +157,8 @@ private:
 
     static const char * m_windowName;
 
+    string m_autoSaveGame;
+
     /// Auxiliary windows
     //@{
     QAction *m_actionWindowsBag;
@@ -204,6 +211,12 @@ private:
      * widget and the 7+1 dictionary tool
      */
     void linkArbitrationAnd7P1();
+
+    /**
+     * Load the game saved in the given file. If iFileName is an empty string,
+     * the auto-saved game will be loaded.
+     */
+    void loadGame(QString iFileName);
 
 };
 

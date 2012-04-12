@@ -64,66 +64,65 @@ void Settings::Destroy()
 }
 
 
-namespace
+string Settings::GetConfigFileDir()
 {
-    string getConfigFileName()
-    {
-        string fileName;
+    string fileName;
 #ifdef WIN32
-        char szPath[MAX_PATH];
-        // Get the AppData directory
-        if (SHGetFolderPath(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE,
-                            NULL, 0, szPath) == S_OK)
-        {
-            fileName = szPath + string("\\eliot");
+    char szPath[MAX_PATH];
+    // Get the AppData directory
+    if (SHGetFolderPath(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE,
+                        NULL, 0, szPath) == S_OK)
+    {
+        fileName = szPath + string("\\eliot");
 #if 1
-            strncpy(szPath, fileName.c_str(), MAX_PATH);
-            // Try to create the directory
-            // We don't care about the results
-            CreateDirectory(fileName.c_str(), NULL);
+        strncpy(szPath, fileName.c_str(), MAX_PATH);
+        // Try to create the directory
+        // We don't care about the results
+        CreateDirectory(fileName.c_str(), NULL);
 #endif
-        }
-        if (fileName != "")
-            fileName += "\\";
-        fileName += "eliot.cfg";
+    }
+    if (fileName != "")
+        fileName += "\\";
 #else
-        // Follow the XDG Base Directory Specification (from freedesktop.org)
-        // XXX: In fact we don't follow it to the letter, because the location
-        // of the config file could be different when reading and writing.
-        // But in the case of Eliot it's not very important (we don't try to
-        // merge config files)...
-        const char *configDir = getenv("XDG_CONFIG_HOME");
-        if (configDir != NULL)
-            fileName = configDir;
-        else
-        {
-            // Fallback to the default value: $HOME/.config
-            configDir = getenv("HOME");
-            if (configDir)
-                fileName = configDir + string("/.config");
-        }
-        fileName += "/eliot";
+    // Follow the XDG Base Directory Specification (from freedesktop.org)
+    // XXX: In fact we don't follow it to the letter, because the location
+    // of the config file could be different when reading and writing.
+    // But in the case of Eliot it's not very important (we don't try to
+    // merge config files)...
+    const char *configDir = getenv("XDG_CONFIG_HOME");
+    if (configDir != NULL)
+        fileName = configDir;
+    else
+    {
+        // Fallback to the default value: $HOME/.config
+        configDir = getenv("HOME");
+        if (configDir)
+            fileName = configDir + string("/.config");
+    }
+    fileName += "/eliot";
 
 #if defined(HAVE_SYS_STAT_H) && defined(HAVE_SYS_TYPES_H)
-        // Create the directory if it doesn't exist
-        struct stat sb;
-        if (fileName != "" && stat(fileName.c_str(), &sb) == -1)
+    // Create the directory if it doesn't exist
+    struct stat sb;
+    if (fileName != "" && stat(fileName.c_str(), &sb) == -1)
+    {
+        // Try to create the directory with mode 0700
+        if (mkdir(fileName.c_str(), S_IRWXU))
         {
-            // Try to create the directory with mode 0700
-            if (mkdir(fileName.c_str(), S_IRWXU))
-            {
-                // The directory could not be created. Too bad...
-                // Saving the configuration file will definitely fail.
-            }
+            // The directory could not be created. Too bad...
+            // Saving the configuration file will definitely fail.
         }
-#endif
-
-        fileName += "/eliot.cfg";
-#endif
-        return fileName;
     }
+#endif
+
+    fileName += "/";
+#endif
+    return fileName;
+}
 
 
+namespace
+{
 #ifdef HAVE_LIBCONFIG
     template<typename T>
     void copySetting(const Config &srcConf, Config &dstConf, const char *path)
@@ -142,7 +141,7 @@ namespace
 Settings::Settings()
 {
 #ifdef HAVE_LIBCONFIG
-    m_fileName = ::getConfigFileName();
+    m_fileName = GetConfigFileDir() + "eliot.cfg";
     m_conf = new Config;
 
     // ============== General options ==============

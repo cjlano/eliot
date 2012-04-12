@@ -46,6 +46,9 @@
 #include "turn.h"
 #include "move.h"
 #include "debug.h"
+#include "round.h"
+#include "settings.h"
+
 #include "new_game.h"
 #include "tables_dialog.h"
 #include "prefs_dialog.h"
@@ -63,9 +66,6 @@
 #include "dic_wizard.h"
 #include "aux_window.h"
 #include "qtcommon.h"
-
-#include "round.h"
-#include "coord.h"
 
 
 INIT_LOGGER(qt, MainWindow);
@@ -86,6 +86,9 @@ MainWindow::MainWindow(QWidget *iParent)
     // Check that the string conversion routines are not buggy
     QtCommon::CheckConversions();
 #endif
+
+    // Path to the auto-saved game
+    m_autoSaveGame = Settings::GetConfigFileDir() + "autosave.xml";
 
     LOG_DEBUG("Creating main window");
     m_ui.setupUi(this);
@@ -258,6 +261,10 @@ void MainWindow::refresh()
             m_currentTurn = currTurn;
             emit turnChanged(currTurn, isLastTurn);
         }
+
+        // Update the auto-saved game
+        m_game->save(m_autoSaveGame);
+
 #ifdef DEBUG
         m_game->printTurns();
 #endif
@@ -610,6 +617,9 @@ void MainWindow::createMenu()
     menuFile->addSeparator();
     addMenuAction(menuFile, _q("&Load..."), _q("Ctrl+O"),
                   _q("Load an existing game"), SLOT(onGameLoad()));
+    addMenuAction(menuFile, _q("Load the auto-saved game"), QString(""),
+                  _q("Load the automatically saved game (useful after a crash)"),
+                  SLOT(onGameLoadAutoSave()));
     m_actionGameSaveAs = addMenuAction(menuFile, _q("&Save as..."), _q("Ctrl+S"),
                   _q("Save the current game"), SLOT(onGameSaveAs()));
     menuFile->addSeparator();
@@ -741,6 +751,18 @@ void MainWindow::onGameNew()
 
 void MainWindow::onGameLoad()
 {
+    loadGame("");
+}
+
+
+void MainWindow::onGameLoadAutoSave()
+{
+    loadGame(qfl(m_autoSaveGame));
+}
+
+
+void MainWindow::loadGame(QString fileName)
+{
     if (m_dic == NULL)
     {
         displayErrorMsg(_q("You have to select a dictionary first!"));
@@ -754,7 +776,8 @@ void MainWindow::onGameLoad()
             return;
     }
 
-    QString fileName = QFileDialog::getOpenFileName(this, _q("Load a game"));
+    if (fileName == "")
+        fileName = QFileDialog::getOpenFileName(this, _q("Load a game"));
     if (fileName != "")
     {
         try
