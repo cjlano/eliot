@@ -108,9 +108,6 @@ MainWindow::MainWindow(QWidget *iParent)
     int timerTotal = qs.value(PrefsDialog::kINTF_TIMER_TOTAL_DURATION, 180).toInt();
     int timerAlert = qs.value(PrefsDialog::kINTF_TIMER_ALERT_DURATION, 30).toInt();
     m_timerModel = new TimerModel(timerTotal, timerAlert);
-    // Reset the timer when the turn changes
-    QObject::connect(this, SIGNAL(turnChanged(int, bool)),
-                     m_timerModel, SLOT(resetTimer()));
     // TODO: connect to some of the timer signals (alert() and expired())
 
     QObject::connect(this, SIGNAL(gameChangedNonConst(PublicGame*)),
