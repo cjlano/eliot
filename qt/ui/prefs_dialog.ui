@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>443</width>
-    <height>789</height>
+    <height>761</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -279,16 +279,6 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QCheckBox" name="checkBoxIntfLinkTraining7P1">
-        <property name="toolTip">
-         <string>_(&quot;If checked, any change to the rack in arbitration mode will update the 'Plus 1' tab of the 'Dictionary tools' window&quot;)</string>
-        </property>
-        <property name="text">
-         <string>_(&quot;Copy rack to the 'Plus 1' dictionary tool&quot;)</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="label">
@@ -434,7 +424,6 @@
   <tabstop>spinBoxDuplSoloPlayers</tabstop>
   <tabstop>spinBoxDuplSoloValue</tabstop>
   <tabstop>checkBoxFreeRefuseInvalid</tabstop>
-  <tabstop>checkBoxIntfLinkTraining7P1</tabstop>
   <tabstop>spinBoxTrainSearchLimit</tabstop>
   <tabstop>checkBoxArbitAutoMaster</tabstop>
   <tabstop>checkBoxArbitLink7P1</tabstop>

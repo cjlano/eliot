@@ -200,12 +200,6 @@ private:
     void destroyCurrentGame();
 
     /**
-     * Handle correctly the signal/slot connection between the Training
-     * widget and the 7+1 dictionary tool
-     */
-    void linkTrainingAnd7P1();
-
-    /**
      * Handle correctly the signal/slot connection between the Arbitration
      * widget and the 7+1 dictionary tool
      */

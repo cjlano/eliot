@@ -261,26 +261,6 @@ void MainWindow::refresh()
 }
 
 
-void MainWindow::linkTrainingAnd7P1()
-{
-    if (m_trainingWidget == NULL || m_dicToolsWindow == NULL)
-        return;
-
-    // Disconnect the training rack updates from the "Plus 1" tab of the
-    // dictionary tools
-    m_trainingWidget->disconnect(SIGNAL(rackUpdated(const QString&)));
-    // Reconnect it only if needed
-    QSettings qs;
-    if (qs.value(PrefsDialog::kINTF_LINK_TRAINING_7P1, false).toBool())
-    {
-        QObject::connect(m_trainingWidget,
-                         SIGNAL(rackUpdated(const QString&)),
-                         &m_dicToolsWindow->getWidget(),
-                         SLOT(setPlus1Rack(const QString&)));
-    }
-}
-
-
 void MainWindow::linkArbitrationAnd7P1()
 {
     if (m_arbitrationWidget == NULL || m_dicToolsWindow == NULL)
@@ -305,7 +285,6 @@ void MainWindow::prefsUpdated()
 {
     LOG_DEBUG("Preferences updated");
     // Refresh one signal/slot connection
-    linkTrainingAnd7P1();
     linkArbitrationAnd7P1();
 
     // XXX: is this preference still useful?
@@ -390,8 +369,6 @@ void MainWindow::updateForGame(PublicGame *iGame)
                              this, SLOT(showDefinition(QString)));
             QObject::connect(this, SIGNAL(gameUpdated()),
                              m_trainingWidget, SLOT(refresh()));
-            // Connect with the dictionary tools only if needed
-            linkTrainingAnd7P1();
 
             // Players score
             m_scoresWidget = new ScoreWidget(NULL, iGame);
@@ -1209,8 +1186,7 @@ void MainWindow::onWindowsDicTools()
                          dicTools, SLOT(setDic(const Dictionary*)));
         QObject::connect(dicTools, SIGNAL(requestDefinition(QString)),
                          this, SLOT(showDefinition(QString)));
-        // Link the training or arbitration rack with the "Plus 1" one
-        linkTrainingAnd7P1();
+        // Link the arbitration rack with the "Plus 1" one
         linkArbitrationAnd7P1();
         // Fake a dictionary selection
         dicTools->setDic(m_dic);

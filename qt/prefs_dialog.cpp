@@ -41,7 +41,6 @@ const QString PrefsDialog::kINTF_DEFINITIONS_SITE_URL = "Interface/DefinitionsSi
 const QString PrefsDialog::kINTF_SHOW_TILES_POINTS = "Interface/ShowTilesPoints";
 const QString PrefsDialog::kINTF_WARN_REPLAY_TURN = "Interface/WarnReplayTurn";
 const QString PrefsDialog::kINTF_SHOW_TOOLBAR = "Interface/ShowToolBar";
-const QString PrefsDialog::kINTF_LINK_TRAINING_7P1 = "Interface/LinkTrainingRackWith7P1";
 const QString PrefsDialog::kINTF_DEFAULT_AI_LEVEL = "Interface/DefaultAiLevel";
 const QString PrefsDialog::kINTF_TIMER_TOTAL_DURATION = "Interface/TimerTotalDuration";
 const QString PrefsDialog::kINTF_TIMER_ALERT_DURATION = "Interface/TimerAlertDuration";
@@ -95,8 +94,6 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         checkBoxIntfShowPoints->setChecked(showPoints);
         bool warnReplayTurn = qs.value(kINTF_WARN_REPLAY_TURN, true).toBool();
         checkBoxIntfWarnReplayTurn->setChecked(warnReplayTurn);
-        bool linkTraining7P1 = qs.value(kINTF_LINK_TRAINING_7P1, false).toBool();
-        checkBoxIntfLinkTraining7P1->setChecked(linkTraining7P1);
         int defaultAiLevel = qs.value(kINTF_DEFAULT_AI_LEVEL, 100).toInt();
         spinBoxDefaultLevel->setValue(defaultAiLevel);
         int timerTotal = qs.value(kINTF_TIMER_TOTAL_DURATION, 180).toInt();
@@ -170,13 +167,6 @@ void PrefsDialog::updateSettings()
             qs.setValue(kINTF_SHOW_TILES_POINTS, checkBoxIntfShowPoints->isChecked());
         }
         qs.setValue(kINTF_WARN_REPLAY_TURN, checkBoxIntfWarnReplayTurn->isChecked());
-        if (qs.value(kINTF_LINK_TRAINING_7P1, false).toBool() != checkBoxIntfLinkTraining7P1->isChecked())
-        {
-            // We need to (dis)connect the training widget with the dictionary
-            // tools window
-            shouldEmitUpdate = true;
-            qs.setValue(kINTF_LINK_TRAINING_7P1, checkBoxIntfLinkTraining7P1->isChecked());
-        }
         if (qs.value(kINTF_DEFAULT_AI_LEVEL, 100).toInt() != spinBoxDefaultLevel->value())
         {
             // We need to change the default AI level

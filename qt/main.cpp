@@ -44,7 +44,9 @@
 using namespace std;
 
 
+#ifdef HAVE_EXECINFO_H
 static void bt_sighandler(int);
+#endif
 
 // Custom QApplication to catch and log exceptions properly
 // See http://forum.qtfr.org/viewtopic.php?id=7615

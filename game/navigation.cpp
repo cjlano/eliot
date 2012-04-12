@@ -237,6 +237,7 @@ const TurnCmd & Navigation::getCurrentTurn() const
 
 void Navigation::print() const
 {
+#ifdef USE_LOGGING
     LOG_DEBUG("=== Commands history ===");
     LOG_DEBUG("Current position at turn " << m_currTurn);
     int index = 0;
@@ -245,5 +246,6 @@ void Navigation::print() const
         LOG_DEBUG(index << " " << lfw(c->toString()));
         ++index;
     }
+#endif
 }
 

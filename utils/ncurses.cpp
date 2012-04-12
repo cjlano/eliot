@@ -1126,9 +1126,7 @@ void CursesIntf::redraw(WINDOW *win)
         variant = string(" - ") + _("Joker game");
     string title = "Eliot (" + mode + variant + ") " + _("[h for help]");
 
-    int lines;
-    int cols;
-    getmaxyx(m_win, lines, cols);
+    int cols = getmaxx(m_win);
     mvwprintw(win, 0, 0, truncOrPad(title, cols).c_str());
     attroff(A_REVERSE);
 
