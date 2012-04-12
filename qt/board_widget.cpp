@@ -134,7 +134,7 @@ void BoardWidget::refresh()
 {
     if (m_game != NULL)
     {
-        if (!m_showOnlyLastTurn && !m_game->isLastTurn())
+        if (m_showOnlyLastTurn && !m_game->isLastTurn())
             return;
         // Note: the TileWidget class will redraw the tile only if something
         // has changed, to avoid useless repainting.
