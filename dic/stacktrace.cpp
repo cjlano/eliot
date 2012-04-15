@@ -54,6 +54,7 @@ string StackTrace::GetStack()
     {
         oss << "    at " << Demangle(symbols[i]) << endl;
     }
+    free (symbols);
 
     return oss.str();
 #else

@@ -76,6 +76,15 @@ wchar_t *rl_gets()
         delete[] wline_read;
     }
 
+    static bool init = true;
+    if (init)
+    {
+        // Initialize readline() explicitly, to help filtering
+        // valgrind results
+        rl_initialize();
+        init = false;
+    }
+
     // Get a line from the user
     static char *line_read;
     line_read = readline("commande> ");
@@ -944,6 +953,7 @@ int main(int argc, char *argv[])
 
         mainLoop(dic);
         GameFactory::Destroy();
+        Settings::Destroy();
 
         // Free the readline static variable
         if (wline_read)

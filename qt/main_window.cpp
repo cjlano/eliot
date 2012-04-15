@@ -118,13 +118,13 @@ MainWindow::MainWindow(QWidget *iParent)
     // Status bar
     statusBar()->addWidget(new QLabel, 1);
     // First widget, not added yet
-    m_lettersLabel = new QLabel;
+    m_lettersLabel = new QLabel(statusBar());
     m_lettersLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
     // Second widget, not added yet
-    m_turnLabel = new QLabel;
+    m_turnLabel = new QLabel(statusBar());
     m_turnLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
     // Third widget
-    m_dicNameLabel = new QLabel;
+    m_dicNameLabel = new QLabel(this);
     m_dicNameLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
     statusBar()->addPermanentWidget(m_dicNameLabel);
     QObject::connect(this, SIGNAL(dicChanged(const Dictionary*)),
@@ -202,6 +202,10 @@ MainWindow::~MainWindow()
     delete m_game;
     delete m_dic;
     delete m_timerModel;
+
+    // Destroy singletons
+    GameFactory::Destroy();
+    Settings::Destroy();
 }
 
 
