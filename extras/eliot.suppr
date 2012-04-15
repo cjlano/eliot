@@ -1,0 +1,168 @@
+# Eliot suppressions file, for Valgrind
+
+{
+   Log4Cxx
+   Memcheck:Leak
+   fun:_Znwm
+   fun:_ZNSs4_Rep9_S_createEmmRKSaIcE
+   ...
+   fun:_ZN7log4cxx20PropertyConfigurator11parseLoggerERNS_7helpers10PropertiesERNS1_10ObjectPtrTINS_6LoggerEEERKSsS9_S9_
+   ...
+}
+
+{
+   Log4Cxx
+   Memcheck:Leak
+   fun:_Znwm
+   fun:_ZNSs4_Rep9_S_createEmmRKSaIcE
+   ...
+   fun:_ZN7log4cxx13PatternLayout15activateOptionsERNS_7helpers4PoolE
+   ...
+}
+
+{
+   Log4Cxx
+   Memcheck:Leak
+   ...
+   fun:_ZN7log4cxx7pattern20DatePatternConverterC1ERKSt6vectorISsSaISsEE
+   ...
+}
+
+{
+   Log4Cxx
+   Memcheck:Leak
+   ...
+   fun:_ZN7log4cxx15ConsoleAppenderC1Ev
+   ...
+}
+
+{
+   Log4Cxx
+   Memcheck:Leak
+   fun:_Znwm
+   fun:_ZNSs4_Rep9_S_createEmmRKSaIcE
+   ...
+   fun:_ZN7log4cxx9HierarchyC1Ev
+   ...
+}
+
+{
+   Log4Cxx
+   Memcheck:Leak
+   ...
+   fun:_ZN7log4cxx10LogManager9getLoggerERKSs
+   ...
+}
+
+{
+   Qt
+   Memcheck:Cond
+   fun:inflateReset2
+   fun:inflateInit2_
+   fun:uncompress
+   fun:_Z11qUncompressPKhi
+   ...
+}
+
+{
+   LibPng (via Qt)
+   Memcheck:Cond
+   fun:inflateReset2
+   fun:inflateInit2_
+   fun:png_create_read_struct_2
+   fun:png_create_read_struct
+   fun:_ZN18QPngHandlerPrivate13readPngHeaderEv
+   ...
+   fun:_ZN17QPixmapIconEngine9bestMatchERK5QSizeN5QIcon4ModeENS3_5StateEb
+}
+
+{
+   FontConfig (via Qt)
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/libfontconfig.so.1.4.4
+   ...
+}
+
+{
+   FontConfig (via Qt)
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libfontconfig.so.1.4.4
+   ...
+}
+
+{
+   FreeType (via Qt)
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libfreetype.so.6.6.2
+   ...
+}
+
+{
+   GTK (via Qt)
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.6
+   ...
+}
+
+{
+   GDK (via Qt)
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.6
+   ...
+}
+
+{
+   glib (via Qt)
+   Memcheck:Leak
+   ...
+   obj:/lib/x86_64-linux-gnu/libglib-2.0.so.0.3000.0
+   ...
+}
+
+{
+   Pango (via Qt)
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.2903.0
+   ...
+}
+
+{
+   Pango (via Qt)
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.2903.0
+   ...
+}
+
+{
+   XCB (via Qt)
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+   ...
+}
+
+{
+   Qt
+   Memcheck:Leak
+   ...
+   fun:_ZN13QFontDatabase4loadEPK12QFontPrivatei
+   ...
+}
+
+{
+   Qt
+   Memcheck:Leak
+   fun:calloc
+   fun:_XimOpenIM
+   fun:_XimRegisterIMInstantiateCallback
+   fun:XRegisterIMInstantiateCallback
+   fun:_ZN16QXIMInputContextC1Ev
+   ...
+}
+
