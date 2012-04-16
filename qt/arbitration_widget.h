@@ -61,11 +61,11 @@ public slots:
 private slots:
     void setRackRandom();
     void rackEdited(const QString &);
+    void rackChanged();
     void searchResults();
     void resultsFilterChanged(const QString &);
     void enableCheckWordButton();
     void checkWord();
-    void clearResults();
     void updateSelectedMove();
     void showPreview(const QItemSelection &);
     void updateCoordText(const Coord&, const Coord&);
@@ -109,6 +109,16 @@ private:
 
     /// Force synchronizing the model with the search results
     void updateResultsModel();
+
+    /**
+     * Request a confirmation before changing the rack,
+     * if a player has already played.
+     * Return true if the user confirms, false otherwise.
+     */
+    bool confirmRackChange() const;
+
+    /// Clear search results
+    void clearResults();
 
     /**
      * Add the given move to the results list.

@@ -142,7 +142,7 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
                      this, SIGNAL(rackUpdated(const QString&)));
     // Clear the results when the rack changes
     QObject::connect(lineEditRack, SIGNAL(textChanged(const QString&)),
-                     this, SLOT(clearResults()));
+                     this, SLOT(rackChanged()));
     // Perform a search on Enter
     QObject::connect(lineEditRack, SIGNAL(returnPressed()),
                      this, SLOT(searchResults()));
@@ -224,7 +224,7 @@ void ArbitrationWidget::refresh()
         bool isAllselected = lineEditRack->text() == lineEditRack->selectedText();
 
         // Must be done before updateResultsModel(), because it will
-        // indirectly call the clearResults() slot
+        // indirectly call the clearResults() method
         lineEditRack->setText(qrack);
 
         // Restore the selection
@@ -341,11 +341,8 @@ int ArbitrationWidget::addSingleMove(const Move &iMove, int moveType,
 }
 
 
-void ArbitrationWidget::setRackRandom()
+bool ArbitrationWidget::confirmRackChange() const
 {
-    ASSERT(m_game->isLastTurn(),
-           "The Random button should only be active in the last turn");
-
     // Warn if some players have already played
     bool someoneHasPlayed = false;
     for (unsigned int i = 0; i < m_game->getNbPlayers(); ++i)
@@ -359,10 +356,21 @@ void ArbitrationWidget::setRackRandom()
                          "These moves will be lost if you change the rack.");
         QString question = _q("Do you really want to change the rack?");
         if (!QtCommon::requestConfirmation(msg, question))
-            return;
+            return false;
     }
+    return true;
+}
 
-    m_game->removeTestRound();
+
+void ArbitrationWidget::setRackRandom()
+{
+    ASSERT(m_game->isLastTurn(),
+           "The Random button should only be active in the last turn");
+
+    // Request confirmation
+    if (!confirmRackChange())
+        return;
+
     try
     {
         m_game->arbitrationSetRackRandom();
@@ -380,40 +388,20 @@ void ArbitrationWidget::rackEdited(const QString &iText)
     ASSERT(m_game->isLastTurn(),
            "Rack edition button should only be active in the last turn");
 
-    // Warn if some players have already played
-    bool someoneHasPlayed = false;
-    for (unsigned int i = 0; i < m_game->getNbPlayers(); ++i)
+    // Request confirmation
+    if (!confirmRackChange())
     {
-        if (m_game->hasPlayed(i))
-            someoneHasPlayed = true;
-    }
-    if (someoneHasPlayed)
-    {
-        QString msg = _q("Some player(s) already have an assigned move. "
-                         "These moves will be lost if you change the rack.");
-        QString question = _q("Do you really want to change the rack?");
-        if (!QtCommon::requestConfirmation(msg, question))
-        {
-            // Restore the rack (visually)
-            const PlayedRack &pldRack = m_game->getCurrentRack();
-            QString qrack = qfw(pldRack.toString(PlayedRack::RACK_SIMPLE));
-            lineEditRack->setText(qrack);
-
-            return;
-        }
-    }
-
-    buttonSearch->setEnabled(lineEditRack->hasAcceptableInput());
-
-    m_game->removeTestRound();
-    if (!lineEditRack->hasAcceptableInput())
-    {
-        lineEditRack->setPalette(redPalette);
+        // Restore the rack (visually)
+        const PlayedRack &pldRack = m_game->getCurrentRack();
+        QString qrack = qfw(pldRack.toString(PlayedRack::RACK_SIMPLE));
+        lineEditRack->setText(qrack);
         return;
     }
+
+    if (!lineEditRack->hasAcceptableInput())
+        return;
     try
     {
-        lineEditRack->setPalette(blackPalette);
         const wstring &input = m_game->getDic().convertFromInput(wfq(iText));
         m_game->arbitrationSetRackManual(input);
         emit gameUpdated();
@@ -423,6 +411,15 @@ void ArbitrationWidget::rackEdited(const QString &iText)
         lineEditRack->setPalette(redPalette);
         emit notifyProblem(_q("Warning: Cannot set the rack to '%1':\n%2").arg(iText).arg(e.what()));
     }
+}
+
+
+void ArbitrationWidget::rackChanged()
+{
+    bool acceptableInput = lineEditRack->hasAcceptableInput();
+    buttonSearch->setEnabled(acceptableInput);
+    lineEditRack->setPalette(acceptableInput ? blackPalette : redPalette);
+    clearResults();
 }
 
 
