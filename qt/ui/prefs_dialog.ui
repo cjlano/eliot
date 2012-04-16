@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>443</width>
-    <height>761</height>
+    <height>789</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -323,11 +323,15 @@
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <widget class="QCheckBox" name="checkBoxArbitAutoMaster">
-        <property name="toolTip">
-         <string>_(&quot;If checked, a Master move will be selected by default when searching the results. It is still possible to change the Master move afterwards.&quot;)</string>
-        </property>
         <property name="text">
          <string>_(&quot;Choose a Master move automatically&quot;)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxArbitFillRack">
+        <property name="text">
+         <string>_(&quot;Propose a new rack automatically&quot;)</string>
         </property>
        </widget>
       </item>

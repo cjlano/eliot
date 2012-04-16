@@ -179,6 +179,9 @@ Settings::Settings()
     // ============== Arbitration mode options ==============
     Setting &arbitration = m_conf->getRoot().add("arbitration", Setting::TypeGroup);
 
+    // If true, a random rack is defined, otherwise the rack is left untouched
+    arbitration.add("fill-rack", Setting::TypeBoolean) = true;
+
     // Default value of a penalty
     arbitration.add("default-penalty", Setting::TypeInt) = 5;
 
@@ -198,6 +201,7 @@ Settings::Settings()
         copySetting<int>(tmpConf, *m_conf, "duplicate.solo-value");
         copySetting<bool>(tmpConf, *m_conf, "duplicate.reject-invalid");
         copySetting<bool>(tmpConf, *m_conf, "freegame.reject-invalid");
+        copySetting<bool>(tmpConf, *m_conf, "arbitration.fill-rack");
         copySetting<int>(tmpConf, *m_conf, "arbitration.search-limit");
         copySetting<int>(tmpConf, *m_conf, "arbitration.default-penalty");
     }

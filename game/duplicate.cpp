@@ -129,14 +129,21 @@ void Duplicate::start()
     m_currPlayer = 0;
 
     // Complete the racks
+    bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
     try
     {
         // Reset the master move
         setMasterMove(Move());
 
-        const PlayedRack &newRack =
-            helperSetRackRandom(getHistory().getCurrentRack(), true, RACK_NEW);
-        setGameAndPlayersRack(newRack);
+        bool fillRacks = Settings::Instance().getBool("arbitration.fill-rack");
+        if (isArbitration && !fillRacks)
+            setGameAndPlayersRack(getHistory().getCurrentRack());
+        else
+        {
+            const PlayedRack &newRack =
+                helperSetRackRandom(getHistory().getCurrentRack(), true, RACK_NEW);
+            setGameAndPlayersRack(newRack);
+        }
     }
     catch (EndGameException &e)
     {
@@ -144,7 +151,6 @@ void Duplicate::start()
         return;
     }
 
-    bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
     if (!isArbitration)
     {
         // Little hack to handle duplicate games with only AI players.

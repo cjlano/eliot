@@ -66,13 +66,15 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     spinBoxTimerAlert->setToolTip(_q("Number of remaining seconds when an alert is triggered.\n"
                                      "Use a value of -1 to disable the alert.\n"
                                      "Changing this value will reset the timer."));
-    checkBoxArbitAutoMaster->setToolTip(_q("If checked, a Master move will be selected "
-                                           "by default when searching the results.\n"
-                                           "It is still possible to change the Master move afterwards."));
     spinBoxTrainSearchLimit->setToolTip(_q("Maximum number of results returned by a search.\n"
                                            "The returned results will always be the best ones.\n"
                                            "Use 0 to disable the limit (warning: searches yielding many "
                                            "results could be very slow in this case!)."));
+    checkBoxArbitAutoMaster->setToolTip(_q("If checked, a Master move will be selected "
+                                           "by default when searching the results.\n"
+                                           "It is still possible to change the Master move afterwards."));
+    checkBoxArbitFillRack->setToolTip(_q("If checked, the rack will be completed with random letters. \n"
+                                         "Uncheck this option if you prefer to choose the letters yourself."));
     spinBoxArbitSearchLimit->setToolTip(spinBoxTrainSearchLimit->toolTip());
 
     // Auto-completion on the dictionary path
@@ -115,6 +117,7 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         // Arbitration settings
         bool autoAssignMaster = qs.value(kARBIT_AUTO_MASTER, false).toBool();
         checkBoxArbitAutoMaster->setChecked(autoAssignMaster);
+        checkBoxArbitFillRack->setChecked(Settings::Instance().getBool("arbitration.fill-rack"));
         bool linkArbit7P1 = qs.value(kARBIT_LINK_7P1, false).toBool();
         checkBoxArbitLink7P1->setChecked(linkArbit7P1);
         spinBoxArbitSearchLimit->setValue(Settings::Instance().getInt("arbitration.search-limit"));
@@ -204,6 +207,8 @@ void PrefsDialog::updateSettings()
 
         // Arbitration settings
         qs.setValue(kARBIT_AUTO_MASTER, checkBoxArbitAutoMaster->isChecked());
+        Settings::Instance().setBool("arbitration.fill-rack",
+                                     checkBoxArbitFillRack->isChecked());
         if (qs.value(kARBIT_LINK_7P1, false).toBool() != checkBoxArbitLink7P1->isChecked())
         {
             // We need to (dis)connect the arbitration widget with the dictionary
