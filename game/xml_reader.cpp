@@ -205,6 +205,13 @@ void XmlReader::startElement(const string& namespaceURI,
             m_attributes[atts.getLocalName(i)] = atts.getValue(i);
         }
     }
+    else if (tag == "Turn")
+    {
+        if (m_firstTurn)
+            m_firstTurn = false;
+        else
+            m_game->accessNavigation().newTurn();
+    }
 }
 
 
@@ -316,11 +323,6 @@ void XmlReader::endElement(const string& namespaceURI,
 
             m_context = "";
         }
-    }
-
-    else if (tag == "Turn")
-    {
-        m_game->accessNavigation().newTurn();
     }
 
     else if (tag == "GameRack")

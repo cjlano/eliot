@@ -101,6 +101,7 @@ private:
     const Dictionary &m_dic;
     Game *m_game;
     string errorMessage;
+    bool m_firstTurn;
 
     string m_context;
     string m_data;
@@ -111,7 +112,7 @@ private:
     // Private constructor, because we only want the read() method
     // to be called externally
     XmlReader(const Dictionary &iDic) :
-        m_dic(iDic), m_game(NULL), m_params(iDic) {}
+        m_dic(iDic), m_game(NULL), m_firstTurn(true), m_params(iDic) {}
 
     XmlReader(const XmlReader&);
     XmlReader& operator=(const XmlReader&);
