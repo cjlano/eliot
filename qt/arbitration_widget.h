@@ -121,6 +121,14 @@ private:
     void clearResults();
 
     /**
+     * Give the focus to the result corresponding to the given row number.
+     * If logical is true, the row number is adapted to respect a possible
+     * user-defined ordering of the table, otherwise it is used unmodified
+     * (in the latter case, the row number corresponds to visible rows).
+     */
+    void selectAndFocusResult(int iRowNum, bool logical = true);
+
+    /**
      * Add the given move to the results list.
      * Return the row number of the added item.
      */

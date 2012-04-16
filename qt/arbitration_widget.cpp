@@ -470,6 +470,9 @@ void ArbitrationWidget::searchResults()
     {
         m_assignmentsWidget->assignDefaultMasterMove();
     }
+
+    // Set the focus to the first result
+    selectAndFocusResult(0, false);
 }
 
 
@@ -558,8 +561,15 @@ void ArbitrationWidget::checkWord()
     lineEditCoords->clear();
 
     // Show the new result and select it
-    const QModelIndex &index =
-        m_proxyResultsModel->mapFromSource(m_resultsModel->index(rowNum, 0));
+    selectAndFocusResult(rowNum);
+}
+
+
+void ArbitrationWidget::selectAndFocusResult(int iRowNum, bool logical)
+{
+    QModelIndex index = m_resultsModel->index(iRowNum, 0);
+    if (logical)
+        index = m_proxyResultsModel->mapFromSource(index);
     treeViewResults->scrollTo(index);
     treeViewResults->selectionModel()->clearSelection();
     treeViewResults->selectionModel()->select(index,
