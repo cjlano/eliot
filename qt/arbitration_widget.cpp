@@ -38,6 +38,7 @@
 #include "results.h"
 #include "coord_model.h"
 #include "settings.h"
+#include "game_params.h"
 #include "dic.h"
 #include "debug.h"
 
@@ -82,7 +83,8 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     // Define validators
     QValidator * val =
         ValidatorFactory::newRackValidator(this, m_game->getBag(),
-                                           true, &m_game->getHistory());
+                                           true, &m_game->getHistory(),
+                                           m_game->getParams().hasVariant(GameParams::k7AMONG8) ? 8 : 7);
     lineEditRack->setValidator(val);
     lineEditCoords->setValidator(ValidatorFactory::newCoordsValidator(this));
 

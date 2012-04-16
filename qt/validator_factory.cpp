@@ -106,20 +106,24 @@ class RackValidator: public QValidator
 {
 public:
     RackValidator(QObject *parent, const Bag &iBag,
-                  const History *iHistory, bool checkDuplicate);
+                  const History *iHistory, bool checkDuplicate,
+                  int iMaxLetters);
     virtual State validate(QString &input, int &pos) const;
 
 private:
     const Bag &m_bag;
     const History *m_history;
     bool m_checkDuplicate;
+    int m_maxLetters;
 };
 
 
 RackValidator::RackValidator(QObject *parent, const Bag &iBag,
-                             const History *iHistory, bool checkDuplicate)
+                             const History *iHistory, bool checkDuplicate,
+                             int iMaxLetters)
     : QValidator(parent), m_bag(iBag),
-    m_history(iHistory), m_checkDuplicate(checkDuplicate)
+    m_history(iHistory), m_checkDuplicate(checkDuplicate),
+    m_maxLetters(iMaxLetters)
 {
 }
 
@@ -156,6 +160,16 @@ QValidator::State RackValidator::validate(QString &input, int &) const
         }
     }
 
+    // Make sure we don't have too many letters...
+    if (m_maxLetters > 0 && intInput.size() > (unsigned)m_maxLetters)
+        return Intermediate;
+    // ... or too few
+    if (m_maxLetters > 0 && intInput.size() < (unsigned)m_maxLetters &&
+        m_bag.getNbTiles() >= (unsigned)m_maxLetters)
+    {
+        return Intermediate;
+    }
+
     // Check that the rack has 2 consonants and 2 vocals
     if (m_checkDuplicate)
     {
@@ -179,9 +193,10 @@ QValidator::State RackValidator::validate(QString &input, int &) const
 QValidator *ValidatorFactory::newRackValidator(QObject *parent,
                                                const Bag &iBag,
                                                bool checkDuplicate,
-                                               const History *iHistory)
+                                               const History *iHistory,
+                                               int iMaxLetters)
 {
-    return new RackValidator(parent, iBag, iHistory, checkDuplicate);
+    return new RackValidator(parent, iBag, iHistory, checkDuplicate, iMaxLetters);
 }
 // }}}
 

@@ -51,7 +51,8 @@ public:
     static QValidator *newRackValidator(QObject *parent,
                                         const Bag &iBag,
                                         bool checkDuplicate = false,
-                                        const History *iHistory = 0);
+                                        const History *iHistory = 0,
+                                        int iMaxLetters = 0);
 
     /**
      * Create a validator suitable for setting rack letters
