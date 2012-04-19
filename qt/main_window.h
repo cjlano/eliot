@@ -98,6 +98,9 @@ private slots:
     void onHistoryLastTurn();
     void onHistoryReplayTurn();
 
+    /// Simply emit a beep with the system speakers
+    void beep();
+
     /** Load a new dictionary */
     void changeDictionary(QString);
 

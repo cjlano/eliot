@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>443</width>
-    <height>789</height>
+    <height>817</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -173,6 +173,13 @@
           </property>
           <property name="value">
            <number>30</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0" colspan="2">
+         <widget class="QCheckBox" name="checkBoxTimerBeeps">
+          <property name="text">
+           <string>_(&quot;Timer beeps&quot;)</string>
           </property>
          </widget>
         </item>

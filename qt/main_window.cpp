@@ -111,7 +111,10 @@ MainWindow::MainWindow(QWidget *iParent)
     int timerTotal = qs.value(PrefsDialog::kINTF_TIMER_TOTAL_DURATION, 180).toInt();
     int timerAlert = qs.value(PrefsDialog::kINTF_TIMER_ALERT_DURATION, 30).toInt();
     m_timerModel = new TimerModel(timerTotal, timerAlert);
-    // TODO: connect to some of the timer signals (alert() and expired())
+    QObject::connect(m_timerModel, SIGNAL(alert(int)),
+                     this, SLOT(beep()));
+    QObject::connect(m_timerModel, SIGNAL(expired()),
+                     this, SLOT(beep()));
 
     QObject::connect(this, SIGNAL(gameChangedNonConst(PublicGame*)),
                      this, SLOT(updateForGame(PublicGame*)));
@@ -269,6 +272,19 @@ void MainWindow::refresh()
         m_game->printTurns();
 #endif
     }
+}
+
+
+void MainWindow::beep()
+{
+    QSettings qs;
+    if (!qs.value(PrefsDialog::kINTF_TIMER_BEEPS, true).toBool())
+        return;
+
+    LOG_DEBUG("Beep!")
+    // FIXME: doesn't seem to be working on Ubuntu
+    // (even acter 'modprobe pcspkr' and when the 'beep' application works)
+    QApplication::beep();
 }
 
 

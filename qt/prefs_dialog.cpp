@@ -44,6 +44,7 @@ const QString PrefsDialog::kINTF_SHOW_TOOLBAR = "Interface/ShowToolBar";
 const QString PrefsDialog::kINTF_DEFAULT_AI_LEVEL = "Interface/DefaultAiLevel";
 const QString PrefsDialog::kINTF_TIMER_TOTAL_DURATION = "Interface/TimerTotalDuration";
 const QString PrefsDialog::kINTF_TIMER_ALERT_DURATION = "Interface/TimerAlertDuration";
+const QString PrefsDialog::kINTF_TIMER_BEEPS = "Interface/TimerBeeps";
 const QString PrefsDialog::kARBIT_AUTO_MASTER = "Arbitration/AutoAssignMaster";
 const QString PrefsDialog::kARBIT_LINK_7P1 = "Arbitration/LinkRackWith7P1";
 const QString PrefsDialog::kDEFAULT_DEF_SITE = "http://fr.wiktionary.org/wiki/%w";
@@ -66,6 +67,8 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     spinBoxTimerAlert->setToolTip(_q("Number of remaining seconds when an alert is triggered.\n"
                                      "Use a value of -1 to disable the alert.\n"
                                      "Changing this value will reset the timer."));
+    checkBoxTimerBeeps->setToolTip(_q("If checked, a beep will be emitted when the timer\n"
+                                      "reaches the alert level, and when it reaches 0."));
     spinBoxTrainSearchLimit->setToolTip(_q("Maximum number of results returned by a search.\n"
                                            "The returned results will always be the best ones.\n"
                                            "Use 0 to disable the limit (warning: searches yielding many "
@@ -102,6 +105,8 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         spinBoxTimerTotal->setValue(timerTotal);
         int timerAlert = qs.value(kINTF_TIMER_ALERT_DURATION, 30).toInt();
         spinBoxTimerAlert->setValue(timerAlert);
+        bool timerBeeps = qs.value(kINTF_TIMER_BEEPS, true).toBool();
+        checkBoxTimerBeeps->setChecked(timerBeeps);
 
         // Duplicate settings
         checkBoxDuplRefuseInvalid->setChecked(Settings::Instance().getBool("duplicate.reject-invalid"));
@@ -188,6 +193,7 @@ void PrefsDialog::updateSettings()
             shouldEmitUpdate = true;
             qs.setValue(kINTF_TIMER_ALERT_DURATION, spinBoxTimerAlert->value());
         }
+        qs.setValue(kINTF_TIMER_BEEPS, checkBoxTimerBeeps->isChecked());
 
         // Duplicate settings
         Settings::Instance().setBool("duplicate.reject-invalid",
