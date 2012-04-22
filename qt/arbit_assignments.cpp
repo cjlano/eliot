@@ -53,7 +53,7 @@ ArbitAssignments::ArbitAssignments(QWidget *parent, PublicGame *iGame)
     m_playersModel = new QStandardItemModel(this);
     m_proxyPlayersModel->setSourceModel(m_playersModel);
     treeViewPlayers->setModel(m_proxyPlayersModel);
-    m_playersModel->setColumnCount(4);
+    m_playersModel->setColumnCount(5);
     m_playersModel->setHeaderData(0, Qt::Horizontal, _q("Table"), Qt::DisplayRole);
     m_playersModel->setHeaderData(1, Qt::Horizontal, _q("Player"), Qt::DisplayRole);
     m_playersModel->setHeaderData(2, Qt::Horizontal, _q("Word"), Qt::DisplayRole);
