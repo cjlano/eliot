@@ -621,7 +621,6 @@ void ArbitrationWidget::endOfTurnRefresh()
 
     // Give focus to the rack
     lineEditRack->setFocus();
-    lineEditRack->selectAll();
 }
 
 
