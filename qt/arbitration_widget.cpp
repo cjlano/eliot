@@ -111,12 +111,12 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     treeViewResults->setColumnWidth(1, 40);
     treeViewResults->setColumnWidth(2, 70);
 
-    KeyEventFilter *masterFilter = new KeyEventFilter(this, Qt::Key_M);
+    KeyEventFilter *masterFilter = new KeyEventFilter(this, Qt::Key_M, Qt::SHIFT);
     QObject::connect(masterFilter, SIGNAL(keyPressed(int, int)),
                      m_assignmentsWidget, SLOT(assignMasterMove()));
     treeViewResults->installEventFilter(masterFilter);
 
-    KeyEventFilter *selectAllFilter = new KeyEventFilter(this, Qt::Key_A);
+    KeyEventFilter *selectAllFilter = new KeyEventFilter(this, Qt::Key_A, Qt::SHIFT);
     QObject::connect(selectAllFilter, SIGNAL(keyPressed(int, int)),
                      m_assignmentsWidget, SLOT(selectAllPlayers()));
     treeViewResults->installEventFilter(selectAllFilter);
@@ -498,7 +498,7 @@ void ArbitrationWidget::populateResultsMenu(QMenu &iMenu, const QPoint &iPoint)
         new QAction(_q("Use as master move"), this);
     setAsMasterAction->setStatusTip(_q("Use the selected move (%1) as master move")
                                     .arg(formatMove(move)));
-    setAsMasterAction->setShortcut(Qt::Key_M);
+    setAsMasterAction->setShortcut(Qt::SHIFT + Qt::Key_M);
     QObject::connect(setAsMasterAction, SIGNAL(triggered()),
                      m_assignmentsWidget, SLOT(assignMasterMove()));
     iMenu.addAction(setAsMasterAction);
@@ -509,7 +509,7 @@ void ArbitrationWidget::populateResultsMenu(QMenu &iMenu, const QPoint &iPoint)
     QAction *selectAllAction =
         new QAction(_q("Select all players"), this);
     selectAllAction->setStatusTip(_q("Select all the players"));
-    selectAllAction->setShortcut(Qt::Key_A);
+    selectAllAction->setShortcut(Qt::SHIFT + Qt::Key_A);
     QObject::connect(selectAllAction, SIGNAL(triggered()),
                      m_assignmentsWidget, SLOT(selectAllPlayers()));
     iMenu.addAction(selectAllAction);
