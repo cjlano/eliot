@@ -460,6 +460,7 @@ void ArbitrationWidget::searchResults()
 {
     m_game->removeTestRound();
     emit notifyInfo(_q("Searching with rack '%1'...").arg(lineEditRack->text()));
+    lineEditFilter->clear();
     m_results.clear();
     m_game->arbitrationSearch(m_results);
     emit notifyInfo(_q("Search done"));
