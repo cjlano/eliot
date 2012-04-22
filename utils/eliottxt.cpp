@@ -746,7 +746,7 @@ void loopArbitration(PublicGame &iGame)
             continue;
         try
         {
-            wchar_t command = parseCharInList(tokens, 0, L"?adhjsnq");
+            wchar_t command = parseCharInList(tokens, 0, L"?adhjsfjmet*q");
             if (command == L'?')
                 helpArbitration();
             else if (command == L'f')
@@ -764,6 +764,8 @@ void loopArbitration(PublicGame &iGame)
                 const wstring &word = parseLetters(tokens, 1, iGame.getDic());
                 const wstring &coord = parseAlphaNum(tokens, 2);
                 const Move &move = iGame.arbitrationCheckWord(word, coord);
+                if (move.getType() != Move::VALID_ROUND)
+                    throw GameException("Incorrect master move: " + lfw(move.toString()));
                 iGame.duplicateSetMasterMove(move);
             }
             else if (command == L'e')

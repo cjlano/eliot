@@ -85,7 +85,7 @@ Move Arbitration::checkWord(const wstring &iWord,
                             const wstring &iCoords) const
 {
     Round round;
-    int res = checkPlayedWord(iCoords, iWord, round);
+    int res = checkPlayedWord(iCoords, iWord, round, false);
     if (res == 0)
         return Move(round);
     return Move(iWord, iCoords);
