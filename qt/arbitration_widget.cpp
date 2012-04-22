@@ -398,8 +398,6 @@ void ArbitrationWidget::rackEdited(const QString &iText)
         return;
     }
 
-    if (!lineEditRack->hasAcceptableInput())
-        return;
     try
     {
         const wstring &input = m_game->getDic().convertFromInput(wfq(iText));
