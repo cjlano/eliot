@@ -79,6 +79,9 @@ public:
     /// Remove last turn
     void removeLastTurn();
 
+    /// Return the total number of warnings received
+    unsigned getWarningsNb() const;
+
     /**************************
      * Accessors for the score of the player
      **************************/

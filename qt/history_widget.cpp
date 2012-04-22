@@ -329,6 +329,22 @@ void HistoryTabWidget::setGame(const PublicGame *iGame)
 
 void HistoryTabWidget::refresh()
 {
+    // Display the number of warnings between parentheses
+    // (only if the player got at least one warning)
+    if (m_game != NULL)
+    {
+        for (unsigned int i = 0; i < m_game->getNbPlayers(); ++i)
+        {
+            const Player &player = m_game->getPlayer(i);
+            unsigned count = player.getWarningsNb();
+            if (count == 0)
+                setTabText(i + 1, qfw(player.getName()));
+            else
+                setTabText(i + 1, QString("%1 (%2)").arg(qfw(player.getName())).arg(count));
+        }
+    }
+
+    // Propagate the refresh to the history widgets (i.e. to the tab contents)
     emit refreshSignal();
 }
 

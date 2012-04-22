@@ -82,6 +82,16 @@ void Player::removeLastTurn()
     m_history.removeLastTurn();
 }
 
+unsigned Player::getWarningsNb() const
+{
+    unsigned total = 0;
+    for (unsigned i = 0; i < m_history.getSize(); ++i)
+    {
+        total += m_history.getTurn(i).getWarningsNb();
+    }
+    return total;
+}
+
 wstring Player::toString() const
 {
     wstring res = L"Player ";
