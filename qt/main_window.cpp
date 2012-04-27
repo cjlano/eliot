@@ -74,7 +74,6 @@ const char *MainWindow::m_windowName = "MainWindow";
 
 MainWindow::MainWindow(QWidget *iParent)
     : QMainWindow(iParent), m_dic(NULL), m_game(NULL),
-    m_newGameDialog(NULL),
     m_playersWidget(NULL), m_trainingWidget(NULL),
     m_arbitrationWidget(NULL), m_scoresWidget(NULL),
     m_bagWindow(NULL), m_boardWindow(NULL),
@@ -733,10 +732,9 @@ void MainWindow::onGameNew()
         return;
     }
 
-    if (m_newGameDialog == NULL)
-        m_newGameDialog = new NewGame(this);
+    NewGame *newGameDialog = new NewGame(this);
 
-    int res = m_newGameDialog->exec();
+    int res = newGameDialog->exec();
     if (res == QDialog::Rejected)
         return;
 
@@ -751,9 +749,11 @@ void MainWindow::onGameNew()
     destroyCurrentGame();
 
     // Create a new game
-    m_game = m_newGameDialog->createGame(*m_dic);
+    m_game = newGameDialog->createGame(*m_dic);
     if (m_game == NULL)
         return;
+
+    delete newGameDialog;
 
     m_ui.groupBoxPlayers->show();
 

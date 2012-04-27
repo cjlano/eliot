@@ -37,7 +37,6 @@ class Bag;
 class Board;
 class History;
 class PublicGame;
-class NewGame;
 class PlayerTabWidget;
 class ScoreWidget;
 class TrainingWidget;
@@ -131,9 +130,6 @@ private:
 
     /// The UI file generated with Qt Designer
     Ui::MainWindow m_ui;
-
-    /// Dialog for creating a new game
-    NewGame *m_newGameDialog;
 
     /// Widget for the players
     PlayerTabWidget *m_playersWidget;
