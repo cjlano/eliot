@@ -49,13 +49,14 @@ uint qHash(const PlayerDef &key)
 }
 
 
-PlayerDef::PlayerDef(QString iName, QString iType, QString iLevel)
-    : name(iName), type(iType), level(iLevel)
+PlayerDef::PlayerDef(QString iName, QString iType, QString iLevel, bool iIsDefault)
+    : name(iName), type(iType), level(iLevel), isDefault(iIsDefault)
 {
 }
 
 bool PlayerDef::operator==(const PlayerDef &iOther) const
 {
+    // Ignore the "isDefault" flag
     return name == iOther.name
         && type == iOther.type
         && level == iOther.level;
@@ -65,15 +66,18 @@ bool PlayerDef::operator==(const PlayerDef &iOther) const
 PlayersTableHelper::PlayersTableHelper(QObject *parent,
                                        QTableWidget *tablePlayers,
                                        QPushButton *addButton,
-                                       QPushButton *removeButton)
+                                       QPushButton *removeButton,
+                                       bool showDefaultColumn)
     : QObject(parent), m_tablePlayers(tablePlayers),
-    m_buttonAdd(addButton), m_buttonRemove(removeButton)
+    m_buttonAdd(addButton), m_buttonRemove(removeButton),
+    m_showDefaultColumn(showDefaultColumn)
 {
     // Initialize the table headers
-    tablePlayers->setColumnCount(3);
+    tablePlayers->setColumnCount(m_showDefaultColumn ? 4 : 3);
     tablePlayers->setHorizontalHeaderItem(0, new QTableWidgetItem(_("Name")));
     tablePlayers->setHorizontalHeaderItem(1, new QTableWidgetItem(_("Type")));
     tablePlayers->setHorizontalHeaderItem(2, new QTableWidgetItem(_("Level")));
+    tablePlayers->setHorizontalHeaderItem(3, new QTableWidgetItem(_("Default")));
     QHeaderView *header = tablePlayers->horizontalHeader();
     header->setHighlightSections(false);
     header->setStretchLastSection(true);
@@ -81,6 +85,7 @@ PlayersTableHelper::PlayersTableHelper(QObject *parent,
     header->resizeSection(0, 200);
     header->resizeSection(1, 100);
     header->resizeSection(2, 50);
+    header->resizeSection(3, 70);
     tablePlayers->verticalHeader()->setVisible(false);
 
     // Set other table properties
@@ -175,7 +180,7 @@ void PlayersTableHelper::removeSelectedRows()
 
 void PlayersTableHelper::addRow()
 {
-    addPlayer(PlayerDef(_q("New player"), _q(kHUMAN), ""),
+    addPlayer(PlayerDef(_q("New player"), _q(kHUMAN), "", false),
               true, true);
 }
 
@@ -188,9 +193,11 @@ QList<PlayerDef> PlayersTableHelper::getPlayers(bool onlySelected) const
     {
         if (onlySelected && !selModel->isRowSelected(i, QModelIndex()))
             continue;
+        const QVariant & data = m_tablePlayers->model()->data(m_tablePlayers->model()->index(i, 3));
         PlayerDef playerDef(m_tablePlayers->item(i, 0)->text(),
                             m_tablePlayers->item(i, 1)->text(),
-                            m_tablePlayers->item(i, 2)->text());
+                            m_tablePlayers->item(i, 2)->text(),
+                            data.toBool());
         playersList.push_back(playerDef);
     }
     return playersList;
@@ -263,6 +270,9 @@ void PlayersTableHelper::addRow(const PlayerDef &iDef)
     m_tablePlayers->setItem(row, 0, new QTableWidgetItem(iDef.name));
     m_tablePlayers->setItem(row, 1, new QTableWidgetItem(iDef.type));
     m_tablePlayers->setItem(row, 2, new QTableWidgetItem(iDef.level));
+    QTableWidgetItem *item = new QTableWidgetItem;
+    item->setData(Qt::DisplayRole, iDef.isDefault);
+    m_tablePlayers->setItem(row, 3, item);
     emit rowCountChanged();
 }
 
@@ -277,7 +287,8 @@ QList<PlayerDef> PlayersTableHelper::getFavPlayers()
         qs.setArrayIndex(i);
         PlayerDef playerDef(qs.value("name").toString(),
                             qs.value("type").toString(),
-                            qs.value("level").toString());
+                            qs.value("level").toString(),
+                            qs.value("default").toBool());
         playersList.push_back(playerDef);
     }
     qs.endArray();
@@ -295,6 +306,7 @@ void PlayersTableHelper::saveFavPlayers(const QList<PlayerDef> &iFavPlayers)
         qs.setValue("name", iFavPlayers.at(i).name);
         qs.setValue("type", iFavPlayers.at(i).type);
         qs.setValue("level", iFavPlayers.at(i).level);
+        qs.setValue("default", iFavPlayers.at(i).isDefault);
     }
     qs.endArray();
 }

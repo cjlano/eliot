@@ -1035,13 +1035,16 @@ void MainWindow::onSettingsFavPlayers()
 {
     QDialog *dialog = new QDialog(this);
     dialog->setWindowTitle(_q("Favorite players"));
-    dialog->resize(400, 500);
+    dialog->resize(480, 550);
+    dialog->setMinimumSize(200, 200);
 
     QVBoxLayout *vLayout = new QVBoxLayout;
     dialog->setLayout(vLayout);
-    QLabel *label = new QLabel(_q("The favorite players listed below are "
+    QLabel *label = new QLabel(_q("The favorite players listed below can be "
                                   "used in the \"New game\" dialog, to add "
-                                  "players quickly."));
+                                  "players quickly. Those marked as \"Default\" "
+                                  "will appear there directly (useful if you "
+                                  "often play with the same players)."));
     label->setWordWrap(true);
     vLayout->addWidget(label);
     QLabel *label2 = new QLabel(_q("To add or remove a player, use the buttons "
@@ -1068,7 +1071,7 @@ void MainWindow::onSettingsFavPlayers()
     connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
 
     PlayersTableHelper *helper =
-        new PlayersTableHelper(dialog, tableFav, buttonAdd, buttonRemove);
+        new PlayersTableHelper(dialog, tableFav, buttonAdd, buttonRemove, true);
     helper->addPopupRemoveAction();
     helper->addPlayers(helper->getFavPlayers());
 

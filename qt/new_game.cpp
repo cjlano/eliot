@@ -77,8 +77,19 @@ NewGame::NewGame(QWidget *iParent)
         defLevel = 100;
 
     // Initialize the model of the default players
-    m_helper->addPlayer(PlayerDef(_q("Player %1").arg(1), _q(kHUMAN), ""));
-    m_helper->addPlayer(PlayerDef(_q("Eliot"), _q(kAI), QString("%1").arg(defLevel)));
+    QList<PlayerDef> fav = PlayersTableHelper::getFavPlayers();
+    Q_FOREACH(const PlayerDef &def, fav)
+    {
+        if (def.isDefault)
+            m_helper->addPlayer(def);
+    }
+
+    // Default of the default :)
+    if (m_helper->getRowCount() == 0)
+    {
+        m_helper->addPlayer(PlayerDef(_q("Player %1").arg(1), _q(kHUMAN), "", false));
+        m_helper->addPlayer(PlayerDef(_q("Eliot"), _q(kAI), QString("%1").arg(defLevel), false));
+    }
 
     // Enable the Ok button only if there are enough players for the
     // current mode
@@ -198,7 +209,7 @@ void NewGame::enablePlayers(bool checked)
 
 void NewGame::addSelectedToFav()
 {
-    QList<PlayerDef> fav = m_helper->getFavPlayers();
+    QList<PlayerDef> fav = PlayersTableHelper::getFavPlayers();
     const QList<PlayerDef> &selected = m_helper->getPlayers(true);
     Q_FOREACH(const PlayerDef &def, selected)
     {
@@ -223,7 +234,7 @@ void NewGame::addFavoritePlayers()
     connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
 
     PlayersTableHelper *helper = new PlayersTableHelper(dialog, tableFav);
-    helper->addPlayers(m_helper->getFavPlayers());
+    helper->addPlayers(PlayersTableHelper::getFavPlayers());
 
     if (dialog->exec() == QDialog::Accepted)
     {

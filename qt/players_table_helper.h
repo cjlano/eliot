@@ -37,10 +37,11 @@ class QPoint;
 
 struct PlayerDef
 {
-    PlayerDef(QString name, QString type, QString level);
+    PlayerDef(QString name, QString type, QString level, bool isDefault);
     QString name;
     QString type;
     QString level;
+    bool isDefault;
 
     bool operator==(const PlayerDef &) const;
 };
@@ -59,7 +60,8 @@ public:
     PlayersTableHelper(QObject *parent,
                        QTableWidget *tableWidget,
                        QPushButton *addButton = 0,
-                       QPushButton *removeButton = 0);
+                       QPushButton *removeButton = 0,
+                       bool showDefaultColumn = false);
 
     QList<PlayerDef> getPlayers(bool onlySelected) const;
     void addPlayers(const QList<PlayerDef> &iList);
@@ -90,6 +92,7 @@ private:
     QPushButton *m_buttonAdd;
     QPushButton *m_buttonRemove;
     QList<QAction*> m_popupActions;
+    bool m_showDefaultColumn;
 
 };
 
