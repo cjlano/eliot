@@ -67,15 +67,6 @@ NewGame::NewGame(QWidget *iParent)
                      this, SLOT(addSelectedToFav()));
     m_helper->addPopupAction(addToFavAction);
 
-    // Retrieve the default computer level
-    QSettings qs;
-    int defLevel = qs.value(PrefsDialog::kINTF_DEFAULT_AI_LEVEL, 100).toInt();
-    // Ensure a valid range
-    if (defLevel < 0)
-        defLevel = 0;
-    if (defLevel > 100)
-        defLevel = 100;
-
     // Initialize the model of the default players
     QList<PlayerDef> fav = PlayersTableHelper::getFavPlayers();
     Q_FOREACH(const PlayerDef &def, fav)
@@ -88,7 +79,7 @@ NewGame::NewGame(QWidget *iParent)
     if (m_helper->getRowCount() == 0)
     {
         m_helper->addPlayer(PlayerDef(_q("Player %1").arg(1), _q(kHUMAN), "", false));
-        m_helper->addPlayer(PlayerDef(_q("Eliot"), _q(kAI), QString("%1").arg(defLevel), false));
+        m_helper->addPlayer(PlayerDef(_q("Eliot"), _q(kAI), "100", false));
     }
 
     // Enable the Ok button only if there are enough players for the

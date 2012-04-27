@@ -44,7 +44,6 @@ public:
     static const QString kINTF_SHOW_TILES_POINTS;
     static const QString kINTF_WARN_REPLAY_TURN;
     static const QString kINTF_SHOW_TOOLBAR;
-    static const QString kINTF_DEFAULT_AI_LEVEL;
     static const QString kINTF_TIMER_TOTAL_DURATION;
     static const QString kINTF_TIMER_ALERT_DURATION;
     static const QString kINTF_TIMER_BEEPS;

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>443</width>
-    <height>817</height>
+    <height>784</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -123,36 +123,6 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>_(&quot;Default computer level:&quot;)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QSpinBox" name="spinBoxDefaultLevel">
-          <property name="maximum">
-           <number>100</number>
-          </property>
-          <property name="value">
-           <number>100</number>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <spacer name="horizontalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item row="1" column="1">
          <widget class="QSpinBox" name="spinBoxTimerTotal">
           <property name="maximum">
@@ -182,6 +152,19 @@
            <string>_(&quot;Timer beeps&quot;)</string>
           </property>
          </widget>
+        </item>
+        <item row="1" column="2">
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>
@@ -428,7 +411,6 @@
   <tabstop>checkBoxIntfShowPoints</tabstop>
   <tabstop>checkBoxIntfAlignHistory</tabstop>
   <tabstop>checkBoxIntfWarnReplayTurn</tabstop>
-  <tabstop>spinBoxDefaultLevel</tabstop>
   <tabstop>spinBoxTimerTotal</tabstop>
   <tabstop>spinBoxTimerAlert</tabstop>
   <tabstop>checkBoxDuplRefuseInvalid</tabstop>
