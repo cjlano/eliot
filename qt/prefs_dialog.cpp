@@ -39,7 +39,6 @@ const QString PrefsDialog::kINTF_ALIGN_HISTORY = "Interface/AlignHistory";
 const QString PrefsDialog::kINTF_DIC_PATH = "Interface/DicPath";
 const QString PrefsDialog::kINTF_DEFINITIONS_SITE_URL = "Interface/DefinitionsSiteUrl";
 const QString PrefsDialog::kINTF_SHOW_TILES_POINTS = "Interface/ShowTilesPoints";
-const QString PrefsDialog::kINTF_WARN_REPLAY_TURN = "Interface/WarnReplayTurn";
 const QString PrefsDialog::kINTF_SHOW_TOOLBAR = "Interface/ShowToolBar";
 const QString PrefsDialog::kINTF_TIMER_TOTAL_DURATION = "Interface/TimerTotalDuration";
 const QString PrefsDialog::kINTF_TIMER_ALERT_DURATION = "Interface/TimerAlertDuration";
@@ -48,11 +47,27 @@ const QString PrefsDialog::kARBIT_AUTO_MASTER = "Arbitration/AutoAssignMaster";
 const QString PrefsDialog::kARBIT_LINK_7P1 = "Arbitration/LinkRackWith7P1";
 const QString PrefsDialog::kDEFAULT_DEF_SITE = "http://fr.wiktionary.org/wiki/%w";
 
+const QString PrefsDialog::kCONFO_START_GAME = "Confirmation/StartOverExisting";
+const QString PrefsDialog::kCONFO_LOAD_GAME = "Confirmation/LoadOverExisting";
+const QString PrefsDialog::kCONFO_LOAD_DIC = "Confirmation/StopGameForDic";
+const QString PrefsDialog::kCONFO_QUIT_GAME = "Confirmation/QuitGame";
+const QString PrefsDialog::kCONFO_REPLAY_TURN = "Confirmation/ReplayTurn";
+const QString PrefsDialog::kCONFO_ARBIT_REPLACE_MASTER = "Confirmation/Arbitration/ReplaceMaster";
+const QString PrefsDialog::kCONFO_ARBIT_LOW_MASTER = "Confirmation/Arbitration/LowMaster";
+const QString PrefsDialog::kCONFO_ARBIT_MASTER_JOKERS = "Confirmation/Arbitration/MasterJokers";
+const QString PrefsDialog::kCONFO_ARBIT_SUPPR_MOVE = "Confirmation/Arbitration/SuppressMove";
+const QString PrefsDialog::kCONFO_ARBIT_REPLACE_MOVE = "Confirmation/Arbitration/ReplaceMove";
+const QString PrefsDialog::kCONFO_ARBIT_CHANGE_RACK = "Confirmation/Arbitration/ChangeRack";
+const QString PrefsDialog::kCONFO_ARBIT_INCOMPLETE_TURN = "Confirmation/Arbitration/IncompleteTurn";
+
 
 PrefsDialog::PrefsDialog(QWidget *iParent)
     : QDialog(iParent)
 {
     setupUi(this);
+    // Display the first tab
+    tabWidget->setCurrentIndex(0);
+
     lineEditDefSite->setToolTip(_q("URL of the site used to display word definitions.\n"
                                    "In the URL, %w will be replaced with the word in lower case. Examples:\n"
                                    "\thttp://fr.wiktionary.org/wiki/%w\n"
@@ -93,8 +108,6 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         checkBoxIntfAlignHistory->setChecked(qs.value(kINTF_ALIGN_HISTORY).toBool());
         bool showPoints = qs.value(kINTF_SHOW_TILES_POINTS, true).toBool();
         checkBoxIntfShowPoints->setChecked(showPoints);
-        bool warnReplayTurn = qs.value(kINTF_WARN_REPLAY_TURN, true).toBool();
-        checkBoxIntfWarnReplayTurn->setChecked(warnReplayTurn);
         int timerTotal = qs.value(kINTF_TIMER_TOTAL_DURATION, 180).toInt();
         spinBoxTimerTotal->setValue(timerTotal);
         int timerAlert = qs.value(kINTF_TIMER_ALERT_DURATION, 30).toInt();
@@ -121,6 +134,32 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         checkBoxArbitLink7P1->setChecked(linkArbit7P1);
         spinBoxArbitSearchLimit->setValue(Settings::Instance().getInt("arbitration.search-limit"));
         spinBoxArbitDefPenalty->setValue(Settings::Instance().getInt("arbitration.default-penalty"));
+
+        // Confirmations
+        bool confoStartGame = qs.value(kCONFO_START_GAME, true).toBool();
+        checkBoxConfoStartGame->setChecked(confoStartGame);
+        bool confoLoadGame = qs.value(kCONFO_LOAD_GAME, true).toBool();
+        checkBoxConfoLoadDic->setChecked(confoLoadGame);
+        bool confoLoadDic = qs.value(kCONFO_LOAD_DIC, true).toBool();
+        checkBoxConfoLoadGame->setChecked(confoLoadDic);
+        bool confoQuitGame = qs.value(kCONFO_QUIT_GAME, true).toBool();
+        checkBoxConfoQuitGame->setChecked(confoQuitGame);
+        bool confoReplayTurn = qs.value(kCONFO_REPLAY_TURN, true).toBool();
+        checkBoxConfoReplayTurn->setChecked(confoReplayTurn);
+        bool confoArbitReplaceMaster = qs.value(kCONFO_ARBIT_REPLACE_MASTER, true).toBool();
+        checkBoxConfoArbitReplaceMaster->setChecked(confoArbitReplaceMaster);
+        bool confoArbitLowMaster = qs.value(kCONFO_ARBIT_LOW_MASTER, true).toBool();
+        checkBoxConfoArbitLowMaster->setChecked(confoArbitLowMaster);
+        bool confoArbitMasterJokers = qs.value(kCONFO_ARBIT_MASTER_JOKERS, true).toBool();
+        checkBoxConfoArbitMasterJokers->setChecked(confoArbitMasterJokers);
+        bool confoArbitSupprMove = qs.value(kCONFO_ARBIT_SUPPR_MOVE, true).toBool();
+        checkBoxConfoArbitSupprMove->setChecked(confoArbitSupprMove);
+        bool confoArbitReplaceMove = qs.value(kCONFO_ARBIT_REPLACE_MOVE, true).toBool();
+        checkBoxConfoArbitReplaceMove->setChecked(confoArbitReplaceMove);
+        bool confoArbitChangeRack = qs.value(kCONFO_ARBIT_CHANGE_RACK, true).toBool();
+        checkBoxConfoArbitRack->setChecked(confoArbitChangeRack);
+        bool confoArbitIncompleteTurn = qs.value(kCONFO_ARBIT_INCOMPLETE_TURN, true).toBool();
+        checkBoxConfoArbitEndTurn->setChecked(confoArbitIncompleteTurn);
     }
     catch (GameException &e)
     {
@@ -168,7 +207,6 @@ void PrefsDialog::updateSettings()
             shouldEmitUpdate = true;
             qs.setValue(kINTF_SHOW_TILES_POINTS, checkBoxIntfShowPoints->isChecked());
         }
-        qs.setValue(kINTF_WARN_REPLAY_TURN, checkBoxIntfWarnReplayTurn->isChecked());
         if (qs.value(kINTF_TIMER_TOTAL_DURATION, 180).toInt() != spinBoxTimerTotal->value())
         {
             // We need to change the default AI level
@@ -214,6 +252,20 @@ void PrefsDialog::updateSettings()
                                     spinBoxArbitSearchLimit->value());
         Settings::Instance().setInt("arbitration.default-penalty",
                                     spinBoxArbitDefPenalty->value());
+
+        // Confirmations settings
+        qs.setValue(kCONFO_START_GAME, checkBoxConfoStartGame->isChecked());
+        qs.setValue(kCONFO_LOAD_GAME, checkBoxConfoLoadGame->isChecked());
+        qs.setValue(kCONFO_LOAD_DIC, checkBoxConfoLoadDic->isChecked());
+        qs.setValue(kCONFO_QUIT_GAME, checkBoxConfoQuitGame->isChecked());
+        qs.setValue(kCONFO_REPLAY_TURN, checkBoxConfoReplayTurn->isChecked());
+        qs.setValue(kCONFO_ARBIT_REPLACE_MASTER, checkBoxConfoArbitReplaceMaster->isChecked());
+        qs.setValue(kCONFO_ARBIT_LOW_MASTER, checkBoxConfoArbitLowMaster->isChecked());
+        qs.setValue(kCONFO_ARBIT_MASTER_JOKERS, checkBoxConfoArbitMasterJokers->isChecked());
+        qs.setValue(kCONFO_ARBIT_SUPPR_MOVE, checkBoxConfoArbitSupprMove->isChecked());
+        qs.setValue(kCONFO_ARBIT_REPLACE_MOVE, checkBoxConfoArbitReplaceMove->isChecked());
+        qs.setValue(kCONFO_ARBIT_CHANGE_RACK, checkBoxConfoArbitRack->isChecked());
+        qs.setValue(kCONFO_ARBIT_INCOMPLETE_TURN, checkBoxConfoArbitEndTurn->isChecked());
     }
     catch (GameException &e)
     {

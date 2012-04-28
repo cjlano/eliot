@@ -42,7 +42,6 @@ public:
     static const QString kINTF_DIC_PATH;
     static const QString kINTF_DEFINITIONS_SITE_URL;
     static const QString kINTF_SHOW_TILES_POINTS;
-    static const QString kINTF_WARN_REPLAY_TURN;
     static const QString kINTF_SHOW_TOOLBAR;
     static const QString kINTF_TIMER_TOTAL_DURATION;
     static const QString kINTF_TIMER_ALERT_DURATION;
@@ -52,6 +51,19 @@ public:
     static const QString kARBIT_LINK_7P1;
 
     static const QString kDEFAULT_DEF_SITE;
+
+    static const QString kCONFO_START_GAME;
+    static const QString kCONFO_LOAD_GAME;
+    static const QString kCONFO_LOAD_DIC;
+    static const QString kCONFO_QUIT_GAME;
+    static const QString kCONFO_REPLAY_TURN;
+    static const QString kCONFO_ARBIT_REPLACE_MASTER;
+    static const QString kCONFO_ARBIT_LOW_MASTER;
+    static const QString kCONFO_ARBIT_MASTER_JOKERS;
+    static const QString kCONFO_ARBIT_SUPPR_MOVE;
+    static const QString kCONFO_ARBIT_REPLACE_MOVE;
+    static const QString kCONFO_ARBIT_CHANGE_RACK;
+    static const QString kCONFO_ARBIT_INCOMPLETE_TURN;
 
 public slots:
     /// Update the settings when the user selects "OK"

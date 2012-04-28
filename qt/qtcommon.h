@@ -79,7 +79,8 @@ public:
      * By default, the question is "Do you want to continue?".
      * If a parent is provided, the window is centered on it.
      */
-    static bool requestConfirmation(QString iMsg,
+    static bool requestConfirmation(QString confoKey,
+                                    QString iMsg,
                                     QString iQuestion = "",
                                     QWidget *iParent = 0);
 

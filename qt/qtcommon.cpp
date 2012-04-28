@@ -18,8 +18,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <QtGui/QApplication>
 #include <QtGui/QWidget>
-#include <QtGui/QMessageBox>
+#include <QtGui/QDialog>
+#include <QtGui/QDialogButtonBox>
+#include <QtGui/QPushButton>
+#include <QtGui/QCheckBox>
+#include <QtGui/QIcon>
+#include <QtGui/QPixmap>
+#include <QtGui/QLabel>
+#include <QtGui/QStyle>
+#include <QtGui/QLayout>
+#include <QtCore/QSettings>
 
 #include "qtcommon.h"
 #include <iostream>
@@ -119,17 +129,78 @@ void QtCommon::DestroyObject(QWidget *ioObjectToDestroy,
 }
 
 
-bool QtCommon::requestConfirmation(QString iMsg, QString iQuestion, QWidget *iParent)
+bool QtCommon::requestConfirmation(QString confoKey, QString iMsg,
+                                   QString iQuestion, QWidget *iParent)
 {
-    QMessageBox confirmationBox(QMessageBox::Question, _q("Eliot"), iMsg,
-                                QMessageBox::Yes | QMessageBox::No, iParent);
-    if (iQuestion != "")
-        confirmationBox.setInformativeText(iQuestion);
-    else
-        confirmationBox.setInformativeText(_q("Do you want to continue?"));
-    confirmationBox.setDefaultButton(QMessageBox::Yes);
-    confirmationBox.setEscapeButton(QMessageBox::No);
-    int res = confirmationBox.exec();
-    return res == QMessageBox::Yes;
+    const bool withCheckbox = confoKey != "";
+    if (withCheckbox)
+    {
+        // Do nothing if the user doesn't want to see this confirmation anymore
+        QSettings qs;
+        bool confirm = qs.value(confoKey, true).toBool();
+        if (!confirm)
+            return true;
+    }
+
+    // Build the dialog
+    QDialog dialog(iParent);
+    dialog.setWindowTitle(_q("Eliot"));
+    QGridLayout *layout = new QGridLayout;
+    dialog.setLayout(layout);
+
+    QLabel *iconLabel = new QLabel;
+    layout->addWidget(iconLabel, 0, 0, 3, 1, Qt::AlignTop);
+    iconLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QIcon icon = QApplication::style()->standardIcon(
+            QStyle::SP_MessageBoxQuestion, 0, &dialog);
+    int iconSize = QApplication::style()->pixelMetric(
+            QStyle::PM_MessageBoxIconSize, 0, &dialog);
+    iconLabel->setPixmap(icon.pixmap(iconSize, iconSize));
+
+    QLabel *label = new QLabel;
+    layout->addWidget(label, 0, 1, 1, 1);
+    label->setText(iMsg);
+    label->setWordWrap(true);
+
+    QLabel *questionLabel = new QLabel;
+    layout->addWidget(questionLabel, 1, 1, 1, 1);
+    questionLabel->setText(iQuestion != "" ? iQuestion :
+                    _q("Do you want to continue?"));
+    questionLabel->setWordWrap(true);
+
+    QCheckBox *checkBox = 0;
+    if (withCheckbox)
+    {
+        // Add a checkbox to the dialog box
+        checkBox = new QCheckBox(_q("Do not show this confirmation anymore"));
+        layout->addWidget(checkBox, 2, 1, 1, 1);
+        checkBox->setToolTip(_q("You can still display the confirmation in the future,\n"
+                                "by changing the appropriate option in the preferences."));
+    }
+
+    QDialogButtonBox *buttons =
+        new QDialogButtonBox(QDialogButtonBox::Yes | QDialogButtonBox::No);
+    layout->addWidget(buttons, 3, 0, 1, 2);
+    QObject::connect(buttons, SIGNAL(accepted()), &dialog, SLOT(accept()));
+    QObject::connect(buttons, SIGNAL(rejected()), &dialog, SLOT(reject()));
+    buttons->button(QDialogButtonBox::Yes)->setDefault(true);
+
+    if (!withCheckbox)
+        buttons->button(QDialogButtonBox::Yes)->setFocus();
+
+    // Try to define a correct size
+    dialog.setMinimumWidth(300);
+    dialog.resize(layout->sizeHint());
+
+    int res = dialog.exec();
+
+    // Save the "no more confirmation" setting
+    if (withCheckbox && checkBox->isChecked() && res == QDialog::Accepted)
+    {
+        QSettings qs;
+        qs.setValue(confoKey, false);
+    }
+
+    return res == QDialog::Accepted;
 }
 

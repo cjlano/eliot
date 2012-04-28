@@ -357,8 +357,11 @@ bool ArbitrationWidget::confirmRackChange() const
         QString msg = _q("Some player(s) already have an assigned move. "
                          "These moves will be lost if you change the rack.");
         QString question = _q("Do you really want to change the rack?");
-        if (!QtCommon::requestConfirmation(msg, question))
+        if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_ARBIT_CHANGE_RACK,
+                                           msg, question))
+        {
             return false;
+        }
     }
     return true;
 }

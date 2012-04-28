@@ -503,7 +503,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     {
         QString msg = _q("A game has been started.");
         QString question = _q("Do you really want to quit?");
-        if (!QtCommon::requestConfirmation(msg, question, this))
+        if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_QUIT_GAME,
+                                           msg, question, this))
         {
             event->ignore();
             return;
@@ -564,8 +565,11 @@ void MainWindow::changeDictionary(QString iFileName)
         if (m_game)
         {
             QString msg = _q("Loading a dictionary will stop the current game.");
-            if (!QtCommon::requestConfirmation(msg, "", this))
+            if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_LOAD_DIC,
+                                               msg, "", this))
+            {
                 return;
+            }
         }
 
         LOG_INFO("Loading new dictionary file: " << lfq(iFileName));
@@ -732,8 +736,11 @@ void MainWindow::onGameNew()
     if (m_game)
     {
         QString msg = _q("Starting a new game will stop the current one.");
-        if (!QtCommon::requestConfirmation(msg, "", this))
+        if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_START_GAME,
+                                           msg, "", this))
+        {
             return;
+        }
     }
 
     // Destroy the game and the associated controls
@@ -779,8 +786,11 @@ void MainWindow::loadGame(QString fileName)
     if (m_game)
     {
         QString msg = _q("Loading a saved game will stop the current game.");
-        if (!QtCommon::requestConfirmation(msg, "", this))
+        if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_LOAD_GAME,
+                                           msg, "", this))
+        {
             return;
+        }
     }
 
     if (fileName == "")
@@ -1313,15 +1323,14 @@ void MainWindow::onHistoryReplayTurn()
     if (m_game == NULL)
         return;
 
-    QSettings settings;
-    bool warn = settings.value(PrefsDialog::kINTF_WARN_REPLAY_TURN, true).toBool();
-    if (warn) {
-        // Ask for a confirmation, because this may lead to data loss
-        QString msg = _q("Replaying this turn will modify the game history "
-                         "by deleting the turns after the displayed one (i.e. "
-                         "turns \"in the future\").");
-        if (!QtCommon::requestConfirmation(msg, "", this))
-            return;
+    // Ask for a confirmation, because this may lead to data loss
+    QString msg = _q("Replaying this turn will modify the game history "
+                     "by deleting the turns after the displayed one (i.e. "
+                     "turns \"in the future\").");
+    if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_REPLAY_TURN,
+                                       msg, "", this))
+    {
+        return;
     }
 
     unsigned int currTurn = m_game->getCurrTurn();

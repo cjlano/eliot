@@ -28,6 +28,7 @@
 #include "qtcommon.h"
 #include "custom_popup.h"
 #include "misc_helpers.h"
+#include "prefs_dialog.h"
 
 #include "public_game.h"
 #include "player.h"
@@ -376,8 +377,11 @@ void ArbitAssignments::assignMasterMove()
     {
         QString msg = _q("There is already a master move for this turn.");
         QString question = _q("Do you want to replace it?");
-        if (!QtCommon::requestConfirmation(msg, question))
+        if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_ARBIT_REPLACE_MASTER,
+                                           msg, question))
+        {
             return;
+        }
     }
 
     const Move &move = m_selectedMove;
@@ -398,8 +402,11 @@ void ArbitAssignments::assignMasterMove()
     {
         QString msg = _q("The selected move scores less than the maximum.");
         QString question = _q("Do you really want to select it as master move?");
-        if (!QtCommon::requestConfirmation(msg, question))
+        if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_ARBIT_LOW_MASTER,
+                                           msg, question))
+        {
             return;
+        }
     }
     else
     {
@@ -417,8 +424,11 @@ void ArbitAssignments::assignMasterMove()
                                      "another move with the same score (%1).")
                         .arg(formatMove(Move(results.get(i))));
                     QString question = _q("Do you really want to select it as master move?");
-                    if (!QtCommon::requestConfirmation(msg, question))
+                    if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_ARBIT_MASTER_JOKERS,
+                                                       msg, question))
+                    {
                         return;
+                    }
                     break;
                 }
             }
@@ -522,15 +532,21 @@ void ArbitAssignments::helperAssignMove(const Move &iMove)
         if (iMove.getType() == Move::NO_MOVE)
         {
             QString msg = _q("You are going to suppress the assigned move for the following players:\n");
-            if (!QtCommon::requestConfirmation(msg + players))
+            if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_ARBIT_SUPPR_MOVE,
+                                               msg + players))
+            {
                 return;
+            }
         }
         else
         {
             QString msg = _q("The following players already have an assigned move:\n");
             QString question = _q("Do you want to replace it?");
-            if (!QtCommon::requestConfirmation(msg + players, question))
+            if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_ARBIT_REPLACE_MOVE,
+                                               msg + players, question))
+            {
                 return;
+            }
         }
     }
 
@@ -619,8 +635,11 @@ void ArbitAssignments::endTurn()
         QString msg = _q("Some player(s) have no assigned move for this turn. "
                          "If you continue, they will be assigned a \"(NO MOVE)\" "
                          "pseudo-move, but you will be able to change that later.");
-        if (!QtCommon::requestConfirmation(msg))
+        if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_ARBIT_INCOMPLETE_TURN,
+                                           msg))
+        {
             return;
+        }
     }
 
     emit notifyInfo(_q("New turn started"));
