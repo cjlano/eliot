@@ -1,19 +1,18 @@
-ICONV_VERSION = 1.13.1
-LIBCONFIG_VERSION = 1.4.7
-BOOST_VERSION = 1_42_0
-QT_VERSION = 4.5.3
+ICONV_VERSION = 1.14
+LIBCONFIG_VERSION = 1.4.8
+BOOST_VERSION = 1_49_0
+QT_VERSION = 4.7.2
 EXPAT_VERSION = 2.0.1
 ARABICA_VERSION = 2010-November
 LIBXML2_VERSION = 2.7.8
 XERCES_VERSION = 3.1.1
-APR_VERSION = 1.4.5
-APU_VERSION = 1.3.12
 LOG4CXX_VERSION = 0.10.0
 
 
 PREFIX = $(shell pwd)/inst
 PREFIX_FLAG = $(PREFIX)/.flag
 WGET = wget -c
+SVN = svn
 
 # XXX: Hardcoded for mingw on linux, at the moment
 CC = i586-mingw32msvc-gcc
@@ -23,7 +22,7 @@ CONFIGURE = CC="$(CC)" CXX="$(CXX)" CPPFLAGS="$(CPPFLAGS)" ./configure --host=i5
 
 .PHONY: help all
 
-all: .iconv .boost .qt .apr .apu .log4cxx .libconfig .expat .arabica
+all: .iconv .boost .expat .arabica .libconfig .apr2-svn .log4cxx-svn .qt
 
 help:
 	@echo "Usage: make all"
@@ -48,119 +47,6 @@ $(ICONV_DIR_FLAG): $(ICONV_ARCHIVE)
 
 .iconv: $(ICONV_DIR_FLAG)
 	(cd $(ICONV_DIR) && $(CONFIGURE) --enable-static --disable-shared && make && make install)
-	touch $@
-
-
-### APR (needed by log4cxx) ###
-
-APR_DIR = apr-$(APR_VERSION)
-APR_DIR_FLAG = $(APR_DIR)/.flag
-APR_ARCHIVE = apr-$(APR_VERSION).tar.bz2
-
-$(APR_ARCHIVE): $(PREFIX_FLAG)
-	$(WGET) http://www.motorlogy.com/apachemirror/apr/$@
-
-$(APR_DIR_FLAG): $(APR_ARCHIVE)
-	tar xjf $<
-	touch $@
-
-.apr: $(APR_DIR_FLAG)
-	(cd $(APR_DIR) && $(CONFIGURE) --enable-static --disable-shared && make && make install)
-	touch $@
-
-
-### APU (needed by log4cxx) ###
-
-APU_DIR = apr-util-$(APU_VERSION)
-APU_DIR_FLAG = $(APU_DIR)/.flag
-APU_ARCHIVE = apr-util-$(APU_VERSION).tar.bz2
-
-$(APU_ARCHIVE): $(PREFIX_FLAG)
-	$(WGET) http://www.motorlogy.com/apachemirror/apr/$@
-
-$(APU_DIR_FLAG): $(APU_ARCHIVE)
-	tar xjf $<
-	touch $@
-
-.apu: $(APU_DIR_FLAG)
-	(cd $(APU_DIR) && $(CONFIGURE) --with-apr=$(PREFIX) --enable-static --disable-shared && make && make install)
-	touch $@
-
-
-### log4cxx ###
-
-LOG4CXX_DIR = apache-log4cxx-$(LOG4CXX_VERSION)
-LOG4CXX_DIR_FLAG = $(LOG4CXX_DIR)/.flag
-LOG4CXX_ARCHIVE = apache-log4cxx-$(LOG4CXX_VERSION).tar.gz
-
-$(LOG4CXX_ARCHIVE): $(PREFIX_FLAG)
-	$(WGET) http://apache.cyberuse.com/logging/log4cxx/$(LOG4CXX_VERSION)/$@
-
-$(LOG4CXX_DIR_FLAG): $(LOG4CXX_ARCHIVE)
-	tar xzf $<
-	touch $@
-
-.log4cxx: $(LOG4CXX_DIR_FLAG)
-	(cd $(LOG4CXX_DIR) && patch -p0 < ../log4cxx-no-example.patch && patch -p0 < ../log4cxx-build-fixes.patch && $(CONFIGURE) --with-apr=$(PREFIX) --with-apu=$(PREFIX) --with-apr-util=$(PREFIX) --disable-doxygen --disable-dot --enable-static --disable-shared && make && make install)
-	touch $@
-
-
-### libconfig ###
-
-LIBCONFIG_DIR = libconfig-$(LIBCONFIG_VERSION)
-LIBCONFIG_DIR_FLAG = $(LIBCONFIG_DIR)/.flag
-LIBCONFIG_ARCHIVE = libconfig-$(LIBCONFIG_VERSION).tar.gz
-
-$(LIBCONFIG_ARCHIVE): $(PREFIX_FLAG)
-	$(WGET) http://www.hyperrealm.com/libconfig/$@
-
-$(LIBCONFIG_DIR_FLAG): $(LIBCONFIG_ARCHIVE)
-	tar xvf $<
-	touch $@
-
-.libconfig: $(LIBCONFIG_DIR_FLAG)
-	(cd $(LIBCONFIG_DIR) && patch -p0 < ../libconfig++-static-build.patch && CFLAGS=-DLIBCONFIG_STATIC CXXFLAGS=-DLIBCONFIGXX_STATIC $(CONFIGURE) --disable-examples --enable-static --disable-shared && make && make install)
-	touch $@
-
-
-### Boost ###
-
-BOOST_DIR = boost_$(BOOST_VERSION)
-BOOST_DIR_FLAG = $(BOOST_DIR)/.flag
-BOOST_ARCHIVE = boost_$(BOOST_VERSION).tar.bz2
-
-$(BOOST_ARCHIVE): $(PREFIX_FLAG)
-	$(WGET) http://garr.dl.sourceforge.net/sourceforge/boost/$@
-
-$(BOOST_DIR_FLAG): $(BOOST_ARCHIVE)
-	tar xjf $<
-	touch $@
-
-# We don't build any library, because we don't need them (and it is really
-# hard to cross-compile with their crappy build system)
-.boost: $(BOOST_DIR_FLAG)
-	#(cd $(BOOST_DIR) && ./configure --prefix=$(PREFIX) && ./tools/jam/src/bin.linuxx86/bjam --toolset=gcc --prefix=$(PREFIX) --without-date_time --without-filesystem --without-graph --without-iostreams --without-program_options --without-python --without-regex --without-serialization --without-signals --without-test --without-thread --without-wave install)
-	cp -r $(BOOST_DIR)/boost $(PREFIX)/include
-	touch $@
-
-
-### Qt ###
-
-# FIXME: No automated way to build it at the moment :-(
-QT_DIR = qt4-$(QT_VERSION)-win32-bin
-QT_DIR_FLAG = $(QT_DIR)/.flag
-QT_ARCHIVE = qt4-$(QT_VERSION)-win32-bin.tar.bz2
-
-$(QT_ARCHIVE): $(PREFIX_FLAG)
-	$(WGET) http://dl.sv.nongnu.org/releases-noredirect/eliot/other/$@
-
-$(QT_DIR_FLAG): $(QT_ARCHIVE)
-	tar xjf $<
-	touch $@
-
-.qt: $(QT_DIR_FLAG)
-	# The final mv is needed, because of the way the QT4LOCALEDIR variable is computed
-	(cd $(QT_DIR); cp -r bin include lib share $(PREFIX); sed 's,@@PREFIX@@,$(PREFIX),' $(PREFIX)/lib/pkgconfig/QtCore.pc.in > $(PREFIX)/lib/pkgconfig/QtCore.pc; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtGui.pc.in > $(PREFIX)/lib/pkgconfig/QtGui.pc; rm $(PREFIX)/lib/pkgconfig/*.in; mkdir -p $(PREFIX)/share/qt4; mv $(PREFIX)/share/translations $(PREFIX)/share/qt4)
 	touch $@
 
 
@@ -235,5 +121,111 @@ $(XERCES_DIR_FLAG): $(XERCES_ARCHIVE)
 
 .xerces: $(XERCES_DIR_FLAG)
 	(cd $(XERCES_DIR) && $(CONFIGURE) --enable-static --disable-shared --disable-network && make install)
+	touch $@
+
+
+### APR 2 SVN (needed by log4cxx) ###
+# APR 2 is not yet released, so we have to use the SVN version (last known to work: 28/04/2012)
+
+APR_DIR2 = apr
+APR_DIR_FLAG2 = $(APR_DIR2)/.flag
+
+$(APR_DIR_FLAG2):
+	$(SVN) co http://svn.apache.org/repos/asf/apr/apr/trunk/ apr
+	touch $@
+
+.apr2-svn: $(APR_DIR_FLAG2)
+	(cd $(APR_DIR2) && patch -p0 < ../apr-force-large-files-support.patch && ./buildconf && $(CONFIGURE) --enable-static --disable-shared --with-expat=$(PREFIX) && make && make install)
+	touch $@
+
+
+### log4cxx SVN ###
+
+LOG4CXX_DIR2 = apache-log4cxx
+LOG4CXX_DIR_FLAG2 = $(LOG4CXX_DIR2)/.flag
+
+$(LOG4CXX_DIR_FLAG2):
+	$(SVN) checkout http://svn.apache.org/repos/asf/logging/log4cxx/trunk apache-log4cxx
+	touch $@
+
+.log4cxx-svn: $(LOG4CXX_DIR_FLAG2)
+	(cd $(LOG4CXX_DIR2) && ./autogen.sh && patch -p0 < ../log4cxx-no-example.patch && patch -p0 < ../log4cxx-build-fixes.patch && patch -p0 < ../log4cxx-pkg-config.patch && $(CONFIGURE) --with-apr=$(PREFIX)/bin/apr-2-config --disable-doxygen --disable-dot --enable-static --disable-shared && make && make -i install)
+	touch $@
+
+
+### log4cxx ###
+
+LOG4CXX_DIR = apache-log4cxx-$(LOG4CXX_VERSION)
+LOG4CXX_DIR_FLAG = $(LOG4CXX_DIR)/.flag
+LOG4CXX_ARCHIVE = apache-log4cxx-$(LOG4CXX_VERSION).tar.gz
+
+$(LOG4CXX_ARCHIVE): $(PREFIX_FLAG)
+	$(WGET) http://apache.cyberuse.com/logging/log4cxx/$(LOG4CXX_VERSION)/$@
+
+$(LOG4CXX_DIR_FLAG): $(LOG4CXX_ARCHIVE)
+	tar xzf $<
+	touch $@
+
+.log4cxx: $(LOG4CXX_DIR_FLAG)
+	(cd $(LOG4CXX_DIR) && patch -p0 < ../log4cxx-no-example.patch && patch -p0 < ../log4cxx-build-fixes.patch && patch -p0 < ../log4cxx-pkg-config.patch && $(CONFIGURE) --with-apr=$(PREFIX)/bin/apr-2-config --disable-doxygen --disable-dot --enable-static --disable-shared && make && make install)
+	touch $@
+
+
+### libconfig ###
+
+LIBCONFIG_DIR = libconfig-$(LIBCONFIG_VERSION)
+LIBCONFIG_DIR_FLAG = $(LIBCONFIG_DIR)/.flag
+LIBCONFIG_ARCHIVE = libconfig-$(LIBCONFIG_VERSION).tar.gz
+
+$(LIBCONFIG_ARCHIVE): $(PREFIX_FLAG)
+	$(WGET) http://www.hyperrealm.com/libconfig/$@
+
+$(LIBCONFIG_DIR_FLAG): $(LIBCONFIG_ARCHIVE)
+	tar xvf $<
+	touch $@
+
+.libconfig: $(LIBCONFIG_DIR_FLAG)
+	(cd $(LIBCONFIG_DIR) && patch -p0 < ../libconfig++-static-build.patch && CFLAGS=-DLIBCONFIG_STATIC CXXFLAGS=-DLIBCONFIGXX_STATIC $(CONFIGURE) --disable-examples --enable-static --disable-shared && make && make install)
+	touch $@
+
+
+### Boost ###
+
+BOOST_DIR = boost_$(BOOST_VERSION)
+BOOST_DIR_FLAG = $(BOOST_DIR)/.flag
+BOOST_ARCHIVE = boost_$(BOOST_VERSION).tar.bz2
+
+$(BOOST_ARCHIVE): $(PREFIX_FLAG)
+	$(WGET) http://garr.dl.sourceforge.net/sourceforge/boost/$@
+
+$(BOOST_DIR_FLAG): $(BOOST_ARCHIVE)
+	tar xjf $<
+	touch $@
+
+# We don't build any library, because we don't need them (and it is really
+# hard to cross-compile with their crappy build system)
+.boost: $(BOOST_DIR_FLAG)
+	#(cd $(BOOST_DIR) && ./configure --prefix=$(PREFIX) && ./tools/jam/src/bin.linuxx86/bjam --toolset=gcc --prefix=$(PREFIX) --without-date_time --without-filesystem --without-graph --without-iostreams --without-program_options --without-python --without-regex --without-serialization --without-signals --without-test --without-thread --without-wave install)
+	cp -r $(BOOST_DIR)/boost $(PREFIX)/include
+	touch $@
+
+
+### Qt ###
+
+# FIXME: No automated way to build it at the moment :-(
+QT_DIR = qt4-$(QT_VERSION)-win32-bin
+QT_DIR_FLAG = $(QT_DIR)/.flag
+QT_ARCHIVE = qt4-$(QT_VERSION)-win32-bin.tar.bz2
+
+$(QT_ARCHIVE): $(PREFIX_FLAG)
+	$(WGET) http://dl.sv.nongnu.org/releases-noredirect/eliot/other/$@
+
+$(QT_DIR_FLAG): $(QT_ARCHIVE)
+	tar xjf $<
+	touch $@
+
+.qt: $(QT_DIR_FLAG)
+	# The final mv is needed, because of the way the QT4LOCALEDIR variable is computed
+	(cd $(QT_DIR); cp -r bin include lib share $(PREFIX); sed 's,@@PREFIX@@,$(PREFIX),' $(PREFIX)/lib/pkgconfig/QtCore.pc.in > $(PREFIX)/lib/pkgconfig/QtCore.pc; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtGui.pc.in > $(PREFIX)/lib/pkgconfig/QtGui.pc; rm $(PREFIX)/lib/pkgconfig/*.in; mkdir -p $(PREFIX)/share/qt4; mv $(PREFIX)/share/translations $(PREFIX)/share/qt4)
 	touch $@
 

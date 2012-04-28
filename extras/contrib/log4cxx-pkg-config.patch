@@ -1,0 +1,9 @@
+--- liblog4cxx.pc.in.orig	2012-04-28 15:04:38.732403412 +0200
++++ liblog4cxx.pc.in	2012-04-28 15:06:50.172406490 +0200
+@@ -22,5 +22,5 @@
+ Version: @VERSION@
+ Libs: -L${libdir} -llog4cxx
+ Cflags: -I${includedir}
+-Requires.private: apr-util-1
++Requires: apr-2
+ 
