@@ -23,6 +23,7 @@
 #include <cmath>
 #include <QtGui/QTreeView>
 #include <QtGui/QTabWidget>
+#include <QtGui/QHeaderView>
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QMenu>
 #include <QtCore/QSettings>

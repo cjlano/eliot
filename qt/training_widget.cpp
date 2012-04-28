@@ -20,6 +20,7 @@
 
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QMenu>
+#include <QtGui/QHeaderView>
 
 #include "training_widget.h"
 #include "qtcommon.h"
