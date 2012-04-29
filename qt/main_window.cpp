@@ -727,12 +727,6 @@ void MainWindow::onGameNew()
         return;
     }
 
-    NewGame *newGameDialog = new NewGame(this);
-
-    int res = newGameDialog->exec();
-    if (res == QDialog::Rejected)
-        return;
-
     if (m_game)
     {
         QString msg = _q("Starting a new game will stop the current one.");
@@ -743,15 +737,18 @@ void MainWindow::onGameNew()
         }
     }
 
+    NewGame newGameDialog;
+    int res = newGameDialog.exec();
+    if (res == QDialog::Rejected)
+        return;
+
     // Destroy the game and the associated controls
     destroyCurrentGame();
 
     // Create a new game
-    m_game = newGameDialog->createGame(*m_dic);
+    m_game = newGameDialog.createGame(*m_dic);
     if (m_game == NULL)
         return;
-
-    delete newGameDialog;
 
     m_ui.groupBoxPlayers->show();
 
