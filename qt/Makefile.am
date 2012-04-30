@@ -78,6 +78,7 @@ eliot_SOURCES = \
     dic_wizard.cpp dic_wizard.h \
     board_widget.cpp board_widget.h \
     history_widget.cpp history_widget.h \
+    stats_widget.cpp stats_widget.h \
     play_word_mediator.cpp play_word_mediator.h \
     tables_dialog.cpp tables_dialog.h \
     training_widget.cpp training_widget.h \
@@ -120,6 +121,7 @@ nodist_eliot_SOURCES = \
     dic_wizard.moc.cpp \
     board_widget.moc.cpp \
     history_widget.moc.cpp \
+    stats_widget.moc.cpp \
     play_word_mediator.moc.cpp \
     player_widget.moc.cpp \
     tables_dialog.moc.cpp \

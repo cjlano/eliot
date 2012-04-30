@@ -60,6 +60,7 @@
 #include "training_widget.h"
 #include "arbitration_widget.h"
 #include "history_widget.h"
+#include "stats_widget.h"
 #include "dic_tools_widget.h"
 #include "players_table_helper.h"
 #include "timer_widget.h"
@@ -77,7 +78,7 @@ MainWindow::MainWindow(QWidget *iParent)
     m_playersWidget(NULL), m_trainingWidget(NULL),
     m_arbitrationWidget(NULL), m_scoresWidget(NULL),
     m_bagWindow(NULL), m_boardWindow(NULL),
-    m_historyWindow(NULL), m_timerWindow(NULL),
+    m_historyWindow(NULL), m_statsWindow(NULL), m_timerWindow(NULL),
     m_dicToolsWindow(NULL), m_dicNameLabel(NULL), m_timerModel(NULL),
     m_currentTurn(0)
 {
@@ -202,6 +203,7 @@ MainWindow::~MainWindow()
     delete m_bagWindow;
     delete m_boardWindow;
     delete m_historyWindow;
+    delete m_statsWindow;
     delete m_timerWindow;
     delete m_dicToolsWindow;
     delete m_game;
@@ -532,6 +534,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
         m_boardWindow->close();
     if (m_historyWindow)
         m_historyWindow->close();
+    if (m_statsWindow)
+        m_statsWindow->close();
     if (m_timerWindow)
         m_timerWindow->close();
     if (m_dicToolsWindow)
@@ -712,7 +716,9 @@ void MainWindow::createMenu()
     m_actionWindowsHistory = addMenuAction(menuWindows, _q("&History"), _q("Ctrl+H"),
                   _q("Show/hide the game history"), SLOT(onWindowsHistory()),
                   true, QIcon(":/images/playlist_16px.png"));
-    m_actionWindowsTimer = addMenuAction(menuWindows, _q("&Timer"), QString(""),
+    m_actionWindowsStats = addMenuAction(menuWindows, _q("&Statistics"), QString(""),
+                  _q("Show/hide the statistics"), SLOT(onWindowsStatistics()), true);
+    m_actionWindowsTimer = addMenuAction(menuWindows, _q("Ti&mer"), QString(""),
                   _q("Show/hide the timer"), SLOT(onWindowsTimer()), true);
     m_actionWindowsDicTools = addMenuAction(menuWindows, _q("&Dictionary tools"), _q("Ctrl+D"),
                   _q("Show/hide the dictionary tools"), SLOT(onWindowsDicTools()), true);
@@ -1214,6 +1220,24 @@ void MainWindow::onWindowsHistory()
                          history, SLOT(refresh()));
     }
     m_historyWindow->toggleVisibility();
+}
+
+
+void MainWindow::onWindowsStatistics()
+{
+    if (m_statsWindow == NULL)
+    {
+        // Create the window
+        StatsWidget *stats = new StatsWidget;
+        stats->setGame(m_game);
+        m_statsWindow = new AuxWindow(*stats, _q("Statistiques"), "StatsWindow",
+                                      m_actionWindowsStats);
+        QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+                         stats, SLOT(setGame(const PublicGame*)));
+        QObject::connect(this, SIGNAL(gameUpdated()),
+                         stats, SLOT(refresh()));
+    }
+    m_statsWindow->toggleVisibility();
 }
 
 

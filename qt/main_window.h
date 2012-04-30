@@ -88,6 +88,7 @@ private slots:
     void onWindowsBag();
     void onWindowsBoard();
     void onWindowsHistory();
+    void onWindowsStatistics();
     void onWindowsTimer();
     void onWindowsDicTools();
     void onHelpAbout();
@@ -173,6 +174,8 @@ private:
     AuxWindow *m_boardWindow;
     QAction *m_actionWindowsHistory;
     AuxWindow *m_historyWindow;
+    QAction *m_actionWindowsStats;
+    AuxWindow *m_statsWindow;
     QAction *m_actionWindowsTimer;
     AuxWindow *m_timerWindow;
     QAction *m_actionWindowsDicTools;
