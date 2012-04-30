@@ -90,6 +90,8 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     checkBoxArbitFillRack->setToolTip(_q("If checked, the rack will be completed with random letters. \n"
                                          "Uncheck this option if you prefer to choose the letters yourself."));
     spinBoxArbitSearchLimit->setToolTip(spinBoxTrainSearchLimit->toolTip());
+    spinBoxArbitWarnLimit->setToolTip(_q("Maximal number of \"acceptable\" warnings.\n"
+                                         "Any additional warning will give a penalty to the player."));
 
     // Auto-completion on the dictionary path
     QCompleter *completer = new QCompleter(this);
@@ -134,6 +136,7 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         checkBoxArbitLink7P1->setChecked(linkArbit7P1);
         spinBoxArbitSearchLimit->setValue(Settings::Instance().getInt("arbitration.search-limit"));
         spinBoxArbitDefPenalty->setValue(Settings::Instance().getInt("arbitration.default-penalty"));
+        spinBoxArbitWarnLimit->setValue(Settings::Instance().getInt("arbitration.warnings-limit"));
 
         // Confirmations
         bool confoStartGame = qs.value(kCONFO_START_GAME, true).toBool();
@@ -252,6 +255,8 @@ void PrefsDialog::updateSettings()
                                     spinBoxArbitSearchLimit->value());
         Settings::Instance().setInt("arbitration.default-penalty",
                                     spinBoxArbitDefPenalty->value());
+        Settings::Instance().setInt("arbitration.warnings-limit",
+                                    spinBoxArbitWarnLimit->value());
 
         // Confirmations settings
         qs.setValue(kCONFO_START_GAME, checkBoxConfoStartGame->isChecked());
