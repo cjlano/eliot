@@ -105,7 +105,7 @@ PlayedRack Move::ComputeRackForMove(const PlayedRack &iOldRack, const Move &iMov
     // Using a Rack object will indirectly do it for us
     Rack newRack = iOldRack.getRack();
 
-    if (iMove.getType() == Move::VALID_ROUND)
+    if (iMove.isValid())
     {
         // Remove the played tiles from the rack
         const Round &round = iMove.getRound();
@@ -120,7 +120,7 @@ PlayedRack Move::ComputeRackForMove(const PlayedRack &iOldRack, const Move &iMov
             }
         }
     }
-    else if (iMove.getType() == Move::CHANGE_LETTERS)
+    else if (iMove.isChangeLetters())
     {
         // Remove the changed tiles from the rack
         const wstring & changed = iMove.getChangedLetters();
@@ -129,7 +129,7 @@ PlayedRack Move::ComputeRackForMove(const PlayedRack &iOldRack, const Move &iMov
             newRack.remove(Tile(ch));
         }
     }
-    else if (iMove.getType() == Move::NO_MOVE)
+    else if (iMove.isNull())
     {
         // Special case: when the player didn't play, we keep the
         // original played rack, to avoid the implicit reordering

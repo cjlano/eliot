@@ -126,7 +126,7 @@ void ArbitAssignments::refresh()
 
     // Update the master move
     const Move &masterMove = m_game->duplicateGetMasterMove();
-    if (masterMove.getType() == Move::NO_MOVE)
+    if (masterMove.isNull())
     {
         labelMasterMove->setText(QString("<i>%1</i>").arg(_q("Not selected yet")));
     }
@@ -161,7 +161,7 @@ void ArbitAssignments::updatePlayersModel()
             continue;
         // Hide players with an assigned move other than "No move"
         if (hideAssignedPlayers && m_game->hasPlayed(player.getId()) &&
-            player.getLastMove().getType() != Move::NO_MOVE)
+            !player.getLastMove().isNull())
         {
                 continue;
         }
@@ -181,13 +181,13 @@ void ArbitAssignments::updatePlayersModel()
 
             QPalette palette = treeViewPlayers->palette();
             QColor color = palette.color(QPalette::Normal, QPalette::WindowText);
-            if (move.getType() == Move::VALID_ROUND)
+            if (move.isValid())
             {
                 const Round &round = move.getRound();
                 m_playersModel->setData(m_playersModel->index(rowNum, 2), qfw(round.getWord()));
                 m_playersModel->setData(m_playersModel->index(rowNum, 3), qfw(round.getCoord().toString()));
             }
-            else if (move.getType() == Move::INVALID_WORD)
+            else if (move.isInvalid())
             {
                 m_playersModel->setData(m_playersModel->index(rowNum, 2), "<" + qfw(move.getBadWord()) + ">");
                 m_playersModel->setData(m_playersModel->index(rowNum, 3), qfw(move.getBadCoord()));
@@ -214,7 +214,7 @@ void ArbitAssignments::updatePlayersModel()
 void ArbitAssignments::enableAssignmentButtons()
 {
     bool hasSelResult = m_game->isLastTurn() &&
-        m_selectedMove.getType() != Move::NO_MOVE;
+        !m_selectedMove.isNull();
     bool hasSelPlayer = m_game->isLastTurn() &&
         treeViewPlayers->selectionModel()->hasSelection();
     // Enable the "Assign move" button iff a move is selected
@@ -238,7 +238,7 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
         return;
 
     // Action to assign the selected move
-    if (m_selectedMove.getType() != Move::NO_MOVE)
+    if (!m_selectedMove.isNull())
     {
         const Move &move = m_selectedMove;
         QAction *assignSelMoveAction =
@@ -350,7 +350,7 @@ bool ArbitAssignments::selectPlayerByTable(unsigned tabNb, QString *oName)
 void ArbitAssignments::showMasterPreview()
 {
     const Move &move = m_game->duplicateGetMasterMove();
-    if (move.getType() == Move::VALID_ROUND)
+    if (move.isValid())
     {
         // TODO: deselect move in the Results?
         m_game->setTestRound(move.getRound());
@@ -373,7 +373,7 @@ void ArbitAssignments::assignMasterMove()
 
     const Move &masterMove = m_game->duplicateGetMasterMove();
     // Make sure the user knows what she's doing
-    if (masterMove.getType() != Move::NO_MOVE)
+    if (!masterMove.isNull())
     {
         QString msg = _q("There is already a master move for this turn.");
         QString question = _q("Do you want to replace it?");
@@ -385,7 +385,7 @@ void ArbitAssignments::assignMasterMove()
     }
 
     const Move &move = m_selectedMove;
-    if (move.getType() != Move::VALID_ROUND)
+    if (!move.isValid())
     {
         notifyProblem(_q("The master move must be a valid move."));
         return;
@@ -445,7 +445,7 @@ void ArbitAssignments::assignDefaultMasterMove()
 {
     const Move &currMove = m_game->duplicateGetMasterMove();
     // Do not overwrite an existing move
-    if (currMove.getType() != Move::NO_MOVE)
+    if (!currMove.isNull())
         return;
 
     // Search the best moves
@@ -480,7 +480,7 @@ void ArbitAssignments::assignDefaultMasterMove()
 
 void ArbitAssignments::assignSelectedMove()
 {
-    if (m_selectedMove.getType() == Move::NO_MOVE ||
+    if (m_selectedMove.isNull() ||
         !treeViewPlayers->selectionModel()->hasSelection())
     {
         return;
@@ -516,7 +516,7 @@ void ArbitAssignments::helperAssignMove(const Move &iMove)
     BOOST_FOREACH(unsigned int id, playersIdSet)
     {
         if (m_game->hasPlayed(id) &&
-            m_game->getPlayer(id).getLastMove().getType() != Move::NO_MOVE)
+            !m_game->getPlayer(id).getLastMove().isNull())
         {
             assignedIdSet.insert(id);
         }
@@ -529,7 +529,7 @@ void ArbitAssignments::helperAssignMove(const Move &iMove)
             players = QString("\t%1\n").arg(qfw(m_game->getPlayer(id).getName()));
         }
         // The warning is different depending on the type of move
-        if (iMove.getType() == Move::NO_MOVE)
+        if (iMove.isNull())
         {
             QString msg = _q("You are going to suppress the assigned move for the following players:\n");
             if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_ARBIT_SUPPR_MOVE,
@@ -594,7 +594,7 @@ void ArbitAssignments::addPenalty()
 
 QString ArbitAssignments::formatMove(const Move &iMove) const
 {
-    if (iMove.getType() == Move::VALID_ROUND)
+    if (iMove.isValid())
     {
         return QString("%1 - %2 - %3")
             .arg(qfw(iMove.getRound().getWord()))
@@ -603,7 +603,7 @@ QString ArbitAssignments::formatMove(const Move &iMove) const
     }
     else
     {
-        ASSERT(iMove.getType() == Move::INVALID_WORD, "Unexpected move type");
+        ASSERT(iMove.isInvalid(), "Unexpected move type");
         return QString("%1 - %2 - %3")
             .arg(qfw(iMove.getBadWord()))
             .arg(qfw(iMove.getBadCoord()))
@@ -614,7 +614,7 @@ QString ArbitAssignments::formatMove(const Move &iMove) const
 
 void ArbitAssignments::endTurn()
 {
-    if (m_game->duplicateGetMasterMove().getType() != Move::VALID_ROUND)
+    if (!m_game->duplicateGetMasterMove().isValid())
     {
         notifyProblem(_q("You must select a master move before ending the turn."));
         return;
@@ -624,7 +624,7 @@ void ArbitAssignments::endTurn()
     for (unsigned int i = 0; i < m_game->getNbPlayers(); ++i)
     {
         if (m_game->getPlayer(i).isHuman() &&
-            (!m_game->hasPlayed(i) || m_game->getPlayer(i).getLastMove().getType() == Move::NO_MOVE))
+            (!m_game->hasPlayed(i) || m_game->getPlayer(i).getLastMove().isNull()))
         {
             allPlayed = false;
             break;

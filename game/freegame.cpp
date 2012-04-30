@@ -100,8 +100,7 @@ void FreeGame::playAI(unsigned int p)
 
     player->compute(getDic(), getBoard(), getHistory().beforeFirstRound());
     const Move &move = player->getMove();
-    if (move.getType() == Move::CHANGE_LETTERS ||
-        move.getType() == Move::PASS)
+    if (move.isChangeLetters() || move.isPass())
     {
         ASSERT(checkPass(*player, move.getChangedLetters()) == 0,
                "AI tried to cheat!");
@@ -177,8 +176,7 @@ int FreeGame::endTurn()
     accessNavigation().addAndExecute(pCmd);
 
     // Complete the rack for the player that just played
-    if (move.getType() == Move::VALID_ROUND ||
-        move.getType() == Move::CHANGE_LETTERS)
+    if (move.isValid() || move.isChangeLetters())
     {
         try
         {

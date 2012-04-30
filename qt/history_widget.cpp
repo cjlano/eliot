@@ -192,7 +192,7 @@ void HistoryWidget::updateModel()
             }
 
             // Set the rest
-            if (m.getType() == Move::VALID_ROUND)
+            if (m.isValid())
             {
                 const Round &r = m.getRound();
                 wstring coord = r.getCoord().toString();
@@ -200,18 +200,18 @@ void HistoryWidget::updateModel()
                 setCellData(rowNum, m_colRef, qfw(coord));
                 color = Qt::black;
             }
-            else if (m.getType() == Move::INVALID_WORD)
+            else if (m.isInvalid())
             {
                 setCellData(rowNum, m_colWord, "<" + qfw(m.getBadWord()) + ">");
                 setCellData(rowNum, m_colRef, qfw(m.getBadCoord()));
                 color = Qt::red;
             }
-            else if (m.getType() == Move::NO_MOVE)
+            else if (m.isNull())
             {
                 setCellData(rowNum, m_colWord, _q("(NO MOVE)"));
                 color = Qt::blue;
             }
-            else if (m.getType() == Move::PASS)
+            else if (m.isPass())
             {
                 setCellData(rowNum, m_colWord, _q("(PASS)"));
                 color = Qt::blue;

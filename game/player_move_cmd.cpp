@@ -30,7 +30,7 @@ INIT_LOGGER(game, PlayerMoveCmd);
 PlayerMoveCmd::PlayerMoveCmd(Player &ioPlayer, const Move &iMove, bool iAutoExec)
     : m_player(ioPlayer), m_move(iMove)
 {
-    setAutoExecutable(iAutoExec || iMove.getType() == Move::NO_MOVE);
+    setAutoExecutable(iAutoExec || iMove.isNull());
 }
 
 

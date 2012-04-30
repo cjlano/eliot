@@ -55,7 +55,7 @@ void GameMoveCmd::doExecute()
 
     // For moves corresponding to a valid round, we have much more
     // work to do...
-    if (m_move.getType() == Move::VALID_ROUND)
+    if (m_move.isValid())
     {
         playRound();
     }
@@ -65,7 +65,7 @@ void GameMoveCmd::doExecute()
 void GameMoveCmd::doUndo()
 {
     // Undo playing the round on the board
-    if (m_move.getType() == Move::VALID_ROUND)
+    if (m_move.isValid())
     {
         unplayRound();
     }

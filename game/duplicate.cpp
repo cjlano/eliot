@@ -110,8 +110,7 @@ void Duplicate::playAI(unsigned int p)
 
     player->compute(getDic(), getBoard(), getHistory().beforeFirstRound());
     const Move &move = player->getMove();
-    if (move.getType() == Move::CHANGE_LETTERS ||
-        move.getType() == Move::PASS)
+    if (move.isChangeLetters() || move.isPass())
     {
         // The AI player must be buggy...
         ASSERT(false, "AI tried to cheat!");
@@ -249,8 +248,7 @@ Player * Duplicate::findBestPlayer() const
     BOOST_FOREACH(Player *player, m_players)
     {
         const Move &move = player->getLastMove();
-        if (move.getType() == Move::VALID_ROUND &&
-            move.getScore() > bestScore)
+        if (move.isValid() && move.getScore() > bestScore)
         {
             bestScore = move.getScore();
             bestPlayer = player;
@@ -265,7 +263,7 @@ void Duplicate::endTurn()
     static const unsigned int REF_PLAYER_ID = 0;
 
     // Define the master move if it is not already defined
-    if (m_masterMove.getType() != Move::VALID_ROUND)
+    if (!m_masterMove.isValid())
     {
         // The chosen implementation is to find the best move among the players' moves.
         // It is more user-friendly than forcing the best move when nobody found it.
@@ -311,7 +309,7 @@ void Duplicate::endTurn()
         {
             if (player != bestPlayer &&
                 player->getLastMove().getScore() >= bestScore &&
-                player->getLastMove().getType() == Move::VALID_ROUND)
+                player->getLastMove().isValid())
             {
                 otherWithSameScore = true;
                 break;
@@ -385,8 +383,7 @@ bool Duplicate::hasPlayed(unsigned iPlayerId) const
     MatchingPlayer predicate(iPlayerId);
     const PlayerMoveCmd *cmd =
         getNavigation().getCurrentTurn().findMatchingCmd<PlayerMoveCmd>(predicate);
-    return cmd != 0 && cmd->isExecuted() &&
-        cmd->getMove().getType() != Move::NO_MOVE;
+    return cmd != 0 && cmd->isExecuted() && !cmd->getMove().isNull();
 }
 
 
@@ -398,9 +395,7 @@ void Duplicate::innerSetMasterMove(const Move &iMove)
 
 void Duplicate::setMasterMove(const Move &iMove)
 {
-    ASSERT(iMove.getType() == Move::VALID_ROUND ||
-           iMove.getType() == Move::NO_MOVE,
-           "Invalid move type");
+    ASSERT(iMove.isValid() || iMove.isNull(), "Invalid move type");
 
     // If this method is called several times for the same turn, it will
     // result in many MasterMoveCmd commands in the command stack.

@@ -89,7 +89,7 @@ bool History::beforeFirstRound() const
 {
     for (unsigned int i = 0; i < m_history.size() - 1; i++)
     {
-        if (m_history[i]->getMove().getType() == Move::VALID_ROUND)
+        if (m_history[i]->getMove().isValid())
             return false;
     }
     return true;

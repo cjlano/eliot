@@ -73,17 +73,12 @@ class Move
          */
         Move(const wstring &iLetters);
 
-        enum Type
-        {
-            VALID_ROUND,
-            INVALID_WORD,
-            PASS,
-            CHANGE_LETTERS,
-            NO_MOVE,
-        };
-
-        /// Return the type of move
-        Type getType() const { return m_type; }
+        // Return the type of move
+        bool isValid() const { return m_type == VALID_ROUND; }
+        bool isInvalid() const { return m_type == INVALID_WORD; }
+        bool isPass() const { return m_type == PASS; }
+        bool isChangeLetters() const { return m_type == CHANGE_LETTERS; }
+        bool isNull() const { return m_type == NO_MOVE; }
 
         /// Get the score of this move (0 unless the round is valid)
         int getScore() const { return m_score; }
@@ -127,6 +122,16 @@ class Move
         wstring toString() const;
 
     private:
+
+        enum Type
+        {
+            VALID_ROUND,
+            INVALID_WORD,
+            PASS,
+            CHANGE_LETTERS,
+            NO_MOVE,
+        };
+
         /// Type of move
         Type m_type;
 

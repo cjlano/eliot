@@ -72,22 +72,22 @@ static void writeMove(ostream &out, const Move &iMove,
     if (iPlayerId != -1)
         out << " playerid=\"" << iPlayerId << "\"";
     out << " points=\"" << iMove.getScore() << "\" type=\"";
-    if (iMove.getType() == Move::VALID_ROUND)
+    if (iMove.isValid())
     {
         const Round &round = iMove.getRound();
         out << "valid\" word=\"" << toUtf8(round.getWord())
             << "\" coord=\"" << toUtf8(round.getCoord().toString()) << "\" />";
     }
-    else if (iMove.getType() == Move::INVALID_WORD)
+    else if (iMove.isInvalid())
     {
         out << "invalid\" word=\"" << toUtf8(iMove.getBadWord())
             << "\" coord=\"" << toUtf8(iMove.getBadCoord()) << "\" />";
     }
-    else if (iMove.getType() == Move::CHANGE_LETTERS)
+    else if (iMove.isChangeLetters())
         out << "change\" letters=\"" << toUtf8(iMove.getChangedLetters()) << "\" />";
-    else if (iMove.getType() == Move::PASS)
+    else if (iMove.isPass())
         out << "pass\" />";
-    else if (iMove.getType() == Move::NO_MOVE)
+    else if (iMove.isNull())
         out << "none\" />";
     else
         throw SaveGameException("Unsupported move: " + lfw(iMove.toString()));

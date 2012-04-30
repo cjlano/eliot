@@ -239,7 +239,7 @@ void GameIO::printGameDebug(ostream &out, const PublicGame &iGame)
         fmter % padAndConvert(str(wformat(L"%1%") % (i + 1)), 5);
         fmter % padAndConvert(str(wformat(L"%1%") % turn.getPlayer()), 1);
         fmter % padAndConvert(turn.getPlayedRack().toString(), 8);
-        if (move.getType() == Move::VALID_ROUND)
+        if (move.isValid())
         {
             const Round &round = move.getRound();
             fmter % padAndConvert(round.getWord(), 14, false);
@@ -249,16 +249,16 @@ void GameIO::printGameDebug(ostream &out, const PublicGame &iGame)
         }
         else
         {
-            if (move.getType() == Move::INVALID_WORD)
+            if (move.isInvalid())
             {
                 fmter % padAndConvert(L"#" + move.getBadWord() + L"#", 14, false);
                 fmter % padAndConvert(move.getBadCoord(), 3);
             }
-            else if (move.getType() == Move::CHANGE_LETTERS)
+            else if (move.isChangeLetters())
             {
                 fmter % padAndConvert(L"[" + move.getChangedLetters() + L"]", 14, false) % " - ";
             }
-            else if (move.getType() == Move::PASS)
+            else if (move.isPass())
             {
                 fmter % padAndConvert(L"(PASS)", 14, false) % " - ";
             }

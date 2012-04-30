@@ -299,7 +299,7 @@ int ArbitrationWidget::addSingleMove(const Move &iMove, int moveType,
 
     int rowNum = m_resultsModel->rowCount();
     m_resultsModel->insertRow(rowNum);
-    if (iMove.getType() == Move::VALID_ROUND)
+    if (iMove.isValid())
     {
         const Round &r = iMove.getRound();
         m_resultsModel->setData(m_resultsModel->index(rowNum, 0), qfw(r.getWord()));
@@ -308,7 +308,7 @@ int ArbitrationWidget::addSingleMove(const Move &iMove, int moveType,
     }
     else
     {
-        ASSERT(iMove.getType() == Move::INVALID_WORD, "Unexpected move type");
+        ASSERT(iMove.isInvalid(), "Unexpected move type");
         m_resultsModel->setData(m_resultsModel->index(rowNum, 0), qfw(iMove.getBadWord()));
         m_resultsModel->setData(m_resultsModel->index(rowNum, 1), qfw(iMove.getBadCoord()));
         m_resultsModel->setData(m_resultsModel->index(rowNum, 3), _q("Invalid"));
@@ -493,7 +493,7 @@ void ArbitrationWidget::populateResultsMenu(QMenu &iMenu, const QPoint &iPoint)
     QString selectedWord = m_resultsModel->data(wordIndex).toString();
     QAction *showDefAction = m_resultsPopup->getShowDefinitionEntry(selectedWord);
     iMenu.addAction(showDefAction);
-    if (move.getType() != Move::VALID_ROUND)
+    if (!move.isValid())
         showDefAction->setEnabled(false);
 
     // Action to select as master move
@@ -505,7 +505,7 @@ void ArbitrationWidget::populateResultsMenu(QMenu &iMenu, const QPoint &iPoint)
     QObject::connect(setAsMasterAction, SIGNAL(triggered()),
                      m_assignmentsWidget, SLOT(assignMasterMove()));
     iMenu.addAction(setAsMasterAction);
-    if (move.getType() != Move::VALID_ROUND)
+    if (!move.isValid())
         setAsMasterAction->setEnabled(false);
 
     // Action to select all the players
@@ -680,7 +680,7 @@ void ArbitrationWidget::showPreview(const QItemSelection &iSelected)
     if (!iSelected.indexes().empty())
     {
         const Move &move = getSelectedMove();
-        if (move.getType() == Move::VALID_ROUND)
+        if (move.isValid())
         {
             m_game->setTestRound(move.getRound());
         }

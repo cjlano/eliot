@@ -940,7 +940,7 @@ void MainWindow::onGamePrint()
             curWidth += colWidths[1];
 
             // Word and coordinates
-            if (m.getType() == Move::VALID_ROUND)
+            if (m.isValid())
             {
                 const Round &r = m.getRound();
                 painter.drawText(curWidth, nextHeight, qfw(r.getWord()));
@@ -949,7 +949,7 @@ void MainWindow::onGamePrint()
                                  qfw(r.getCoord().toString()));
                 curWidth += colWidths[3];
             }
-            else if (m.getType() == Move::INVALID_WORD)
+            else if (m.isInvalid())
             {
                 painter.drawText(curWidth, nextHeight,
                                  "<" + qfw(m.getBadWord()) + ">");
@@ -957,13 +957,13 @@ void MainWindow::onGamePrint()
                 painter.drawText(curWidth, nextHeight, qfw(m.getBadCoord()));
                 curWidth += colWidths[3];
             }
-            else if (m.getType() == Move::NO_MOVE)
+            else if (m.isNull())
             {
                 painter.drawText(curWidth, nextHeight, _q("(NO MOVE)"));
                 curWidth += colWidths[2];
                 curWidth += colWidths[3];
             }
-            else if (m.getType() == Move::PASS)
+            else if (m.isPass())
             {
                 painter.drawText(curWidth, nextHeight, _q("(PASS)"));
                 curWidth += colWidths[2];

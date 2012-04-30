@@ -397,7 +397,7 @@ void CursesIntf::drawHistory(Box &ioBox) const
     {
         const Turn& t = m_game->getHistory().getTurn(i);
         const Move& m = t.getMove();
-        if (m.getType() == Move::VALID_ROUND)
+        if (m.isValid())
         {
             // The move corresponds to a played round: display it
             const Round &r = m.getRound();
@@ -409,7 +409,7 @@ void CursesIntf::drawHistory(Box &ioBox) const
                 padAndConvert(coord, 3).c_str(), r.getPoints(),
                 t.getPlayer(), r.getBonus() ? '*' : ' ');
         }
-        else if (m.getType() == Move::INVALID_WORD)
+        else if (m.isInvalid())
         {
             // The move corresponds to an invalid word: display it
             wstring invWord = L"<" + m.getBadWord() + L">";
@@ -424,11 +424,11 @@ void CursesIntf::drawHistory(Box &ioBox) const
         {
             // The move corresponds to a passed turn or changed letters
             wstring action;
-            if (m.getType() == Move::NO_MOVE)
+            if (m.isNull())
                 action = wfl(_("(NO MOVE)"));
-            else if (m.getType() == Move::PASS)
+            else if (m.isPass())
                 action = wfl(_("(PASS)"));
-            else if (m.getType() == Move::CHANGE_LETTERS)
+            else if (m.isChangeLetters())
                 action = L"(-" + m.getChangedLetters() + L")";
 
             ioBox.printDataLine(i, x,

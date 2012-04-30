@@ -764,7 +764,7 @@ void loopArbitration(PublicGame &iGame)
                 const wstring &word = parseLetters(tokens, 1, iGame.getDic());
                 const wstring &coord = parseAlphaNum(tokens, 2);
                 const Move &move = iGame.arbitrationCheckWord(word, coord);
-                if (move.getType() != Move::VALID_ROUND)
+                if (!move.isValid())
                     throw GameException("Incorrect master move: " + lfw(move.toString()));
                 iGame.duplicateSetMasterMove(move);
             }
