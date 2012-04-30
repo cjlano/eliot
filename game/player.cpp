@@ -29,6 +29,7 @@
 #include "turn.h"
 #include "history.h"
 #include "encoding.h"
+#include "settings.h"
 
 #include "debug.h"
 
@@ -82,6 +83,7 @@ void Player::removeLastTurn()
     m_history.removeLastTurn();
 }
 
+
 unsigned Player::getWarningsNb() const
 {
     unsigned total = 0;
@@ -91,6 +93,39 @@ unsigned Player::getWarningsNb() const
     }
     return total;
 }
+
+
+int Player::getPenaltyPoints() const
+{
+    int total = 0;
+    for (unsigned i = 0; i < m_history.getSize(); ++i)
+    {
+        total += m_history.getTurn(i).getPenaltyPoints();
+    }
+
+    // Add penalties due to warnings
+    unsigned warningsNb = getWarningsNb();
+    int limit = Settings::Instance().getInt("arbitration.warnings-limit");
+    if ((int)warningsNb > limit)
+    {
+        int penaltiesPoints =
+            Settings::Instance().getInt("arbitration.default-penalty");
+        total -= penaltiesPoints * (warningsNb - limit);
+    }
+    return total;
+}
+
+
+int Player::getSoloPoints() const
+{
+    int total = 0;
+    for (unsigned i = 0; i < m_history.getSize(); ++i)
+    {
+        total += m_history.getTurn(i).getSoloPoints();
+    }
+    return total;
+}
+
 
 wstring Player::toString() const
 {

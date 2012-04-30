@@ -82,6 +82,15 @@ public:
     /// Return the total number of warnings received
     unsigned getWarningsNb() const;
 
+    /**
+     * Return the total number of penalties received
+     * (including the penalties due to warnings)
+     */
+    int getPenaltyPoints() const;
+
+    /// Return the total number of solo points received
+    int getSoloPoints() const;
+
     /**************************
      * Accessors for the score of the player
      **************************/
