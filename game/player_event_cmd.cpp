@@ -31,8 +31,8 @@ INIT_LOGGER(game, PlayerEventCmd);
 PlayerEventCmd::PlayerEventCmd(Player &ioPlayer, EventType iEvent, int iPoints)
     : m_player(ioPlayer), m_eventType(iEvent), m_points(iPoints)
 {
-    // This check is valid for the 3 event types
-    ASSERT(iPoints >= 0, "Negative points not allowed");
+    ASSERT(iEvent == PENALTY || iPoints >= 0, "Negative points not allowed");
+    ASSERT(iEvent != PENALTY || iPoints <= 0, "Positive points not allowed");
 }
 
 

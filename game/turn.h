@@ -50,16 +50,16 @@ public:
     void setMove(const Move& iMove)             { m_move = iMove; }
     // Setters for warnings, penalties and solos
     void addWarning(unsigned iNb = 1) { m_warningsNb += iNb; }
-    void addPenaltyPoints(unsigned iPoints) { m_penaltyPoints += iPoints; }
-    void addSoloPoints(unsigned iPoints) { m_soloPoints += iPoints; }
+    void addPenaltyPoints(int iPoints) { m_penaltyPoints += iPoints; }
+    void addSoloPoints(int iPoints) { m_soloPoints += iPoints; }
 
     unsigned int      getPlayer()     const { return m_playerId; }
     const PlayedRack& getPlayedRack() const { return m_pldrack; }
     const Move&       getMove()       const { return m_move; }
     // Getters for warnings, penalties and solos
     unsigned getWarningsNb() const { return m_warningsNb; }
-    unsigned getPenaltyPoints() const { return m_penaltyPoints; }
-    unsigned getSoloPoints() const { return m_soloPoints; }
+    int getPenaltyPoints() const { return m_penaltyPoints; }
+    int getSoloPoints() const { return m_soloPoints; }
 
     wstring toString() const;
 

@@ -139,6 +139,7 @@ bool Arbitration::hasWarning(unsigned iPlayerId) const
 void Arbitration::addPenalty(unsigned iPlayerId, int iPoints)
 {
     ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
+    ASSERT(iPoints >= 0, "Expected a positive value for the penalty");
 
     if (iPoints == 0)
     {
@@ -146,6 +147,9 @@ void Arbitration::addPenalty(unsigned iPlayerId, int iPoints)
         iPoints = Settings::Instance().getInt("arbitration.default-penalty");
     }
     LOG_INFO("Giving a penalty of " << iPoints << " to player " << iPlayerId);
+
+    // By convention, use negative values to indicate a penalty
+    iPoints = -iPoints;
 
     // If an existing penalty exists, merge it with the new one
     const PlayerEventCmd *cmd = getPlayerEvent(iPlayerId, PlayerEventCmd::PENALTY);

@@ -224,15 +224,15 @@ void HistoryWidget::updateModel()
             }
 
             // Set warnings, penalties and solos
-            if (t.getWarningsNb() > 0)
+            if (t.getWarningsNb() != 0)
             {
                 m_model->setData(m_model->index(rowNum, m_colWarning), t.getWarningsNb());
             }
-            if (t.getPenaltyPoints() > 0)
+            if (t.getPenaltyPoints() != 0)
             {
                 m_model->setData(m_model->index(rowNum, m_colPenalty), t.getPenaltyPoints());
             }
-            if (t.getSoloPoints() > 0)
+            if (t.getSoloPoints() != 0)
             {
                 m_model->setData(m_model->index(rowNum, m_colSolo), t.getSoloPoints());
             }
