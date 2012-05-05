@@ -88,6 +88,10 @@ void AuxWindow::closeEvent(QCloseEvent *event)
 
 void AuxWindow::writeSettings() const
 {
+    // For some reason, this method is called when the window is destroyed,
+    // even when it was already closed. So avoid saving an invalid position.
+    if (!isVisible())
+        return;
     QSettings settings;
     settings.beginGroup(m_windowName);
     settings.setValue("size", size());
