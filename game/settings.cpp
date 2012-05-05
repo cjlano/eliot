@@ -191,6 +191,12 @@ Settings::Settings()
     // Maximum number of warnings before getting penalties
     arbitration.add("warnings-limit", Setting::TypeInt) = 3;
 
+    // Minimum number of players in an arbitration game needed to apply a "solo" bonus
+    // (16 is the ODS value)
+    arbitration.add("solo-players", Setting::TypeInt) = 16;
+    // Number of points granted for a solo (10 is the ODS value)
+    arbitration.add("solo-value", Setting::TypeInt) = 10;
+
     // Try to read the values from the configuration file
     try
     {
@@ -208,6 +214,8 @@ Settings::Settings()
         copySetting<int>(tmpConf, *m_conf, "arbitration.search-limit");
         copySetting<int>(tmpConf, *m_conf, "arbitration.default-penalty");
         copySetting<int>(tmpConf, *m_conf, "arbitration.warnings-limit");
+        copySetting<int>(tmpConf, *m_conf, "arbitration.solo-players");
+        copySetting<int>(tmpConf, *m_conf, "arbitration.solo-value");
     }
     catch (...)
     {

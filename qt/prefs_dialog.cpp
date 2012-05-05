@@ -137,6 +137,8 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         spinBoxArbitSearchLimit->setValue(Settings::Instance().getInt("arbitration.search-limit"));
         spinBoxArbitDefPenalty->setValue(Settings::Instance().getInt("arbitration.default-penalty"));
         spinBoxArbitWarnLimit->setValue(Settings::Instance().getInt("arbitration.warnings-limit"));
+        spinBoxArbitSoloPlayers->setValue(Settings::Instance().getInt("arbitration.solo-players"));
+        spinBoxArbitSoloValue->setValue(Settings::Instance().getInt("arbitration.solo-value"));
 
         // Confirmations
         bool confoStartGame = qs.value(kCONFO_START_GAME, true).toBool();
@@ -257,6 +259,10 @@ void PrefsDialog::updateSettings()
                                     spinBoxArbitDefPenalty->value());
         Settings::Instance().setInt("arbitration.warnings-limit",
                                     spinBoxArbitWarnLimit->value());
+        Settings::Instance().setInt("arbitration.solo-players",
+                                    spinBoxArbitSoloPlayers->value());
+        Settings::Instance().setInt("arbitration.solo-value",
+                                    spinBoxArbitSoloValue->value());
 
         // Confirmations settings
         qs.setValue(kCONFO_START_GAME, checkBoxConfoStartGame->isChecked());
