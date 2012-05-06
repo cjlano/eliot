@@ -97,6 +97,11 @@ ArbitAssignments::ArbitAssignments(QWidget *parent, PublicGame *iGame)
                      SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
                      this, SLOT(enableAssignmentButtons()));
 
+    // Emit the "playerSelected" signal when appropriate
+    QObject::connect(treeViewPlayers->selectionModel(),
+                     SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+                     this, SLOT(emitPlayerSelected()));
+
     // Move assignment
     QObject::connect(buttonSelectMaster, SIGNAL(clicked()),
                      this, SLOT(assignMasterMove()));
@@ -301,6 +306,14 @@ void ArbitAssignments::selectedMoveChanged(const Move &iMove)
 bool ArbitAssignments::hasSelectedPlayer() const
 {
     return treeViewPlayers->selectionModel()->hasSelection();
+}
+
+
+void ArbitAssignments::emitPlayerSelected()
+{
+    QSet<unsigned int> playersIdSet = getSelectedPlayers();
+    if (playersIdSet.size() == 1)
+        emit playerSelected(*playersIdSet.begin());
 }
 
 

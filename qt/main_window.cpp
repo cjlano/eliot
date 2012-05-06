@@ -157,15 +157,15 @@ MainWindow::MainWindow(QWidget *iParent)
 
 #if 1
     // History
-    HistoryTabWidget *historyTab = new HistoryTabWidget;
+    m_historyTabWidget = new HistoryTabWidget;
     QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
-                     historyTab, SLOT(setGame(const PublicGame*)));
+                     m_historyTabWidget, SLOT(setGame(const PublicGame*)));
     QObject::connect(this, SIGNAL(gameUpdated()),
-                     historyTab, SLOT(refresh()));
-    QObject::connect(historyTab, SIGNAL(requestDefinition(QString)),
+                     m_historyTabWidget, SLOT(refresh()));
+    QObject::connect(m_historyTabWidget, SIGNAL(requestDefinition(QString)),
                      this, SLOT(showDefinition(QString)));
     QHBoxLayout *hlayout2 = new QHBoxLayout;
-    hlayout2->addWidget(historyTab);
+    hlayout2->addWidget(m_historyTabWidget);
     m_ui.groupBoxHistory->setLayout(hlayout2);
 #else
     m_ui.groupBoxHistory->hide();
@@ -412,6 +412,10 @@ void MainWindow::updateForGame(PublicGame *iGame)
                              m_arbitrationWidget, SLOT(refresh()));
             // Connect with the dictionary tools only if needed
             linkArbitrationAnd7P1();
+
+            // When a player is selected, show his history
+            QObject::connect(m_arbitrationWidget, SIGNAL(playerSelected(unsigned)),
+                             this, SLOT(onPlayerSelected(unsigned)));
         }
         else
         {
@@ -494,6 +498,14 @@ void MainWindow::showDefinition(QString iWord)
     {
         LOG_ERROR("Could not open URL: " << lfq(url));
     }
+}
+
+
+void MainWindow::onPlayerSelected(unsigned iPlayerId)
+{
+    // Select the corresponding tab in the history widget
+    // Note: we don't do the same for the external history widget...
+    m_historyTabWidget->setCurrentIndex(1 + iPlayerId);
 }
 
 

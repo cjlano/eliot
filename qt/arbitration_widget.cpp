@@ -69,6 +69,8 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
                      this, SIGNAL(notifyInfo(QString)));
     QObject::connect(m_assignmentsWidget, SIGNAL(endOfTurn()),
                      this, SLOT(endOfTurnRefresh()));
+    QObject::connect(m_assignmentsWidget, SIGNAL(playerSelected(unsigned)),
+                     this, SIGNAL(playerSelected(unsigned)));
 
     m_keyAccum = new KeyAccumulator(this, 400);
 

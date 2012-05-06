@@ -37,6 +37,7 @@ class Bag;
 class Board;
 class History;
 class PublicGame;
+class HistoryTabWidget;
 class PlayerTabWidget;
 class ScoreWidget;
 class TrainingWidget;
@@ -109,6 +110,9 @@ private slots:
     /** Perform work when the preferences were updated */
     void prefsUpdated();
 
+    /** Select the correct tab in the history widget when the player changes */
+    void onPlayerSelected(unsigned iPlayerId);
+
     /**
      * Perform several updates when the game changes (title bar, status bar,
      * grey out some menu items, ...)
@@ -130,6 +134,9 @@ private:
 
     /// The UI file generated with Qt Designer
     Ui::MainWindow m_ui;
+
+    /// Widget for the game history
+    HistoryTabWidget *m_historyTabWidget;
 
     /// Widget for the players
     PlayerTabWidget *m_playersWidget;

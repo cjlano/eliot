@@ -54,6 +54,7 @@ signals:
     void notifyInfo(QString iMsg);
     void rackUpdated(const QString &iRack);
     void requestDefinition(QString iWord);
+    void playerSelected(unsigned playerId);
 
 public slots:
     void refresh();

@@ -60,6 +60,7 @@ signals:
     void notifyProblem(QString iMsg);
     void notifyInfo(QString iMsg);
     void endOfTurn();
+    void playerSelected(unsigned playerId);
 
 public slots:
     void refresh();
@@ -72,6 +73,7 @@ public slots:
 
 private slots:
     void on_checkBoxHideAssigned_toggled(bool);
+    void emitPlayerSelected();
     void showMasterPreview();
     void populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint);
     void assignTopMove();
