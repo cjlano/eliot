@@ -9,13 +9,28 @@ my $root_path = $0;
 $root_path =~ s/regression.pl/../;
 $root_path = abs_path($root_path);
 
+### Configuration
+# Places where to search for the dictionary
+my @ods_array = (
+    "$ENV{HOME}/ods5.dawg",
+    "$ENV{HOME}/dev/data/ods5.dawg",
+    "$ENV{HOME}/Travail/eliot/data/ods5.dawg"
+    );
+# Places where to search for eliottxt executable
+my @eliottxt_array = (
+    "$root_path/utils/eliottxt",
+    "$root_path/build/utils/eliottxt",
+    "$root_path/linux/utils/eliottxt",
+    "$root_path/win32/utils/eliottxt.exe"
+    );
+
 # Change to the test/ directory, because some scenarii expect
 # to find saved games in there
 chdir("$root_path/test");
 
 my $driver_file = "driver";
-# Look for ~/ods5.dawg
-my $ods = "$ENV{HOME}/ods5.dawg";
+
+
 
 # File extensions
 my $input_ext = ".input";
@@ -23,25 +38,34 @@ my $ref_ext = ".ref";
 my $run_ext = ".run";
 
 
-# Find the dictionary
-if (not -f $ods)
+# Look for ods5.dawg
+my $ods = "";
+foreach my $ods_file (@ods_array) 
 {
-    die "Cannot find dictionary $ods: $!";
+    if (-f $ods_file) 
+    {
+        $ods = $ods_file;
+        last;
+    }
+}
+if (not -f $ods) 
+{
+    die "Cannot find dictionary $ods, check files : [".join(", ", @ods_array)."]";
 }
 
-# Find the text interface
-my $eliottxt;
-if (-x "$root_path/utils/eliottxt")
+# Find eliottxt
+my $eliottxt = "";
+foreach my $eliottxt_file (@eliottxt_array) 
 {
-    $eliottxt = "$root_path/utils/eliottxt";
+    if (-f $eliottxt_file) 
+    {
+        $eliottxt = $eliottxt_file;
+        last;
+    }
 }
-elsif (-x "$root_path/utils/eliottxt.exe")
+if (not -x $eliottxt) 
 {
-    $eliottxt = "$root_path/utils/eliottxt.exe";
-}
-else
-{
-    die "Cannot find the text interface executable in $root_path/utils (missing symbolic link?)";
+    die "Cannot find the text interface executable in [".join(", ", @eliottxt_array)."]";
 }
 
 
@@ -90,7 +114,7 @@ foreach my $scenario (@scenarios_to_play)
     my $input_file = $scenario . $input_ext;
     my $ref_file   = $scenario . $ref_ext;
     my $run_file   = $scenario . $run_ext;
-    my $randseed = $scenario_map{$scenario};
+    my $randseed   = $scenario_map{$scenario};
 
     # Check that the needed files exist
     if (not -f $input_file)
@@ -109,7 +133,7 @@ foreach my $scenario (@scenarios_to_play)
     # OK, let's do the actual stuff
     unlink $run_file;
     my $rc = `$eliottxt $ods $randseed < $input_file > $run_file 2>&1`;
-    if (not $rc eq "")
+    if ($rc ne "")
     {
         print "--> Error: Execution of scenario failed (return value: $rc)\n";
         push(@errors, $scenario);
@@ -118,7 +142,7 @@ foreach my $scenario (@scenarios_to_play)
 
     # Is the output file different from the reference file?
     my $diff = `diff $ref_file $run_file`;
-    if (not $diff eq "")
+    if ($diff ne "")
     {
         print "--> Error: found differences:\n";
         print $diff;
