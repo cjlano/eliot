@@ -1,4 +1,6 @@
+Using seed: 0
 [?] pour l'aide
+commande> s b arbitration.fill-rack 0
 commande> a 1 1
 mode arbitrage
 [?] pour l'aide
