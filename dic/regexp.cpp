@@ -30,7 +30,6 @@
 
 #include "dic.h"
 #include "regexp.h"
-#include "automaton.h"
 
 
 Node::Node(int type, char v, Node *fg, Node *fd)
