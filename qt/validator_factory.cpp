@@ -25,6 +25,7 @@
 #include "qtcommon.h"
 
 #include "dic.h"
+#include "header.h"
 #include "bag.h"
 #include "coord.h"
 #include "history.h"
@@ -150,15 +151,23 @@ QValidator::State RackValidator::validate(QString &input, int &) const
         return Intermediate;
 
     QString qinput = qfw(intInput);
-    // The letters must be in the bag
+    // The letters must be in the bag...
+    State state = Acceptable;
     for (int i = 0; i < qinput.size(); ++i)
     {
         if ((unsigned int)qinput.count(qinput[i], Qt::CaseInsensitive) >
             m_bag.in(intInput[i]))
         {
-            return Invalid;
+            // ... except if they are part of a multichar input string
+            if (dic.getHeader().isMultiCharPart(intInput[i]))
+                state = Intermediate;
+            else
+                state = Invalid;
+            break;
         }
     }
+    if (state != Acceptable)
+        return state;
 
     if (m_strict)
     {

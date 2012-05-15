@@ -126,6 +126,11 @@ public:
     const map<wchar_t, vector<wstring> > & getDisplayInputData() const { return m_displayAndInputData; }
 
     /**
+     * Return true if the given char is part of a multi-char input string, false otherwise
+     */
+    bool isMultiCharPart(wchar_t iChar) const;
+
+    /**
      * Return the letter corresponding to the given code
      */
     wchar_t getCharFromCode(unsigned int iCode) const;
@@ -182,6 +187,9 @@ private:
 
     /// Characters usable to input the dictionary letters
     wstring m_inputChars;
+
+    /// Characters part of a multi-char input string
+    wstring m_multiCharInputChars;
 
     /// Points of the letters
     vector<uint8_t> m_points;

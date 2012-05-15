@@ -265,7 +265,8 @@ void Header::buildCaches()
             m_displayCache[i + 1] = it->second[0];
     }
 
-    // Create a string with all the characters possibly used
+    // Create a string with all the characters possibly used,
+    // and another one with the characters used in multi-char input strings
     m_inputChars.reserve(m_letters.size());
     BOOST_FOREACH(wchar_t wch, m_letters)
     {
@@ -279,12 +280,24 @@ void Header::buildCaches()
             {
                 BOOST_FOREACH(wchar_t chr, str)
                 {
-                    if (m_inputChars.find(towupper(chr)) == string::npos)
-                        m_inputChars.append(1, towupper(chr));
+                    wchar_t upChr = towupper(chr);
+                    if (m_inputChars.find(upChr) == string::npos)
+                        m_inputChars.append(1, upChr);
+                    if (str.size() > 1 &&
+                        m_multiCharInputChars.find(upChr) == wstring::npos)
+                    {
+                        m_multiCharInputChars.append(1, upChr);
+                    }
                 }
             }
         }
     }
+}
+
+
+bool Header::isMultiCharPart(wchar_t iChar) const
+{
+    return m_multiCharInputChars.find(towupper(iChar)) != wstring::npos;
 }
 
 
