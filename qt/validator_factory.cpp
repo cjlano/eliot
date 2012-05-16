@@ -106,23 +106,23 @@ class RackValidator: public QValidator
 {
 public:
     RackValidator(QObject *parent, const Bag &iBag,
-                  const History *iHistory, bool checkDuplicate,
+                  const History *iHistory, bool iStrict,
                   int iMaxLetters);
     virtual State validate(QString &input, int &pos) const;
 
 private:
     const Bag &m_bag;
     const History *m_history;
-    bool m_checkDuplicate;
+    bool m_strict;
     int m_maxLetters;
 };
 
 
 RackValidator::RackValidator(QObject *parent, const Bag &iBag,
-                             const History *iHistory, bool checkDuplicate,
+                             const History *iHistory, bool iStrict,
                              int iMaxLetters)
     : QValidator(parent), m_bag(iBag),
-    m_history(iHistory), m_checkDuplicate(checkDuplicate),
+    m_history(iHistory), m_strict(iStrict),
     m_maxLetters(iMaxLetters)
 {
 }
@@ -160,30 +160,32 @@ QValidator::State RackValidator::validate(QString &input, int &) const
         }
     }
 
-    // Make sure we don't have too many letters...
-    if (m_maxLetters > 0 && intInput.size() > (unsigned)m_maxLetters)
-        return Intermediate;
-    // ... or too few
-    if (m_maxLetters > 0 && intInput.size() < (unsigned)m_maxLetters &&
-        m_bag.getNbTiles() >= (unsigned)m_maxLetters)
+    if (m_strict)
     {
-        return Intermediate;
-    }
-
-    // Check that the rack has 2 consonants and 2 vocals
-    if (m_checkDuplicate)
-    {
-        PlayedRack pld;
-        pld.setManual(intInput);
-
-        int min;
-        if (m_bag.getNbVowels() > 1 && m_bag.getNbConsonants() > 1
-            && m_history->getSize() < 15)
-            min = 2;
-        else
-            min = 1;
-        if (!pld.checkRack(min, min))
+        // Make sure we don't have too many letters...
+        if (m_maxLetters > 0 && intInput.size() > (unsigned)m_maxLetters)
             return Intermediate;
+        // ... or too few
+        if (m_maxLetters > 0 && intInput.size() < (unsigned)m_maxLetters &&
+            m_bag.getNbTiles() >= (unsigned)m_maxLetters)
+        {
+            return Intermediate;
+        }
+
+        // Check that the rack has 2 consonants and 2 vocals
+        if (m_history != 0)
+        {
+            PlayedRack pld;
+            pld.setManual(intInput);
+            int min;
+            if (m_bag.getNbVowels() > 1 && m_bag.getNbConsonants() > 1
+                && m_history->getSize() < 15)
+                min = 2;
+            else
+                min = 1;
+            if (!pld.checkRack(min, min))
+                return Intermediate;
+        }
     }
 
     return Acceptable;
@@ -192,11 +194,11 @@ QValidator::State RackValidator::validate(QString &input, int &) const
 
 QValidator *ValidatorFactory::newRackValidator(QObject *parent,
                                                const Bag &iBag,
-                                               bool checkDuplicate,
+                                               bool iStrict,
                                                const History *iHistory,
                                                int iMaxLetters)
 {
-    return new RackValidator(parent, iBag, iHistory, checkDuplicate, iMaxLetters);
+    return new RackValidator(parent, iBag, iHistory, iStrict, iMaxLetters);
 }
 // }}}
 

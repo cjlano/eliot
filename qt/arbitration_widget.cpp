@@ -83,6 +83,8 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     redPalette.setColor(QPalette::Text, Qt::red);
 
     // Define validators
+    m_unstrictRackValidator =
+        ValidatorFactory::newRackValidator(this, m_game->getBag());
     QValidator * val =
         ValidatorFactory::newRackValidator(this, m_game->getBag(),
                                            true, &m_game->getHistory(),
@@ -407,9 +409,19 @@ void ArbitrationWidget::rackEdited(const QString &iText)
 
     try
     {
-        const wstring &input = m_game->getDic().convertFromInput(wfq(iText));
-        m_game->arbitrationSetRackManual(input);
-        emit gameUpdated();
+        // Update the game rack if it is valid, or if it is "almost valid",
+        // i.e. in Intermediate state due to the duplicate constraints only.
+        // This is practical to have the rack updated letter by letter on the
+        // external board.
+        QString copy = iText;
+        int unused = 0;
+        if (lineEditRack->hasAcceptableInput() ||
+            m_unstrictRackValidator->validate(copy, unused) == QValidator::Acceptable)
+        {
+            const wstring &input = m_game->getDic().convertFromInput(wfq(iText));
+            m_game->arbitrationSetRackManual(input);
+            emit gameUpdated();
+        }
     }
     catch (std::exception &e)
     {

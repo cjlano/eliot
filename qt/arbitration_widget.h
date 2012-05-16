@@ -37,6 +37,7 @@ class QStandardItemModel;
 class QSortFilterProxyModel;
 class QMenu;
 class QPoint;
+class QValidator;
 
 class ArbitrationWidget: public QWidget, private Ui::ArbitrationWidget
 {
@@ -101,6 +102,12 @@ private:
 
     /// Accumulator used to build the table number
     KeyAccumulator *m_keyAccum;
+
+    /**
+     * Validator less strict than the default one
+     * (it doesn't check duplicate constraints)
+     */
+    QValidator *m_unstrictRackValidator;
 
     /// Palette to write text in black
     QPalette blackPalette;

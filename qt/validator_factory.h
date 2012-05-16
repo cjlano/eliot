@@ -50,7 +50,7 @@ public:
      */
     static QValidator *newRackValidator(QObject *parent,
                                         const Bag &iBag,
-                                        bool checkDuplicate = false,
+                                        bool iStrict = false,
                                         const History *iHistory = 0,
                                         int iMaxLetters = 0);
 
