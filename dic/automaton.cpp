@@ -26,10 +26,6 @@
 #include <sstream>
 #include <cstring>
 #include <cstdio>
-#include <sys/types.h>
-#ifdef HAVE_SYS_WAIT_H
-#   include <sys/wait.h>
-#endif
 
 #include "dic.h"
 #include "regexp.h"
@@ -244,20 +240,6 @@ void Automaton::dump(const string &iFileName) const
     fprintf(f, "fontsize=20;\n");
     fprintf(f, "}\n");
     fclose(f);
-
-#ifdef HAVE_SYS_WAIT_H
-    pid_t pid = fork ();
-    if (pid > 0)
-    {
-        wait(NULL);
-    }
-    else if (pid == 0)
-    {
-        execlp("dotty", "dotty", iFileName.c_str(), NULL);
-        printf("exec dotty failed\n");
-        exit(1);
-    }
-#endif
 }
 
 
@@ -560,20 +542,6 @@ void AutomatonHelper::dump(const string &iFileName) const
     fprintf(f, "fontsize=20;\n");
     fprintf(f, "}\n");
     fclose(f);
-
-#ifdef HAVE_SYS_WAIT_H
-    pid_t pid = fork();
-    if (pid > 0)
-    {
-        wait(NULL);
-    }
-    else if (pid == 0)
-    {
-        execlp("dotty", "dotty", iFileName.c_str(), NULL);
-        printf("exec dotty failed\n");
-        exit(1);
-    }
-#endif
 }
 #endif
 

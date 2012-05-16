@@ -86,7 +86,7 @@ dnl --------------------------------------------------------------
 dnl Checks for header files.
 dnl --------------------------------------------------------------
 AC_HEADER_STDC
-AC_CHECK_HEADERS(fcntl.h unistd.h sys/wait.h sys/stats.h sys/types.h)
+AC_CHECK_HEADERS(fcntl.h unistd.h sys/stats.h sys/types.h)
 AC_CHECK_HEADERS(arpa/inet.h netinet/in.h)
 AC_CHECK_HEADERS([readline/readline.h], [has_readline=1], [has_readline=0])
 AM_CONDITIONAL(HAS_READLINE, test "$has_readline" = "1")
