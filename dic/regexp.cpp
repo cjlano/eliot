@@ -21,11 +21,7 @@
 #include "config.h"
 
 #include <boost/format.hpp>
-
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <unistd.h>
+#include <fstream>
 
 #include "dic.h"
 #include "regexp.h"
@@ -187,80 +183,78 @@ string regexpPrintLetter(char l)
 
 
 #ifdef DEBUG_RE
-void Node::printNode(FILE* f, int detail) const
+void Node::printNode(ostream &out, int detail) const
 {
     switch (m_type)
     {
         case NODE_VAR:
-            fprintf(f, "%s", regexpPrintLetter(m_var).c_str());
+            out << regexpPrintLetter(m_var);
             break;
         case NODE_OR:
-            fprintf(f, "OR");
+            out << "OR";
             break;
         case NODE_AND:
-            fprintf(f, "AND");
+            out << "AND";
             break;
         case NODE_PLUS:
-            fprintf(f, "+");
+            out << "+";
             break;
         case NODE_STAR:
-            fprintf(f, "*");
+            out << "*";
             break;
     }
     if (detail == 2)
     {
-        fprintf(f, "\\n pos=%d\\n annul=%d\\n PP=0x%04x\\n DP=0x%04x",
-                m_position, m_annulable, m_PP, m_DP);
+        out << format("\\n pos=%1%\\n annul=%2%\\n PP=0x%3%\\n DP=0x%3%")
+            % m_position % m_annulable % m_PP % m_DP;
     }
 }
 
-void Node::printNodesRec(FILE* f, int detail) const
+void Node::printNodesRec(ostream &out, int detail) const
 {
     if (m_fg)
-        m_fg->printNodesRec(f, detail);
+        m_fg->printNodesRec(out, detail);
     if (m_fd)
-        m_fd->printNodesRec(f, detail);
+        m_fd->printNodesRec(out, detail);
 
-    fprintf(f, "%d [ label=\"", m_number);
-    printNode(f, detail);
-    fprintf(f, "\"];\n");
+    out << m_number << " [ label=\"";
+    printNode(out, detail);
+    out << "\"];\n";
 }
 
-void Node::printEdgesRec(FILE *f) const
+void Node::printEdgesRec(ostream &out) const
 {
     if (m_fg)
-        m_fg->printEdgesRec(f);
+        m_fg->printEdgesRec(out);
     if (m_fd)
-        m_fd->printEdgesRec(f);
+        m_fd->printEdgesRec(out);
 
     switch (m_type)
     {
         case NODE_OR:
-            fprintf(f, "%d -> %d;", m_number, m_fg->m_number);
-            fprintf(f, "%d -> %d;", m_number, m_fd->m_number);
+            out << format("%1% -> %2%;") % m_number % m_fg->m_number;
+            out << format("%1% -> %2%;") % m_number % m_fd->m_number;
             break;
         case NODE_AND:
-            fprintf(f, "%d -> %d;", m_number, m_fg->m_number);
-            fprintf(f, "%d -> %d;", m_number, m_fd->m_number);
+            out << format("%1% -> %2%;") % m_number % m_fg->m_number;
+            out << format("%1% -> %2%;") % m_number % m_fd->m_number;
             break;
         case NODE_PLUS:
         case NODE_STAR:
-            fprintf(f, "%d -> %d;", m_number, m_fg->m_number);
+            out << format("%1% -> %2%;") % m_number % m_fg->m_number;
             break;
     }
 }
 
 void Node::printTreeDot(const string &iFileName, int detail) const
 {
-    FILE *f = fopen(iFileName.c_str(), "w");
-    if (f == NULL)
-        return;
-    fprintf(f, "digraph %s {\n", iFileName.c_str());
-    printNodesRec(f, detail);
-    printEdgesRec(f);
-    fprintf(f, "fontsize=20;\n");
-    fprintf(f, "}\n");
-    fclose(f);
+    ofstream out(iFileName.c_str());
+    out << "digraph " << iFileName << " {\n";
+    printNodesRec(out, detail);
+    printEdgesRec(out);
+    out << "fontsize=20;\n";
+    out << "}\n";
+    out.close();
 }
 #endif
 

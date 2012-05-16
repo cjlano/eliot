@@ -22,6 +22,8 @@
 #define REGEXP_H_
 
 #include <string>
+#include <vector>
+#include <iosfwd>
 
 #define NODE_TOP    0
 #define NODE_VAR    1
@@ -31,6 +33,7 @@
 #define NODE_PLUS   5
 
 using std::string;
+using std::vector;
 
 class Node
 {
@@ -89,13 +92,13 @@ private:
 
 #ifdef DEBUG_RE
     /// Print the current node to file
-    void printNode(FILE* f, int detail) const;
+    void printNode(ostream &out, int detail) const;
 
     /// Print recursively the current node and its subnodes to file
-    void printNodesRec(FILE *f, int detail) const;
+    void printNodesRec(ostream &out, int detail) const;
 
     /// Print recursively the edges of the tree rooted at the current node
-    void printEdgesRec(FILE *f) const;
+    void printEdgesRec(ostream &out) const;
 #endif
 };
 
@@ -141,8 +144,6 @@ struct searchRegExpLists
 #define RE_LIST_CONS_MATCH 2
 #define RE_LIST_USER_BEGIN 3
 #define RE_LIST_USER_END   4
-
-#include <cstdio>
 
 string regexpPrintLetter(char l);
 void regexp_print_PS(int PS[]);
