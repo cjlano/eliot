@@ -23,9 +23,10 @@
 #include <set>
 #include <list>
 #include <algorithm>
+#include <fstream>
 #include <sstream>
 #include <cstring>
-#include <cstdio>
+#include <boost/format.hpp>
 
 #include "dic.h"
 #include "regexp.h"
@@ -33,6 +34,7 @@
 #include "debug.h"
 
 using namespace std;
+using boost::format;
 
 
 INIT_LOGGER(dic, Automaton);
@@ -119,8 +121,8 @@ private:
 
     void addState(State * s);
     State * getState(const set<uint64_t> &iId) const;
-    void printNodes(FILE* f) const;
-    void printEdges(FILE* f) const;
+    void printNodes(ostream &out) const;
+    void printEdges(ostream &out) const;
     void setAccept(State * s) const;
     set<uint64_t> getSuccessor(const set<uint64_t> &S, int letter,
                                const searchRegExpLists &iList) const;
@@ -213,33 +215,32 @@ void Automaton::finalize(const AutomatonHelper &iHelper)
 
 void Automaton::dump(const string &iFileName) const
 {
-    FILE *f = fopen(iFileName.c_str(), "w");
-    fprintf(f, "digraph automaton {\n");
+    ofstream out(iFileName.c_str());
+    out << "digraph automaton {\n";
     for (unsigned int i = 1; i <= m_nbStates; i++)
     {
-        fprintf(f, "\t%d [label = \"%d\"", i, i);
+        out << format("\t%1% [label = \"%2%\"") % i % i;
         if (i == m_init)
-            fprintf(f, ", style = filled, color=lightgrey");
+            out << ", style = filled, color=lightgrey";
         if (accept(i))
-            fprintf(f, ", shape = doublecircle");
-        fprintf(f, "];\n");
+            out << ", shape = doublecircle";
+        out << "];\n";
     }
-    fprintf(f, "\n");
+    out << "\n";
     for (unsigned int i = 1; i <= m_nbStates; i++)
     {
         for (int l = 0; l < MAX_TRANSITION_LETTERS; l++)
         {
             if (m_transitions[i][l])
             {
-                fprintf(f, "\t%d -> %d [label = \"", i, m_transitions[i][l]);
-                fprintf(f, "%s", regexpPrintLetter(l).c_str());
-                fprintf(f, "\"];\n");
+                out << format("\t%1% -> %2%") % i % m_transitions[i][l];
+                out << format(" [label = \"%1%\"];\n") % regexpPrintLetter(l);
             }
         }
     }
-    fprintf(f, "fontsize=20;\n");
-    fprintf(f, "}\n");
-    fclose(f);
+    out << "fontsize=20;\n";
+    out << "}\n";
+    out.close();
 }
 
 
@@ -490,29 +491,29 @@ static string idToString(const set<uint64_t> &iId)
 }
 
 
-void AutomatonHelper::printNodes(FILE* f) const
+void AutomatonHelper::printNodes(ostream &out) const
 {
     list<State *>::const_iterator it;
     for (it = m_states.begin(); it != m_states.end(); it++)
     {
         State * s = *it;
-        string sid = idToString(s->getId());
-        fprintf(f, "\t\"%s\" [label = \"%s\"", sid.c_str(), sid.c_str());
+        const string &sid = idToString(s->getId());
+        out << format("\t\"%1%\" [label = \"%2%\"") % sid % sid;
         if (s == m_initState)
         {
-            fprintf(f, ", style = filled, color=lightgrey");
+            out << ", style = filled, color=lightgrey";
         }
         if (s->m_accept)
         {
-            fprintf(f, ", shape = doublecircle");
+            out << ", shape = doublecircle";
         }
-        fprintf(f, "];\n");
+        out << "];\n";
     }
-    fprintf(f, "\n");
+    out << "\n";
 }
 
 
-void AutomatonHelper::printEdges(FILE* f) const
+void AutomatonHelper::printEdges(ostream &out) const
 {
     list<State *>::const_iterator it;
     for (it = m_states.begin(); it != m_states.end(); it++)
@@ -522,10 +523,10 @@ void AutomatonHelper::printEdges(FILE* f) const
         {
             if (s->m_next[letter])
             {
-                fprintf(f, "\t\"%s\" -> ", idToString(s->getId()).c_str());
-                fprintf(f, "\"%s\" [label = \"", idToString(s->m_next[letter]->getId()).c_str());
-                fprintf(f, "%s", regexpPrintLetter(letter).c_str());
-                fprintf(f, "\"];\n");
+                out << format("\t\"%1%\" -> ") % idToString(s->getId());
+                out << format("\"%1%\" [label = \"") % idToString(s->m_next[letter]->getId());
+                out << regexpPrintLetter(letter);
+                out << "\"];\n";
             }
         }
     }
@@ -535,13 +536,13 @@ void AutomatonHelper::printEdges(FILE* f) const
 #ifdef DEBUG_AUTOMATON
 void AutomatonHelper::dump(const string &iFileName) const
 {
-    FILE *f = fopen(iFileName.c_str(), "w");
-    fprintf(f, "digraph automaton {\n");
-    printNodes(f);
-    printEdges(f);
-    fprintf(f, "fontsize=20;\n");
-    fprintf(f, "}\n");
-    fclose(f);
+    ofstream out(iFileName.c_str());
+    out << "digraph automaton {\n";
+    printNodes(out);
+    printEdges(out);
+    out << "fontsize=20;\n";
+    out << "}\n";
+    out.close();
 }
 #endif
 
