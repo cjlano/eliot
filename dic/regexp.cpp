@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <boost/format.hpp>
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -30,6 +32,8 @@
 
 #include "dic.h"
 #include "regexp.h"
+
+using boost::format;
 
 
 Node::Node(int type, char v, Node *fg, Node *fd)
@@ -169,45 +173,19 @@ void regexp_print_ptl(int ptl[])
 #endif
 
 
-void regexp_print_letter(FILE* f, char l)
+string regexpPrintLetter(char l)
 {
-    switch (l)
-    {
-        case RE_EPSILON:    fprintf(f, "( &  [%d])", l); break;
-        case RE_FINAL_TOK:  fprintf(f, "( #  [%d])", l);  break;
-        case RE_ALL_MATCH:  fprintf(f, "( .  [%d])", l);  break;
-        case RE_VOWL_MATCH: fprintf(f, "(:v: [%d])", l); break;
-        case RE_CONS_MATCH: fprintf(f, "(:c: [%d])", l); break;
-        case RE_USR1_MATCH: fprintf(f, "(:1: [%d])", l); break;
-        case RE_USR2_MATCH: fprintf(f, "(:2: [%d])", l); break;
-        default:
-            if (l < RE_FINAL_TOK)
-                fprintf(f, " (%c [%d]) ", l + 'a' - 1, l);
-            else
-                fprintf(f, " (liste %d)", l - RE_LIST_USER_END);
-            break;
-    }
-}
-
-
-void regexp_print_letter2(FILE* f, char l)
-{
-    switch (l)
-    {
-        case RE_EPSILON:    fprintf(f, "&"); break;
-        case RE_FINAL_TOK:  fprintf(f, "#");  break;
-        case RE_ALL_MATCH:  fprintf(f, ".");  break;
-        case RE_VOWL_MATCH: fprintf(f, ":v:"); break;
-        case RE_CONS_MATCH: fprintf(f, ":c:"); break;
-        case RE_USR1_MATCH: fprintf(f, ":1:"); break;
-        case RE_USR2_MATCH: fprintf(f, ":2:"); break;
-        default:
-            if (l < RE_FINAL_TOK)
-                fprintf(f, "%c", l + 'a' - 1);
-            else
-                fprintf(f, "l%d", l - RE_LIST_USER_END);
-            break;
-    }
+    if (l == RE_EPSILON)    return (format("( &  [%1%])") % l).str();
+    if (l == RE_FINAL_TOK)  return (format("( #  [%1%])") % l).str();
+    if (l == RE_ALL_MATCH)  return (format("( .  [%1%])") % l).str();
+    if (l == RE_VOWL_MATCH) return (format("(:v: [%1%])") % l).str();
+    if (l == RE_CONS_MATCH) return (format("(:c: [%1%])") % l).str();
+    if (l == RE_USR1_MATCH) return (format("(:1: [%1%])") % l).str();
+    if (l == RE_USR2_MATCH) return (format("(:2: [%1%])") % l).str();
+    if (l < RE_FINAL_TOK)
+        return (format("(%1% [%2%])") % (char)(l + 'a' - 1) % (int)l).str();
+    else
+        return (format("(liste %1%)") % (l - RE_LIST_USER_END)).str();
 }
 
 
@@ -217,7 +195,7 @@ void Node::printNode(FILE* f, int detail) const
     switch (m_type)
     {
         case NODE_VAR:
-            regexp_print_letter(f, m_var);
+            fprintf(f, "%s", regexpPrintLetter(m_var).c_str());
             break;
         case NODE_OR:
             fprintf(f, "OR");

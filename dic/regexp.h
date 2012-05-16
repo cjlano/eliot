@@ -144,8 +144,7 @@ struct searchRegExpLists
 
 #include <cstdio>
 
-void regexp_print_letter(FILE* f, char l);
-void regexp_print_letter2(FILE* f, char l);
+string regexpPrintLetter(char l);
 void regexp_print_PS(int PS[]);
 void regexp_print_ptl(int ptl[]);
 

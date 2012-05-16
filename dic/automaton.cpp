@@ -23,19 +23,18 @@
 #include <set>
 #include <list>
 #include <algorithm>
-#include <cassert>
+#include <sstream>
 #include <cstring>
-#include <cstdlib>
 #include <cstdio>
 #include <sys/types.h>
 #ifdef HAVE_SYS_WAIT_H
 #   include <sys/wait.h>
 #endif
-#include <unistd.h>
 
 #include "dic.h"
 #include "regexp.h"
 #include "automaton.h"
+#include "debug.h"
 
 using namespace std;
 
@@ -44,7 +43,7 @@ INIT_LOGGER(dic, Automaton);
 
 
 #ifdef DEBUG_AUTOMATON
-#   define DMSG(a) (a)
+#   define DMSG(a) LOG_DEBUG(a)
 #else
 #   define DMSG(a)
 #endif
@@ -60,6 +59,7 @@ static string idToString(const set<uint64_t> &iId);
 
 class State
 {
+    DEFINE_LOGGER();
 public:
     State(const set<uint64_t> iId) : m_id(iId) { init(); }
     State(uint64_t iId)
@@ -88,9 +88,11 @@ private:
         m_accept = false;
         id_static = 0;
         memset(m_next, 0, sizeof(State*) * MAX_TRANSITION_LETTERS);
-        DMSG(printf("** state %s creation\n", idToString(m_id).c_str()));
+        DMSG("** state " << idToString(m_id) << " creation");
     }
 };
+
+INIT_LOGGER(dic, State);
 
 /* ************************************************** *
    Helper class, allowing to build a NFA, then a DFA
@@ -98,6 +100,7 @@ private:
 
 class AutomatonHelper
 {
+    DEFINE_LOGGER();
 public:
     AutomatonHelper(State * iInitState);
     ~AutomatonHelper();
@@ -127,6 +130,7 @@ private:
                                const searchRegExpLists &iList) const;
 };
 
+INIT_LOGGER(dic, AutomatonHelper);
 
 /* ************************************************** *
    Definition of the Automaton class
@@ -136,16 +140,22 @@ Automaton::Automaton(uint64_t iInitState, int *ptl, uint64_t *PS,
                      const searchRegExpLists &iList)
 {
     AutomatonHelper *nfa = AutomatonHelper::ps2nfa(iInitState, ptl, PS);
-    DMSG(printf("\n non deterministic automaton OK \n\n"));
-    DMSG(nfa->dump("auto_nfa"));
+    DMSG("Non deterministic automaton OK");
+#ifdef DEBUG_AUTOMATON
+    nfa->dump("auto_nfa");
+#endif
 
     AutomatonHelper *dfa = AutomatonHelper::nfa2dfa(*nfa, iList);
-    DMSG(printf("\n deterministic automaton OK \n\n"));
-    DMSG(dfa->dump("auto_dfa"));
+    DMSG("Deterministic automaton OK");
+#ifdef DEBUG_AUTOMATON
+    dfa->dump("auto_dfa");
+#endif
 
     finalize(*dfa);
-    DMSG(printf("\n final automaton OK \n\n"));
-    DMSG(dump("auto_fin"));
+    DMSG("Final automaton OK");
+#ifdef DEBUG_AUTOMATON
+    dump("auto_fin");
+#endif
 
     delete nfa;
     delete dfa;
@@ -226,7 +236,7 @@ void Automaton::dump(const string &iFileName) const
             if (m_transitions[i][l])
             {
                 fprintf(f, "\t%d -> %d [label = \"", i, m_transitions[i][l]);
-                regexp_print_letter(f, l);
+                fprintf(f, "%s", regexpPrintLetter(l).c_str());
                 fprintf(f, "\"];\n");
             }
         }
@@ -274,7 +284,7 @@ AutomatonHelper::~AutomatonHelper()
 void AutomatonHelper::addState(State * s)
 {
     m_states.push_front(s);
-    DMSG(printf("** state %s added to automaton\n", idToString(s->getId()).c_str()));
+    DMSG("** state " << idToString(s->getId()) << " added to automaton");
 }
 
 
@@ -286,7 +296,6 @@ State * AutomatonHelper::getState(const set<uint64_t> &iId) const
         State * s = *it;
         if (s->getId() == iId)
         {
-            //DMSG(printf("** get state %s ok\n", idToString(s->getId()).c_str()));
             return s;
         }
     }
@@ -315,7 +324,7 @@ AutomatonHelper *AutomatonHelper::ps2nfa(uint64_t init_state_id, int *ptl, uint6
     {
         current_state = L.front();
         L.pop_front();
-        DMSG(printf("** current state = %s\n", idToString(current_state->getId()).c_str()));
+        DMSG("** current state = " << idToString(current_state->getId()));
         memset(used_letter, 0, sizeof(used_letter));
         /* 3: \foreach l in \sigma | l \neq # */
         for (uint32_t p = 1; p < maxpos; p++)
@@ -377,7 +386,7 @@ set<uint64_t> AutomatonHelper::getSuccessor(const set<uint64_t> &S,
         set<uint64_t> t;
         t.insert(*it);
         State *y = getState(t);
-        assert(y != NULL);
+        ASSERT(y != NULL, "Invalid state");
 
         set<uint64_t> Ry;                                        /* Ry = \empty             */
 
@@ -402,10 +411,8 @@ set<uint64_t> AutomatonHelper::getSuccessor(const set<uint64_t> &S,
             {
                 if (iList.letters[i][letter] && (z = y->m_next[(int)iList.symbl[i]]) != NULL)
                 {
-                    DMSG(printf("*** letter "));
-                    DMSG(regexp_print_letter(stdout, letter));
-                    DMSG(printf("is in "));
-                    DMSG(regexp_print_letter(stdout, i));
+                    DMSG("*** letter " << regexpPrintLetter(letter)
+                          << " is in " << regexpPrintLetter(i));
 
                     r = getSuccessor(z->getId(), RE_EPSILON, iList);
                     Ry.insert(r.begin(), r.end());
@@ -423,28 +430,25 @@ set<uint64_t> AutomatonHelper::getSuccessor(const set<uint64_t> &S,
 
 void AutomatonHelper::setAccept(State * s) const
 {
-    DMSG(printf("=== setting accept for node (%s) :", idToString(s->getId()).c_str()));
+    DMSG("=== setting accept for node (" << idToString(s->getId()) << ")");
     list<State *>::const_iterator it;
     for (it = m_states.begin(); it != m_states.end(); it++)
     {
-        State * ns = *it;
+        const State * ns = *it;
         uint64_t idx = *(ns->getId().begin());
-        DMSG(printf("%s ", idToString(ns->getId()).c_str()));
         if (ns->m_accept && (std::find(s->getId().begin(), s->getId().end(), idx) != s->getId().end()))
         {
-            DMSG(printf("(ok) "));
+            DMSG("    --> " << idToString(ns->getId()));
             s->m_accept = true;
+            break;
         }
     }
-    DMSG(printf("\n"));
 }
 
 
 AutomatonHelper *AutomatonHelper::nfa2dfa(const AutomatonHelper &iNfa,
                                           const searchRegExpLists &iList)
 {
-    State * current_state;
-
     list<State *> L;
 
     // Clone the list
@@ -454,24 +458,19 @@ AutomatonHelper *AutomatonHelper::nfa2dfa(const AutomatonHelper &iNfa,
     L.push_front(temp_state);
     while (! L.empty())
     {
-        current_state = L.front();
+        State * current_state = L.front();
         L.pop_front();
-        DMSG(printf("** current state = %s\n", idToString(current_state->getId()).c_str()));
+        DMSG("** current state = " << idToString(current_state->getId()));
         for (int letter = 1; letter < DIC_LETTERS; letter++)
         {
-            // DMSG(printf("*** start successor of %s\n", idToString(current_state->getId()).c_str()));
-
             set<uint64_t> temp_id = iNfa.getSuccessor(current_state->getId(), letter, iList);
 
             if (! temp_id.empty())
             {
-                DMSG(printf("*** successor of %s for ", idToString(current_state->getId()).c_str()));
-                DMSG(regexp_print_letter(stdout, letter));
-                DMSG(printf(" = %s\n", idToString(temp_id).c_str()));
+                DMSG("*** successor of " << idToString(current_state->getId())
+                      << " for " << regexpPrintLetter(letter) << " = " << idToString(temp_id));
 
                 temp_state = dfa->getState(temp_id);
-
-                // DMSG(printf("*** automaton get state -%s- ok\n", idToString(temp_id).c_str()));
 
                 if (temp_state == NULL)
                 {
@@ -499,15 +498,13 @@ AutomatonHelper *AutomatonHelper::nfa2dfa(const AutomatonHelper &iNfa,
 
 static string idToString(const set<uint64_t> &iId)
 {
-    string s;
+    ostringstream oss;
     set<uint64_t>::const_iterator it;
     for (it = iId.begin(); it != iId.end(); it++)
     {
-        char tmp[50];
-        sprintf(tmp, "%llu ", *it);
-        s += tmp;
+        oss << *it << ' ';
     }
-    return s;
+    return oss.str();
 }
 
 
@@ -545,7 +542,7 @@ void AutomatonHelper::printEdges(FILE* f) const
             {
                 fprintf(f, "\t\"%s\" -> ", idToString(s->getId()).c_str());
                 fprintf(f, "\"%s\" [label = \"", idToString(s->m_next[letter]->getId()).c_str());
-                regexp_print_letter(f, letter);
+                fprintf(f, "%s", regexpPrintLetter(letter).c_str());
                 fprintf(f, "\"];\n");
             }
         }
