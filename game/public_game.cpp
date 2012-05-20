@@ -300,10 +300,13 @@ bool PublicGame::arbitrationHasWarning(unsigned iPlayerId) const
 }
 
 
-void PublicGame::arbitrationAddPenalty(unsigned iPlayerId, int iPoints)
+void PublicGame::arbitrationTogglePenalty(unsigned iPlayerId)
 {
     Arbitration &game = getTypedGame<Arbitration>(m_game);
-    game.addPenalty(iPlayerId, iPoints);
+    if (game.getPenalty(iPlayerId) != 0)
+        game.removePenalty(iPlayerId);
+    else
+        game.addPenalty(iPlayerId);
 }
 
 

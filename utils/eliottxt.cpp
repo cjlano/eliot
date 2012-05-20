@@ -359,11 +359,9 @@ void helpArbitration()
     printf("  t [] : changer le tirage\n");
     printf("  j j [] {} : jouer le mot [] aux coordonnées {} pour le joueur j\n");
     printf("  m [] {} : définir le master move [] aux coordonnées {}\n");
-    printf("  e j [w|p|s] {} : assigner un événement au joueur j :\n");
+    printf("  e j [w|p] {} : assigner/supprimer un événement au joueur j :\n");
     printf("            w -- avertissement\n");
     printf("            p -- pénalité\n");
-    printf("            s -- solo\n");
-    printf("            {} -- valeur de l'événement\n");
     printf("  f    : finaliser le tour courant\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
     printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay)\n");
@@ -772,11 +770,10 @@ void loopArbitration(PublicGame &iGame)
             {
                 unsigned id = parsePlayerId(tokens, 1, iGame);
                 wchar_t type = parseCharInList(tokens, 2, L"wp");
-                int value = parseNum(tokens, 3);
                 if (type == L'w')
                     iGame.arbitrationToggleWarning(id);
                 else if (type == 'p')
-                    iGame.arbitrationAddPenalty(id, value);
+                    iGame.arbitrationTogglePenalty(id);
 //                 else if (type == 's')
 //                     iGame.arbitrationSetSolo(id, value);
             }

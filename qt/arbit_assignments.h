@@ -79,7 +79,7 @@ private slots:
     void assignTopMove();
     void suppressMove();
     void addRemoveWarning();
-    void addPenalty();
+    void addRemovePenalty();
     void endTurn();
 
 private:

@@ -85,7 +85,7 @@ ArbitAssignments::ArbitAssignments(QWidget *parent, PublicGame *iGame)
 
     filter = new KeyEventFilter(this, Qt::Key_P);
     QObject::connect(filter, SIGNAL(keyPressed(int, int)),
-                     this, SLOT(addPenalty()));
+                     this, SLOT(addRemovePenalty()));
     treeViewPlayers->installEventFilter(filter);
 
     // Display a preview of the master word when clicked
@@ -285,7 +285,7 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
     penaltyAction->setStatusTip(_q("Give a penalty to the selected player(s)"));
     penaltyAction->setShortcut(Qt::Key_P);
     QObject::connect(penaltyAction, SIGNAL(triggered()),
-                     this, SLOT(addPenalty()));
+                     this, SLOT(addRemovePenalty()));
     iMenu.addAction(penaltyAction);
 }
 
@@ -591,7 +591,7 @@ void ArbitAssignments::addRemoveWarning()
 }
 
 
-void ArbitAssignments::addPenalty()
+void ArbitAssignments::addRemovePenalty()
 {
     QSet<unsigned int> playersIdSet = getSelectedPlayers();
     if (playersIdSet.isEmpty())
@@ -599,7 +599,7 @@ void ArbitAssignments::addPenalty()
 
     BOOST_FOREACH(unsigned int id, playersIdSet)
     {
-        m_game->arbitrationAddPenalty(id, 0);
+        m_game->arbitrationTogglePenalty(id);
     }
     emit gameUpdated();
 }

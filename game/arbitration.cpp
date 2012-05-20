@@ -139,17 +139,17 @@ bool Arbitration::hasWarning(unsigned iPlayerId) const
 void Arbitration::addPenalty(unsigned iPlayerId, int iPoints)
 {
     ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
-    ASSERT(iPoints >= 0, "Expected a positive value for the penalty");
+    ASSERT(iPoints <= 0, "Expected a negative value for the penalty");
 
     if (iPoints == 0)
     {
         // Retrieve the default value of the penalty
         iPoints = Settings::Instance().getInt("arbitration.default-penalty");
+
+        // By convention, use negative values to indicate a penalty
+        iPoints = -iPoints;
     }
     LOG_INFO("Giving a penalty of " << iPoints << " to player " << iPlayerId);
-
-    // By convention, use negative values to indicate a penalty
-    iPoints = -iPoints;
 
     // If an existing penalty exists, merge it with the new one
     const PlayerEventCmd *cmd = getPlayerEvent(iPlayerId, PlayerEventCmd::PENALTY);
@@ -161,11 +161,21 @@ void Arbitration::addPenalty(unsigned iPlayerId, int iPoints)
     }
     else
     {
+        // When the resulting value is 0, instead of merging we drop the existing one
         Command *pCmd = new PlayerEventCmd(*m_players[iPlayerId],
                                            PlayerEventCmd::PENALTY,
                                            iPoints + cmd->getPoints());
         accessNavigation().replaceCommand(*cmd, pCmd);
     }
+}
+
+
+void Arbitration::removePenalty(unsigned iPlayerId)
+{
+    ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
+    const PlayerEventCmd *cmd = getPlayerEvent(iPlayerId, PlayerEventCmd::PENALTY);
+    ASSERT(cmd != 0, "No penalty found for player " << iPlayerId);
+    accessNavigation().dropCommand(*cmd);
 }
 
 
