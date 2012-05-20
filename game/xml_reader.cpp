@@ -49,6 +49,7 @@
 #include "player_rack_cmd.h"
 #include "player_move_cmd.h"
 #include "player_points_cmd.h"
+#include "player_event_cmd.h"
 #include "master_move_cmd.h"
 #include "navigation.h"
 #include "header.h"
@@ -165,7 +166,7 @@ void XmlReader::startElement(const string& namespaceURI,
 {
     (void) namespaceURI;
     (void) qName;
-    LOG_DEBUG("Start Element: " << (localName.empty() ? qName : namespaceURI + ":" + localName));
+    LOG_TRACE("Start Element: " << (localName.empty() ? qName : namespaceURI + ":" + localName));
 
     m_data.clear();
     const string &tag = localName;
@@ -197,7 +198,8 @@ void XmlReader::startElement(const string& namespaceURI,
         }
     }
     else if (tag == "GameRack" || tag == "PlayerRack" ||
-             tag == "PlayerMove" || tag == "GameMove" || tag == "MasterMove")
+             tag == "PlayerMove" || tag == "GameMove" || tag == "MasterMove" ||
+             tag == "Warning" || tag == "Penalty" || tag == "Solo")
     {
         m_attributes.clear();
         for (int i = 0; i < atts.getLength(); ++i)
@@ -220,7 +222,7 @@ void XmlReader::endElement(const string& namespaceURI,
                            const string&)
 {
     (void) namespaceURI;
-    LOG_DEBUG("endElement: " << namespaceURI << ":" << localName << "(" << m_data << ")");
+    LOG_TRACE("endElement: " << namespaceURI << ":" << localName << "(" << m_data << ")");
 
     const string &tag = localName;
 
@@ -388,13 +390,37 @@ void XmlReader::endElement(const string& namespaceURI,
         m_game->accessNavigation().addAndExecute(cmd);
     }
 
+    else if (tag == "Warning")
+    {
+        Player &p = getPlayer(m_players, m_attributes["playerid"]);
+        PlayerEventCmd *cmd = new PlayerEventCmd(p, PlayerEventCmd::WARNING);
+        m_game->accessNavigation().addAndExecute(cmd);
+    }
+
+    else if (tag == "Penalty")
+    {
+        Player &p = getPlayer(m_players, m_attributes["playerid"]);
+        int points = toInt(m_attributes["points"]);
+        LOG_ERROR("points=" << points);
+        PlayerEventCmd *cmd = new PlayerEventCmd(p, PlayerEventCmd::PENALTY, points);
+        m_game->accessNavigation().addAndExecute(cmd);
+    }
+
+    else if (tag == "Solo")
+    {
+        Player &p = getPlayer(m_players, m_attributes["playerid"]);
+        int points = toInt(m_attributes["points"]);
+        PlayerEventCmd *cmd = new PlayerEventCmd(p, PlayerEventCmd::SOLO, points);
+        m_game->accessNavigation().addAndExecute(cmd);
+    }
+
 }
 
 
 void XmlReader::characters(const string& ch)
 {
     m_data += ch;
-    LOG_DEBUG("Characters: " << ch);
+    LOG_TRACE("Characters: " << ch);
 }
 
 

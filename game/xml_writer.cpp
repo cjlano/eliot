@@ -37,6 +37,7 @@
 #include "player_rack_cmd.h"
 #include "player_move_cmd.h"
 #include "player_points_cmd.h"
+#include "player_event_cmd.h"
 #include "master_move_cmd.h"
 #include "dic.h"
 #include "header.h"
@@ -249,6 +250,33 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
                 writeMove(out, moveCmd->getMove(), "MasterMove", -1);
                 out << endl;
 
+            }
+            else if (dynamic_cast<const PlayerEventCmd*>(cmd))
+            {
+                const PlayerEventCmd *eventCmd = static_cast<const PlayerEventCmd*>(cmd);
+                unsigned int id = eventCmd->getPlayer().getId() + 1;
+                int value = eventCmd->getPoints();
+                // Warnings
+                if (eventCmd->getEventType() == PlayerEventCmd::WARNING)
+                {
+                    out << indent << "<Warning playerid=\"" << id << "\" />" << endl;
+                }
+                // Penalties
+                else if (eventCmd->getEventType() == PlayerEventCmd::PENALTY)
+                {
+                    out << indent << "<Penalty playerid=\"" << id
+                        << "\" points=\"" << value << "\" />" << endl;
+                }
+                // Solos
+                else if (eventCmd->getEventType() == PlayerEventCmd::SOLO)
+                {
+                    out << indent << "<Solo playerid=\"" << id
+                        << "\" points=\"" << value << "\" />" << endl;
+                }
+                else
+                {
+                    LOG_ERROR("Unknown event type: " << eventCmd->getEventType());
+                }
             }
             else
             {
