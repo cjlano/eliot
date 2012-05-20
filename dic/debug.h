@@ -39,7 +39,9 @@ using std::endl;
     { \
         if (!(cond)) \
         { \
-            cerr << "ASSERTION FAILED: " << (msg) << " (at " \
+            cerr << "ASSERTION FAILED: "; \
+            cerr << msg; \
+            cerr << " (at " \
                  << __FILE__ << "#" << __LINE__ << ")\n"; \
             abort(); \
         } \
