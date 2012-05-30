@@ -49,7 +49,7 @@ void Arbitration::setRackRandom()
     undoCurrentRack();
 
     const PlayedRack &newRack =
-        helperSetRackRandom(getHistory().getCurrentRack(), true, RACK_ALL);
+        helperSetRackRandom(getHistory().getCurrentRack(), true, RACK_NEW);
     setGameAndPlayersRack(newRack);
 }
 
