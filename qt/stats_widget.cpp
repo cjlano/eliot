@@ -48,6 +48,7 @@ StatsWidget::StatsWidget(QWidget *parent, const PublicGame *iGame)
 //     m_table->setSortingEnabled(true);
     //m_table->setAlternatingRowColors(true);
     m_table->horizontalHeader()->setMinimumSectionSize(15);
+    m_table->verticalHeader()->setVisible(false);
     layout()->addWidget(m_table);
 
     QSizePolicy policy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -74,6 +75,7 @@ void StatsWidget::refresh()
     m_table->setColumnCount(gHistory.getSize() + 8);
 
     int col = 0;
+    m_table->setHorizontalHeaderItem(col++, createItem(_q("Table")));
     m_table->setHorizontalHeaderItem(col++, createItem(_q("Player")));
     for (unsigned i = 1; i <= gHistory.getSize(); ++i)
         m_table->setHorizontalHeaderItem(col++, createItem(QString("%1").arg(i)));
@@ -92,6 +94,8 @@ void StatsWidget::refresh()
     int gameTotal = 0;
     {
         int col = 0;
+        // Skip the table number
+        ++col;
         m_table->setItem(0, col++, createItem(_q("Game")));
         int score = 0;
         for (unsigned j = 0; j < gHistory.getSize(); ++j)
@@ -115,6 +119,9 @@ void StatsWidget::refresh()
     {
         const Player &player = m_game->getPlayer(i);
         int col = 0;
+
+        // Table number
+        m_table->setItem(i + 1, col++, createItem(QString("%1").arg(player.getTableNb())));
 
         // Player name
         m_table->setItem(i + 1, col++, createItem(qfw(player.getName())));
