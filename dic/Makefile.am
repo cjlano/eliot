@@ -31,6 +31,7 @@ libdic_a_SOURCES = \
 	tile.cpp tile.h \
 	dic.cpp dic.h \
 	dic_search.cpp \
+	csv_helper.cpp csv_helper.h \
 	encoding.cpp encoding.h \
 	stacktrace.cpp stacktrace.h \
 	automaton.cpp automaton.h \
