@@ -51,7 +51,7 @@ EXTRA_DIST = \
     ui/new_game.ui \
     ui/player_widget.ui \
     ui/prefs_dialog.ui \
-    ui/tables_dialog.ui.ui \
+    ui/tables_dialog.ui \
     ui/training_widget.ui \
     eliot.qrc \
     $(RESOURCES) \
