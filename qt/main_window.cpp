@@ -267,7 +267,15 @@ void MainWindow::refresh()
         }
 
         // Update the auto-saved game
-        m_game->save(m_autoSaveGame);
+        try
+        {
+            m_game->save(m_autoSaveGame);
+        }
+        catch (std::exception &e)
+        {
+            LOG_ERROR("Error during auto-save: " << e.what());
+            displayErrorMsg(_q("Error during auto-save of the game: %1").arg(e.what()));
+        }
 
 #ifdef DEBUG
         m_game->printTurns();
