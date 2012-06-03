@@ -6,6 +6,8 @@ dic/base_exception.h
 dic/compdic.cpp
 dic/compdic.h
 dic/compdicmain.cpp
+dic/csv_helper.cpp
+dic/csv_helper.h
 dic/debug.h
 dic/dic.cpp
 dic/dic.h
@@ -33,6 +35,8 @@ dic/tile.h
 game/ai_percent.cpp
 game/ai_percent.h
 game/ai_player.h
+game/arbitration.cpp
+game/arbitration.h
 game/bag.cpp
 game/bag.h
 game/board.cpp
@@ -56,14 +60,13 @@ game/game_exception.cpp
 game/game_exception.h
 game/game_factory.cpp
 game/game_factory.h
-game/game_io.cpp
 game/game_move_cmd.cpp
 game/game_move_cmd.h
 game/game_params.h
+game/game_rack_cmd.cpp
+game/game_rack_cmd.h
 game/history.cpp
 game/history.h
-game/mark_played_cmd.cpp
-game/mark_played_cmd.h
 game/master_move_cmd.cpp
 game/master_move_cmd.h
 game/matrix.h
@@ -73,6 +76,8 @@ game/navigation.cpp
 game/navigation.h
 game/player.cpp
 game/player.h
+game/player_event_cmd.cpp
+game/player_event_cmd.h
 game/player_move_cmd.cpp
 game/player_move_cmd.h
 game/player_points_cmd.cpp
@@ -101,6 +106,10 @@ game/xml_reader.cpp
 game/xml_reader.h
 game/xml_writer.cpp
 game/xml_writer.h
+qt/arbit_assignments.cpp
+qt/arbit_assignments.h
+qt/arbitration_widget.cpp
+qt/arbitration_widget.h
 qt/aux_window.cpp
 qt/aux_window.h
 qt/bag_widget.cpp
@@ -117,11 +126,15 @@ qt/dic_tools_widget.cpp
 qt/dic_tools_widget.h
 qt/dic_wizard.cpp
 qt/dic_wizard.h
+qt/fav_players.cpp
+qt/fav_players.h
 qt/history_widget.cpp
 qt/history_widget.h
 qt/main.cpp
 qt/main_window.cpp
 qt/main_window.h
+qt/misc_helpers.cpp
+qt/misc_helpers.h
 qt/new_game.cpp
 qt/new_game.h
 qt/play_word_mediator.cpp
@@ -138,6 +151,10 @@ qt/rack_widget.cpp
 qt/rack_widget.h
 qt/score_widget.cpp
 qt/score_widget.h
+qt/stats_widget.cpp
+qt/stats_widget.h
+qt/tables_dialog.cpp
+qt/tables_dialog.h
 qt/tile_layout.cpp
 qt/tile_layout.h
 qt/tile_widget.cpp
@@ -154,6 +171,8 @@ utils/ncurses.cpp
 utils/ncurses.h
 # Files generated from the .ui files of Qt designer.
 # It works, because Makefile.in.in was patched to support that...
+qt/ui/arbit_assignments.ui.h
+qt/ui/arbitration_widget.ui.h
 qt/ui/bag_widget.ui.h
 qt/ui/dic_tools_widget.ui.h
 qt/ui/dic_wizard_conclusion_page.ui.h
@@ -163,5 +182,6 @@ qt/ui/main_window.ui.h
 qt/ui/new_game.ui.h
 qt/ui/player_widget.ui.h
 qt/ui/prefs_dialog.ui.h
+qt/ui/tables_dialog.ui.h
 qt/ui/training_widget.ui.h
 
