@@ -246,10 +246,11 @@ void ArbitrationWidget::refresh()
     lineEditRack->setReadOnly(!isLastTurn);
     buttonRandom->setEnabled(isLastTurn);
 
-    if (m_game->isFinished())
-    {
-        setEnabled(false);
-    }
+    // Disable controls when the game is finished, but only
+    // for the last turn (to allow changing players moves in
+    // previous turns, for example)
+    bool disable = m_game->isFinished() && isLastTurn;
+    setEnabled(!disable);
 }
 
 
