@@ -63,6 +63,7 @@
 #include "stats_widget.h"
 #include "dic_tools_widget.h"
 #include "players_table_helper.h"
+#include "fav_players.h"
 #include "timer_widget.h"
 #include "dic_wizard.h"
 #include "aux_window.h"
@@ -1057,53 +1058,10 @@ void MainWindow::onSettingsCreateDic()
 
 void MainWindow::onSettingsFavPlayers()
 {
-    QDialog *dialog = new QDialog(this);
-    dialog->setWindowTitle(_q("Favorite players"));
-    dialog->resize(480, 550);
-    dialog->setMinimumSize(200, 200);
-
-    QVBoxLayout *vLayout = new QVBoxLayout;
-    dialog->setLayout(vLayout);
-    QLabel *label = new QLabel(_q("The favorite players listed below can be "
-                                  "used in the \"New game\" dialog, to add "
-                                  "players quickly. Those marked as \"Default\" "
-                                  "will appear there directly (useful if you "
-                                  "often play with the same players)."));
-    label->setWordWrap(true);
-    vLayout->addWidget(label);
-    QLabel *label2 = new QLabel(_q("To add or remove a player, use the buttons "
-                                   "under the table. You can edit the existing "
-                                   "players directly in the table, by "
-                                   "double-clicking on them."));
-    label2->setWordWrap(true);
-    vLayout->addWidget(label2);
-    QTableWidget *tableFav = new QTableWidget;
-    vLayout->addWidget(tableFav);
-
-    QHBoxLayout *hLayout = new QHBoxLayout;
-    vLayout->addLayout(hLayout);
-    QPushButton *buttonAdd = new QPushButton(_q("Add player"));
-    hLayout->addWidget(buttonAdd);
-    QPushButton *buttonRemove = new QPushButton(_q("Remove player"));
-    hLayout->addWidget(buttonRemove);
-    hLayout->addStretch();
-
-    QDialogButtonBox *buttonBox =
-        new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    vLayout->addWidget(buttonBox);
-    connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
-
-    PlayersTableHelper *helper =
-        new PlayersTableHelper(dialog, tableFav, buttonAdd, buttonRemove, true);
-    helper->addPopupRemoveAction();
-    helper->addPlayers(helper->getFavPlayers());
-
-    // Save the favourite players in case of validation
-    if (dialog->exec() == QDialog::Accepted)
-    {
-        helper->saveFavPlayers(helper->getPlayers(false));
-    }
+    FavPlayersDialog *dialog = new FavPlayersDialog(this);
+    QObject::connect(dialog, SIGNAL(notifyProblem(QString)),
+                     this, SLOT(displayErrorMsg(QString)));
+    dialog->exec();
 }
 
 
