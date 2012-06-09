@@ -64,25 +64,80 @@ void Settings::Destroy()
 }
 
 
+// Return true if the given path exists and is a directory)
+static bool is_directory(const string &path)
+{
+#ifdef WIN32
+    DWORD attrib = GetFileAttributes(path.c_str());
+    return (attrib != INVALID_FILE_ATTRIBUTES &&
+            (attrib & FILE_ATTRIBUTE_DIRECTORY));
+#else
+#if defined(HAVE_SYS_STAT_H) && defined(HAVE_SYS_TYPES_H)
+    struct stat sb;
+    int res = stat(path.c_str(), &sb);
+    return res == 0 && S_ISDIR(sb.st_mode);
+#else
+    // Unimplemented
+    return false;
+#endif
+#endif
+}
+
+// Create a directory.
+// Return true in case of success, false otherwise.
+static bool my_mkdir(const string &dir)
+{
+#ifdef WIN32
+    // The value '248' comes from MSDN
+    char tmp[248];
+    snprintf(tmp, sizeof(tmp), "%s", dir.c_str());
+    return CreateDirectory(tmp, NULL);
+#else
+#if defined(HAVE_SYS_STAT_H) && defined(HAVE_SYS_TYPES_H)
+    // Create the directory with mode 0700
+    return mkdir(dir.c_str(), S_IRWXU) == 0;
+#else
+    // Unimplemented
+    return false;
+#endif
+#endif
+}
+
+// Create a directory, like mkdir -p
+// We ignore potential errors...
+static void full_mkdir(const string &dir)
+{
+    // Remove trailing '/'
+    string copy = dir;
+    string::size_type pos = dir.find_last_not_of('/');
+    if (pos != string::npos && pos != dir.size() - 1)
+        copy.erase(pos + 1, dir.size() - 1 - pos);
+
+    // Create intermediate directories
+    pos = 0;
+    while ((pos = copy.find('/', pos)) != string::npos)
+    {
+        // Ignore potential errors...
+        my_mkdir(copy.substr(0, pos));
+        ++pos;
+    }
+
+    // Create the final directory
+    my_mkdir(copy);
+}
+
+
 string Settings::GetConfigFileDir()
 {
-    string fileName;
+    string dirName;
 #ifdef WIN32
     char szPath[MAX_PATH];
     // Get the AppData directory
     if (SHGetFolderPath(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE,
                         NULL, 0, szPath) == S_OK)
     {
-        fileName = szPath + string("\\eliot");
-#if 1
-        strncpy(szPath, fileName.c_str(), MAX_PATH);
-        // Try to create the directory
-        // We don't care about the results
-        CreateDirectory(fileName.c_str(), NULL);
-#endif
+        dirName = szPath + string("/eliot");
     }
-    if (fileName != "")
-        fileName += "\\";
 #else
     // Follow the XDG Base Directory Specification (from freedesktop.org)
     // XXX: In fact we don't follow it to the letter, because the location
@@ -91,33 +146,29 @@ string Settings::GetConfigFileDir()
     // merge config files)...
     const char *configDir = getenv("XDG_CONFIG_HOME");
     if (configDir != NULL)
-        fileName = configDir;
+        dirName = configDir;
     else
     {
         // Fallback to the default value: $HOME/.config
         configDir = getenv("HOME");
         if (configDir)
-            fileName = configDir + string("/.config");
+            dirName = configDir + string("/.config");
     }
-    fileName += "/eliot";
+    dirName += "/eliot";
+#endif
 
-#if defined(HAVE_SYS_STAT_H) && defined(HAVE_SYS_TYPES_H)
-    // Create the directory if it doesn't exist
-    struct stat sb;
-    if (fileName != "" && stat(fileName.c_str(), &sb) == -1)
+    if (dirName != "")
+        dirName += "/";
+
+    // Try to create the directory if it doesn't exist.
+    // If the directory cannot be created, saving the
+    // configuration file will definitely fail...
+    if (!is_directory(dirName))
     {
-        // Try to create the directory with mode 0700
-        if (mkdir(fileName.c_str(), S_IRWXU))
-        {
-            // The directory could not be created. Too bad...
-            // Saving the configuration file will definitely fail.
-        }
+        full_mkdir(dirName);
     }
-#endif
 
-    fileName += "/";
-#endif
-    return fileName;
+    return dirName;
 }
 
 
