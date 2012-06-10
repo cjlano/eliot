@@ -139,7 +139,7 @@ void TileWidget::paintEvent(QPaintEvent *iEvent)
 
     // The font must grow with the square size
     QFont letterFont = font();
-    letterFont.setPixelSize(squareSize * 2 / 3);
+    letterFont.setPixelSize(std::max(1, squareSize * 2 / 3));
 
     if (m_state == COORDS)
     {
@@ -151,7 +151,7 @@ void TileWidget::paintEvent(QPaintEvent *iEvent)
 
     QFont pointsFont = font();
     const double pointsCoeff = 8. / 25.;
-    pointsFont.setPixelSize(squareSize * pointsCoeff);
+    pointsFont.setPixelSize(std::max(1., squareSize * pointsCoeff));
 
     // XXX: Naive implementation: we repaint everything every time
 
