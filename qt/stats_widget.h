@@ -29,8 +29,10 @@
 class PublicGame;
 class Player;
 class Turn;
-class QTableWidget;
-class QTableWidgetItem;
+class QTableView;
+class QStandardItemModel;
+class QVariant;
+class QModelIndex;
 
 class StatsWidget: public QWidget
 {
@@ -49,15 +51,29 @@ private:
     const PublicGame *m_game;
 
     /// Model of the game
-    QTableWidget *m_table;
+    QStandardItemModel *m_model;
 
-    static QTableWidgetItem *createItem(QString iText);
+    /// Table to display the model data
+    QTableView *m_table;
 
-    static QString getScore(const Turn &iTurn);
-    static QString getFlags(const Turn &iTurn);
-    static QString getTooltip(const Turn &iTurn, const Turn &iGameTurn);
-    static QWidget * createCell(const Turn &iTurn, const Turn &iGameTurn);
-    static QWidget * createEventCell(int event, const Player &iPlayer);
+    static const QColor WarningBrush;
+    static const QColor PenaltyBrush;
+    static const QColor SoloBrush;
+    static const QColor PassBrush;
+    static const QColor InvalidBrush;
+
+
+    QModelIndex getIndex(int row, int col) const;
+    QString getTooltip(const Turn &iTurn, const Turn &iGameTurn) const;
+
+    void setModelSize(int rowCount, int colCount);
+    void setModelHeader(int col, const QString &iText);
+    void setModelText(const QModelIndex &iIndex, const QVariant &iData,
+                      bool useBoldFont = false);
+    void setModelTurnData(const QModelIndex &iIndex,
+                          const Turn &iTurn, const Turn &iGameTurn);
+    void setModelEventData(const QModelIndex &iIndex,
+                           int iEvent, const Player &iPlayer);
 };
 
 #endif

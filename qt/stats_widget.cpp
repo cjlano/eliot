@@ -18,10 +18,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtGui/QTableWidget>
+#include <QtGui/QTableView>
 #include <QtGui/QHeaderView>
+#include <QtGui/QStandardItemModel>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QLabel>
+#include <QtCore/QLocale>
 
 #include "stats_widget.h"
 #include "qtcommon.h"
@@ -36,6 +38,16 @@ using namespace std;
 INIT_LOGGER(qt, StatsWidget);
 
 
+const QColor StatsWidget::WarningBrush(120, 120, 0);
+const QColor StatsWidget::PenaltyBrush(220, 120, 0);
+const QColor StatsWidget::SoloBrush(0, 200, 0);
+const QColor StatsWidget::PassBrush(210, 210, 210);
+const QColor StatsWidget::InvalidBrush(255, 0, 0);
+
+
+const bool HORIZONTAL = true;
+
+
 StatsWidget::StatsWidget(QWidget *parent, const PublicGame *iGame)
     : QWidget(parent), m_game(iGame)
 {
@@ -43,16 +55,21 @@ StatsWidget::StatsWidget(QWidget *parent, const PublicGame *iGame)
     setLayout(new QVBoxLayout);
 
     // Create the table
-    m_table = new QTableWidget(this);
+    m_table = new QTableView(this);
     m_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
-//     m_table->setSortingEnabled(true);
-    //m_table->setAlternatingRowColors(true);
     m_table->horizontalHeader()->setMinimumSectionSize(15);
-    m_table->verticalHeader()->setVisible(false);
+    m_table->verticalHeader()->setMinimumSectionSize(15);
+    if (HORIZONTAL)
+        m_table->verticalHeader()->setVisible(false);
+    else
+        m_table->horizontalHeader()->setVisible(false);
+    //m_table->setSortingEnabled(true);
     layout()->addWidget(m_table);
 
-    QSizePolicy policy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    setSizePolicy(policy);
+    m_model = new QStandardItemModel();
+    m_table->setModel(m_model);
+
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     refresh();
 }
@@ -67,49 +84,51 @@ void StatsWidget::setGame(const PublicGame *iGame)
 
 void StatsWidget::refresh()
 {
-    m_table->clear();
+    m_model->clear();
+
     if (m_game == NULL)
         return;
 
     const History &gHistory = m_game->getHistory();
-    m_table->setColumnCount(gHistory.getSize() + 8);
+    unsigned nbPlayers = m_game->getNbPlayers();
+    setModelSize(nbPlayers + 1, gHistory.getSize() + 9);
 
     int col = 0;
-    m_table->setHorizontalHeaderItem(col++, createItem(_q("Table")));
-    m_table->setHorizontalHeaderItem(col++, createItem(_q("Player")));
-    for (unsigned i = 1; i <= gHistory.getSize(); ++i)
-        m_table->setHorizontalHeaderItem(col++, createItem(QString("%1").arg(i)));
-    m_table->setHorizontalHeaderItem(col++, createItem(_q("Sub-total")));
-    m_table->setHorizontalHeaderItem(col++, createItem(_q("Warnings")));
-    m_table->setHorizontalHeaderItem(col++, createItem(_q("Penalties")));
-    m_table->setHorizontalHeaderItem(col++, createItem(_q("Bonuses")));
-    m_table->setHorizontalHeaderItem(col++, createItem(_q("Total")));
-    m_table->setHorizontalHeaderItem(col++, createItem(_q("Diff")));
-    m_table->setHorizontalHeaderItem(col++, createItem(_q("Game %")));
+    setModelHeader(col++, _q("Table"));
+    setModelHeader(col++, _q("Player"));
+    for (unsigned i = 1; i <= m_game->getHistory().getSize(); ++i)
+        setModelHeader(col++, QString("#%1").arg(i));
+    setModelHeader(col++, _q("Sub-total"));
+    setModelHeader(col++, _q("Warnings"));
+    setModelHeader(col++, _q("Penalties"));
+    setModelHeader(col++, _q("Bonuses"));
+    setModelHeader(col++, _q("Total"));
+    setModelHeader(col++, _q("Diff"));
+    setModelHeader(col++, _q("Game %"));
 
-    unsigned nbPlayers = m_game->getNbPlayers();
-    m_table->setRowCount(nbPlayers + 1);
+    QLocale locale;
 
     // Game data
     int gameTotal = 0;
     {
+        const int row = 0;
         int col = 0;
         // Skip the table number
         ++col;
-        m_table->setItem(0, col++, createItem(_q("Game")));
+        setModelText(getIndex(row, col++), _q("Game"));
         int score = 0;
         for (unsigned j = 0; j < gHistory.getSize(); ++j)
         {
-            m_table->setCellWidget(0, col++, createCell(gHistory.getTurn(j), gHistory.getTurn(j)));
+            setModelTurnData(getIndex(row, col++), gHistory.getTurn(j), gHistory.getTurn(j));
             score += gHistory.getTurn(j).getMove().getScore();
         }
-        m_table->setItem(0, col++, createItem(QString("%1").arg(score)));
+        setModelText(getIndex(row, col++), score, true);
         // Skip the events columns
         col += 3;
-        m_table->setItem(0, col++, createItem(QString("%1").arg(score)));
+        setModelText(getIndex(row, col++), score, true);
         // Skip the diff column
         col += 1;
-        m_table->setItem(0, col++, createItem("100%"));
+        setModelText(getIndex(row, col++), locale.toString((double)100, 'f', 1) + "%");
 
         gameTotal = score;
     }
@@ -121,41 +140,43 @@ void StatsWidget::refresh()
         int col = 0;
 
         // Table number
-        m_table->setItem(i + 1, col++, createItem(QString("%1").arg(player.getTableNb())));
+        setModelText(getIndex(i + 1, col++), player.getTableNb());
 
         // Player name
-        m_table->setItem(i + 1, col++, createItem(qfw(player.getName())));
+        setModelText(getIndex(i + 1, col++), qfw(player.getName()));
 
         int score = 0;
         // Normal turns
         for (unsigned j = 0; j < gHistory.getSize(); ++j)
         {
             const History &pHistory = player.getHistory();
-            m_table->setCellWidget(i + 1, col++, createCell(pHistory.getTurn(j), gHistory.getTurn(j)));
+            setModelTurnData(getIndex(i + 1, col++),
+                             pHistory.getTurn(j), gHistory.getTurn(j));
             score += pHistory.getTurn(j).getMove().getScore();
         }
 
         // Sub-total
-        m_table->setItem(i + 1, col++, createItem(QString("%1").arg(score)));
+        setModelText(getIndex(i + 1, col++), score, score == gameTotal);
 
         // Events columns
         for (int j = 0; j <= 2; ++j)
         {
-            m_table->setCellWidget(i + 1, col++, createEventCell(j, player));
+            setModelEventData(getIndex(i + 1, col++), j, player);
         }
 
         // Final score
         score += player.getSoloPoints() + player.getPenaltyPoints();
-        m_table->setItem(i + 1, col++, createItem(QString("%1").arg(score)));
+        setModelText(getIndex(i + 1, col++), score, score == gameTotal);
 
         // Diff with game total
-        m_table->setItem(i + 1, col++, createItem(QString("%1").arg(gameTotal - score)));
+        setModelText(getIndex(i + 1, col++), score - gameTotal);
         // Global score percentage
-        m_table->setItem(i + 1, col++, createItem(QString("%1%").arg(100. * score / gameTotal)));
+        setModelText(getIndex(i + 1, col++),
+                     locale.toString(100. * score / gameTotal, 'f', 1) + "%");
     }
 
     // Resize
-    for (int i = 0; i < m_table->columnCount(); ++i)
+    for (int i = 0; i < m_model->columnCount(); ++i)
     {
         if (i > 0)
         {
@@ -163,50 +184,97 @@ void StatsWidget::refresh()
         }
         m_table->resizeColumnToContents(i);
     }
-    for (int i = 0; i < m_table->rowCount(); ++i)
+    for (int i = 0; i < m_model->rowCount(); ++i)
     {
         m_table->resizeRowToContents(i);
     }
 }
 
 
-QTableWidgetItem * StatsWidget::createItem(QString iText)
+QModelIndex StatsWidget::getIndex(int row, int col) const
 {
-    QTableWidgetItem *item = new QTableWidgetItem(iText);
-    item->setTextAlignment(Qt::AlignCenter);
-    return item;
+    if (HORIZONTAL)
+        return m_model->index(row, col);
+    else
+        return m_model->index(col, row);
 }
 
 
-QString StatsWidget::getScore(const Turn &iTurn)
+void StatsWidget::setModelSize(int rowCount, int colCount)
 {
-    if (iTurn.getMove().isNull())
-        return "";
-    return QString("%1").arg(iTurn.getMove().getScore());
+    m_model->setRowCount(HORIZONTAL ? rowCount : colCount);
+    m_model->setColumnCount(HORIZONTAL ? colCount : rowCount);
 }
 
 
-QString StatsWidget::getFlags(const Turn &iTurn)
+void StatsWidget::setModelHeader(int col, const QString &iText)
 {
-    QString flags(iTurn.getWarningsNb(), QChar('W'));
+    Qt::Orientation orientation = HORIZONTAL ? Qt::Horizontal : Qt::Vertical;
+    m_model->setHeaderData(col, orientation, iText);
+    m_model->setHeaderData(col, orientation, Qt::AlignCenter, Qt::TextAlignmentRole);
+}
+
+
+void StatsWidget::setModelText(const QModelIndex &iIndex,
+                               const QVariant &iData, bool useBoldFont)
+{
+    m_model->setData(iIndex, iData);
+    m_model->setData(iIndex, Qt::AlignCenter, Qt::TextAlignmentRole);
+    if (useBoldFont)
+    {
+        QFont boldFont = font();
+        boldFont.setBold(true);
+        m_model->setData(iIndex, boldFont, Qt::FontRole);
+    }
+}
+
+
+void StatsWidget::setModelTurnData(const QModelIndex &iIndex,
+                                   const Turn &iTurn, const Turn &iGameTurn)
+{
+    // Set the text (score for the turn)
+    if (!iTurn.getMove().isNull())
+    {
+        int score = iTurn.getMove().getScore();
+        setModelText(iIndex, QVariant(score),
+                     score >= iGameTurn.getMove().getScore());
+    }
+
+    // Set the background c constolor
     if (iTurn.getPenaltyPoints() != 0)
-    {
-        if (flags != "")
-            flags += "-";
-        flags += "P";
-    }
-    if (iTurn.getSoloPoints() != 0)
-    {
-        if (flags != "")
-            flags += "-";
-        flags += "S";
-    }
+        m_model->setData(iIndex, PenaltyBrush, Qt::BackgroundRole);
+    else if (iTurn.getWarningsNb() != 0)
+        m_model->setData(iIndex, WarningBrush, Qt::BackgroundRole);
+    else if (iTurn.getSoloPoints() != 0)
+        m_model->setData(iIndex, SoloBrush, Qt::BackgroundRole);
+    else if (iTurn.getMove().isNull())
+        m_model->setData(iIndex, PassBrush, Qt::BackgroundRole);
 
-    return flags;
+    // Set the foreground color
+    if (iTurn.getMove().isInvalid())
+        m_model->setData(iIndex, InvalidBrush, Qt::ForegroundRole);
+
+    // Set the tooltip
+    const QString &tooltip = getTooltip(iTurn, iGameTurn);
+    m_model->setData(iIndex, tooltip, Qt::ToolTipRole);
 }
 
 
-QString StatsWidget::getTooltip(const Turn &iTurn, const Turn &iGameTurn)
+void StatsWidget::setModelEventData(const QModelIndex &iIndex,
+                                    int iEvent, const Player &iPlayer)
+{
+    QVariant text;
+    if (iEvent == 0 && iPlayer.getWarningsNb() != 0)
+        text = iPlayer.getWarningsNb();
+    else if (iEvent == 1 && iPlayer.getPenaltyPoints() != 0)
+        text = iPlayer.getPenaltyPoints();
+    else if (iEvent == 2 && iPlayer.getSoloPoints() != 0)
+        text = iPlayer.getSoloPoints();
+    setModelText(iIndex, text);
+}
+
+
+QString StatsWidget::getTooltip(const Turn &iTurn, const Turn &iGameTurn) const
 {
     QString tooltip = _q("Rack: %1").arg(qfw(iTurn.getPlayedRack().toString()));
     if (iTurn.getMove().isValid())
@@ -216,8 +284,8 @@ QString StatsWidget::getTooltip(const Turn &iTurn, const Turn &iGameTurn)
     }
     if (&iTurn != &iGameTurn)
     {
-        unsigned score = iTurn.getMove().getScore();
-        unsigned gameScore = iGameTurn.getMove().getScore();
+        int score = iTurn.getMove().getScore();
+        int gameScore = iGameTurn.getMove().getScore();
         tooltip += "\n" + _q("Points: %1 (%2%)").arg(score).arg(score * 100 / gameScore);
     }
     if (iTurn.getWarningsNb())
@@ -233,48 +301,6 @@ QString StatsWidget::getTooltip(const Turn &iTurn, const Turn &iGameTurn)
         tooltip += "\n" + _q("Solo: %1").arg(iTurn.getSoloPoints());
     }
     return tooltip;
-}
-
-
-QWidget * StatsWidget::createCell(const Turn &iTurn, const Turn &iGameTurn)
-{
-    QWidget *widget = new QWidget;
-    QLayout *layout = new QVBoxLayout;
-    layout->setContentsMargins(2, 2, 2, 2);
-    widget->setLayout(layout);
-
-    QLabel *label1 = new QLabel;
-    layout->addWidget(label1);
-    QString score = getScore(iTurn);
-    label1->setText(score);
-    label1->setAlignment(Qt::AlignCenter);
-
-    QString flags = getFlags(iTurn);
-    if (flags != "")
-    {
-        QLabel *label2 = new QLabel;
-        layout->addWidget(label2);
-        label2->setText(flags);
-        label2->setAlignment(Qt::AlignCenter);
-    }
-
-    QString tooltip = getTooltip(iTurn, iGameTurn);
-    widget->setToolTip(tooltip);
-    return widget;
-}
-
-
-QWidget * StatsWidget::createEventCell(int iEvent, const Player &iPlayer)
-{
-    QLabel * label = new QLabel;
-    label->setAlignment(Qt::AlignCenter);
-    if (iEvent == 0 && iPlayer.getWarningsNb() != 0)
-        label->setText(QString("%1").arg(iPlayer.getWarningsNb()));
-    else if (iEvent == 1 && iPlayer.getPenaltyPoints() != 0)
-        label->setText(QString("%1").arg(iPlayer.getPenaltyPoints()));
-    else if (iEvent == 2 && iPlayer.getSoloPoints() != 0)
-        label->setText(QString("%1").arg(iPlayer.getSoloPoints()));
-    return label;
 }
 
 
