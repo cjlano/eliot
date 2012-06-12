@@ -38,7 +38,7 @@ using namespace std;
 INIT_LOGGER(qt, StatsWidget);
 
 
-const QColor StatsWidget::WarningBrush(120, 120, 0);
+const QColor StatsWidget::WarningBrush(220, 220, 0);
 const QColor StatsWidget::PenaltyBrush(220, 120, 0);
 const QColor StatsWidget::SoloBrush(0, 200, 0);
 const QColor StatsWidget::PassBrush(210, 210, 210);
@@ -101,7 +101,7 @@ void StatsWidget::refresh()
     setModelHeader(col++, _q("Sub-total"));
     setModelHeader(col++, _q("Warnings"));
     setModelHeader(col++, _q("Penalties"));
-    setModelHeader(col++, _q("Bonuses"));
+    setModelHeader(col++, _q("Solo points"));
     setModelHeader(col++, _q("Total"));
     setModelHeader(col++, _q("Diff"));
     setModelHeader(col++, _q("Game %"));
@@ -128,7 +128,7 @@ void StatsWidget::refresh()
         setModelText(getIndex(row, col++), score, true);
         // Skip the diff column
         col += 1;
-        setModelText(getIndex(row, col++), locale.toString((double)100, 'f', 1) + "%");
+        setModelText(getIndex(row, col++), locale.toString((double)100, 'f', 1) + "%", true);
 
         gameTotal = score;
     }
@@ -156,7 +156,7 @@ void StatsWidget::refresh()
         }
 
         // Sub-total
-        setModelText(getIndex(i + 1, col++), score, score == gameTotal);
+        setModelText(getIndex(i + 1, col++), score, score >= gameTotal);
 
         // Events columns
         for (int j = 0; j <= 2; ++j)
@@ -166,13 +166,14 @@ void StatsWidget::refresh()
 
         // Final score
         score += player.getSoloPoints() + player.getPenaltyPoints();
-        setModelText(getIndex(i + 1, col++), score, score == gameTotal);
+        setModelText(getIndex(i + 1, col++), score, score >= gameTotal);
 
         // Diff with game total
         setModelText(getIndex(i + 1, col++), score - gameTotal);
         // Global score percentage
         setModelText(getIndex(i + 1, col++),
-                     locale.toString(100. * score / gameTotal, 'f', 1) + "%");
+                     locale.toString(100. * score / gameTotal, 'f', 1) + "%",
+                     score >= gameTotal);
     }
 
     // Resize
@@ -277,17 +278,40 @@ void StatsWidget::setModelEventData(const QModelIndex &iIndex,
 QString StatsWidget::getTooltip(const Turn &iTurn, const Turn &iGameTurn) const
 {
     QString tooltip = _q("Rack: %1").arg(qfw(iTurn.getPlayedRack().toString()));
-    if (iTurn.getMove().isValid())
+    const Move &move = iTurn.getMove();
+    if (move.isValid())
     {
-        tooltip += "\n" + _q("Word: %1").arg(qfw(iTurn.getMove().getRound().getWord()));
-        tooltip += "\n" + _q("Ref: %1").arg(qfw(iTurn.getMove().getRound().getCoord().toString()));
+        tooltip += "\n" + _q("Word: %1").arg(qfw(move.getRound().getWord()));
+        tooltip += "\n" + _q("Ref: %1").arg(qfw(move.getRound().getCoord().toString()));
     }
-    if (&iTurn != &iGameTurn)
+    else if (move.isInvalid())
     {
-        int score = iTurn.getMove().getScore();
-        int gameScore = iGameTurn.getMove().getScore();
-        tooltip += "\n" + _q("Points: %1 (%2%)").arg(score).arg(score * 100 / gameScore);
+        tooltip += "\n" + _q("Invalid move (%1 - %2)")
+            .arg(qfw(move.getBadWord()))
+            .arg(qfw(move.getBadCoord()));
     }
+    else if (move.isChangeLetters())
+    {
+        tooltip += "\n" + _q("Changing letters: %1").arg(qfw(move.getChangedLetters()));
+    }
+    else if (move.isPass())
+    {
+        tooltip += "\n" + _q("Passing turn");
+    }
+    else
+    {
+        tooltip += "\n" + _q("No move");
+    }
+
+    // Points
+    int score = move.getScore();
+    int gameScore = iGameTurn.getMove().getScore();
+    QString scoreString = _q("Points: %1 (%2)").arg(score);
+    if (score == gameScore)
+        tooltip += "\n" + scoreString.arg(_q("max"));
+    else
+        tooltip += "\n" + scoreString.arg(score - gameScore);
+
     if (iTurn.getWarningsNb())
     {
         tooltip += "\n" + _q("Warnings: %1").arg(iTurn.getWarningsNb());
