@@ -31,6 +31,8 @@
 #include "player.h"
 #include "history.h"
 #include "turn.h"
+#include "game_params.h"
+#include "settings.h"
 
 using namespace std;
 
@@ -45,7 +47,7 @@ const QColor StatsWidget::PassBrush(210, 210, 210);
 const QColor StatsWidget::InvalidBrush(255, 0, 0);
 
 
-const bool HORIZONTAL = true;
+const bool HORIZONTAL = false;
 
 
 StatsWidget::StatsWidget(QWidget *parent, const PublicGame *iGame)
@@ -57,12 +59,10 @@ StatsWidget::StatsWidget(QWidget *parent, const PublicGame *iGame)
     // Create the table
     m_table = new QTableView(this);
     m_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    m_table->horizontalHeader()->setHighlightSections(false);
+    m_table->verticalHeader()->setHighlightSections(false);
     m_table->horizontalHeader()->setMinimumSectionSize(15);
     m_table->verticalHeader()->setMinimumSectionSize(15);
-    if (HORIZONTAL)
-        m_table->verticalHeader()->setVisible(false);
-    else
-        m_table->horizontalHeader()->setVisible(false);
     //m_table->setSortingEnabled(true);
     layout()->addWidget(m_table);
 
@@ -89,20 +89,38 @@ void StatsWidget::refresh()
     unsigned histSize = m_game == NULL ? 0 : m_game->getHistory().getSize();
     unsigned nbPlayers = m_game == NULL ? 0 : m_game->getNbPlayers();
 
-    setModelSize(nbPlayers + 1, histSize + 9);
+    setModelSize(nbPlayers + 1, histSize + 8);
 
+    // Some fields are displayed only in some cases
+    const bool isArbit = m_game != NULL &&
+        m_game->getParams().getMode() == GameParams::kARBITRATION;
+    const bool canHaveSolos = m_game != NULL &&
+        m_game->getParams().getMode() == GameParams::kDUPLICATE &&
+        Settings::Instance().getInt("duplicate.solo-players") <= (int)m_game->getNbPlayers();
+
+    // Define columns (or rows, depending on the orientation)
     int col = 0;
-    setModelHeader(col++, _q("Table"));
-    setModelHeader(col++, _q("Player"));
+    setSectionHidden(col, !isArbit);
+    setModelHeader(col++, _q("Table"), false);
+
     for (unsigned i = 1; i <= histSize; ++i)
-        setModelHeader(col++, QString("#%1").arg(i));
-    setModelHeader(col++, _q("Sub-total"));
-    setModelHeader(col++, _q("Warnings"));
-    setModelHeader(col++, _q("Penalties"));
-    setModelHeader(col++, _q("Solo points"));
-    setModelHeader(col++, _q("Total"));
-    setModelHeader(col++, _q("Diff"));
-    setModelHeader(col++, _q("Game %"));
+        setModelHeader(col++, QString("#%1").arg(i), false);
+
+    setSectionHidden(col, !isArbit && !canHaveSolos);
+    setModelHeader(col++, _q("Sub-total"), false);
+    setSectionHidden(col, !isArbit);
+    setModelHeader(col++, _q("Warnings"), false);
+    setSectionHidden(col, !isArbit);
+    setModelHeader(col++, _q("Penalties"), false);
+    setSectionHidden(col, !isArbit && !canHaveSolos);
+    setModelHeader(col++, _q("Solo points"), false);
+
+    setModelHeader(col++, _q("Total"), false);
+    setModelHeader(col++, _q("Diff"), false);
+    setModelHeader(col++, _q("Game %"), false);
+
+    // Define the header for the Game pseudo-player
+    setModelHeader(0, _q("Game"), true);
 
     if (m_game == NULL)
         return;
@@ -117,7 +135,6 @@ void StatsWidget::refresh()
         int col = 0;
         // Skip the table number
         ++col;
-        setModelText(getIndex(row, col++), _q("Game"));
         int score = 0;
         for (unsigned j = 0; j < gHistory.getSize(); ++j)
         {
@@ -140,12 +157,10 @@ void StatsWidget::refresh()
     {
         const Player &player = m_game->getPlayer(i);
         int col = 0;
+        setModelHeader(i + 1, qfw(player.getName()), true);
 
         // Table number
         setModelText(getIndex(i + 1, col++), player.getTableNb());
-
-        // Player name
-        setModelText(getIndex(i + 1, col++), qfw(player.getName()));
 
         int score = 0;
         // Normal turns
@@ -179,18 +194,8 @@ void StatsWidget::refresh()
     }
 
     // Resize
-    for (int i = 0; i < m_model->columnCount(); ++i)
-    {
-        if (i > 0)
-        {
-            m_table->horizontalHeader()->resizeSection(i, 30);
-        }
-        m_table->resizeColumnToContents(i);
-    }
-    for (int i = 0; i < m_model->rowCount(); ++i)
-    {
-        m_table->resizeRowToContents(i);
-    }
+    m_table->resizeRowsToContents();
+    m_table->resizeColumnsToContents();
 }
 
 
@@ -203,6 +208,15 @@ QModelIndex StatsWidget::getIndex(int row, int col) const
 }
 
 
+void StatsWidget::setSectionHidden(int index, bool iHide)
+{
+    if (HORIZONTAL)
+        m_table->setColumnHidden(index, iHide);
+    else
+        m_table->setRowHidden(index, iHide);
+}
+
+
 void StatsWidget::setModelSize(int rowCount, int colCount)
 {
     m_model->setRowCount(HORIZONTAL ? rowCount : colCount);
@@ -210,11 +224,15 @@ void StatsWidget::setModelSize(int rowCount, int colCount)
 }
 
 
-void StatsWidget::setModelHeader(int col, const QString &iText)
+void StatsWidget::setModelHeader(int index, const QString &iText, bool iPlayerNames)
 {
-    Qt::Orientation orientation = HORIZONTAL ? Qt::Horizontal : Qt::Vertical;
-    m_model->setHeaderData(col, orientation, iText);
-    m_model->setHeaderData(col, orientation, Qt::AlignCenter, Qt::TextAlignmentRole);
+    Qt::Orientation orientation;
+    if ((HORIZONTAL && iPlayerNames) || (!HORIZONTAL && !iPlayerNames))
+        orientation = Qt::Vertical;
+    else
+        orientation = Qt::Horizontal;
+    m_model->setHeaderData(index, orientation, iText);
+    m_model->setHeaderData(index, orientation, Qt::AlignCenter, Qt::TextAlignmentRole);
 }
 
 
@@ -308,11 +326,16 @@ QString StatsWidget::getTooltip(const Turn &iTurn, const Turn &iGameTurn) const
     // Points
     int score = move.getScore();
     int gameScore = iGameTurn.getMove().getScore();
-    QString scoreString = _q("Points: %1 (%2)").arg(score);
-    if (score == gameScore)
-        tooltip += "\n" + scoreString.arg(_q("max"));
+    if (move.isNull())
+        tooltip += _q("Points: %1").arg(score);
     else
-        tooltip += "\n" + scoreString.arg(score - gameScore);
+    {
+        QString scoreString = _q("Points: %1 (%2)").arg(score);
+        if (score == gameScore)
+            tooltip += "\n" + scoreString.arg(_q("max"));
+        else
+            tooltip += "\n" + scoreString.arg(score - gameScore);
+    }
 
     if (iTurn.getWarningsNb())
     {

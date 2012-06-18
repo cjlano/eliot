@@ -66,8 +66,9 @@ private:
     QModelIndex getIndex(int row, int col) const;
     QString getTooltip(const Turn &iTurn, const Turn &iGameTurn) const;
 
+    void setSectionHidden(int index, bool iHide);
     void setModelSize(int rowCount, int colCount);
-    void setModelHeader(int col, const QString &iText);
+    void setModelHeader(int index, const QString &iText, bool iPlayerNames);
     void setModelText(const QModelIndex &iIndex, const QVariant &iData,
                       bool useBoldFont = false);
     void setModelTurnData(const QModelIndex &iIndex,
