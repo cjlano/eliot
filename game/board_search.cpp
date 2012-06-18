@@ -55,7 +55,7 @@ void BoardSearch::search(Rack &iRack, Results &oResults, Coord::Direction iDir) 
         tmpRound.accessCoord().setCol(col);
         tmpRound.accessCoord().setDir(Coord::HORIZONTAL);
         leftPart(iRack, tmpRound, oResults, m_dic.getRoot(),
-                 row, col, iRack.getNbTiles() - 1);
+                 row, col, std::min(iRack.getNbTiles(), (unsigned)col) - 1);
         return;
     }
 
