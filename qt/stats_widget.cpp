@@ -86,17 +86,15 @@ void StatsWidget::refresh()
 {
     m_model->clear();
 
-    if (m_game == NULL)
-        return;
+    unsigned histSize = m_game == NULL ? 0 : m_game->getHistory().getSize();
+    unsigned nbPlayers = m_game == NULL ? 0 : m_game->getNbPlayers();
 
-    const History &gHistory = m_game->getHistory();
-    unsigned nbPlayers = m_game->getNbPlayers();
-    setModelSize(nbPlayers + 1, gHistory.getSize() + 9);
+    setModelSize(nbPlayers + 1, histSize + 9);
 
     int col = 0;
     setModelHeader(col++, _q("Table"));
     setModelHeader(col++, _q("Player"));
-    for (unsigned i = 1; i <= m_game->getHistory().getSize(); ++i)
+    for (unsigned i = 1; i <= histSize; ++i)
         setModelHeader(col++, QString("#%1").arg(i));
     setModelHeader(col++, _q("Sub-total"));
     setModelHeader(col++, _q("Warnings"));
@@ -106,7 +104,11 @@ void StatsWidget::refresh()
     setModelHeader(col++, _q("Diff"));
     setModelHeader(col++, _q("Game %"));
 
+    if (m_game == NULL)
+        return;
+
     QLocale locale;
+    const History &gHistory = m_game->getHistory();
 
     // Game data
     int gameTotal = 0;
