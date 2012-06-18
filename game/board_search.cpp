@@ -83,13 +83,13 @@ void BoardSearch::search(Rack &iRack, Results &oResults, Coord::Direction iDir) 
                 {
                     partialWord.accessCoord().setCol(lastanchor + 1);
                     extendRight(iRack, partialWord, oResults,
-                                Dic_root(m_dic), row, lastanchor + 1, col);
+                                m_dic.getRoot(), row, lastanchor + 1, col);
                 }
                 else
                 {
                     partialWord.accessCoord().setCol(col);
                     leftPart(iRack, partialWord, oResults,
-                             Dic_root(m_dic), row, col, col - lastanchor - 1);
+                             m_dic.getRoot(), row, col, col - lastanchor - 1);
                 }
                 lastanchor = col;
 #else

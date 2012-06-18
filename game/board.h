@@ -77,11 +77,6 @@ public:
     void searchFirst(const Dictionary &iDic, const Rack &iRack, Results &oResults) const;
 
     /**
-     * board_cross.c
-     */
-    void buildCross(const Dictionary &iDic);
-
-    /**
      *
      */
     static int GetWordMultiplier(int iRow, int iCol);
@@ -116,6 +111,11 @@ private:
 
     static const int m_tileMultipliers[BOARD_REALDIM][BOARD_REALDIM];
     static const int m_wordMultipliers[BOARD_REALDIM][BOARD_REALDIM];
+
+    /**
+     * board_cross.c
+     */
+    void buildCross(const Dictionary &iDic);
 
     int checkRoundAux(const Matrix<Tile> &iTilesMx,
                       const Matrix<Cross> &iCrossMx,

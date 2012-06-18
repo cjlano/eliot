@@ -514,10 +514,10 @@ void Board::checkDouble()
     {
         for (int col = BOARD_MIN; col <= BOARD_MAX; col++)
         {
-            if (m_tilesRow[row][col] != m_tilesCol[col][row])
-                printf("tiles diff %d %d\n", row, col);
-            if (m_jokerRow[row][col] != m_jokerCol[col][row])
-                printf("joker diff %d %d\n", row, col);
+            ASSERT(m_tilesRow[row][col] == m_tilesCol[col][row],
+                   "Tiles inconsistency at " << row << "x" << col);
+            ASSERT(m_jokerRow[row][col] == m_jokerCol[col][row],
+                   "Jokers inconsistency at " << row << "x" << col);
             // The crossckecks and the points have no reason to be the same
             // in both directions
         }

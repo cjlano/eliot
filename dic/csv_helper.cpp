@@ -114,8 +114,8 @@ vector<CsvHelper::DataRow> CsvHelper::readStream(istream &input)
             maxLength = row.size();
     }
 
-    // Normalization (to be tolerant to faulty inputs)
-    if (minLength != maxLength)
+    // Make sure we have a constant number of fields on the lines
+    if (!data.empty() && minLength != maxLength)
     {
         boost::format fmt(_("Invalid CSV file (variable number of fields, from %1% to %2%)"));
         throw CsvException((fmt % minLength % maxLength).str());

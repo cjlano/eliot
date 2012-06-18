@@ -46,21 +46,18 @@ static void Board_checkout_tile(const Dictionary &iDic,
     }
 
     // FIXME: create temporary strings until the dictionary uses Tile objects
-    wchar_t leftTiles [BOARD_DIM + 1];
-    wchar_t rightTiles[BOARD_DIM + 1];
+    wstring leftTiles;
+    wstring rightTiles;
 
     for (int i = left; i < index; i++)
-        leftTiles[i - left] = towupper(iTiles[i].toChar());
-    leftTiles[index - left] = 0;
+        leftTiles.push_back(towupper(iTiles[i].toChar()));
 
-    int i;
-    for (i = index + 1; !iTiles[i].isEmpty(); i++)
-        rightTiles[i - index - 1] = towupper(iTiles[i].toChar());
-    rightTiles[i - index - 1] = 0;
+    for (int i = index + 1; !iTiles[i].isEmpty(); i++)
+        rightTiles.push_back(towupper(iTiles[i].toChar()));
 
     /* Tiles that can be played */
     unsigned int node, succ;
-    node = iDic.charLookup(iDic.getRoot(), leftTiles);
+    node = iDic.charLookup(iDic.getRoot(), leftTiles.c_str());
     if (node == 0)
     {
         oCross.setNone();
@@ -69,7 +66,7 @@ static void Board_checkout_tile(const Dictionary &iDic,
 
     for (succ = iDic.getSucc(node); succ; succ = iDic.getNext(succ))
     {
-        if (iDic.isEndOfWord(iDic.charLookup(succ, rightTiles)))
+        if (iDic.isEndOfWord(iDic.charLookup(succ, rightTiles.c_str())))
             oCross.insert(Tile(iDic.getChar(succ)));
         if (iDic.isLast(succ))
             break;
