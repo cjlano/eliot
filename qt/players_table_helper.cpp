@@ -212,15 +212,9 @@ int PlayersTableHelper::getRowCount() const
 
 void PlayersTableHelper::addPlayers(const QList<PlayerDef> &iList)
 {
-    // Only add players which are not already there
-    QSet<PlayerDef> tmpSet = getPlayers(false).toSet();
     Q_FOREACH(const PlayerDef &player, iList)
     {
-        if (!tmpSet.contains(player))
-        {
-            addRow(player);
-            tmpSet.insert(player);
-        }
+        addPlayer(player, false, false);
     }
 }
 
@@ -230,7 +224,7 @@ void PlayersTableHelper::addPlayer(const PlayerDef &iPlayer,
                                    bool renameIfDuplicate)
 {
     QSet<PlayerDef> tmpSet = getPlayers(false).toSet();
-    PlayerDef def = iPlayer;
+    PlayerDef def = normalize(iPlayer);
     // Generate a unique name if needed
     if (renameIfDuplicate)
     {
@@ -267,13 +261,41 @@ void PlayersTableHelper::addRow(const PlayerDef &iDef)
     const int row = m_tablePlayers->rowCount();
     m_tablePlayers->setRowCount(row + 1);
     m_tablePlayers->setRowHeight(row, 24);
+
     m_tablePlayers->setItem(row, 0, new QTableWidgetItem(iDef.name));
     m_tablePlayers->setItem(row, 1, new QTableWidgetItem(iDef.type));
     m_tablePlayers->setItem(row, 2, new QTableWidgetItem(iDef.level));
+
     QTableWidgetItem *item = new QTableWidgetItem;
     item->setData(Qt::DisplayRole, iDef.isDefault);
     m_tablePlayers->setItem(row, 3, item);
     emit rowCountChanged();
+}
+
+
+PlayerDef PlayersTableHelper::normalize(const PlayerDef &iDef) const
+{
+    PlayerDef defCopy = iDef;
+    defCopy.type = iDef.type == _q(kAI) ? _q(kAI) : _q(kHUMAN);
+
+    QString level;
+    if (defCopy.type == _q(kAI))
+    {
+        bool ok = false;
+        int value = iDef.level.toInt(&ok);
+        if (!ok)
+            value = 100;
+        if (value < 0)
+            value = 0;
+        if (value > 100)
+            value = 100;
+        level = QString("%1").arg(value);
+    }
+    else
+        level = "";
+    defCopy.level = level;
+
+    return defCopy;
 }
 
 
@@ -299,9 +321,11 @@ QList<PlayerDef> PlayersTableHelper::getFavPlayers()
 void PlayersTableHelper::saveFavPlayers(const QList<PlayerDef> &iFavPlayers)
 {
     QSettings qs;
+    qs.remove("FavPlayers");
     qs.beginWriteArray("FavPlayers");
     for (int i = 0; i < iFavPlayers.size(); ++i)
     {
+        LOG_DEBUG("Writing fav player");
         qs.setArrayIndex(i);
         qs.setValue("name", iFavPlayers.at(i).name);
         qs.setValue("type", iFavPlayers.at(i).type);

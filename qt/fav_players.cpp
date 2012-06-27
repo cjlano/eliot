@@ -129,7 +129,8 @@ void FavPlayersDialog::importPlayers()
         {
             if (row.size() < 4)
                 throw BaseException(_("Invalid file (not enough values)"));
-            PlayerDef def(qfl(row[0]), qfl(row[1]), qfl(row[2]), row[3] != "0");
+            // The player is not a default one if the corresponding flag is incorrect
+            PlayerDef def(qfl(row[0]), qfl(row[1]), qfl(row[2]), row[3] == "1");
             players.push_back(def);
         }
         m_helper->addPlayers(players);

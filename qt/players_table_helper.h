@@ -94,6 +94,9 @@ private:
     QList<QAction*> m_popupActions;
     bool m_showDefaultColumn;
 
+    /// Return a "normalized" player def, i.e. with correct values
+    PlayerDef normalize(const PlayerDef &iDef) const;
+
 };
 
 
