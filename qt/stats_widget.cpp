@@ -89,7 +89,7 @@ void StatsWidget::refresh()
     unsigned histSize = m_game == NULL ? 0 : m_game->getHistory().getSize();
     unsigned nbPlayers = m_game == NULL ? 0 : m_game->getNbPlayers();
 
-    setModelSize(nbPlayers + 1, histSize + 8);
+    setModelSize(nbPlayers + 1, histSize + 9);
 
     // Some fields are displayed only in some cases
     const bool isArbit = m_game != NULL &&
@@ -118,6 +118,7 @@ void StatsWidget::refresh()
     setModelHeader(col++, _q("Total"), false);
     setModelHeader(col++, _q("Diff"), false);
     setModelHeader(col++, _q("Game %"), false);
+    setModelHeader(col++, _q("Ranking"), false);
 
     // Define the header for the Game pseudo-player
     setModelHeader(0, _q("Game"), true);
@@ -146,8 +147,10 @@ void StatsWidget::refresh()
         col += 3;
         setModelText(getIndex(row, col++), score, true);
         // Skip the diff column
-        col += 1;
+        ++col;
         setModelText(getIndex(row, col++), locale.toString((double)100, 'f', 1) + "%", true);
+        // Skip the ranking column
+        ++col;
 
         gameTotal = score;
     }
@@ -191,6 +194,18 @@ void StatsWidget::refresh()
         setModelText(getIndex(i + 1, col++),
                      locale.toString(100. * score / gameTotal, 'f', 1) + "%",
                      score >= gameTotal);
+
+        // Ranking
+        // FIXME: quadratic complexity, we can probably do better
+        int rank = 1;
+        for (unsigned j = 0; j < nbPlayers; ++j)
+        {
+                if (i == j)
+                    continue;
+            if (player.getPoints() < m_game->getPlayer(j).getPoints())
+                ++rank;
+        }
+        setModelText(getIndex(i + 1, col++), rank, rank == 1);
     }
 
     // Resize
