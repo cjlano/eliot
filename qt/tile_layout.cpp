@@ -81,56 +81,53 @@ QLayoutItem *TileLayout::takeAt(int index)
 
 QSize TileLayout::minimumSize() const
 {
-    int size = spacing();
+    const QSize marginsSize = geometry().size() - contentsRect().size();
     if (m_items.empty())
-        return QSize(size, size);
+        return marginsSize;
 
-    size += m_items.at(0)->minimumSize().width();
-
+    const QSize spacingSize(spacing(), spacing());
+    const int size = spacing() + m_items.at(0)->minimumSize().width();
     if (m_dynamicCol && m_dynamicRow)
-        return QSize(size, size);
+        return marginsSize - spacingSize + QSize(size, size);
     else if (m_dynamicCol)
-        return QSize(size * ((m_items.size() - 1) / m_nbRows + 1) - spacing(), size * m_nbRows - spacing());
+        return marginsSize - spacingSize + QSize(size * ((m_items.size() - 1) / m_nbRows + 1), size * m_nbRows);
     else if (m_dynamicRow)
-        return QSize(size * m_nbCols - spacing(), size * ((m_items.size() - 1) / m_nbCols + 1) - spacing());
+        return marginsSize - spacingSize + QSize(size * m_nbCols, size * ((m_items.size() - 1) / m_nbCols + 1));
     else
-        return QSize(size * m_nbCols - spacing(), size * m_nbRows - spacing());
+        return marginsSize - spacingSize + QSize(size * m_nbCols, size * m_nbRows);
 }
 
 
 QSize TileLayout::sizeHint() const
 {
-    int size = spacing();
+    const QSize marginsSize = geometry().size() - contentsRect().size();
     if (m_items.empty())
-        return QSize(size, size);
+        return marginsSize;
 
-    size += m_items.at(0)->sizeHint().width();
-
+    const QSize spacingSize(spacing(), spacing());
+    const int size = spacing() + m_items.at(0)->sizeHint().width();
     if (m_dynamicCol && m_dynamicRow)
-        return QSize(size, size);
+        return marginsSize - spacingSize + QSize(size, size);
     else if (m_dynamicCol)
-        return QSize(size * ((m_items.size() - 1) / m_nbRows + 1) - spacing(), size * m_nbRows - spacing());
+        return marginsSize - spacingSize + QSize(size * ((m_items.size() - 1) / m_nbRows + 1), size * m_nbRows);
     else if (m_dynamicRow)
-        return QSize(size * m_nbCols - spacing(), size * ((m_items.size() - 1) / m_nbCols + 1) - spacing());
+        return marginsSize - spacingSize + QSize(size * m_nbCols, size * ((m_items.size() - 1) / m_nbCols + 1));
     else
-        return QSize(size * m_nbCols - spacing(), size * m_nbRows - spacing());
+        return marginsSize - spacingSize + QSize(size * m_nbCols, size * m_nbRows);
 }
 
 
 void TileLayout::setGeometry(const QRect &rect)
 {
     QLayout::setGeometry(rect);
-    doLayout(rect);
-}
 
-
-void TileLayout::doLayout(const QRect &rect)
-{
     if (m_items.isEmpty())
         return;
 
-    const int width = rect.width() + spacing();
-    const int height = rect.height() + spacing();
+    // We use contentsRect() to take margins into account
+    const int width = contentsRect().width() + spacing();
+    const int height = contentsRect().height() + spacing();
+
     if (m_dynamicCol && m_dynamicRow)
     {
         // Dynamic number of columns. The square size is the biggest one
@@ -177,9 +174,22 @@ void TileLayout::doLayout(const QRect &rect)
 
     // Now the number of columns and rows are defined.
     // Use that to draw the tiles.
-    const int squareSize = std::min(width / m_nbCols, height / m_nbRows) - spacing();
-    int x = 0;
-    int y = 0;
+    const int squareSizeWithSpacing = std::min(width / m_nbCols, height / m_nbRows);
+    const int squareSize = squareSizeWithSpacing - spacing();
+
+    // Handle margins and alignment
+    int x = contentsMargins().left();
+    if (alignment() & Qt::AlignRight)
+        x += width - m_nbCols * squareSizeWithSpacing;
+    else if (alignment() & Qt::AlignHCenter)
+        x += (width - m_nbCols * squareSizeWithSpacing) / 2;
+    int y = contentsMargins().top();
+    if (alignment() & Qt::AlignBottom)
+        y += height - m_nbRows * squareSizeWithSpacing;
+    else if (alignment() & Qt::AlignVCenter)
+        y += (height - m_nbRows * squareSizeWithSpacing) / 2;
+
+    // Resize items
     int nbInRow = 1;
     QLayoutItem *item;
     foreach (item, m_items)

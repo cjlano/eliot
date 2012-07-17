@@ -55,8 +55,6 @@ private:
     bool m_dynamicCol;
     int m_nbCols;
     int m_nbRows;
-
-    void doLayout(const QRect &rect);
 };
 
 #endif
