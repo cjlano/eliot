@@ -21,7 +21,7 @@
 #ifndef RACK_WIDGET_H_
 #define RACK_WIDGET_H_
 
-#include <QtGui/QWidget>
+#include <QtGui/QFrame>
 
 #include "tile.h"
 #include "logging.h"
@@ -33,7 +33,7 @@ class TileWidget;
 /**
  * Widget used to display a rack with big letters
  */
-class RackWidget: public QWidget
+class RackWidget: public QFrame
 {
     Q_OBJECT;
     DEFINE_LOGGER();
