@@ -1,0 +1,16 @@
+Source: eliot
+Section: games
+Priority: optional
+Maintainer: Olivier Teuliere <ipkiss@gmail.com>
+Build-Depends: debhelper (>= 5), autotools-dev, libqt4-dev, libboost-dev, libexpat-dev
+Standards-Version: 3.7.2
+
+Package: eliot
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Scrabble game
+ Eliot is a Scrabble game intended both for multi-player games and for training
+ competition Scrabble (duplicate mode).
+ It finds the best score at each turn in a game using efficient search
+ techniques. It also proposes several tools to lookup for words in the
+ dictionary (for advanced training or crosswords games).

@@ -1,0 +1,79 @@
+eliot (1.14-1) oneiric; urgency=low
+
+  * New game variant: "7 among 8"
+  * New preference to define a default AI level
+  * Bug fix in the dictionary creation wizard
+
+ -- Olivier Teulière <ipkiss@adelpha>  Tue, 03 Jan 2012 21:57:38 +0100
+
+eliot (1.13-1) natty; urgency=low
+
+  * Display the definition of a word in a web browser
+  * Display the points of a word before playing it
+  * Allow exporting the dictionary words list to a file
+  * Training mode: enable hiding the words and/or positions of search results
+  * New translations: Serbian and Indonesian
+  * Several bugs fixes
+
+ -- Olivier Teulière <ipkiss@adelpha>  Sun, 21 Aug 2011 00:25:18 +0200
+
+eliot (1.12-1) lucid; urgency=low
+
+  * New upstream version (1.12)
+  * New wizard to help creating custom dictionaries
+  * Various bug fixes
+
+ -- Olivier Teuliere <ipkiss@ulukai>  Sat, 22 May 2010 20:44:16 +0200
+
+eliot (1.11-1) karmic; urgency=low
+
+  * New upstream version (1.11)
+  * Support for loading/saving games in all modes
+  * Various encoding fixes
+
+ -- Olivier Teuliere <ipkiss@ulukai>  Sun, 24 Jan 2010 16:15:51 +0100
+
+eliot (1.10-1) karmic; urgency=low
+
+  * New upstream version (1.10)
+  * Improvements over version 1.9:
+    * Support for tiles made of multiple characters (useful for Catalan, in
+      particular)
+    * Catalan translation
+
+ -- Olivier Teuliere <ipkiss@ulukai>  Sat, 26 Sep 2009 11:27:13 +0200
+
+eliot (1.9-1) jaunty; urgency=low
+
+  * New upstream version (1.9)
+  * Two improvements over version 1.8:
+    * Joker games are fixed (version 1.8 was buggy)
+    * A coordinates arrow allows entering the coordinates more easily
+    * Words can be entered in training mode without doing a search
+
+ -- Olivier Teuliere <ipkiss@ulukai>  Sat, 21 Feb 2009 18:31:18 +0100
+
+eliot (1.8-1) jaunty; urgency=low
+
+  * New upstream version (1.8)
+  * Main improvements over version 1.7a:
+    * Faster search
+    * Tiles points cen be displayed
+    * New game variant: explosive games
+    * Navigation in the game history
+    * A few GUI enhancements
+
+ -- Olivier Teuliere <ipkiss@gmail.com>  Sun, 25 Jan 2009 13:04:33 +0100
+
+eliot (1.7a-1) unstable; urgency=low
+
+  * Upstream version (bugfix release)
+
+ -- Olivier Teuliere <ipkiss@gmail.com>  Tue, 30 Sep 2008 19:45:35 +0200
+
+eliot (1.7-1) unstable; urgency=low
+
+  * Initial release
+
+ -- Olivier Teuliere <ipkiss@gmail.com>  Tue, 30 Sep 2008 19:45:35 +0200
+
