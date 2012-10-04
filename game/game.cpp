@@ -54,7 +54,6 @@ Game::Game(const GameParams &iParams):
 {
     m_points = 0;
     m_currPlayer = 0;
-    m_finished = false;
 }
 
 

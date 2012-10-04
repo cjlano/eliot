@@ -160,7 +160,7 @@ void Duplicate::start()
 
 bool Duplicate::isFinished() const
 {
-    return m_finished;
+    return !canDrawRack(m_players[0]->getHistory().getCurrentRack(), true);
 }
 
 
@@ -351,7 +351,6 @@ void Duplicate::endGame()
     LOG_INFO("End of the game");
     // No more master move
     setMasterMove(Move());
-    m_finished = true;
 }
 
 

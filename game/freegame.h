@@ -81,7 +81,10 @@ public:
     int pass(const wstring &iToChange);
 
 private:
-    // Private constructor to force using the GameFactory class
+    /// True if the game is finished, false otherwise
+    bool m_finished;
+
+    /// Private constructor to force using the GameFactory class
     FreeGame(const GameParams &iParams);
 
     /// Make the AI player whose ID is p play its turn

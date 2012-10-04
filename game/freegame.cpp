@@ -49,7 +49,7 @@ INIT_LOGGER(game, FreeGame);
 
 
 FreeGame::FreeGame(const GameParams &iParams)
-    : Game(iParams)
+    : Game(iParams), m_finished(false)
 {
 }
 
@@ -150,6 +150,7 @@ void FreeGame::start()
 
 bool FreeGame::isFinished() const
 {
+    // FIXME: the flag is never reset to false!
     return m_finished;
 }
 

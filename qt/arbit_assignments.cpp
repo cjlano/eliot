@@ -141,10 +141,7 @@ void ArbitAssignments::refresh()
         labelMasterMove->setText(label);
     }
 
-    if (m_game->isFinished())
-    {
-        setEnabled(false);
-    }
+    setEnabled(!m_game->isFinished());
 
     enableAssignmentButtons();
     buttonSelectMaster->setEnabled(isAssignMasterAllowed());
