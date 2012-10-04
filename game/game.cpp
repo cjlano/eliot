@@ -328,6 +328,10 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
         if (jokerAdded)
         {
             pld.addNew(Tile::Joker());
+            if (neededVowels > 0)
+                --neededVowels;
+            if (neededConsonants > 0)
+                --neededConsonants;
         }
 
         // RACK_SIZE - tiles.size() is the number of letters to add to the rack
