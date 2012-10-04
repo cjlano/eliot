@@ -237,6 +237,19 @@ protected:
      *********************************************************/
 
     /**
+     * Check if it is possible to draw a new rack from the bag,
+     * after we put back the contents of iPld.
+     * @param iCheck if true, the number of consonants and vowels will
+     * be checked.
+     * @param oReason if the pointer is valid, and the method returns false,
+     *      oReason will point to the error code. Possible values:
+     *          1: The bag is empty
+     *          2: Not enough vowels or consonants to complete the rack
+     * @return true if a rack can be drawn, false otherwise
+     */
+    bool canDrawRack(const PlayedRack &iPld, bool iCheck, int *oReason = NULL) const;
+
+    /**
      * Complete the given rack randomly.
      *
      * Completing a rack randomly is more complex than it seems, because we

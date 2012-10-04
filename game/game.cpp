@@ -123,9 +123,79 @@ void Game::realBag(Bag &ioBag) const
 }
 
 
+bool Game::canDrawRack(const PlayedRack &iPld, bool iCheck, int *reason) const
+{
+    // When iCheck is true, we must make sure that there are at least 2 vowels
+    // and 2 consonants in the rack up to the 15th turn, and at least one of
+    // each starting from the 16th turn.
+    // So before trying to fill the rack, we'd better make sure there is a way
+    // to complete the rack with these constraints...
+    unsigned int min = 0;
+    if (iCheck)
+    {
+        // 2 vowels and 2 consonants are needed up to the 15th turn
+        if (m_history.getSize() < 15)
+            min = 2;
+        else
+            min = 1;
+    }
+
+    // Create a copy of the bag in which we can do everything we want,
+    // and take from it the tiles of the players rack so that "bag"
+    // contains the right number of tiles.
+    Bag bag(getDic());
+    realBag(bag);
+    // Replace all the tiles of the given rack into the bag
+    vector<Tile> tiles;
+    iPld.getAllTiles(tiles);
+    BOOST_FOREACH(const Tile &tile, tiles)
+    {
+        bag.replaceTile(tile);
+    }
+
+    // Nothing in the rack, nothing in the bag --> end of the (free)game
+    if (bag.getNbTiles() == 0)
+    {
+        if (reason)
+            *reason = 1;
+        return false;
+    }
+
+    // Check whether it is possible to complete the rack properly
+    if (bag.getNbVowels() < min ||
+        bag.getNbConsonants() < min)
+    {
+        if (reason)
+            *reason = 2;
+        return false;
+    }
+
+    // In a duplicate game, we need at least 2 letters, even if we have
+    // one letter which can be considered both as a consonant and as a vowel
+    if (iCheck && bag.getNbTiles() < 2)
+    {
+        if (reason)
+            *reason = 2;
+        return false;
+    }
+
+    return true;
+}
+
+
 PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
                                      bool iCheck, set_rack_mode mode) const
 {
+    int reason = 0;
+    if (!canDrawRack(iPld, iCheck, &reason))
+    {
+        if (reason == 1)
+            throw EndGameException(_("The bag is empty"));
+        else if (reason == 2)
+            throw EndGameException(_("Not enough vowels or consonants to complete the rack"));
+        ASSERT(false, "Error code not handled")
+    }
+
     // When iCheck is true, we must make sure that there are at least 2 vowels
     // and 2 consonants in the rack up to the 15th turn, and at least one of
     // each starting from the 16th turn.
@@ -222,42 +292,6 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
         }
     }
 
-    // Count the needed consonants and vowels in the rack
-    // (i.e. minimum required, minus what we already have in the rack)
-    unsigned int neededVowels = min;
-    unsigned int neededConsonants = min;
-    BOOST_FOREACH(const Tile &tile, tiles)
-    {
-        if (neededVowels > 0 && tile.isVowel())
-            neededVowels--;
-        if (neededConsonants > 0 && tile.isConsonant())
-            neededConsonants--;
-    }
-
-    // Nothing in the rack, nothing in the bag --> end of the (free)game
-    if (bag.getNbTiles() == 0 && pld.getNbTiles() == 0)
-    {
-        throw EndGameException(_("The bag is empty"));
-    }
-
-    // Check whether it is possible to complete the rack properly
-    if (bag.getNbVowels() < neededVowels ||
-        bag.getNbConsonants() < neededConsonants)
-    {
-        throw EndGameException(_("Not enough vowels or consonants to complete the rack"));
-    }
-    // End of game condition
-    if (iCheck)
-    {
-        // FIXME: redundant checks?
-        if (bag.getNbVowels() < neededVowels ||
-            bag.getNbConsonants() < neededConsonants ||
-            (bag.getNbTiles() + tiles.size()) == 1)
-        {
-            throw EndGameException(_("Not enough vowels or consonants to complete the rack"));
-        }
-    }
-
     // Handle reject:
     // Now that the joker has been dealt with, we try to complete the rack
     // with truly random tiles. If it meets the requirements (i.e. if there
@@ -285,13 +319,16 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
         // Do not mark the rack as rejected if it was empty
         if (nold > 0)
             pld.setReject();
-        // Reset the number of required vowels and consonants
-        neededVowels = min;
-        neededConsonants = min;
+
+        // Keep track of the needed consonants and vowels in the rack
+        unsigned int neededVowels = min;
+        unsigned int neededConsonants = min;
 
         // Restore the joker if we are in a joker game
         if (jokerAdded)
+        {
             pld.addNew(Tile::Joker());
+        }
 
         // RACK_SIZE - tiles.size() is the number of letters to add to the rack
         if (neededVowels > RACK_SIZE - tiles.size() ||
@@ -313,7 +350,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
             // Handle the case where the vowel can also be considered
             // as a consonant
             if (l.isConsonant() && neededConsonants > 0)
-                neededConsonants--;
+                --neededConsonants;
         }
         for (unsigned int i = 0; i < neededConsonants; ++i)
         {
