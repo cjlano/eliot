@@ -265,7 +265,7 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
     iMenu.addAction(selectAllAction);
 
     // Action to assign the top move
-    QAction *assignTopMoveAction = new QAction(_q("Assign top move"), this);
+    QAction *assignTopMoveAction = new QAction(_q("Assign top move (if unique)"), this);
     assignTopMoveAction->setStatusTip(_q("Assign the top move (if unique) to the selected player(s)"));
     assignTopMoveAction->setShortcut(Qt::Key_T);
     QObject::connect(assignTopMoveAction, SIGNAL(triggered()),
@@ -508,9 +508,10 @@ void ArbitAssignments::assignTopMove()
     results.search(m_game->getDic(), m_game->getBoard(),
                    m_game->getCurrentRack().getRack(),
                    m_game->getHistory().beforeFirstRound());
-    // TODO: what if there are several moves?
     if (results.size() == 1)
         helperAssignMove(Move(results.get(0)));
+    else
+        LOG_DEBUG("The top move is not unique");
 }
 
 
