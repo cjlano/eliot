@@ -123,7 +123,6 @@ void Training::recordPlayerMove(const Move &iMove, Player &ioPlayer)
     // (called in this class in endTurn()).
     // See the big comment in game.cpp, line 96
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
-    pCmd->setHumanIndependent(false);
     accessNavigation().addAndExecute(pCmd);
 }
 

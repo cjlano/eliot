@@ -71,7 +71,7 @@ int FreeGame::play(const wstring &iCoord, const wstring &iWord)
         Move move(round);
 
         // Update the rack and the score of the current player
-        recordPlayerMove(move, *m_players[m_currPlayer], true);
+        recordPlayerMove(move, *m_players[m_currPlayer]);
     }
     else
     {
@@ -81,7 +81,7 @@ int FreeGame::play(const wstring &iCoord, const wstring &iWord)
         Move move(dispWord, iCoord);
 
         // Record the invalid move of the player
-        recordPlayerMove(move, *m_players[m_currPlayer], true);
+        recordPlayerMove(move, *m_players[m_currPlayer]);
     }
 
     // Next turn
@@ -107,18 +107,16 @@ void FreeGame::playAI(unsigned int p)
     }
 
     // Update the rack and the score of the current player
-    recordPlayerMove(move, *player, false);
+    recordPlayerMove(move, *player);
 
     endTurn();
 }
 
 
-void FreeGame::recordPlayerMove(const Move &iMove, Player &ioPlayer,
-                                bool isForHuman)
+void FreeGame::recordPlayerMove(const Move &iMove, Player &ioPlayer)
 {
     LOG_INFO("Player " << ioPlayer.getId() << " plays: " << lfw(iMove.toString()));
     Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
-    pCmd->setHumanIndependent(!isForHuman);
     accessNavigation().addAndExecute(pCmd);
 }
 
@@ -312,7 +310,7 @@ int FreeGame::pass(const wstring &iToChange)
 
     Move move(iToChange);
     // End the player's turn
-    recordPlayerMove(move, player, true);
+    recordPlayerMove(move, player);
 
     // Next game turn
     endTurn();

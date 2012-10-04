@@ -221,7 +221,6 @@ void Duplicate::recordPlayerMove(Player &ioPlayer, const Move &iMove)
     if (cmd == 0)
     {
         Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitrationGame());
-        pCmd->setHumanIndependent(!ioPlayer.isHuman());
         accessNavigation().addAndExecute(pCmd);
     }
     else
@@ -231,7 +230,6 @@ void Duplicate::recordPlayerMove(Player &ioPlayer, const Move &iMove)
         if (!isArbitrationGame() && !getNavigation().isLastTurn())
             throw GameException("Cannot add a command to an old turn");
         Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitrationGame());
-        pCmd->setHumanIndependent(!ioPlayer.isHuman());
         accessNavigation().replaceCommand(*cmd, pCmd);
     }
 }
@@ -431,7 +429,6 @@ void Duplicate::setGameAndPlayersRack(const PlayedRack &iRack)
     BOOST_FOREACH(Player *player, m_players)
     {
         Command *pCmd = new PlayerMoveCmd(*player, Move(), true);
-        pCmd->setHumanIndependent(!player->isHuman());
         accessNavigation().addAndExecute(pCmd);
     }
 }

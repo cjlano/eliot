@@ -31,6 +31,7 @@ PlayerMoveCmd::PlayerMoveCmd(Player &ioPlayer, const Move &iMove, bool iAutoExec
     : m_player(ioPlayer), m_move(iMove)
 {
     setAutoExecutable(iAutoExec || iMove.isNull());
+    setHumanIndependent(!ioPlayer.isHuman());
 }
 
 
