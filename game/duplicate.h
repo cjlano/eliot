@@ -134,6 +134,7 @@ protected:
 
 private: // Used by friend classes
     void innerSetMasterMove(const Move &iMove);
+    bool isArbitrationGame() const;
 
 private:
     /// Make the AI player whose ID is p play its turn

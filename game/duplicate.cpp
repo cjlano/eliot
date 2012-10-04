@@ -128,14 +128,13 @@ void Duplicate::start()
     m_currPlayer = 0;
 
     // Complete the racks
-    bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
     try
     {
         // Reset the master move
         setMasterMove(Move());
 
         bool fillRacks = Settings::Instance().getBool("arbitration.fill-rack");
-        if (isArbitration && !fillRacks)
+        if (isArbitrationGame() && !fillRacks)
             setGameAndPlayersRack(getHistory().getCurrentRack());
         else
         {
@@ -150,7 +149,7 @@ void Duplicate::start()
         return;
     }
 
-    if (!isArbitration)
+    if (!isArbitrationGame())
     {
         // Little hack to handle duplicate games with only AI players.
         // This will have no effect when there is at least one human player
@@ -167,8 +166,7 @@ bool Duplicate::isFinished() const
 
 void Duplicate::tryEndTurn()
 {
-    bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
-    if (!isArbitration)
+    if (!isArbitrationGame())
     {
         for (unsigned int i = 0; i < getNPlayers(); i++)
         {
@@ -216,15 +214,13 @@ void Duplicate::recordPlayerMove(Player &ioPlayer, const Move &iMove)
 {
     LOG_INFO("Player " << ioPlayer.getId() << " plays: " << lfw(iMove.toString()));
 
-    bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
-
     // Search a PlayerMoveCmd for the given player
     MatchingPlayer predicate(ioPlayer.getId());
     const PlayerMoveCmd *cmd =
         getNavigation().getCurrentTurn().findMatchingCmd<PlayerMoveCmd>(predicate);
     if (cmd == 0)
     {
-        Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitration);
+        Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitrationGame());
         pCmd->setHumanIndependent(!ioPlayer.isHuman());
         accessNavigation().addAndExecute(pCmd);
     }
@@ -232,9 +228,9 @@ void Duplicate::recordPlayerMove(Player &ioPlayer, const Move &iMove)
     {
         // Replace the player move
         LOG_DEBUG("Replacing move for player " << ioPlayer.getId());
-        if (!isArbitration && !getNavigation().isLastTurn())
+        if (!isArbitrationGame() && !getNavigation().isLastTurn())
             throw GameException("Cannot add a command to an old turn");
-        Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitration);
+        Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove, isArbitrationGame());
         pCmd->setHumanIndependent(!ioPlayer.isHuman());
         accessNavigation().replaceCommand(*cmd, pCmd);
     }
@@ -294,13 +290,11 @@ void Duplicate::endTurn()
         }
     }
 
-    bool isArbitration = getParams().getMode() == GameParams::kARBITRATION;
-
     // Handle solo bonus
     // First check whether there are enough players in the game for the
     // bonus to apply
     unsigned int minNbPlayers = Settings::Instance().getInt(
-            isArbitration ? "arbitration.solo-players" : "duplicate.solo-players");
+            isArbitrationGame() ? "arbitration.solo-players" : "duplicate.solo-players");
     // Find the player with the best score
     Player *bestPlayer = findBestPlayer();
     if (getNPlayers() >= minNbPlayers && bestPlayer != NULL)
@@ -322,7 +316,7 @@ void Duplicate::endTurn()
         {
             // Give the bonus to the player of the best move
             int bonus = Settings::Instance().getInt(
-                    isArbitration ? "arbitration.solo-value" : "duplicate.solo-value");
+                    isArbitrationGame() ? "arbitration.solo-value" : "duplicate.solo-value");
             Command *pCmd = new PlayerEventCmd(*bestPlayer, PlayerEventCmd::SOLO, bonus);
             accessNavigation().addAndExecute(pCmd);
         }
@@ -407,6 +401,12 @@ void Duplicate::setMasterMove(const Move &iMove)
     LOG_DEBUG("Setting master move: " + lfw(iMove.toString()));
     Command *pCmd = new MasterMoveCmd(*this, iMove);
     accessNavigation().addAndExecute(pCmd);
+}
+
+
+bool Duplicate::isArbitrationGame() const
+{
+    return getParams().getMode() == GameParams::kARBITRATION;
 }
 
 

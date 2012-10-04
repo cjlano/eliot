@@ -32,6 +32,15 @@ MasterMoveCmd::MasterMoveCmd(Duplicate &ioDuplicate,
                              const Move &iMove)
     : m_duplicateGame(ioDuplicate), m_newMove(iMove)
 {
+    // In arbitration mode, no move is completely human independent
+    // (in this case, the human is the arbitrator).
+    // Since every turn must contain a MasterMoveCmd, this little trick
+    // ensures that we have no human independent turn (without it, an
+    // arbitration game with only computer players would be considered
+    // as human independent, which could cause problems with the
+    // Navigation::clearFuture() method (all the turns would be replayed
+    // prior to deleting the turns, so no turn at all would be deleted).
+    setHumanIndependent(!ioDuplicate.isArbitrationGame());
 }
 
 
