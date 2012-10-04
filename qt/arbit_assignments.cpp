@@ -145,6 +145,10 @@ void ArbitAssignments::refresh()
     {
         setEnabled(false);
     }
+
+    enableAssignmentButtons();
+    buttonSelectMaster->setEnabled(isAssignMasterAllowed());
+    buttonEndTurn->setEnabled(isEndTurnAllowed());
 }
 
 
@@ -168,7 +172,7 @@ void ArbitAssignments::updatePlayersModel()
         if (hideAssignedPlayers && m_game->hasPlayed(player.getId()) &&
             !player.getLastMove().isNull())
         {
-                continue;
+            continue;
         }
 
         const int rowNum = m_playersModel->rowCount();
@@ -218,10 +222,8 @@ void ArbitAssignments::updatePlayersModel()
 
 void ArbitAssignments::enableAssignmentButtons()
 {
-    bool hasSelResult = m_game->isLastTurn() &&
-        !m_selectedMove.isNull();
-    bool hasSelPlayer = m_game->isLastTurn() &&
-        treeViewPlayers->selectionModel()->hasSelection();
+    bool hasSelResult = !m_selectedMove.isNull();
+    bool hasSelPlayer = treeViewPlayers->selectionModel()->hasSelection();
     // Enable the "Assign move" button iff a move is selected
     // and at least one player in the tree view is selected
     buttonAssign->setEnabled(hasSelResult && hasSelPlayer);
@@ -231,8 +233,8 @@ void ArbitAssignments::enableAssignmentButtons()
         buttonAssign->setToolTip(_q("Assign move (%1) to the selected player(s)")
                                  .arg(formatMove(move)));
     }
-    buttonSuppressMove->setEnabled(hasSelPlayer);
-    buttonSelectMaster->setEnabled(hasSelResult);
+    buttonSuppressMove->setEnabled(isSuppressMoveAllowed());
+    buttonSelectMaster->setEnabled(isAssignMasterAllowed());
 }
 
 
@@ -243,7 +245,7 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
         return;
 
     // Action to assign the selected move
-    if (!m_selectedMove.isNull())
+    if (isAssignMoveAllowed())
     {
         const Move &move = m_selectedMove;
         QAction *assignSelMoveAction =
@@ -300,12 +302,6 @@ void ArbitAssignments::selectedMoveChanged(const Move &iMove)
 {
     m_selectedMove = iMove;
     enableAssignmentButtons();
-}
-
-
-bool ArbitAssignments::hasSelectedPlayer() const
-{
-    return treeViewPlayers->selectionModel()->hasSelection();
 }
 
 
@@ -379,9 +375,15 @@ void ArbitAssignments::selectAllPlayers()
 }
 
 
+bool ArbitAssignments::isAssignMasterAllowed() const
+{
+    return m_game->isLastTurn() && m_selectedMove.isValid();
+}
+
+
 void ArbitAssignments::assignMasterMove()
 {
-    if (m_game->isFinished())
+    if (!isAssignMasterAllowed())
         return;
 
     const Move &masterMove = m_game->duplicateGetMasterMove();
@@ -398,11 +400,6 @@ void ArbitAssignments::assignMasterMove()
     }
 
     const Move &move = m_selectedMove;
-    if (!move.isValid())
-    {
-        notifyProblem(_q("The master move must be a valid move."));
-        return;
-    }
 
     // Warn if the selected move is not a top move
     BestResults results;
@@ -491,13 +488,17 @@ void ArbitAssignments::assignDefaultMasterMove()
 }
 
 
+bool ArbitAssignments::isAssignMoveAllowed() const
+{
+    return !m_selectedMove.isNull() &&
+        treeViewPlayers->selectionModel()->hasSelection();
+}
+
+
 void ArbitAssignments::assignSelectedMove()
 {
-    if (m_selectedMove.isNull() ||
-        !treeViewPlayers->selectionModel()->hasSelection())
-    {
+    if (!isAssignMoveAllowed())
         return;
-    }
     helperAssignMove(m_selectedMove);
 }
 
@@ -515,8 +516,28 @@ void ArbitAssignments::assignTopMove()
 }
 
 
+bool ArbitAssignments::isSuppressMoveAllowed() const
+{
+    // Return true if at least one of the selected players has
+    // a move to suppress
+    QSet<unsigned int> playersIdSet = getSelectedPlayers();
+    BOOST_FOREACH(unsigned int id, playersIdSet)
+    {
+        if (m_game->hasPlayed(id) &&
+            !m_game->getPlayer(id).getLastMove().isNull())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 void ArbitAssignments::suppressMove()
 {
+    if (!isSuppressMoveAllowed())
+        return;
+
     helperAssignMove(Move());
 }
 
@@ -626,8 +647,17 @@ QString ArbitAssignments::formatMove(const Move &iMove) const
 }
 
 
+bool ArbitAssignments::isEndTurnAllowed() const
+{
+    return m_game->isLastTurn();
+}
+
+
 void ArbitAssignments::endTurn()
 {
+    if (!isEndTurnAllowed())
+        return;
+
     if (!m_game->duplicateGetMasterMove().isValid())
     {
         notifyProblem(_q("You must select a master move before ending the turn."));
@@ -660,8 +690,6 @@ void ArbitAssignments::endTurn()
 
     m_game->removeTestRound();
     m_game->arbitrationFinalizeTurn();
-    // FIXME: shouldn't be done here
-    setEnabled(!m_game->isFinished());
 
     emit endOfTurn();
 }

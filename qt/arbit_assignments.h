@@ -53,7 +53,10 @@ public:
      */
     bool selectPlayerByTable(unsigned tabNb, QString *oName);
 
-    bool hasSelectedPlayer() const;
+    bool isAssignMasterAllowed() const;
+    bool isAssignMoveAllowed() const;
+    bool isSuppressMoveAllowed() const;
+    bool isEndTurnAllowed() const;
 
 signals:
     void gameUpdated();

@@ -520,7 +520,7 @@ void ArbitrationWidget::populateResultsMenu(QMenu &iMenu, const QPoint &iPoint)
     QObject::connect(setAsMasterAction, SIGNAL(triggered()),
                      m_assignmentsWidget, SLOT(assignMasterMove()));
     iMenu.addAction(setAsMasterAction);
-    if (!move.isValid())
+    if (!m_assignmentsWidget->isAssignMasterAllowed())
         setAsMasterAction->setEnabled(false);
 
     // Action to select all the players
@@ -541,7 +541,7 @@ void ArbitrationWidget::populateResultsMenu(QMenu &iMenu, const QPoint &iPoint)
     QObject::connect(assignSelMoveAction, SIGNAL(triggered()),
                      m_assignmentsWidget, SLOT(assignSelectedMove()));
     iMenu.addAction(assignSelMoveAction);
-    if (!m_assignmentsWidget->hasSelectedPlayer())
+    if (!m_assignmentsWidget->isAssignMoveAllowed())
         assignSelMoveAction->setEnabled(false);
 }
 
