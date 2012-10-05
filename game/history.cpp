@@ -163,6 +163,13 @@ void History::addSoloPoints(int iPoints)
 }
 
 
+void History::addEndGamePoints(int iPoints)
+{
+    ASSERT(m_history.size() > 1, "Too short history");
+    m_history[m_history.size() - 2]->addEndGamePoints(iPoints);
+}
+
+
 wstring History::toString() const
 {
     wstring rs;

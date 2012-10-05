@@ -31,7 +31,7 @@ INIT_LOGGER(game, Turn);
 // constructor completely
 Turn::Turn()
     : m_playerId(0), m_warningsNb(0),
-    m_penaltyPoints(0), m_soloPoints(0)
+    m_penaltyPoints(0), m_soloPoints(0), m_endGamePoints(0)
 {
 }
 
@@ -39,7 +39,7 @@ Turn::Turn()
 Turn::Turn(unsigned int iPlayerId, const PlayedRack& iPldRack,
            const Move& iMove)
     : m_playerId(iPlayerId), m_pldrack(iPldRack), m_move(iMove),
-    m_warningsNb(0), m_penaltyPoints(0), m_soloPoints(0)
+    m_warningsNb(0), m_penaltyPoints(0), m_soloPoints(0), m_endGamePoints(0)
 {
 }
 

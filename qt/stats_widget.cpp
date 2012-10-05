@@ -90,11 +90,13 @@ void StatsWidget::refresh()
     unsigned histSize = m_game == NULL ? 0 : m_game->getHistory().getSize();
     unsigned nbPlayers = m_game == NULL ? 0 : m_game->getNbPlayers();
 
-    setModelSize(nbPlayers + 1, histSize + 9);
+    setModelSize(nbPlayers + 1, histSize + 10);
 
     // Some fields are displayed only in some cases
     const bool isArbit = m_game != NULL &&
         m_game->getParams().getMode() == GameParams::kARBITRATION;
+    const bool isFreeGame = m_game != NULL &&
+        m_game->getParams().getMode() == GameParams::kFREEGAME;
     const bool canHaveSolos = m_game != NULL &&
         m_game->getParams().getMode() == GameParams::kDUPLICATE &&
         Settings::Instance().getInt("duplicate.solo-players") <= (int)m_game->getNbPlayers();
@@ -107,8 +109,10 @@ void StatsWidget::refresh()
     for (unsigned i = 1; i <= histSize; ++i)
         setModelHeader(col++, QString("#%1").arg(i), false);
 
-    setSectionHidden(col, !isArbit && !canHaveSolos);
+    setSectionHidden(col, !isArbit && !canHaveSolos && !isFreeGame);
     setModelHeader(col++, _q("Sub-total"), false);
+    setSectionHidden(col, !isFreeGame);
+    setModelHeader(col++, _q("End game points"), false);
     setSectionHidden(col, !isArbit && !canHaveSolos);
     setModelHeader(col++, _q("Solo points"), false);
     setSectionHidden(col, !isArbit);
@@ -145,7 +149,7 @@ void StatsWidget::refresh()
         }
         setModelText(getIndex(row, col++), score, true);
         // Skip the events columns
-        col += 3;
+        col += 4;
         setModelText(getIndex(row, col++), score, true);
         // Skip the diff column
         ++col;
@@ -180,15 +184,15 @@ void StatsWidget::refresh()
         setModelText(getIndex(i + 1, col++), score, score >= gameTotal);
 
         // Events columns
-        for (int j = 0; j <= 2; ++j)
+        for (int j = 0; j <= 3; ++j)
         {
             setModelEventData(getIndex(i + 1, col++), j, player);
         }
 
         // Final score
-        score += player.getSoloPoints() + player.getPenaltyPoints();
+        score += player.getSoloPoints() + player.getPenaltyPoints() + player.getEndGamePoints();
         setModelText(getIndex(i + 1, col++), score, score >= gameTotal);
-        //ASSERT(score == player.getTotalScore(), "Invalid score computation");
+        ASSERT(score == player.getTotalScore(), "Invalid score computation");
 
         // Diff with game total
         setModelText(getIndex(i + 1, col++), score - gameTotal);
@@ -302,11 +306,13 @@ void StatsWidget::setModelEventData(const QModelIndex &iIndex,
                                     int iEvent, const Player &iPlayer)
 {
     QVariant text;
-    if (iEvent == 0 && iPlayer.getSoloPoints() != 0)
+    if (iEvent == 0 && iPlayer.getEndGamePoints() != 0)
+        text = iPlayer.getEndGamePoints();
+    else if (iEvent == 1 && iPlayer.getSoloPoints() != 0)
         text = iPlayer.getSoloPoints();
-    else if (iEvent == 1 && iPlayer.getPenaltyPoints() != 0)
+    else if (iEvent == 2 && iPlayer.getPenaltyPoints() != 0)
         text = iPlayer.getPenaltyPoints();
-    else if (iEvent == 2 && iPlayer.getWarningsNb() != 0)
+    else if (iEvent == 3 && iPlayer.getWarningsNb() != 0)
         text = iPlayer.getWarningsNb();
     setModelText(iIndex, text);
 }

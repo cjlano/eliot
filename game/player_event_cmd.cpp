@@ -47,7 +47,7 @@ void PlayerEventCmd::doExecute()
     else if (m_eventType == SOLO)
         m_player.accessHistory().addSoloPoints(m_points);
     else if (m_eventType == END_GAME)
-        m_player.addPoints(m_points);
+        m_player.accessHistory().addEndGamePoints(m_points);
     else
         ASSERT(false, "Missing case");
 }
@@ -62,7 +62,7 @@ void PlayerEventCmd::doUndo()
     else if (m_eventType == SOLO)
         m_player.accessHistory().addSoloPoints(- m_points);
     else if (m_eventType == END_GAME)
-        m_player.addPoints(- m_points);
+        m_player.accessHistory().addEndGamePoints(- m_points);
     else
         ASSERT(false, "Missing case");
 }

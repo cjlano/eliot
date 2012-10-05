@@ -127,9 +127,20 @@ int Player::getSoloPoints() const
 }
 
 
+int Player::getEndGamePoints() const
+{
+    int total = 0;
+    for (unsigned i = 0; i < m_history.getSize(); ++i)
+    {
+        total += m_history.getTurn(i).getEndGamePoints();
+    }
+    return total;
+}
+
+
 int Player::getTotalScore() const
 {
-    return getPoints() + getSoloPoints() + getPenaltyPoints();
+    return m_score + getSoloPoints() + getPenaltyPoints() + getEndGamePoints();
 }
 
 

@@ -96,6 +96,8 @@ public:
 
     void addSoloPoints(int iPoints);
 
+    void addEndGamePoints(int iPoints);
+
     /// String handling
     wstring toString() const;
 
