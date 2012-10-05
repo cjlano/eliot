@@ -63,6 +63,7 @@ HistoryWidget::HistoryWidget(QWidget *parent)
     // Create the tree view
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setRootIsDecorated(false);
+    setAllColumnsShowFocus(true);
     header()->setMinimumSectionSize(15);
 
     // Add a context menu for the results

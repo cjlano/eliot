@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>464</width>
+    <width>467</width>
     <height>386</height>
    </rect>
   </property>
@@ -77,6 +77,9 @@
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
          <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="allColumnsShowFocus">
           <bool>true</bool>
          </property>
         </widget>
@@ -173,6 +176,9 @@
          <property name="uniformRowHeights">
           <bool>true</bool>
          </property>
+         <property name="allColumnsShowFocus">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item>
@@ -237,6 +243,9 @@
          </property>
          <property name="rootIsDecorated">
           <bool>false</bool>
+         </property>
+         <property name="allColumnsShowFocus">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
