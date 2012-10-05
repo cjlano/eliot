@@ -1,9 +1,7 @@
-.cvsignore
 .bzrignore
 .bzr
 *~
 */Makefile.in
-CVS
 Makefile
 Makefile.in
 config.guess
