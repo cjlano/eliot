@@ -285,11 +285,13 @@ void TurnCmd::dropFrom(unsigned iFirstToDrop)
 wstring TurnCmd::toString() const
 {
     wostringstream oss;
-    oss << L"TurnCmd:";
     BOOST_FOREACH(Command *cmd, m_commands)
     {
-        oss << endl << L"  " << (cmd->isExecuted() ? "> " : "  " )
-            << (cmd->isAutoExecutable() ? "* " : "  ") << cmd->toString();
+        oss << endl << L"  "
+            << (cmd->isExecuted() ? L"| " : L"  " )
+            << (cmd->isAutoExecutable() ? L"* " : L"  ")
+            << (cmd->isHumanIndependent() ? L"  " : L"H ")
+            << cmd->toString();
     }
     return oss.str();
 }

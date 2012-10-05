@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #include <boost/foreach.hpp>
+#include <sstream>
 
 #include "navigation.h"
 #include "turn_cmd.h"
@@ -241,11 +242,13 @@ void Navigation::print() const
     LOG_DEBUG("=== Commands history ===");
     LOG_DEBUG("Current position at turn " << m_currTurn);
     int index = 0;
+    ostringstream oss;
     BOOST_FOREACH(const TurnCmd *c, m_turnCommands)
     {
-        LOG_DEBUG(index << " " << lfw(c->toString()));
+        oss << endl << "Turn " << index << ":" << lfw(c->toString());
         ++index;
     }
+    LOG_DEBUG(oss.str());
 #endif
 }
 
