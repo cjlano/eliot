@@ -306,7 +306,7 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
         mvwprintw(win, y + i + 1, x + 2, _("%s: %d"),
                   truncOrPad(lfw(m_game->getPlayer(i).getName()),
                              maxForScores).c_str(),
-                  m_game->getPlayer(i).getPoints());
+                  m_game->getPlayer(i).getTotalScore());
         if (m_game->getMode() != PublicGame::kTRAINING && i == currId)
             attroff(A_BOLD);
     }

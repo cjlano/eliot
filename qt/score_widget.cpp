@@ -80,7 +80,7 @@ void ScoreWidget::updateModel()
         int rowNum = m_model->rowCount();
         m_model->insertRow(rowNum);
         m_model->setData(m_model->index(rowNum, 0), qfw(p.getName()));
-        m_model->setData(m_model->index(rowNum, 1), p.getPoints());
+        m_model->setData(m_model->index(rowNum, 1), p.getTotalScore());
     }
     resizeColumnToContents(0);
     //resizeColumnToContents(1);

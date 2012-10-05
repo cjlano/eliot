@@ -196,7 +196,7 @@ void GameIO::printSearchResults(ostream &out, const Results &iResults, int num)
 
 void GameIO::printPoints(ostream &out, const PublicGame &iGame)
 {
-    out << iGame.getPlayer(0).getPoints() << endl;
+    out << iGame.getPlayer(0).getTotalScore() << endl;
 }
 
 
@@ -205,7 +205,7 @@ void GameIO::printAllPoints(ostream &out, const PublicGame &iGame)
     for (unsigned int i = 0; i < iGame.getNbPlayers(); i++)
     {
         out << "Score " << i << ": "
-            << setw(4) << iGame.getPlayer(i).getPoints() << endl;
+            << setw(4) << iGame.getPlayer(i).getTotalScore() << endl;
     }
 }
 

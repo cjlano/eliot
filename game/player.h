@@ -94,7 +94,7 @@ public:
     /// Return the total number of end game points
     int getEndGamePoints() const;
 
-    /// Return the total score of the player, including solos and penalties
+    /// Return the total score of the player, including solos, penaltiesa, ...
     int getTotalScore() const;
 
     /**************************
@@ -103,7 +103,6 @@ public:
     // Add (or remove, if iPoints is negative) points to the score
     // of the player
     void addPoints(int iPoints) { m_score += iPoints; }
-    int  getPoints() const      { return getTotalScore(); }
 
     wstring toString() const;
 
