@@ -279,10 +279,10 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
             else
             {
                 LOG_ERROR("Unsupported command: " << lfw(cmd->toString()));
+                out << indent << "<!-- FIXME: Unsupported command: " << lfw(cmd->toString()) << " -->" << endl;
                 // XXX
                 //throw SaveGameException("Unsupported command: " + lfw(cmd->toString()));
             }
-            // TODO
         }
         removeIndent(indent);
         out << indent << "</Turn>" << endl;
