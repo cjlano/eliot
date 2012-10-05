@@ -163,6 +163,10 @@ void ArbitAssignments::updatePlayersModel()
 {
     // Save the ID of the selected players
     QSet<unsigned int> playersIdSet = getSelectedPlayers();
+    // Save the currently focused player (to be able to restore the focus properly)
+    int currProxyRow = treeViewPlayers->selectionModel()->currentIndex().row();
+    QModelIndex currProxyIdx = m_proxyPlayersModel->index(currProxyRow, 0);
+    unsigned currPlayerId = m_proxyPlayersModel->data(currProxyIdx, Qt::UserRole).toUInt();
 
     m_playersModel->removeRows(0, m_playersModel->rowCount());
     if (m_game == NULL)
@@ -220,8 +224,14 @@ void ArbitAssignments::updatePlayersModel()
         if (playersIdSet.contains(player.getId()))
         {
             LOG_DEBUG("selecting player " << player.getId());
-            treeViewPlayers->selectionModel()->select(m_playersModel->index(rowNum, 0),
-                                                      QItemSelectionModel::Select | QItemSelectionModel::Rows);
+            QModelIndex proxyIndex = m_proxyPlayersModel->mapFromSource(m_playersModel->index(rowNum, 0));
+            treeViewPlayers->selectionModel()->select(proxyIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
+        }
+        // Restore the focus
+        if (player.getId() == currPlayerId)
+        {
+            QModelIndex proxyIndex = m_proxyPlayersModel->mapFromSource(m_playersModel->index(rowNum, 0));
+            treeViewPlayers->selectionModel()->setCurrentIndex(proxyIndex, QItemSelectionModel::Current | QItemSelectionModel::Rows);
         }
     }
 }
