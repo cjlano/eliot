@@ -31,6 +31,8 @@ chdir("$root_path/test");
 my $driver_file = "driver";
 
 
+# Temporary directory
+my $tmp_dir = "/tmp";
 
 # File extensions
 my $input_ext = ".input";
@@ -140,8 +142,14 @@ foreach my $scenario (@scenarios_to_play)
         next;
     }
 
+    # Create temporary copies of the files, without comments
+    my $tmp_ref_file = "$tmp_dir/eliot_$ref_file";
+    my $tmp_run_file = "$tmp_dir/eliot_$run_file";
+    system("cat $ref_file | egrep -v '^#' | egrep -v '^\\w+> #' > $tmp_ref_file");
+    system("cat $run_file | egrep -v '^#' | egrep -v '^\\w+> #' > $tmp_run_file");
+
     # Is the output file different from the reference file?
-    my $diff = `diff $ref_file $run_file`;
+    my $diff = `diff $tmp_ref_file $tmp_run_file`;
     if ($diff ne "")
     {
         print "--> Error: found differences:\n";
