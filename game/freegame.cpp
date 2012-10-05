@@ -309,6 +309,8 @@ int FreeGame::pass(const wstring &iToChange)
     if (res != 0)
         return res;
 
+    ASSERT(player.isHuman(), "AI tried to pass using the wrong method");
+
     Move move(iToChange);
     // End the player's turn
     recordPlayerMove(move, player);
