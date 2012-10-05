@@ -212,6 +212,12 @@ void TrainingWidget::updateModel()
     // Clear the status bar when there is no search result
     if (m_model->rowCount() == 0)
         emit notifyInfo("");
+    else
+    {
+        // Otherwise, select the first line
+        treeViewResults->selectionModel()->select(m_model->index(0, 0),
+                                                  QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
+    }
 
     if (m_autoResizeColumns)
     {
@@ -305,6 +311,7 @@ void TrainingWidget::on_pushButtonRack_clicked()
         // FIXME: first parameter is hardcoded
         m_game->trainingSetRackRandom(true, PublicGame::kRACK_ALL);
         emit gameUpdated();
+        lineEditRack->setFocus();
     }
     catch (std::exception &e)
     {
@@ -321,6 +328,7 @@ void TrainingWidget::on_pushButtonComplement_clicked()
         // FIXME: first parameter is hardcoded
         m_game->trainingSetRackRandom(true, PublicGame::kRACK_NEW);
         emit gameUpdated();
+        lineEditRack->setFocus();
     }
     catch (std::exception &e)
     {
@@ -336,6 +344,7 @@ void TrainingWidget::on_pushButtonSearch_clicked()
     m_game->trainingSearch();
     emit notifyInfo(_q("Search done"));
     emit gameUpdated();
+    treeViewResults->setFocus();
 }
 
 
@@ -345,11 +354,11 @@ void TrainingWidget::on_pushButtonPlaySelected_clicked()
     if (indexList.empty())
         return;
     // Forward the work to another slot
-    on_treeViewResults_doubleClicked(indexList.front());
+    on_treeViewResults_activated(indexList.front());
 }
 
 
-void TrainingWidget::on_treeViewResults_doubleClicked(const QModelIndex &iIndex)
+void TrainingWidget::on_treeViewResults_activated(const QModelIndex &iIndex)
 {
     if (!iIndex.isValid())
         return;
@@ -358,6 +367,7 @@ void TrainingWidget::on_treeViewResults_doubleClicked(const QModelIndex &iIndex)
     const QModelIndex &index = m_model->index(iIndex.row(), HIDDEN_COLUMN);
     m_game->trainingPlayResult(m_model->data(index).toUInt());
     emit gameUpdated();
+    lineEditRack->setFocus();
 }
 
 

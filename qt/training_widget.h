@@ -69,7 +69,7 @@ private slots:
     void on_pushButtonComplement_clicked();
     void on_pushButtonSearch_clicked();
     void on_pushButtonPlaySelected_clicked();
-    void on_treeViewResults_doubleClicked(const QModelIndex &iIndex);
+    void on_treeViewResults_activated(const QModelIndex &iIndex);
 
 private:
     /// Encapsulated training game, can be NULL
