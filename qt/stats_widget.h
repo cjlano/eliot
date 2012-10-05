@@ -46,6 +46,9 @@ public slots:
     void setGame(const PublicGame *iGame = NULL);
     void refresh();
 
+private slots:
+    void lockSizesChanged(bool checked);
+
 private:
     /// Encapsulated game, can be NULL
     const PublicGame *m_game;
@@ -55,6 +58,9 @@ private:
 
     /// Table to display the model data
     QTableView *m_table;
+
+    /// Indicate whether the columns should be resized automatically
+    bool m_autoResizeColumns;
 
     static const QColor WarningBrush;
     static const QColor PenaltyBrush;

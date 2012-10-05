@@ -23,6 +23,7 @@
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QLabel>
+#include <QtGui/QAction>
 #include <QtCore/QLocale>
 
 #include "stats_widget.h"
@@ -52,7 +53,7 @@ const bool HORIZONTAL = false;
 
 
 StatsWidget::StatsWidget(QWidget *parent, const PublicGame *iGame)
-    : QWidget(parent), m_game(iGame)
+    : QWidget(parent), m_game(iGame), m_autoResizeColumns(true)
 {
     // Layout
     setLayout(new QVBoxLayout);
@@ -72,6 +73,15 @@ StatsWidget::StatsWidget(QWidget *parent, const PublicGame *iGame)
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
+    // Add a context menu to the tree header
+    QAction *lockSizesAction = new QAction(_q("Lock columns sizes"), this);
+    lockSizesAction->setCheckable(true);
+    lockSizesAction->setStatusTip(_q("Disable auto-resizing of the columns"));
+    m_table->horizontalHeader()->addAction(lockSizesAction);
+    m_table->horizontalHeader()->setContextMenuPolicy(Qt::ActionsContextMenu);
+    QObject::connect(lockSizesAction, SIGNAL(toggled(bool)),
+                     this, SLOT(lockSizesChanged(bool)));
+
     refresh();
 }
 
@@ -85,7 +95,7 @@ void StatsWidget::setGame(const PublicGame *iGame)
 
 void StatsWidget::refresh()
 {
-    m_model->clear();
+    m_model->removeRows(0, m_model->rowCount());
 
     unsigned histSize = m_game == NULL ? 0 : m_game->getHistory().getSize();
     unsigned nbPlayers = m_game == NULL ? 0 : m_game->getNbPlayers();
@@ -214,7 +224,8 @@ void StatsWidget::refresh()
 
     // Resize
     m_table->resizeRowsToContents();
-    m_table->resizeColumnsToContents();
+    if (m_autoResizeColumns)
+        m_table->resizeColumnsToContents();
 }
 
 
@@ -371,6 +382,12 @@ QString StatsWidget::getTooltip(const Turn &iTurn, const Turn &iGameTurn) const
         tooltip += "\n" + _q("Penalties: %1").arg(iTurn.getPenaltyPoints());
     }
     return tooltip;
+}
+
+
+void StatsWidget::lockSizesChanged(bool checked)
+{
+    m_autoResizeColumns = !checked;
 }
 
 
