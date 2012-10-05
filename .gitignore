@@ -75,7 +75,7 @@ po/insert-header.sin
 po/quot.sed
 po/remove-potcdate.sin
 test/*.save
-test/*.run
+test/*/*.run
 utils/eliotcurses
 utils/eliottxt
 linux

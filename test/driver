@@ -15,106 +15,106 @@
 ################
 
 # Check various words in the dictionary
-training_dict       0  # randseed unused
+training/dict       0  # randseed unused
 # Display the tiles remaining in the bag
-training_bag        0  # randseed unused
+training/bag        0  # randseed unused
 # Enter a rack, then display all the possibilities
-training_search     0  # randseed unused
+training/search     0  # randseed unused
 # Display the benjamins for several words
-training_benj       0  # randseed unused
+training/benj       0  # randseed unused
 # Display the "raccords" for several words
-training_racc       0  # randseed unused
+training/racc       0  # randseed unused
 # Test the 7 + 1 feature
-training_7pl1       0  # randseed unused
+training/7pl1       0  # randseed unused
 # Several ways of getting a rack and playing a word
-training_play       0  # randseed unused
+training/play       0  # randseed unused
 # Joker problem on game search
-training_rosace     0
+training/rosace     0
 # Navigation in the game history
-training_navigation 0
+training/navigation 0
 # Joker game
-training_joker_variant 12
+training/joker_variant 12
 # Explosive game
-training_explosive_variant 13
+training/explosive_variant 13
 # 7 among 8 game
-training_7among8_variant 18
+training/7among8_variant 18
 # Save games handling
-training_load_save  0  # randseed unused
+training/load_save  0  # randseed unused
 
 # Board cross off by one score
-training_cross      0
+training/cross      0
 # Board cross backward setAny
-training_cross2     0
+training/cross2     0
 # Board cross backward joker
-training_cross3     0
+training/cross3     0
 # Search with best word having a joker on the cross-set
-training_cross4     0
+training/cross4     0
 
 #################
 # Duplicate mode
 #################
 
 # 2 AI players
-duplicate_2_ai      5
+duplicate/2_ai      5
 # 2 human players, one IA, with manual change of human player
-duplicate_humans_ai 6
+duplicate/humans_ai 6
 # Only one player
-duplicate_1_player  8
+duplicate/1_player  8
 # One complete turn without a valid move
-duplicate_invalid_turn 9
+duplicate/invalid_turn 9
 # Turn where the only valid move has 0 point
-duplicate_no_point 68 # For 2 jokers in the rack
+duplicate/no_point 68 # For 2 jokers in the rack
 # Navigation in the game history
-duplicate_navigation 11
+duplicate/navigation 11
 # Joker game
-duplicate_joker_variant 14
+duplicate/joker_variant 14
 # Explosive game
-duplicate_explosive_variant 15
+duplicate/explosive_variant 15
 # 7 among 8 game
-duplicate_7among8_variant 19
+duplicate/7among8_variant 19
 # Save games handling
-duplicate_load_save 22
+duplicate/load_save 22
 
 #################
 # Arbitration mode
 #################
 
 # Save games handling
-arbitration_load_save 0  # randseed unused
+arbitration/load_save 0  # randseed unused
 
 #################
 # Free game mode
 #################
 
 # 1 human plays and/or passes
-freegame_play       7
+freegame/play       7
 # The human player always passes, letting the AI player do what it wants
-freegame_passing    1
+freegame/passing    1
 # 2 human players, changing letters a lot
-freegame_change     3
+freegame/change     3
 # Three AI players
-freegame_3_ai       2
+freegame/3_ai       2
 # Navigation in the game history
-freegame_navigation 10
+freegame/navigation 10
 # Joker game
-freegame_joker_variant 16
+freegame/joker_variant 16
 # Explosive game
-freegame_explosive_variant 17
+freegame/explosive_variant 17
 # 7 among 8 game
-freegame_7among8_variant 20
+freegame/7among8_variant 20
 # Save games handling
-freegame_load_save  23
+freegame/load_save  23
 
 ##############
 # Load / Save
 ##############
 
 # save and load a game combining 2 variants
-load_combi_variants 21
+various/load_combi_variants 21
 
 #####################
 # Regular Expression
 #####################
 
 # test some patterns
-regexp              0
+various/regexp              0

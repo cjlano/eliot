@@ -32,7 +32,7 @@ my $driver_file = "driver";
 
 
 # Temporary directory
-my $tmp_dir = "/tmp";
+my $tmp_dir = "/tmp/eliot";
 
 # File extensions
 my $input_ext = ".input";
@@ -81,7 +81,7 @@ while(<DRIVER>)
     chomp;
     my $line = $_;
     $line =~ s/#.*//;
-    if ($line =~ /^\s*(\w+)\s+(\d+)\s*$/)
+    if ($line =~ /^\s*(\w+\/\w+)\s+(\d+)\s*$/)
     {
         $scenario_map{$1} = $2;
         push(@all_scenarios, $1);
@@ -143,8 +143,9 @@ foreach my $scenario (@scenarios_to_play)
     }
 
     # Create temporary copies of the files, without comments
-    my $tmp_ref_file = "$tmp_dir/eliot_$ref_file";
-    my $tmp_run_file = "$tmp_dir/eliot_$run_file";
+    my $tmp_ref_file = "$tmp_dir/$ref_file";
+    my $tmp_run_file = "$tmp_dir/$run_file";
+    system("mkdir -p `dirname $tmp_ref_file`");
     system("cat $ref_file | egrep -v '^#' | egrep -v '^\\w+> #' > $tmp_ref_file");
     system("cat $run_file | egrep -v '^#' | egrep -v '^\\w+> #' > $tmp_run_file");
 
