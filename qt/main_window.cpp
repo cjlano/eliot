@@ -734,7 +734,7 @@ void MainWindow::createMenu()
 
     QMenu *menuHelp = new QMenu(m_ui.menubar);
     m_ui.menubar->addAction(menuHelp->menuAction());
-    menuHelp->setTitle(_q("Hel&p"));
+    menuHelp->setTitle(_q("He&lp"));
     addMenuAction(menuHelp, _q("&About..."), QString(""),
                   _q("About Eliot"), SLOT(onHelpAbout()),
                   false, QIcon(":/images/info_16px.png"));
