@@ -81,6 +81,7 @@ private slots:
     void populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint);
     void assignTopMove();
     void suppressMove();
+    void addRemoveSolo();
     void addRemoveWarning();
     void addRemovePenalty();
     void endTurn();

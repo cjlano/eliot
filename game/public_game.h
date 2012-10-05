@@ -268,6 +268,9 @@ public:
     Move arbitrationCheckWord(const wstring &iWord,
                               const wstring &iCoords) const;
 
+    void arbitrationToggleSolo(unsigned iPlayerId);
+    int arbitrationGetSolo(unsigned iPlayerId) const;
+
     void arbitrationToggleWarning(unsigned iPlayerId);
     bool arbitrationHasWarning(unsigned iPlayerId) const;
 

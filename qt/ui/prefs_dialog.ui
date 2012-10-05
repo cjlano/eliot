@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>474</width>
-    <height>655</height>
+    <height>622</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -363,7 +363,7 @@
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout_3">
-            <item row="2" column="1">
+            <item row="3" column="1">
              <widget class="QSpinBox" name="spinBoxArbitWarnLimit">
               <property name="value">
                <number>3</number>
@@ -380,22 +380,22 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
+            <item row="2" column="0">
              <widget class="QLabel" name="label_10">
               <property name="text">
-               <string>_(&quot;Default penalty value:&quot;)</string>
+               <string>_(&quot;Penalty value:&quot;)</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
+            <item row="3" column="0">
              <widget class="QLabel" name="label_6">
               <property name="text">
                <string>_(&quot;Warnings limit:&quot;)</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="1">
-             <widget class="QSpinBox" name="spinBoxArbitDefPenalty">
+            <item row="2" column="1">
+             <widget class="QSpinBox" name="spinBoxArbitPenaltyValue">
               <property name="toolTip">
                <string>_(&quot;Default number of points for a penalty&quot;)</string>
               </property>
@@ -404,13 +404,6 @@
               </property>
               <property name="value">
                <number>5</number>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_9">
-              <property name="text">
-               <string>_(&quot;Search results limit:&quot;)</string>
               </property>
              </widget>
             </item>
@@ -427,37 +420,27 @@
               </property>
              </spacer>
             </item>
-            <item row="4" column="1">
-             <widget class="QSpinBox" name="spinBoxArbitSoloValue">
-              <property name="toolTip">
-               <string>_(&quot;Value of the solo bonus. Set it to 0 if you don't want solo bonus&quot;)</string>
-              </property>
-              <property name="value">
-               <number>10</number>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>_(&quot;Search results limit:&quot;)</string>
               </property>
              </widget>
             </item>
-            <item row="4" column="0">
+            <item row="1" column="0">
              <widget class="QLabel" name="label_12">
               <property name="text">
                <string>_(&quot;Solo value:&quot;)</string>
               </property>
              </widget>
             </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_11">
-              <property name="text">
-               <string>_(&quot;Min. players for a solo:&quot;)</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QSpinBox" name="spinBoxArbitSoloPlayers">
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="spinBoxArbitSoloValue">
               <property name="toolTip">
-               <string>_(&quot;Minimum number of players needed to take into account the solo bonus&quot;)</string>
+               <string>_(&quot;Value of the solo bonus. Set it to 0 if you don't want solo bonus&quot;)</string>
               </property>
               <property name="value">
-               <number>16</number>
+               <number>10</number>
               </property>
              </widget>
             </item>
@@ -636,7 +619,7 @@
   <tabstop>checkBoxArbitFillRack</tabstop>
   <tabstop>checkBoxArbitLink7P1</tabstop>
   <tabstop>spinBoxArbitSearchLimit</tabstop>
-  <tabstop>spinBoxArbitDefPenalty</tabstop>
+  <tabstop>spinBoxArbitPenaltyValue</tabstop>
   <tabstop>checkBoxConfoStartGame</tabstop>
   <tabstop>checkBoxConfoLoadGame</tabstop>
   <tabstop>checkBoxConfoLoadDic</tabstop>

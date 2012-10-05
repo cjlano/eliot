@@ -109,7 +109,7 @@ int Player::getPenaltyPoints() const
     if ((int)warningsNb > limit)
     {
         int penaltiesPoints =
-            Settings::Instance().getInt("arbitration.default-penalty");
+            Settings::Instance().getInt("arbitration.penalty-value");
         total -= penaltiesPoints * (warningsNb - limit);
     }
     return total;

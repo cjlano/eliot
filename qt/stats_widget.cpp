@@ -108,12 +108,12 @@ void StatsWidget::refresh()
 
     setSectionHidden(col, !isArbit && !canHaveSolos);
     setModelHeader(col++, _q("Sub-total"), false);
-    setSectionHidden(col, !isArbit);
-    setModelHeader(col++, _q("Warnings"), false);
-    setSectionHidden(col, !isArbit);
-    setModelHeader(col++, _q("Penalties"), false);
     setSectionHidden(col, !isArbit && !canHaveSolos);
     setModelHeader(col++, _q("Solo points"), false);
+    setSectionHidden(col, !isArbit);
+    setModelHeader(col++, _q("Penalties"), false);
+    setSectionHidden(col, !isArbit);
+    setModelHeader(col++, _q("Warnings"), false);
 
     setModelHeader(col++, _q("Total"), false);
     setModelHeader(col++, _q("Diff"), false);
@@ -277,12 +277,12 @@ void StatsWidget::setModelTurnData(const QModelIndex &iIndex,
     }
 
     // Set the background c constolor
-    if (iTurn.getPenaltyPoints() != 0)
+    if (iTurn.getSoloPoints() != 0)
+        m_model->setData(iIndex, SoloBrush, Qt::BackgroundRole);
+    else if (iTurn.getPenaltyPoints() != 0)
         m_model->setData(iIndex, PenaltyBrush, Qt::BackgroundRole);
     else if (iTurn.getWarningsNb() != 0)
         m_model->setData(iIndex, WarningBrush, Qt::BackgroundRole);
-    else if (iTurn.getSoloPoints() != 0)
-        m_model->setData(iIndex, SoloBrush, Qt::BackgroundRole);
     else if (iTurn.getMove().isNull())
         m_model->setData(iIndex, PassBrush, Qt::BackgroundRole);
 
@@ -300,12 +300,12 @@ void StatsWidget::setModelEventData(const QModelIndex &iIndex,
                                     int iEvent, const Player &iPlayer)
 {
     QVariant text;
-    if (iEvent == 0 && iPlayer.getWarningsNb() != 0)
-        text = iPlayer.getWarningsNb();
+    if (iEvent == 0 && iPlayer.getSoloPoints() != 0)
+        text = iPlayer.getSoloPoints();
     else if (iEvent == 1 && iPlayer.getPenaltyPoints() != 0)
         text = iPlayer.getPenaltyPoints();
-    else if (iEvent == 2 && iPlayer.getSoloPoints() != 0)
-        text = iPlayer.getSoloPoints();
+    else if (iEvent == 2 && iPlayer.getWarningsNb() != 0)
+        text = iPlayer.getWarningsNb();
     setModelText(iIndex, text);
 }
 
@@ -352,6 +352,10 @@ QString StatsWidget::getTooltip(const Turn &iTurn, const Turn &iGameTurn) const
             tooltip += "\n" + scoreString.arg(score - gameScore);
     }
 
+    if (iTurn.getSoloPoints())
+    {
+        tooltip += "\n" + _q("Solo: %1").arg(iTurn.getSoloPoints());
+    }
     if (iTurn.getWarningsNb())
     {
         tooltip += "\n" + _q("Warnings: %1").arg(iTurn.getWarningsNb());
@@ -359,10 +363,6 @@ QString StatsWidget::getTooltip(const Turn &iTurn, const Turn &iGameTurn) const
     if (iTurn.getPenaltyPoints())
     {
         tooltip += "\n" + _q("Penalties: %1").arg(iTurn.getPenaltyPoints());
-    }
-    if (iTurn.getSoloPoints())
-    {
-        tooltip += "\n" + _q("Solo: %1").arg(iTurn.getSoloPoints());
     }
     return tooltip;
 }

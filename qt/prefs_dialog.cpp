@@ -135,9 +135,8 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         bool linkArbit7P1 = qs.value(kARBIT_LINK_7P1, false).toBool();
         checkBoxArbitLink7P1->setChecked(linkArbit7P1);
         spinBoxArbitSearchLimit->setValue(Settings::Instance().getInt("arbitration.search-limit"));
-        spinBoxArbitDefPenalty->setValue(Settings::Instance().getInt("arbitration.default-penalty"));
+        spinBoxArbitPenaltyValue->setValue(Settings::Instance().getInt("arbitration.penalty-value"));
         spinBoxArbitWarnLimit->setValue(Settings::Instance().getInt("arbitration.warnings-limit"));
-        spinBoxArbitSoloPlayers->setValue(Settings::Instance().getInt("arbitration.solo-players"));
         spinBoxArbitSoloValue->setValue(Settings::Instance().getInt("arbitration.solo-value"));
 
         // Confirmations
@@ -255,12 +254,10 @@ void PrefsDialog::updateSettings()
         }
         Settings::Instance().setInt("arbitration.search-limit",
                                     spinBoxArbitSearchLimit->value());
-        Settings::Instance().setInt("arbitration.default-penalty",
-                                    spinBoxArbitDefPenalty->value());
+        Settings::Instance().setInt("arbitration.penalty-value",
+                                    spinBoxArbitPenaltyValue->value());
         Settings::Instance().setInt("arbitration.warnings-limit",
                                     spinBoxArbitWarnLimit->value());
-        Settings::Instance().setInt("arbitration.solo-players",
-                                    spinBoxArbitSoloPlayers->value());
         Settings::Instance().setInt("arbitration.solo-value",
                                     spinBoxArbitSoloValue->value());
 

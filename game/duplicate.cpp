@@ -288,35 +288,37 @@ void Duplicate::endTurn()
         }
     }
 
-    // Handle solo bonus
-    // First check whether there are enough players in the game for the
-    // bonus to apply
-    unsigned int minNbPlayers = Settings::Instance().getInt(
-            isArbitrationGame() ? "arbitration.solo-players" : "duplicate.solo-players");
-    // Find the player with the best score
-    Player *bestPlayer = findBestPlayer();
-    if (getNPlayers() >= minNbPlayers && bestPlayer != NULL)
+    // Handle solo bonus (not in arbitration mode, because we may not have all
+    // the moves to decide whether a solo can be attributed).
+    if (!isArbitrationGame())
     {
-        int bestScore = bestPlayer->getLastMove().getScore();
-        // Find whether other players than imax have the same score
-        bool otherWithSameScore = false;
-        BOOST_FOREACH(const Player *player, m_players)
+        // First check whether there are enough players in the game for the
+        // bonus to apply
+        unsigned int minNbPlayers = Settings::Instance().getInt("duplicate.solo-players");
+        // Find the player with the best score
+        Player *bestPlayer = findBestPlayer();
+        if (getNPlayers() >= minNbPlayers && bestPlayer != NULL)
         {
-            if (player != bestPlayer &&
-                player->getLastMove().getScore() >= bestScore &&
-                player->getLastMove().isValid())
+            int bestScore = bestPlayer->getLastMove().getScore();
+            // Find whether other players than imax have the same score
+            bool otherWithSameScore = false;
+            BOOST_FOREACH(const Player *player, m_players)
             {
-                otherWithSameScore = true;
-                break;
+                if (player != bestPlayer &&
+                    player->getLastMove().getScore() >= bestScore &&
+                    player->getLastMove().isValid())
+                {
+                    otherWithSameScore = true;
+                    break;
+                }
             }
-        }
-        if (!otherWithSameScore)
-        {
-            // Give the bonus to the player of the best move
-            int bonus = Settings::Instance().getInt(
-                    isArbitrationGame() ? "arbitration.solo-value" : "duplicate.solo-value");
-            Command *pCmd = new PlayerEventCmd(*bestPlayer, PlayerEventCmd::SOLO, bonus);
-            accessNavigation().addAndExecute(pCmd);
+            if (!otherWithSameScore)
+            {
+                // Give the bonus to the player of the best move
+                int bonus = Settings::Instance().getInt("duplicate.solo-value");
+                Command *pCmd = new PlayerEventCmd(*bestPlayer, PlayerEventCmd::SOLO, bonus);
+                accessNavigation().addAndExecute(pCmd);
+            }
         }
     }
 

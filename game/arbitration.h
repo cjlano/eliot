@@ -56,6 +56,10 @@ public:
 
     Move checkWord(const wstring &iWord, const wstring &iCoords) const;
 
+    void setSolo(unsigned iPlayerId, int iPoints = 0);
+    void removeSolo(unsigned iPlayerId);
+    int getSolo(unsigned iPlayerId) const;
+
     void addWarning(unsigned iPlayerId);
     void removeWarning(unsigned iPlayerId);
     bool hasWarning(unsigned iPlayerId) const;

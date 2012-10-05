@@ -236,17 +236,14 @@ Settings::Settings()
     // Number of search results kept in a search
     arbitration.add("search-limit", Setting::TypeInt) = 100;
 
+    // Number of points granted for a solo (10 is the ODS value)
+    arbitration.add("solo-value", Setting::TypeInt) = 10;
+
     // Default value of a penalty
-    arbitration.add("default-penalty", Setting::TypeInt) = 5;
+    arbitration.add("penalty-value", Setting::TypeInt) = 5;
 
     // Maximum number of warnings before getting penalties
     arbitration.add("warnings-limit", Setting::TypeInt) = 3;
-
-    // Minimum number of players in an arbitration game needed to apply a "solo" bonus
-    // (16 is the ODS value)
-    arbitration.add("solo-players", Setting::TypeInt) = 16;
-    // Number of points granted for a solo (10 is the ODS value)
-    arbitration.add("solo-value", Setting::TypeInt) = 10;
 
     // Try to read the values from the configuration file
     try
@@ -263,10 +260,9 @@ Settings::Settings()
         copySetting<bool>(tmpConf, *m_conf, "freegame.reject-invalid");
         copySetting<bool>(tmpConf, *m_conf, "arbitration.fill-rack");
         copySetting<int>(tmpConf, *m_conf, "arbitration.search-limit");
-        copySetting<int>(tmpConf, *m_conf, "arbitration.default-penalty");
-        copySetting<int>(tmpConf, *m_conf, "arbitration.warnings-limit");
-        copySetting<int>(tmpConf, *m_conf, "arbitration.solo-players");
         copySetting<int>(tmpConf, *m_conf, "arbitration.solo-value");
+        copySetting<int>(tmpConf, *m_conf, "arbitration.penalty-value");
+        copySetting<int>(tmpConf, *m_conf, "arbitration.warnings-limit");
     }
     catch (...)
     {
@@ -351,7 +347,9 @@ int Settings::getInt(const string &iName) const
         return 10;
     else if (iName == "arbitration.search-limit")
         return 100;
-    else if (iName == "arbitration.default-penalty")
+    else if (iName == "arbitration.solo-value")
+        return 5;
+    else if (iName == "arbitration.penalty-value")
         return 5;
     else if (iName == "arbitration.warnings-limit")
         return 3;

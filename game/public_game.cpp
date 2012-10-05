@@ -284,6 +284,22 @@ Move PublicGame::arbitrationCheckWord(const wstring &iWord,
 }
 
 
+void PublicGame::arbitrationToggleSolo(unsigned iPlayerId)
+{
+    Arbitration &game = getTypedGame<Arbitration>(m_game);
+    if (game.getSolo(iPlayerId) != 0)
+        game.removeSolo(iPlayerId);
+    else
+        game.setSolo(iPlayerId);
+}
+
+
+int PublicGame::arbitrationGetSolo(unsigned iPlayerId) const
+{
+    return getTypedGame<Arbitration>(m_game).getSolo(iPlayerId);
+}
+
+
 void PublicGame::arbitrationToggleWarning(unsigned iPlayerId)
 {
     Arbitration &game = getTypedGame<Arbitration>(m_game);

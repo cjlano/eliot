@@ -109,6 +109,51 @@ struct MatchingPlayerAndEventType : public unary_function<PlayerEventCmd, bool>
 };
 
 
+void Arbitration::setSolo(unsigned iPlayerId, int iPoints)
+{
+    ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
+    ASSERT(iPoints >= 0, "Expected a positive value for the solo");
+
+    if (iPoints == 0)
+    {
+        // Retrieve the default value of the solo
+        iPoints = Settings::Instance().getInt("arbitration.solo-value");
+    }
+    LOG_INFO("Giving a solo of " << iPoints << " to player " << iPlayerId);
+
+    // If an existing solo exists, get rid of it
+    const PlayerEventCmd *cmd = getPlayerEvent(iPlayerId, PlayerEventCmd::SOLO);
+    if (cmd != 0)
+    {
+        accessNavigation().dropCommand(*cmd);
+    }
+
+    Command *pCmd = new PlayerEventCmd(*m_players[iPlayerId],
+                                       PlayerEventCmd::SOLO, iPoints);
+    accessNavigation().insertCommand(pCmd);
+}
+
+
+void Arbitration::removeSolo(unsigned iPlayerId)
+{
+    ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
+    const PlayerEventCmd *cmd = getPlayerEvent(iPlayerId, PlayerEventCmd::SOLO);
+    ASSERT(cmd != 0, "No matching PlayerEventCmd found");
+
+    accessNavigation().dropCommand(*cmd);
+}
+
+
+int Arbitration::getSolo(unsigned iPlayerId) const
+{
+    ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
+    const PlayerEventCmd *cmd = getPlayerEvent(iPlayerId, PlayerEventCmd::SOLO);
+    if (cmd == 0)
+        return 0;
+    return cmd->getPoints();
+}
+
+
 void Arbitration::addWarning(unsigned iPlayerId)
 {
     ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
@@ -144,7 +189,7 @@ void Arbitration::addPenalty(unsigned iPlayerId, int iPoints)
     if (iPoints == 0)
     {
         // Retrieve the default value of the penalty
-        iPoints = Settings::Instance().getInt("arbitration.default-penalty");
+        iPoints = Settings::Instance().getInt("arbitration.penalty-value");
 
         // By convention, use negative values to indicate a penalty
         iPoints = -iPoints;

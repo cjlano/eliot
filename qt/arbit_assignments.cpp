@@ -78,6 +78,11 @@ ArbitAssignments::ArbitAssignments(QWidget *parent, PublicGame *iGame)
                      this, SLOT(assignTopMove()));
     treeViewPlayers->installEventFilter(filter);
 
+    filter = new KeyEventFilter(this, Qt::Key_S);
+    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
+                     this, SLOT(addRemoveSolo()));
+    treeViewPlayers->installEventFilter(filter);
+
     filter = new KeyEventFilter(this, Qt::Key_W);
     QObject::connect(filter, SIGNAL(keyPressed(int, int)),
                      this, SLOT(addRemoveWarning()));
@@ -271,7 +276,15 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
                      this, SLOT(assignTopMove()));
     iMenu.addAction(assignTopMoveAction);
 
-    // Action to warn (or "unwarn") players
+    // Action to give or remove a solo to players
+    QAction *soloAction = new QAction(_q("Give (or remove) a solo"), this);
+    soloAction->setStatusTip(_q("Give a solo to the selected player, or remove it if (s)he already has one"));
+    soloAction->setShortcut(Qt::Key_S);
+    QObject::connect(soloAction, SIGNAL(triggered()),
+                     this, SLOT(addRemoveSolo()));
+    iMenu.addAction(soloAction);
+
+    // Action to give or remove a warning to players
     QAction *warningAction = new QAction(_q("Give (or remove) a warning"), this);
     warningAction->setStatusTip(_q("Give a warning to the selected player(s), or remove it if they already have one"));
     warningAction->setShortcut(Qt::Key_W);
@@ -279,9 +292,9 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
                      this, SLOT(addRemoveWarning()));
     iMenu.addAction(warningAction);
 
-    // Action to give a penalty to players
-    QAction *penaltyAction = new QAction(_q("Give a penalty"), this);
-    penaltyAction->setStatusTip(_q("Give a penalty to the selected player(s)"));
+    // Action to give or remove a penalty to players
+    QAction *penaltyAction = new QAction(_q("Give (or remove) a penalty"), this);
+    penaltyAction->setStatusTip(_q("Give a penalty to the selected player(s), or remove it if they already have one"));
     penaltyAction->setShortcut(Qt::Key_P);
     QObject::connect(penaltyAction, SIGNAL(triggered()),
                      this, SLOT(addRemovePenalty()));
@@ -592,6 +605,21 @@ void ArbitAssignments::helperAssignMove(const Move &iMove)
         m_game->arbitrationAssign(id, iMove);
     }
     emit notifyInfo(_q("Move assigned to player(s)"));
+    emit gameUpdated();
+}
+
+
+void ArbitAssignments::addRemoveSolo()
+{
+    QSet<unsigned int> playersIdSet = getSelectedPlayers();
+    // Only one player can have a solo
+    if (playersIdSet.size() != 1)
+        return;
+
+    BOOST_FOREACH(unsigned int id, playersIdSet)
+    {
+        m_game->arbitrationToggleSolo(id);
+    }
     emit gameUpdated();
 }
 
