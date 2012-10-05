@@ -36,7 +36,6 @@
 #include "game_move_cmd.h"
 #include "player_rack_cmd.h"
 #include "player_move_cmd.h"
-#include "player_points_cmd.h"
 #include "player_event_cmd.h"
 #include "master_move_cmd.h"
 #include "dic.h"
@@ -220,13 +219,6 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
                     << toUtf8(rackCmd->getRack().toString())
                     << "</PlayerRack>" << endl;
             }
-            else if (dynamic_cast<const PlayerPointsCmd*>(cmd))
-            {
-                const PlayerPointsCmd *pointsCmd = static_cast<const PlayerPointsCmd*>(cmd);
-                unsigned int id = pointsCmd->getPlayer().getId() + 1;
-                out << indent << "<PlayerPoints playerid=\"" << id << "\">"
-                    << pointsCmd->getPoints() << "</PlayerPoints>" << endl;
-            }
             else if (dynamic_cast<const PlayerMoveCmd*>(cmd))
             {
                 const PlayerMoveCmd *moveCmd = static_cast<const PlayerMoveCmd*>(cmd);
@@ -271,6 +263,12 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
                 else if (eventCmd->getEventType() == PlayerEventCmd::SOLO)
                 {
                     out << indent << "<Solo playerid=\"" << id
+                        << "\" points=\"" << value << "\" />" << endl;
+                }
+                // End game bonuses (freegame mode)
+                else if (eventCmd->getEventType() == PlayerEventCmd::END_GAME)
+                {
+                    out << indent << "<EndGame playerid=\"" << id
                         << "\" points=\"" << value << "\" />" << endl;
                 }
                 else

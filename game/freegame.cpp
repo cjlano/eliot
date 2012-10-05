@@ -33,7 +33,7 @@
 #include "pldrack.h"
 #include "results.h"
 #include "player.h"
-#include "player_points_cmd.h"
+#include "player_event_cmd.h"
 #include "player_move_cmd.h"
 #include "player_rack_cmd.h"
 #include "game_move_cmd.h"
@@ -229,9 +229,10 @@ void FreeGame::endGame()
     // For case 2, we need both to detect a blocked situation (not easy...) and
     // to handle it in the endGame() method (very easy).
 
-    /* Add the points of the remaining tiles to the score of the current
-     * player (i.e. the first player with an empty rack), and remove them
-     * from the score of the players who still have tiles */
+    // Add the points of the remaining tiles to the score of the current
+    // player (i.e. the first player with an empty rack), and remove them
+    // from the score of the players who still have tiles
+    int addedPoints = 0;
     for (unsigned int i = 0; i < getNPlayers(); i++)
     {
         if (i != m_currPlayer)
@@ -243,14 +244,17 @@ void FreeGame::endGame()
             {
                 points += tile.getPoints();
             }
-            // Add the points to the current player...
-            Command *pCmd = new PlayerPointsCmd(*m_players[m_currPlayer], points);
+            addedPoints += points;
+            // Remove the points from the "losing" player
+            Command *pCmd = new PlayerEventCmd(*m_players[i],
+                                               PlayerEventCmd::END_GAME, -points);
             accessNavigation().addAndExecute(pCmd);
-            // ... and remove them from the other player
-            Command *pCmd2 = new PlayerPointsCmd(*m_players[i], -points);
-            accessNavigation().addAndExecute(pCmd2);
         }
     }
+    // Add all the points to the current player
+    Command *pCmd = new PlayerEventCmd(*m_players[m_currPlayer],
+                                       PlayerEventCmd::END_GAME, addedPoints);
+    accessNavigation().addAndExecute(pCmd);
 
     // Lock game
     m_finished = true;

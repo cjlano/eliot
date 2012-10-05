@@ -48,7 +48,6 @@
 #include "game_move_cmd.h"
 #include "player_rack_cmd.h"
 #include "player_move_cmd.h"
-#include "player_points_cmd.h"
 #include "player_event_cmd.h"
 #include "master_move_cmd.h"
 #include "navigation.h"
@@ -199,7 +198,7 @@ void XmlReader::startElement(const string& namespaceURI,
     }
     else if (tag == "GameRack" || tag == "PlayerRack" ||
              tag == "PlayerMove" || tag == "GameMove" || tag == "MasterMove" ||
-             tag == "Warning" || tag == "Penalty" || tag == "Solo")
+             tag == "Warning" || tag == "Penalty" || tag == "Solo" || tag == "EndGame")
     {
         m_attributes.clear();
         for (int i = 0; i < atts.getLength(); ++i)
@@ -411,6 +410,14 @@ void XmlReader::endElement(const string& namespaceURI,
         Player &p = getPlayer(m_players, m_attributes["playerid"]);
         int points = toInt(m_attributes["points"]);
         PlayerEventCmd *cmd = new PlayerEventCmd(p, PlayerEventCmd::SOLO, points);
+        m_game->accessNavigation().addAndExecute(cmd);
+    }
+
+    else if (tag == "EndGame")
+    {
+        Player &p = getPlayer(m_players, m_attributes["playerid"]);
+        int points = toInt(m_attributes["points"]);
+        PlayerEventCmd *cmd = new PlayerEventCmd(p, PlayerEventCmd::END_GAME, points);
         m_game->accessNavigation().addAndExecute(cmd);
     }
 

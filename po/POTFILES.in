@@ -80,8 +80,6 @@ game/player_event_cmd.cpp
 game/player_event_cmd.h
 game/player_move_cmd.cpp
 game/player_move_cmd.h
-game/player_points_cmd.cpp
-game/player_points_cmd.h
 game/player_rack_cmd.cpp
 game/player_rack_cmd.h
 game/pldrack.cpp

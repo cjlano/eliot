@@ -41,6 +41,7 @@ public:
         SOLO,
         WARNING,
         PENALTY,
+        END_GAME,
     };
 
     PlayerEventCmd(Player &ioPlayer, EventType iEvent, int iPoints = 0);

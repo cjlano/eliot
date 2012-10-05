@@ -31,8 +31,10 @@ INIT_LOGGER(game, PlayerEventCmd);
 PlayerEventCmd::PlayerEventCmd(Player &ioPlayer, EventType iEvent, int iPoints)
     : m_player(ioPlayer), m_eventType(iEvent), m_points(iPoints)
 {
-    ASSERT(iEvent == PENALTY || iPoints >= 0, "Negative points not allowed");
-    ASSERT(iEvent != PENALTY || iPoints <= 0, "Positive points not allowed");
+    ASSERT(iEvent == PENALTY || iEvent == END_GAME || iPoints >= 0,
+           "Negative points not allowed");
+    ASSERT(iEvent != PENALTY || iPoints <= 0,
+           "Positive points not allowed");
 }
 
 
@@ -44,6 +46,10 @@ void PlayerEventCmd::doExecute()
         m_player.accessHistory().addPenaltyPoints(m_points);
     else if (m_eventType == SOLO)
         m_player.accessHistory().addSoloPoints(m_points);
+    else if (m_eventType == END_GAME)
+        m_player.addPoints(m_points);
+    else
+        ASSERT(false, "Missing case");
 }
 
 
@@ -55,6 +61,10 @@ void PlayerEventCmd::doUndo()
         m_player.accessHistory().addPenaltyPoints(- m_points);
     else if (m_eventType == SOLO)
         m_player.accessHistory().addSoloPoints(- m_points);
+    else if (m_eventType == END_GAME)
+        m_player.addPoints(- m_points);
+    else
+        ASSERT(false, "Missing case");
 }
 
 
@@ -68,6 +78,10 @@ wstring PlayerEventCmd::toString() const
         oss << L"Penalty (" << m_points << L" points)";
     else if (m_eventType == SOLO)
         oss << L"Solo (" << m_points << L" points)";
+    else if (m_eventType == END_GAME)
+        oss << L"EndGame (" << m_points << L" points)";
+    else
+        ASSERT(false, "Missing case");
     return oss.str();
 }
 
