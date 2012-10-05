@@ -63,13 +63,11 @@ private slots:
     void lockSizesChanged(bool checked);
     void populateMenu(QMenu &iMenu, const QPoint &iPoint);
 
-    // These slots are automatically connected
-    void on_lineEditRack_textEdited(const QString &iText);
-    void on_pushButtonRack_clicked();
-    void on_pushButtonComplement_clicked();
-    void on_pushButtonSearch_clicked();
-    void on_pushButtonPlaySelected_clicked();
-    void on_treeViewResults_activated(const QModelIndex &iIndex);
+    void onRackEdited(const QString &iText);
+    void setNewRack();
+    void completeRack();
+    void search();
+    void playSelectedWord();
 
 private:
     /// Encapsulated training game, can be NULL
@@ -95,6 +93,9 @@ private:
 
     /// Force synchronizing the model with the contents of the search results
     void updateModel();
+
+    /// Helper method to set the rack
+    void helperSetRack(bool iAll);
 };
 
 #endif

@@ -192,22 +192,5 @@
   <tabstop>treeViewResults</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>lineEditRack</sender>
-   <signal>returnPressed()</signal>
-   <receiver>pushButtonSearch</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>283</x>
-     <y>31</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>281</x>
-     <y>48</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

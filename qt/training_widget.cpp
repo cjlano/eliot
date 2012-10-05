@@ -78,6 +78,22 @@ TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicG
     m_model->setHeaderData(HIDDEN_COLUMN, Qt::Horizontal, "", Qt::DisplayRole);
     treeViewResults->setColumnHidden(HIDDEN_COLUMN, true);
 
+    QObject::connect(lineEditRack, SIGNAL(returnPressed()),
+                     this, SLOT(search()));
+    QObject::connect(lineEditRack, SIGNAL(textEdited(const QString &)),
+                     this, SLOT(onRackEdited(const QString &)));
+
+    QObject::connect(pushButtonRack, SIGNAL(clicked()),
+                     this, SLOT(setNewRack()));
+    QObject::connect(pushButtonComplement, SIGNAL(clicked()),
+                     this, SLOT(completeRack()));
+    QObject::connect(pushButtonSearch, SIGNAL(clicked()),
+                     this, SLOT(search()));
+    QObject::connect(pushButtonPlaySelected, SIGNAL(clicked()),
+                     this, SLOT(playSelectedWord()));
+    QObject::connect(treeViewResults, SIGNAL(activated(const QModelIndex&)),
+                     this, SLOT(playSelectedWord()));
+
     // Add a context menu to the tree header
     QAction *lockSizesAction = new QAction(_q("Lock columns sizes"), this);
     lockSizesAction->setCheckable(true);
@@ -278,7 +294,7 @@ void TrainingWidget::lockSizesChanged(bool checked)
 }
 
 
-void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
+void TrainingWidget::onRackEdited(const QString &iText)
 {
     m_game->removeTestRound();
     if (!lineEditRack->hasAcceptableInput())
@@ -303,13 +319,26 @@ void TrainingWidget::on_lineEditRack_textEdited(const QString &iText)
 }
 
 
-void TrainingWidget::on_pushButtonRack_clicked()
+void TrainingWidget::setNewRack()
+{
+    helperSetRack(true);
+}
+
+
+void TrainingWidget::completeRack()
+{
+    helperSetRack(false);
+}
+
+
+void TrainingWidget::helperSetRack(bool iAll)
 {
     m_game->removeTestRound();
     try
     {
         // FIXME: first parameter is hardcoded
-        m_game->trainingSetRackRandom(true, PublicGame::kRACK_ALL);
+        m_game->trainingSetRackRandom(true,
+                iAll ? PublicGame::kRACK_NEW : PublicGame::kRACK_NEW);
         emit gameUpdated();
         lineEditRack->setFocus();
     }
@@ -320,24 +349,7 @@ void TrainingWidget::on_pushButtonRack_clicked()
 }
 
 
-void TrainingWidget::on_pushButtonComplement_clicked()
-{
-    m_game->removeTestRound();
-    try
-    {
-        // FIXME: first parameter is hardcoded
-        m_game->trainingSetRackRandom(true, PublicGame::kRACK_NEW);
-        emit gameUpdated();
-        lineEditRack->setFocus();
-    }
-    catch (std::exception &e)
-    {
-        emit notifyProblem(_q(e.what()));
-    }
-}
-
-
-void TrainingWidget::on_pushButtonSearch_clicked()
+void TrainingWidget::search()
 {
     m_game->removeTestRound();
     emit notifyInfo(_q("Searching with rack '%1'...").arg(lineEditRack->text()));
@@ -348,23 +360,19 @@ void TrainingWidget::on_pushButtonSearch_clicked()
 }
 
 
-void TrainingWidget::on_pushButtonPlaySelected_clicked()
+void TrainingWidget::playSelectedWord()
 {
     QModelIndexList indexList = treeViewResults->selectionModel()->selectedIndexes();
     if (indexList.empty())
         return;
-    // Forward the work to another slot
-    on_treeViewResults_activated(indexList.front());
-}
 
-
-void TrainingWidget::on_treeViewResults_activated(const QModelIndex &iIndex)
-{
-    if (!iIndex.isValid())
+    const QModelIndex &selIndex = indexList.front();
+    if (!selIndex.isValid())
         return;
+
     m_game->removeTestRound();
     // Use the hidden column to get the result number
-    const QModelIndex &index = m_model->index(iIndex.row(), HIDDEN_COLUMN);
+    const QModelIndex &index = m_model->index(selIndex.row(), HIDDEN_COLUMN);
     m_game->trainingPlayResult(m_model->data(index).toUInt());
     emit gameUpdated();
     lineEditRack->setFocus();
