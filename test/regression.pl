@@ -121,13 +121,13 @@ foreach my $scenario (@scenarios_to_play)
     # Check that the needed files exist
     if (not -f $input_file)
     {
-        print "--> Error: Missing file: $input_file\n";
+        print "--> Error: missing file: $input_file\n";
         push(@errors, $scenario);
         next;
     }
     if (not -f $ref_file)
     {
-        print "--> Error: Missing file: $ref_file\n";
+        print "--> Error: missing file: $ref_file\n";
         push(@errors, $scenario);
         next;
     }
@@ -137,7 +137,7 @@ foreach my $scenario (@scenarios_to_play)
     my $rc = `$eliottxt $ods $randseed < $input_file > $run_file 2>&1`;
     if ($rc ne "")
     {
-        print "--> Error: Execution of scenario failed (return value: $rc)\n";
+        print "--> Error: execution of scenario failed (return value: $rc)\n";
         push(@errors, $scenario);
         next;
     }

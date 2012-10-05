@@ -141,7 +141,7 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
             QString name = players.at(num).name;
             if (name == "")
                 name = _q("Player %1").arg(num + 1);
-            // Ensure unicity of the players names
+            // Ensure uniqueness of the players names
             if (allNames.find(name) != allNames.end())
             {
                 int n = 2;

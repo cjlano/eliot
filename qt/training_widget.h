@@ -73,7 +73,7 @@ private:
     /// Encapsulated training game, can be NULL
     PublicGame *m_game;
 
-    /// Inidicate whether the columns should be resized after a search
+    /// Indicate whether the columns should be resized after a search
     bool m_autoResizeColumns;
 
     /// Model of the search results

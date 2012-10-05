@@ -547,7 +547,9 @@ void ArbitAssignments::assignTopMove()
     if (results.size() == 1)
         helperAssignMove(Move(results.get(0)));
     else
+    {
         LOG_DEBUG("The top move is not unique");
+    }
 }
 
 

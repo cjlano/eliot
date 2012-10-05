@@ -265,7 +265,7 @@ int FreeGame::checkPass(const Player &iPlayer,
                         const wstring &iToChange) const
 {
     // Check that the game is not finished
-    if (m_finished)
+    if (isFinished())
         return 3;
 
     // Check that the letters are valid for the current dictionary

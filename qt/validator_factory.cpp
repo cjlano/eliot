@@ -274,7 +274,7 @@ QValidator *ValidatorFactory::newDicRackValidator(QObject *parent,
 // }}}
 
 
-// {{{ Validator used for the regexp line edit
+// {{{ RegexpValidator: Validator used for the regexp line edit
 class RegexpValidator: public QValidator
 {
 public:
@@ -328,7 +328,7 @@ QValidator *ValidatorFactory::newRegexpValidator(QObject *parent,
 // }}}
 
 
-// {{{ Validator used for the "play word" line edit
+// {{{ PlayWordValidator: Validator used for the "play word" line edit
 class PlayWordValidator: public QValidator
 {
 public:
