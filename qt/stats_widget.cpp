@@ -170,18 +170,17 @@ void StatsWidget::refresh()
         // Table number
         setModelText(getIndex(i + 1, col++), player.getTableNb());
 
-        int score = 0;
         // Normal turns
         for (unsigned j = 0; j < gHistory.getSize(); ++j)
         {
             const History &pHistory = player.getHistory();
             setModelTurnData(getIndex(i + 1, col++),
                              pHistory.getTurn(j), gHistory.getTurn(j));
-            score += pHistory.getTurn(j).getMove().getScore();
         }
 
         // Sub-total
-        setModelText(getIndex(i + 1, col++), score, score >= gameTotal);
+        const int subTotal = player.getMovePoints();
+        setModelText(getIndex(i + 1, col++), subTotal, subTotal >= gameTotal);
 
         // Events columns
         for (int j = 0; j <= 3; ++j)
@@ -190,16 +189,15 @@ void StatsWidget::refresh()
         }
 
         // Final score
-        score += player.getSoloPoints() + player.getPenaltyPoints() + player.getEndGamePoints();
-        setModelText(getIndex(i + 1, col++), score, score >= gameTotal);
-        ASSERT(score == player.getTotalScore(), "Invalid score computation");
+        const int totalScore = player.getTotalScore();
+        setModelText(getIndex(i + 1, col++), totalScore, totalScore >= gameTotal);
 
         // Diff with game total
-        setModelText(getIndex(i + 1, col++), score - gameTotal);
+        setModelText(getIndex(i + 1, col++), totalScore - gameTotal);
         // Global score percentage
         setModelText(getIndex(i + 1, col++),
-                     locale.toString(100. * score / gameTotal, 'f', 1) + "%",
-                     score >= gameTotal);
+                     locale.toString(100. * totalScore / gameTotal, 'f', 1) + "%",
+                     totalScore >= gameTotal);
 
         // Ranking
         // FIXME: quadratic complexity, we can probably do better

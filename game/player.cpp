@@ -38,7 +38,7 @@ INIT_LOGGER(game, Player);
 
 
 Player::Player()
-    : m_id(0), m_score(0), m_tableNb(0)
+    : m_id(0), m_tableNb(0)
 {
 }
 
@@ -78,11 +78,8 @@ const Move & Player::getLastMove() const
 
 void Player::removeLastTurn()
 {
-    // Remove points of the last turn
-    addPoints(- m_history.getPreviousTurn().getMove().getScore());
     m_history.removeLastTurn();
 }
-
 
 unsigned Player::getWarningsNb() const
 {
@@ -90,6 +87,17 @@ unsigned Player::getWarningsNb() const
     for (unsigned i = 0; i < m_history.getSize(); ++i)
     {
         total += m_history.getTurn(i).getWarningsNb();
+    }
+    return total;
+}
+
+
+int Player::getMovePoints() const
+{
+    int total = 0;
+    for (unsigned i = 0; i < m_history.getSize(); ++i)
+    {
+        total += m_history.getTurn(i).getMove().getScore();
     }
     return total;
 }
@@ -140,7 +148,7 @@ int Player::getEndGamePoints() const
 
 int Player::getTotalScore() const
 {
-    return m_score + getSoloPoints() + getPenaltyPoints() + getEndGamePoints();
+    return getMovePoints() + getSoloPoints() + getPenaltyPoints() + getEndGamePoints();
 }
 
 
@@ -153,7 +161,7 @@ wstring Player::toString() const
     res += wstring(buff);
     res += m_history.toString() + L"\n";
     res += L"score ";
-    _swprintf(buff, 5, L"%d\n", m_score);
+    _swprintf(buff, 5, L"%d\n", getTotalScore());
     res += wstring(buff);
     return res;
 }

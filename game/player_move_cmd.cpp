@@ -43,8 +43,6 @@ void PlayerMoveCmd::doExecute()
     // Compute the new rack
     const PlayedRack &newRack = Move::ComputeRackForMove(m_originalRack, m_move);
 
-    // Update the score of the player
-    m_player.addPoints(m_move.getScore());
     // Update the history and rack of the player
     m_player.accessHistory().playMove(m_player.getId(), m_move, newRack);
 }
@@ -54,8 +52,6 @@ void PlayerMoveCmd::doUndo()
 {
     // Remove the last history item
     m_player.accessHistory().removeLastTurn();
-    // Restore the score
-    m_player.addPoints(- m_move.getScore());
     // TODO: restore rack?
 }
 

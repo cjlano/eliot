@@ -82,6 +82,9 @@ public:
     /// Return the total number of warnings received
     unsigned getWarningsNb() const;
 
+    /// Return the total number of points received for moves alone
+    int getMovePoints() const;
+
     /**
      * Return the total number of penalties received
      * (including the penalties due to warnings)
@@ -94,24 +97,14 @@ public:
     /// Return the total number of end game points
     int getEndGamePoints() const;
 
-    /// Return the total score of the player, including solos, penaltiesa, ...
+    /// Return the total score of the player, including solos, penalties, ...
     int getTotalScore() const;
-
-    /**************************
-     * Accessors for the score of the player
-     **************************/
-    // Add (or remove, if iPoints is negative) points to the score
-    // of the player
-    void addPoints(int iPoints) { m_score += iPoints; }
 
     wstring toString() const;
 
 private:
     /// ID of the player
     unsigned int m_id;
-
-    /// Score of the player
-    int m_score;
 
     /// Name of the player
     wstring m_name;
