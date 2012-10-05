@@ -68,12 +68,17 @@ ArbitAssignments::ArbitAssignments(QWidget *parent, PublicGame *iGame)
     treeViewPlayers->setColumnWidth(3, 40);
     treeViewPlayers->setColumnWidth(4, 50);
 
-    KeyEventFilter *selectAllFilter = new KeyEventFilter(this, Qt::Key_A);
-    QObject::connect(selectAllFilter, SIGNAL(keyPressed(int, int)),
+    KeyEventFilter *filter = new KeyEventFilter(this, Qt::Key_A);
+    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
                      this, SLOT(selectAllPlayers()));
-    treeViewPlayers->installEventFilter(selectAllFilter);
+    treeViewPlayers->installEventFilter(filter);
 
-    KeyEventFilter *filter = new KeyEventFilter(this, Qt::Key_T);
+    filter = new KeyEventFilter(this, Qt::Key_Delete);
+    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
+                     this, SLOT(suppressMove()));
+    treeViewPlayers->installEventFilter(filter);
+
+    filter = new KeyEventFilter(this, Qt::Key_T);
     QObject::connect(filter, SIGNAL(keyPressed(int, int)),
                      this, SLOT(assignTopMove()));
     treeViewPlayers->installEventFilter(filter);
@@ -260,14 +265,6 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
         iMenu.addAction(assignSelMoveAction);
     }
 
-    // Action to select all the players
-    QAction *selectAllAction = new QAction(_q("Select all players"), this);
-    selectAllAction->setStatusTip(_q("Select all the players"));
-    selectAllAction->setShortcut(Qt::Key_A);
-    QObject::connect(selectAllAction, SIGNAL(triggered()),
-                     this, SLOT(selectAllPlayers()));
-    iMenu.addAction(selectAllAction);
-
     // Action to assign the top move
     QAction *assignTopMoveAction = new QAction(_q("Assign top move (if unique)"), this);
     assignTopMoveAction->setStatusTip(_q("Assign the top move (if unique) to the selected player(s)"));
@@ -275,6 +272,24 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
     QObject::connect(assignTopMoveAction, SIGNAL(triggered()),
                      this, SLOT(assignTopMove()));
     iMenu.addAction(assignTopMoveAction);
+
+    // Action to suppress an assigned move
+    QAction *suppressMoveAction = new QAction(_q("Suppress assigned move"), this);
+    suppressMoveAction->setStatusTip(_q("Suppress the currently assigned move for the selected player(s)"));
+    suppressMoveAction->setShortcut(Qt::Key_Delete);
+    QObject::connect(suppressMoveAction, SIGNAL(triggered()),
+                     this, SLOT(suppressMove()));
+    iMenu.addAction(suppressMoveAction);
+    if (!isSuppressMoveAllowed())
+        suppressMoveAction->setEnabled(false);
+
+    // Action to select all the players
+    QAction *selectAllAction = new QAction(_q("Select all players"), this);
+    selectAllAction->setStatusTip(_q("Select all the players"));
+    selectAllAction->setShortcut(Qt::Key_A);
+    QObject::connect(selectAllAction, SIGNAL(triggered()),
+                     this, SLOT(selectAllPlayers()));
+    iMenu.addAction(selectAllAction);
 
     // Action to give or remove a solo to players
     QAction *soloAction = new QAction(_q("Give (or remove) a solo"), this);
@@ -604,7 +619,10 @@ void ArbitAssignments::helperAssignMove(const Move &iMove)
         // Assign the move
         m_game->arbitrationAssign(id, iMove);
     }
-    emit notifyInfo(_q("Move assigned to player(s)"));
+    if (iMove.isNull())
+        emit notifyInfo(_q("Move assignment suppressed"));
+    else
+        emit notifyInfo(_q("Move assigned to player(s)"));
     emit gameUpdated();
 }
 
