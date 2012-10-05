@@ -33,6 +33,7 @@
 #include "turn.h"
 #include "game_params.h"
 #include "settings.h"
+#include "debug.h"
 
 using namespace std;
 
@@ -187,6 +188,7 @@ void StatsWidget::refresh()
         // Final score
         score += player.getSoloPoints() + player.getPenaltyPoints();
         setModelText(getIndex(i + 1, col++), score, score >= gameTotal);
+        //ASSERT(score == player.getTotalScore(), "Invalid score computation");
 
         // Diff with game total
         setModelText(getIndex(i + 1, col++), score - gameTotal);
@@ -200,9 +202,9 @@ void StatsWidget::refresh()
         int rank = 1;
         for (unsigned j = 0; j < nbPlayers; ++j)
         {
-                if (i == j)
-                    continue;
-            if (player.getPoints() < m_game->getPlayer(j).getPoints())
+            if (i == j)
+                continue;
+            if (player.getTotalScore() < m_game->getPlayer(j).getTotalScore())
                 ++rank;
         }
         setModelText(getIndex(i + 1, col++), rank, rank == 1);

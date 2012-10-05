@@ -91,6 +91,9 @@ public:
     /// Return the total number of solo points received
     int getSoloPoints() const;
 
+    /// Return the total score of the player, including solos and penalties
+    int getTotalScore() const;
+
     /**************************
      * Accessors for the score of the player
      **************************/

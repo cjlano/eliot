@@ -127,6 +127,12 @@ int Player::getSoloPoints() const
 }
 
 
+int Player::getTotalScore() const
+{
+    return getPoints() + getSoloPoints() + getPenaltyPoints();
+}
+
+
 wstring Player::toString() const
 {
     wstring res = L"Player ";
