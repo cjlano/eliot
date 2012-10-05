@@ -451,8 +451,11 @@ void displayData(const PublicGame &iGame, const vector<wstring> &tokens)
 
 void commonCommands(PublicGame &iGame, const vector<wstring> &tokens)
 {
-    wchar_t command = parseCharInList(tokens, 0, L"adhjs");
-    if (command == L'a')
+    wchar_t command = parseCharInList(tokens, 0, L"#adhjs");
+    if (command == L'#')
+        // Ignore comments
+        return;
+    else if (command == L'a')
         displayData(iGame, tokens);
     else if (command == L'd')
     {
@@ -580,7 +583,7 @@ void loopTraining(PublicGame &iGame)
             continue;
         try
         {
-            wchar_t command = parseCharInList(tokens, 0, L"?adhjsbnrt*+q");
+            wchar_t command = parseCharInList(tokens, 0, L"#?adhjsbnrt*+q");
             if (command == L'?')
                 helpTraining();
             else if (command == L'b')
@@ -667,7 +670,7 @@ void loopFreegame(PublicGame &iGame)
             continue;
         try
         {
-            wchar_t command = parseCharInList(tokens, 0, L"?adhjspq");
+            wchar_t command = parseCharInList(tokens, 0, L"#?adhjspq");
             if (command == L'?')
                 helpFreegame();
             else if (command == L'p')
@@ -709,7 +712,7 @@ void loopDuplicate(PublicGame &iGame)
             continue;
         try
         {
-            wchar_t command = parseCharInList(tokens, 0, L"?adhjsnq");
+            wchar_t command = parseCharInList(tokens, 0, L"#?adhjsnq");
             if (command == L'?')
                 helpDuplicate();
             else if (command == L'n')
@@ -744,7 +747,7 @@ void loopArbitration(PublicGame &iGame)
             continue;
         try
         {
-            wchar_t command = parseCharInList(tokens, 0, L"?adhjsfjmet*q");
+            wchar_t command = parseCharInList(tokens, 0, L"#?adhjsfjmet*q");
             if (command == L'?')
                 helpArbitration();
             else if (command == L'f')
@@ -819,6 +822,9 @@ void mainLoop(const Dictionary &iDic)
         {
             switch (tokens[0][0])
             {
+                case L'#':
+                    // Ignore comments
+                    break;
                 case L'?':
                     help();
                     break;
