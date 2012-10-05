@@ -138,8 +138,6 @@ void FreeGame::start()
     Command *pCmd = new GameRackCmd(*this, getPlayer(0).getCurrentRack());
     accessNavigation().addAndExecute(pCmd);
 
-    firstPlayer();
-
     // If the first player is an AI, make it play now
     if (!m_players[m_currPlayer]->isHuman())
     {

@@ -129,7 +129,7 @@ void Training::recordPlayerMove(const Move &iMove, Player &ioPlayer)
 
 void Training::start()
 {
-    firstPlayer();
+    // Nothing to do
 }
 
 

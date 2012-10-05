@@ -277,8 +277,6 @@ protected:
      */
     PlayedRack helperSetRackManual(bool iCheck, const wstring &iLetters) const;
 
-    void firstPlayer();
-    void prevPlayer();
     void nextPlayer();
 
     /**

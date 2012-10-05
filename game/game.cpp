@@ -510,32 +510,6 @@ void Game::addPlayer(Player *iPlayer)
 }
 
 
-void Game::firstPlayer()
-{
-    ASSERT(getNPlayers() != 0, "Expected at least one player");
-    // Make sure there is something to do
-    if (m_currPlayer == 0)
-        return;
-
-    Command *pCmd = new CurrentPlayerCmd(*this, 0);
-    accessNavigation().addAndExecute(pCmd);
-}
-
-
-void Game::prevPlayer()
-{
-    ASSERT(getNPlayers() != 0, "Expected at least one player");
-
-    unsigned int newPlayerId;
-    if (m_currPlayer == 0)
-        newPlayerId = getNPlayers() - 1;
-    else
-        newPlayerId = m_currPlayer - 1;
-    Command *pCmd = new CurrentPlayerCmd(*this, newPlayerId);
-    accessNavigation().addAndExecute(pCmd);
-}
-
-
 void Game::nextPlayer()
 {
     ASSERT(getNPlayers() != 0, "Expected at least one player");
