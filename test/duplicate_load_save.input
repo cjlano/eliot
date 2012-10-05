@@ -21,11 +21,13 @@ a p
 h n
 j WEB i3
 a g
-a p
+# FIXME: Command deactivated due to the bug with rand seeds
+# a p
 s duplicate.save
 q
 c duplicate.save
 a g
-a p
+# FIXME: Command deactivated due to the bug with rand seeds
+# a p
 q
 q

@@ -21,9 +21,11 @@ a gm
 a p
 a l
 *
-a t
+# FIXME: Command deactivated due to the bug with rand seeds
+# a t
 *
-a t
+# FIXME: Command deactivated due to the bug with rand seeds
+# a t
 
 q
 q

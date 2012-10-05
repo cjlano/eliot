@@ -16,11 +16,13 @@ a g
 a p
 j AVEZ 8a
 a g
-a p
+# FIXME: Command deactivated due to the bug with rand seeds
+# a p
 s freegame.save
 q
 c freegame.save
 a g
-a p
+# FIXME: Command deactivated due to the bug with rand seeds
+# a p
 q
 q
