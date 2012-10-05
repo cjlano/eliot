@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef TURN_H_
-#define TURN_H_
+#ifndef TURN_DATA_H_
+#define TURN_DATA_H_
 
 #include <string>
 #include "pldrack.h"
@@ -31,19 +31,19 @@ using std::wstring;
 
 
 /**
- * A Turn is the information about one 'move' done by a player.
+ * A TurnData is the information about one 'move' done by a player.
  * It consists of the player who played, the rack, and the actual move.
  *
  * This class has no logic, it is merely there to aggregate corresponding
  * data.
  */
-class Turn
+class TurnData
 {
     DEFINE_LOGGER();
 public:
-    Turn();
-    Turn(unsigned int iPlayerId,
-         const PlayedRack& iPldRack, const Move& iMove);
+    TurnData();
+    TurnData(unsigned int iPlayerId,
+             const PlayedRack& iPldRack, const Move& iMove);
 
     void setPlayer(unsigned int iPlayerId)         { m_playerId = iPlayerId; }
     void setPlayedRack(const PlayedRack& iPldRack) { m_pldrack = iPldRack; }

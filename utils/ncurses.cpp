@@ -395,7 +395,7 @@ void CursesIntf::drawHistory(Box &ioBox) const
     for (i = ioBox.getFirstLine();
          i < (int)m_game->getHistory().getSize() && i < ioBox.getLastLine(); i++)
     {
-        const Turn& t = m_game->getHistory().getTurn(i);
+        const TurnData& t = m_game->getHistory().getTurn(i);
         const Move& m = t.getMove();
         if (m.isValid())
         {

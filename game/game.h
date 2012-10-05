@@ -37,7 +37,7 @@ class Player;
 class PlayedRack;
 class Round;
 class Rack;
-class Turn;
+class TurnData;
 
 using namespace std;
 

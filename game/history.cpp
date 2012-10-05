@@ -36,7 +36,7 @@ INIT_LOGGER(game, History);
 
 History::History()
 {
-    Turn* t = new Turn();
+    TurnData *t = new TurnData();
     m_history.clear();
     m_history.push_back(t);
 }
@@ -44,7 +44,7 @@ History::History()
 
 History::~History()
 {
-    BOOST_FOREACH(Turn *turn, m_history)
+    BOOST_FOREACH(TurnData *turn, m_history)
     {
         delete turn;
     }
@@ -70,7 +70,7 @@ void History::setCurrentRack(const PlayedRack &iPld)
 }
 
 
-const Turn& History::getPreviousTurn() const
+const TurnData& History::getPreviousTurn() const
 {
     int idx = m_history.size() - 2;
     ASSERT(0 <= idx , "No previous turn");
@@ -78,7 +78,7 @@ const Turn& History::getPreviousTurn() const
 }
 
 
-const Turn& History::getTurn(unsigned int n) const
+const TurnData& History::getTurn(unsigned int n) const
 {
     ASSERT(n < m_history.size(), "Wrong turn number");
     return *(m_history[n]);
@@ -100,14 +100,14 @@ void History::playMove(unsigned int iPlayer,
                        const Move &iMove,
                        const PlayedRack &iNewRack)
 {
-    Turn * current_turn = m_history.back();
+    TurnData * current_turn = m_history.back();
 
     // Set the number and the round
     current_turn->setPlayer(iPlayer);
     current_turn->setMove(iMove);
 
     // Create a new turn
-    Turn * next_turn = new Turn();
+    TurnData * next_turn = new TurnData();
     next_turn->setPlayedRack(iNewRack);
     m_history.push_back(next_turn);
 }
@@ -120,13 +120,13 @@ void History::removeLastTurn()
 
     if (idx > 1)
     {
-        Turn *t = m_history.back();
+        TurnData *t = m_history.back();
         m_history.pop_back();
         delete t;
     }
 
     // Now we have the previous played round in back()
-    Turn *t = m_history.back();
+    TurnData *t = m_history.back();
     t->setPlayer(0);
     //t->setRound(Round());
 #ifdef BACK_REMOVE_RACK_NEW_PART
@@ -178,7 +178,7 @@ wstring History::toString() const
     _swprintf(buff, 4, L"%ld", m_history.size());
     rs = L"history size = " + wstring(buff) + L"\n\n";
 #endif
-    BOOST_FOREACH(const Turn *turn, m_history)
+    BOOST_FOREACH(const TurnData *turn, m_history)
     {
         rs += turn->toString() + L"\n";
     }

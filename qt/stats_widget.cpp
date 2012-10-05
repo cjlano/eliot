@@ -281,7 +281,7 @@ void StatsWidget::setModelText(const QModelIndex &iIndex,
 
 
 void StatsWidget::setModelTurnData(const QModelIndex &iIndex,
-                                   const Turn &iTurn, const Turn &iGameTurn)
+                                   const TurnData &iTurn, const TurnData &iGameTurn)
 {
     // Set the text (score for the turn)
     if (!iTurn.getMove().isNull())
@@ -327,7 +327,7 @@ void StatsWidget::setModelEventData(const QModelIndex &iIndex,
 }
 
 
-QString StatsWidget::getTooltip(const Turn &iTurn, const Turn &iGameTurn) const
+QString StatsWidget::getTooltip(const TurnData &iTurn, const TurnData &iGameTurn) const
 {
     QString tooltip = _q("Rack: %1").arg(qfw(iTurn.getPlayedRack().toString()));
     const Move &move = iTurn.getMove();

@@ -28,7 +28,7 @@
 
 class PublicGame;
 class Player;
-class Turn;
+class TurnData;
 class QTableView;
 class QStandardItemModel;
 class QVariant;
@@ -70,7 +70,7 @@ private:
 
 
     QModelIndex getIndex(int row, int col) const;
-    QString getTooltip(const Turn &iTurn, const Turn &iGameTurn) const;
+    QString getTooltip(const TurnData &iTurn, const TurnData &iGameTurn) const;
 
     void setSectionHidden(int index, bool iHide);
     void setModelSize(int rowCount, int colCount);
@@ -78,7 +78,7 @@ private:
     void setModelText(const QModelIndex &iIndex, const QVariant &iData,
                       bool useBoldFont = false);
     void setModelTurnData(const QModelIndex &iIndex,
-                          const Turn &iTurn, const Turn &iGameTurn);
+                          const TurnData &iTurn, const TurnData &iGameTurn);
     void setModelEventData(const QModelIndex &iIndex,
                            int iEvent, const Player &iPlayer);
 };

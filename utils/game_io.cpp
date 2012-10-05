@@ -233,7 +233,7 @@ void GameIO::printGameDebug(ostream &out, const PublicGame &iGame)
     out << "   ===|===|==========|================|=====|=====|======" << endl;
     for (unsigned int i = 0; i < iGame.getHistory().getSize(); ++i)
     {
-        const Turn &turn = iGame.getHistory().getTurn(i);
+        const TurnData &turn = iGame.getHistory().getTurn(i);
         const Move &move = turn.getMove();
         format fmter("%1% | %2% | %3% | %4% | %5% | %6% | %7%");
         fmter % padAndConvert(str(wformat(L"%1%") % (i + 1)), 5);

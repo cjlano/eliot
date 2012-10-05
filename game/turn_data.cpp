@@ -24,19 +24,19 @@
 #include "turn_data.h"
 
 
-INIT_LOGGER(game, Turn);
+INIT_LOGGER(game, TurnData);
 
 
 // FIXME: move set to an arbitrary one (no move). It would be better to get rid of this
 // constructor completely
-Turn::Turn()
+TurnData::TurnData()
     : m_playerId(0), m_warningsNb(0),
     m_penaltyPoints(0), m_soloPoints(0), m_endGamePoints(0)
 {
 }
 
 
-Turn::Turn(unsigned int iPlayerId, const PlayedRack& iPldRack,
+TurnData::TurnData(unsigned int iPlayerId, const PlayedRack& iPldRack,
            const Move& iMove)
     : m_playerId(iPlayerId), m_pldrack(iPldRack), m_move(iMove),
     m_warningsNb(0), m_penaltyPoints(0), m_soloPoints(0), m_endGamePoints(0)
@@ -44,7 +44,7 @@ Turn::Turn(unsigned int iPlayerId, const PlayedRack& iPldRack,
 }
 
 
-wstring Turn::toString() const
+wstring TurnData::toString() const
 {
     wostringstream oss;
     oss << m_pldrack.toString() << L" " << m_move.toString()

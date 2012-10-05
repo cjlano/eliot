@@ -168,7 +168,7 @@ void HistoryWidget::updateModel()
 
             QColor color = Qt::black;
 
-            const Turn& t = m_history->getTurn(i);
+            const TurnData& t = m_history->getTurn(i);
             const Move& m = t.getMove();
 
             // Set data common to all moves

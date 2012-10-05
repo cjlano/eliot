@@ -950,7 +950,7 @@ void MainWindow::onGamePrint()
             nextHeight = curHeight + LINE_HEIGHT;
         for (unsigned int i = 0; i < history.getSize(); ++i)
         {
-            const Turn &t = history.getTurn(i);
+            const TurnData &t = history.getTurn(i);
             const Move &m = t.getMove();
 
             curWidth = TEXT_OFFSET;

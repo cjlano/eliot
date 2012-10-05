@@ -31,7 +31,7 @@ using std::wstring;
 using std::vector;
 
 class Move;
-class Turn;
+class TurnData;
 class PlayedRack;
 
 /**
@@ -40,7 +40,7 @@ class PlayedRack;
  *  - one for the complete game
  *  - one for each player
  *
- * The top of the history is an empty Turn until it has been filled
+ * The top of the history is an empty TurnData until it has been filled
  * and the game is up to a new turn. So a History object is never empty.
  * However, the getSize() method only returns the number of complete
  * turns, and can therefore return 0.
@@ -69,10 +69,10 @@ public:
     void setCurrentRack(const PlayedRack &iPld);
 
     /// Get the previous (complete) turn
-    const Turn& getPreviousTurn() const;
+    const TurnData& getPreviousTurn() const;
 
     /// Get turn 'n' (starting at 0)
-    const Turn& getTurn(unsigned int) const;
+    const TurnData& getTurn(unsigned int) const;
 
     /**
      * Return true if the history doesn't contain at least one move
@@ -102,7 +102,7 @@ public:
     wstring toString() const;
 
  private:
-    vector<Turn*> m_history;
+    vector<TurnData*> m_history;
 };
 
 #endif

@@ -30,7 +30,7 @@
 
 using std::wstring;
 
-class Turn;
+class TurnData;
 class Rack;
 
 
