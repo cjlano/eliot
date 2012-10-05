@@ -35,7 +35,7 @@
 #include "player.h"
 #include "encoding.h"
 #include "history.h"
-#include "turn.h"
+#include "turn_data.h"
 #include "move.h"
 #include "round.h"
 

@@ -32,7 +32,7 @@ libgame_a_SOURCES= \
     move.cpp move.h \
     results.cpp results.h \
     bag.cpp bag.h \
-    turn.cpp turn.h \
+    turn_data.cpp turn_data.h \
     history.cpp history.h \
     player.cpp player.h \
     player_event_cmd.cpp player_event_cmd.h \

@@ -96,8 +96,8 @@ game/settings.cpp
 game/settings.h
 game/training.cpp
 game/training.h
-game/turn.cpp
-game/turn.h
+game/turn_data.cpp
+game/turn_data.h
 game/turn_cmd.cpp
 game/turn_cmd.h
 game/xml_reader.cpp

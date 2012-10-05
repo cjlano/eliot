@@ -26,7 +26,7 @@
 #include "results.h"
 #include "board.h"
 #include "player.h"
-#include "turn.h"
+#include "turn_data.h"
 #include "history.h"
 #include "encoding.h"
 #include "settings.h"

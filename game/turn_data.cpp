@@ -21,7 +21,7 @@
 
 #include <sstream>
 
-#include "turn.h"
+#include "turn_data.h"
 
 
 INIT_LOGGER(game, Turn);

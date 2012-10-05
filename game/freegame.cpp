@@ -40,7 +40,7 @@
 #include "game_rack_cmd.h"
 #include "ai_player.h"
 #include "settings.h"
-#include "turn.h"
+#include "turn_data.h"
 #include "encoding.h"
 
 #include "debug.h"

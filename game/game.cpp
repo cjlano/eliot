@@ -39,7 +39,7 @@
 #include "results.h"
 #include "player.h"
 #include "game.h"
-#include "turn.h"
+#include "turn_data.h"
 #include "encoding.h"
 #include "game_exception.h"
 #include "turn_cmd.h"

@@ -46,7 +46,7 @@
 #include "results.h"
 #include "player.h"
 #include "history.h"
-#include "turn.h"
+#include "turn_data.h"
 #include "game_exception.h"
 #include "encoding.h"
 

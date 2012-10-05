@@ -35,7 +35,7 @@
 #include "public_game.h"
 #include "player.h"
 #include "history.h"
-#include "turn.h"
+#include "turn_data.h"
 #include "move.h"
 #include "game_params.h"
 

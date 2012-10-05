@@ -25,7 +25,7 @@
 #include "rack.h"
 #include "pldrack.h"
 #include "move.h"
-#include "turn.h"
+#include "turn_data.h"
 #include "history.h"
 #include "encoding.h"
 #include "debug.h"

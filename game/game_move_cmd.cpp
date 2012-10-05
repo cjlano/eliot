@@ -25,7 +25,7 @@
 #include "game_params.h"
 #include "game.h"
 #include "rack.h"
-#include "turn.h"
+#include "turn_data.h"
 
 
 INIT_LOGGER(game, GameMoveCmd);
