@@ -102,6 +102,11 @@ NewGame::NewGame(QWidget *iParent)
     QObject::connect(radioButtonArbitration, SIGNAL(toggled(bool)),
                      this, SLOT(enablePlayers(bool)));
 
+    QObject::connect(checkBoxJoker, SIGNAL(stateChanged(int)),
+                     this, SLOT(onJokerChecked(int)));
+    QObject::connect(checkBoxExplosive, SIGNAL(stateChanged(int)),
+                     this, SLOT(onExplosiveChecked(int)));
+
     QObject::connect(buttonAddFav, SIGNAL(clicked()),
                      this, SLOT(addFavoritePlayers()));
 }
@@ -234,15 +239,17 @@ void NewGame::addFavoritePlayers()
 }
 
 
-void NewGame::on_checkBoxJoker_stateChanged(int newState)
+void NewGame::onJokerChecked(int newState)
 {
+    // The joker and explosive variants are incompatible
     if (newState == Qt::Checked)
         checkBoxExplosive->setChecked(false);
 }
 
 
-void NewGame::on_checkBoxExplosive_stateChanged(int newState)
+void NewGame::onExplosiveChecked(int newState)
 {
+    // The joker and explosive variants are incompatible
     if (newState == Qt::Checked)
         checkBoxJoker->setChecked(false);
 }

@@ -57,15 +57,12 @@ protected:
     virtual QSize sizeHint() const;
 
 private slots:
-    void on_pushButtonShuffle_clicked();
-    void on_pushButtonChange_clicked() { on_lineEditChange_returnPressed(); }
-    void on_pushButtonPass_clicked();
-    void on_lineEditChange_textChanged();
-    void on_lineEditChange_returnPressed();
+    void shuffle();
+    void pass();
+    void changeLetters();
+    void enableChangeButton();
 
 private:
-    void pass(QString inputLetters);
-
     /// Encapsulated game, can be NULL
     PublicGame *m_game;
 
@@ -74,6 +71,8 @@ private:
 
     /// Encapsulated player, valid iff m_game is not NULL
     unsigned int m_player;
+
+    void helperChangePass(QString inputLetters = "");
 
 };
 

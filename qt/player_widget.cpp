@@ -54,6 +54,17 @@ PlayerWidget::PlayerWidget(QWidget *parent, CoordModel &iCoordModel,
     QObject::connect(m_mediator, SIGNAL(notifyProblem(QString)),
                      this, SIGNAL(notifyProblem(QString)));
 
+    QObject::connect(pushButtonShuffle, SIGNAL(clicked()),
+                     this, SLOT(shuffle()));
+    QObject::connect(pushButtonPass, SIGNAL(clicked()),
+                     this, SLOT(pass()));
+    QObject::connect(pushButtonChange, SIGNAL(clicked()),
+                     this, SLOT(changeLetters()));
+    QObject::connect(lineEditChange, SIGNAL(returnPressed()),
+                     this, SLOT(changeLetters()));
+    QObject::connect(lineEditChange, SIGNAL(textChanged(const QString&)),
+                     this, SLOT(enableChangeButton()));
+
     lineEditRack->setReadOnly(true);
 
     if (m_game)
@@ -115,14 +126,14 @@ void PlayerWidget::refresh()
 }
 
 
-void PlayerWidget::on_pushButtonShuffle_clicked()
+void PlayerWidget::shuffle()
 {
     m_game->shuffleRack();
     emit gameUpdated();
 }
 
 
-void PlayerWidget::on_lineEditChange_textChanged()
+void PlayerWidget::enableChangeButton()
 {
     pushButtonChange->setEnabled(lineEditChange->hasAcceptableInput() &&
                                  lineEditChange->text() != "");
@@ -131,25 +142,25 @@ void PlayerWidget::on_lineEditChange_textChanged()
 }
 
 
-void PlayerWidget::on_lineEditChange_returnPressed()
+void PlayerWidget::changeLetters()
 {
     ASSERT(m_game->getMode() == PublicGame::kFREEGAME,
            "Trying to change letters while not in free game mode");
 
-    pass(lineEditChange->text());
+    helperChangePass(lineEditChange->text());
 }
 
 
-void PlayerWidget::on_pushButtonPass_clicked()
+void PlayerWidget::pass()
 {
     ASSERT(m_game->getMode() == PublicGame::kFREEGAME,
            "Trying to pass while not in free game mode");
 
-    pass("");
+    helperChangePass("");
 }
 
 
-void PlayerWidget::pass(QString inputLetters)
+void PlayerWidget::helperChangePass(QString inputLetters)
 {
     // Convert the input string into an internal one
     const wstring &letters =

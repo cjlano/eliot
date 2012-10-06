@@ -126,6 +126,10 @@ ArbitAssignments::ArbitAssignments(QWidget *parent, PublicGame *iGame)
     QObject::connect(buttonEndTurn, SIGNAL(clicked()),
                      this, SLOT(endTurn()));
 
+    // Show/hide players with an assigned move
+    QObject::connect(checkBoxHideAssigned, SIGNAL(toggled(bool)),
+                     this, SLOT(updatePlayersModel()));
+
     // Add a context menu for the players
     CustomPopup *playersPopup = new CustomPopup(treeViewPlayers);
     QObject::connect(playersPopup, SIGNAL(popupCreated(QMenu&, const QPoint&)),
@@ -324,12 +328,6 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
     QObject::connect(penaltyAction, SIGNAL(triggered()),
                      this, SLOT(addRemovePenalty()));
     iMenu.addAction(penaltyAction);
-}
-
-
-void ArbitAssignments::on_checkBoxHideAssigned_toggled(bool)
-{
-    updatePlayersModel();
 }
 
 

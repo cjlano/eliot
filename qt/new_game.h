@@ -54,10 +54,8 @@ private slots:
     void enablePlayers(bool);
     void addSelectedToFav();
     void addFavoritePlayers();
-
-    // The following slots are automatically connected
-    void on_checkBoxJoker_stateChanged(int);
-    void on_checkBoxExplosive_stateChanged(int);
+    void onJokerChecked(int);
+    void onExplosiveChecked(int);
 
 private:
     PlayersTableHelper *m_helper;

@@ -65,6 +65,10 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     : QDialog(iParent)
 {
     setupUi(this);
+
+    QObject::connect(pushButtonIntfDicBrowse, SIGNAL(clicked()),
+                     this, SLOT(browseDic()));
+
     // Display the first tab
     tabWidget->setCurrentIndex(0);
 
@@ -286,7 +290,7 @@ void PrefsDialog::updateSettings()
 }
 
 
-void PrefsDialog::on_pushButtonIntfDicBrowse_clicked()
+void PrefsDialog::browseDic()
 {
     QString fileName =
         QFileDialog::getOpenFileName(this, _q("Choose a dictionary"), "", "*.dawg");

@@ -75,7 +75,6 @@ public slots:
     void selectedMoveChanged(const Move&);
 
 private slots:
-    void on_checkBoxHideAssigned_toggled(bool);
     void emitPlayerSelected();
     void showMasterPreview();
     void populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint);
@@ -85,6 +84,9 @@ private slots:
     void addRemoveWarning();
     void addRemovePenalty();
     void endTurn();
+
+    /// Force synchronizing the model with the players
+    void updatePlayersModel();
 
 private:
     /// Encapsulated game, can be NULL
@@ -97,9 +99,6 @@ private:
 
     // Move currently selected (in the Results table)
     Move m_selectedMove;
-
-    /// Force synchronizing the model with the players
-    void updatePlayersModel();
 
     /// Helper method to return the ID of the selected player(s)
     QSet<unsigned int> getSelectedPlayers() const;

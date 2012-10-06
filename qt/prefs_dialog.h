@@ -73,7 +73,7 @@ signals:
     void prefsUpdated();
 
 private slots:
-    void on_pushButtonIntfDicBrowse_clicked();
+    void browseDic();
 
 private:
     void updateSettings();
