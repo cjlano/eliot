@@ -43,7 +43,6 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
     m_lineEditCoord(iEditCoord), m_lineEditPoints(iEditPoints),
     m_pushButtonPlay(iButtonPlay), m_coordModel(iCoordModel)
 {
-    m_lineEditPlay.setFocus();
     SetTooltips(m_lineEditPlay, m_lineEditCoord);
 
     /// Set validators;
@@ -66,6 +65,13 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
                      this, SLOT(playWord()));
     QObject::connect(&m_coordModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
                      this, SLOT(updateCoord(const Coord&, const Coord&)));
+}
+
+
+void PlayWordMediator::setCleverFocus()
+{
+    if (!m_lineEditPlay.hasFocus() && !m_lineEditCoord.hasFocus())
+        m_lineEditPlay.setFocus();
 }
 
 
@@ -150,7 +156,6 @@ void PlayWordMediator::playWord()
     if (res == 0)
     {
         emit gameUpdated();
-        m_lineEditPlay.setFocus();
     }
     else
     {
@@ -229,8 +234,7 @@ void PlayWordMediator::updateCoord(const Coord &, const Coord &iNewCoord)
         m_lineEditCoord.setText("");
     // Set the focus to the "Play word" zone is the focus is not
     // already on a QLineEdit (because of a click on the board)
-    if (!m_lineEditPlay.hasFocus() && !m_lineEditCoord.hasFocus())
-        m_lineEditPlay.setFocus();
+    setCleverFocus();
 
     updatePointsAndState();
 }

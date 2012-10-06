@@ -87,6 +87,10 @@ PlayerWidget::PlayerWidget(QWidget *parent, CoordModel &iCoordModel,
         lineEditChange->setValidator(val);
     }
 
+    // When the widget gains the focus, transfer it
+    // to the "main" line edit by default
+    setFocusProxy(lineEditPlay);
+
     refresh();
 }
 
@@ -130,6 +134,7 @@ void PlayerWidget::shuffle()
 {
     m_game->shuffleRack();
     emit gameUpdated();
+    m_mediator->setCleverFocus();
 }
 
 
@@ -169,7 +174,10 @@ void PlayerWidget::helperChangePass(QString inputLetters)
     // Pass the turn (and possibly change letters)
     int res = m_game->freeGamePass(letters);
     if (res == 0)
+    {
         emit gameUpdated();
+        m_mediator->setCleverFocus();
+    }
     else
     {
         QString msg;
@@ -245,6 +253,10 @@ void PlayerTabWidget::refresh()
     if (m_game)
         setCurrentIndex(m_game->getCurrentPlayer().getId());
     emit refreshSignal();
+
+    // Give the focus to the current widget. Without this, the widget does
+    // not get focus in some cases
+    currentWidget()->setFocus();
 }
 
 

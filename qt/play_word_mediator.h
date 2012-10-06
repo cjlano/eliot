@@ -61,6 +61,12 @@ public:
                      CoordModel &iCoordModel, PublicGame *iGame);
 
     /**
+     * Set the focus on the editWord QLineEdit, unless the focus
+     * is already on the editCoord one.
+     */
+    void setCleverFocus();
+
+    /**
      * Set tooltips on the given widgets, to help
      * the user know how to enter a word.
      */

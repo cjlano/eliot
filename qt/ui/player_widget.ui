@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>533</width>
-    <height>111</height>
+    <width>574</width>
+    <height>113</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -28,7 +28,7 @@
    <item row="0" column="7">
     <widget class="QPushButton" name="pushButtonShuffle">
      <property name="text">
-      <string>_(&quot;Shuffle&quot;)</string>
+      <string>_(&quot;Shu&amp;ffle&quot;)</string>
      </property>
     </widget>
    </item>
@@ -42,7 +42,7 @@
    <item row="2" column="7">
     <widget class="QPushButton" name="pushButtonPass">
      <property name="text">
-      <string>_(&quot;Pass&quot;)</string>
+      <string>_(&quot;&amp;Pass&quot;)</string>
      </property>
     </widget>
    </item>
@@ -140,7 +140,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>_(&quot;Change&quot;)</string>
+        <string>_(&quot;&amp;Change&quot;)</string>
        </property>
       </widget>
      </item>
