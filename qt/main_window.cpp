@@ -52,7 +52,7 @@
 #include "new_game.h"
 #include "tables_dialog.h"
 #include "prefs_dialog.h"
-#include "bag_widget2.h"
+#include "bag_widget.h"
 #include "board_widget.h"
 #include "rack_widget.h"
 #include "score_widget.h"

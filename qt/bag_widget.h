@@ -21,14 +21,18 @@
 #ifndef BAG_WIDGET_H_
 #define BAG_WIDGET_H_
 
+#include <vector>
 #include <QtGui/QWidget>
 
 #include <ui/bag_widget.ui.h>
 #include "logging.h"
 
-class PublicGame;
-//class QTreeView;
+using std::vector;
+
 class QStandardItemModel;
+class PublicGame;
+class TileWidget;
+
 
 class BagWidget: public QWidget, private Ui::BagWidget
 {
@@ -57,6 +61,43 @@ private:
 
     /// Force synchronizing the model with the contents of the bag
     void updateModel();
+};
+
+
+class BagWidget2: public QWidget
+{
+    Q_OBJECT;
+    DEFINE_LOGGER();
+
+public:
+    explicit BagWidget2(QWidget *parent = 0);
+
+public slots:
+    void setGame(const PublicGame *iGame);
+    void setShowPlayedTiles(bool iShow);
+    void setShowTilesInRack(bool iShow);
+    void refresh();
+
+protected:
+    /// Define a default size
+    virtual QSize sizeHint() const;
+
+private:
+    /// Encapsulated game, can be NULL
+    const PublicGame *m_game;
+
+    /// Encapsulated tiles
+    vector<TileWidget *> m_tilesVect;
+
+    /// Cached value, storing the total number of tiles in the game
+    unsigned int m_totalNbTiles;
+
+    /// Indicate whether the played tiles should be displayed
+    bool m_showPlayedTiles;
+
+    /// Indicate whether the tiles in the current rack should be displayed highlighted
+    bool m_showTilesInRack;
+
 };
 
 #endif

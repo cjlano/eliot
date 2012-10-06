@@ -70,7 +70,6 @@ eliot_SOURCES = \
     arbitration_widget.cpp arbitration_widget.h \
     arbit_assignments.cpp arbit_assignments.h \
     bag_widget.cpp bag_widget.h \
-    bag_widget2.cpp bag_widget2.h \
     dic_tools_widget.cpp dic_tools_widget.h \
     players_table_helper.cpp players_table_helper.h \
     fav_players.cpp fav_players.h \
@@ -118,7 +117,6 @@ nodist_eliot_SOURCES = \
     arbitration_widget.moc.cpp \
     arbit_assignments.moc.cpp \
     bag_widget.moc.cpp \
-    bag_widget2.moc.cpp \
     score_widget.moc.cpp \
     dic_wizard.moc.cpp \
     board_widget.moc.cpp \

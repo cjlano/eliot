@@ -112,8 +112,6 @@ qt/aux_window.cpp
 qt/aux_window.h
 qt/bag_widget.cpp
 qt/bag_widget.h
-qt/bag_widget2.cpp
-qt/bag_widget2.h
 qt/board_widget.cpp
 qt/board_widget.h
 qt/coord_model.cpp
