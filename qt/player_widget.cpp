@@ -172,7 +172,7 @@ void PlayerWidget::pass(QString inputLetters)
             msg = msg.arg(_q("The rack of the current player does not contain all the listed letters"));
         else if (res == 3)
             msg = msg.arg(_q("The game is already finished!"));
-        else if (res == 3)
+        else if (res == 4)
             msg = msg.arg(_q("Some letters are invalid for the current dictionary"));
         else
             msg = msg.arg(_q("Unknown error"));
