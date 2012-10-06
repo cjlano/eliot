@@ -24,7 +24,7 @@
 #include <vector>
 #include "logging.h"
 
-class TurnCmd;
+class Turn;
 class Command;
 
 using namespace std;
@@ -34,8 +34,8 @@ using namespace std;
  * Handle the navigation in the game history.
  *
  * A few assumptions are made for the design:
- *  - each turn in the game is represented by a TurnCmd object
- *  - the current TurnCmd object is always in the "partially executed" state
+ *  - each turn in the game is represented by a Turn object
+ *  - the current Turn object is always in the "partially executed" state
  *    (see class documentation), except maybe for the last turn
  *  - previous turns are fully executed, and future turns are never executed
  *  - addind a command can only be done if the current turn is the last one
@@ -92,8 +92,8 @@ class Navigation
         void replaceCommand(const Command &iOldCmd,
                             Command *iNewCmd);
 
-        const vector<TurnCmd *> & getTurns() const;
-        const TurnCmd & getCurrentTurn() const;
+        const vector<Turn *> & getTurns() const;
+        const Turn & getCurrentTurn() const;
 
         /**
          * Print the contents of the commands history, to ease debugging
@@ -101,7 +101,7 @@ class Navigation
         void print() const;
 
     private:
-        vector<TurnCmd *> m_turnCommands;
+        vector<Turn *> m_turnCommands;
         unsigned int m_currTurn;
 };
 

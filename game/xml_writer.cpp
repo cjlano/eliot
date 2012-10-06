@@ -195,8 +195,8 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
 #if 0
     iGame.getNavigation().print();
 #endif
-    const vector<TurnCmd *> &turnCmdVect = iGame.getNavigation().getTurns();
-    BOOST_FOREACH(const TurnCmd *turn, turnCmdVect)
+    const vector<Turn *> &turnCmdVect = iGame.getNavigation().getTurns();
+    BOOST_FOREACH(const Turn *turn, turnCmdVect)
     {
         if (turn->getCommands().empty() && turn == turnCmdVect.back())
             continue;

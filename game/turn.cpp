@@ -28,16 +28,16 @@
 #include "debug.h"
 
 
-INIT_LOGGER(game, TurnCmd);
+INIT_LOGGER(game, Turn);
 
 
-TurnCmd::TurnCmd()
+Turn::Turn()
     : m_firstNotExecuted(0)
 {
 }
 
 
-TurnCmd::~TurnCmd()
+Turn::~Turn()
 {
     BOOST_FOREACH(Command *cmd, m_commands)
     {
@@ -46,7 +46,7 @@ TurnCmd::~TurnCmd()
 }
 
 
-void TurnCmd::addAndExecute(Command *iCmd)
+void Turn::addAndExecute(Command *iCmd)
 {
     ASSERT(isFullyExecuted(), "Adding a command to a partially executed turn");
     m_commands.push_back(iCmd);
@@ -55,28 +55,28 @@ void TurnCmd::addAndExecute(Command *iCmd)
 }
 
 
-void TurnCmd::execute()
+void Turn::execute()
 {
     execTo(m_commands.size());
     ASSERT(isFullyExecuted(), "Bug in execute()");
 }
 
 
-void TurnCmd::undo()
+void Turn::undo()
 {
     undoTo(0);
     ASSERT(isNotAtAllExecuted(), "Bug in undo()");
 }
 
 
-void TurnCmd::partialExecute()
+void Turn::partialExecute()
 {
     execTo(findIndexFirstNaec());
     ASSERT(isPartiallyExecuted(), "Bug in partialExecute()");
 }
 
 
-void TurnCmd::partialUndo()
+void Turn::partialUndo()
 {
     // Lazy implementation :)
     undo();
@@ -84,14 +84,14 @@ void TurnCmd::partialUndo()
 }
 
 
-void TurnCmd::dropNonExecutedCommands()
+void Turn::dropNonExecutedCommands()
 {
     if (!isFullyExecuted())
         dropFrom(m_firstNotExecuted);
 }
 
 
-void TurnCmd::dropFrom(const Command &iCmd)
+void Turn::dropFrom(const Command &iCmd)
 {
     // Find the command index
     unsigned idx = findIndex(iCmd);
@@ -101,7 +101,7 @@ void TurnCmd::dropFrom(const Command &iCmd)
 }
 
 
-void TurnCmd::dropCommand(const Command &iCmd)
+void Turn::dropCommand(const Command &iCmd)
 {
     ASSERT(iCmd.isInsertable(), "Only insertable commands can be dropped");
     ASSERT(iCmd.isAutoExecutable(), "Non auto-executable commands cannot be dropped");
@@ -128,7 +128,7 @@ void TurnCmd::dropCommand(const Command &iCmd)
 }
 
 
-void TurnCmd::insertCommand(Command *iCmd)
+void Turn::insertCommand(Command *iCmd)
 {
     ASSERT(iCmd->isInsertable(), "Only insertable commands can be inserted");
     ASSERT(iCmd->isAutoExecutable(), "Non auto-executable commands cannot be inserted");
@@ -155,7 +155,7 @@ void TurnCmd::insertCommand(Command *iCmd)
 }
 
 
-void TurnCmd::replaceCommand(const Command &iOldCmd,
+void Turn::replaceCommand(const Command &iOldCmd,
                              Command *iNewCmd)
 {
     ASSERT(string(typeid(iOldCmd).name()) == string(typeid(*iNewCmd).name()),
@@ -179,13 +179,13 @@ void TurnCmd::replaceCommand(const Command &iOldCmd,
 }
 
 
-bool TurnCmd::isFullyExecuted() const
+bool Turn::isFullyExecuted() const
 {
     return m_firstNotExecuted == m_commands.size();
 }
 
 
-bool TurnCmd::isPartiallyExecuted() const
+bool Turn::isPartiallyExecuted() const
 {
     if (isFullyExecuted())
         return true;
@@ -193,19 +193,19 @@ bool TurnCmd::isPartiallyExecuted() const
 }
 
 
-bool TurnCmd::isNotAtAllExecuted() const
+bool Turn::isNotAtAllExecuted() const
 {
     return m_firstNotExecuted == 0;
 }
 
 
-bool TurnCmd::hasNonAutoExecCmd() const
+bool Turn::hasNonAutoExecCmd() const
 {
     return findIndexFirstNaec() != m_commands.size();
 }
 
 
-bool TurnCmd::isHumanIndependent() const
+bool Turn::isHumanIndependent() const
 {
     BOOST_FOREACH(Command *cmd, m_commands)
     {
@@ -216,7 +216,7 @@ bool TurnCmd::isHumanIndependent() const
 }
 
 
-unsigned TurnCmd::findIndex(const Command &iCmd) const
+unsigned Turn::findIndex(const Command &iCmd) const
 {
     for (unsigned i = 0; i < m_commands.size(); ++i)
     {
@@ -227,7 +227,7 @@ unsigned TurnCmd::findIndex(const Command &iCmd) const
 }
 
 
-unsigned TurnCmd::findIndexFirstNaec() const
+unsigned Turn::findIndexFirstNaec() const
 {
     for (unsigned i = 0; i < m_commands.size(); ++i)
     {
@@ -238,7 +238,7 @@ unsigned TurnCmd::findIndexFirstNaec() const
 }
 
 
-unsigned TurnCmd::execTo(unsigned iNewFirstNotExec)
+unsigned Turn::execTo(unsigned iNewFirstNotExec)
 {
     ASSERT(iNewFirstNotExec <= m_commands.size(), "Invalid index");
     unsigned oldVal = m_firstNotExecuted;
@@ -253,7 +253,7 @@ unsigned TurnCmd::execTo(unsigned iNewFirstNotExec)
 }
 
 
-unsigned TurnCmd::undoTo(unsigned iNewFirstNotExec)
+unsigned Turn::undoTo(unsigned iNewFirstNotExec)
 {
     unsigned oldVal = m_firstNotExecuted;
     while (m_firstNotExecuted > iNewFirstNotExec)
@@ -267,7 +267,7 @@ unsigned TurnCmd::undoTo(unsigned iNewFirstNotExec)
 }
 
 
-void TurnCmd::dropFrom(unsigned iFirstToDrop)
+void Turn::dropFrom(unsigned iFirstToDrop)
 {
     ASSERT(iFirstToDrop < m_commands.size(), "Invalid index");
     LOG_DEBUG("Deleting turn commands, starting from index " << iFirstToDrop);
@@ -282,7 +282,7 @@ void TurnCmd::dropFrom(unsigned iFirstToDrop)
 }
 
 
-wstring TurnCmd::toString() const
+wstring Turn::toString() const
 {
     wostringstream oss;
     BOOST_FOREACH(Command *cmd, m_commands)

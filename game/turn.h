@@ -33,22 +33,22 @@ class Command;
 /**
  * This class encapsulates commands, and almost behaves as one itself.
  * The main difference with a normal command (and thus with the composite pattern)
- * is that a TurnCmd provides partial execution: some of the commands it contains
+ * is that a Turn provides partial execution: some of the commands it contains
  * (the first ones) can be executed, whereas others not.
  * The ones which can be executed are the ones flagged "auto-executable", and are
  * named AE commands (or AEC) in the following comments.
  * The non AE commands are named NAEC.
  *
- * Without loss of generality, the commands in a TurnCmd can always be structured
+ * Without loss of generality, the commands in a Turn can always be structured
  * like this in a unique way:
  *      - a (possibly empty) sequence of AEC
  *      - a (possibly empty) sequence of AEC and NAEC, starting with a NAEC
  *
- * There are only 3 valid "states" for a TurnCmd:
+ * There are only 3 valid "states" for a Turn:
  *      - not at all executed (none of the commands is executed)
  *      - partially executed (all the AEC until the first NAEC are executed)
  *      - fully executed (all the commands are executed)
- * These states are not at all exclusive. For example, for a TurnCmd object without
+ * These states are not at all exclusive. For example, for a Turn object without
  * any command, the three states are equal.
  *
  * Here are a few "graphical" examples, where x represents an AEC, N represents,
@@ -57,17 +57,17 @@ class Command;
  *      |xxxxNNxNxN|  |xxxx|  |Nxxx|  ||
  *           ^             ^   ^       ^
  */
-class TurnCmd
+class Turn
 {
     DEFINE_LOGGER();
 
     public:
-        TurnCmd();
-        virtual ~TurnCmd();
+        Turn();
+        virtual ~Turn();
 
         /**
          * Add the given command and execute it.
-         * The TurnCmd object takes ownership of the given Command.
+         * The Turn object takes ownership of the given Command.
          */
         void addAndExecute(Command *iCmd);
 
@@ -123,7 +123,7 @@ class TurnCmd
 
         /**
          * Replace the first command with the second one.
-         * The TurnCmd object takes ownership of the given Command.
+         * The Turn object takes ownership of the given Command.
          * Use with care...
          */
         void replaceCommand(const Command &iOldCmd,

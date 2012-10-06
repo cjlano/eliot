@@ -36,13 +36,13 @@ Navigation::Navigation()
     : m_currTurn(0)
 {
     // Start with an empty turn
-    m_turnCommands.push_back(new TurnCmd);
+    m_turnCommands.push_back(new Turn);
 }
 
 
 Navigation::~Navigation()
 {
-    BOOST_FOREACH(TurnCmd *c, m_turnCommands)
+    BOOST_FOREACH(Turn *c, m_turnCommands)
     {
         delete c;
     }
@@ -53,7 +53,7 @@ void Navigation::newTurn()
 {
     LOG_INFO("New turn");
     lastTurn();
-    m_turnCommands.push_back(new TurnCmd);
+    m_turnCommands.push_back(new Turn);
     ++m_currTurn;
 }
 
@@ -100,7 +100,7 @@ void Navigation::prevTurn()
         return;
 
     LOG_DEBUG("Navigating to the previous turn");
-    TurnCmd *turn = m_turnCommands[m_currTurn];
+    Turn *turn = m_turnCommands[m_currTurn];
     if (turn->isFullyExecuted() && turn->hasNonAutoExecCmd())
     {
         ASSERT(isLastTurn(), "Unexpected turn state");
@@ -123,7 +123,7 @@ void Navigation::nextTurn()
         return;
 
     LOG_DEBUG("Navigating to the next turn");
-    TurnCmd *turn = m_turnCommands[m_currTurn];
+    Turn *turn = m_turnCommands[m_currTurn];
     ASSERT(turn->isPartiallyExecuted(), "Unexpected turn state");
 
     if (m_currTurn + 1 < m_turnCommands.size())
@@ -185,7 +185,7 @@ void Navigation::clearFuture()
         m_turnCommands.pop_back();
     }
 
-    TurnCmd *turn = m_turnCommands[m_currTurn];
+    Turn *turn = m_turnCommands[m_currTurn];
 
     // Destroy non executed commands for the current turn
     ASSERT(turn->isPartiallyExecuted(), "Invalid state");
@@ -224,13 +224,13 @@ void Navigation::replaceCommand(const Command &iOldCmd,
 }
 
 
-const vector<TurnCmd *> & Navigation::getTurns() const
+const vector<Turn *> & Navigation::getTurns() const
 {
     return m_turnCommands;
 }
 
 
-const TurnCmd & Navigation::getCurrentTurn() const
+const Turn & Navigation::getCurrentTurn() const
 {
     return *m_turnCommands[m_currTurn];
 }
@@ -243,7 +243,7 @@ void Navigation::print() const
     LOG_DEBUG("Current position at turn " << m_currTurn);
     int index = 0;
     ostringstream oss;
-    BOOST_FOREACH(const TurnCmd *c, m_turnCommands)
+    BOOST_FOREACH(const Turn *c, m_turnCommands)
     {
         oss << endl << "Turn " << index << ":" << lfw(c->toString());
         ++index;

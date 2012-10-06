@@ -267,7 +267,7 @@ const PlayerEventCmd * Arbitration::getPlayerEvent(unsigned iPlayerId,
 {
     ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
     MatchingPlayerAndEventType predicate(iPlayerId, iEventType);
-    const TurnCmd &currTurn = getNavigation().getCurrentTurn();
+    const Turn &currTurn = getNavigation().getCurrentTurn();
     return currTurn.findMatchingCmd<PlayerEventCmd>(predicate);
 }
 
