@@ -208,9 +208,9 @@ void PlayWordMediator::playWord()
 
 void PlayWordMediator::onCoordChanged(const QString &iText)
 {
-    Coord c(wfq(iText));
-    if (!(m_coordModel.getCoord() == c))
-        m_coordModel.setCoord(Coord(wfq(iText)));
+    Coord coord(wfq(iText));
+    if (!(m_coordModel.getCoord() == coord))
+        m_coordModel.setCoord(coord);
     updatePointsAndState();
 }
 
