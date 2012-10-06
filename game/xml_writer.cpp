@@ -22,6 +22,15 @@
 #include <fstream>
 #include <cmath>
 #include <boost/foreach.hpp>
+#include <boost/format.hpp>
+
+#include "config.h"
+#if ENABLE_NLS
+#   include <libintl.h>
+#   define _(String) gettext(String)
+#else
+#   define _(String) String
+#endif
 
 #include "xml_writer.h"
 #include "encoding.h"
@@ -45,9 +54,14 @@
 // incompatible (and keep it in sync with xml_reader.cpp)
 #define CURRENT_XML_VERSION "2"
 
+#define FMT1(s, a1) (boost::format(s) % (a1)).str()
+#define FMT2(s, a1, a2) (boost::format(s) % (a1) % (a2)).str()
+
+
 using namespace std;
 
 INIT_LOGGER(game, XmlWriter);
+
 
 static void addIndent(string &s)
 {
@@ -90,15 +104,16 @@ static void writeMove(ostream &out, const Move &iMove,
     else if (iMove.isNull())
         out << "none\" />";
     else
-        throw SaveGameException("Unsupported move: " + lfw(iMove.toString()));
+        throw SaveGameException(FMT1(_("Unsupported move: %1%"), lfw(iMove.toString())));
 }
+
 
 void XmlWriter::write(const Game &iGame, const string &iFileName)
 {
     LOG_INFO("Saving game into '" << iFileName << "'");
     ofstream out(iFileName.c_str());
     if (!out.is_open())
-        throw SaveGameException("Cannot open file for writing: '" + iFileName + "'");
+        throw SaveGameException(FMT1(_("Cannot open file for writing: '%1%'"), iFileName));
 
 
     out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
@@ -119,7 +134,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
     else if (header.getType() == Header::kGADDAG)
         out << "gaddag";
     else
-        throw SaveGameException("Invalid dictionary type");
+        throw SaveGameException(_("Invalid dictionary type"));
     out << "</Type>" << endl;
     // Retrieve the dictionary letters, ans separate them with spaces
     wstring lettersWithSpaces = header.getLetters();
@@ -171,7 +186,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
         {
             const AIPercent *ai = dynamic_cast<const AIPercent *>(&player);
             if (ai == NULL)
-                throw SaveGameException("Invalid player type for player " + i);
+                throw SaveGameException(FMT1(_("Invalid player type for player "), i));
             out << indent << "<Level>" << lrint(ai->getPercent() * 100) << "</Level>" << endl;
         }
         removeIndent(indent);
@@ -281,7 +296,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
                 LOG_ERROR("Unsupported command: " << lfw(cmd->toString()));
                 out << indent << "<!-- FIXME: Unsupported command: " << lfw(cmd->toString()) << " -->" << endl;
                 // XXX
-                //throw SaveGameException("Unsupported command: " + lfw(cmd->toString()));
+                //throw SaveGameException(FMT1(_("Unsupported command: %1%"), lfw(cmd->toString())));
             }
         }
         removeIndent(indent);

@@ -20,6 +20,7 @@
 
 #include <fstream>
 #include <algorithm>
+#include <boost/format.hpp>
 #include <SAX/XMLReader.hpp>
 #include <SAX/InputSource.hpp>
 
@@ -32,6 +33,14 @@
 #undef PACKAGE_TARNAME
 #undef PACKAGE_VERSION
 #undef VERSION
+
+#include "config.h"
+#if ENABLE_NLS
+#   include <libintl.h>
+#   define _(String) gettext(String)
+#else
+#   define _(String) String
+#endif
 
 #include "xml_reader.h"
 #include "dic.h"
@@ -57,6 +66,10 @@
 // incompatible (and keep it in sync with xml_writer.cpp)
 #define CURRENT_XML_VERSION "2"
 
+#define FMT1(s, a1) (boost::format(s) % (a1)).str()
+#define FMT2(s, a1, a2) (boost::format(s) % (a1) % (a2)).str()
+
+
 using namespace std;
 
 INIT_LOGGER(game, XmlReader);
@@ -68,7 +81,7 @@ Game * XmlReader::read(const string &iFileName, const Dictionary &iDic)
 
     ifstream is(iFileName.c_str());
     if (!is.is_open())
-        throw LoadGameException("Cannot open file '" + iFileName + "'");
+        throw LoadGameException(FMT1(_("Cannot open file '%1%'"), iFileName));
 
     XmlReader handler(iDic);
 
@@ -99,7 +112,7 @@ static wstring fromUtf8(const string &str)
 static int toInt(const string &str)
 {
     if (str.empty())
-        throw LoadGameException("Invalid string to int conversion: empty string received");
+        throw LoadGameException(_("Invalid string to int conversion: empty string received"));
     return atoi(str.c_str());
 }
 
@@ -107,7 +120,7 @@ static int toInt(const string &str)
 static Player & getPlayer(map<string, Player*> &players, const string &id)
 {
     if (players.find(id) == players.end())
-        throw LoadGameException("Invalid player ID: " + id);
+        throw LoadGameException(FMT1(_("Invalid player ID: %1%"), id));
     return *players[id];
 }
 
@@ -125,8 +138,8 @@ static Move buildMove(const Game &iGame, map<string, string> &attr,
                                         word, round, checkRack);
         if (res != 0)
         {
-            throw LoadGameException("Invalid move marked as valid: " +
-                                    attr["word"] + " (" + attr["coord"] + ")");
+            throw LoadGameException(FMT2(_("Invalid move marked as valid: %1% (%2%)"),
+                                         attr["word"], attr["coord"]));
         }
         return Move(round);
     }
@@ -148,7 +161,7 @@ static Move buildMove(const Game &iGame, map<string, string> &attr,
         return Move();
     }
     else
-        throw LoadGameException("Invalid move type: " + type);
+        throw LoadGameException(FMT1(_("Invalid move type: %1%"), type));
 }
 
 
@@ -180,7 +193,7 @@ void XmlReader::startElement(const string& namespaceURI,
                 LOG_ERROR("Incompatible save game format: current="
                           << CURRENT_XML_VERSION
                           << " savegame=" << atts.getValue(i));
-                throw LoadGameException("This saved game is not compatible with the current version of Eliot.");
+                throw LoadGameException(_("This saved game is not compatible with the current version of Eliot."));
             }
         }
     }
@@ -237,12 +250,12 @@ void XmlReader::endElement(const string& namespaceURI,
             m_data.erase(it, m_data.end());
             // Compare
             if (displayLetters != fromUtf8(m_data))
-                throw LoadGameException("The current dictionary is different from the one used in the saved game");
+                throw LoadGameException(_("The current dictionary is different from the one used in the saved game"));
         }
         else if (tag == "WordNb")
         {
             if (m_dic.getHeader().getNbWords() != (unsigned)toInt(m_data))
-                throw LoadGameException("The current dictionary is different from the one used in the saved game");
+                throw LoadGameException(_("The current dictionary is different from the one used in the saved game"));
         }
         else if (tag == "Dictionary")
             m_context = "";
@@ -253,7 +266,7 @@ void XmlReader::endElement(const string& namespaceURI,
     {
         // The game should not be created yet
         if (m_game != NULL)
-            throw LoadGameException("The 'Mode' tag should be the first one to be closed");
+            throw LoadGameException(_("The 'Mode' tag should be the first one to be closed"));
 
         // Differ game creation until after we have read the variant
         if (m_data == "duplicate")
@@ -273,7 +286,7 @@ void XmlReader::endElement(const string& namespaceURI,
     {
         // The game should not be created yet
         if (m_game != NULL)
-            throw LoadGameException("The 'Variant' tag should be right after the 'Mode' one");
+            throw LoadGameException(_("The 'Variant' tag should be right after the 'Mode' one"));
 
         if (m_data == "bingo")
             m_params.addVariant(GameParams::kJOKER);
@@ -282,7 +295,7 @@ void XmlReader::endElement(const string& namespaceURI,
         else if (m_data == "7among8")
             m_params.addVariant(GameParams::k7AMONG8);
         else if (m_data != "")
-            throw LoadGameException("Invalid game variant: " + m_data);
+            throw LoadGameException(FMT1(_("Invalid game variant: %1%"), m_data));
         return;
     }
 
@@ -303,7 +316,7 @@ void XmlReader::endElement(const string& namespaceURI,
         else if (tag == "Player")
         {
             if (m_players.find(m_attributes["id"]) != m_players.end())
-                throw LoadGameException("A player ID must be unique: " + m_attributes["id"]);
+                throw LoadGameException(FMT1(_("A player ID must be unique: %1%"), m_attributes["id"]));
             // Create the player
             Player *p;
             if (m_attributes["type"] == "human")
@@ -314,7 +327,7 @@ void XmlReader::endElement(const string& namespaceURI,
                 p = new AIPercent(0.01 * level);
             }
             else
-                throw LoadGameException("Invalid player type: " + m_attributes["type"]);
+                throw LoadGameException(FMT1(_("Invalid player type: %1%"), m_attributes["type"]));
             m_players[m_attributes["id"]] = p;
 
             // Set the name
@@ -333,7 +346,7 @@ void XmlReader::endElement(const string& namespaceURI,
         PlayedRack pldrack;
         if (!m_dic.validateLetters(rackStr, L"-+"))
         {
-            throw LoadGameException("Rack invalid for the current dictionary: " + m_data);
+            throw LoadGameException(FMT1(_("Rack invalid for the current dictionary: %1%"), m_data));
         }
         pldrack.setManual(rackStr);
         LOG_DEBUG("loaded rack: " << lfw(pldrack.toString()));
@@ -350,7 +363,7 @@ void XmlReader::endElement(const string& namespaceURI,
         PlayedRack pldrack;
         if (!m_dic.validateLetters(rackStr, L"-+"))
         {
-            throw LoadGameException("Rack invalid for the current dictionary: " + m_data);
+            throw LoadGameException(FMT1(_("Rack invalid for the current dictionary: "), m_data));
         }
         pldrack.setManual(rackStr);
         LOG_DEBUG("loaded rack: " << lfw(pldrack.toString()));
@@ -367,7 +380,7 @@ void XmlReader::endElement(const string& namespaceURI,
         Duplicate *duplicateGame = dynamic_cast<Duplicate*>(m_game);
         if (duplicateGame == NULL)
         {
-            throw LoadGameException("The MasterMove tag should only be present for duplicate games");
+            throw LoadGameException(_("The MasterMove tag should only be present for duplicate games"));
         }
         MasterMoveCmd *cmd = new MasterMoveCmd(*duplicateGame, move);
         m_game->accessNavigation().addAndExecute(cmd);
