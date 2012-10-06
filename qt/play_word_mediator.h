@@ -82,11 +82,9 @@ signals:
     void notifyProblem(QString iMsg);
 
 private slots:
-    void lineEditPlay_textChanged();
-    void lineEditPlay_returnPressed();
-    void lineEditCoord_textChanged(const QString &iText);
-    void lineEditCoord_returnPressed() { lineEditPlay_returnPressed(); }
-    void pushButtonPlay_clicked() { lineEditPlay_returnPressed(); }
+    void playWord();
+    void updatePointsAndState();
+    void onCoordChanged(const QString &iText);
     void updateCoord(const Coord &, const Coord &iNewCoord);
 
 private:

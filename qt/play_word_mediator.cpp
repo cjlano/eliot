@@ -55,15 +55,15 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
 
     // Set all the connections
     QObject::connect(&m_lineEditPlay, SIGNAL(textChanged(const QString&)),
-                     this, SLOT(lineEditPlay_textChanged()));
+                     this, SLOT(updatePointsAndState()));
     QObject::connect(&m_lineEditPlay, SIGNAL(returnPressed()),
-                     this, SLOT(lineEditPlay_returnPressed()));
+                     this, SLOT(playWord()));
     QObject::connect(&m_lineEditCoord, SIGNAL(textChanged(const QString&)),
-                     this, SLOT(lineEditCoord_textChanged(const QString&)));
+                     this, SLOT(onCoordChanged(const QString&)));
     QObject::connect(&m_lineEditCoord, SIGNAL(returnPressed()),
-                     this, SLOT(lineEditCoord_returnPressed()));
+                     this, SLOT(playWord()));
     QObject::connect(&m_pushButtonPlay, SIGNAL(clicked()),
-                     this, SLOT(pushButtonPlay_clicked()));
+                     this, SLOT(playWord()));
     QObject::connect(&m_coordModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
                      this, SLOT(updateCoord(const Coord&, const Coord&)));
 }
@@ -115,7 +115,7 @@ bool PlayWordMediator::GetPlayedWord(QLineEdit &iEditWord,
 }
 
 
-void PlayWordMediator::lineEditPlay_textChanged()
+void PlayWordMediator::updatePointsAndState()
 {
     bool acceptableInput =
         m_lineEditPlay.hasAcceptableInput() &&
@@ -138,7 +138,7 @@ void PlayWordMediator::lineEditPlay_textChanged()
 }
 
 
-void PlayWordMediator::lineEditPlay_returnPressed()
+void PlayWordMediator::playWord()
 {
     if (!m_lineEditPlay.hasAcceptableInput() ||
         !m_lineEditCoord.hasAcceptableInput())
@@ -206,12 +206,12 @@ void PlayWordMediator::lineEditPlay_returnPressed()
 }
 
 
-void PlayWordMediator::lineEditCoord_textChanged(const QString &iText)
+void PlayWordMediator::onCoordChanged(const QString &iText)
 {
     Coord c(wfq(iText));
     if (!(m_coordModel.getCoord() == c))
         m_coordModel.setCoord(Coord(wfq(iText)));
-    lineEditPlay_textChanged();
+    updatePointsAndState();
 }
 
 
@@ -232,7 +232,7 @@ void PlayWordMediator::updateCoord(const Coord &, const Coord &iNewCoord)
     if (!m_lineEditPlay.hasFocus() && !m_lineEditCoord.hasFocus())
         m_lineEditPlay.setFocus();
 
-    lineEditPlay_textChanged();
+    updatePointsAndState();
 }
 
 
