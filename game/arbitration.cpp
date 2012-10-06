@@ -25,7 +25,7 @@
 #include "arbitration.h"
 #include "rack.h"
 #include "player.h"
-#include "turn_cmd.h"
+#include "turn.h"
 #include "game_rack_cmd.h"
 #include "results.h"
 #include "player_move_cmd.h"

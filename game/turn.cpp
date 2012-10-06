@@ -22,7 +22,7 @@
 #include <sstream>
 #include <typeinfo>
 
-#include "turn_cmd.h"
+#include "turn.h"
 #include "command.h"
 #include "player.h"
 #include "debug.h"

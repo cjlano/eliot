@@ -47,7 +47,7 @@
 #include "master_move_cmd.h"
 #include "ai_player.h"
 #include "navigation.h"
-#include "turn_cmd.h"
+#include "turn.h"
 #include "settings.h"
 #include "encoding.h"
 #include "debug.h"

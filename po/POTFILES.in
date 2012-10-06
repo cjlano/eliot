@@ -98,8 +98,8 @@ game/training.cpp
 game/training.h
 game/turn_data.cpp
 game/turn_data.h
-game/turn_cmd.cpp
-game/turn_cmd.h
+game/turn.cpp
+game/turn.h
 game/xml_reader.cpp
 game/xml_reader.h
 game/xml_writer.cpp

@@ -50,7 +50,7 @@ libgame_a_SOURCES= \
     game.cpp game.h \
     game_move_cmd.h game_move_cmd.cpp \
     game_rack_cmd.h game_rack_cmd.cpp \
-    turn_cmd.cpp turn_cmd.h \
+    turn.cpp turn.h \
     duplicate.cpp duplicate.h \
     arbitration.cpp arbitration.h \
     master_move_cmd.h master_move_cmd.cpp \

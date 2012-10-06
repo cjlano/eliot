@@ -22,7 +22,7 @@
 #include <sstream>
 
 #include "navigation.h"
-#include "turn_cmd.h"
+#include "turn.h"
 #include "command.h"
 #include "game_exception.h"
 #include "debug.h"
