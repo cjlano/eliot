@@ -36,13 +36,13 @@ Navigation::Navigation()
     : m_currTurn(0)
 {
     // Start with an empty turn
-    m_turnCommands.push_back(new Turn);
+    m_allTurns.push_back(new Turn);
 }
 
 
 Navigation::~Navigation()
 {
-    BOOST_FOREACH(Turn *c, m_turnCommands)
+    BOOST_FOREACH(Turn *c, m_allTurns)
     {
         delete c;
     }
@@ -53,7 +53,7 @@ void Navigation::newTurn()
 {
     LOG_INFO("New turn");
     lastTurn();
-    m_turnCommands.push_back(new Turn);
+    m_allTurns.push_back(new Turn);
     ++m_currTurn;
 }
 
@@ -62,7 +62,7 @@ void Navigation::addAndExecute(Command *iCmd)
 {
     if (!isLastTurn())
         throw GameException("Cannot add a command to an old turn");
-    m_turnCommands[m_currTurn]->addAndExecute(iCmd);
+    m_allTurns[m_currTurn]->addAndExecute(iCmd);
 }
 
 
@@ -74,23 +74,23 @@ unsigned int Navigation::getCurrTurn() const
 
 unsigned int Navigation::getNbTurns() const
 {
-    return m_turnCommands.size();
+    return m_allTurns.size();
 }
 
 
 bool Navigation::isFirstTurn() const
 {
     return m_currTurn == 0 &&
-        m_turnCommands[m_currTurn]->isPartiallyExecuted() &&
-        (!m_turnCommands[m_currTurn]->hasNonAutoExecCmd() ||
-         !m_turnCommands[m_currTurn]->isFullyExecuted());
+        m_allTurns[m_currTurn]->isPartiallyExecuted() &&
+        (!m_allTurns[m_currTurn]->hasNonAutoExecCmd() ||
+         !m_allTurns[m_currTurn]->isFullyExecuted());
 }
 
 
 bool Navigation::isLastTurn() const
 {
-    return m_currTurn == m_turnCommands.size() - 1 &&
-        m_turnCommands[m_currTurn]->isFullyExecuted();
+    return m_currTurn == m_allTurns.size() - 1 &&
+        m_allTurns[m_currTurn]->isFullyExecuted();
 }
 
 
@@ -100,7 +100,7 @@ void Navigation::prevTurn()
         return;
 
     LOG_DEBUG("Navigating to the previous turn");
-    Turn *turn = m_turnCommands[m_currTurn];
+    Turn *turn = m_allTurns[m_currTurn];
     if (turn->isFullyExecuted() && turn->hasNonAutoExecCmd())
     {
         ASSERT(isLastTurn(), "Unexpected turn state");
@@ -113,7 +113,7 @@ void Navigation::prevTurn()
     turn->undo();
 
     --m_currTurn;
-    m_turnCommands[m_currTurn]->partialUndo();
+    m_allTurns[m_currTurn]->partialUndo();
 }
 
 
@@ -123,16 +123,16 @@ void Navigation::nextTurn()
         return;
 
     LOG_DEBUG("Navigating to the next turn");
-    Turn *turn = m_turnCommands[m_currTurn];
+    Turn *turn = m_allTurns[m_currTurn];
     ASSERT(turn->isPartiallyExecuted(), "Unexpected turn state");
 
-    if (m_currTurn + 1 < m_turnCommands.size())
+    if (m_currTurn + 1 < m_allTurns.size())
     {
         // Finish executing the current turn (if needed)
         turn->execute();
 
         ++m_currTurn;
-        m_turnCommands[m_currTurn]->partialExecute();
+        m_allTurns[m_currTurn]->partialExecute();
     }
     else
     {
@@ -168,7 +168,7 @@ void Navigation::clearFuture()
 
     // Replay the auto-execution turns (i.e. turns where only the AI was involved).
     // This is needed for a correct handling of free games
-    while (!isLastTurn() && m_turnCommands[m_currTurn]->isHumanIndependent())
+    while (!isLastTurn() && m_allTurns[m_currTurn]->isHumanIndependent())
     {
         LOG_DEBUG("Replaying a human independent turn");
         nextTurn();
@@ -179,13 +179,13 @@ void Navigation::clearFuture()
         return;
 
     // Destroy future turns
-    while (m_turnCommands.size() > m_currTurn + 1)
+    while (m_allTurns.size() > m_currTurn + 1)
     {
-        delete m_turnCommands.back();
-        m_turnCommands.pop_back();
+        delete m_allTurns.back();
+        m_allTurns.pop_back();
     }
 
-    Turn *turn = m_turnCommands[m_currTurn];
+    Turn *turn = m_allTurns[m_currTurn];
 
     // Destroy non executed commands for the current turn
     ASSERT(turn->isPartiallyExecuted(), "Invalid state");
@@ -201,38 +201,38 @@ void Navigation::clearFuture()
 void Navigation::dropFrom(const Command &iCmd)
 {
     ASSERT(isLastTurn(), "Only possible in the last turn");
-    m_turnCommands.back()->dropFrom(iCmd);
+    m_allTurns.back()->dropFrom(iCmd);
 }
 
 
 void Navigation::dropCommand(const Command &iCmd)
 {
-    m_turnCommands[m_currTurn]->dropCommand(iCmd);
+    m_allTurns[m_currTurn]->dropCommand(iCmd);
 }
 
 
 void Navigation::insertCommand(Command *iCmd)
 {
-    m_turnCommands[m_currTurn]->insertCommand(iCmd);
+    m_allTurns[m_currTurn]->insertCommand(iCmd);
 }
 
 
 void Navigation::replaceCommand(const Command &iOldCmd,
                                 Command *iNewCmd)
 {
-    m_turnCommands[m_currTurn]->replaceCommand(iOldCmd, iNewCmd);
+    m_allTurns[m_currTurn]->replaceCommand(iOldCmd, iNewCmd);
 }
 
 
 const vector<Turn *> & Navigation::getTurns() const
 {
-    return m_turnCommands;
+    return m_allTurns;
 }
 
 
 const Turn & Navigation::getCurrentTurn() const
 {
-    return *m_turnCommands[m_currTurn];
+    return *m_allTurns[m_currTurn];
 }
 
 
@@ -243,7 +243,7 @@ void Navigation::print() const
     LOG_DEBUG("Current position at turn " << m_currTurn);
     int index = 0;
     ostringstream oss;
-    BOOST_FOREACH(const Turn *c, m_turnCommands)
+    BOOST_FOREACH(const Turn *c, m_allTurns)
     {
         oss << endl << "Turn " << index << ":" << lfw(c->toString());
         ++index;

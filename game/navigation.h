@@ -101,7 +101,7 @@ class Navigation
         void print() const;
 
     private:
-        vector<Turn *> m_turnCommands;
+        vector<Turn *> m_allTurns;
         unsigned int m_currTurn;
 };
 

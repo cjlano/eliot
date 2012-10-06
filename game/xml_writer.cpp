@@ -195,10 +195,10 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
 #if 0
     iGame.getNavigation().print();
 #endif
-    const vector<Turn *> &turnCmdVect = iGame.getNavigation().getTurns();
-    BOOST_FOREACH(const Turn *turn, turnCmdVect)
+    const vector<Turn *> &turnVect = iGame.getNavigation().getTurns();
+    BOOST_FOREACH(const Turn *turn, turnVect)
     {
-        if (turn->getCommands().empty() && turn == turnCmdVect.back())
+        if (turn->getCommands().empty() && turn == turnVect.back())
             continue;
         out << indent << "<Turn>" << endl;
         addIndent(indent);
