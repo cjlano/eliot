@@ -49,7 +49,9 @@ void PlayerEventCmd::doExecute()
     else if (m_eventType == END_GAME)
         m_player.accessHistory().addEndGamePoints(m_points);
     else
+    {
         ASSERT(false, "Missing case");
+    }
 }
 
 
@@ -64,7 +66,9 @@ void PlayerEventCmd::doUndo()
     else if (m_eventType == END_GAME)
         m_player.accessHistory().addEndGamePoints(- m_points);
     else
+    {
         ASSERT(false, "Missing case");
+    }
 }
 
 
@@ -81,7 +85,9 @@ wstring PlayerEventCmd::toString() const
     else if (m_eventType == END_GAME)
         oss << L"EndGame (" << m_points << L" points)";
     else
+    {
         ASSERT(false, "Missing case");
+    }
     return oss.str();
 }
 

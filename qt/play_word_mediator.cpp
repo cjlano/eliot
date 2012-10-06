@@ -244,7 +244,11 @@ wstring PlayWordMediator::getWord()
 {
     wstring playedWord;
     QString msg;
-    bool ok = GetPlayedWord(m_lineEditPlay, m_game->getDic(), &playedWord, &msg);
+    // Avoid a warning in non debug mode (unused variable)
+#ifdef DEBUG
+    bool ok =
+#endif
+        GetPlayedWord(m_lineEditPlay, m_game->getDic(), &playedWord, &msg);
     // The method should only be called for a correct input
     ASSERT(ok, "Invalid word (should not be possible)");
     return playedWord;
