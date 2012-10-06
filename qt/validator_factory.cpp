@@ -61,6 +61,8 @@ ChangeValidator::ChangeValidator(QObject *parent,
 
 QValidator::State ChangeValidator::validate(QString &input, int &) const
 {
+    input = input.toUpper();
+
     // The string is invalid if it contains invalid input characters
     const wistring &winput = wfq(input);
     if (!m_dic.validateInputChars(winput))
@@ -302,7 +304,9 @@ QValidator::State RegexpValidator::validate(QString &input, int &) const
     if (input == "")
         return Intermediate;
 
-    wstring authorizedChars = L".[]()*+?:^";
+    static const wstring authorizedChars = L".[]()*+?:^";
+
+    input = input.toUpper();
 
     // The string is invalid if it contains invalid input characters
     const wistring &winput = wfq(input);
@@ -352,6 +356,8 @@ QValidator::State PlayWordValidator::validate(QString &input, int &) const
 {
     if (input == "")
         return Intermediate;
+
+    input = input.toUpper();
 
     const wistring &winput = wfq(input);
     // The string is invalid if it contains invalid input characters
@@ -412,14 +418,16 @@ CoordsValidator::CoordsValidator(QObject *parent)
 
 QValidator::State CoordsValidator::validate(QString &input, int &) const
 {
+    input = input.toUpper();
+
     // Only authorize characters part of a valid coordinate
-    wstring copy = wfq(input.toUpper());
-    wstring authorized = L"ABCDEFGHIJKLMNO1234567890";
+    wstring copy = wfq(input);
+    static const wstring authorized = L"ABCDEFGHIJKLMNO1234567890";
     if (copy.find_first_not_of(authorized) != wstring::npos)
         return Invalid;
 
     // Check coordinates
-    Coord c(wfq(input));
+    Coord c(copy);
     if (!c.isValid())
         return Intermediate;
 
