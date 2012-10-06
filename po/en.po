@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.9\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2012-10-06 18:19+0200\n"
+"POT-Creation-Date: 2012-10-06 21:17+0200\n"
 "PO-Revision-Date: 2009-06-28 14:06+0200\n"
 "Last-Translator: Olivier Teulière <ipkiss @@ via.ecp.fr>\n"
 "Language-Team: English <LL@li.org>\n"
@@ -430,16 +430,12 @@ msgstr ""
 msgid "Invalid player type: %1%"
 msgstr ""
 
-#: game/xml_reader.cpp:349
+#: game/xml_reader.cpp:349 game/xml_reader.cpp:366
 msgid "Rack invalid for the current dictionary: %1%"
 msgstr ""
 
-#: game/xml_reader.cpp:366
-msgid "Rack invalid for the current dictionary: "
-msgstr ""
-
 #: game/xml_reader.cpp:383
-msgid "The MasterMove tag should only be present for duplicate games"
+msgid "The 'MasterMove' tag should only be present for duplicate games"
 msgstr ""
 
 #: game/xml_writer.cpp:107
@@ -455,7 +451,7 @@ msgid "Invalid dictionary type"
 msgstr ""
 
 #: game/xml_writer.cpp:189
-msgid "Invalid player type for player "
+msgid "Invalid player type for player %1%"
 msgstr ""
 
 #: qt/arbit_assignments.cpp:58 qt/stats_widget.cpp:117
@@ -663,7 +659,7 @@ msgid "Show definition of '%1' in an external browser"
 msgstr ""
 
 #: qt/dic_tools_widget.cpp:101 qt/dic_tools_widget.cpp:106
-#: qt/ui/arbitration_widget.ui.h:195 qt/ui/player_widget.ui.h:160
+#: qt/ui/arbitration_widget.ui.h:194 qt/ui/player_widget.ui.h:160
 #: qt/ui/training_widget.ui.h:185
 msgid "Rack:"
 msgstr ""
@@ -856,7 +852,7 @@ msgstr ""
 
 #: qt/fav_players.cpp:59
 msgid ""
-"To add or remove a player, use the buttons under the table. You can edit the "
+"To add or remove a player, use the buttons at the bottom. You can edit the "
 "existing players directly in the table, by double-clicking on them."
 msgstr ""
 
@@ -916,7 +912,7 @@ msgstr ""
 msgid "Turn"
 msgstr ""
 
-#: qt/history_widget.cpp:81 qt/ui/arbitration_widget.ui.h:194
+#: qt/history_widget.cpp:81 qt/ui/arbitration_widget.ui.h:193
 msgid "Rack"
 msgstr ""
 
@@ -983,7 +979,7 @@ msgstr ""
 msgid "No game"
 msgstr ""
 
-#: qt/main_window.cpp:384 utils/ncurses.cpp:1119 qt/ui/prefs_dialog.ui.h:589
+#: qt/main_window.cpp:384 utils/ncurses.cpp:1119 qt/ui/prefs_dialog.ui.h:588
 msgid "Training mode"
 msgstr ""
 
@@ -1398,10 +1394,10 @@ msgid "History"
 msgstr ""
 
 #: qt/main_window.cpp:1201
-msgid "Statistiques"
+msgid "Statistics"
 msgstr ""
 
-#: qt/main_window.cpp:1218 qt/ui/prefs_dialog.ui.h:548
+#: qt/main_window.cpp:1218 qt/ui/prefs_dialog.ui.h:547
 msgid "Timer"
 msgstr ""
 
@@ -1685,7 +1681,7 @@ msgstr ""
 
 #: qt/prefs_dialog.cpp:94
 msgid ""
-"If checked, the rack will be completed with random letters. \n"
+"If checked, the rack will be completed with random letters.\n"
 "Uncheck this option if you prefer to choose the letters yourself."
 msgstr ""
 
@@ -2043,11 +2039,11 @@ msgstr ""
 msgid "Cannot take these letters from the bag:"
 msgstr ""
 
-#: utils/ncurses.cpp:1121 qt/ui/prefs_dialog.ui.h:584
+#: utils/ncurses.cpp:1121 qt/ui/prefs_dialog.ui.h:583
 msgid "Free game mode"
 msgstr ""
 
-#: utils/ncurses.cpp:1123 qt/ui/prefs_dialog.ui.h:571
+#: utils/ncurses.cpp:1123 qt/ui/prefs_dialog.ui.h:570
 msgid "Duplicate mode"
 msgstr ""
 
@@ -2059,77 +2055,73 @@ msgstr ""
 msgid "[h for help]"
 msgstr ""
 
-#: qt/ui/arbit_assignments.ui.h:143 qt/ui/arbitration_widget.ui.h:193
-msgid "Form"
-msgstr ""
-
-#: qt/ui/arbit_assignments.ui.h:144
+#: qt/ui/arbit_assignments.ui.h:143
 msgid "Assignments"
 msgstr ""
 
-#: qt/ui/arbit_assignments.ui.h:145
+#: qt/ui/arbit_assignments.ui.h:144
 msgid "Master move:"
 msgstr ""
 
-#: qt/ui/arbit_assignments.ui.h:147
+#: qt/ui/arbit_assignments.ui.h:146
 msgid "Select"
 msgstr ""
 
-#: qt/ui/arbit_assignments.ui.h:148
+#: qt/ui/arbit_assignments.ui.h:147
 msgid "Hide players with an assigned move"
 msgstr ""
 
-#: qt/ui/arbit_assignments.ui.h:149
+#: qt/ui/arbit_assignments.ui.h:148
 msgid "Assign move"
 msgstr ""
 
-#: qt/ui/arbit_assignments.ui.h:151
+#: qt/ui/arbit_assignments.ui.h:150
 msgid "Indicate that the selected player(s) did not play"
 msgstr ""
 
-#: qt/ui/arbit_assignments.ui.h:153
+#: qt/ui/arbit_assignments.ui.h:152
 msgid "Suppress move"
 msgstr ""
 
-#: qt/ui/arbit_assignments.ui.h:155
+#: qt/ui/arbit_assignments.ui.h:154
 msgid "Validate the current turn and start a new one"
 msgstr ""
 
-#: qt/ui/arbit_assignments.ui.h:157
+#: qt/ui/arbit_assignments.ui.h:156
 msgid "&End turn"
 msgstr ""
 
-#: qt/ui/arbitration_widget.ui.h:196
+#: qt/ui/arbitration_widget.ui.h:195
 msgid "Random"
 msgstr ""
 
-#: qt/ui/arbitration_widget.ui.h:197 qt/ui/dic_tools_widget.ui.h:308
+#: qt/ui/arbitration_widget.ui.h:196 qt/ui/dic_tools_widget.ui.h:308
 #: qt/ui/dic_tools_widget.ui.h:310
 msgid "Search"
 msgstr ""
 
-#: qt/ui/arbitration_widget.ui.h:198
+#: qt/ui/arbitration_widget.ui.h:197
 msgid "Possible words"
 msgstr ""
 
-#: qt/ui/arbitration_widget.ui.h:199
+#: qt/ui/arbitration_widget.ui.h:198
 msgid "Filter results:"
 msgstr ""
 
-#: qt/ui/arbitration_widget.ui.h:200
+#: qt/ui/arbitration_widget.ui.h:199
 msgid "Filter"
 msgstr ""
 
-#: qt/ui/arbitration_widget.ui.h:201
+#: qt/ui/arbitration_widget.ui.h:200
 msgid "Word:"
 msgstr ""
 
-#: qt/ui/arbitration_widget.ui.h:202 qt/ui/player_widget.ui.h:164
+#: qt/ui/arbitration_widget.ui.h:201 qt/ui/player_widget.ui.h:164
 #: qt/ui/training_widget.ui.h:187
 msgid "Ref.:"
 msgstr ""
 
-#: qt/ui/arbitration_widget.ui.h:203
+#: qt/ui/arbitration_widget.ui.h:202
 msgid "Check word"
 msgstr ""
 
@@ -2205,7 +2197,7 @@ msgid "Load this dictionary in Eliot"
 msgstr ""
 
 #: qt/ui/dic_wizard_info_page.ui.h:143 qt/ui/dic_wizard_info_page.ui.h:144
-#: qt/ui/prefs_dialog.ui.h:561
+#: qt/ui/prefs_dialog.ui.h:560
 msgid "Browse..."
 msgstr ""
 
@@ -2341,146 +2333,150 @@ msgstr ""
 msgid "&Change"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:547
+#: qt/ui/prefs_dialog.ui.h:546
 msgid "Preferences"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:549
+#: qt/ui/prefs_dialog.ui.h:548
 msgid "Timer total duration (in seconds):"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:550
-msgid "Timer alert (in seconds):"
+#: qt/ui/prefs_dialog.ui.h:549
+msgid "Alert level (in seconds):"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:551
+#: qt/ui/prefs_dialog.ui.h:550
 msgid "Timer beeps"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:552
+#: qt/ui/prefs_dialog.ui.h:551
 msgid "Miscellaneous"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:553
+#: qt/ui/prefs_dialog.ui.h:552
 msgid "Definitions site:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:554
+#: qt/ui/prefs_dialog.ui.h:553
 msgid "Dictionary path:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:556
+#: qt/ui/prefs_dialog.ui.h:555
 msgid "Enter the dictionary path (mandatory to start a game)"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:559
+#: qt/ui/prefs_dialog.ui.h:558
 msgid "Open a browser window to choose the dictionary"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:563
+#: qt/ui/prefs_dialog.ui.h:562
 msgid "Show/hide the tiles points on the board."
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:565
+#: qt/ui/prefs_dialog.ui.h:564
 msgid "Display tiles points"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:567
+#: qt/ui/prefs_dialog.ui.h:566
 msgid ""
 "If checked, the game and player histories will display the rack and the "
 "corresponding solution on the same line"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:569
+#: qt/ui/prefs_dialog.ui.h:568
 msgid "Align the rack and the solution in history"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:570
+#: qt/ui/prefs_dialog.ui.h:569
 msgid "Interface"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:573 qt/ui/prefs_dialog.ui.h:586
+#: qt/ui/prefs_dialog.ui.h:572 qt/ui/prefs_dialog.ui.h:585
 msgid ""
 "If checked, playing an invalid or misplaced word will not be possible. If "
 "unchecked, you will get 0 point and lose your turn"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:575 qt/ui/prefs_dialog.ui.h:588
+#: qt/ui/prefs_dialog.ui.h:574 qt/ui/prefs_dialog.ui.h:587
 msgid "Refuse to play invalid moves"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:576
+#: qt/ui/prefs_dialog.ui.h:575
 msgid "Min. players for a solo:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:577 qt/ui/prefs_dialog.ui.h:604
+#: qt/ui/prefs_dialog.ui.h:576 qt/ui/prefs_dialog.ui.h:603
 msgid "Solo value:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:579 qt/ui/prefs_dialog.ui.h:606
+#: qt/ui/prefs_dialog.ui.h:578 qt/ui/prefs_dialog.ui.h:605
 msgid "Value of the solo bonus. Set it to 0 if you don't want solo bonus"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:582
+#: qt/ui/prefs_dialog.ui.h:581
 msgid "Minimum number of players needed to take into account the solo bonus"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:590 qt/ui/prefs_dialog.ui.h:603
+#: qt/ui/prefs_dialog.ui.h:589 qt/ui/prefs_dialog.ui.h:602
 msgid "Search results limit:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:591
+#: qt/ui/prefs_dialog.ui.h:590
 msgid "Arbitration mode"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:592
+#: qt/ui/prefs_dialog.ui.h:591
 msgid "Choose a Master move automatically"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:593
+#: qt/ui/prefs_dialog.ui.h:592
 msgid "Propose a new rack automatically"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:595
+#: qt/ui/prefs_dialog.ui.h:594
 msgid ""
 "If checked, any change to the player rack in training mode will update the "
 "'Plus 1' tab of the 'Dictionary tools' window"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:597
+#: qt/ui/prefs_dialog.ui.h:596
 msgid "Copy rack to the 'Plus 1' dictionary tool"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:598
+#: qt/ui/prefs_dialog.ui.h:597
 msgid "Penalty value:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:599
+#: qt/ui/prefs_dialog.ui.h:598
 msgid "Warnings limit:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:601
+#: qt/ui/prefs_dialog.ui.h:600
 msgid "Default number of points for a penalty"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:608
+#: qt/ui/prefs_dialog.ui.h:607
 msgid "Game modes"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:609
+#: qt/ui/prefs_dialog.ui.h:608
 msgid "When a game is on going, ask for a confirmation:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:610
+#: qt/ui/prefs_dialog.ui.h:609
 msgid "Before starting a new game"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:611
+#: qt/ui/prefs_dialog.ui.h:610
 msgid "Before loading a game"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:612
+#: qt/ui/prefs_dialog.ui.h:611
 msgid "Before loading a dictionary"
+msgstr ""
+
+#: qt/ui/prefs_dialog.ui.h:612
+msgid "Before replaying a turn"
 msgstr ""
 
 #: qt/ui/prefs_dialog.ui.h:613
@@ -2488,42 +2484,38 @@ msgid "Before quitting Eliot"
 msgstr ""
 
 #: qt/ui/prefs_dialog.ui.h:614
-msgid "Before replaying a turn"
-msgstr ""
-
-#: qt/ui/prefs_dialog.ui.h:615
 msgid "In arbitration mode, ask for a confirmation:"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:616
+#: qt/ui/prefs_dialog.ui.h:615
 msgid "Before replacing the selected master move"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:617
+#: qt/ui/prefs_dialog.ui.h:616
 msgid "When selecting a non optimal master move"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:618
+#: qt/ui/prefs_dialog.ui.h:617
 msgid "When selecting a master move using jokers uselessly"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:619
+#: qt/ui/prefs_dialog.ui.h:618
 msgid "Before suppressing a player move"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:620
+#: qt/ui/prefs_dialog.ui.h:619
 msgid "Before replacing a player move"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:621
+#: qt/ui/prefs_dialog.ui.h:620
 msgid "Before losing a player move (with a rack change)"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:622
+#: qt/ui/prefs_dialog.ui.h:621
 msgid "When ending an incomplete turn"
 msgstr ""
 
-#: qt/ui/prefs_dialog.ui.h:623
+#: qt/ui/prefs_dialog.ui.h:622
 msgid "Confirmations"
 msgstr ""
 
