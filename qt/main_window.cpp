@@ -1198,7 +1198,7 @@ void MainWindow::onWindowsStatistics()
         // Create the window
         StatsWidget *stats = new StatsWidget;
         stats->setGame(m_game);
-        m_statsWindow = new AuxWindow(*stats, _q("Statistiques"), "StatsWindow",
+        m_statsWindow = new AuxWindow(*stats, _q("Statistics"), "StatsWindow",
                                       m_actionWindowsStats);
         QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
                          stats, SLOT(setGame(const PublicGame*)));

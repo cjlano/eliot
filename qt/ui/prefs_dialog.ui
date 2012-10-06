@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tabWidgetPage1">
       <attribute name="title">
@@ -42,7 +42,7 @@
             <item row="2" column="0">
              <widget class="QLabel" name="label_8">
               <property name="text">
-               <string>_(&quot;Timer alert (in seconds):&quot;)</string>
+               <string>_(&quot;Alert level (in seconds):&quot;)</string>
               </property>
              </widget>
             </item>
@@ -497,16 +497,16 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBoxConfoQuitGame">
+           <widget class="QCheckBox" name="checkBoxConfoReplayTurn">
             <property name="text">
-             <string>_(&quot;Before quitting Eliot&quot;)</string>
+             <string>_(&quot;Before replaying a turn&quot;)</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBoxConfoReplayTurn">
+           <widget class="QCheckBox" name="checkBoxConfoQuitGame">
             <property name="text">
-             <string>_(&quot;Before replaying a turn&quot;)</string>
+             <string>_(&quot;Before quitting Eliot&quot;)</string>
             </property>
            </widget>
           </item>
@@ -624,7 +624,6 @@
   <tabstop>checkBoxConfoLoadGame</tabstop>
   <tabstop>checkBoxConfoLoadDic</tabstop>
   <tabstop>checkBoxConfoQuitGame</tabstop>
-  <tabstop>checkBoxConfoReplayTurn</tabstop>
   <tabstop>checkBoxConfoArbitReplaceMaster</tabstop>
   <tabstop>checkBoxConfoArbitLowMaster</tabstop>
   <tabstop>checkBoxConfoArbitMasterJokers</tabstop>

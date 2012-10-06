@@ -91,7 +91,7 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     checkBoxArbitAutoMaster->setToolTip(_q("If checked, a Master move will be selected "
                                            "by default when searching the results.\n"
                                            "It is still possible to change the Master move afterwards."));
-    checkBoxArbitFillRack->setToolTip(_q("If checked, the rack will be completed with random letters. \n"
+    checkBoxArbitFillRack->setToolTip(_q("If checked, the rack will be completed with random letters.\n"
                                          "Uncheck this option if you prefer to choose the letters yourself."));
     spinBoxArbitSearchLimit->setToolTip(spinBoxTrainSearchLimit->toolTip());
     spinBoxArbitWarnLimit->setToolTip(_q("Maximal number of \"acceptable\" warnings.\n"

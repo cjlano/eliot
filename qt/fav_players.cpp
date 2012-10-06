@@ -46,7 +46,7 @@ FavPlayersDialog::FavPlayersDialog(QWidget *parent)
 {
     setWindowTitle(_q("Favorite players"));
     resize(480, 550);
-    setMinimumSize(200, 200);
+    setMinimumSize(400, 200);
 
     QVBoxLayout *vLayout = new QVBoxLayout(this);
     QLabel *label = new QLabel(_q("The favorite players listed below can be "
@@ -57,7 +57,7 @@ FavPlayersDialog::FavPlayersDialog(QWidget *parent)
     label->setWordWrap(true);
     vLayout->addWidget(label);
     QLabel *label2 = new QLabel(_q("To add or remove a player, use the buttons "
-                                   "under the table. You can edit the existing "
+                                   "at the bottom. You can edit the existing "
                                    "players directly in the table, by "
                                    "double-clicking on them."));
     label2->setWordWrap(true);

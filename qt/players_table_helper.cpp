@@ -74,10 +74,10 @@ PlayersTableHelper::PlayersTableHelper(QObject *parent,
 {
     // Initialize the table headers
     tablePlayers->setColumnCount(m_showDefaultColumn ? 4 : 3);
-    tablePlayers->setHorizontalHeaderItem(0, new QTableWidgetItem(_("Name")));
-    tablePlayers->setHorizontalHeaderItem(1, new QTableWidgetItem(_("Type")));
-    tablePlayers->setHorizontalHeaderItem(2, new QTableWidgetItem(_("Level")));
-    tablePlayers->setHorizontalHeaderItem(3, new QTableWidgetItem(_("Default")));
+    tablePlayers->setHorizontalHeaderItem(0, new QTableWidgetItem(_q("Name")));
+    tablePlayers->setHorizontalHeaderItem(1, new QTableWidgetItem(_q("Type")));
+    tablePlayers->setHorizontalHeaderItem(2, new QTableWidgetItem(_q("Level")));
+    tablePlayers->setHorizontalHeaderItem(3, new QTableWidgetItem(_q("Default")));
     QHeaderView *header = tablePlayers->horizontalHeader();
     header->setHighlightSections(false);
     header->setStretchLastSection(true);

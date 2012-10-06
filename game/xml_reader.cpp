@@ -363,7 +363,7 @@ void XmlReader::endElement(const string& namespaceURI,
         PlayedRack pldrack;
         if (!m_dic.validateLetters(rackStr, L"-+"))
         {
-            throw LoadGameException(FMT1(_("Rack invalid for the current dictionary: "), m_data));
+            throw LoadGameException(FMT1(_("Rack invalid for the current dictionary: %1%"), m_data));
         }
         pldrack.setManual(rackStr);
         LOG_DEBUG("loaded rack: " << lfw(pldrack.toString()));
@@ -380,7 +380,7 @@ void XmlReader::endElement(const string& namespaceURI,
         Duplicate *duplicateGame = dynamic_cast<Duplicate*>(m_game);
         if (duplicateGame == NULL)
         {
-            throw LoadGameException(_("The MasterMove tag should only be present for duplicate games"));
+            throw LoadGameException(_("The 'MasterMove' tag should only be present for duplicate games"));
         }
         MasterMoveCmd *cmd = new MasterMoveCmd(*duplicateGame, move);
         m_game->accessNavigation().addAndExecute(cmd);
