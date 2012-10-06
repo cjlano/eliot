@@ -214,7 +214,6 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     refresh();
 
     // Give focus to the rack
-    // FIXME: for some reason, the focus gets lost later...
     lineEditRack->setFocus();
     lineEditRack->selectAll();
 }

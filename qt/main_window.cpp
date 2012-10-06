@@ -409,7 +409,9 @@ void MainWindow::updateForGame(PublicGame *iGame)
             setWindowTitle(_q("Arbitration game") + " - Eliot");
             m_ui.groupBoxPlayers->setTitle(_q("Arbitration"));
 
-            m_arbitrationWidget = new ArbitrationWidget(NULL, iGame, m_coordModel);
+            // Note: we specify the parent immediately, otherwise the
+            // reparenting creates focus issues
+            m_arbitrationWidget = new ArbitrationWidget(m_ui.groupBoxPlayers, iGame, m_coordModel);
             m_ui.groupBoxPlayers->layout()->addWidget(m_arbitrationWidget);
             QObject::connect(m_arbitrationWidget, SIGNAL(gameUpdated()),
                              this, SIGNAL(gameUpdated()));
