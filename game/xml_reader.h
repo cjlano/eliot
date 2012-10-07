@@ -1,6 +1,7 @@
 /*****************************************************************************
- * Copyright (C) 2009-2012 Eliot
- * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
+ * Eliot
+ * Copyright (C) 2009-2012 Olivier Teulière
+ * Authors: Olivier Teulière  <ipkiss@via.ecp.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

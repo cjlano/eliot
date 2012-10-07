@@ -1,7 +1,8 @@
 /*****************************************************************************
- * Copyright (C) 1999-2012 Eliot
+ * Eliot
+ * Copyright (C) 1999-2012 Antoine Fraboulet & Olivier Teulière
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
- *          Olivier Teuliere  <ipkiss@via.ecp.fr>
+ *          Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
