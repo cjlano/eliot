@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (C) 2005 Eliot
+ * Copyright (C) 2005-2012 Eliot
  * Authors: Olivier Teuliere  <ipkiss@via.ecp.fr>
  *
  * This program is free software; you can redistribute it and/or modify

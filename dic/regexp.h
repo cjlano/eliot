@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 1999-2006 Antoine Fraboulet
+ * Copyright (C) 1999-2012 Antoine Fraboulet
  * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *
  * This program is free software; you can redistribute it and/or modify

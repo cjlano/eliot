@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (C) 1999-2005 Eliot
+ * Copyright (C) 1999-2012 Eliot
  * Authors: Antoine Fraboulet <antoine.fraboulet@free.fr>
  *          Olivier Teuliere  <ipkiss@via.ecp.fr>
  *

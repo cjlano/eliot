@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2005-2007 Olivier Teulière & Antoine Fraboulet
+ * Copyright (C) 2005-2012 Olivier Teulière & Antoine Fraboulet
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *          Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *
