@@ -344,11 +344,11 @@ QString StatsWidget::getTooltip(const TurnData &iTurn, const TurnData &iGameTurn
     }
     else if (move.isChangeLetters())
     {
-        tooltip += "\n" + _q("Changing letters: %1").arg(qfw(move.getChangedLetters()));
+        tooltip += "\n" + _q("Changed letters: %1").arg(qfw(move.getChangedLetters()));
     }
     else if (move.isPass())
     {
-        tooltip += "\n" + _q("Passing turn");
+        tooltip += "\n" + _q("Passed turn");
     }
     else
     {

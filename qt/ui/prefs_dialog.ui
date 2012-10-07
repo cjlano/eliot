@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabWidgetPage1">
       <attribute name="title">
@@ -340,7 +340,7 @@
           <item>
            <widget class="QCheckBox" name="checkBoxArbitAutoMaster">
             <property name="text">
-             <string>_(&quot;Choose a Master move automatically&quot;)</string>
+             <string>_(&quot;Choose a master move automatically&quot;)</string>
             </property>
            </widget>
           </item>

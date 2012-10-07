@@ -88,9 +88,9 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
                                            "The returned results will always be the best ones.\n"
                                            "Use 0 to disable the limit (warning: searches yielding many "
                                            "results could be very slow in this case!)."));
-    checkBoxArbitAutoMaster->setToolTip(_q("If checked, a Master move will be selected "
+    checkBoxArbitAutoMaster->setToolTip(_q("If checked, a master move will be selected "
                                            "by default when searching the results.\n"
-                                           "It is still possible to change the Master move afterwards."));
+                                           "It is still possible to change the master move afterwards."));
     checkBoxArbitFillRack->setToolTip(_q("If checked, the rack will be completed with random letters.\n"
                                          "Uncheck this option if you prefer to choose the letters yourself."));
     spinBoxArbitSearchLimit->setToolTip(spinBoxTrainSearchLimit->toolTip());
