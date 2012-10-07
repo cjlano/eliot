@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 2.0\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2012-10-06 21:17+0200\n"
+"POT-Creation-Date: 2012-10-07 12:57+0200\n"
 "PO-Revision-Date: 2009-06-28 10:35+0100\n"
 "Last-Translator: Olivier Teulière <ipkiss @@ via.ecp.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -1837,9 +1837,9 @@ msgstr ""
 
 #: qt/prefs_dialog.cpp:91
 msgid ""
-"If checked, a Master move will be selected by default when searching the "
+"If checked, a master move will be selected by default when searching the "
 "results.\n"
-"It is still possible to change the Master move afterwards."
+"It is still possible to change the master move afterwards."
 msgstr ""
 "Si la case est cochée, un coup maître sera sélectionné par défaut lors d'une "
 "recherche des résultats.\n"
@@ -1946,11 +1946,11 @@ msgid "Invalid move (%1 - %2)"
 msgstr "Coup invalide (%1 - %2)"
 
 #: qt/stats_widget.cpp:347
-msgid "Changing letters: %1"
+msgid "Changed letters: %1"
 msgstr "Lettres changées : %1"
 
 #: qt/stats_widget.cpp:351
-msgid "Passing turn"
+msgid "Passed turn"
 msgstr "Tour passé"
 
 #: qt/stats_widget.cpp:355
@@ -2634,7 +2634,7 @@ msgid "Arbitration mode"
 msgstr "Mode arbitrage"
 
 #: qt/ui/prefs_dialog.ui.h:591
-msgid "Choose a Master move automatically"
+msgid "Choose a master move automatically"
 msgstr "Choisir un coup maître automatiquement"
 
 #: qt/ui/prefs_dialog.ui.h:592
@@ -2750,6 +2750,9 @@ msgstr "&Recherche"
 #: qt/ui/training_widget.ui.h:199
 msgid "&Play selected"
 msgstr "&Jouer sélection"
+
+#~ msgid "Changing letters: %1"
+#~ msgstr "Lettres changées : %1"
 
 #~ msgid "Statistiques"
 #~ msgstr "Statistiques"

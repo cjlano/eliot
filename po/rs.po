@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.13\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2012-10-06 21:17+0200\n"
+"POT-Creation-Date: 2012-10-07 12:57+0200\n"
 "PO-Revision-Date: 2011-07-30 10:35+0100\n"
 "Last-Translator: Uroš Stefanović <urostajms @@ gmail.com>\n"
 "Language-Team: Serbian <traduc@traduc.org>\n"
@@ -1813,9 +1813,9 @@ msgstr ""
 
 #: qt/prefs_dialog.cpp:91
 msgid ""
-"If checked, a Master move will be selected by default when searching the "
+"If checked, a master move will be selected by default when searching the "
 "results.\n"
-"It is still possible to change the Master move afterwards."
+"It is still possible to change the master move afterwards."
 msgstr ""
 
 #: qt/prefs_dialog.cpp:94
@@ -1918,12 +1918,12 @@ msgstr ""
 
 #: qt/stats_widget.cpp:347
 #, fuzzy
-msgid "Changing letters: %1"
+msgid "Changed letters: %1"
 msgstr "Замени слова:"
 
 #: qt/stats_widget.cpp:351
 #, fuzzy
-msgid "Passing turn"
+msgid "Passed turn"
 msgstr "Прескочи свој потез"
 
 #: qt/stats_widget.cpp:355
@@ -2611,7 +2611,7 @@ msgid "Arbitration mode"
 msgstr "Тренинг"
 
 #: qt/ui/prefs_dialog.ui.h:591
-msgid "Choose a Master move automatically"
+msgid "Choose a master move automatically"
 msgstr ""
 
 #: qt/ui/prefs_dialog.ui.h:592
@@ -2735,6 +2735,10 @@ msgstr ""
 #, fuzzy
 msgid "&Play selected"
 msgstr "Одиграј изабрано"
+
+#, fuzzy
+#~ msgid "Changing letters: %1"
+#~ msgstr "Замени слова:"
 
 #, fuzzy
 #~ msgid "Rack invalid for the current dictionary: "

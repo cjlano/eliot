@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2012-10-06 21:17+0200\n"
+"POT-Creation-Date: 2012-10-07 12:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1675,9 +1675,9 @@ msgstr ""
 
 #: qt/prefs_dialog.cpp:91
 msgid ""
-"If checked, a Master move will be selected by default when searching the "
+"If checked, a master move will be selected by default when searching the "
 "results.\n"
-"It is still possible to change the Master move afterwards."
+"It is still possible to change the master move afterwards."
 msgstr ""
 
 #: qt/prefs_dialog.cpp:94
@@ -1775,11 +1775,11 @@ msgid "Invalid move (%1 - %2)"
 msgstr ""
 
 #: qt/stats_widget.cpp:347
-msgid "Changing letters: %1"
+msgid "Changed letters: %1"
 msgstr ""
 
 #: qt/stats_widget.cpp:351
-msgid "Passing turn"
+msgid "Passed turn"
 msgstr ""
 
 #: qt/stats_widget.cpp:355
@@ -2427,7 +2427,7 @@ msgid "Arbitration mode"
 msgstr ""
 
 #: qt/ui/prefs_dialog.ui.h:591
-msgid "Choose a Master move automatically"
+msgid "Choose a master move automatically"
 msgstr ""
 
 #: qt/ui/prefs_dialog.ui.h:592

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2012-10-06 21:17+0200\n"
+"POT-Creation-Date: 2012-10-07 12:57+0200\n"
 "PO-Revision-Date: 2011-12-30 21:03+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -1827,9 +1827,9 @@ msgstr ""
 
 #: qt/prefs_dialog.cpp:91
 msgid ""
-"If checked, a Master move will be selected by default when searching the "
+"If checked, a master move will be selected by default when searching the "
 "results.\n"
-"It is still possible to change the Master move afterwards."
+"It is still possible to change the master move afterwards."
 msgstr ""
 
 #: qt/prefs_dialog.cpp:94
@@ -1932,12 +1932,12 @@ msgstr ""
 
 #: qt/stats_widget.cpp:347
 #, fuzzy
-msgid "Changing letters: %1"
+msgid "Changed letters: %1"
 msgstr "Změnit písmena:"
 
 #: qt/stats_widget.cpp:351
 #, fuzzy
-msgid "Passing turn"
+msgid "Passed turn"
 msgstr "Vzdát svoje kolo"
 
 #: qt/stats_widget.cpp:355
@@ -2632,7 +2632,7 @@ msgid "Arbitration mode"
 msgstr "Režim cvičení"
 
 #: qt/ui/prefs_dialog.ui.h:591
-msgid "Choose a Master move automatically"
+msgid "Choose a master move automatically"
 msgstr ""
 
 #: qt/ui/prefs_dialog.ui.h:592
@@ -2756,6 +2756,10 @@ msgstr ""
 #, fuzzy
 msgid "&Play selected"
 msgstr "Hrát vybrané"
+
+#, fuzzy
+#~ msgid "Changing letters: %1"
+#~ msgstr "Změnit písmena:"
 
 #, fuzzy
 #~ msgid "Rack invalid for the current dictionary: "
