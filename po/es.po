@@ -1,0 +1,2902 @@
+# Catalan translations for eliot package
+# Copyright (C) 2009 Eliot
+# This file is distributed under the same license as the Eliot package.
+# Joan Montané <joan---sense spam---montane.cat>
+msgid ""
+msgstr ""
+"Project-Id-Version: eliot 1.9\n"
+"Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
+"POT-Creation-Date: 2012-10-07 12:57+0200\n"
+"PO-Revision-Date: 2012-10-10 22:09+0100\n"
+"Last-Translator: Joan Montané <joan ---sense spam--- montane.cat>\n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.3\n"
+
+#: dic/compdic.cpp:94
+msgid "'%1%' is not a valid letter."
+msgstr "'%1%' no es un carácter válido."
+
+#: dic/compdic.cpp:95
+msgid ""
+"For technical reasons, Eliot currently only supports alphabetical characters "
+"as internal character representation, even if the tile has a display string "
+"defined. Please use another character and change your word list accordingly."
+msgstr ""
+"Por motivos técnicos. Eliot sólo permite caracteres alfabéticos para "
+"representar fichas, incluso si la ficha tinene una cadena visible definida. "
+"Por favor, use un carácter para identificar la ficha y modifique la lista de "
+"palabras consecuentemente."
+
+#: dic/compdic.cpp:134 dic/compdic.cpp:139 dic/compdicmain.cpp:58
+msgid "Could not open file '%1%'"
+msgstr "No se puede abrir el archivo '%1%'"
+
+#: dic/compdic.cpp:256
+msgid "Error on line %1%, col %2%: %3%"
+msgstr "Hay un error en la línea %1%, columna %2%: %3%"
+
+#: dic/compdic.cpp:337
+msgid "Cannot open output file '%1%'"
+msgstr "No se puede abrir el archivo de salida '%1%'"
+
+#: dic/compdic.cpp:349
+msgid "The word list is empty!"
+msgstr "¡La lista de palabras está vacía!"
+
+#: dic/compdicmain.cpp:94
+msgid "readLetters: Not enough fields in %1% (line %2%)"
+msgstr "readLetters: No hay los campos imprescindibles en %1% (línea %2%)"
+
+#: dic/compdicmain.cpp:104
+msgid "readLetters: Invalid letter at line %1% (only one character allowed)"
+msgstr ""
+"readLetters: Ficha no válida en la línea %1% (sólo es permite un carácter)"
+
+#: dic/compdicmain.cpp:126
+msgid "Mandatory options:"
+msgstr "Opciones obligatorias:"
+
+#: dic/compdicmain.cpp:127
+msgid "  -d, --dicname <string>  Set the dictionary name and version"
+msgstr "  -d, --dicname <texto>  Establece el nombre y versión del diccionario"
+
+#: dic/compdicmain.cpp:128
+msgid ""
+"  -l, --letters <string>  Path to the file containing the letters (see below)"
+msgstr ""
+"  -l, --letters <texto>  Camino al archivo que contiene la distribución de "
+"fichas (leer más adelante)"
+
+#: dic/compdicmain.cpp:129
+msgid ""
+"  -i, --input <string>    Path to the uncompressed dictionary file (encoded "
+"in UTF-8)"
+msgstr ""
+"  -i, --input <texto>    Camino al archio del diccionario descomprimido "
+"(codificado en UTF-8)"
+
+#: dic/compdicmain.cpp:130
+msgid ""
+"                          The words must be in alphabetical order, without "
+"duplicates"
+msgstr ""
+"                          Las palabras deben encontrarse en orden "
+"alfabético, sin duplicados"
+
+#: dic/compdicmain.cpp:131
+msgid ""
+"  -o, --output <string>   Path to the generated compressed dictionary file"
+msgstr "  -o, --output <texto>    Camino al archivo del diccionario comprimido"
+
+#: dic/compdicmain.cpp:132
+msgid "Other options:"
+msgstr "Otras opciones:"
+
+#: dic/compdicmain.cpp:133
+msgid "  -h, --help              Print this help and exit"
+msgstr "  -h, --help              Muestra esta ayuda y sale"
+
+#: dic/compdicmain.cpp:134
+msgid "Example:"
+msgstr "Ejemplo:"
+
+#: dic/compdicmain.cpp:135
+msgid " -d 'ODS 5.0' -l letters.txt -i ods5.txt -o ods5.dawg"
+msgstr " -d 'ODS 5.0' -l fichas.txt -i ods5.txt -o ods5.dawg"
+
+#: dic/compdicmain.cpp:137
+msgid ""
+"The file containing the letters (--letters switch) must be UTF-8 encoded."
+msgstr ""
+"El archivo que contiene la distribución de fichas (parámetro --letters), "
+"debe usar la codificación UTF-8."
+
+#: dic/compdicmain.cpp:138
+msgid ""
+"Each line corresponds to one letter, and must contain at least 5 fields "
+"separated with one or more space(s)."
+msgstr ""
+"Cada línea corresponde a una ficha (letra), y debe tener como mínimo 5 "
+"campos separados por uno o más espacios."
+
+#: dic/compdicmain.cpp:140
+msgid ""
+" - 1st field: the letter itself, as stored in the input file (single "
+"character)"
+msgstr ""
+"- 1er campo: la ficha o letra, com se encuentra codificada en el archivo de "
+"entrada (un único carácter)"
+
+#: dic/compdicmain.cpp:141
+msgid " - 2nd field: the points of the letter"
+msgstr " - 2do campo: los puntos de la ficha, el valor facial."
+
+#: dic/compdicmain.cpp:142
+msgid ""
+" - 3rd field: the frequency of the letter (how many letters of this kind in "
+"the game)"
+msgstr ""
+" - 3er campo: la frecuencia de la ficha (cuantas fichas de este tipo tiene "
+"el juego de fichas)"
+
+#: dic/compdicmain.cpp:143
+msgid ""
+" - 4th field: 1 if the letter is considered as a vowel in Scrabble game, 0 "
+"otherwise"
+msgstr ""
+" - 4to campo: 1 si se considera que la ficha es una vocal en el Scrabble, 0 "
+"en caso contrario"
+
+#: dic/compdicmain.cpp:144
+msgid ""
+" - 5th field: 1 if the letter is considered as a consonant in Scrabble game, "
+"0 otherwise"
+msgstr ""
+" - 5to campo: 1 si se considera que la ficha es una consonante en el "
+"Scrabble, 0 en caso contrario"
+
+#: dic/compdicmain.cpp:145
+msgid ""
+" - 6th field (optional): display string for the letter (default: the letter "
+"itself)"
+msgstr ""
+" - 6º campo (opcional): cadena visible para la ficha (de forma "
+"predeterminada es la misma letra)"
+
+#: dic/compdicmain.cpp:146
+msgid ""
+" - other fields (optional): input strings for the letter, in addition to the "
+"display string"
+msgstr ""
+" - otros campos (opcional): entradas alternativas para la ficha, además de "
+"la cadena visible"
+
+#: dic/compdicmain.cpp:148
+msgid "Example for french:"
+msgstr "Ejemplo para el francés:"
+
+#: dic/compdicmain.cpp:154
+msgid "Example for catalan:"
+msgstr "Ejemplo para el catalán:"
+
+#. TRANSLATORS: the first "L.L" must be translated "L·L",
+#. and the last one translated "ĿL"
+#: dic/compdicmain.cpp:159
+msgid "W 10 1 0 1 L.L L.L L-L L.L"
+msgstr "W 10 1 0 1 L·L L.L L-L ĿL"
+
+#: dic/compdicmain.cpp:244
+msgid "A mandatory option is missing"
+msgstr "Falta alguna opción obligatoria"
+
+#: dic/compdicmain.cpp:256
+msgid " Load time: %1% s"
+msgstr " Tiempo de carga: %1% s"
+
+#: dic/compdicmain.cpp:257
+msgid " Compression time: %1% s"
+msgstr " Tiempo de compresión: %1% s"
+
+#: dic/compdicmain.cpp:259
+msgid " Maximum recursion level reached: %1%"
+msgstr " Nivel máximo de recursividad conseguido: %1%"
+
+#: dic/compdicmain.cpp:265
+msgid "Exception caught: %1%"
+msgstr "Se ha detectado una excepción: %1%"
+
+#: dic/csv_helper.cpp:120
+msgid "Invalid CSV file (variable number of fields, from %1% to %2%)"
+msgstr "Archivo CSV no válido (número de campos variable, desde %1% hasta %2%)"
+
+#: dic/csv_helper.cpp:138
+msgid "Invalid CSV data (variable number of fields)"
+msgstr "Datos CSV no válidos (número de campos variable)"
+
+#: dic/header.cpp:199
+msgid ""
+"Header::Header: Too many different letters for the current format; only %1% "
+"are supported"
+msgstr ""
+"Header::Header: Hay demasiadas fichas distintas en el format actual; sólo se "
+"permiten %1%"
+
+#: dic/header.cpp:309
+msgid "Header::getCharFromCode: No letter for code '%1%'"
+msgstr "Header::getCharFromCode: No hay ninguna ficha para el código '%1%'"
+
+#: dic/header.cpp:325
+msgid "Header::getCodeFromChar: No code for letter '%1%' (val=%2%)"
+msgstr ""
+"Header::getCodeFromChar: No hay ningún código para la ficha '%1%' (val=%2%)"
+
+#: dic/header.cpp:386
+msgid ""
+"Too old dictionary format. This format is not supported anymore since Eliot "
+"1.8. You can create dictionaries in the new format with the 'compdic' tool "
+"provided with Eliot (since version 1.6)."
+msgstr ""
+"El formato del diccionar está desfasado. Este formano no se usa más desde la "
+"versión 1.8 de Eliot. Puede crear diccionarios en el formato nuevo con la "
+"utilidad 'compdic' distribuida con Eliot (desde la versión 1.6)."
+
+#: dic/header.cpp:643
+msgid "Dictionary name: %1%"
+msgstr "Nombre del diccionario: %1%"
+
+#: dic/header.cpp:646
+msgid "Compressed on: %1%"
+msgstr "Se ha comprimido en: %1%"
+
+#: dic/header.cpp:647
+msgid "Compressed using a binary compiled by: %1%"
+msgstr "Se ha comprimido usando una compilación binària por: %1%"
+
+#: dic/header.cpp:648
+msgid "Dictionary type: %1%"
+msgstr "Tipo de diccionario: %1%"
+
+#: dic/header.cpp:649
+msgid "Letters: %1%"
+msgstr "Fichas: %1%"
+
+#: dic/header.cpp:650
+msgid "Number of letters: %1%"
+msgstr "Número de fichas: %1%"
+
+#: dic/header.cpp:651
+msgid "Number of words: %1%"
+msgstr "Número de palabras: %1%"
+
+#: dic/header.cpp:654
+msgid "Header size: %1% bytes"
+msgstr "Tamanyo de la cabecera: %1% bytes"
+
+#: dic/header.cpp:655
+msgid "Root: %1% (edge)"
+msgstr "Raíz: %1% (arista)"
+
+#: dic/header.cpp:656
+msgid "Nodes: %1% used + %2% saved"
+msgstr "Nodos: %1% usados + %2% guardados"
+
+#: dic/header.cpp:657
+msgid "Edges: %1% used + %2% saved"
+msgstr "Aristas: %1% usadas + %2% guardadas"
+
+#: dic/header.cpp:661 qt/bag_widget.cpp:56 qt/dic_tools_widget.cpp:111
+#: qt/dic_wizard.cpp:219
+msgid "Letter"
+msgstr "Ficha"
+
+#: dic/header.cpp:661 qt/arbit_assignments.cpp:62
+#: qt/arbitration_widget.cpp:108 qt/bag_widget.cpp:57
+#: qt/dic_tools_widget.cpp:112 qt/dic_wizard.cpp:220 qt/history_widget.cpp:84
+#: qt/training_widget.cpp:73
+msgid "Points"
+msgstr "Puntos"
+
+#: dic/header.cpp:661 qt/dic_tools_widget.cpp:113 qt/dic_wizard.cpp:221
+msgid "Frequency"
+msgstr "Frecuencia"
+
+#: dic/header.cpp:661
+msgid "Vowel"
+msgstr "Vocal"
+
+#: dic/header.cpp:662
+msgid "Consonant"
+msgstr "Consonante"
+
+#: dic/header.cpp:662
+msgid "Display"
+msgstr "Visible"
+
+#: dic/header.cpp:662
+msgid "Alt. input"
+msgstr "Entrada alt."
+
+#: dic/listdicmain.cpp:68
+#, c-format
+msgid "offset binary   | structure\n"
+msgstr "offset binario  | estructura\n"
+
+#: dic/listdicmain.cpp:77
+#, c-format
+msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
+msgstr "uso: %s [-a|-h|-l|-x] diccionario\n"
+
+#: dic/listdicmain.cpp:78
+#, c-format
+msgid "  -a: print all\n"
+msgstr "  -a: imprimir todo\n"
+
+#: dic/listdicmain.cpp:79
+#, c-format
+msgid "  -h: print header\n"
+msgstr "  -h: imprimir la cabecera\n"
+
+#: dic/listdicmain.cpp:80
+#, c-format
+msgid "  -l: print dictionary word list\n"
+msgstr "  -l: imprimir la llsta de palabras del diccionario\n"
+
+#: dic/listdicmain.cpp:81
+#, c-format
+msgid "  -x: print dictionary in hex\n"
+msgstr "  -x: imprimir el diccionario en hexadecimal\n"
+
+#: dic/regexpmain.cpp:45
+#, c-format
+msgid "usage: %s dictionary"
+msgstr "uso: %s diccionario"
+
+#: dic/regexpmain.cpp:46
+msgid "   dictionary: path to eliot dawg dictionary"
+msgstr "   diccionario: camino a un diccionario dawg de Eliot"
+
+#: dic/regexpmain.cpp:87 dic/regexpmain.cpp:111
+msgid "Enter a regular expression:"
+msgstr "Introduzca una expresión regular:"
+
+#: dic/regexpmain.cpp:98
+msgid "result:"
+msgstr "resultado:"
+
+#: dic/regexpmain.cpp:107
+msgid "Invalid regular expression: "
+msgstr "Expresión regular no válida: "
+
+#: game/duplicate.cpp:285
+msgid "No possible move"
+msgstr "No hay ninguna jugada posible"
+
+#: game/duplicate.cpp:365
+msgid "Cannot switch to a non-human player"
+msgstr "No se puede cambiar a un jugador no humano"
+
+#: game/duplicate.cpp:369
+msgid "Cannot switch to a player who has already played"
+msgstr "No se puede cambiar a un jugador que ya haya jugado"
+
+#: game/game.cpp:192
+msgid "The bag is empty"
+msgstr "La bolsa está vacía"
+
+#: game/game.cpp:194
+msgid "Not enough vowels or consonants to complete the rack"
+msgstr "No hay suficientes vocales o consonantes para completar el atril"
+
+#: game/game.cpp:250
+msgid "Not a random mode"
+msgstr "No es posible en modo aleatorio"
+
+#: game/game.cpp:456 qt/player_widget.cpp:195
+msgid "Some letters are invalid for the current dictionary"
+msgstr "Algunas fichas no son válidas para el diccionario actual"
+
+#: game/game.cpp:464
+msgid "The bag does not contain all these letters"
+msgstr "La bolsa no contiene todas estas fichas"
+
+#: game/game.cpp:477
+msgid "Not enough vowels or consonants in this rack"
+msgstr "No hay suficientes vocales o consonantes en el atril"
+
+#: game/game_factory.cpp:161
+msgid "Player %1%"
+msgstr "Jugador %1%"
+
+#: game/training.cpp:187 qt/main_window.cpp:385 qt/ui/new_game.ui.h:203
+msgid "Training"
+msgstr "Entrenamiento"
+
+#: game/xml_reader.cpp:84
+msgid "Cannot open file '%1%'"
+msgstr "No se puede abrir el archivo '%1%'"
+
+#: game/xml_reader.cpp:115
+msgid "Invalid string to int conversion: empty string received"
+msgstr ""
+"Conversión de cadena a entero no válida: se ha recibido una cadena vacía"
+
+#: game/xml_reader.cpp:123
+msgid "Invalid player ID: %1%"
+msgstr "ID del jugador no válida: %1"
+
+#: game/xml_reader.cpp:141
+msgid "Invalid move marked as valid: %1% (%2%)"
+msgstr "Jugada no válida marcada com válida; %1% (%2%)"
+
+#: game/xml_reader.cpp:164
+msgid "Invalid move type: %1%"
+msgstr "Tipo de jugada no válido: %1"
+
+#: game/xml_reader.cpp:196
+msgid "This saved game is not compatible with the current version of Eliot."
+msgstr "Esta partida no es compatible con la versión actual de Eliot."
+
+#: game/xml_reader.cpp:253 game/xml_reader.cpp:258
+msgid "The current dictionary is different from the one used in the saved game"
+msgstr ""
+"El diccionario actual es diferente del que se usó en la partida guardada"
+
+#: game/xml_reader.cpp:269
+msgid "The 'Mode' tag should be the first one to be closed"
+msgstr "La etiqueta 'Mode' debería ser la primera en cerrarse"
+
+#: game/xml_reader.cpp:289
+msgid "The 'Variant' tag should be right after the 'Mode' one"
+msgstr "La etiqueta 'Variant' deberia estar justo después de la etiqeut 'Mode'"
+
+#: game/xml_reader.cpp:298
+msgid "Invalid game variant: %1%"
+msgstr "Variante de partida no válida: %1"
+
+#: game/xml_reader.cpp:319
+msgid "A player ID must be unique: %1%"
+msgstr "Un identificador de jugador debe ser único: %1%"
+
+#: game/xml_reader.cpp:330
+msgid "Invalid player type: %1%"
+msgstr "Tipo de jugador no válido: %1"
+
+#: game/xml_reader.cpp:349 game/xml_reader.cpp:366
+msgid "Rack invalid for the current dictionary: %1%"
+msgstr "Atril no válido para el diccionario actual %1%"
+
+#: game/xml_reader.cpp:383
+msgid "The 'MasterMove' tag should only be present for duplicate games"
+msgstr ""
+"La etiqueta 'MasterMove' sólo debería estar presente en las partidas "
+"duplicadas"
+
+#: game/xml_writer.cpp:107
+msgid "Unsupported move: %1%"
+msgstr "Jugada no permitida: %1%"
+
+#: game/xml_writer.cpp:116
+msgid "Cannot open file for writing: '%1%'"
+msgstr "No se puede abrir para escritura el archivo: '%ls'"
+
+#: game/xml_writer.cpp:137
+msgid "Invalid dictionary type"
+msgstr "Tipo de diccionario no válido"
+
+#: game/xml_writer.cpp:189
+msgid "Invalid player type for player %1%"
+msgstr "Tipo de jugador no válido para el jugador %1%"
+
+#: qt/arbit_assignments.cpp:58 qt/stats_widget.cpp:117
+#: qt/ui/tables_dialog.ui.h:82
+msgid "Table"
+msgstr "Mesa"
+
+#: qt/arbit_assignments.cpp:59 qt/history_widget.cpp:117
+#: qt/score_widget.cpp:49 qt/ui/tables_dialog.ui.h:80
+msgid "Player"
+msgstr "Jugador"
+
+#: qt/arbit_assignments.cpp:60 qt/arbitration_widget.cpp:106
+#: qt/history_widget.cpp:82 qt/training_widget.cpp:71
+msgid "Word"
+msgstr "Palabra"
+
+#: qt/arbit_assignments.cpp:61 qt/arbitration_widget.cpp:107
+#: qt/history_widget.cpp:83 qt/training_widget.cpp:72
+msgid "Ref"
+msgstr "Coord"
+
+#: qt/arbit_assignments.cpp:150
+msgid "Not selected yet"
+msgstr "Todavía sin seleccionar"
+
+#: qt/arbit_assignments.cpp:254 qt/arbit_assignments.cpp:274
+#: qt/arbitration_widget.cpp:537
+msgid "Assign move (%1) to the selected player(s)"
+msgstr "Asigna la jugada (%1) a los jugadores seleccionados"
+
+#: qt/arbit_assignments.cpp:273 qt/arbitration_widget.cpp:536
+msgid "Assign selected move (%1)"
+msgstr "Asigna la jugada seleccionada (%1)"
+
+#: qt/arbit_assignments.cpp:283
+msgid "Assign top move (if unique)"
+msgstr "Asigna la jugada óptima, la de más puntos, si es única"
+
+#: qt/arbit_assignments.cpp:284
+msgid "Assign the top move (if unique) to the selected player(s)"
+msgstr "Asigna la jugada óptima (si es única) a los jugadores seleccionados"
+
+#: qt/arbit_assignments.cpp:291
+msgid "Suppress assigned move"
+msgstr "Retira la jugada asignada"
+
+#: qt/arbit_assignments.cpp:292
+msgid "Suppress the currently assigned move for the selected player(s)"
+msgstr "Retira la jugada actualmente asignada a los jugadores seleccionados"
+
+#: qt/arbit_assignments.cpp:301 qt/arbitration_widget.cpp:527
+msgid "Select all players"
+msgstr "Selecciona todos los jugadores"
+
+#: qt/arbit_assignments.cpp:302 qt/arbitration_widget.cpp:528
+msgid "Select all the players"
+msgstr "Selecciona todos los jugadores"
+
+#: qt/arbit_assignments.cpp:309
+msgid "Give (or remove) a solo"
+msgstr "Da (o quita) una bonificacion por jugada magistral"
+
+#: qt/arbit_assignments.cpp:310
+msgid ""
+"Give a solo to the selected player, or remove it if (s)he already has one"
+msgstr ""
+"Da una bonificación por jugada magistral al jugador seleccionado, o se la "
+"quita si ja la tenía"
+
+#: qt/arbit_assignments.cpp:317
+msgid "Give (or remove) a warning"
+msgstr "Da (o quita) un aviso"
+
+#: qt/arbit_assignments.cpp:318
+msgid ""
+"Give a warning to the selected player(s), or remove it if they already have "
+"one"
+msgstr ""
+"Da un aviso a los jugadores seleccionados, o se lo quita si ja lo tenian"
+
+#: qt/arbit_assignments.cpp:325
+msgid "Give (or remove) a penalty"
+msgstr "Da (o quita) una penalización"
+
+#: qt/arbit_assignments.cpp:326
+msgid ""
+"Give a penalty to the selected player(s), or remove it if they already have "
+"one"
+msgstr ""
+"Da una penaliización a los jugadores seleccionados, o se la quitan si ja la "
+"tenian"
+
+#: qt/arbit_assignments.cpp:407
+msgid "All players selected"
+msgstr "Todos los jugadores seleccionados"
+
+#: qt/arbit_assignments.cpp:426
+msgid "There is already a master move for this turn."
+msgstr "Ya tiene asignada la jugada de referencia de esta ronda."
+
+#: qt/arbit_assignments.cpp:427 qt/arbit_assignments.cpp:614
+msgid "Do you want to replace it?"
+msgstr "¿Desesa canviarla?"
+
+#: qt/arbit_assignments.cpp:446
+msgid "The selected move scores less than the maximum."
+msgstr "La jugada seleccionada puntua menos que el máximo posible."
+
+#: qt/arbit_assignments.cpp:447 qt/arbit_assignments.cpp:469
+msgid "Do you really want to select it as master move?"
+msgstr "¿Desa selecionarla como jugada de referencia?"
+
+#: qt/arbit_assignments.cpp:466
+msgid ""
+"The selected move uses more jokers than another move with the same score "
+"(%1)."
+msgstr ""
+"La jugada seleccionada usa más comodines que otra jugada con la misma "
+"puntuación (%1)."
+
+#: qt/arbit_assignments.cpp:604
+msgid ""
+"You are going to suppress the assigned move for the following players:\n"
+msgstr ""
+"Està a punto de retirar la jugada asignada a los siguientes jugadores:\n"
+
+#: qt/arbit_assignments.cpp:613
+msgid "The following players already have an assigned move:\n"
+msgstr "Los jugadores siguientes ya tienen una jugada asignada:\n"
+
+#: qt/arbit_assignments.cpp:633
+msgid "Move assignment suppressed"
+msgstr "Se ha retirado la jugada asignada"
+
+#: qt/arbit_assignments.cpp:635
+msgid "Move assigned to player(s)"
+msgstr "Jugada asignada a los jugadores"
+
+#: qt/arbit_assignments.cpp:716
+msgid "You must select a master move before ending the turn."
+msgstr "Debe seleccionar una jugada de referencia antes de finalizar la ronda."
+
+#: qt/arbit_assignments.cpp:732
+msgid ""
+"Some player(s) have no assigned move for this turn. If you continue, they "
+"will be assigned a \"(NO MOVE)\" pseudo-move, but you will be able to change "
+"that later."
+msgstr ""
+"Uno o más jugadores no tienen una jugada asignada en esta ronda. Si "
+"continúa, se les asignará una pseudo-jugada \"(SIN JUGADA)\", pero podrá "
+"cambiarlo después."
+
+#: qt/arbit_assignments.cpp:742
+msgid "New turn started"
+msgstr "Se ha iniciado un ronda nueva"
+
+#: qt/arbitration_widget.cpp:109
+msgid "Status"
+msgstr "Estado"
+
+#: qt/arbitration_widget.cpp:318
+msgid "Invalid"
+msgstr "No válido"
+
+#: qt/arbitration_widget.cpp:361
+msgid ""
+"Some player(s) already have an assigned move. These moves will be lost if "
+"you change the rack."
+msgstr ""
+"Hay uno o más jugadores que ya tienen una jugada asignada. Estas jugadas se "
+"perderán si cambia el atril"
+
+#: qt/arbitration_widget.cpp:363
+msgid "Do you really want to change the rack?"
+msgstr "¿Desa cambiar el atril?"
+
+#: qt/arbitration_widget.cpp:429
+msgid ""
+"Warning: Cannot set the rack to '%1':\n"
+"%2"
+msgstr ""
+"Atención: No se puede poner el atril a '%1':\n"
+"%2"
+
+#: qt/arbitration_widget.cpp:479 qt/training_widget.cpp:355
+msgid "Searching with rack '%1'..."
+msgstr "Se está buscando con el atril '%1'..."
+
+#: qt/arbitration_widget.cpp:483 qt/training_widget.cpp:357
+msgid "Search done"
+msgstr "Búsqueda finalizada"
+
+#: qt/arbitration_widget.cpp:515
+msgid "Use as master move"
+msgstr "Usa como jugada de referencia"
+
+#: qt/arbitration_widget.cpp:516
+msgid "Use the selected move (%1) as master move"
+msgstr "Usa la jugada seleccionada (%1) como jugada de referencia"
+
+#: qt/arbitration_widget.cpp:627
+msgid "Player at table %1 selected (%2)"
+msgstr "Ha seleccionado el jugador de la mesa %1 (%2)"
+
+#: qt/bag_widget.cpp:128
+msgid "Show played tiles"
+msgstr "Mostrar les fichas jugadas"
+
+#: qt/bag_widget.cpp:135
+msgid "Highlight tiles present in the rack"
+msgstr "Resaltar las fichas presentes en el atril"
+
+#: qt/custom_popup.cpp:51
+msgid "Show definition"
+msgstr "Mostrar la definición"
+
+#: qt/custom_popup.cpp:52
+msgid "Show definition of '%1' in an external browser"
+msgstr "Mostrar la definición de '%1' en un navegador externo"
+
+#: qt/dic_tools_widget.cpp:101 qt/dic_tools_widget.cpp:106
+#: qt/ui/arbitration_widget.ui.h:194 qt/ui/player_widget.ui.h:160
+#: qt/ui/training_widget.ui.h:185
+msgid "Rack:"
+msgstr "Atril:"
+
+#: qt/dic_tools_widget.cpp:114 qt/dic_wizard.cpp:222
+msgid "Vowel?"
+msgstr "¿Es una vocal?"
+
+#: qt/dic_tools_widget.cpp:115 qt/dic_wizard.cpp:223
+msgid "Consonant?"
+msgstr "¿Es una consonante?"
+
+#: qt/dic_tools_widget.cpp:116
+msgid "Alternative inputs"
+msgstr "Entradas alternativas"
+
+#: qt/dic_tools_widget.cpp:154 qt/dic_tools_widget.cpp:204
+#: qt/dic_tools_widget.cpp:265
+msgid "Please select a dictionary"
+msgstr "Seleccione un diccionario"
+
+#: qt/dic_tools_widget.cpp:164
+msgid "Invalid or incomplete letters"
+msgstr "Fichas no válides o incompletas"
+
+#: qt/dic_tools_widget.cpp:176
+msgid "The word '%1' exists"
+msgstr "La palabra  '%1' existe"
+
+#: qt/dic_tools_widget.cpp:181
+msgid "The word '%1' does not exist"
+msgstr "La palabra '%1' no existe"
+
+#: qt/dic_tools_widget.cpp:212 qt/stats_widget.cpp:332
+msgid "Rack: %1"
+msgstr "Atril: %1"
+
+#: qt/dic_tools_widget.cpp:230
+msgid "Anagrams"
+msgstr "Anagramas"
+
+#: qt/dic_tools_widget.cpp:273
+msgid "Regular expression: %1"
+msgstr "Expresión regular: %1"
+
+#: qt/dic_tools_widget.cpp:294 qt/dic_tools_widget.cpp:333
+msgid "Invalid regular expression: %1"
+msgstr "Expresión regular no válida: %1"
+
+#: qt/dic_tools_widget.cpp:319 qt/dic_tools_widget.cpp:343
+#: qt/dic_tools_widget.cpp:415 qt/dic_tools_widget.cpp:422
+msgid "Save words list"
+msgstr "Guardar la lista de palabras"
+
+#: qt/dic_tools_widget.cpp:332 qt/dic_tools_widget.cpp:348
+#: qt/dic_tools_widget.cpp:427 qt/main_window.cpp:482
+msgid "Eliot - Error"
+msgstr "Eliot - Error"
+
+#: qt/dic_tools_widget.cpp:344 qt/dic_tools_widget.cpp:423
+msgid "File '%1' successfully saved"
+msgstr "Se ha creado correctament el archivo '%1'"
+
+#: qt/dic_tools_widget.cpp:349 qt/dic_tools_widget.cpp:428
+msgid "Cannot save the words list: %1"
+msgstr "No se puede guardar la lista de palabras: %1"
+
+#: qt/dic_tools_widget.cpp:384 qt/dic_tools_widget.cpp:386
+msgid "Yes"
+msgstr "Sí"
+
+#: qt/dic_tools_widget.cpp:384 qt/dic_tools_widget.cpp:386
+msgid "No"
+msgstr "No"
+
+#: qt/dic_wizard.cpp:59
+msgid "General information"
+msgstr "Información general"
+
+#: qt/dic_wizard.cpp:60
+msgid ""
+"On this page, you can define the main information needed to create a new "
+"dictionary."
+msgstr ""
+"En esta página, puede definir la información principal y necesaria para "
+"crear un diccionario nuevo."
+
+#: qt/dic_wizard.cpp:62
+msgid ""
+"Choose a dictionary name. This name will appear in Eliot status bar when the "
+"dictionary is loaded.\n"
+"E.g.: My Dic 1.0"
+msgstr ""
+"Indique un nombre para el diccionario. Este nombre aparecerá en la barra de "
+"estado de Eliot cuando el diccionario esté cargado.\n"
+"Ejemplo: Mi diccionario 1.0"
+
+#: qt/dic_wizard.cpp:65
+msgid ""
+"Choose the output file. This file will be generated by the wizard, and will "
+"contain the compressed dictionary.\n"
+"It must have the .dawg extension."
+msgstr ""
+"Seleccione el archivo de salida. El asistente generará el archivo, que "
+"contendrá el diccionario comprimido.\n"
+"Debe tener la extensión .dawg."
+
+#: qt/dic_wizard.cpp:69
+msgid ""
+"Choose the file containing the word list.\n"
+"It must be encoded in UTF-8, and must contain one word on each line."
+msgstr ""
+"Seleccione el archivo que contiene la lista de palabras.\n"
+"Debe estar en codificación UTF-8, y cada línea debe tener una palabra"
+
+#: qt/dic_wizard.cpp:153
+msgid ""
+"Some invalid (non-alphabetical) characters have been found in the word list. "
+"They are indicated below, with the first line on which they were found:"
+msgstr ""
+"La lista de palabras contiene caracteres no válidos (no alfabéticos). Se "
+"muestran segudio, con la primera línea donde se han encontrado:"
+
+#: qt/dic_wizard.cpp:158
+msgid "'%1' (ASCII code %2) at line %3"
+msgstr "'%1' (código ASCII %2) a la línea %3"
+
+#: qt/dic_wizard.cpp:161 qt/dic_wizard.cpp:169
+msgid "Please correct the word list."
+msgstr "Corrija la lista de palabras."
+
+#: qt/dic_wizard.cpp:168
+msgid "The word list contains duplicate entries."
+msgstr "La lista de palabras contiene entradas duplicadas."
+
+#: qt/dic_wizard.cpp:180
+msgid "Choose a file for the generated dictionary"
+msgstr "Seleccione un archivo para el diccionario generado"
+
+#: qt/dic_wizard.cpp:193
+msgid "Choose a word list file"
+msgstr "Seleccione un archivo con la lista de palabras"
+
+#: qt/dic_wizard.cpp:206
+msgid "Letters characteristics"
+msgstr "Características de las fichas"
+
+#: qt/dic_wizard.cpp:207
+msgid ""
+"The table below lists all the letters found in the word list (plus the "
+"joker). For each letter, you need to define:\n"
+" - its value (number of points);\n"
+" - its frequency (number of occurrences in the game);\n"
+" - whether the letter can be considered as a vowel;\n"
+" - whether the letter can be considered as a consonant.\n"
+"\n"
+"Note that a letter can be considered both as a vowel and as a consonant. "
+"This is usually the case for the joker and, in French, for the Y letter."
+msgstr ""
+"El cuadro siguiente muestra todas las letras que se han encontrado en la "
+"lista de palabras (más el comodín). Para cada letra, debe definirr:\n"
+" - su valor (número de puntos de punts);\n"
+" - su frecuencia (número de fichas de este tipo en el juego);\n"
+" - si la letra debe considerarse vocal;\n"
+" - si la letra ha debe considerarse consonante.\n"
+"\n"
+"Observe que una letra puede considerarse a la vez vocal y consonante. Esto "
+"sucede habitualmente en el caso del comodín y, en el francés, en la letra Y."
+
+#: qt/dic_wizard.cpp:335
+msgid ""
+"Some letters were not found in the current dictionary.\n"
+"Please complete the values manually."
+msgstr ""
+"Algunas letras no se encuentra en el diccionario actual.\n"
+"Complete los valores manualmente"
+
+#: qt/dic_wizard.cpp:351
+msgid "Conclusion"
+msgstr "Conclusión"
+
+#: qt/dic_wizard.cpp:358
+msgid ""
+"Click '%1' to generate the dictionary.\n"
+"\n"
+msgstr ""
+"Haga clic en '%1' para generar el diccionario.\n"
+"\n"
+
+#: qt/dic_wizard.cpp:359
+msgid ""
+"You may now load it in Eliot using the checkbox below.\n"
+"You can also load it later, using the\n"
+"'Settings -> Change dictionary...' menu option."
+msgstr ""
+"Puede cargarlo en Eliot usando la opció siguiente. També puede cargarlo más "
+"tarde, usando la opición del menú 'Parámetros -> Cambiar el diccionario...'"
+
+#: qt/dic_wizard.cpp:420
+msgid "Could not create dictionary:"
+msgstr "No se puede crear el diccionario:"
+
+#: qt/dic_wizard.cpp:424
+msgid "Dictionary successfully created"
+msgstr "El diccionario se ha creado correctamente"
+
+#: qt/fav_players.cpp:47
+msgid "Favorite players"
+msgstr "Jugadores favoritos"
+
+#: qt/fav_players.cpp:52
+msgid ""
+"The favorite players listed below can be used in the \"New game\" dialog, to "
+"add players quickly. Those marked as \"Default\" will appear there directly "
+"(useful if you often play with the same players)."
+msgstr ""
+"Los jugadores favoritos listados debajo se pueden usar en el diálogo "
+"\"Partida nueva\" para añadir jugadores rápidamente. Los que esten marcados "
+"como \"Predeterminado\" aparecerán directamente (útil si "
+"habitualmentapareixeran directament (útil si habitualment juega con los "
+"mismos jugadores)."
+
+#: qt/fav_players.cpp:59
+msgid ""
+"To add or remove a player, use the buttons at the bottom. You can edit the "
+"existing players directly in the table, by double-clicking on them."
+msgstr ""
+"Para añadir o suprimir un jugador, use los botones bajo la tabla. Puede "
+"editar los jugadores directamente en la tabla, haciendo doble clic."
+
+#: qt/fav_players.cpp:71
+msgid "Add player"
+msgstr "Añadir un jugador"
+
+#: qt/fav_players.cpp:73
+msgid "Remove player"
+msgstr "Suprimir un jugador"
+
+#: qt/fav_players.cpp:76
+msgid "CSV Import..."
+msgstr "Importar CSV..."
+
+#: qt/fav_players.cpp:80
+msgid "CSV Export..."
+msgstr "Exportar CSV..."
+
+#: qt/fav_players.cpp:109
+msgid "Choose a CSV file containing favorite players to import"
+msgstr "Escoja un archivo CSV con los jugadores favoritos que desa importar"
+
+#: qt/fav_players.cpp:110 qt/fav_players.cpp:150
+msgid "fav_players.csv"
+msgstr "jugadores_fav.cvs"
+
+#: qt/fav_players.cpp:111 qt/fav_players.cpp:151
+msgid "CSV files (*.csv)"
+msgstr "Archivos CVS (*.csv)"
+
+#: qt/fav_players.cpp:118
+msgid "Cannot open file '%1' for reading"
+msgstr "No se puede abrir para lectura el archivo '%1'"
+
+#: qt/fav_players.cpp:131
+msgid "Invalid file (not enough values)"
+msgstr "Archivo no válido (no hay valores suficientes)"
+
+#: qt/fav_players.cpp:140
+msgid "Cannot import favorite players: %1"
+msgstr "No se pueden importar los jugadores favoritos: %1"
+
+#: qt/fav_players.cpp:149
+msgid "Choose a CSV file to save the favorite players"
+msgstr "Escoja un archivo CSV para guardar los jugadores favorits"
+
+#: qt/fav_players.cpp:158
+msgid "Cannot open file '%1' for writing"
+msgstr "No se puede abrir para escritura el archivo '%1'"
+
+#: qt/fav_players.cpp:181
+msgid "Cannot export favorite players: %1"
+msgstr "No se pueden exportar los jugadores favoritos: %1"
+
+#: qt/history_widget.cpp:80
+msgid "Turn"
+msgstr "Ronda"
+
+#: qt/history_widget.cpp:81 qt/ui/arbitration_widget.ui.h:193
+msgid "Rack"
+msgstr "Atril"
+
+#: qt/history_widget.cpp:85
+msgid "W"
+msgstr "A"
+
+#: qt/history_widget.cpp:86
+msgid "P"
+msgstr "P"
+
+#: qt/history_widget.cpp:87
+msgid "S"
+msgstr "M"
+
+#: qt/history_widget.cpp:115 qt/stats_widget.cpp:133
+msgid "Total"
+msgstr "Total"
+
+#: qt/history_widget.cpp:116 qt/stats_widget.cpp:135
+msgid "Game %"
+msgstr "Partida %"
+
+#: qt/history_widget.cpp:212 qt/main_window.cpp:991 utils/ncurses.cpp:428
+msgid "(NO MOVE)"
+msgstr "(SIN JUGADA)"
+
+#: qt/history_widget.cpp:217 qt/main_window.cpp:997 utils/ncurses.cpp:430
+msgid "(PASS)"
+msgstr "(PASA)"
+
+#: qt/history_widget.cpp:275 qt/main_window.cpp:651
+msgid "&Game"
+msgstr "&Partida"
+
+#: qt/main_window.cpp:151 qt/main_window.cpp:1154 qt/ui/main_window.ui.h:145
+msgid "Board"
+msgstr "Tablero"
+
+#: qt/main_window.cpp:193
+msgid ""
+"Cannot load dictionary '%1' indicated in the preferences.\n"
+"Reason: %2"
+msgstr ""
+"No se puede cargar el diccionario '%1' indicado en las preferencias.\n"
+"Motivo: %2"
+
+#: qt/main_window.cpp:246
+msgid "Consonants: %1 | Vowels: %2 | Jokers: %3"
+msgstr "Consonantes: %1 | Vocales: %2 | Comodines: %3"
+
+#: qt/main_window.cpp:251 qt/main_window.cpp:1279 qt/main_window.cpp:1292
+#: qt/main_window.cpp:1305 qt/main_window.cpp:1318
+msgid "Turn %1/%2"
+msgstr "Ronda %1/%2"
+
+#: qt/main_window.cpp:262
+msgid "End of the game"
+msgstr "Fin de la partida"
+
+#: qt/main_window.cpp:278
+msgid "Error during auto-save of the game: %1"
+msgstr "Se ha producido un error al guardar la partida automáticamente: %1"
+
+#: qt/main_window.cpp:352
+msgid "No game"
+msgstr "Ninguna partida"
+
+#: qt/main_window.cpp:384 utils/ncurses.cpp:1119 qt/ui/prefs_dialog.ui.h:588
+msgid "Training mode"
+msgstr "Modo de entrenamiento"
+
+#: qt/main_window.cpp:409
+msgid "Arbitration game"
+msgstr "Partida arbitrada"
+
+#: qt/main_window.cpp:410
+msgid "Arbitration"
+msgstr "Arbitraje"
+
+#: qt/main_window.cpp:436
+msgid "Duplicate game"
+msgstr "Partida duplicada"
+
+#: qt/main_window.cpp:438 qt/ui/new_game.ui.h:202
+msgid "Free game"
+msgstr "Partida libre"
+
+#: qt/main_window.cpp:439 qt/ui/main_window.ui.h:147 qt/ui/new_game.ui.h:215
+msgid "Players"
+msgstr "Jugadores"
+
+#: qt/main_window.cpp:469
+msgid "No dictionary"
+msgstr "No hay diccionario"
+
+#: qt/main_window.cpp:472
+msgid "Dictionary: %1"
+msgstr "Diccionario: %1"
+
+#: qt/main_window.cpp:502
+msgid ""
+"No definitions site defined.\n"
+"Please define one in the preferences."
+msgstr ""
+"No tiene configurado ningún sitio web de definiciones.\n"
+"Configure uno en las preferencias."
+
+#: qt/main_window.cpp:529
+msgid "A game has been started."
+msgstr "Se ha iniciado una partida."
+
+#: qt/main_window.cpp:530
+msgid "Do you really want to quit?"
+msgstr "¿Desea salir?"
+
+#: qt/main_window.cpp:594
+msgid "Loading a dictionary will stop the current game."
+msgstr "Si carga un dicionario, finalizarà la partida actual."
+
+#: qt/main_window.cpp:612
+msgid "Loaded dictionary '%1'"
+msgstr "Diccionario cargado: '%1'"
+
+#: qt/main_window.cpp:652
+msgid "&New..."
+msgstr "&Nueva..."
+
+#: qt/main_window.cpp:652
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
+
+#: qt/main_window.cpp:653
+msgid "Start a new game"
+msgstr "Inicia una partida nova"
+
+#: qt/main_window.cpp:655
+msgid "&Load..."
+msgstr "&Abrir..."
+
+#: qt/main_window.cpp:655
+msgid "Ctrl+O"
+msgstr "Ctrl+A"
+
+#: qt/main_window.cpp:656
+msgid "Load an existing game"
+msgstr "Abre una partida guardada"
+
+#: qt/main_window.cpp:657
+msgid "Load the auto-saved game"
+msgstr "Abrir una partida guardada automáticamente"
+
+#: qt/main_window.cpp:658
+msgid "Load the automatically saved game (useful after a crash)"
+msgstr ""
+"Abre una partida guardada automáticamente (útil después de un cierre forzado)"
+
+#: qt/main_window.cpp:660
+msgid "&Save as..."
+msgstr "&Guardar como..."
+
+#: qt/main_window.cpp:660
+msgid "Ctrl+S"
+msgstr "Ctrl+G"
+
+#: qt/main_window.cpp:661
+msgid "Save the current game"
+msgstr "Guarda la partida actual"
+
+#: qt/main_window.cpp:663
+msgid "&Print..."
+msgstr "Im&primir..."
+
+#: qt/main_window.cpp:663
+msgid "Ctrl+P"
+msgstr "Ctrl+P"
+
+#: qt/main_window.cpp:664
+msgid "Print the current game"
+msgstr "Imprime la partida actual"
+
+#: qt/main_window.cpp:667
+msgid "&Quit"
+msgstr "&Salir"
+
+#: qt/main_window.cpp:667
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: qt/main_window.cpp:668
+msgid "Quit Eliot"
+msgstr "Sale de Eliot"
+
+#: qt/main_window.cpp:673 qt/main_window.cpp:727
+msgid "&History"
+msgstr "&Historial"
+
+#: qt/main_window.cpp:674
+msgid "&First turn"
+msgstr "Ronda &inicial"
+
+#: qt/main_window.cpp:674
+msgid "Ctrl+Home"
+msgstr "Ctrl+Inicio"
+
+#: qt/main_window.cpp:675
+msgid "Go to the first turn of the game"
+msgstr "Ir a la ronda inicial de la partida"
+
+#: qt/main_window.cpp:677
+msgid "&Previous turn"
+msgstr "Ronda  &anterior"
+
+#: qt/main_window.cpp:677
+msgid "Ctrl+Left"
+msgstr "Ctrl+Izquierda"
+
+#: qt/main_window.cpp:678
+msgid "Go to the previous turn of the game"
+msgstr "Ir a la ronda anterior de la partida"
+
+#: qt/main_window.cpp:680
+msgid "&Next turn"
+msgstr "Ronda &siguiente"
+
+#: qt/main_window.cpp:680
+msgid "Ctrl+Right"
+msgstr "Ctrl+Derecha"
+
+#: qt/main_window.cpp:681
+msgid "Go to the next turn of the game"
+msgstr "Ir a la ronda siguiente de la partida"
+
+#: qt/main_window.cpp:683
+msgid "&Last turn"
+msgstr "Ú&ltima ronda"
+
+#: qt/main_window.cpp:683
+msgid "Ctrl+End"
+msgstr "Ctrl+Fin"
+
+#: qt/main_window.cpp:684
+msgid "Go to the last turn of the game"
+msgstr "Ir a la última ronda de la partida"
+
+#: qt/main_window.cpp:686
+msgid "&Replay turn"
+msgstr "&Vuelve a jugar la ronda"
+
+#: qt/main_window.cpp:686
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
+
+#: qt/main_window.cpp:687
+msgid ""
+"Play the game from the current position, replacing what was really played"
+msgstr ""
+"Juega la partida desde la posición actual, substituyendo todo lo que se ha "
+"jugado."
+
+#: qt/main_window.cpp:699
+msgid "&Settings"
+msgstr "&Configuración"
+
+#: qt/main_window.cpp:700
+msgid "&Choose dictionary..."
+msgstr "&Cargar un diccionario..."
+
+#: qt/main_window.cpp:700
+msgid "Ctrl+I"
+msgstr "Ctrl+I"
+
+#: qt/main_window.cpp:701
+msgid "Select a new dictionary"
+msgstr "Seleccione un diccionario nuevo"
+
+#: qt/main_window.cpp:702
+msgid "Create &new dictionary..."
+msgstr "Crear un diccionario &nuevo..."
+
+#: qt/main_window.cpp:703
+msgid ""
+"Start the wizard for creating a new dictionary from an existing word list"
+msgstr ""
+"Inicia el asistente para crear un diccionario nuevo a partir de una lista de "
+"palabras"
+
+#: qt/main_window.cpp:706
+msgid "&Favorite players..."
+msgstr "Jugadores &favoritos..."
+
+#: qt/main_window.cpp:707
+msgid "Define frequently used players for faster game creation"
+msgstr ""
+"Define los jugadors más habituales para poder crear partidas fácilmente"
+
+#: qt/main_window.cpp:710
+msgid "&Define players tables..."
+msgstr "&Definir las mesas de los jugadores..."
+
+#: qt/main_window.cpp:711
+msgid "Define the tables where the players are sitting, in arbitration mode"
+msgstr ""
+"Define las mesas donde estan ubicados los jugadores, en el modo arbitraje"
+
+#: qt/main_window.cpp:713
+msgid "&Preferences..."
+msgstr "&Preferencias..."
+
+#: qt/main_window.cpp:713
+msgid "Ctrl+F"
+msgstr "Ctrl+F"
+
+#: qt/main_window.cpp:714
+msgid "Edit the preferences"
+msgstr "Editar las preferencias"
+
+#: qt/main_window.cpp:719
+msgid "&Windows"
+msgstr "&Ventanas"
+
+#: qt/main_window.cpp:720
+msgid "&Toolbar"
+msgstr "&Barra de herramientas"
+
+#: qt/main_window.cpp:720
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+#: qt/main_window.cpp:721
+msgid "Show/hide the toolbar"
+msgstr "Muestra/oculta la barra de herreamientas"
+
+#: qt/main_window.cpp:723
+msgid "&Bag"
+msgstr "&Bolsa"
+
+#: qt/main_window.cpp:723 qt/ui/main_window.ui.h:129
+msgid "Ctrl+B"
+msgstr "Ctrl+B"
+
+#: qt/main_window.cpp:724 qt/ui/main_window.ui.h:127
+msgid "Show/hide the remaining tiles in the bag"
+msgstr "Muestra/oculta las fichas restantes de la bolsa"
+
+#: qt/main_window.cpp:725
+msgid "&External board"
+msgstr "Tablero &externo"
+
+#: qt/main_window.cpp:725 qt/ui/main_window.ui.h:134
+msgid "Ctrl+E"
+msgstr "Ctrl+E"
+
+#: qt/main_window.cpp:726 qt/ui/main_window.ui.h:132
+msgid "Show/hide the external board"
+msgstr "Muestra/oculta el tablero externo"
+
+#: qt/main_window.cpp:727 qt/ui/main_window.ui.h:139
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
+
+#: qt/main_window.cpp:728 qt/ui/main_window.ui.h:137
+msgid "Show/hide the game history"
+msgstr "Muestra/oculta el historial de la partida"
+
+#: qt/main_window.cpp:730
+msgid "&Statistics"
+msgstr "E&stadísticas"
+
+#: qt/main_window.cpp:731
+msgid "Show/hide the statistics"
+msgstr "Muestra/oculta las estadísticas"
+
+#: qt/main_window.cpp:732
+msgid "Ti&mer"
+msgstr "&Reloj"
+
+#: qt/main_window.cpp:733
+msgid "Show/hide the timer"
+msgstr "Muestra/oculta el reloj"
+
+#: qt/main_window.cpp:734
+msgid "&Dictionary tools"
+msgstr "Herramientas del &diccionario"
+
+#: qt/main_window.cpp:734 qt/ui/main_window.ui.h:144
+msgid "Ctrl+D"
+msgstr "Ctrl+D"
+
+#: qt/main_window.cpp:735 qt/ui/main_window.ui.h:142
+msgid "Show/hide the dictionary tools"
+msgstr "Muestra/oculta las herramientas del diccionario"
+
+#: qt/main_window.cpp:739
+msgid "He&lp"
+msgstr "&Ayuda"
+
+#: qt/main_window.cpp:740
+msgid "&About..."
+msgstr "&Sobre..."
+
+#: qt/main_window.cpp:741 qt/main_window.cpp:1263
+msgid "About Eliot"
+msgstr "Sobre Eliot"
+
+#: qt/main_window.cpp:752
+msgid ""
+"You have to select a dictionary (.dawg file) before starting a game. This "
+"can be done in the \"Settings\" menu.\n"
+"\n"
+"You can download dictionary files on Eliot web site."
+msgstr ""
+"Debe seleccionar un diccionario (archivo .dawg) antes de empezar una "
+"partida. Puede hacerlo en el menú «Configuración».\n"
+"\n"
+"Puede bajar diccionarios desdel web de Eliot"
+
+#: qt/main_window.cpp:761
+msgid "Starting a new game will stop the current one."
+msgstr "Si empieza una partida nueva, finalizará la partida actual"
+
+#: qt/main_window.cpp:784
+msgid "Game started"
+msgstr "Partida iniciada"
+
+#: qt/main_window.cpp:808
+msgid "You have to select a dictionary first!"
+msgstr "¡Primero debe seleccionar un diccionari!"
+
+#: qt/main_window.cpp:814
+msgid "Loading a saved game will stop the current game."
+msgstr "Si abre una partida guardada, finalizará la partida actual."
+
+#: qt/main_window.cpp:823 utils/ncurses.cpp:648
+msgid "Load a game"
+msgstr "Obre una partida"
+
+#: qt/main_window.cpp:834
+msgid "Error while loading the game:\n"
+msgstr "Se ha produciod un error al abrir una partida\n"
+
+#: qt/main_window.cpp:841 utils/ncurses.cpp:662
+#, c-format
+msgid "Game loaded"
+msgstr "Se ha abierto la partida"
+
+#: qt/main_window.cpp:851
+msgid "Save a game"
+msgstr "Guarda una partida"
+
+#: qt/main_window.cpp:857
+msgid "Game saved"
+msgstr "Se ha guardado la partida"
+
+#: qt/main_window.cpp:861
+msgid "Error saving game: %1"
+msgstr "Se ha producido un error al guardar la partida: %1"
+
+#: qt/main_window.cpp:899
+msgid "N."
+msgstr "N.º"
+
+#: qt/main_window.cpp:899
+msgid "RACK"
+msgstr "ATRIL"
+
+#: qt/main_window.cpp:899
+msgid "SOLUTION"
+msgstr "SOLUCIÓN"
+
+#: qt/main_window.cpp:899
+msgid "REF"
+msgstr "COORD"
+
+#: qt/main_window.cpp:899
+msgid "PTS"
+msgstr "PTS"
+
+#: qt/main_window.cpp:1042 qt/prefs_dialog.cpp:296
+msgid "Choose a dictionary"
+msgstr "Seleccione un diccionario"
+
+#: qt/main_window.cpp:1050
+msgid "Dictionary creation wizard"
+msgstr "Asistente de creación de diccionarios"
+
+#: qt/main_window.cpp:1102 utils/ncurses.cpp:502 qt/ui/main_window.ui.h:125
+msgid "Bag"
+msgstr "Bolsa"
+
+#: qt/main_window.cpp:1183 qt/ui/main_window.ui.h:135
+#: qt/ui/main_window.ui.h:146
+msgid "History"
+msgstr "Historial"
+
+#: qt/main_window.cpp:1201
+msgid "Statistics"
+msgstr "Estadísticas"
+
+#: qt/main_window.cpp:1218 qt/ui/prefs_dialog.ui.h:547
+msgid "Timer"
+msgstr "Reloj"
+
+#: qt/main_window.cpp:1231 qt/ui/dic_tools_widget.ui.h:305
+#: qt/ui/main_window.ui.h:140
+msgid "Dictionary tools"
+msgstr "Herramientas del diccionario"
+
+#: qt/main_window.cpp:1250
+msgid "Copyright (C) 1999-2012 - Antoine Fraboulet & Olivier Teuliere."
+msgstr "Copyright (C) 1999-2012 - Antoine Fraboulet & Olivier Teuliere."
+
+#: qt/main_window.cpp:1253
+msgid ""
+"This program is free software; you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version."
+msgstr ""
+"Este programa es software libre, puede distribuirlo o modificarlo en los "
+"términos de la Licencia Pública General GNU publicada por la Free Software "
+"Foundation; en la versión 2 de la licencia, o (su elección) cualquier "
+"versión posterior."
+
+#: qt/main_window.cpp:1259
+msgid "http://www.nongnu.org/eliot/en/"
+msgstr "http://www.nongnu.org/eliot/en/"
+
+#: qt/main_window.cpp:1260
+msgid "Web site: %1"
+msgstr "Web: %1"
+
+#: qt/main_window.cpp:1328
+msgid ""
+"Replaying this turn will modify the game history by deleting the turns after "
+"the displayed one (i.e. turns \"in the future\")."
+msgstr ""
+"Si vuelve a jugar esta ronda, modificará el historial de la partida y se "
+"suprimiran las rondas posteriores a este (esto es, las rondas \"del futuro"
+"\")."
+
+#: qt/main_window.cpp:1340
+msgid "Replaying from turn %1"
+msgstr "Se está volviendo a jugar desde la ronda %1"
+
+#: qt/new_game.cpp:36 qt/players_table_helper.cpp:42
+msgid "Human"
+msgstr "Humano"
+
+#: qt/new_game.cpp:37 qt/players_table_helper.cpp:43
+msgid "Computer"
+msgstr "Ordenador"
+
+#: qt/new_game.cpp:46
+msgid ""
+"In a joker game, each rack contains a joker.\n"
+"When a word containing the joker is played on the grid, the joker is then "
+"replaced\n"
+"with the corresponding letter from the bag, and the joker stays in the "
+"rack.\n"
+"When the corresponding letter is not present in the bag, the joker is placed "
+"on the board.\n"
+"This variant, particularly interesting in Duplicate mode, is good to train "
+"using the joker."
+msgstr ""
+"En una partida con comodín, cada atril tiene un comodín. Cuando se juega una "
+"palabra en el tablero usando el comodín, se substituye el comodín por la "
+"ficha correspondiente, tomandola de la bolsa, y el comodín permanece en el "
+"atril.\n"
+"Cuando la ficha necesaria no se encuentra en la bolsa, el comodín permanece "
+"en el tablero. Esta variante es particularmenten interesante en el modo "
+"duplicado, es bueno entrenar usando el comodín"
+
+#: qt/new_game.cpp:52
+msgid ""
+"An explosive game is a bit like a joker game, except that when the computer "
+"chooses the rack\n"
+"(containing a joker), it performs a search and finds the best word possible "
+"with the rack.\n"
+"Then, if possible, it replaces the joker in the rack with the letter "
+"allowing to play this best word.\n"
+"This variant, unlike the joker game, allows playing with a normal-looking "
+"rack, but it usually gives\n"
+"much higher scores than in a normal game."
+msgstr ""
+"Una partida explosiva se parece a una partida con comodín. excepto en la "
+"selección del atril (que contiene un comodín) hecha por el ordenador.\n"
+"El ordenador busca y encuentra la mejor jugada del atril. Entonces, si es "
+"posible, substituye el comodín por la ficha que perimte esta mejor jugada.\n"
+"Esta variante, al contrari que la partida con comodín, permite jugar con un "
+"atril con apariencia normal, pero habitualmente se consiguen puntuaciones "
+"mucho más elevades que en una partida duplicada normal."
+
+#: qt/new_game.cpp:58
+msgid ""
+"With this variant, the rack contains 8 letters instead of 7,\n"
+"but at most 7 can be played at the same time.\n"
+"This allows for more combinations during the game, and thus higher scores."
+msgstr ""
+"Con esta variante, el atril contiene 8 fichas en lugar de 7, pero la mayoría "
+"de grupos de 7 fichas se pueden jugar a la vez. Esto permite hacer más "
+"combinaciones durante la partida y, por tanto, puntuaciones más altas."
+
+#: qt/new_game.cpp:64
+msgid "Mark the selected player(s) as favorites"
+msgstr "Marca los jugadores seleccionados como favoritos"
+
+#: qt/new_game.cpp:65
+msgid "Add the selected player(s) to the list of favorite players"
+msgstr "Añade los jugadores seleccionados a la lista de jugadores favoritos"
+
+#: qt/new_game.cpp:81 qt/new_game.cpp:148
+msgid "Player %1"
+msgstr "Jugador %1"
+
+#: qt/new_game.cpp:82 qt/qtcommon.cpp:147 qt/ui/main_window.ui.h:124
+msgid "Eliot"
+msgstr "Eliot"
+
+#: qt/new_game.cpp:221
+msgid "Select the players to add"
+msgstr "Seleccione los jugadores que desa añadir"
+
+#: qt/play_word_mediator.cpp:81
+msgid ""
+"Enter the word to play (case-insensitive).\n"
+"A joker from the rack must be written in parentheses.\n"
+"E.g.: w(o)rd or W(O)RD"
+msgstr ""
+"Indique la palabra a jugar.\n"
+"Los comodines del atril deben indicarse entre paréntesis.\n"
+"Ej.: parlab(r)a o PALAB(R)A"
+
+#: qt/play_word_mediator.cpp:84
+msgid ""
+"Enter the coordinates of the word.\n"
+"Specify the row before the column for horizontal words,\n"
+"and the column before the row for vertical words.\n"
+"E.g.: H4 or 4H"
+msgstr ""
+"Indique las coordenadas de la jugada.\n"
+"Especifique la fila antes que la columna para la palabras horzontales,\n"
+"y la columna antes que la fila para palabras verticales.\n"
+"Ejemplo: H4 o 4H"
+
+#: qt/play_word_mediator.cpp:109
+msgid "Cannot play word: misplaced parentheses"
+msgstr "No se puede jugar la palabra: los paréntesis no están bien colocados"
+
+#: qt/play_word_mediator.cpp:163
+msgid ""
+"Cannot play '%1' at position '%2':\n"
+"%3"
+msgstr ""
+"No se puede jugar '%1' en la posición '%2':\n"
+"%3"
+
+#: qt/play_word_mediator.cpp:168
+msgid "Some letters are not valid for the current dictionary"
+msgstr "Algunas fichas no son váliddas en el diccionario actual"
+
+#: qt/play_word_mediator.cpp:171
+msgid "Invalid coordinates"
+msgstr "Coordenadas no válidas"
+
+#: qt/play_word_mediator.cpp:174
+msgid "The word does not exist"
+msgstr "La palabra no existe"
+
+#: qt/play_word_mediator.cpp:177
+msgid "The rack doesn't contain the letters needed to play this word"
+msgstr "El atril no tiene las fichas necesarias para jugar esta palabra"
+
+#: qt/play_word_mediator.cpp:180
+msgid "The word is part of a longer one"
+msgstr "La palabra es parte de otra más larga"
+
+#: qt/play_word_mediator.cpp:183
+msgid "The word tries to replace an existing letter"
+msgstr "La jugada intenta substituir una ficha ya existente"
+
+#: qt/play_word_mediator.cpp:186
+msgid "An orthogonal word is not valid"
+msgstr "Una palabra secundaria no es válida"
+
+#: qt/play_word_mediator.cpp:189
+msgid "The word is already present on the board at these coordinates"
+msgstr ""
+"La palabra ya se encuentra presente en el tablero con estas coordenadas"
+
+#: qt/play_word_mediator.cpp:192
+msgid "A word cannot be isolated (not connected to the placed words)"
+msgstr ""
+"Una palabra no puede estra aislada (sin conectar a otra palabra del tablero)"
+
+#: qt/play_word_mediator.cpp:195
+msgid "The first word of the game must be horizontal"
+msgstr "La primera palabra de la partida debe ser horizontal"
+
+#: qt/play_word_mediator.cpp:198
+msgid "The first word of the game must cover the H8 square"
+msgstr "La primera palabra de la partida debe cubrir la celda H8"
+
+#: qt/play_word_mediator.cpp:201
+msgid "The word is going out of the board"
+msgstr "La palabra sale fuera del tablero"
+
+#: qt/play_word_mediator.cpp:204
+msgid "The word contains too many letters from the rack"
+msgstr "La palabra contiene más fichas que no las que tiene el atril."
+
+#: qt/play_word_mediator.cpp:207 utils/ncurses.cpp:589
+msgid "Incorrect or misplaced word"
+msgstr "Palabra incorrecta o en mala posición"
+
+#: qt/player_widget.cpp:185
+msgid ""
+"Cannot pass turn:\n"
+"%1"
+msgstr ""
+"No se puede pasar la ronda:\n"
+"%1"
+
+#: qt/player_widget.cpp:187
+msgid ""
+"Cannot change letters '%1':\n"
+"%2"
+msgstr ""
+"No se pueden cambiar las fichas '%1'\n"
+"%2"
+
+#: qt/player_widget.cpp:189
+msgid ""
+"Changing letters is not allowed when there are less than 7 tiles left in the "
+"bag"
+msgstr "No está permitido cambiar las fichas cuando hay menos de 7 en la bolsa"
+
+#: qt/player_widget.cpp:191
+msgid "The rack of the current player does not contain all the listed letters"
+msgstr "El atril del jugador actual no contiene todas las fichas listadas"
+
+#: qt/player_widget.cpp:193
+msgid "The game is already finished!"
+msgstr "¡La partida casi ha finalizado!"
+
+#: qt/player_widget.cpp:197
+msgid "Unknown error"
+msgstr "Error desconocido"
+
+#: qt/players_table_helper.cpp:77
+msgid "Name"
+msgstr "Nombre"
+
+#: qt/players_table_helper.cpp:78
+msgid "Type"
+msgstr "Tipo"
+
+#: qt/players_table_helper.cpp:79
+msgid "Level"
+msgstr "Nivel"
+
+#: qt/players_table_helper.cpp:80
+msgid "Default"
+msgstr "Predeterminado"
+
+#: qt/players_table_helper.cpp:142
+msgid "Remove selected player(s)"
+msgstr "Suprimir los jugadores seleccionados"
+
+#: qt/players_table_helper.cpp:143
+msgid "Remove the selected player(s) from the list"
+msgstr "Suprime los jugadores seleccionados de la llista"
+
+#: qt/players_table_helper.cpp:183
+msgid "New player"
+msgstr "Jugador nuevo"
+
+#: qt/prefs_dialog.cpp:75
+msgid ""
+"URL of the site used to display word definitions.\n"
+"In the URL, %w will be replaced with the word in lower case. Examples:\n"
+"\thttp://fr.wiktionary.org/wiki/%w\n"
+"\thttp://en.wiktionary.org/wiki/%w\n"
+"\thttp://images.google.com/images?q=%w"
+msgstr ""
+"URL del sitio web usado para mostrar las definiciones de las palabras.\n"
+"En el URL, %w se substituye por la palabra en minúscula. Ejemplos:\n"
+"\thttp://es.wiktionary.org/wiki/%w\n"
+"\thttp://en.wiktionary.org/wiki/%w\n"
+"\thttp://images.google.com/images?q=%w"
+
+#: qt/prefs_dialog.cpp:80
+msgid ""
+"Total duration of the timer, in seconds.\n"
+"Changing this value will reset the timer."
+msgstr ""
+"Duración total del reloj, en segundos.\n"
+"Si cambia este valor se reincializará el reloj."
+
+#: qt/prefs_dialog.cpp:82
+msgid ""
+"Number of remaining seconds when an alert is triggered.\n"
+"Use a value of -1 to disable the alert.\n"
+"Changing this value will reset the timer."
+msgstr ""
+"Sonará una alerta cuando queden estos segundos restantes.\n"
+"Use el valor -1 para inhabilitar la alerta.\n"
+"Si canvia este valor se reincializará el reloj"
+
+#: qt/prefs_dialog.cpp:85
+msgid ""
+"If checked, a beep will be emitted when the timer\n"
+"reaches the alert level, and when it reaches 0."
+msgstr ""
+"Si esta opción está marcada, se emitirá un sonido breve cuando el reloj\n"
+"llegue a los segundos de alarma, y también cuando llegue a 0."
+
+#: qt/prefs_dialog.cpp:87
+msgid ""
+"Maximum number of results returned by a search.\n"
+"The returned results will always be the best ones.\n"
+"Use 0 to disable the limit (warning: searches yielding many results could be "
+"very slow in this case!)."
+msgstr ""
+"Número máximo de resultados para una búsqueda.\n"
+"Los resultados devueltos serán siempre los mejores.\n"
+"Use 0 para inhabilitar el límite (aviso: ¡las búsquedas que dan demasiados "
+"resultados pueden ser extremadamente lentas en este caso!)"
+
+#: qt/prefs_dialog.cpp:91
+msgid ""
+"If checked, a master move will be selected by default when searching the "
+"results.\n"
+"It is still possible to change the master move afterwards."
+msgstr ""
+"Si esta opción está marcada, se seleccionará una jugada de referencia de "
+"forma predeterminada al buscar los resultados.\n"
+"Puede cambiar la jugada de referencia después."
+
+#: qt/prefs_dialog.cpp:94
+msgid ""
+"If checked, the rack will be completed with random letters.\n"
+"Uncheck this option if you prefer to choose the letters yourself."
+msgstr ""
+"Si esta opción está marcada, el atril se completará con fichas de forma "
+"aleatoria.\n"
+"Desmarque esta opción si prefiere escoger las fichas manualmente."
+
+#: qt/prefs_dialog.cpp:97
+msgid ""
+"Maximal number of \"acceptable\" warnings.\n"
+"Any additional warning will give a penalty to the player."
+msgstr ""
+"Número máximo de avisos \"aceptable\".\n"
+"Cualquier aviso adicional asignará una penalización al jugador."
+
+#: qt/prefs_dialog.cpp:174 qt/prefs_dialog.cpp:189 qt/prefs_dialog.cpp:284
+msgid "%1 error"
+msgstr "Error %1"
+
+#: qt/prefs_dialog.cpp:175
+msgid "Cannot load preferences: %1"
+msgstr "No se pueden cargar las preferencias: %1"
+
+#: qt/prefs_dialog.cpp:190 qt/prefs_dialog.cpp:285
+msgid "Cannot save preferences: %1"
+msgstr "No se pueden guardar las preferencias: %1"
+
+#: qt/qtcommon.cpp:168
+msgid "Do you want to continue?"
+msgstr "¿Desa continuar?"
+
+#: qt/qtcommon.cpp:175
+msgid "Do not show this confirmation anymore"
+msgstr "No mostrar más esta confirmación"
+
+#: qt/qtcommon.cpp:177
+msgid ""
+"You can still display the confirmation in the future,\n"
+"by changing the appropriate option in the preferences."
+msgstr ""
+"Puede mostrar la confirmación en el futuro,\n"
+"cambiando la opción correspondiente en las preferencias."
+
+#: qt/score_widget.cpp:50
+msgid "Score"
+msgstr "Puntuación"
+
+#: qt/stats_widget.cpp:77 qt/training_widget.cpp:98
+msgid "Lock columns sizes"
+msgstr "Bloquear el tamanyo de las columnas"
+
+#: qt/stats_widget.cpp:79 qt/training_widget.cpp:100
+msgid "Disable auto-resizing of the columns"
+msgstr "Inhabilita el ajuste automático de tamanyo de las columnas"
+
+#: qt/stats_widget.cpp:123
+msgid "Sub-total"
+msgstr "Subtotal"
+
+#: qt/stats_widget.cpp:125
+msgid "End game points"
+msgstr "Puntos de final de partida"
+
+#: qt/stats_widget.cpp:127
+msgid "Solo points"
+msgstr "Puntos de jugada magistral"
+
+#: qt/stats_widget.cpp:129
+msgid "Penalties"
+msgstr "Penalizaciones"
+
+#: qt/stats_widget.cpp:131
+msgid "Warnings"
+msgstr "Avisos"
+
+#: qt/stats_widget.cpp:134
+msgid "Diff"
+msgstr "Dif."
+
+#: qt/stats_widget.cpp:136
+msgid "Ranking"
+msgstr "Ranquin"
+
+#: qt/stats_widget.cpp:139
+msgid "Game"
+msgstr "Partida"
+
+#: qt/stats_widget.cpp:336
+msgid "Word: %1"
+msgstr "Palabra: %1"
+
+#: qt/stats_widget.cpp:337
+msgid "Ref: %1"
+msgstr "Coord.: %1"
+
+#: qt/stats_widget.cpp:341
+msgid "Invalid move (%1 - %2)"
+msgstr "Jugada no válida (%1 - %2)"
+
+#: qt/stats_widget.cpp:347
+msgid "Changed letters: %1"
+msgstr "Fichas cambiadas: %1"
+
+#: qt/stats_widget.cpp:351
+msgid "Passed turn"
+msgstr "Ha pasado la ronda"
+
+#: qt/stats_widget.cpp:355
+msgid "No move"
+msgstr "Sin jugada"
+
+#: qt/stats_widget.cpp:362
+msgid "Points: %1"
+msgstr "Puntos: %1"
+
+#: qt/stats_widget.cpp:365
+msgid "Points: %1 (%2)"
+msgstr "Puntos:%1 (%2)"
+
+#: qt/stats_widget.cpp:367
+msgid "max"
+msgstr "máx."
+
+#: qt/stats_widget.cpp:374
+msgid "Solo: %1"
+msgstr "Jug. magistral: %1"
+
+#: qt/stats_widget.cpp:378
+msgid "Warnings: %1"
+msgstr "Avisos: %1"
+
+#: qt/stats_widget.cpp:382
+msgid "Penalties: %1"
+msgstr "Penalizaciones: %1"
+
+#: qt/tables_dialog.cpp:70
+msgid "The table numbers must be unique, but \"%1\" appears several times."
+msgstr "Los números de mesa deben ser únicos, pero \"%1\" aparece repetido."
+
+#: qt/training_widget.cpp:317
+msgid ""
+"Warning: Cannot set the rack to '%1'\n"
+"%2"
+msgstr ""
+"Atención: No se puede poner el atril a '%1'\n"
+"%2"
+
+#: utils/ncurses.cpp:296
+msgid "Scores"
+msgstr "Puntuaciones"
+
+#: utils/ncurses.cpp:300 utils/ncurses.cpp:306
+#, c-format
+msgid "%s: %d"
+msgstr "%s: %d"
+
+#: utils/ncurses.cpp:318
+msgid "Racks"
+msgstr "Atriles"
+
+#: utils/ncurses.cpp:322 utils/ncurses.cpp:328
+#, c-format
+msgid "%s: %ls"
+msgstr "%s: %ls"
+
+#: utils/ncurses.cpp:342 utils/ncurses.cpp:345
+msgid "Search complete"
+msgstr "Búsqueda completa"
+
+#: utils/ncurses.cpp:354 qt/ui/training_widget.ui.h:200
+msgid "Search results"
+msgstr "Resultados de la búsqueda"
+
+#: utils/ncurses.cpp:383
+msgid "History of the game"
+msgstr "Historial de la partida"
+
+#: utils/ncurses.cpp:389
+msgid " N |      RACK      |    SOLUTION     | REF | PTS | P | BONUS"
+msgstr " N |     ATRIL      |    SOLUCIÓN     |COORD| PTS | P | BONIFICACIÓN"
+
+#: utils/ncurses.cpp:456
+msgid "Help"
+msgstr "Ayuda"
+
+#: utils/ncurses.cpp:460
+msgid "[Global]"
+msgstr "[Global]"
+
+#: utils/ncurses.cpp:461
+msgid "   h, H, ?          Show/hide help box"
+msgstr "   h, H, ?          Mostrar/ocultar la ventana de ayuda"
+
+#: utils/ncurses.cpp:462
+msgid "   y, Y             Show/hide history of the game"
+msgstr "   y, Y             Mostrar/ocultar el historial de la partida"
+
+#: utils/ncurses.cpp:463
+msgid ""
+"   b, B             Show/hide contents of the bag (including letters of the "
+"racks)"
+msgstr ""
+"   b, B             Mostrar/ocultar el contenido de la bolsa (incluyendo las "
+"fichas de los atriles)"
+
+#: utils/ncurses.cpp:464
+msgid "   e, E             Show/hide dots on empty squares of the board"
+msgstr ""
+"   e, E             Mostrar/ocultar los puntos de las celdas vacías del "
+"tablero"
+
+#: utils/ncurses.cpp:465
+msgid "   d, D             Check the existence of a word in the dictionary"
+msgstr ""
+"   d, D             Verificar la existencia de una palabra en el diccionario"
+
+#: utils/ncurses.cpp:466
+msgid "   j, J             Play a word"
+msgstr "   j, J             Jugar una palabra"
+
+#: utils/ncurses.cpp:467
+msgid "   s, S             Save the game"
+msgstr "   s, S             Guardar la partida"
+
+#: utils/ncurses.cpp:468
+msgid "   l, L             Load a game"
+msgstr "   l, L             Cargar la partida"
+
+#: utils/ncurses.cpp:469
+msgid "   q, Q             Quit"
+msgstr "   q, Q             Salir"
+
+#: utils/ncurses.cpp:472
+msgid "[Training mode]"
+msgstr "[Modo entrenamiento]"
+
+#: utils/ncurses.cpp:473
+msgid "   *                Take a random rack"
+msgstr "   *                Tomar un atril aleatorio"
+
+#: utils/ncurses.cpp:474
+msgid "   +                Complete the current rack randomly"
+msgstr "   +                Completar el altril actual de forma aleatoria"
+
+#: utils/ncurses.cpp:475
+msgid "   t, T             Set the rack manually"
+msgstr "   t, T             Indicar el atril manualmente"
+
+#: utils/ncurses.cpp:476
+msgid "   c, C             Compute all the possible words"
+msgstr "   c, C             Calcular todas la palabras posibles"
+
+#: utils/ncurses.cpp:477
+msgid "   r, R             Show/hide search results"
+msgstr "   r, R             Mostrar/ocultar el resultado de la búsqueda"
+
+#: utils/ncurses.cpp:480
+msgid "[Duplicate mode]"
+msgstr "[Modo duplicada]"
+
+#: utils/ncurses.cpp:481
+msgid "   n, N             Switch to the next human player"
+msgstr "   n, N             Cambiar al siguiente jugador humano"
+
+#: utils/ncurses.cpp:484
+msgid "[Free game mode]"
+msgstr "[Modo de partida libre]"
+
+#: utils/ncurses.cpp:485
+msgid "   p, P             Pass your turn (with or without changing letters)"
+msgstr "   p, P             Pasar la ronda (con o sin cambio de fichas)"
+
+#: utils/ncurses.cpp:488
+msgid "[Miscellaneous]"
+msgstr "[Miscelania]"
+
+#: utils/ncurses.cpp:489
+msgid "   <up>, <down>     Navigate in a box line by line"
+msgstr "   <arriba>, <abajo>     Navegar línea por línea en una caja"
+
+#: utils/ncurses.cpp:490
+msgid "   <pgup>, <pgdown> Navigate in a box page by page"
+msgstr "   <RePág>, <AvPág> Navegar per páginas en una caja"
+
+#: utils/ncurses.cpp:491
+msgid "   Ctrl-l           Refresh the screen"
+msgstr "   Ctrl-l           Actualitzar la pantalla"
+
+#: utils/ncurses.cpp:509
+msgid " LETTER | POINTS | FREQUENCY | REMAINING"
+msgstr " FICHA | PUNTOS | FRECUENCIA | RESTANTE"
+
+#: utils/ncurses.cpp:565
+msgid "Play a word"
+msgstr "Jugar una palabra"
+
+#. TRANSLATORS: Align the : when translating "Played word:" and
+#. "Coordinates:". For example:
+#. Pl. word   :
+#. Coordinates:
+#: utils/ncurses.cpp:566 utils/ncurses.cpp:574
+msgid "Played word:"
+msgstr "Palabra jugada:"
+
+#: utils/ncurses.cpp:567 utils/ncurses.cpp:575
+msgid "Coordinates:"
+msgstr "Coordenadas:"
+
+#: utils/ncurses.cpp:599
+msgid "Dictionary"
+msgstr "Diccionario"
+
+#: utils/ncurses.cpp:600
+msgid "Enter the word to check:"
+msgstr "Indique la palabra a verificar:"
+
+#: utils/ncurses.cpp:609
+#, c-format
+msgid "The word '%ls' exists"
+msgstr "La palabra '%ls' existe"
+
+#: utils/ncurses.cpp:611
+#, c-format
+msgid "The word '%ls' does not exist"
+msgstr "La palabra '%ls' no existe"
+
+#: utils/ncurses.cpp:621
+msgid "Save the game"
+msgstr "Guarda la partida"
+
+#: utils/ncurses.cpp:622 utils/ncurses.cpp:649
+msgid "Enter the file name:"
+msgstr "Indique el nombre del archivo:"
+
+#: utils/ncurses.cpp:632
+#, c-format
+msgid "Game saved in '%ls'"
+msgstr "Se ha guardado la partida '%ls'"
+
+#: utils/ncurses.cpp:637
+#, c-format
+msgid "Error saving game %s:"
+msgstr "Se ha producido un error al guardar la partida %s:"
+
+#: utils/ncurses.cpp:667
+msgid "Unable to load game: "
+msgstr "No se puede cargar la partida:"
+
+#: utils/ncurses.cpp:677
+msgid "Pass your turn"
+msgstr "Pasa la ronda"
+
+#: utils/ncurses.cpp:678
+msgid "Enter the letters to change:"
+msgstr "Indique las fichas a cambiar:"
+
+#: utils/ncurses.cpp:687
+msgid "Cannot pass the turn"
+msgstr "La ronda no se puede pasar"
+
+#: utils/ncurses.cpp:697
+msgid "Set rack"
+msgstr "Indique el atril"
+
+#: utils/ncurses.cpp:698
+msgid "Enter the new letters:"
+msgstr "Indique las fichas nuevas:"
+
+#: utils/ncurses.cpp:710
+msgid "Cannot take these letters from the bag:"
+msgstr "No se pueden tomar estas fichas de la bolsa:"
+
+#: utils/ncurses.cpp:1121 qt/ui/prefs_dialog.ui.h:583
+msgid "Free game mode"
+msgstr "Modo de partida libre"
+
+#: utils/ncurses.cpp:1123 qt/ui/prefs_dialog.ui.h:570
+msgid "Duplicate mode"
+msgstr "Modo duplicado"
+
+#: utils/ncurses.cpp:1126 qt/ui/new_game.ui.h:209
+msgid "Joker game"
+msgstr "Partida con comodín"
+
+#: utils/ncurses.cpp:1127
+msgid "[h for help]"
+msgstr "[h para obtenir ayuda]"
+
+#: qt/ui/arbit_assignments.ui.h:143
+msgid "Assignments"
+msgstr "Asignaciones"
+
+#: qt/ui/arbit_assignments.ui.h:144
+msgid "Master move:"
+msgstr "Jugada de referencia:"
+
+#: qt/ui/arbit_assignments.ui.h:146
+msgid "Select"
+msgstr "Seleccionar"
+
+#: qt/ui/arbit_assignments.ui.h:147
+msgid "Hide players with an assigned move"
+msgstr "Ocultar los jugadores com jugada asignada"
+
+#: qt/ui/arbit_assignments.ui.h:148
+msgid "Assign move"
+msgstr "Asignar la jugada"
+
+#: qt/ui/arbit_assignments.ui.h:150
+msgid "Indicate that the selected player(s) did not play"
+msgstr "Indica que los jugadores seleccionados no haran ninguna jugada"
+
+#: qt/ui/arbit_assignments.ui.h:152
+msgid "Suppress move"
+msgstr "Retirar la jugada"
+
+#: qt/ui/arbit_assignments.ui.h:154
+msgid "Validate the current turn and start a new one"
+msgstr "Validar la ronda actual y empezar una nueve"
+
+#: qt/ui/arbit_assignments.ui.h:156
+msgid "&End turn"
+msgstr "&Fin de la ronda"
+
+#: qt/ui/arbitration_widget.ui.h:195
+msgid "Random"
+msgstr "Aleatorio"
+
+#: qt/ui/arbitration_widget.ui.h:196 qt/ui/dic_tools_widget.ui.h:308
+#: qt/ui/dic_tools_widget.ui.h:310
+msgid "Search"
+msgstr "Buscar"
+
+#: qt/ui/arbitration_widget.ui.h:197
+msgid "Possible words"
+msgstr "Palabras posibles:"
+
+#: qt/ui/arbitration_widget.ui.h:198
+msgid "Filter results:"
+msgstr "Filtra los resultados:"
+
+#: qt/ui/arbitration_widget.ui.h:199
+msgid "Filter"
+msgstr "Filtro"
+
+#: qt/ui/arbitration_widget.ui.h:200
+msgid "Word:"
+msgstr "Palabra:"
+
+#: qt/ui/arbitration_widget.ui.h:201 qt/ui/player_widget.ui.h:164
+#: qt/ui/training_widget.ui.h:187
+msgid "Ref.:"
+msgstr "Coord.:"
+
+#: qt/ui/arbitration_widget.ui.h:202
+msgid "Check word"
+msgstr "Verificar la paraula"
+
+#: qt/ui/bag_widget.ui.h:110
+msgid "Remaining vowels:"
+msgstr "Vocales restantes:"
+
+#: qt/ui/bag_widget.ui.h:112
+msgid "Remaining consonants:"
+msgstr "Consonantes restantes:"
+
+#: qt/ui/bag_widget.ui.h:114
+msgid "Remaining jokers:"
+msgstr "Comodines restantes:"
+
+#: qt/ui/dic_tools_widget.ui.h:307
+msgid "Check"
+msgstr "Verificar"
+
+#: qt/ui/dic_tools_widget.ui.h:309
+msgid "Plus 1"
+msgstr "Más 1"
+
+#: qt/ui/dic_tools_widget.ui.h:311
+msgid "Save list..."
+msgstr "Guardar la lista..."
+
+#: qt/ui/dic_tools_widget.ui.h:312
+msgid "Minimum length:"
+msgstr "Longitud mínima:"
+
+#: qt/ui/dic_tools_widget.ui.h:313
+msgid "Maximum length:"
+msgstr "Longitud máxima:"
+
+#: qt/ui/dic_tools_widget.ui.h:314
+msgid "Note: only the 1000 first results have been displayed"
+msgstr "Nota: sólo se mostraran los primeros 1000 resultados"
+
+#: qt/ui/dic_tools_widget.ui.h:315
+msgid "Regular expressions"
+msgstr "Expresiones regulares"
+
+#: qt/ui/dic_tools_widget.ui.h:316 qt/ui/dic_wizard_info_page.ui.h:142
+msgid "Dictionary name:"
+msgstr "Nombre del diccionario:"
+
+#: qt/ui/dic_tools_widget.ui.h:317
+msgid "Letters:"
+msgstr "Fichas:"
+
+#: qt/ui/dic_tools_widget.ui.h:318
+msgid "Number of words:"
+msgstr "Número de palabras:"
+
+#: qt/ui/dic_tools_widget.ui.h:319
+msgid "Save words list..."
+msgstr "Guarda la lista de palabras..."
+
+#: qt/ui/dic_tools_widget.ui.h:320
+msgid "Dic. info."
+msgstr "Inf. del dicc."
+
+#: qt/ui/dic_wizard_conclusion_page.ui.h:68
+#: qt/ui/dic_wizard_info_page.ui.h:145 qt/ui/dic_wizard_info_page.ui.h:146
+#: qt/ui/dic_wizard_info_page.ui.h:147
+#: qt/ui/dic_wizard_letters_def_page.ui.h:91
+msgid "Description"
+msgstr "Descripción"
+
+#: qt/ui/dic_wizard_conclusion_page.ui.h:69
+msgid "Load this dictionary in Eliot"
+msgstr "Carrga este diccionario en Eliot"
+
+#: qt/ui/dic_wizard_info_page.ui.h:143 qt/ui/dic_wizard_info_page.ui.h:144
+#: qt/ui/prefs_dialog.ui.h:560
+msgid "Browse..."
+msgstr "Explorar..."
+
+#: qt/ui/dic_wizard_info_page.ui.h:148
+msgid "Generated dictionary:"
+msgstr "Diccionario generado:"
+
+#: qt/ui/dic_wizard_info_page.ui.h:149
+msgid "Word list:"
+msgstr "Lista de palabras:"
+
+#: qt/ui/dic_wizard_letters_def_page.ui.h:92
+msgid "Load letters from word list"
+msgstr "Carga las letras des de la lista de palabras"
+
+#: qt/ui/dic_wizard_letters_def_page.ui.h:94
+msgid ""
+"Use the values for the current dictionary for all the letters below (unknown "
+"letters will be ignored)"
+msgstr ""
+"Usa los valores del diccionario actual para todas la fichas siguientes (las "
+"letras desconocidas se ignoraran)"
+
+#: qt/ui/dic_wizard_letters_def_page.ui.h:96
+msgid "Use values from current dictionary"
+msgstr "Usa los valores del diccionari actual"
+
+#: qt/ui/main_window.ui.h:130
+msgid "External board"
+msgstr "Tablero externo"
+
+#: qt/ui/new_game.ui.h:198
+msgid "New game"
+msgstr "Partida nueva"
+
+#: qt/ui/new_game.ui.h:199
+msgid "Game type"
+msgstr "Tipo de partida"
+
+#: qt/ui/new_game.ui.h:200
+msgid "Mode:"
+msgstr "Modo:"
+
+#: qt/ui/new_game.ui.h:201
+msgid "Duplicate"
+msgstr "Duplicada"
+
+#: qt/ui/new_game.ui.h:204
+msgid "Arbitration (duplicate)"
+msgstr "Arbitraje (duplicada)"
+
+#: qt/ui/new_game.ui.h:205
+msgid "Variant:"
+msgstr "Variante:"
+
+#: qt/ui/new_game.ui.h:207
+msgid ""
+"In a joker game, each rack contains a joker. When a word containing the "
+"joker is played on the grid, the joker is then replaced by the corresponding "
+"letter from the bag, and the joker stays in the rack. When the corresponding "
+"letter is not present in the bag, the joker is placed on the board. This "
+"variant, particularly interesting in Duplicate mode, is good to train using "
+"the joker."
+msgstr ""
+"En una partida con comodín, cada atril contiene un comodín. Cuando se juega "
+"una palabra usando el comodín, se substituye por la ficha correspondiente, "
+"tomandola de la bolsa y el comodín permanece en el atril. Cuando la ficha "
+"necesaria no se encuentra en la bolsa, el comodín se mantiene en el atril. "
+"Esta variante es particularmente interesante en el modo duplicado, es bueno "
+"entrenar usando el comodín"
+
+#: qt/ui/new_game.ui.h:211
+msgid ""
+"An explosive game is a bit like a joker game, except than when the computer "
+"chooses the rack (containing a joker), it performs a search and finds the "
+"best word possible with the rack. Then, if possible, it replaces the joker "
+"in the rack with the letter allowing to play this best word. This variant, "
+"unlike the joker game, allows playing with a normal-looking rack, but it "
+"usually gives much higher scores than in a normal game."
+msgstr ""
+"Una partida explosiva se parece a una partida con comodín, excepto cuando el "
+"ordenador selecciona el atril (que contiene un comodín). El ordenador busca "
+"y encuentra la mejor palabra del atril. Entonces, si es posible, substituye "
+"el comodín del atril por la ficha que permite esa mejor jugada. Esta "
+"variante, al contrario de la partida con comodín, permite jugar con un atril "
+"de aspecto normal, pero habitualmente se consiguen puntuaciones más elevadas "
+"que en una partida duplicada normal."
+
+#: qt/ui/new_game.ui.h:213
+msgid "Explosive game"
+msgstr "Partida explosiva"
+
+#: qt/ui/new_game.ui.h:214
+msgid "7 among 8"
+msgstr "7 entre 8"
+
+#: qt/ui/new_game.ui.h:216
+msgid "Add &player"
+msgstr "Añadir un &jugador"
+
+#: qt/ui/new_game.ui.h:217
+msgid "Add &favorite players..."
+msgstr "Añadir jugadores &favoritos..."
+
+#: qt/ui/player_widget.ui.h:161
+msgid "Shu&ffle"
+msgstr "&Mezclar"
+
+#: qt/ui/player_widget.ui.h:162
+msgid "Change letters:"
+msgstr "Cambiar fichas:"
+
+#: qt/ui/player_widget.ui.h:163
+msgid "&Pass"
+msgstr "&Pasar"
+
+#: qt/ui/player_widget.ui.h:165 qt/ui/training_widget.ui.h:186
+msgid "Play a word:"
+msgstr "Jugar una palabra:"
+
+#: qt/ui/player_widget.ui.h:167 qt/ui/player_widget.ui.h:170
+msgid ""
+"Enter the word to play (case-insensitive). A joker from the rack must be "
+"written in parentheses. E.g.: w(o)rd or W(O)RD"
+msgstr ""
+"Indique la palabra que desa jugar. Para indicar el valor del comodín, hagalo "
+"escribiendo el valor entre paréntesis. Ej: palab(r)a o PALAB(R)A"
+
+#: qt/ui/player_widget.ui.h:172 qt/ui/training_widget.ui.h:195
+msgid "Play"
+msgstr "Jugar"
+
+#: qt/ui/player_widget.ui.h:174 qt/ui/player_widget.ui.h:177
+#: qt/ui/training_widget.ui.h:189 qt/ui/training_widget.ui.h:192
+msgid ""
+"Enter the coordinates of the word. Specify the row before the column for "
+"horizontal words, and the column before the row for vertical words. E.g.: H4 "
+"or 4H"
+msgstr ""
+"Indique las coordenadas de la jugada. Especifique la fila antes de la "
+"columna para las palabras horizontales, y la columna antes de la fila para "
+"las palabras verticales. Ej.: H4 o 4H"
+
+#: qt/ui/player_widget.ui.h:179 qt/ui/training_widget.ui.h:194
+msgid "Points:"
+msgstr "Puntos:"
+
+#: qt/ui/player_widget.ui.h:181
+msgid "Enter the letters you want to change"
+msgstr "Indique las fichas que desa cambiar"
+
+#: qt/ui/player_widget.ui.h:183
+msgid "&Change"
+msgstr "&Cambiar"
+
+#: qt/ui/prefs_dialog.ui.h:546
+msgid "Preferences"
+msgstr "Preferencias"
+
+#: qt/ui/prefs_dialog.ui.h:548
+msgid "Timer total duration (in seconds):"
+msgstr "Duración total del reloj (en segundos):"
+
+#: qt/ui/prefs_dialog.ui.h:549
+msgid "Alert level (in seconds):"
+msgstr "Tiempo de alerta (en segundos):"
+
+#: qt/ui/prefs_dialog.ui.h:550
+msgid "Timer beeps"
+msgstr "Sonidos del reloj"
+
+#: qt/ui/prefs_dialog.ui.h:551
+msgid "Miscellaneous"
+msgstr "Miscelania"
+
+#: qt/ui/prefs_dialog.ui.h:552
+msgid "Definitions site:"
+msgstr "Web de definiciones:"
+
+#: qt/ui/prefs_dialog.ui.h:553
+msgid "Dictionary path:"
+msgstr "Camino al diccionario:"
+
+#: qt/ui/prefs_dialog.ui.h:555
+msgid "Enter the dictionary path (mandatory to start a game)"
+msgstr ""
+"Indique el camino al diccionario (esto es obligatorio para poder iniciar una "
+"partida)"
+
+#: qt/ui/prefs_dialog.ui.h:558
+msgid "Open a browser window to choose the dictionary"
+msgstr "Abre una ventana del explorador para seleccionar un diccionario"
+
+#: qt/ui/prefs_dialog.ui.h:562
+msgid "Show/hide the tiles points on the board."
+msgstr "Mostrar/ocultar el valor facial de las fichas en el tablero."
+
+#: qt/ui/prefs_dialog.ui.h:564
+msgid "Display tiles points"
+msgstr "Mostrar el valor de las fichas"
+
+#: qt/ui/prefs_dialog.ui.h:566
+msgid ""
+"If checked, the game and player histories will display the rack and the "
+"corresponding solution on the same line"
+msgstr ""
+"Si está marcado, los historiales de partida y jugador mostraran el atril y "
+"la solución correspondiente en la misma línea"
+
+#: qt/ui/prefs_dialog.ui.h:568
+msgid "Align the rack and the solution in history"
+msgstr "Alinear el atril y la solución en el historial"
+
+#: qt/ui/prefs_dialog.ui.h:569
+msgid "Interface"
+msgstr "Interfaz"
+
+#: qt/ui/prefs_dialog.ui.h:572 qt/ui/prefs_dialog.ui.h:585
+msgid ""
+"If checked, playing an invalid or misplaced word will not be possible. If "
+"unchecked, you will get 0 point and lose your turn"
+msgstr ""
+"Si está marcado, no es posible jugar una palabra inválida o con coordenadas "
+"incorrectas. Si está desmarcado, se obtendran 0 puntos y se perderá la ronda"
+
+#: qt/ui/prefs_dialog.ui.h:574 qt/ui/prefs_dialog.ui.h:587
+msgid "Refuse to play invalid moves"
+msgstr "Rechazar hacer jugada no válidas"
+
+#: qt/ui/prefs_dialog.ui.h:575
+msgid "Min. players for a solo:"
+msgstr "Nº mínimo de jugadores para bonificar una jugada magistral:"
+
+#: qt/ui/prefs_dialog.ui.h:576 qt/ui/prefs_dialog.ui.h:603
+msgid "Solo value:"
+msgstr "Bonificación por jugada magistral:"
+
+#: qt/ui/prefs_dialog.ui.h:578 qt/ui/prefs_dialog.ui.h:605
+msgid "Value of the solo bonus. Set it to 0 if you don't want solo bonus"
+msgstr ""
+"Valor de la bonificación por jugada magistral. Indique 0 si no desa "
+"bonificar las jugada magistrales"
+
+#: qt/ui/prefs_dialog.ui.h:581
+msgid "Minimum number of players needed to take into account the solo bonus"
+msgstr ""
+"Número mínimo de jugadores necesario para tener en cuenta la bonificación "
+"por jugada magistral"
+
+#: qt/ui/prefs_dialog.ui.h:589 qt/ui/prefs_dialog.ui.h:602
+msgid "Search results limit:"
+msgstr "Límite de resultats de búsqueda:"
+
+#: qt/ui/prefs_dialog.ui.h:590
+msgid "Arbitration mode"
+msgstr "Modo de arbitraje"
+
+#: qt/ui/prefs_dialog.ui.h:591
+msgid "Choose a master move automatically"
+msgstr "Seleccionar una jugada de referencia automàticamente"
+
+#: qt/ui/prefs_dialog.ui.h:592
+msgid "Propose a new rack automatically"
+msgstr "Proponer un atril nuevo automáticamente"
+
+#: qt/ui/prefs_dialog.ui.h:594
+msgid ""
+"If checked, any change to the player rack in training mode will update the "
+"'Plus 1' tab of the 'Dictionary tools' window"
+msgstr ""
+"Si está marcado, qualquier cambio en el atril del jugador en modo "
+"entrenamiento actualizará la pestaña 'Más 1' de la ventana de herramientas "
+"del diccionario"
+
+#: qt/ui/prefs_dialog.ui.h:596
+msgid "Copy rack to the 'Plus 1' dictionary tool"
+msgstr "Copiar el atril a la herramienta de diccionario 'Más 1'"
+
+#: qt/ui/prefs_dialog.ui.h:597
+msgid "Penalty value:"
+msgstr "Valor de la penalización:"
+
+#: qt/ui/prefs_dialog.ui.h:598
+msgid "Warnings limit:"
+msgstr "Límite de avisos:"
+
+#: qt/ui/prefs_dialog.ui.h:600
+msgid "Default number of points for a penalty"
+msgstr "Número predeterminado de puntos de penalización"
+
+#: qt/ui/prefs_dialog.ui.h:607
+msgid "Game modes"
+msgstr "Modos de partida"
+
+#: qt/ui/prefs_dialog.ui.h:608
+msgid "When a game is on going, ask for a confirmation:"
+msgstr "Durante una partida, solicita confirmación:"
+
+#: qt/ui/prefs_dialog.ui.h:609
+msgid "Before starting a new game"
+msgstr "Antes de iniciar una partida nueva"
+
+#: qt/ui/prefs_dialog.ui.h:610
+msgid "Before loading a game"
+msgstr "Antes de abrir una partida"
+
+#: qt/ui/prefs_dialog.ui.h:611
+msgid "Before loading a dictionary"
+msgstr "Antes de cargar un diccionario"
+
+#: qt/ui/prefs_dialog.ui.h:612
+msgid "Before replaying a turn"
+msgstr "Antes de volver a jugar una ronda"
+
+#: qt/ui/prefs_dialog.ui.h:613
+msgid "Before quitting Eliot"
+msgstr "Antes de salir de Eliot"
+
+#: qt/ui/prefs_dialog.ui.h:614
+msgid "In arbitration mode, ask for a confirmation:"
+msgstr "En el modo arbitraje, solicitar confirmación:"
+
+#: qt/ui/prefs_dialog.ui.h:615
+msgid "Before replacing the selected master move"
+msgstr "Antes de cambiar la jugada de referencia seleccionada"
+
+#: qt/ui/prefs_dialog.ui.h:616
+msgid "When selecting a non optimal master move"
+msgstr "Al seleccionar una jugada de referencia no óptima"
+
+#: qt/ui/prefs_dialog.ui.h:617
+msgid "When selecting a master move using jokers uselessly"
+msgstr ""
+"Al seleccionar una jugada de referencia que usa más comodines de los "
+"necesarios"
+
+#: qt/ui/prefs_dialog.ui.h:618
+msgid "Before suppressing a player move"
+msgstr "Antes de retirar una jugada asignada"
+
+#: qt/ui/prefs_dialog.ui.h:619
+msgid "Before replacing a player move"
+msgstr "Antes de cambiar la jugada de un jugador"
+
+#: qt/ui/prefs_dialog.ui.h:620
+msgid "Before losing a player move (with a rack change)"
+msgstr "Antes de perder una jugada asignada (al cambiar el atril)"
+
+#: qt/ui/prefs_dialog.ui.h:621
+msgid "When ending an incomplete turn"
+msgstr "Al finalizar una ronda incompleta"
+
+#: qt/ui/prefs_dialog.ui.h:622
+msgid "Confirmations"
+msgstr "Confirmaciones"
+
+#: qt/ui/tables_dialog.ui.h:78
+msgid "Players tables definition"
+msgstr "Definición de las mesas de los jugadors"
+
+#: qt/ui/training_widget.ui.h:196
+msgid "&New rack"
+msgstr "Atril &nuevo"
+
+#: qt/ui/training_widget.ui.h:197
+msgid "&Complement"
+msgstr "&Complementar"
+
+#: qt/ui/training_widget.ui.h:198
+msgid "Sea&rch"
+msgstr "&Buscar"
+
+#: qt/ui/training_widget.ui.h:199
+msgid "&Play selected"
+msgstr "&Jugada seleccionada"
+
+#~ msgid "Rack invalid for the current dictionary: "
+#~ msgstr "Atril no válido para el diccionario actual"
+
+#~ msgid "Statistiques"
+#~ msgstr "Estadísticas"
+
+#~ msgid "Changing letters: %1"
+#~ msgstr "Cambiar fichas: %1"
+
+#~ msgid "Form"
+#~ msgstr "Formulario"
+
+#~ msgid "Export words list"
+#~ msgstr "Exporta la llista de paraules"
+
+#~ msgid "Ctrl+C"
+#~ msgstr "Ctrl+C"
+
+#~ msgid "Hel&p"
+#~ msgstr "A&juda"
+
+#~ msgid ""
+#~ "Default level for Eliot, used when creating a new game.\n"
+#~ "Accepted range: [0-100]"
+#~ msgstr ""
+#~ "Nivell predeterminat per a l'Eliot, s'usa en les partides noves.\n"
+#~ "Interval admès: [0-100]"
+
+#~ msgid "Name:"
+#~ msgstr "Nom:"
+
+#~ msgid "Player 2"
+#~ msgstr "Jugador 2"
+
+#~ msgid "Type:"
+#~ msgstr "Tipus:"
+
+#~ msgid "Level:"
+#~ msgstr "Nivell:"
+
+#~ msgid ""
+#~ "If checked, a confirmation will be requested before replaying the game "
+#~ "from a given turn. If unchecked, the action is performed without "
+#~ "confirmation."
+#~ msgstr ""
+#~ "Si està marcat, se us farà demanarà confirmació abans de tornar a jugar "
+#~ "un torn tancat. Si està desmarcat, els canvis es realitzen sense "
+#~ "confirmació."
+
+#~ msgid "Default computer level:"
+#~ msgstr "Nivell predeterminat de l'ordinador:"
+
+#~ msgid "Player %u"
+#~ msgstr "Jugador %u"
+
+#~ msgid "writing %1% edges"
+#~ msgstr "s'estan escrivint %1% arestes"
+
+#~ msgid "Incorrect or misplaced word (%1)"
+#~ msgstr "Paraula incorrecta o en posició errònia (%1)"
+
+#, fuzzy
+#~ msgid "Dictionary creation"
+#~ msgstr "Eines del diccionari"
+
+#~ msgid "Cannot stat file '%1%'"
+#~ msgstr "No es pot obrir el fitxer '%1%'"
+
+#, fuzzy
+#~ msgid "toolBar"
+#~ msgstr "&Barra d'eines"
+
+#, fuzzy
+#~ msgid ""
+#~ "_(\"Enter the word to play (case-insensitive).\n"
+#~ "A joker from the rack must be written in parentheses.\n"
+#~ "E.g.: w(o)rd or W(O)RD\")"
+#~ msgstr ""
+#~ "Indiqueu la paraula a jugar.\n"
+#~ "Els escarrassos del faristol s'ha d'escriure entre parèntesis.\n"
+#~ "Ex.: para(u)la o PARA(U)LA"
+
+#, fuzzy
+#~ msgid ""
+#~ "_(\"Enter the coordinates of the word.\n"
+#~ "Specify the row before the column for horizontal words,\n"
+#~ " and the column before the row for vertical words.\n"
+#~ "E.g.: H4 or 4H\")"
+#~ msgstr ""
+#~ "Indiqueu les coordenades de la jugada.\n"
+#~ "Especifiqueu la fila abans de la columna per a paraules horitzontals,\n"
+#~ "i la columna abans de la fila per a paraules verticals.\n"
+#~ "Ex.: H4 o 4H"
+
+#~ msgid "Enter the coordinates of the word."
+#~ msgstr "Indiqueu les coordenades de la paraula."
+
+#~ msgid "Enter the word to play (case-insensitive)."
+#~ msgstr ""
+#~ "Indiqueu la paraula (no es distingueix entre majúscules o minúscules)"
+
+#~ msgid "Invalid saved game"
+#~ msgstr "La partida desada no és vàlida"
+
+#, fuzzy
+#~ msgid "letter"
+#~ msgstr "Fitxa"
+
+#, fuzzy
+#~ msgid "frequency"
+#~ msgstr "Freqüència"
+
+#, fuzzy
+#~ msgid "vowel"
+#~ msgstr "És una vocal?"
+
+#~ msgid "one or more space(s)."
+#~ msgstr "un o més espais."
+
+#~ msgid " - 1st field: the letter itself"
+#~ msgstr " - 1r camp: la fitxa pròpiament dita"
+
+#~ msgid "A 1 9 1 0"
+#~ msgstr "A 1 9 1 0"
+
+#~ msgid "[...]"
+#~ msgstr "[...]"
+
+#~ msgid "Z 10 1 0 1"
+#~ msgstr "Z 10 1 0 1"
+
+#~ msgid "? 0 2 1 1"
+#~ msgstr "? 0 2 1 1"
+
+#, fuzzy
+#~ msgid "Cannot stat uncompressed dictionary "
+#~ msgstr "No es pot stat un diccionari descomprimit"
+
+#~ msgid "dictionary name: %s\n"
+#~ msgstr "nom del diccioanri: %s\n"
+
+#~ msgid "letters: %s\n"
+#~ msgstr "fitxes: %s\n"
+
+#~ msgid "number of words: %d\n"
+#~ msgstr "nombre de paraules: %d\n"
+
+#~ msgid "letter | points | frequency | vowel | consonant\n"
+#~ msgstr "fitxa | punts | freqüència | vocal | consonant\n"
+
+#~ msgid "&Help"
+#~ msgstr "&Ajuda"
