@@ -35,7 +35,7 @@ INIT_LOGGER(qt, RackWidget);
 
 
 RackWidget::RackWidget(QWidget *parent)
-    : QFrame(parent), m_showOnlyLastTurn(false)
+    : QFrame(parent), m_game(NULL), m_showOnlyLastTurn(false)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 

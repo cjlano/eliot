@@ -155,7 +155,7 @@ void BestResults::clear()
 
 
 PercentResults::PercentResults(float iPercent)
-    : m_percent(iPercent)
+    : m_percent(iPercent), m_bestScore(0), m_minScore(0)
 {
 }
 

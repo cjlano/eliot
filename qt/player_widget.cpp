@@ -202,7 +202,7 @@ void PlayerWidget::helperChangePass(QString inputLetters)
 
 
 PlayerTabWidget::PlayerTabWidget(CoordModel &iCoordModel, QWidget *parent)
-    : QTabWidget(parent), m_coordModel(iCoordModel)
+    : QTabWidget(parent), m_game(NULL), m_coordModel(iCoordModel)
 {
     QObject::connect(this, SIGNAL(currentChanged(int)),
                      this, SLOT(changeCurrentPlayer(int)));

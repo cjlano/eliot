@@ -46,7 +46,8 @@ INIT_LOGGER(qt, HistoryWidget);
 
 
 HistoryWidget::HistoryWidget(QWidget *parent)
-    : QTreeView(parent), m_history(NULL), m_forPlayer(false), m_isFreeGame(false)
+    : QTreeView(parent), m_history(NULL), m_game(NULL),
+      m_forPlayer(false), m_isFreeGame(false)
 {
     m_colTurn = 0;
     m_colRack = 1;
