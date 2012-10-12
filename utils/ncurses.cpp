@@ -31,6 +31,7 @@
 #   include <windows.h>
 #endif
 
+#include <iostream>
 #include <ctype.h>
 #include <cstring> // For strlen
 #include <cwctype> // For iswalnum
@@ -1160,64 +1161,91 @@ int main(int argc, char ** argv)
 
     srand(time(NULL));
 
-    Game *realGame = GameFactory::Instance()->createFromCmdLine(argc, argv);
-    if (realGame == NULL)
+    int retCode = 1;
+    try
     {
-        GameFactory::Destroy();
-        return 1;
-    }
-    PublicGame *game = new PublicGame(*realGame);
-
-    game->start();
-
-    // Initialize the ncurses library
-    WINDOW *wBoard = initscr();
-    keypad(wBoard, true);
-    // Take input chars one at a time
-    cbreak();
-    // Do not do NL -> NL/CR
-    nonl();
-    // Hide the cursor
-    curs_set(0);
-
-    if (has_colors())
-    {
-        start_color();
-
-        // Simple color assignment
-        init_pair(COLOR_BLACK, COLOR_BLACK, COLOR_BLACK);
-        init_pair(COLOR_GREEN, COLOR_GREEN, COLOR_BLACK);
-        init_pair(COLOR_WHITE, COLOR_WHITE, COLOR_BLACK);
-        init_pair(COLOR_YELLOW, COLOR_YELLOW, COLOR_RED);
-
-        init_pair(COLOR_BLUE, COLOR_BLACK, COLOR_BLUE);
-        init_pair(COLOR_CYAN, COLOR_BLACK, COLOR_CYAN);
-        init_pair(COLOR_MAGENTA, COLOR_BLACK, COLOR_MAGENTA);
-        init_pair(COLOR_RED, COLOR_BLACK, COLOR_RED);
-    }
-
-    // Do not echo
-    noecho();
-
-    // mainIntf will take care of destroying game for us
-    CursesIntf mainIntf(wBoard, *game);
-    mainIntf.redraw(wBoard);
-
-    while (!mainIntf.isDying())
-    {
-        int c = getch();
-        if (mainIntf.handleKey(c) == 1)
+        Game *realGame = GameFactory::Instance()->createFromCmdLine(argc, argv);
+        if (realGame == NULL)
         {
-            mainIntf.redraw(wBoard);
+            GameFactory::Destroy();
+            return 1;
         }
+        PublicGame *game = new PublicGame(*realGame);
+
+        game->start();
+
+        // Initialize the ncurses library
+        WINDOW *wBoard = initscr();
+        try
+        {
+            keypad(wBoard, true);
+            // Take input chars one at a time
+            cbreak();
+            // Do not do NL -> NL/CR
+            nonl();
+            // Hide the cursor
+            curs_set(0);
+
+            if (has_colors())
+            {
+                start_color();
+
+                // Simple color assignment
+                init_pair(COLOR_BLACK, COLOR_BLACK, COLOR_BLACK);
+                init_pair(COLOR_GREEN, COLOR_GREEN, COLOR_BLACK);
+                init_pair(COLOR_WHITE, COLOR_WHITE, COLOR_BLACK);
+                init_pair(COLOR_YELLOW, COLOR_YELLOW, COLOR_RED);
+
+                init_pair(COLOR_BLUE, COLOR_BLACK, COLOR_BLUE);
+                init_pair(COLOR_CYAN, COLOR_BLACK, COLOR_CYAN);
+                init_pair(COLOR_MAGENTA, COLOR_BLACK, COLOR_MAGENTA);
+                init_pair(COLOR_RED, COLOR_BLACK, COLOR_RED);
+            }
+
+            // Do not echo
+            noecho();
+
+            // mainIntf will take care of destroying game for us
+            CursesIntf mainIntf(wBoard, *game);
+            mainIntf.redraw(wBoard);
+
+            while (!mainIntf.isDying())
+            {
+                int c = getch();
+                if (mainIntf.handleKey(c) == 1)
+                {
+                    mainIntf.redraw(wBoard);
+                }
+            }
+        }
+        catch (...)
+        {
+            // Clean up
+            delwin(wBoard);
+
+            // Exit the ncurses library
+            endwin();
+
+            // Rethrow the exception
+            throw;
+        }
+
+        retCode = 0;
     }
-
-    delwin(wBoard);
-
-    // Exit the ncurses library
-    endwin();
+    catch (const BaseException &e)
+    {
+        cerr << "Exception caught: " << e.what() << "\n" << e.getStackTrace();
+    }
+    catch (const std::exception &e)
+    {
+        cerr << "Exception caught: " << e.what();
+    }
+    catch (...)
+    {
+        cerr << "Unknown exception caught";
+    }
 
     GameFactory::Destroy();
 
-    return 0;
+    return retCode;
 }

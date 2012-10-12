@@ -188,7 +188,7 @@ MainWindow::MainWindow(QWidget *iParent)
         {
             m_dic = new Dictionary(lfq(dicPath));
         }
-        catch (DicException &e)
+        catch (const std::exception &e)
         {
             displayErrorMsg(_q("Cannot load dictionary '%1' indicated in the "
                                "preferences.\nReason: %2").arg(dicPath).arg(e.what()));
@@ -272,7 +272,7 @@ void MainWindow::refresh()
         {
             m_game->save(m_autoSaveGame);
         }
-        catch (std::exception &e)
+        catch (const std::exception &e)
         {
             LOG_ERROR("Error during auto-save: " << e.what());
             displayErrorMsg(_q("Error during auto-save of the game: %1").arg(e.what()));
@@ -615,7 +615,7 @@ void MainWindow::changeDictionary(QString iFileName)
             QSettings qs;
             qs.setValue(PrefsDialog::kINTF_DIC_PATH, iFileName);
         }
-        catch (std::exception &e)
+        catch (const std::exception &e)
         {
             displayErrorMsg(e.what());
         }
@@ -829,7 +829,7 @@ void MainWindow::loadGame(QString fileName)
             destroyCurrentGame();
             m_game = tmpGame;
         }
-        catch (std::exception &e)
+        catch (const std::exception &e)
         {
             displayErrorMsg(_q("Error while loading the game:\n") + e.what());
             return;
@@ -856,7 +856,7 @@ void MainWindow::onGameSaveAs()
             m_game->save(lfq(fileName));
             displayInfoMsg(_q("Game saved"));
         }
-        catch (std::exception &e)
+        catch (const std::exception &e)
         {
             displayErrorMsg(_q("Error saving game: %1").arg(e.what()));
         }

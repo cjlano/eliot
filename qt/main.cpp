@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <iostream>
 #include <string>
 #include <exception>
 #include <QApplication>
@@ -162,9 +163,25 @@ int main(int argc, char **argv)
     app.installTranslator(&translator);
 #endif
 
-    MainWindow qmain;
-    qmain.show();
-    return app.exec();
+    try
+    {
+        MainWindow qmain;
+        qmain.show();
+        return app.exec();
+    }
+    catch (const BaseException &e)
+    {
+        cerr << "Exception caught: " << e.what() << "\n" << e.getStackTrace();
+    }
+    catch (const std::exception &e)
+    {
+        cerr << "Exception caught: " << e.what();
+    }
+    catch (...)
+    {
+        cerr << "Unknown exception caught";
+    }
+    return 1;
 }
 
 #ifdef HAVE_EXECINFO_H

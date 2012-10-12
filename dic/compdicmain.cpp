@@ -260,10 +260,14 @@ int main(int argc, char* argv[])
 #endif
         return 0;
     }
+    catch (const BaseException &e)
+    {
+        cerr << "Exception caught: " << e.what() << "\n" << e.getStackTrace();
+    }
     catch (std::exception &e)
     {
-        cerr << fmt(_("Exception caught: %1%")) % e.what() << endl;
-        return 1;
+        cerr << "Exception caught: " << e.what() << endl;
     }
+    return 1;
 }
 

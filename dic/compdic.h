@@ -48,6 +48,7 @@ class CompDic
 
 public:
     CompDic();
+    ~CompDic();
 
     /**
      * Define a new letter. The letter must be alphabetic (i.e. iswalpha()
@@ -93,12 +94,10 @@ private:
 
     HashMap m_hashMap;
 
-#define MAX_STRING_LENGTH 200
-
     /// Space for the current string
-    wchar_t m_stringBuf[MAX_STRING_LENGTH];
+    wchar_t *m_stringBuf;
     /// Point to the end of the string
-    wchar_t* m_endString;
+    wchar_t *m_endString;
 #ifdef CHECK_RECURSION
     map<int, vector<DicEdge> > m_mapForDepth;
     int m_currentRec;

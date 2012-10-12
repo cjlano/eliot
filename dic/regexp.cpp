@@ -26,6 +26,7 @@
 
 #include "dic.h"
 #include "regexp.h"
+#include "debug.h"
 
 using boost::format;
 
@@ -68,24 +69,30 @@ void Node::traverse(int &p, int &n, int ptl[])
             m_DP = 1 << (m_position - 1);
             break;
         case NODE_OR:
+            ASSERT(m_fg, "The left child node should not be NULL");
+            ASSERT(m_fd, "The right child node should not be NULL");
             m_position = 0;
             m_annulable = m_fg->m_annulable || m_fd->m_annulable;
             m_PP = m_fg->m_PP | m_fd->m_PP;
             m_DP = m_fg->m_DP | m_fd->m_DP;
             break;
         case NODE_AND:
+            ASSERT(m_fg, "The left child node should not be NULL");
+            ASSERT(m_fd, "The right child node should not be NULL");
             m_position = 0;
             m_annulable = m_fg->m_annulable && m_fd->m_annulable;
             m_PP = (m_fg->m_annulable) ? (m_fg->m_PP | m_fd->m_PP) : m_fg->m_PP;
             m_DP = (m_fd->m_annulable) ? (m_fg->m_DP | m_fd->m_DP) : m_fd->m_DP;
             break;
         case NODE_PLUS:
+            ASSERT(m_fg, "The left child node should not be NULL");
             m_position = 0;
             m_annulable = false;
             m_PP = m_fg->m_PP;
             m_DP = m_fg->m_DP;
             break;
         case NODE_STAR:
+            ASSERT(m_fg, "The left child node should not be NULL");
             m_position = 0;
             m_annulable = true;
             m_PP = m_fg->m_PP;
@@ -109,6 +116,8 @@ void Node::nextPos(uint64_t PS[])
             /* \forall p \in DP(left)           */
             /*     PS[p] = PS[p] \cup PP(right) */
             /************************************/
+            ASSERT(m_fg, "The left child node should not be NULL");
+            ASSERT(m_fd, "The right child node should not be NULL");
             for (uint32_t pos = 1; pos <= PS[0]; pos++)
             {
                 if (m_fg->m_DP & (1 << (pos-1)))

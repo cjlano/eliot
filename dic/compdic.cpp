@@ -60,6 +60,8 @@
 #   define _(String) String
 #endif
 
+#define MAX_STRING_LENGTH 200
+
 // Useful shortcut
 #define fmt(a) boost::format(a)
 
@@ -76,6 +78,15 @@ CompDic::CompDic()
     m_headerInfo.edgesused  = 1;
     m_headerInfo.nodessaved = 0;
     m_headerInfo.edgessaved = 0;
+
+    m_stringBuf = new wchar_t[MAX_STRING_LENGTH];
+    m_endString = m_stringBuf;
+}
+
+
+CompDic::~CompDic()
+{
+    delete[] m_stringBuf;
 }
 
 

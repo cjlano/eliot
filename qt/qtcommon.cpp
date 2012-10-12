@@ -31,8 +31,10 @@
 #include <QtGui/QLayout>
 #include <QtCore/QSettings>
 
-#include "qtcommon.h"
 #include <iostream>
+
+#include "qtcommon.h"
+#include "debug.h"
 
 using namespace std;
 
@@ -60,11 +62,13 @@ QString qfw(const wstring &wstr)
 #endif
 }
 
-static void logFailedTest(const string &testName)
+static void logFailedTest(const string &testName, bool & oFailure)
 {
     cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
     cerr << "@@@@@@@ Test " + testName + " failed! @@@@@@@" << endl;
     cerr << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl << endl;
+
+    oFailure = true;
 }
 
 
@@ -72,47 +76,51 @@ void QtCommon::CheckConversions()
 {
     string s = "abcdéöùßĿ";
 
+    bool failure = false;
+
     // Check identities
     if (s != lfw(wfl(s)))
-        logFailedTest("1");
+        logFailedTest("1", failure);
     if (s != lfu(ufl(s)))
-        logFailedTest("2");
+        logFailedTest("2", failure);
     if (s != lfq(qfl(s)))
-        logFailedTest("3");
+        logFailedTest("3", failure);
 
     wstring w = wfl(s);
     if (w != wfl(lfw(w)))
-        logFailedTest("4");
+        logFailedTest("4", failure);
     if (w != wfu(ufw(w)))
-        logFailedTest("5");
+        logFailedTest("5", failure);
     if (w != wfq(qfw(w)))
-        logFailedTest("6");
+        logFailedTest("6", failure);
 
     QString q = qfl(s);
     if (q != qfl(lfq(q)))
-        logFailedTest("7");
+        logFailedTest("7", failure);
     if (q != qfu(ufq(q)))
-        logFailedTest("8");
+        logFailedTest("8", failure);
     if (q != qfw(wfq(q)))
-        logFailedTest("9");
+        logFailedTest("9", failure);
 
     // Check some cycles
     if (s != lfu(ufw(wfl(s))))
-        logFailedTest("10");
+        logFailedTest("10", failure);
     if (s != lfw(wfu(ufl(s))))
-        logFailedTest("11");
+        logFailedTest("11", failure);
     if (s != lfq(qfw(wfl(s))))
-        logFailedTest("12");
+        logFailedTest("12", failure);
     if (s != lfw(wfq(qfl(s))))
-        logFailedTest("13");
+        logFailedTest("13", failure);
     if (s != lfu(ufw(wfq(qfl(s)))))
-        logFailedTest("14");
+        logFailedTest("14", failure);
     if (s != lfq(qfw(wfu(ufl(s)))))
-        logFailedTest("15");
+        logFailedTest("15", failure);
     if (s != lfu(ufq(qfw(wfl(s)))))
-        logFailedTest("16");
+        logFailedTest("16", failure);
     if (s != lfw(wfq(qfu(ufl(s)))))
-        logFailedTest("17");
+        logFailedTest("17", failure);
+
+    ASSERT(!failure, "Some string conversions failed");
 }
 
 
