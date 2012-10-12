@@ -163,7 +163,7 @@ Game *GameFactory::createFromCmdLine(int argc, char **argv)
                 }
                 else
                     name = wfl(optarg);
-                m_players.push_back(make_pair<bool, wstring>(res == 'u', name));
+                m_players.push_back(make_pair(res == 'u', name));
             }
             break;
         case 500:
