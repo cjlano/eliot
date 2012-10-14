@@ -126,7 +126,7 @@ private:
      * @param num: number of edges in the array
      * @param outFile: stream where to write the edges
      */
-    void writeNode(uint32_t *ioEdges, unsigned int num, ostream &outFile);
+    void writeNode(DicEdge *ioEdges, unsigned int num, ostream &outFile);
 
     /**
      * MakeNode takes a prefix (as position relative to m_stringBuf) and

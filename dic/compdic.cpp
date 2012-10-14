@@ -188,16 +188,17 @@ Header CompDic::writeHeader(ostream &outFile) const
 }
 
 
-void CompDic::writeNode(uint32_t *ioEdges, unsigned int num, ostream &outFile)
+void CompDic::writeNode(DicEdge *ioEdges, unsigned int num, ostream &outFile)
 {
+    uint32_t *edgesAsUint = reinterpret_cast<uint32_t*>(ioEdges);
     // Handle endianness
     for (unsigned int i = 0; i < num; ++i)
     {
-        ioEdges[i] = htonl(ioEdges[i]);
+        edgesAsUint[i] = htonl(edgesAsUint[i]);
     }
 
     LOG_TRACE(fmt("writing %1% edges") % num);
-    outFile.write((char*)ioEdges, num * sizeof(DicEdge));
+    outFile.write((char*)edgesAsUint, num * sizeof(DicEdge));
 }
 
 #define MAX_EDGES 2000
@@ -324,8 +325,7 @@ unsigned int CompDic::makeNode(ostream &outFile, const Header &iHeader,
         m_hashMap[edges] = m_headerInfo.edgesused;
         m_headerInfo.edgesused += numedges;
         m_headerInfo.nodesused++;
-        writeNode(reinterpret_cast<uint32_t*>(&edges.front()),
-                   numedges, outFile);
+        writeNode(&edges.front(), numedges, outFile);
 
         return node_pos;
     }
@@ -367,8 +367,7 @@ Header CompDic::generateDawg(const string &iWordListFile,
     specialNode.last = 1;
     // Temporary variable to avoid a warning when compiling with -O2
     // (there is no warning with -O0... g++ bug?)
-    DicEdge *tmpPtr = &specialNode;
-    writeNode(reinterpret_cast<uint32_t*>(tmpPtr), 1, outFile);
+    writeNode(&specialNode, 1, outFile);
 
     vector<wstring>::const_iterator firstWord = wordList.begin();
     wstring::const_iterator initialPos = firstWord->begin();
@@ -382,8 +381,7 @@ Header CompDic::generateDawg(const string &iWordListFile,
                             firstWord, wordList.end(),
                             initialPos, m_endString);
     // Reuse the temporary variable
-    tmpPtr = &rootNode;
-    writeNode(reinterpret_cast<uint32_t*>(tmpPtr), 1, outFile);
+    writeNode(&rootNode, 1, outFile);
     const clock_t endBuildTime = clock();
     m_buildTime = 1.0 * (endBuildTime - startBuildTime) / CLOCKS_PER_SEC;
 
