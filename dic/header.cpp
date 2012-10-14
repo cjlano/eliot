@@ -113,6 +113,12 @@ struct Dict_header_old
 /** Extension of the old format (used in version 1) */
 struct Dict_header_ext
 {
+    Dict_header_ext()
+    {
+        // Make sure we won't write uninitialized bytes
+        memset(this, 0, sizeof(*this));
+    }
+
     // Time when the dictionary was compressed
     // (number of seconds since the Epoch)
     uint64_t compressDate;
@@ -166,6 +172,12 @@ struct Dict_header_ext
 /** Extension of the extension :-) (used in version 2) */
 struct Dict_header_ext_2
 {
+    Dict_header_ext_2()
+    {
+        // Make sure we won't write uninitialized bytes
+        memset(this, 0, sizeof(*this));
+    }
+
     // Additional information concerning the display strings and the
     // alternative input strings of the letters
     char displayAndInput[_MAX_DISPLAY_INPUT_SIZE_];
