@@ -80,7 +80,7 @@ package-macosx:
 
 # Copy needed Qt resources
 	mkdir -p $(MACOSX_PACKAGE_DIR)/Contents/Resources
-	cp -r /opt/local/lib/Resources/qt* $(MACOSX_PACKAGE_DIR)/Contents/Resources
+	cp -r "`find /opt/local -name qt_menu.nib`" $(MACOSX_PACKAGE_DIR)/Contents/Resources
 
 # Change the dependencies, so that we point to the libraries inside the bundle
 	cd $(MACOSX_PACKAGE_DIR)/Contents/Frameworks; \
