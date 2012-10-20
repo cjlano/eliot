@@ -117,7 +117,18 @@ void StatsWidget::refresh()
     setModelHeader(col++, _q("Table"), false);
 
     for (unsigned i = 1; i <= histSize; ++i)
-        setModelHeader(col++, QString("#%1").arg(i), false);
+    {
+        QString turnString = QString("#%1").arg(i);
+        // Show the move played for this turn, if it is valid
+        const Move &move = m_game->getHistory().getTurn(i - 1).getMove();
+        if (move.isValid())
+        {
+            turnString += QString(" (%1 - %2)")
+                .arg(qfw(move.getRound().getWord()))
+                .arg(qfw(move.getRound().getCoord().toString()));
+        }
+        setModelHeader(col++, turnString, false);
+    }
 
     setSectionHidden(col, !isArbit && !canHaveSolos && !isFreeGame);
     setModelHeader(col++, _q("Sub-total"), false);
