@@ -189,6 +189,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
                 throw SaveGameException(FMT1(_("Invalid player type for player %1%"), i));
             out << indent << "<Level>" << lrint(ai->getPercent() * 100) << "</Level>" << endl;
         }
+        out << indent << "<TableNb>" << player.getTableNb() << "</TableNb>" << endl;
         removeIndent(indent);
         out << indent << "</Player>" << endl;
     }

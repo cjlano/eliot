@@ -313,6 +313,8 @@ void XmlReader::endElement(const string& namespaceURI,
             m_attributes["type"] = m_data;
         else if (tag == "Level")
             m_attributes["level"] = m_data;
+        else if (tag == "TableNb")
+            m_attributes["tablenb"] = m_data;
         else if (tag == "Player")
         {
             if (m_players.find(m_attributes["id"]) != m_players.end())
@@ -332,6 +334,9 @@ void XmlReader::endElement(const string& namespaceURI,
 
             // Set the name
             p->setName(fromUtf8(m_attributes["name"]));
+            // Ste the table number
+            if (m_attributes["tablenb"] != "")
+                p->setTableNb(toInt(m_attributes["tablenb"]));
 
             m_game->addPlayer(p);
 
