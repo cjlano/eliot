@@ -84,7 +84,7 @@ static void writeMove(ostream &out, const Move &iMove,
 {
     out << "<" << iTag;
     if (iPlayerId != -1)
-        out << " playerid=\"" << iPlayerId << "\"";
+        out << " playerId=\"" << iPlayerId << "\"";
     out << " points=\"" << iMove.getScore() << "\" type=\"";
     if (iMove.isValid())
     {
@@ -231,7 +231,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
             {
                 const PlayerRackCmd *rackCmd = static_cast<const PlayerRackCmd*>(cmd);
                 unsigned int id = rackCmd->getPlayer().getId() + 1;
-                out << indent << "<PlayerRack playerid=\"" << id << "\">"
+                out << indent << "<PlayerRack playerId=\"" << id << "\">"
                     << toUtf8(rackCmd->getRack().toString())
                     << "</PlayerRack>" << endl;
             }
@@ -267,24 +267,24 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
                 // Warnings
                 if (eventCmd->getEventType() == PlayerEventCmd::WARNING)
                 {
-                    out << indent << "<Warning playerid=\"" << id << "\" />" << endl;
+                    out << indent << "<Warning playerId=\"" << id << "\" />" << endl;
                 }
                 // Penalties
                 else if (eventCmd->getEventType() == PlayerEventCmd::PENALTY)
                 {
-                    out << indent << "<Penalty playerid=\"" << id
+                    out << indent << "<Penalty playerId=\"" << id
                         << "\" points=\"" << value << "\" />" << endl;
                 }
                 // Solos
                 else if (eventCmd->getEventType() == PlayerEventCmd::SOLO)
                 {
-                    out << indent << "<Solo playerid=\"" << id
+                    out << indent << "<Solo playerId=\"" << id
                         << "\" points=\"" << value << "\" />" << endl;
                 }
                 // End game bonuses (freegame mode)
                 else if (eventCmd->getEventType() == PlayerEventCmd::END_GAME)
                 {
-                    out << indent << "<EndGame playerid=\"" << id
+                    out << indent << "<EndGame playerId=\"" << id
                         << "\" points=\"" << value << "\" />" << endl;
                 }
                 else

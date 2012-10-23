@@ -120,7 +120,7 @@ static int toInt(const string &str)
 static Player & getPlayer(map<string, Player*> &players, const string &id)
 {
     if (players.find(id) == players.end())
-        throw LoadGameException(FMT1(_("Invalid player ID: %1%"), id));
+        throw LoadGameException(FMT1(_("Invalid player ID: %1%"), "-" + id + "-"));
     return *players[id];
 }
 
@@ -226,6 +226,10 @@ void XmlReader::startElement(const string& namespaceURI,
         else
             m_game->accessNavigation().newTurn();
     }
+    // For backwards compatibility ("playerid" was used in saved games
+    // before release 2.1, with XML version 2)
+    if (m_attributes["playerid"] != "")
+        m_attributes["playerId"] = m_attributes["playerid"];
 }
 
 
@@ -373,7 +377,7 @@ void XmlReader::endElement(const string& namespaceURI,
         pldrack.setManual(rackStr);
         LOG_DEBUG("loaded rack: " << lfw(pldrack.toString()));
 
-        Player &p = getPlayer(m_players, m_attributes["playerid"]);
+        Player &p = getPlayer(m_players, m_attributes["playerId"]);
         PlayerRackCmd *cmd = new PlayerRackCmd(p, pldrack);
         m_game->accessNavigation().addAndExecute(cmd);
         LOG_DEBUG("rack: " << lfw(pldrack.toString()));
@@ -394,7 +398,7 @@ void XmlReader::endElement(const string& namespaceURI,
     else if (tag == "PlayerMove")
     {
         const Move &move = buildMove(*m_game, m_attributes, /*XXX:true*/false);
-        Player &p = getPlayer(m_players, m_attributes["playerid"]);
+        Player &p = getPlayer(m_players, m_attributes["playerId"]);
         PlayerMoveCmd *cmd = new PlayerMoveCmd(p, move);
         m_game->accessNavigation().addAndExecute(cmd);
     }
@@ -402,21 +406,21 @@ void XmlReader::endElement(const string& namespaceURI,
     else if (tag == "GameMove")
     {
         const Move &move = buildMove(*m_game, m_attributes, false);
-        Player &p = getPlayer(m_players, m_attributes["playerid"]);
+        Player &p = getPlayer(m_players, m_attributes["playerId"]);
         GameMoveCmd *cmd = new GameMoveCmd(*m_game, move, p.getId());
         m_game->accessNavigation().addAndExecute(cmd);
     }
 
     else if (tag == "Warning")
     {
-        Player &p = getPlayer(m_players, m_attributes["playerid"]);
+        Player &p = getPlayer(m_players, m_attributes["playerId"]);
         PlayerEventCmd *cmd = new PlayerEventCmd(p, PlayerEventCmd::WARNING);
         m_game->accessNavigation().addAndExecute(cmd);
     }
 
     else if (tag == "Penalty")
     {
-        Player &p = getPlayer(m_players, m_attributes["playerid"]);
+        Player &p = getPlayer(m_players, m_attributes["playerId"]);
         int points = toInt(m_attributes["points"]);
         LOG_ERROR("points=" << points);
         PlayerEventCmd *cmd = new PlayerEventCmd(p, PlayerEventCmd::PENALTY, points);
@@ -425,7 +429,7 @@ void XmlReader::endElement(const string& namespaceURI,
 
     else if (tag == "Solo")
     {
-        Player &p = getPlayer(m_players, m_attributes["playerid"]);
+        Player &p = getPlayer(m_players, m_attributes["playerId"]);
         int points = toInt(m_attributes["points"]);
         PlayerEventCmd *cmd = new PlayerEventCmd(p, PlayerEventCmd::SOLO, points);
         m_game->accessNavigation().addAndExecute(cmd);
@@ -433,7 +437,7 @@ void XmlReader::endElement(const string& namespaceURI,
 
     else if (tag == "EndGame")
     {
-        Player &p = getPlayer(m_players, m_attributes["playerid"]);
+        Player &p = getPlayer(m_players, m_attributes["playerId"]);
         int points = toInt(m_attributes["points"]);
         PlayerEventCmd *cmd = new PlayerEventCmd(p, PlayerEventCmd::END_GAME, points);
         m_game->accessNavigation().addAndExecute(cmd);
