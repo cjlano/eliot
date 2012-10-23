@@ -35,6 +35,7 @@
 #include "xml_writer.h"
 #include "encoding.h"
 #include "turn.h"
+#include "turn_data.h"
 #include "game_params.h"
 #include "game.h"
 #include "player.h"
@@ -216,6 +217,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
     {
         if (turn->getCommands().empty() && turn == turnVect.back())
             continue;
+
         out << indent << "<Turn>" << endl;
         addIndent(indent);
         BOOST_FOREACH(const Command *cmd, turn->getCommands())
@@ -308,6 +310,60 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
     out << indent << "</History>" << endl;
     // End of the game history
     // ------------------------
+
+    // Statistics
+    out << indent << "<!-- These statistics are simply informative, "
+        << "they are not used when loading a game. -->" << endl;
+    out << indent << "<Statistics>" << endl;
+    addIndent(indent);
+
+    // Compute the total number of points in the game
+    int gameTotal = 0;
+    for (unsigned i = 0; i < iGame.getHistory().getSize(); ++i)
+    {
+        gameTotal += iGame.getHistory().getTurn(i).getMove().getScore();
+    }
+
+    out << indent << "<GameStats"
+        << " totalScore=\"" << gameTotal << "\""
+        << " />" << endl;
+
+    for (unsigned int i = 0; i < iGame.getNPlayers(); ++i)
+    {
+        const Player &player = iGame.getPlayer(i);
+        const int playerTotal = player.getTotalScore();
+
+        // Compute the percentage, compared to the top
+        long int percentage = lround((double)100 * playerTotal / gameTotal);
+
+        // Compute the rank of the player (naive algorithm)
+        int rank = 1;
+        for (unsigned j = 0; j < iGame.getNPlayers(); ++j)
+        {
+            if (i == j)
+                continue;
+            if (playerTotal < iGame.getPlayer(j).getTotalScore())
+                ++rank;
+        }
+
+        out << indent << "<PlayerStats"
+            << " playerId=\"" << player.getId() << "\"" << endl;
+        addIndent(indent);
+        out << indent << " rawScore=\"" << player.getMovePoints() << "\""
+            << " warningsNb=\"" << player.getWarningsNb() << "\""
+            << " penaltiesPoints=\"" << player.getPenaltyPoints() << "\""
+            << " solosPoints=\"" << player.getSoloPoints() << "\"" << endl;
+        out << indent << " totalScore=\"" << playerTotal << "\""
+            << " diffWithTop=\"" << (playerTotal - gameTotal) << "\""
+            << " percentTop=\"" << percentage << "%\""
+            << " rank=\"" << rank << "\""
+            << " />" << endl;
+        removeIndent(indent);
+    }
+
+    removeIndent(indent);
+    out << indent << "</Statistics>" << endl;
+    // End of the statistics
 
     out << "</EliotGame>" << endl;
 }
