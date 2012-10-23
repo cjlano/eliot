@@ -178,7 +178,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
     for (unsigned int i = 0; i < iGame.getNPlayers(); ++i)
     {
         const Player &player = iGame.getPlayer(i);
-        out << indent << "<Player id=\"" << player.getId() + 1 << "\">" << endl;
+        out << indent << "<Player id=\"" << player.getId() << "\">" << endl;
         addIndent(indent);
         out << indent << "<Name>" << toUtf8(player.getName()) << "</Name>" << endl;
         out << indent << "<Type>" << (player.isHuman() ? "human" : "computer") << "</Type>" << endl;
@@ -230,7 +230,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
             else if (dynamic_cast<const PlayerRackCmd*>(cmd))
             {
                 const PlayerRackCmd *rackCmd = static_cast<const PlayerRackCmd*>(cmd);
-                unsigned int id = rackCmd->getPlayer().getId() + 1;
+                unsigned int id = rackCmd->getPlayer().getId();
                 out << indent << "<PlayerRack playerId=\"" << id << "\">"
                     << toUtf8(rackCmd->getRack().toString())
                     << "</PlayerRack>" << endl;
@@ -238,7 +238,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
             else if (dynamic_cast<const PlayerMoveCmd*>(cmd))
             {
                 const PlayerMoveCmd *moveCmd = static_cast<const PlayerMoveCmd*>(cmd);
-                unsigned int id = moveCmd->getPlayer().getId() + 1;
+                unsigned int id = moveCmd->getPlayer().getId();
                 out << indent;
                 writeMove(out, moveCmd->getMove(), "PlayerMove", id);
                 out << endl;
@@ -246,7 +246,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
             else if (dynamic_cast<const GameMoveCmd*>(cmd))
             {
                 const GameMoveCmd *moveCmd = static_cast<const GameMoveCmd*>(cmd);
-                unsigned int id = moveCmd->getPlayerId() + 1;
+                unsigned int id = moveCmd->getPlayerId();
                 out << indent;
                 writeMove(out, moveCmd->getMove(), "GameMove", id);
                 out << endl;
@@ -262,7 +262,7 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
             else if (dynamic_cast<const PlayerEventCmd*>(cmd))
             {
                 const PlayerEventCmd *eventCmd = static_cast<const PlayerEventCmd*>(cmd);
-                unsigned int id = eventCmd->getPlayer().getId() + 1;
+                unsigned int id = eventCmd->getPlayer().getId();
                 int value = eventCmd->getPoints();
                 // Warnings
                 if (eventCmd->getEventType() == PlayerEventCmd::WARNING)
