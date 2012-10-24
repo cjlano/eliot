@@ -398,9 +398,12 @@ void XmlReader::endElement(const string& namespaceURI,
 
     else if (tag == "PlayerMove")
     {
+        // FIXME: this is game-related logic. It should not be done here.
+        bool isArbitrationGame = m_game->getParams().getMode() == GameParams::kARBITRATION;
+
         const Move &move = buildMove(*m_game, m_attributes, /*XXX:true*/false);
         Player &p = getPlayer(m_players, m_attributes["playerId"], tag);
-        PlayerMoveCmd *cmd = new PlayerMoveCmd(p, move);
+        PlayerMoveCmd *cmd = new PlayerMoveCmd(p, move, isArbitrationGame);
         m_game->accessNavigation().addAndExecute(cmd);
     }
 

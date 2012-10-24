@@ -429,7 +429,7 @@ void Duplicate::setGameAndPlayersRack(const PlayedRack &iRack)
     // and solos should be assigned.
     BOOST_FOREACH(Player *player, m_players)
     {
-        Command *pCmd = new PlayerMoveCmd(*player, Move(), true);
+        Command *pCmd = new PlayerMoveCmd(*player, Move());
         accessNavigation().addAndExecute(pCmd);
     }
 }

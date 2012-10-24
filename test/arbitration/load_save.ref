@@ -169,10 +169,10 @@ Game: history:
     1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
 
 
-Rack 0: LAERSIU
-Rack 1: LAERSIU
-Score 0:   80
-Score 1:   82
+Rack 0: 
+Rack 1: 
+Score 0:  154
+Score 1:  156
 commande> h n
 commande> t TEEEPMO
 commande> m ESTOMPEE O3
