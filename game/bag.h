@@ -75,7 +75,7 @@ public:
      */
     Tile selectRandomConsonant() const;
 
-    void operator=(const Bag &iOther);
+    Bag & operator=(const Bag &iOther);
 
     /// Convenience getter on the dictionary
     const Dictionary & getDic() const { return m_dic; }

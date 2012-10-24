@@ -142,10 +142,11 @@ Tile Bag::selectRandomTile(unsigned int total,
 }
 
 
-void Bag::operator=(const Bag &iOther)
+Bag & Bag::operator=(const Bag &iOther)
 {
     m_tilesMap = iOther.m_tilesMap;
     m_ntiles = iOther.m_ntiles;
+    return *this;
 }
 
 

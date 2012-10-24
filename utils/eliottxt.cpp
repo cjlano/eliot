@@ -102,10 +102,7 @@ wchar_t *rl_gets()
     wline_read = new wchar_t[len + 1];
     mbstowcs(wline_read, line_read, len + 1);
 
-    if (line_read)
-    {
-        free(line_read);
-    }
+    free(line_read);
 #else
     if (!cin.good())
         return NULL;
