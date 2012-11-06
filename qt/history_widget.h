@@ -76,9 +76,9 @@ private:
     int m_colTotal;
     int m_colPercent;
     int m_colPlayer;
+    int m_colSolo;
     int m_colWarning;
     int m_colPenalty;
-    int m_colSolo;
 
     /// Model of the history
     QStandardItemModel *m_model;

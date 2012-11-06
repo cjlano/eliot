@@ -54,9 +54,9 @@ HistoryWidget::HistoryWidget(QWidget *parent)
     m_colWord = 2;
     m_colRef = 3;
     m_colPoints = 4;
-    m_colWarning = 5;
-    m_colPenalty = 6;
-    m_colSolo = 7;
+    m_colSolo = 5;
+    m_colWarning = 6;
+    m_colPenalty = 7;
     m_colTotal = -1;
     m_colPercent = -1;
     m_colPlayer = -1;
@@ -83,9 +83,9 @@ HistoryWidget::HistoryWidget(QWidget *parent)
     m_model->setHeaderData(m_colWord, Qt::Horizontal, _q("Word"));
     m_model->setHeaderData(m_colRef, Qt::Horizontal, _q("Ref"));
     m_model->setHeaderData(m_colPoints, Qt::Horizontal, _q("Points"));
+    m_model->setHeaderData(m_colSolo, Qt::Horizontal, _q("S"));
     m_model->setHeaderData(m_colWarning, Qt::Horizontal, _q("W"));
     m_model->setHeaderData(m_colPenalty, Qt::Horizontal, _q("P"));
-    m_model->setHeaderData(m_colSolo, Qt::Horizontal, _q("S"));
 }
 
 
@@ -98,7 +98,7 @@ void HistoryWidget::setHistory(const History *iHistory,
     m_forPlayer = iIsForPlayer;
     m_isFreeGame = (iGame != 0 && iGame->getMode() == PublicGame::kFREEGAME);
 
-    int currColumn = m_colSolo + 1;
+    int currColumn = m_colPenalty + 1;
     if (m_forPlayer)
     {
         m_colTotal = currColumn++;
@@ -225,7 +225,11 @@ void HistoryWidget::updateModel()
                 color = Qt::blue;
             }
 
-            // Set warnings, penalties and solos
+            // Set solos, warnings and penalties
+            if (t.getSoloPoints() != 0)
+            {
+                m_model->setData(m_model->index(rowNum, m_colSolo), t.getSoloPoints());
+            }
             if (t.getWarningsNb() != 0)
             {
                 m_model->setData(m_model->index(rowNum, m_colWarning), t.getWarningsNb());
@@ -233,10 +237,6 @@ void HistoryWidget::updateModel()
             if (t.getPenaltyPoints() != 0)
             {
                 m_model->setData(m_model->index(rowNum, m_colPenalty), t.getPenaltyPoints());
-            }
-            if (t.getSoloPoints() != 0)
-            {
-                m_model->setData(m_model->index(rowNum, m_colSolo), t.getSoloPoints());
             }
 
             // Set the color of the text
@@ -256,9 +256,9 @@ void HistoryWidget::updateModel()
     resizeColumnToContents(m_colPoints);
     resizeColumnToContents(m_colTotal);
     resizeColumnToContents(m_colPlayer);
+    resizeColumnToContents(m_colSolo);
     resizeColumnToContents(m_colWarning);
     resizeColumnToContents(m_colPenalty);
-    resizeColumnToContents(m_colSolo);
 }
 
 
