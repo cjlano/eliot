@@ -81,7 +81,7 @@ MainWindow::MainWindow(QWidget *iParent)
     m_bagWindow(NULL), m_boardWindow(NULL),
     m_historyWindow(NULL), m_statsWindow(NULL), m_timerWindow(NULL),
     m_dicToolsWindow(NULL), m_dicNameLabel(NULL), m_timerModel(NULL),
-    m_currentTurn(0)
+    m_currentTurn(0), m_lastTurn(0)
 {
 #ifdef DEBUG
     // Check that the string conversion routines are not buggy
@@ -116,6 +116,8 @@ MainWindow::MainWindow(QWidget *iParent)
                      this, SLOT(beep()));
     QObject::connect(m_timerModel, SIGNAL(expired()),
                      this, SLOT(beep()));
+    QObject::connect(this, SIGNAL(newTurn(int)),
+                     m_timerModel, SLOT(resetTimer()));
 
     QObject::connect(this, SIGNAL(gameChangedNonConst(PublicGame*)),
                      this, SLOT(updateForGame(PublicGame*)));
@@ -262,11 +264,17 @@ void MainWindow::refresh()
         m_actionHistoryReplayTurn->setEnabled(!isLastTurn);
         if (m_game->isFinished())
             displayInfoMsg(_q("End of the game"));
-        // Emit the turnChanged() sign if needed.
+        // Emit the turnChanged() signal if needed
         if (currTurn != m_currentTurn)
         {
             m_currentTurn = currTurn;
             emit turnChanged(currTurn, isLastTurn);
+        }
+        // Emit the newTurn() signal if needed
+        if (currTurn > m_lastTurn)
+        {
+            m_lastTurn = currTurn;
+            emit newTurn(currTurn);
         }
 
         // Update the auto-saved game
