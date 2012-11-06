@@ -30,6 +30,7 @@
 #include <QtGui/QPrinter>
 #include <QtGui/QPainter>
 #include <QtGui/QDesktopServices>
+#include <QtGui/QDesktopWidget>
 #include <QtCore/QSettings>
 #include <QtCore/QUrl>
 
@@ -616,7 +617,16 @@ void MainWindow::readSettings()
     QSize size = settings.value("size").toSize();
     if (size.isValid())
         resize(size);
-    move(settings.value("pos", QPoint(200, 200)).toPoint());
+    const QRect &desktopRect = QApplication::desktop()->screenGeometry();
+    QPoint point = settings.value("pos", QPoint(20, 20)).toPoint();
+    // If the position was saved when an external monitor was plugged, and
+    // is restored when the monitor is not there anymore, the window could
+    // be off screen...
+    if (point.x() < 0 || point.x() > desktopRect.right())
+        point.setX(20);
+    if (point.y() < 0 || point.y() > desktopRect.bottom())
+        point.setY(20);
+    move(point);
     m_ui.splitterHoriz->restoreState(settings.value("splitterHoriz").toByteArray());
     m_ui.splitterVert->restoreState(settings.value("splitterVert").toByteArray());
     settings.endGroup();
