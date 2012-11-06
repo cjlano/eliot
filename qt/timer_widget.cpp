@@ -74,8 +74,11 @@ void TimerModel::updateTime()
 
 void TimerModel::startTimer()
 {
-    // Timeout every second
-    m_timer->start(1000);
+    if (!m_timer->isActive())
+    {
+        // Timeout every second
+        m_timer->start(1000);
+    }
 }
 
 
