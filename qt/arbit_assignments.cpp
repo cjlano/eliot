@@ -32,6 +32,7 @@
 
 #include "public_game.h"
 #include "player.h"
+#include "turn_data.h"
 #include "rack.h"
 #include "results.h"
 #include "debug.h"
@@ -54,19 +55,25 @@ ArbitAssignments::ArbitAssignments(QWidget *parent, PublicGame *iGame)
     m_playersModel = new QStandardItemModel(this);
     m_proxyPlayersModel->setSourceModel(m_playersModel);
     treeViewPlayers->setModel(m_proxyPlayersModel);
-    m_playersModel->setColumnCount(5);
+    m_playersModel->setColumnCount(8);
     m_playersModel->setHeaderData(0, Qt::Horizontal, _q("Table"), Qt::DisplayRole);
     m_playersModel->setHeaderData(1, Qt::Horizontal, _q("Player"), Qt::DisplayRole);
     m_playersModel->setHeaderData(2, Qt::Horizontal, _q("Word"), Qt::DisplayRole);
     m_playersModel->setHeaderData(3, Qt::Horizontal, _q("Ref"), Qt::DisplayRole);
     m_playersModel->setHeaderData(4, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
+    m_playersModel->setHeaderData(5, Qt::Horizontal, _q("S"), Qt::DisplayRole);
+    m_playersModel->setHeaderData(6, Qt::Horizontal, _q("W"), Qt::DisplayRole);
+    m_playersModel->setHeaderData(7, Qt::Horizontal, _q("P"), Qt::DisplayRole);
     treeViewPlayers->sortByColumn(0, Qt::AscendingOrder);
 
     treeViewPlayers->setColumnWidth(0, 70);
-    treeViewPlayers->setColumnWidth(1, 160);
-    treeViewPlayers->setColumnWidth(2, 160);
+    treeViewPlayers->setColumnWidth(1, 150);
+    treeViewPlayers->setColumnWidth(2, 130);
     treeViewPlayers->setColumnWidth(3, 40);
     treeViewPlayers->setColumnWidth(4, 50);
+    treeViewPlayers->setColumnWidth(5, 25);
+    treeViewPlayers->setColumnWidth(6, 25);
+    treeViewPlayers->setColumnWidth(7, 25);
 
     KeyEventFilter *filter = new KeyEventFilter(this, Qt::Key_A);
     QObject::connect(filter, SIGNAL(keyPressed(int, int)),
@@ -224,6 +231,16 @@ void ArbitAssignments::updatePlayersModel()
             m_playersModel->setData(m_playersModel->index(rowNum, 3),
                                     brush, Qt::ForegroundRole);
         }
+
+        // Print the solos, warnings and penalties
+        const TurnData &turnData = player.getHistory().getTurn(m_game->getCurrTurn() - 1);
+        if (turnData.getSoloPoints() != 0)
+            m_playersModel->setData(m_playersModel->index(rowNum, 5), turnData.getSoloPoints());
+        if (turnData.getWarningsNb() != 0)
+            m_playersModel->setData(m_playersModel->index(rowNum, 6), turnData.getWarningsNb());
+        if (turnData.getPenaltyPoints() != 0)
+            m_playersModel->setData(m_playersModel->index(rowNum, 7), turnData.getPenaltyPoints());
+
         // Restore the selection
         if (playersIdSet.contains(player.getId()))
         {
