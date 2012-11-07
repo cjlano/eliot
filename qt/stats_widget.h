@@ -48,6 +48,7 @@ public slots:
 
 private slots:
     void lockSizesChanged(bool checked);
+    void flipTable();
 
 private:
     /// Encapsulated game, can be NULL
@@ -61,6 +62,10 @@ private:
 
     /// Indicate whether the columns should be resized automatically
     bool m_autoResizeColumns;
+
+    /// Orientation of the table (horizontal means the players are displayed as rows)
+    bool m_isHorizontal;
+
 
     static const QColor WarningBrush;
     static const QColor PenaltyBrush;

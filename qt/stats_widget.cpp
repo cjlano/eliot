@@ -49,11 +49,9 @@ const QColor StatsWidget::PassBrush(210, 210, 210);
 const QColor StatsWidget::InvalidBrush(255, 0, 0);
 
 
-const bool HORIZONTAL = false;
-
-
 StatsWidget::StatsWidget(QWidget *parent, const PublicGame *iGame)
-    : QWidget(parent), m_game(iGame), m_autoResizeColumns(true)
+    : QWidget(parent), m_game(iGame), m_autoResizeColumns(true),
+    m_isHorizontal(false)
 {
     // Layout
     setLayout(new QVBoxLayout);
@@ -81,6 +79,15 @@ StatsWidget::StatsWidget(QWidget *parent, const PublicGame *iGame)
     m_table->horizontalHeader()->setContextMenuPolicy(Qt::ActionsContextMenu);
     QObject::connect(lockSizesAction, SIGNAL(toggled(bool)),
                      this, SLOT(lockSizesChanged(bool)));
+
+    // Add a context menu option to flip the table
+    QAction *flipAction = new QAction(_q("Flip the table"), this);
+    flipAction->setStatusTip(_q("Flip the table so that rows and columns are exchanged.\n"
+                                "This allows sorting the players by ranking, for example."));
+    m_table->addAction(flipAction);
+    m_table->setContextMenuPolicy(Qt::ActionsContextMenu);
+    QObject::connect(flipAction, SIGNAL(triggered()),
+                     this, SLOT(flipTable()));
 
     refresh();
 }
@@ -242,7 +249,7 @@ void StatsWidget::refresh()
 
 QModelIndex StatsWidget::getIndex(int row, int col) const
 {
-    if (HORIZONTAL)
+    if (m_isHorizontal)
         return m_model->index(row, col);
     else
         return m_model->index(col, row);
@@ -251,7 +258,7 @@ QModelIndex StatsWidget::getIndex(int row, int col) const
 
 void StatsWidget::setSectionHidden(int index, bool iHide)
 {
-    if (HORIZONTAL)
+    if (m_isHorizontal)
         m_table->setColumnHidden(index, iHide);
     else
         m_table->setRowHidden(index, iHide);
@@ -260,15 +267,15 @@ void StatsWidget::setSectionHidden(int index, bool iHide)
 
 void StatsWidget::setModelSize(int rowCount, int colCount)
 {
-    m_model->setRowCount(HORIZONTAL ? rowCount : colCount);
-    m_model->setColumnCount(HORIZONTAL ? colCount : rowCount);
+    m_model->setRowCount(m_isHorizontal ? rowCount : colCount);
+    m_model->setColumnCount(m_isHorizontal ? colCount : rowCount);
 }
 
 
 void StatsWidget::setModelHeader(int index, const QString &iText, bool iPlayerNames)
 {
     Qt::Orientation orientation;
-    if ((HORIZONTAL && iPlayerNames) || (!HORIZONTAL && !iPlayerNames))
+    if ((m_isHorizontal && iPlayerNames) || (!m_isHorizontal && !iPlayerNames))
         orientation = Qt::Vertical;
     else
         orientation = Qt::Horizontal;
@@ -399,6 +406,13 @@ QString StatsWidget::getTooltip(const TurnData &iTurn, const TurnData &iGameTurn
 void StatsWidget::lockSizesChanged(bool checked)
 {
     m_autoResizeColumns = !checked;
+}
+
+
+void StatsWidget::flipTable()
+{
+    m_isHorizontal = !m_isHorizontal;
+    refresh();
 }
 
 
