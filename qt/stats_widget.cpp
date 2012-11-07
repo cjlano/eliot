@@ -49,9 +49,58 @@ const QColor StatsWidget::PassBrush(210, 210, 210);
 const QColor StatsWidget::InvalidBrush(255, 0, 0);
 
 
+/**
+ * Flipped version of a model (using the decorator pattern)
+ * This implementation does not super tree-models.
+ */
+class FlippedModel : public QAbstractItemModel
+{
+    public:
+        FlippedModel(QAbstractItemModel *iRefModel) : m_refModel(iRefModel) {}
+
+        virtual int columnCount(const QModelIndex &) const
+        {
+            // Ignore the parent
+            return m_refModel->rowCount();
+        }
+
+        virtual int rowCount(const QModelIndex &) const
+        {
+            // Ignore the parent
+            return m_refModel->columnCount();
+        }
+
+        virtual QModelIndex index(int row, int column, const QModelIndex &) const
+        {
+            return createIndex(row, column, (void*)NULL);
+        }
+
+        virtual QModelIndex parent(const QModelIndex &) const
+        {
+            // Ignore the given index
+            return QModelIndex();
+        }
+
+        virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const
+        {
+            return m_refModel->data(m_refModel->index(index.column(), index.row()), role);
+        }
+
+        virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const
+        {
+            Qt::Orientation newOrient =
+                orientation == Qt::Horizontal ? Qt::Vertical : Qt::Horizontal;
+            return m_refModel->headerData(section, newOrient, role);
+        }
+
+    private:
+        /// Wrapped model
+        QAbstractItemModel *m_refModel;
+};
+
+
 StatsWidget::StatsWidget(QWidget *parent, const PublicGame *iGame)
-    : QWidget(parent), m_game(iGame), m_autoResizeColumns(true),
-    m_isHorizontal(false)
+    : QWidget(parent), m_game(iGame), m_autoResizeColumns(true)
 {
     // Layout
     setLayout(new QVBoxLayout);
@@ -67,6 +116,8 @@ StatsWidget::StatsWidget(QWidget *parent, const PublicGame *iGame)
     layout()->addWidget(m_table);
 
     m_model = new QStandardItemModel();
+    m_flippedModel = new FlippedModel(m_model);
+
     m_table->setModel(m_model);
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -249,36 +300,30 @@ void StatsWidget::refresh()
 
 QModelIndex StatsWidget::getIndex(int row, int col) const
 {
-    if (m_isHorizontal)
-        return m_model->index(row, col);
-    else
-        return m_model->index(col, row);
+    return m_model->index(col, row);
 }
 
 
 void StatsWidget::setSectionHidden(int index, bool iHide)
 {
-    if (m_isHorizontal)
-        m_table->setColumnHidden(index, iHide);
-    else
-        m_table->setRowHidden(index, iHide);
+    m_table->setRowHidden(index, iHide);
 }
 
 
 void StatsWidget::setModelSize(int rowCount, int colCount)
 {
-    m_model->setRowCount(m_isHorizontal ? rowCount : colCount);
-    m_model->setColumnCount(m_isHorizontal ? colCount : rowCount);
+    m_model->setRowCount(colCount);
+    m_model->setColumnCount(rowCount);
 }
 
 
 void StatsWidget::setModelHeader(int index, const QString &iText, bool iPlayerNames)
 {
     Qt::Orientation orientation;
-    if ((m_isHorizontal && iPlayerNames) || (!m_isHorizontal && !iPlayerNames))
-        orientation = Qt::Vertical;
-    else
+    if (iPlayerNames)
         orientation = Qt::Horizontal;
+    else
+        orientation = Qt::Vertical;
     m_model->setHeaderData(index, orientation, iText);
     m_model->setHeaderData(index, orientation, Qt::AlignCenter, Qt::TextAlignmentRole);
 }
@@ -309,7 +354,7 @@ void StatsWidget::setModelTurnData(const QModelIndex &iIndex,
                      score >= iGameTurn.getMove().getScore());
     }
 
-    // Set the background c constolor
+    // Set the background color
     if (iTurn.getSoloPoints() != 0)
         m_model->setData(iIndex, SoloBrush, Qt::BackgroundRole);
     else if (iTurn.getPenaltyPoints() != 0)
@@ -411,7 +456,11 @@ void StatsWidget::lockSizesChanged(bool checked)
 
 void StatsWidget::flipTable()
 {
-    m_isHorizontal = !m_isHorizontal;
+    bool flipped = m_table->model() != m_model;
+    if (flipped)
+        m_table->setModel(m_model);
+    else
+        m_table->setModel(m_flippedModel);
     refresh();
 }
 

@@ -30,6 +30,7 @@ class PublicGame;
 class Player;
 class TurnData;
 class QTableView;
+class QAbstractItemModel;
 class QStandardItemModel;
 class QVariant;
 class QModelIndex;
@@ -57,15 +58,14 @@ private:
     /// Model of the game
     QStandardItemModel *m_model;
 
+    /// Proxy model (decorator), used to flip the view
+    QAbstractItemModel *m_flippedModel;
+
     /// Table to display the model data
     QTableView *m_table;
 
     /// Indicate whether the columns should be resized automatically
     bool m_autoResizeColumns;
-
-    /// Orientation of the table (horizontal means the players are displayed as rows)
-    bool m_isHorizontal;
-
 
     static const QColor WarningBrush;
     static const QColor PenaltyBrush;
