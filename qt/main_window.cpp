@@ -126,9 +126,11 @@ MainWindow::MainWindow(QWidget *iParent)
     statusBar()->addWidget(new QLabel, 1);
     // First widget, not added yet
     m_lettersLabel = new QLabel(statusBar());
+    m_lettersLabel->setVisible(false);
     m_lettersLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
     // Second widget, not added yet
     m_turnLabel = new QLabel(statusBar());
+    m_turnLabel->setVisible(false);
     m_turnLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
     // Third widget
     m_dicNameLabel = new QLabel(this);
