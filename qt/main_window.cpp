@@ -81,7 +81,7 @@ MainWindow::MainWindow(QWidget *iParent)
     m_bagWindow(NULL), m_boardWindow(NULL),
     m_historyWindow(NULL), m_statsWindow(NULL), m_timerWindow(NULL),
     m_dicToolsWindow(NULL), m_dicNameLabel(NULL), m_timerModel(NULL),
-    m_currentTurn(0), m_lastTurn(0)
+    m_currentTurn(0), m_lastTurn(0), m_lastGameRack(L"")
 {
 #ifdef DEBUG
     // Check that the string conversion routines are not buggy
@@ -116,8 +116,7 @@ MainWindow::MainWindow(QWidget *iParent)
                      this, SLOT(beep()));
     QObject::connect(m_timerModel, SIGNAL(expired()),
                      this, SLOT(beep()));
-    QObject::connect(this, SIGNAL(newTurn(int)),
-                     m_timerModel, SLOT(resetTimer()));
+    linkRackChangesAndTimer();
 
     QObject::connect(this, SIGNAL(gameChangedNonConst(PublicGame*)),
                      this, SLOT(updateForGame(PublicGame*)));
@@ -268,13 +267,22 @@ void MainWindow::refresh()
         if (currTurn != m_currentTurn)
         {
             m_currentTurn = currTurn;
+            LOG_DEBUG("Emitting turnChanged(" << currTurn << ", " << isLastTurn << ")");
             emit turnChanged(currTurn, isLastTurn);
         }
         // Emit the newTurn() signal if needed
         if (currTurn > m_lastTurn)
         {
             m_lastTurn = currTurn;
+            LOG_DEBUG("Emitting newTurn(" << currTurn << ")");
             emit newTurn(currTurn);
+        }
+        // Emit the gameRackChanged() signal if needed
+        if (isLastTurn && m_game->getHistory().getCurrentRack().toString() != m_lastGameRack)
+        {
+            m_lastGameRack = m_game->getHistory().getCurrentRack().toString();
+            LOG_DEBUG("Emitting gameRackChanged(" << lfw(m_lastGameRack) << ")");
+            emit gameRackChanged(qfw(m_lastGameRack));
         }
 
         // Update the auto-saved game
@@ -328,11 +336,31 @@ void MainWindow::linkArbitrationAnd7P1()
 }
 
 
+void MainWindow::linkRackChangesAndTimer()
+{
+    if (m_timerModel == NULL)
+        return;
+    // Disable the timer auto-start mechanism
+    disconnect(SIGNAL(gameRackChanged(const QString&)), m_timerModel);
+    // Reconnect if needed
+    QSettings qs;
+    if (qs.value(PrefsDialog::kINTF_TIMER_AUTO_START, false).toBool())
+    {
+        QObject::connect(this, SIGNAL(gameRackChanged(const QString&)),
+                         m_timerModel, SLOT(resetTimer()));
+        QObject::connect(this, SIGNAL(gameRackChanged(const QString&)),
+                         m_timerModel, SLOT(startTimer()));
+    }
+}
+
+
 void MainWindow::prefsUpdated()
 {
     LOG_DEBUG("Preferences updated");
     // Refresh one signal/slot connection
     linkArbitrationAnd7P1();
+    // Idem
+    linkRackChangesAndTimer();
 
     // Refresh the timer values
     QSettings qs;

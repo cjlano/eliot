@@ -32,20 +32,6 @@
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <layout class="QGridLayout" name="gridLayout_2">
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_7">
-              <property name="text">
-               <string>_(&quot;Timer total duration (in seconds):&quot;)</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_8">
-              <property name="text">
-               <string>_(&quot;Alert level (in seconds):&quot;)</string>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="1">
              <widget class="QSpinBox" name="spinBoxTimerTotal">
               <property name="minimum">
@@ -72,13 +58,6 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="0" colspan="2">
-             <widget class="QCheckBox" name="checkBoxTimerBeeps">
-              <property name="text">
-               <string>_(&quot;Timer beeps&quot;)</string>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="2">
              <spacer name="horizontalSpacer_4">
               <property name="orientation">
@@ -91,6 +70,34 @@
                </size>
               </property>
              </spacer>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>_(&quot;Alert level (in seconds):&quot;)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_7">
+              <property name="text">
+               <string>_(&quot;Timer total duration (in seconds):&quot;)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0" colspan="3">
+             <widget class="QCheckBox" name="checkBoxTimerBeeps">
+              <property name="text">
+               <string>_(&quot;Timer beeps&quot;)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0" colspan="3">
+             <widget class="QCheckBox" name="checkBoxTimerAutoStart">
+              <property name="text">
+               <string>_(&quot;Start timer automatically when the rack changes&quot;)</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

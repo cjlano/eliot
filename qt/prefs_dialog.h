@@ -46,6 +46,7 @@ public:
     static const QString kINTF_TIMER_TOTAL_DURATION;
     static const QString kINTF_TIMER_ALERT_DURATION;
     static const QString kINTF_TIMER_BEEPS;
+    static const QString kINTF_TIMER_AUTO_START;
 
     static const QString kARBIT_AUTO_MASTER;
     static const QString kARBIT_LINK_7P1;

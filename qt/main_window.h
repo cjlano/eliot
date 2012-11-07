@@ -64,6 +64,8 @@ signals:
     void turnChanged(int iCurrTurn, bool isLastTurn);
     /// Like turnChanged(), but only emitted when a new turn is created
     void newTurn(int iCurrTurn);
+    /// Emitted when the game rack changes
+    void gameRackChanged(const QString &iNewrack);
 
 public slots:
     /// Display an error message to the user
@@ -197,11 +199,14 @@ private:
     /// Model for the timer widgets
     TimerModel *m_timerModel;
 
-    /// Current turn number. Used to emit turnChanged().
+    /// Current turn number. Used to emit turnChanged()
     unsigned m_currentTurn;
 
-    /// Last known turn number. Used to emit newTurn().
+    /// Last known turn number. Used to emit newTurn()
     unsigned m_lastTurn;
+
+    // Last known game rack. Used to emit gameRackChanged()
+    wstring m_lastGameRack;
 
     /// Save window state
     void writeSettings() const;
@@ -225,6 +230,9 @@ private:
      * widget and the 7+1 dictionary tool
      */
     void linkArbitrationAnd7P1();
+
+    /// Handle the timer auto-start mechanism, depending on the preferences
+    void linkRackChangesAndTimer();
 
     /**
      * Load the game saved in the given file. If iFileName is an empty string,
