@@ -328,8 +328,8 @@ void MainWindow::prefsUpdated()
 
     // Refresh the timer values
     QSettings qs;
-    int timerTotal = qs.value(PrefsDialog::kINTF_TIMER_TOTAL_DURATION).toInt();
-    int timerAlert = qs.value(PrefsDialog::kINTF_TIMER_ALERT_DURATION).toInt();
+    int timerTotal = qs.value(PrefsDialog::kINTF_TIMER_TOTAL_DURATION, 180).toInt();
+    int timerAlert = qs.value(PrefsDialog::kINTF_TIMER_ALERT_DURATION, 30).toInt();
     m_timerModel->setTotalDuration(timerTotal);
     m_timerModel->setAlertDuration(timerAlert);
 

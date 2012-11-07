@@ -22,6 +22,7 @@
 #include <QtGui/QMouseEvent>
 
 #include "timer_widget.h"
+#include "debug.h"
 
 
 INIT_LOGGER(qt, TimerModel);
@@ -101,11 +102,10 @@ bool TimerModel::isActiveTimer() const
 
 void TimerModel::setTotalDuration(int iSeconds)
 {
+    ASSERT(iSeconds > 0, "Invalid total duration");
     if (iSeconds == m_totalDuration)
         return;
     m_totalDuration = iSeconds;
-    if (m_totalDuration < 0)
-        m_totalDuration = 0;
     emit newTotalDuration(m_totalDuration);
     resetTimer();
 }
@@ -113,6 +113,7 @@ void TimerModel::setTotalDuration(int iSeconds)
 
 void TimerModel::setAlertDuration(int iSeconds)
 {
+    // The duration can be negative (to deactivate the alert)
     if (iSeconds == m_alertDuration)
         return;
     m_alertDuration = iSeconds;
