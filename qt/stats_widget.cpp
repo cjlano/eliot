@@ -21,6 +21,7 @@
 #include <QtGui/QTableView>
 #include <QtGui/QHeaderView>
 #include <QtGui/QStandardItemModel>
+#include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QLabel>
 #include <QtGui/QAction>
@@ -457,10 +458,15 @@ void StatsWidget::lockSizesChanged(bool checked)
 void StatsWidget::flipTable()
 {
     bool flipped = m_table->model() != m_model;
+    m_table->setSortingEnabled(!flipped);
     if (flipped)
         m_table->setModel(m_model);
     else
-        m_table->setModel(m_flippedModel);
+    {
+        QSortFilterProxyModel *proxy = new QSortFilterProxyModel;
+        proxy->setSourceModel(m_flippedModel);
+        m_table->setModel(proxy);
+    }
     refresh();
 }
 
