@@ -3,8 +3,8 @@ Name=Eliot
 Comment=A Scrabble (TM) game
 Comment[fr]=Un jeu de Scrabble (TM)
 Exec=eliot
-Icon=eliot.xpm
-Terminal=0
+Icon=eliot
+Terminal=false
 Type=Application
 Categories=Game;
 
