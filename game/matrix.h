@@ -34,12 +34,12 @@ public:
     // Construct a matrix with an initial value
     Matrix(int iSize1, int iSize2, const T &iValue)
     {
-        resize(iSize1, vector<T>(iSize2, iValue));
+        this->resize(iSize1, vector<T>(iSize2, iValue));
     }
     // Construct a square matrix with an initial value
     Matrix(int iSize, const T &iValue)
     {
-        resize(iSize, vector<T>(iSize, iValue));
+        this->resize(iSize, vector<T>(iSize, iValue));
     }
 };
 
