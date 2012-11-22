@@ -1,10 +1,50 @@
+eliot (2.0-3) quantal; urgency=low
+
+  * Try to make a proper PPA build
+
+ -- Olivier Teulière <ipkiss@gmail.com>  Thu, 22 Nov 2012 00:30:29 +0100
+
+eliot (2.0-2) quantal; urgency=low
+
+  * Build for Ubuntu 12.10
+  * Patch in game/matrix.h (compilation error with new g++ version)
+  * Patch to fix Serbian translation
+
+ -- Olivier Teulière <ipkiss@gmail.com>  Wed, 21 Nov 2012 22:10:50 +0100
+
+eliot (2.0-1) precise; urgency=low
+
+  * New upstream version (2.0)
+  * New arbitration mode. Main features:
+     * master move chosen by the arbitrator or automatically
+     * extremely efficient way to assign moves to players (very few keystrokes or mouse clicks)
+     * possibility to go on playing even if a turn is incomplete
+     * possibility to add a player during the game, or to change his/her table number
+     * possibility to assign the same word to many players in one click
+     * possibility to give solos, warnings and penalties to players
+     * warnings to auto-detect and avoid common mistakes (can be deactivated)
+  * New "statistics" view: all the information about the game at a glance
+  * New presentation of the bag, much more visual and intuitive
+  * New "timer" control, to play with time constraints
+  * Favorite players: no need to create the same players everytime
+  * Auto-save: the current game is saved automatically (useful in case of crash)
+  * More complete save game format
+  * Global ergonomy improvements:
+     * more information on the status bar (turn number, remaining letters)
+     * more intuitive focus handling
+     * less space lost
+  * New Spanish translation
+  * Many bug fixes...
+
+ -- Olivier Teulière <ipkiss@gmail.com>  Sun, 14 Oct 2012 15:08:24 +0200
+
 eliot (1.14-1) oneiric; urgency=low
 
   * New game variant: "7 among 8"
   * New preference to define a default AI level
   * Bug fix in the dictionary creation wizard
 
- -- Olivier Teulière <ipkiss@adelpha>  Tue, 03 Jan 2012 21:57:38 +0100
+ -- Olivier Teulière <ipkiss@gmail.com>  Tue, 03 Jan 2012 21:57:38 +0100
 
 eliot (1.13-1) natty; urgency=low
 
@@ -15,7 +55,7 @@ eliot (1.13-1) natty; urgency=low
   * New translations: Serbian and Indonesian
   * Several bugs fixes
 
- -- Olivier Teulière <ipkiss@adelpha>  Sun, 21 Aug 2011 00:25:18 +0200
+ -- Olivier Teulière <ipkiss@gmail.com>  Sun, 21 Aug 2011 00:25:18 +0200
 
 eliot (1.12-1) lucid; urgency=low
 
@@ -23,7 +63,7 @@ eliot (1.12-1) lucid; urgency=low
   * New wizard to help creating custom dictionaries
   * Various bug fixes
 
- -- Olivier Teuliere <ipkiss@ulukai>  Sat, 22 May 2010 20:44:16 +0200
+ -- Olivier Teuliere <ipkiss@gmail.com>  Sat, 22 May 2010 20:44:16 +0200
 
 eliot (1.11-1) karmic; urgency=low
 
@@ -31,7 +71,7 @@ eliot (1.11-1) karmic; urgency=low
   * Support for loading/saving games in all modes
   * Various encoding fixes
 
- -- Olivier Teuliere <ipkiss@ulukai>  Sun, 24 Jan 2010 16:15:51 +0100
+ -- Olivier Teuliere <ipkiss@gmail.com>  Sun, 24 Jan 2010 16:15:51 +0100
 
 eliot (1.10-1) karmic; urgency=low
 
@@ -41,7 +81,7 @@ eliot (1.10-1) karmic; urgency=low
       particular)
     * Catalan translation
 
- -- Olivier Teuliere <ipkiss@ulukai>  Sat, 26 Sep 2009 11:27:13 +0200
+ -- Olivier Teuliere <ipkiss@gmail.com>  Sat, 26 Sep 2009 11:27:13 +0200
 
 eliot (1.9-1) jaunty; urgency=low
 
@@ -51,7 +91,7 @@ eliot (1.9-1) jaunty; urgency=low
     * A coordinates arrow allows entering the coordinates more easily
     * Words can be entered in training mode without doing a search
 
- -- Olivier Teuliere <ipkiss@ulukai>  Sat, 21 Feb 2009 18:31:18 +0100
+ -- Olivier Teuliere <ipkiss@gmail.com>  Sat, 21 Feb 2009 18:31:18 +0100
 
 eliot (1.8-1) jaunty; urgency=low
 
