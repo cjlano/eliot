@@ -108,9 +108,10 @@ static void printHexa(const Dictionary &iDic)
     {
         ee.e = *reinterpret_cast<const DicEdge*>(iDic.getEdgeAt(i));
 
-        printf("0x%04lx %08x |%4d ptr=%8d t=%d l=%d chr=%2d (%c)\n",
+        printf("0x%04lx %08x |%4d ptr=%8d t=%d l=%d chr=%2d (%lc)\n",
                (unsigned long)i*sizeof(ee), (unsigned int)(ee.s),
-               i, ee.e.ptr, ee.e.term, ee.e.last, ee.e.chr, ee.e.chr + 'a' - 1);
+               i, ee.e.ptr, ee.e.term, ee.e.last, ee.e.chr,
+               ee.e.chr == 0 ? L'-' : iDic.getHeader().getCharFromCode(ee.e.chr));
     }
 }
 
