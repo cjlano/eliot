@@ -153,7 +153,7 @@ public:
     /**
      * Print a readable summary of the header on standard output
      */
-    void print() const;
+    void print(ostream &out) const;
 
     /**
      * Write the header to a file, using the latest format

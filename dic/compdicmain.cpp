@@ -251,7 +251,7 @@ int main(int argc, char* argv[])
             builder.generateDawg(inFileName, outFileName, dicName);
 
         // Print the header
-        header.print();
+        header.print(cout);
 
         cout << fmt(_(" Load time: %1% s")) % builder.getLoadTime() << endl;
         cout << fmt(_(" Compression time: %1% s")) % builder.getBuildTime() << endl;

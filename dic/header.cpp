@@ -21,7 +21,7 @@
 #include "config.h"
 
 #include <cstring> // for strcpy
-#include <cstdio> // for snprintf
+#include <cstdio> // for sprintf
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -649,30 +649,30 @@ wstring Header::writeDisplayAndInput() const
 }
 
 
-void Header::print() const
+void Header::print(ostream &out) const
 {
 #define fmt(x) boost::format(x)
-    cout << fmt(_("Dictionary name: %1%")) % lfw(m_dicName) << endl;
+    out << fmt(_("Dictionary name: %1%")) % lfw(m_dicName) << endl;
     char buf[150];
     strftime(buf, sizeof(buf), "%c", gmtime(&m_compressDate));
-    cout << fmt(_("Compressed on: %1%")) % buf << endl;
-    cout << fmt(_("Compressed using a binary compiled by: %1%")) % lfw(m_userHost) << endl;
-    cout << fmt(_("Dictionary type: %1%")) % (m_type == kDAWG ? "DAWG" : "GADDAG") << endl;
-    cout << fmt(_("Letters: %1%")) % lfw(m_letters) << endl;
-    cout << fmt(_("Number of letters: %1%")) % m_letters.size() << endl;
-    cout << fmt(_("Number of words: %1%")) % m_nbWords << endl;
+    out << fmt(_("Compressed on: %1%")) % buf << endl;
+    out << fmt(_("Compressed using a binary compiled by: %1%")) % lfw(m_userHost) << endl;
+    out << fmt(_("Dictionary type: %1%")) % (m_type == kDAWG ? "DAWG" : "GADDAG") << endl;
+    out << fmt(_("Letters: %1%")) % lfw(m_letters) << endl;
+    out << fmt(_("Number of letters: %1%")) % m_letters.size() << endl;
+    out << fmt(_("Number of words: %1%")) % m_nbWords << endl;
     long unsigned int size = sizeof(Dict_header_old) +
         sizeof(Dict_header_ext) + sizeof(Dict_header_ext_2);
-    cout << fmt(_("Header size: %1% bytes")) % size << endl;
-    cout << fmt(_("Root: %1% (edge)")) % m_root << endl;
-    cout << fmt(_("Nodes: %1% used + %2% saved")) % m_nodesUsed % m_nodesSaved << endl;
-    cout << fmt(_("Edges: %1% used + %2% saved")) % m_edgesUsed % m_edgesSaved << endl;
+    out << fmt(_("Header size: %1% bytes")) % size << endl;
+    out << fmt(_("Root: %1% (edge)")) % m_root << endl;
+    out << fmt(_("Nodes: %1% used + %2% saved")) % m_nodesUsed % m_nodesSaved << endl;
+    out << fmt(_("Edges: %1% used + %2% saved")) % m_edgesUsed % m_edgesSaved << endl;
 #undef fmt
-    cout << "====================================================================" << endl;
-    cout << format("%1% | %2% | %3% | %4% | %5% | %6% | %7%")
+    out << "====================================================================" << endl;
+    out << format("%1% | %2% | %3% | %4% | %5% | %6% | %7%")
         % _("Letter") % _("Points") % _("Frequency") % _("Vowel")
         % _("Consonant") % _("Display") % _("Alt. input") << endl;
-    cout << "-------+--------+-----------+-------+-----------+-------+------" << endl;
+    out << "-------+--------+-----------+-------+-----------+-------+------" << endl;
 #define sz(x) strlen(_(x))
     for (unsigned int i = 0; i < m_letters.size(); ++i)
     {
@@ -704,9 +704,9 @@ void Header::print() const
         {
             fmter % string(sz("Display"), ' ') % string(sz("Alt. input"), ' ');
         }
-        cout << fmter.str() << endl;
+        out << fmter.str() << endl;
     }
 #undef sz
-    cout << "====================================================================" << endl;
+    out << "====================================================================" << endl;
 }
 

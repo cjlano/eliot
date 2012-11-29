@@ -54,7 +54,7 @@ using namespace std;
 
 static void printHeader(const Dictionary &iDic)
 {
-    iDic.getHeader().print();
+    iDic.getHeader().print(cout);
 }
 
 
