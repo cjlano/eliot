@@ -21,12 +21,17 @@
 
 #include "config.h"
 
+#include <map>
+#include <string>
+#include <vector>
 #include <fstream>
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
 #include <cstdio>
 #include <cstddef>
+#include <boost/foreach.hpp>
+#include <getopt.h>
 
 #if ENABLE_NLS
 #   include <libintl.h>
@@ -47,38 +52,85 @@
 using namespace std;
 
 
-static void print_node_hex(const Dictionary &dic, int i)
+static void printHeader(const Dictionary &iDic)
+{
+    iDic.getHeader().print();
+}
+
+
+static void printLetters(const Dictionary &iDic)
+{
+    const Header &header = iDic.getHeader();
+    const wstring &letters = header.getLetters();
+    for (unsigned i = 1; i <= letters.size(); ++i)
+    {
+        // Main data
+        wstring wlett(1, letters[i - 1]);
+        cout << ufw(wlett) << " "
+             << (int) header.getPoints(i) << " "
+             << (int) header.getFrequency(i) << " "
+             << (header.isVowel(i) ? "1" : "0") << " "
+             << (header.isConsonant(i) ? "1" : "0");
+
+        // Display and input strings
+        map<wchar_t, vector<wstring> >::const_iterator it =
+            header.getDisplayInputData().find(letters[i - 1]);
+        if (it != header.getDisplayInputData().end())
+        {
+            BOOST_FOREACH(const wstring &input, it->second)
+            {
+                cout << " " << ufw(input);
+            }
+        }
+
+        cout << endl;
+    }
+}
+
+
+static void printWords(const Dictionary &iDic)
+{
+    ListDic::printWords(cout, iDic);
+}
+
+
+static void printHexa(const Dictionary &iDic)
 {
     union edge_t
     {
         DicEdge e;
-        uint32_t  s;
+        uint32_t s;
     } ee;
 
-    ee.e = *reinterpret_cast<const DicEdge*>(dic.getEdgeAt(i));
-
-    printf("0x%04lx %08x |%4d ptr=%8d t=%d l=%d chr=%2d (%c)\n",
-           (unsigned long)i*sizeof(ee), (unsigned int)(ee.s),
-           i, ee.e.ptr, ee.e.term, ee.e.last, ee.e.chr, ee.e.chr +'a' -1);
-}
-
-
-void print_dic_hex(const Dictionary &iDic)
-{
     printf(_("offset binary   | structure\n"));
     printf("------ -------- | --------------------\n");
     for (unsigned int i = 0; i < (iDic.getHeader().getNbEdgesUsed() + 1); i++)
-        print_node_hex(iDic, i);
+    {
+        ee.e = *reinterpret_cast<const DicEdge*>(iDic.getEdgeAt(i));
+
+        printf("0x%04lx %08x |%4d ptr=%8d t=%d l=%d chr=%2d (%c)\n",
+               (unsigned long)i*sizeof(ee), (unsigned int)(ee.s),
+               i, ee.e.ptr, ee.e.term, ee.e.last, ee.e.chr, ee.e.chr + 'a' - 1);
+    }
 }
 
 
-void usage(const string &iName)
+static void printUsage(const string &iBinaryName)
 {
-    printf(_("usage: %s [-a|-h|-l|-x] dictionary\n"), iName.c_str());
-    printf(_("  -a: print all\n"));
-    printf(_("  -h: print header\n"));
-    printf(_("  -l: print dictionary word list\n"));
-    printf(_("  -x: print dictionary in hex\n"));
+    cout << "Usage: " << iBinaryName << " [-e|-l|-w|-x]] -d <dawg_file>" << endl
+         << _("Mandatory options:") << endl
+         << _("  -d, --dictionary <string>  Dictionary file (.dawg) to use") << endl
+         << _("Output options:") << endl
+         << _("  -e, --header            Print the dictionary header") << endl
+         << _("  -l, --letters           Print letters information, in a format") << endl
+         << _("                          suitable for the 'compdic' program") << endl
+         << _("  -w, --words             Print all the words stored in the dictionary") << endl
+         << _("  -x, --hexa              Print data as hexadecimal (for debugging)") << endl
+         << _("Other options:") << endl
+         << _("  -h, --help              Print this help and exit") << endl
+         << endl
+         << _("If no output option is specified, --header is used implicitly.") << endl
+         << _("Example: ") << iBinaryName << " -w -d ods.dawg" << endl;
 }
 
 
@@ -106,48 +158,83 @@ int main(int argc, char *argv[])
     textdomain(PACKAGE);
 #endif
 
-    int arg_count;
-    int option_print_all      = 0;
-    int option_print_header   = 0;
-    int option_print_dic_hex  = 0;
-    int option_print_dic_list = 0;
-
-    if (argc < 3)
+    static const struct option long_options[] =
     {
-        usage(argv[0]);
+        {"help", no_argument, NULL, 'h'},
+        {"dictionary", required_argument, NULL, 'd'},
+        {"header", no_argument, NULL, 'e'},
+        {"letters", no_argument, NULL, 'l'},
+        {"words", no_argument, NULL, 'w'},
+        {"hexa", no_argument, NULL, 'x'},
+        {0, 0, 0, 0}
+    };
+    static const char short_options[] = "hd:elwx";
+
+    bool dicSpecified = false;
+    bool shouldPrintHeader = false;
+    bool shouldPrintLetters = false;
+    bool shouldPrintWords = false;
+    bool shouldPrintHexa = false;
+    string dicPath;
+
+    int res;
+    int option_index = 1;
+    while ((res = getopt_long(argc, argv, short_options,
+                              long_options, &option_index)) != -1)
+    {
+        switch (res)
+        {
+            case 'h':
+                printUsage(argv[0]);
+                exit(0);
+            case 'd':
+                dicSpecified = true;
+                dicPath = optarg;
+                break;
+            case 'e':
+                shouldPrintHeader = true;
+                break;
+            case 'l':
+                shouldPrintLetters = true;
+                break;
+            case 'w':
+                shouldPrintWords = true;
+                break;
+            case 'x':
+                shouldPrintHexa = true;
+                break;
+        }
+    }
+
+    // Check mandatory options
+    if (!dicSpecified)
+    {
+        cerr << _("A mandatory option is missing") << endl;
+        printUsage(argv[0]);
         exit(1);
     }
 
-    arg_count = 1;
-    while (argv[arg_count][0] == '-')
+    // The default is to print the header
+    if (!shouldPrintHeader && !shouldPrintLetters &&
+        !shouldPrintWords && !shouldPrintHexa)
     {
-        switch (argv[arg_count][1])
-        {
-            case 'a': option_print_all = 1; break;
-            case 'h': option_print_header = 1; break;
-            case 'l': option_print_dic_list = 1; break;
-            case 'x': option_print_dic_hex = 1; break;
-            default: usage(argv[0]); exit(2); break;
-        }
-        arg_count++;
+        shouldPrintHeader = true;
     }
 
     try
     {
-        Dictionary dic(argv[arg_count]);
+        // Load the dictionary
+        Dictionary dic(dicPath);
 
-        if (option_print_header || option_print_all)
-        {
-            dic.getHeader().print();
-        }
-        if (option_print_dic_hex || option_print_all)
-        {
-            print_dic_hex(dic);
-        }
-        if (option_print_dic_list || option_print_all)
-        {
-            ListDic::printWords(cout, dic);
-        }
+        if (shouldPrintHeader)
+            printHeader(dic);
+        if (shouldPrintLetters)
+            printLetters(dic);
+        if (shouldPrintWords)
+            printWords(dic);
+        if (shouldPrintHexa)
+            printHexa(dic);
+
         return 0;
     }
     catch (std::exception &e)
