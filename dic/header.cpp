@@ -21,7 +21,6 @@
 #include "config.h"
 
 #include <cstring> // for strcpy
-#include <cstdio> // for sprintf
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -332,10 +331,8 @@ unsigned int Header::getCodeFromChar(wchar_t iChar) const
         m_mapCodeFromChar.find(iChar);
     if (pair == m_mapCodeFromChar.end())
     {
-        char s[5];
-        sprintf(s, "%d", iChar);
         format fmt(_("Header::getCodeFromChar: No code for letter '%1%' (val=%2%)"));
-        fmt % lfw(iChar) % s;
+        fmt % lfw(iChar) % (unsigned) iChar;
         throw DicException(fmt.str());
     }
     return pair->second;
