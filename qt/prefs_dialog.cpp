@@ -96,6 +96,8 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
                                            "It is still possible to change the master move afterwards."));
     checkBoxArbitFillRack->setToolTip(_q("If checked, the rack will be completed with random letters.\n"
                                          "Uncheck this option if you prefer to choose the letters yourself."));
+    checkBoxArbitSoloAuto->setToolTip(_q("If checked, solos are given automatically, when appropriate.\n"
+                                         "Uncheck this option if you prefer to do it manually."));
     spinBoxArbitSearchLimit->setToolTip(spinBoxTrainSearchLimit->toolTip());
     spinBoxArbitWarnLimit->setToolTip(_q("Maximal number of \"acceptable\" warnings.\n"
                                          "Any additional warning will give a penalty to the player."));
@@ -106,6 +108,13 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     model->setRootPath(QDir::currentPath());
     completer->setModel(model);
     lineEditIntfDicPath->setCompleter(completer);
+
+    // The "arbitration.solo-players" setting is meaningful only
+    // when "arbitration.solo-auto" is true
+    QObject::connect(checkBoxArbitSoloAuto, SIGNAL(toggled(bool)),
+                     labelArbitSoloPlayers, SLOT(setEnabled(bool)));
+    QObject::connect(checkBoxArbitSoloAuto, SIGNAL(toggled(bool)),
+                     spinBoxArbitSoloPlayers, SLOT(setEnabled(bool)));
 
     try
     {
@@ -143,10 +152,12 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         checkBoxArbitFillRack->setChecked(Settings::Instance().getBool("arbitration.fill-rack"));
         bool linkArbit7P1 = qs.value(kARBIT_LINK_7P1, false).toBool();
         checkBoxArbitLink7P1->setChecked(linkArbit7P1);
-        spinBoxArbitSearchLimit->setValue(Settings::Instance().getInt("arbitration.search-limit"));
+        checkBoxArbitSoloAuto->setChecked(Settings::Instance().getBool("arbitration.solo-auto"));
+        spinBoxArbitSoloPlayers->setValue(Settings::Instance().getInt("arbitration.solo-players"));
+        spinBoxArbitSoloValue->setValue(Settings::Instance().getInt("arbitration.solo-value"));
         spinBoxArbitPenaltyValue->setValue(Settings::Instance().getInt("arbitration.penalty-value"));
         spinBoxArbitWarnLimit->setValue(Settings::Instance().getInt("arbitration.warnings-limit"));
-        spinBoxArbitSoloValue->setValue(Settings::Instance().getInt("arbitration.solo-value"));
+        spinBoxArbitSearchLimit->setValue(Settings::Instance().getInt("arbitration.search-limit"));
 
         // Confirmations
         bool confoStartGame = qs.value(kCONFO_START_GAME, true).toBool();
@@ -267,14 +278,18 @@ void PrefsDialog::updateSettings()
             shouldEmitUpdate = true;
             qs.setValue(kARBIT_LINK_7P1, checkBoxArbitLink7P1->isChecked());
         }
+        Settings::Instance().setBool("arbitration.solo-auto",
+                                     checkBoxArbitSoloAuto->isChecked());
+        Settings::Instance().setInt("arbitration.solo-players",
+                                    spinBoxArbitSoloPlayers->value());
+        Settings::Instance().setInt("arbitration.solo-value",
+                                    spinBoxArbitSoloValue->value());
         Settings::Instance().setInt("arbitration.search-limit",
                                     spinBoxArbitSearchLimit->value());
         Settings::Instance().setInt("arbitration.penalty-value",
                                     spinBoxArbitPenaltyValue->value());
         Settings::Instance().setInt("arbitration.warnings-limit",
                                     spinBoxArbitWarnLimit->value());
-        Settings::Instance().setInt("arbitration.solo-value",
-                                    spinBoxArbitSoloValue->value());
 
         // Confirmations settings
         qs.setValue(kCONFO_START_GAME, checkBoxConfoStartGame->isChecked());
