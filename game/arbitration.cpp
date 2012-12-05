@@ -92,23 +92,6 @@ Move Arbitration::checkWord(const wstring &iWord,
 }
 
 
-/// Predicate to help retrieving commands
-struct MatchingPlayerAndEventType : public unary_function<PlayerEventCmd, bool>
-{
-    MatchingPlayerAndEventType(unsigned iPlayerId, int iEventType)
-        : m_playerId(iPlayerId), m_eventType(iEventType) {}
-
-    bool operator()(const PlayerEventCmd &cmd)
-    {
-        return cmd.getPlayer().getId() == m_playerId
-            && cmd.getEventType() == m_eventType;
-    }
-
-    const unsigned m_playerId;
-    const int m_eventType;
-};
-
-
 void Arbitration::setSolo(unsigned iPlayerId, int iPoints)
 {
     ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
@@ -259,15 +242,5 @@ void Arbitration::undoCurrentRack()
     ASSERT(cmd != 0, "No matching GameRackCmd found");
 
     accessNavigation().dropFrom(*cmd);
-}
-
-
-const PlayerEventCmd * Arbitration::getPlayerEvent(unsigned iPlayerId,
-                                                   int iEventType) const
-{
-    ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
-    MatchingPlayerAndEventType predicate(iPlayerId, iEventType);
-    const Turn &currTurn = getNavigation().getCurrentTurn();
-    return currTurn.findMatchingCmd<PlayerEventCmd>(predicate);
 }
 

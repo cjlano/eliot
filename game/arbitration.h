@@ -26,7 +26,6 @@
 
 
 class LimitResults;
-class PlayerEventCmd;
 
 /**
  * This class simply extends the Duplicate game,
@@ -77,14 +76,6 @@ private:
 
     /// Undo the current rack, and subsequent commands
     void undoCurrentRack();
-
-    /**
-     * Return the first player event of the given type (for the given player)
-     * in the commands history for the current turn.
-     * If none is found, return 0.
-     */
-    const PlayerEventCmd * getPlayerEvent(unsigned iPlayerId,
-                                          int iEventType) const;
 
 };
 

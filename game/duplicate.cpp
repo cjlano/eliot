@@ -435,3 +435,30 @@ void Duplicate::setGameAndPlayersRack(const PlayedRack &iRack)
 }
 
 
+/// Predicate to help retrieving commands
+struct MatchingPlayerAndEventType : public unary_function<PlayerEventCmd, bool>
+{
+    MatchingPlayerAndEventType(unsigned iPlayerId, int iEventType)
+        : m_playerId(iPlayerId), m_eventType(iEventType) {}
+
+    bool operator()(const PlayerEventCmd &cmd)
+    {
+        return cmd.getPlayer().getId() == m_playerId
+            && cmd.getEventType() == m_eventType;
+    }
+
+    const unsigned m_playerId;
+    const int m_eventType;
+};
+
+
+const PlayerEventCmd * Duplicate::getPlayerEvent(unsigned iPlayerId,
+                                                 int iEventType) const
+{
+    ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
+    MatchingPlayerAndEventType predicate(iPlayerId, iEventType);
+    const Turn &currTurn = getNavigation().getCurrentTurn();
+    return currTurn.findMatchingCmd<PlayerEventCmd>(predicate);
+}
+
+

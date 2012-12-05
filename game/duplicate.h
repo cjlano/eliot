@@ -28,6 +28,7 @@
 class Player;
 class PlayedRack;
 class Move;
+class PlayerEventCmd;
 
 using std::string;
 using std::wstring;
@@ -131,6 +132,14 @@ protected:
 
     /// Finish the game
     void endGame();
+
+    /**
+     * Return the first player event of the given type (for the given player)
+     * in the commands history for the current turn.
+     * If none is found, return 0.
+     */
+    const PlayerEventCmd * getPlayerEvent(unsigned iPlayerId,
+                                          int iEventType) const;
 
 private: // Used by friend classes
     void innerSetMasterMove(const Move &iMove);
