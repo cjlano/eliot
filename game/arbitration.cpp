@@ -221,6 +221,15 @@ void Arbitration::assignMove(unsigned int iPlayerId, const Move &iMove)
 {
     ASSERT(iPlayerId < getNPlayers(), "Wrong player number");
     recordPlayerMove(*m_players[iPlayerId], iMove);
+
+    // Automatically update the solos if requested
+    bool useSoloAuto = Settings::Instance().getBool("arbitration.solo-auto");
+    if (useSoloAuto)
+    {
+        unsigned minNbPlayers = Settings::Instance().getInt("arbitration.solo-players");
+        int soloValue = Settings::Instance().getInt("arbitration.solo-value");
+        setSoloAuto(minNbPlayers, soloValue);
+    }
 }
 
 

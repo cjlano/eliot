@@ -141,6 +141,16 @@ protected:
     const PlayerEventCmd * getPlayerEvent(unsigned iPlayerId,
                                           int iEventType) const;
 
+    /**
+     * Automatically set the solo for the current turn.
+     * First, all the existing solos (there could be several, in arbitration
+     * mode with a crazy arbitrator...) are removed. Then, a solo is given to
+     * the player deserving it, if any.
+     * Note that the minimum number of players specified in the preferences
+     * must be reached for the solo to be applicable.
+     */
+    void setSoloAuto(unsigned int minNbPlayers, int iSoloValue);
+
 private: // Used by friend classes
     void innerSetMasterMove(const Move &iMove);
     bool isArbitrationGame() const;
