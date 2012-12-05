@@ -19,7 +19,8 @@
  *****************************************************************************/
 
 #include <sstream>
-#include "master_move_cmd.h"
+
+#include "cmd/master_move_cmd.h"
 #include "duplicate.h"
 
 using namespace std;

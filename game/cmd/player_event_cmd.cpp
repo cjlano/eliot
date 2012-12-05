@@ -20,7 +20,7 @@
 
 #include <sstream>
 
-#include "player_event_cmd.h"
+#include "cmd/player_event_cmd.h"
 #include "player.h"
 #include "debug.h"
 

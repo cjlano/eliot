@@ -1,6 +1,6 @@
 /*******************************************************************
  * Eliot
- * Copyright (C) 2008-2012 Olivier Teulière
+ * Copyright (C) 2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -18,42 +18,37 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <sstream>
-
-#include "player_rack_cmd.h"
-#include "player.h"
+#include "cmd/game_rack_cmd.h"
+#include "game.h"
 
 
-INIT_LOGGER(game, PlayerRackCmd);
+INIT_LOGGER(game, GameRackCmd);
 
 
-PlayerRackCmd::PlayerRackCmd(Player &ioPlayer, const PlayedRack &iNewRack)
-    : m_player(ioPlayer), m_newRack(iNewRack)
+GameRackCmd::GameRackCmd(Game &ioGame, const PlayedRack &iNewRack)
+    : m_game(ioGame), m_newRack(iNewRack)
 {
 }
 
 
-void PlayerRackCmd::doExecute()
+void GameRackCmd::doExecute()
 {
     // Get what was the rack for the current turn
-    m_oldRack = m_player.getCurrentRack();
-    // Update the rack of the player
-    m_player.setCurrentRack(m_newRack);
+    m_oldRack = m_game.getHistory().getCurrentRack();
+    // Update the game rack
+    m_game.accessHistory().setCurrentRack(m_newRack);
 }
 
 
-void PlayerRackCmd::doUndo()
+void GameRackCmd::doUndo()
 {
-    // Restore the rack of the player
-    m_player.setCurrentRack(m_oldRack);
+    // Restore the game rack
+    m_game.accessHistory().setCurrentRack(m_oldRack);
 }
 
 
-wstring PlayerRackCmd::toString() const
+wstring GameRackCmd::toString() const
 {
-    wostringstream oss;
-    oss << L"PlayerRackCmd (player " << m_player.getId() << L"): "
-        << m_newRack.toString();
-    return oss.str();
+    return L"GameRackCmd: " + m_newRack.toString();
 }
 

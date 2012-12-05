@@ -20,7 +20,7 @@
 
 #include <sstream>
 
-#include "game_move_cmd.h"
+#include "cmd/game_move_cmd.h"
 #include "player.h"
 #include "game_params.h"
 #include "game.h"

@@ -5,7 +5,9 @@ dnl configure.in for Eliot
 dnl --------------------------------------------------------------
 AC_INIT(eliot, 2.1-git)
 AC_CONFIG_SRCDIR(qt/main.cpp)
-AM_INIT_AUTOMAKE
+dnl See http://www.flameeyes.eu/autotools-mythbuster/automake/nonrecursive.html
+dnl for the subdir-objets arguments (used at the moment for game/cmd/)
+AM_INIT_AUTOMAKE([subdir-objects])
 AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_HOST
 AC_CANONICAL_BUILD

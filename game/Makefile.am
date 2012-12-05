@@ -35,9 +35,9 @@ libgame_a_SOURCES= \
     turn_data.cpp turn_data.h \
     history.cpp history.h \
     player.cpp player.h \
-    player_event_cmd.cpp player_event_cmd.h \
-    player_move_cmd.cpp player_move_cmd.h \
-    player_rack_cmd.cpp player_rack_cmd.h \
+    cmd/player_event_cmd.cpp cmd/player_event_cmd.h \
+    cmd/player_move_cmd.cpp cmd/player_move_cmd.h \
+    cmd/player_rack_cmd.cpp cmd/player_rack_cmd.h \
     ai_player.h \
     ai_percent.cpp ai_percent.h \
     game_params.h \
@@ -48,12 +48,12 @@ libgame_a_SOURCES= \
     settings.cpp settings.h \
     navigation.cpp navigation.h \
     game.cpp game.h \
-    game_move_cmd.h game_move_cmd.cpp \
-    game_rack_cmd.h game_rack_cmd.cpp \
+    cmd/game_move_cmd.h cmd/game_move_cmd.cpp \
+    cmd/game_rack_cmd.h cmd/game_rack_cmd.cpp \
+    cmd/master_move_cmd.h cmd/master_move_cmd.cpp \
     turn.cpp turn.h \
     duplicate.cpp duplicate.h \
     arbitration.cpp arbitration.h \
-    master_move_cmd.h master_move_cmd.cpp \
     freegame.cpp freegame.h \
     training.cpp training.h \
     public_game.cpp public_game.h \
