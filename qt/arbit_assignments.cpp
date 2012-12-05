@@ -35,6 +35,7 @@
 #include "turn_data.h"
 #include "rack.h"
 #include "results.h"
+#include "settings.h"
 #include "debug.h"
 
 using namespace std;
@@ -329,6 +330,8 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
     QObject::connect(soloAction, SIGNAL(triggered()),
                      this, SLOT(addRemoveSolo()));
     iMenu.addAction(soloAction);
+    if (useSoloAuto())
+        soloAction->setEnabled(false);
 
     // Action to give or remove a warning to players
     QAction *warningAction = new QAction(_q("Give (or remove) a warning"), this);
@@ -654,8 +657,17 @@ void ArbitAssignments::helperAssignMove(const Move &iMove)
 }
 
 
+bool ArbitAssignments::useSoloAuto() const
+{
+    return Settings::Instance().getBool("arbitration.solo-auto");
+}
+
+
 void ArbitAssignments::addRemoveSolo()
 {
+    if (useSoloAuto())
+        return;
+
     QSet<unsigned int> playersIdSet = getSelectedPlayers();
     // Only one player can have a solo
     if (playersIdSet.size() != 1)

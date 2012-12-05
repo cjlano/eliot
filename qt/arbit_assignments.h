@@ -100,6 +100,9 @@ private:
     // Move currently selected (in the Results table)
     Move m_selectedMove;
 
+    /// Return true iff the automatic solos handling is active
+    bool useSoloAuto() const;
+
     /// Helper method to return the ID of the selected player(s)
     QSet<unsigned int> getSelectedPlayers() const;
 
