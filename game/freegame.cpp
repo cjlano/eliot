@@ -126,11 +126,11 @@ void FreeGame::start()
     ASSERT(getNPlayers(), "Cannot start a game without any player");
 
     // Set the initial racks of the players
-    for (unsigned int i = 0; i < getNPlayers(); i++)
+    BOOST_FOREACH(Player *player, m_players)
     {
         const PlayedRack &newRack =
-            helperSetRackRandom(getPlayer(i).getCurrentRack(), false, RACK_NEW);
-        Command *pCmd = new PlayerRackCmd(*m_players[i], newRack);
+            helperSetRackRandom(player->getCurrentRack(), false, RACK_NEW);
+        Command *pCmd = new PlayerRackCmd(*player, newRack);
         accessNavigation().addAndExecute(pCmd);
     }
 
