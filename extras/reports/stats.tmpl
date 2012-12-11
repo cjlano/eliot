@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
+        <link rel="stylesheet" type="text/css" href="stats.css" />
+        <title>Page Title XXX</title>
+    </head>
+    <body>
+        <table class="statsTable">
+            <tr class="statsTable">
+                <td class="gameTitle" colspan="${gameData.turnNb + 9}">$gameData.name</td>
+            </tr>
+            <tr class="statsTable">
+                <td class="colHeader">Player</td>
+                #for $turn in $gameData.turns.keys
+                <td class="colHeader">$turn</td>
+                #end for
+                <td class="colHeader">Sub-total</td>
+                <td class="colHeader">S</td>
+                <td class="colHeader">W</td>
+                <td class="colHeader">P</td>
+                <td class="colHeader">Total</td>
+                <td class="colHeader">Diff</td>
+                <td class="colHeader">Game %</td>
+                <td class="colHeader">Ranking</td>
+            </tr>
+            <tr class="statsTable">
+                <td class="master playerName">Master</td>
+                #for $turn in $gameData.turns.values
+                <td class="master">$turn.move.points</td>
+                #end for
+                <td class="master">$gameData.totalScore</td>
+                <td class="master"></td>
+                <td class="master"></td>
+                <td class="master"></td>
+                <td class="master">$gameData.totalScore</td>
+                <td class="master"></td>
+                <td class="master">100%</td>
+                <td class="master"></td>
+            </tr>
+            #for $player in $gameData.players
+            <tr class="statsTable">
+                <td class="playerName">$player.name</td>
+                #for $turn in $player.turns.values
+                    #if $gameData.isSolo($turn.num, $turn.move)
+                        #if $gameData.isTop($turn.num, $turn.move)
+                <td class="topSolo">$turn.move.points</td>
+                        #else
+                <td class="subTopSolo">$turn.move.points</td>
+                        #end if
+                    #else
+                        #if $gameData.isTop($turn.num, $turn.move)
+                <td class="top">$turn.move.points</td>
+                        #elif $gameData.isSubTop($turn.num, $turn.move)
+                <td class="subTop">$turn.move.points</td>
+                        #elif $player.id % 2 == 1
+                <td class="normal1">$turn.move.points</td>
+                        #else
+                <td class="normal2">$turn.move.points</td>
+                        #end if
+                    #end if
+                #end for
+                #if $player.id % 2 == 1
+                <td class="normal1">$player.rawScore</td>
+                <td class="normal1">$player.solosPoints</td>
+                <td class="normal1">$player.warningsNb</td>
+                <td class="normal1">$player.penaltiesPoints</td>
+                <td class="normal1">$player.totalScore</td>
+                <td class="normal1">$player.diffWithTop</td>
+                <td class="normal1">$player.percentTop</td>
+                <td class="normal1">$player.rank</td>
+                #else
+                <td class="normal2">$player.rawScore</td>
+                <td class="normal2">$player.solosPoints</td>
+                <td class="normal2">$player.warningsNb</td>
+                <td class="normal2">$player.penaltiesPoints</td>
+                <td class="normal2">$player.totalScore</td>
+                <td class="normal2">$player.diffWithTop</td>
+                <td class="normal2">$player.percentTop</td>
+                <td class="normal2">$player.rank</td>
+                #end if
+            </tr>
+            #end for
+        </table>
+
+        <table class="legendTable">
+            <tr>
+                <td class="legendIcon topSolo"></td>
+                <td class="legendText">Solo with maximal score</td>
+            </tr>
+            <tr>
+                <td class="legendIcon subTopSolo"></td>
+                <td class="legendText">Solo with non-maximal score</td>
+            </tr>
+            <tr>
+                <td class="legendIcon top"></td>
+                <td class="legendText">Move with maximal score (not a solo)</td>
+            </tr>
+            <tr>
+                <td class="legendIcon subTop"></td>
+                <td class="legendText">Move with non-maximal score (not a solo)</td>
+            </tr>
+        </table>
+    </body>
+</html>
+
