@@ -88,6 +88,7 @@ extras/contrib/qt*
 extras/contrib/boost*
 extras/contrib/expat*
 extras/contrib/arabica*
+extras/reports/*.pyc
 qt/ui/*.h
 qt/*.moc.cpp
 qt/resources.cpp
