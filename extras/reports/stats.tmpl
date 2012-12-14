@@ -3,8 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
+        <title>$gameData.name</title>
+        #if $embedCss
+        <style type="text/css">
+        $cssContents
+        </style>
+        #else
         <link rel="stylesheet" type="text/css" href="stats.css" />
-        <title>Page Title XXX</title>
+        #end if
     </head>
     <body>
         <table class="statsTable">
