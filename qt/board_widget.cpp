@@ -53,6 +53,7 @@ BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
 
     TileLayout *layout = new TileLayout(BOARD_MAX + 1, BOARD_MAX + 1);
     layout->setSpacing(1);
+    layout->setAlignment(Qt::AlignHCenter);
     // Line full of coordinates
     TileWidget *cornerTile = new TileWidget;
     cornerTile->setCoordText("");
