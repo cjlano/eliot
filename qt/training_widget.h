@@ -29,7 +29,7 @@
 class QStandardItemModel;
 class QString;
 class QPoint;
-class CoordModel;
+class PlayModel;
 class CustomPopup;
 class PlayWordMediator;
 class PublicGame;
@@ -40,7 +40,7 @@ class TrainingWidget: public QWidget, private Ui::TrainingWidget
     DEFINE_LOGGER();
 
 public:
-    explicit TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicGame *iGame);
+    explicit TrainingWidget(QWidget *parent, PlayModel &iPlayModel, PublicGame *iGame);
 
 public slots:
     void refresh();

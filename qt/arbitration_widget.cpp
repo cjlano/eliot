@@ -31,12 +31,12 @@
 #include "play_word_mediator.h"
 #include "custom_popup.h"
 #include "misc_helpers.h"
+#include "play_model.h"
 
 #include "public_game.h"
 #include "player.h"
 #include "rack.h"
 #include "results.h"
-#include "coord_model.h"
 #include "settings.h"
 #include "game_params.h"
 #include "dic.h"
@@ -54,8 +54,8 @@ INIT_LOGGER(qt, ArbitrationWidget);
 
 
 ArbitrationWidget::ArbitrationWidget(QWidget *parent,
-                                     PublicGame *iGame, CoordModel &iCoordModel)
-    : QWidget(parent), m_game(iGame), m_coordModel(iCoordModel), m_results(10)
+                                     PublicGame *iGame, PlayModel &iPlayModel)
+    : QWidget(parent), m_game(iGame), m_playModel(iPlayModel), m_results(10)
 {
     setupUi(this);
 
@@ -181,10 +181,10 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
                      this, SLOT(updateSelectedMove()));
 
     // Coordinates model
-    QObject::connect(&m_coordModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
+    QObject::connect(&m_playModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
                      this, SLOT(updateCoordText(const Coord&, const Coord&)));
     QObject::connect(lineEditCoords, SIGNAL(textChanged(const QString&)),
-                     this, SLOT(updateCoordModel(const QString&)));
+                     this, SLOT(updatePlayModel(const QString&)));
 
     // Enable the "Check word" button only when there is a word with coordinates
     QObject::connect(lineEditWord, SIGNAL(textChanged(const QString&)),
@@ -458,11 +458,11 @@ void ArbitrationWidget::updateCoordText(const Coord &, const Coord &iNewCoord)
 }
 
 
-void ArbitrationWidget::updateCoordModel(const QString &iText)
+void ArbitrationWidget::updatePlayModel(const QString &iText)
 {
     Coord coord(wfq(iText));
-    if (!(m_coordModel.getCoord() == coord))
-        m_coordModel.setCoord(coord);
+    if (!(m_playModel.getCoord() == coord))
+        m_playModel.setCoord(coord);
 }
 
 

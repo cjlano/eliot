@@ -23,7 +23,7 @@
 
 #include "play_word_mediator.h"
 #include "validator_factory.h"
-#include "coord_model.h"
+#include "play_model.h"
 #include "qtcommon.h"
 
 #include "public_game.h"
@@ -38,10 +38,10 @@ INIT_LOGGER(qt, PlayWordMediator);
 PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
                                    QLineEdit &iEditCoord, QLineEdit &iEditPoints,
                                    QPushButton &iButtonPlay,
-                                   CoordModel &iCoordModel, PublicGame *iGame)
+                                   PlayModel &iPlayModel, PublicGame *iGame)
     : QObject(parent), m_game(iGame), m_lineEditPlay(iEditPlay),
     m_lineEditCoord(iEditCoord), m_lineEditPoints(iEditPoints),
-    m_pushButtonPlay(iButtonPlay), m_coordModel(iCoordModel)
+    m_pushButtonPlay(iButtonPlay), m_playModel(iPlayModel)
 {
     SetTooltips(m_lineEditPlay, m_lineEditCoord);
 
@@ -63,7 +63,7 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
                      this, SLOT(playWord()));
     QObject::connect(&m_pushButtonPlay, SIGNAL(clicked()),
                      this, SLOT(playWord()));
-    QObject::connect(&m_coordModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
+    QObject::connect(&m_playModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
                      this, SLOT(updateCoord(const Coord&, const Coord&)));
 }
 
@@ -214,8 +214,8 @@ void PlayWordMediator::playWord()
 void PlayWordMediator::onCoordChanged(const QString &iText)
 {
     Coord coord(wfq(iText));
-    if (!(m_coordModel.getCoord() == coord))
-        m_coordModel.setCoord(coord);
+    if (!(m_playModel.getCoord() == coord))
+        m_playModel.setCoord(coord);
     updatePointsAndState();
 }
 

@@ -18,13 +18,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include "coord_model.h"
+#include "play_model.h"
 
 
-INIT_LOGGER(qt, CoordModel);
+INIT_LOGGER(qt, PlayModel);
 
 
-void CoordModel::setCoord(const Coord &iCoord)
+void PlayModel::setCoord(const Coord &iCoord)
 {
     m_prevCoord = m_currCoord;
     m_currCoord = iCoord;
@@ -32,7 +32,7 @@ void CoordModel::setCoord(const Coord &iCoord)
 }
 
 
-void CoordModel::clear()
+void PlayModel::clear()
 {
     setCoord(Coord());
 }

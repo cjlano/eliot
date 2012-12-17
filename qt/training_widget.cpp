@@ -45,7 +45,7 @@ INIT_LOGGER(qt, TrainingWidget);
 static const int HIDDEN_COLUMN = 6;
 
 
-TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicGame *iGame)
+TrainingWidget::TrainingWidget(QWidget *parent, PlayModel &iPlayModel, PublicGame *iGame)
     : QWidget(parent), m_game(iGame), m_autoResizeColumns(true)
 {
     setupUi(this);
@@ -58,7 +58,7 @@ TrainingWidget::TrainingWidget(QWidget *parent, CoordModel &iCoordModel, PublicG
     // Use the mediator
     m_mediator = new PlayWordMediator(this, *lineEditPlay, *lineEditCoords,
                                       *lineEditPoints, *pushButtonPlay,
-                                      iCoordModel, m_game);
+                                      iPlayModel, m_game);
     QObject::connect(m_mediator, SIGNAL(gameUpdated()),
                      this, SIGNAL(gameUpdated()));
     QObject::connect(m_mediator, SIGNAL(notifyProblem(QString)),

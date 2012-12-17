@@ -142,7 +142,7 @@ MainWindow::MainWindow(QWidget *iParent)
                      this, SLOT(updateStatusBar(const Dictionary*)));
 
     // Board
-    BoardWidget *boardWidget = new BoardWidget(m_coordModel);
+    BoardWidget *boardWidget = new BoardWidget(m_playModel);
     QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
                      boardWidget, SLOT(setGame(const PublicGame*)));
     QObject::connect(this, SIGNAL(gameUpdated()),
@@ -424,7 +424,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_ui.groupBoxPlayers->setTitle(_q("Training"));
 
             // Training widget
-            m_trainingWidget = new TrainingWidget(NULL, m_coordModel, iGame);
+            m_trainingWidget = new TrainingWidget(NULL, m_playModel, iGame);
             m_ui.groupBoxPlayers->layout()->addWidget(m_trainingWidget);
             QObject::connect(m_trainingWidget, SIGNAL(gameUpdated()),
                              this, SIGNAL(gameUpdated()));
@@ -450,7 +450,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
 
             // Note: we specify the parent immediately, otherwise the
             // reparenting creates focus issues
-            m_arbitrationWidget = new ArbitrationWidget(m_ui.groupBoxPlayers, iGame, m_coordModel);
+            m_arbitrationWidget = new ArbitrationWidget(m_ui.groupBoxPlayers, iGame, m_playModel);
             m_ui.groupBoxPlayers->layout()->addWidget(m_arbitrationWidget);
             QObject::connect(m_arbitrationWidget, SIGNAL(gameUpdated()),
                              this, SIGNAL(gameUpdated()));
@@ -478,7 +478,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_ui.groupBoxPlayers->setTitle(_q("Players"));
 
             // Players widget
-            m_playersWidget = new PlayerTabWidget(m_coordModel, NULL);
+            m_playersWidget = new PlayerTabWidget(m_playModel, NULL);
             m_ui.groupBoxPlayers->layout()->addWidget(m_playersWidget);
             QObject::connect(m_playersWidget, SIGNAL(gameUpdated()),
                              this, SIGNAL(gameUpdated()));
@@ -1189,7 +1189,7 @@ void MainWindow::onWindowsBoard()
 
         vSplitter->addWidget(new QWidget);
 
-        BoardWidget *board = new BoardWidget(m_coordModel);
+        BoardWidget *board = new BoardWidget(m_playModel);
         board->setShowTempSigns(false);
         board->setShowOnlyLastTurn(true);
         board->setGame(m_game);

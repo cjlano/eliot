@@ -29,7 +29,7 @@
 #include "public_game.h"
 #include "tile.h"
 #include "board.h"
-#include "coord_model.h"
+#include "play_model.h"
 
 using namespace std;
 
@@ -37,9 +37,9 @@ using namespace std;
 INIT_LOGGER(qt, BoardWidget);
 
 
-BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
+BoardWidget::BoardWidget(PlayModel &iPlayModel, QWidget *parent)
     : QFrame(parent), m_game(NULL),
-    m_coordModel(iCoordModel), m_showTemporarySigns(true),
+    m_playModel(iPlayModel), m_showTemporarySigns(true),
     m_showOnlyLastTurn(false),
     m_widgetsMatrix(BOARD_MAX + 1, BOARD_MAX + 1, 0)
 {
@@ -99,7 +99,7 @@ BoardWidget::BoardWidget(CoordModel &iCoordModel, QWidget *parent)
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
     // Listen to changes in the coordinates
-    QObject::connect(&m_coordModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
+    QObject::connect(&m_playModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
                      this, SLOT(updateArrow(const Coord&, const Coord&)));
 }
 
@@ -219,7 +219,7 @@ void BoardWidget::tileClicked(int row, int col, QMouseEvent *iEvent)
 {
     if (m_game == NULL)
     {
-        m_coordModel.clear();
+        m_playModel.clear();
         return;
     }
 
@@ -231,15 +231,15 @@ void BoardWidget::tileClicked(int row, int col, QMouseEvent *iEvent)
     {
         // Change the direction if this is exactly the same as the current one
         Coord coord(row, col, Coord::HORIZONTAL);
-        if (m_coordModel.getCoord() == coord)
+        if (m_playModel.getCoord() == coord)
             coord.setDir(Coord::VERTICAL);
         // Take into acount the new coordinates
-        m_coordModel.setCoord(coord);
+        m_playModel.setCoord(coord);
     }
     else if (iEvent->button() == Qt::RightButton)
     {
         // On a right click anywhere on the board, remove the arrow
-        m_coordModel.clear();
+        m_playModel.clear();
     }
 #endif
 #if 1
@@ -250,24 +250,24 @@ void BoardWidget::tileClicked(int row, int col, QMouseEvent *iEvent)
     {
         // Change the direction if this is exactly the same as the current one
         Coord coord(row, col, Coord::HORIZONTAL);
-        if (m_coordModel.getCoord().getRow() == coord.getRow() &&
-            m_coordModel.getCoord().getCol() == coord.getCol())
+        if (m_playModel.getCoord().getRow() == coord.getRow() &&
+            m_playModel.getCoord().getCol() == coord.getCol())
         {
-            if (m_coordModel.getCoord().getDir() == Coord::VERTICAL)
+            if (m_playModel.getCoord().getDir() == Coord::VERTICAL)
             {
                 // Third click: clear the arrow
-                m_coordModel.clear();
+                m_playModel.clear();
                 return;
             }
             coord.setDir(Coord::VERTICAL);
         }
         // Take into acount the new coordinates
-        m_coordModel.setCoord(coord);
+        m_playModel.setCoord(coord);
     }
     else if (iEvent->button() == Qt::RightButton)
     {
         // On a right click anywhere on the board, remove the arrow
-        m_coordModel.clear();
+        m_playModel.clear();
     }
 #endif
 #if 0
@@ -279,23 +279,23 @@ void BoardWidget::tileClicked(int row, int col, QMouseEvent *iEvent)
         Coord coord(row, col, Coord::HORIZONTAL);
         // Remove the coordinates if they are exactly the same as the current ones,
         // otherwise set the coordinates;
-        if (m_coordModel.getCoord() == coord)
-            m_coordModel.clear();
+        if (m_playModel.getCoord() == coord)
+            m_playModel.clear();
         else
-            m_coordModel.setCoord(coord);
+            m_playModel.setCoord(coord);
     }
     else if (iEvent->button() == Qt::RightButton)
     {
         Coord coord(row, col, Coord::VERTICAL);
         // Remove the coordinates if they are exactly the same as the current ones,
         // otherwise set the coordinates;
-        if (m_coordModel.getCoord() == coord)
-            m_coordModel.clear();
+        if (m_playModel.getCoord() == coord)
+            m_playModel.clear();
         else
-            m_coordModel.setCoord(coord);
+            m_playModel.setCoord(coord);
     }
     else
-        m_coordModel.clear();
+        m_playModel.clear();
 #endif
 }
 

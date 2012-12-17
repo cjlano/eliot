@@ -33,7 +33,7 @@ class QLineEdit;
 class QPushButton;
 class PublicGame;
 class Coord;
-class CoordModel;
+class PlayModel;
 class Dictionary;
 
 /**
@@ -58,7 +58,7 @@ public:
     PlayWordMediator(QObject *parent, QLineEdit &iEditWord,
                      QLineEdit &iEditCoord, QLineEdit &iEditPoints,
                      QPushButton &iButtonPlay,
-                     CoordModel &iCoordModel, PublicGame *iGame);
+                     PlayModel &iPlayModel, PublicGame *iGame);
 
     /**
      * Set the focus on the editWord QLineEdit, unless the focus
@@ -99,7 +99,7 @@ private:
     QLineEdit &m_lineEditCoord;
     QLineEdit &m_lineEditPoints;
     QPushButton &m_pushButtonPlay;
-    CoordModel &m_coordModel;
+    PlayModel &m_playModel;
 
     /**
      * Wrapper around GetPlayedWord(), more practical to use.

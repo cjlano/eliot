@@ -29,7 +29,7 @@
 
 class PublicGame;
 class TileWidget;
-class CoordModel;
+class PlayModel;
 class Coord;
 
 class BoardWidget: public QFrame
@@ -38,7 +38,7 @@ class BoardWidget: public QFrame
     DEFINE_LOGGER();
 
 public:
-    explicit BoardWidget(CoordModel &iCoordModel, QWidget *parent = 0);
+    explicit BoardWidget(PlayModel &iPlayModel, QWidget *parent = 0);
     void setShowTempSigns(bool iShow) { m_showTemporarySigns = iShow; }
     void setShowOnlyLastTurn(bool iShow) { m_showOnlyLastTurn = iShow; }
 
@@ -63,7 +63,7 @@ private:
     const PublicGame *m_game;
 
     /// Coordinates of the next word to play
-    CoordModel &m_coordModel;
+    PlayModel &m_playModel;
 
     /// Indicate whether to draw the arrow and the previewed word on the board
     bool m_showTemporarySigns;

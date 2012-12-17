@@ -59,7 +59,7 @@ EXTRA_DIST = \
 
 eliot_SOURCES = \
     qtcommon.h qtcommon.cpp \
-    coord_model.h coord_model.cpp \
+    play_model.h play_model.cpp \
     tile_widget.cpp tile_widget.h \
     rack_widget.cpp rack_widget.h \
     timer_widget.cpp timer_widget.h \
@@ -102,7 +102,7 @@ nodist_eliot_SOURCES = \
     ui/dic_wizard_info_page.ui.h \
     ui/dic_wizard_letters_def_page.ui.h \
     ui/dic_wizard_conclusion_page.ui.h \
-    coord_model.moc.cpp \
+    play_model.moc.cpp \
     tile_widget.moc.cpp \
     rack_widget.moc.cpp \
     timer_widget.moc.cpp \

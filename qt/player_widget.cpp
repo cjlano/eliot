@@ -29,7 +29,7 @@
 #include "player.h"
 #include "pldrack.h"
 #include "coord.h"
-#include "coord_model.h"
+#include "play_model.h"
 #include "dic.h"
 #include "debug.h"
 
@@ -39,7 +39,7 @@
 INIT_LOGGER(qt, PlayerWidget);
 
 
-PlayerWidget::PlayerWidget(QWidget *parent, CoordModel &iCoordModel,
+PlayerWidget::PlayerWidget(QWidget *parent, PlayModel &iPlayModel,
                            unsigned int iPlayerNb, PublicGame *iGame)
     : QWidget(parent), m_game(iGame), m_player(iPlayerNb)
 {
@@ -48,7 +48,7 @@ PlayerWidget::PlayerWidget(QWidget *parent, CoordModel &iCoordModel,
     // Use the mediator
     m_mediator = new PlayWordMediator(this, *lineEditPlay, *lineEditCoords,
                                       *lineEditPoints, *pushButtonPlay,
-                                      iCoordModel, iGame);
+                                      iPlayModel, iGame);
     QObject::connect(m_mediator, SIGNAL(gameUpdated()),
                      this, SIGNAL(gameUpdated()));
     QObject::connect(m_mediator, SIGNAL(notifyProblem(QString)),
@@ -201,8 +201,8 @@ void PlayerWidget::helperChangePass(QString inputLetters)
 
 
 
-PlayerTabWidget::PlayerTabWidget(CoordModel &iCoordModel, QWidget *parent)
-    : QTabWidget(parent), m_game(NULL), m_coordModel(iCoordModel)
+PlayerTabWidget::PlayerTabWidget(PlayModel &iPlayModel, QWidget *parent)
+    : QTabWidget(parent), m_game(NULL), m_playModel(iPlayModel)
 {
     QObject::connect(this, SIGNAL(currentChanged(int)),
                      this, SLOT(changeCurrentPlayer(int)));
@@ -230,7 +230,7 @@ void PlayerTabWidget::setGame(PublicGame *iGame)
         for (unsigned int i = 0; i < iGame->getNbPlayers(); ++i)
         {
             const Player &player = iGame->getPlayer(i);
-            PlayerWidget *p = new PlayerWidget(NULL, m_coordModel, i, iGame);
+            PlayerWidget *p = new PlayerWidget(NULL, m_playModel, i, iGame);
             QObject::connect(this, SIGNAL(refreshSignal()), p, SLOT(refresh()));
             // Forward signals to the outside
             QObject::connect(p, SIGNAL(notifyProblem(QString)),
@@ -267,7 +267,7 @@ void PlayerTabWidget::changeCurrentPlayer(int p)
     if (m_game == NULL)
         return;
 
-    m_coordModel.clear();
+    m_playModel.clear();
 
     // Change the active player when the active tab changes
     // (only in duplicate mode)

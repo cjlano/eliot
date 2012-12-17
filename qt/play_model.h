@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef COORD_MODEL_H_
-#define COORD_MODEL_H_
+#ifndef PLAY_MODEL_H_
+#define PLAY_MODEL_H_
 
 #include <QObject>
 
@@ -27,7 +27,7 @@
 #include "logging.h"
 
 
-class CoordModel: public QObject
+class PlayModel: public QObject
 {
     Q_OBJECT;
     DEFINE_LOGGER();

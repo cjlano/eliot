@@ -31,7 +31,7 @@
 class QLineEdit;
 class PublicGame;
 class PlayWordMediator;
-class CoordModel;
+class PlayModel;
 class Coord;
 
 class PlayerWidget: public QWidget, private Ui::PlayerWidget
@@ -41,7 +41,7 @@ class PlayerWidget: public QWidget, private Ui::PlayerWidget
 
 public:
     explicit PlayerWidget(QWidget *parent,
-                          CoordModel &iCoordModel,
+                          PlayModel &iPlayModel,
                           unsigned int iPlayerNb = 0,
                           PublicGame *iGame = NULL);
 
@@ -82,7 +82,7 @@ class PlayerTabWidget: public QTabWidget
     Q_OBJECT;
 
 public:
-    explicit PlayerTabWidget(CoordModel &iCoordModel, QWidget *parent = 0);
+    explicit PlayerTabWidget(PlayModel &iPlayModel, QWidget *parent = 0);
 
 public slots:
     void setGame(PublicGame *iGame);
@@ -103,7 +103,7 @@ private:
     PublicGame *m_game;
 
     /// Model for the word coordinates
-    CoordModel &m_coordModel;
+    PlayModel &m_playModel;
 };
 
 #endif

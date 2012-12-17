@@ -26,7 +26,7 @@
 
 #include <ui/main_window.ui.h>
 #include "logging.h"
-#include "coord_model.h"
+#include "play_model.h"
 
 
 using std::string;
@@ -194,7 +194,7 @@ private:
     QLabel *m_dicNameLabel;
 
     /// Model for the coordinates of the word to play
-    CoordModel m_coordModel;
+    PlayModel m_playModel;
 
     /// Model for the timer widgets
     TimerModel *m_timerModel;

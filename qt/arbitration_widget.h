@@ -30,7 +30,7 @@
 
 class PublicGame;
 class ArbitAssignments;
-class CoordModel;
+class PlayModel;
 class CustomPopup;
 class KeyAccumulator;
 class QStandardItemModel;
@@ -47,7 +47,7 @@ class ArbitrationWidget: public QWidget, private Ui::ArbitrationWidget
 public:
     ArbitrationWidget(QWidget *parent,
                       PublicGame *iGame,
-                      CoordModel &iCoordModel);
+                      PlayModel &iPlayModel);
 
 signals:
     void gameUpdated();
@@ -71,7 +71,7 @@ private slots:
     void updateSelectedMove();
     void showPreview(const QItemSelection &);
     void updateCoordText(const Coord&, const Coord&);
-    void updateCoordModel(const QString&);
+    void updatePlayModel(const QString&);
     void populateResultsMenu(QMenu &iMenu, const QPoint &iPoint);
     void selectTableNumber(int key);
     void endOfTurnRefresh();
@@ -84,7 +84,7 @@ private:
     ArbitAssignments * m_assignmentsWidget;
 
     /// Coordinates of the next word to play
-    CoordModel &m_coordModel;
+    PlayModel &m_playModel;
 
     /// Search results
     LimitResults m_results;
