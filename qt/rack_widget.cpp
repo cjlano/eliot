@@ -41,6 +41,7 @@ RackWidget::RackWidget(QWidget *parent)
 
     TileLayout *layout = new TileLayout(1);
     layout->setSpacing(5);
+    layout->setAlignment(Qt::AlignCenter);
     setLayout(layout);
 }
 
