@@ -197,10 +197,11 @@ void BoardWidget::paintEvent(QPaintEvent *)
     const int size = boardLayout->getSquareSize();
     const int spacing = boardLayout->spacing();
 
+    // Draw lines between tiles
     QLine hLine(0, 0, rect.width() + 1, 0);
     QLine vLine(0, 0, 0, rect.height() + 1);
-    hLine.translate(size, size);
-    vLine.translate(size, size);
+    hLine.translate(rect.left() - 1, rect.top() - 1);
+    vLine.translate(rect.left() - 1, rect.top() - 1);
     for (int i = 0; i <= BOARD_MAX; ++i)
     {
         painter.drawLine(hLine);
@@ -208,7 +209,7 @@ void BoardWidget::paintEvent(QPaintEvent *)
         hLine.translate(0, size + spacing);
         vLine.translate(size + spacing, 0);
     }
-    //painter.drawRect(rect);
+    // Draw a second line around the board, so that it looks nicer
     painter.drawRect(rect.adjusted(-2, -2, 1, 1));
 }
 
