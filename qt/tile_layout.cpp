@@ -178,30 +178,32 @@ void TileLayout::setGeometry(const QRect &rect)
     const int squareSize = squareSizeWithSpacing - spacing();
 
     // Handle margins and alignment
-    int x = contentsRect().left() + contentsMargins().left();
+    int left = contentsRect().left() + contentsMargins().left();
     if (alignment() & Qt::AlignRight)
-        x += width - m_nbCols * squareSizeWithSpacing;
+        left += width - m_nbCols * squareSizeWithSpacing;
     else if (alignment() & Qt::AlignHCenter)
-        x += (width - m_nbCols * squareSizeWithSpacing) / 2;
-    int y = contentsRect().top() + contentsMargins().top();
+        left += (width - m_nbCols * squareSizeWithSpacing) / 2;
+    int top = contentsRect().top() + contentsMargins().top();
     if (alignment() & Qt::AlignBottom)
-        y += height - m_nbRows * squareSizeWithSpacing;
+        top += height - m_nbRows * squareSizeWithSpacing;
     else if (alignment() & Qt::AlignVCenter)
-        y += (height - m_nbRows * squareSizeWithSpacing) / 2;
+        top += (height - m_nbRows * squareSizeWithSpacing) / 2;
 
     // Resize items
     int nbInRow = 1;
     QLayoutItem *item;
+    int x = left;
+    int y = top;
     foreach (item, m_items)
     {
         QRect itemRect(QPoint(x, y), QSize(squareSize, squareSize));
         item->setGeometry(itemRect);
-        x += squareSize + spacing();
+        x += squareSizeWithSpacing;
         ++nbInRow;
         if (nbInRow > m_nbCols)
         {
-            x = 0;
-            y += squareSize + spacing();
+            x = left;
+            y += squareSizeWithSpacing;
             nbInRow = 1;
         }
     }
