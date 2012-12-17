@@ -182,7 +182,7 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
 
     // Coordinates model
     QObject::connect(&m_playModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
-                     this, SLOT(updateCoordText(const Coord&, const Coord&)));
+                     this, SLOT(updateCoordText(const Coord&)));
     QObject::connect(lineEditCoords, SIGNAL(textChanged(const QString&)),
                      this, SLOT(updatePlayModel(const QString&)));
 
@@ -448,7 +448,7 @@ void ArbitrationWidget::resultsFilterChanged(const QString &iFilter)
 }
 
 
-void ArbitrationWidget::updateCoordText(const Coord &, const Coord &iNewCoord)
+void ArbitrationWidget::updateCoordText(const Coord &iNewCoord)
 {
     if (iNewCoord.isValid() && lineEditCoords->text() != qfw(iNewCoord.toString()))
         lineEditCoords->setText(qfw(iNewCoord.toString()));

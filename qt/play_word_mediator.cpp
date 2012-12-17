@@ -64,7 +64,7 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
     QObject::connect(&m_pushButtonPlay, SIGNAL(clicked()),
                      this, SLOT(playWord()));
     QObject::connect(&m_playModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
-                     this, SLOT(updateCoord(const Coord&, const Coord&)));
+                     this, SLOT(updateCoord(const Coord&)));
 }
 
 
@@ -220,7 +220,7 @@ void PlayWordMediator::onCoordChanged(const QString &iText)
 }
 
 
-void PlayWordMediator::updateCoord(const Coord &, const Coord &iNewCoord)
+void PlayWordMediator::updateCoord(const Coord &iNewCoord)
 {
     // Ignore updates to non-visible controls (which happens when there
     // are several human players).

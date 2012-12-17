@@ -91,7 +91,7 @@ private slots:
     void playWord();
     void updatePointsAndState();
     void onCoordChanged(const QString &iText);
-    void updateCoord(const Coord &, const Coord &iNewCoord);
+    void updateCoord(const Coord &iNewCoord);
 
 private:
     PublicGame *m_game;

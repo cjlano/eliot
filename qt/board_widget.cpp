@@ -111,7 +111,7 @@ void BoardWidget::setGame(const PublicGame *iGame)
 }
 
 
-void BoardWidget::updateArrow(const Coord &iOldCoord, const Coord &iNewCoord)
+void BoardWidget::updateArrow(const Coord &iNewCoord, const Coord &iOldCoord)
 {
     // Refresh only the 2 involved squares
     if (iOldCoord.isValid())

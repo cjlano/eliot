@@ -70,7 +70,7 @@ private slots:
     void checkWord();
     void updateSelectedMove();
     void showPreview(const QItemSelection &);
-    void updateCoordText(const Coord&, const Coord&);
+    void updateCoordText(const Coord&);
     void updatePlayModel(const QString&);
     void populateResultsMenu(QMenu &iMenu, const QPoint &iPoint);
     void selectTableNumber(int key);

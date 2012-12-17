@@ -56,7 +56,7 @@ protected:
 
 private slots:
     void tileClicked(int row, int col, QMouseEvent *iEvent);
-    void updateArrow(const Coord &iOldCoord, const Coord &iNewCoord);
+    void updateArrow(const Coord &iNewCoord, const Coord &iOldCoord);
 
 private:
     /// Encapsulated game, can be NULL
