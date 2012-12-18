@@ -231,7 +231,7 @@ void PlayWordMediator::updateCoord(const Coord &iNewCoord)
         m_lineEditCoord.setText(qfw(iNewCoord.toString()));
     else if (!iNewCoord.isValid() && m_lineEditCoord.hasAcceptableInput())
         m_lineEditCoord.setText("");
-    // Set the focus to the "Play word" zone is the focus is not
+    // Set the focus to the "Play word" zone if the focus is not
     // already on a QLineEdit (because of a click on the board)
     setCleverFocus();
 
