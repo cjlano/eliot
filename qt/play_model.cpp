@@ -24,6 +24,13 @@
 INIT_LOGGER(qt, PlayModel);
 
 
+void PlayModel::clear()
+{
+    setCoord(Coord());
+    setWord(L"");
+}
+
+
 void PlayModel::setCoord(const Coord &iCoord)
 {
     // Avoid useless work
@@ -36,8 +43,14 @@ void PlayModel::setCoord(const Coord &iCoord)
 }
 
 
-void PlayModel::clear()
+void PlayModel::setWord(const wstring &iWord)
 {
-    setCoord(Coord());
+    // Avoid useless work
+    if (iWord == m_currWord)
+        return;
+
+    m_prevWord = m_currWord;
+    m_currWord = iWord;
+    emit wordChanged(iWord, m_prevWord);
 }
 

@@ -21,29 +21,54 @@
 #ifndef PLAY_MODEL_H_
 #define PLAY_MODEL_H_
 
+#include <string>
 #include <QObject>
 
 #include "coord.h"
 #include "logging.h"
 
+using std::wstring;
 
+
+/**
+ * Encapsulate a move being played (possibly incomplete).
+ * There is usually only one instance of this class.
+ *
+ * A PlayModel contains the word typed by the user and the coordinates of the word.
+ * Signals are emitted every time one of these values changes: this allows various
+ * useful things, such as:
+ *  - keeping the arrow on the board synchronized with the typed coordinates
+ *  - keeping the word preview on the board synchronized with the typed letters,
+ *    and with the remaining letters in the rack
+ */
 class PlayModel: public QObject
 {
     Q_OBJECT;
     DEFINE_LOGGER();
 
 public:
-    void setCoord(const Coord &iCoord);
+    /**
+     * Remove the word and the coordinates.
+     * This may emit both the wordChanged() and the coordChanged() signals.
+     */
     void clear();
 
-    const Coord &getCoord() const { return m_currCoord; }
+    void setCoord(const Coord &iCoord);
+    const Coord & getCoord() const { return m_currCoord; }
+
+    void setWord(const wstring &iWord);
+    const wstring & getWord() const { return m_currWord; }
 
 signals:
     void coordChanged(const Coord &iNewCoord, const Coord &iOldCoord);
+    void wordChanged(const wstring &iNewWord, const wstring &iOldWord);
 
 private:
     Coord m_currCoord;
     Coord m_prevCoord;
+
+    wstring m_currWord;
+    wstring m_prevWord;
 };
 
 #endif
