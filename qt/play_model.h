@@ -37,7 +37,6 @@ public:
     void clear();
 
     const Coord &getCoord() const { return m_currCoord; }
-    const Coord &getPrevCoord() const { return m_prevCoord; }
 
 signals:
     void coordChanged(const Coord &iNewCoord, const Coord &iOldCoord);
