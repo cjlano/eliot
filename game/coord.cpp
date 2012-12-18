@@ -100,6 +100,9 @@ void Coord::setFromString(const wstring &iWStr)
     int row = toupper(*l) - 'A' + 1;
     setCol(col);
     setRow(row);
+    // Input such as "A12foo#bar&stuff" should be invalid
+    if (isValid() && toString() != iWStr)
+        setCol(-1);
 }
 
 wstring Coord::toString(coord_mode_t mode) const
