@@ -21,13 +21,18 @@
 #ifndef RACK_WIDGET_H_
 #define RACK_WIDGET_H_
 
+#include <vector>
 #include <QtGui/QFrame>
 
 #include "tile.h"
 #include "logging.h"
 
+using std::vector;
+
+
 class PublicGame;
 class TileWidget;
+class PlayedRack;
 
 
 /**
@@ -45,6 +50,7 @@ public:
 public slots:
     void setGame(const PublicGame *iGame);
     void refresh();
+    void setRack(const vector<Tile> &iTiles);
 
 private:
     /// Encapsulated tiles

@@ -68,30 +68,39 @@ void RackWidget::refresh()
     if (m_showOnlyLastTurn && !m_game->isLastTurn())
         return;
 
-    // Get the rack
+    // Get the tiles
     vector<Tile> tiles;
     m_game->getCurrentRack().getAllTiles(tiles);
 
+    // Update the rack
+    setRack(tiles);
+}
+
+
+void RackWidget::setRack(const vector<Tile> &iTiles)
+{
+    unsigned tilesCount = iTiles.size();
+
     // Make sure we have as many widgets as there are letters in the rack
-    while (m_tilesVect.size() > tiles.size())
+    while (m_tilesVect.size() > tilesCount)
     {
         QtCommon::DestroyObject(m_tilesVect.back());
         m_tilesVect.pop_back();
     }
-    while (m_tilesVect.size() < tiles.size())
+    while (m_tilesVect.size() < tilesCount)
     {
         TileWidget *tileWidget = new TileWidget;
         tileWidget->setBorder(2);
         layout()->addWidget(tileWidget);
         m_tilesVect.push_back(tileWidget);
     }
-    ASSERT(m_tilesVect.size() == tiles.size(), "Invalid number of tiles");
+    ASSERT(m_tilesVect.size() == tilesCount, "Invalid number of tiles");
 
     // Update the widgets
-    for (unsigned int i = 0; i < tiles.size(); ++i)
+    for (unsigned int i = 0; i < tilesCount; ++i)
     {
         TileWidget *tileWidget = m_tilesVect[i];
-        tileWidget->tileChanged(TileWidget::NORMAL, tiles[i]);
+        tileWidget->tileChanged(TileWidget::NORMAL, iTiles[i]);
     }
 }
 
