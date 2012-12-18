@@ -47,6 +47,8 @@ class PlayModel: public QObject
     DEFINE_LOGGER();
 
 public:
+    PlayModel();
+
     /**
      * Remove the word and the coordinates.
      * This may emit both the wordChanged() and the coordChanged() signals.
@@ -62,6 +64,11 @@ public:
 signals:
     void coordChanged(const Coord &iNewCoord, const Coord &iOldCoord);
     void wordChanged(const wstring &iNewWord, const wstring &iOldWord);
+    /// Emitted whenever coordChanged() or wordChanged() is emitted
+    void moveChanged(const wstring &iWord, const Coord &iCoord);
+
+private slots:
+    void onMoveChanged();
 
 private:
     Coord m_currCoord;

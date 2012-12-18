@@ -24,6 +24,15 @@
 INIT_LOGGER(qt, PlayModel);
 
 
+PlayModel::PlayModel()
+{
+    QObject::connect(this, SIGNAL(coordChanged(const Coord&, const Coord&)),
+                     this, SLOT(onMoveChanged()));
+    QObject::connect(this, SIGNAL(wordChanged(const wstring&, const wstring&)),
+                     this, SLOT(onMoveChanged()));
+}
+
+
 void PlayModel::clear()
 {
     setCoord(Coord());
@@ -52,5 +61,11 @@ void PlayModel::setWord(const wstring &iWord)
     m_prevWord = m_currWord;
     m_currWord = iWord;
     emit wordChanged(iWord, m_prevWord);
+}
+
+
+void PlayModel::onMoveChanged()
+{
+    emit moveChanged(m_currWord, m_currCoord);
 }
 
