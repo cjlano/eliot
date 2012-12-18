@@ -461,8 +461,7 @@ void ArbitrationWidget::updateCoordText(const Coord &iNewCoord)
 void ArbitrationWidget::updatePlayModel(const QString &iText)
 {
     Coord coord(wfq(iText));
-    if (!(m_playModel.getCoord() == coord))
-        m_playModel.setCoord(coord);
+    m_playModel.setCoord(coord);
 }
 
 

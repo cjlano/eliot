@@ -26,6 +26,10 @@ INIT_LOGGER(qt, PlayModel);
 
 void PlayModel::setCoord(const Coord &iCoord)
 {
+    // Avoid useless work
+    if (iCoord == m_currCoord)
+        return;
+
     m_prevCoord = m_currCoord;
     m_currCoord = iCoord;
     emit coordChanged(iCoord, m_prevCoord);
