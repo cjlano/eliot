@@ -84,6 +84,16 @@ string centerAndConvert(const wstring &iWstr, unsigned int iLength,
                         char c = ' ');
 
 /**
+ * Return the upper case version of the given string
+ */
+wstring toUpper(const wstring &iWstr);
+
+/**
+ * Return the lower case version of the given string
+ */
+wstring toLower(const wstring &iWstr);
+
+/**
  * Utility function to convert a char* buffer encoded in UTF-8 into a
  * wchar_t* string
  * @param oString: where to write the converted string

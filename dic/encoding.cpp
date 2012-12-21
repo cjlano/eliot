@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <algorithm>
 #include <sstream>
 #include <cstdlib>
 #include <cstdarg>
@@ -284,6 +285,22 @@ string centerAndConvert(const wstring &iWstr, unsigned int iLength, char c)
         }
         return res;
     }
+}
+
+
+wstring toUpper(const wstring &iWstr)
+{
+    wstring str = iWstr;
+    std::transform(str.begin(), str.end(), str.begin(), towupper);
+    return str;
+}
+
+
+wstring toLower(const wstring &iWstr)
+{
+    wstring str = iWstr;
+    std::transform(str.begin(), str.end(), str.begin(), towlower);
+    return str;
 }
 
 
