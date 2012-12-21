@@ -94,7 +94,7 @@ void Coord::setFromString(const wstring &iWStr)
     setCol(col);
     setRow(row);
     // Input such as "A12foo#bar&stuff" should be invalid
-    if (isValid() && toString() != iWStr)
+    if (isValid() && toString() != toUpper(iWStr))
         setCol(-1);
 }
 
