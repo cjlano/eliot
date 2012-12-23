@@ -19,8 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <wctype.h>
-#include <algorithm>
+#include <cwctype>
 #include <cstdio>
 
 #include "dic.h"
@@ -32,6 +31,7 @@
 #include "round.h"
 #include "rack.h"
 #include "results.h"
+#include "encoding.h"
 #include "debug.h"
 
 #define oo 0
@@ -129,7 +129,7 @@ wstring Board::getDisplayStr(int iRow, int iCol) const
            "Trying to get the display string on an empty board square");
     wstring str = getTile(iRow, iCol).getDisplayStr();
     if (isJoker(iRow, iCol))
-        std::transform(str.begin(), str.end(), str.begin(), towlower);
+        str = toLower(str);
     return str;
 }
 

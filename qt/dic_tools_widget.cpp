@@ -22,7 +22,6 @@
 
 #include <map>
 #include <vector>
-#include <algorithm>
 #include <fstream>
 #include <QtGui/QTreeView>
 #include <QtGui/QStandardItemModel>
@@ -39,6 +38,7 @@
 #include "dic.h"
 #include "header.h"
 #include "listdic.h"
+#include "encoding.h"
 #include "dic_exception.h"
 
 using namespace std;
@@ -169,7 +169,7 @@ void DicToolsWidget::refreshCheck()
         wstring input = m_dic->convertFromInput(wfq(rack->text()));
         bool res = m_dic->searchWord(input);
         // Convert the input to uppercase
-        std::transform(input.begin(), input.end(), input.begin(), towupper);
+        input = toUpper(input);
         const wdstring &dispStr = m_dic->convertToDisplay(input);
         if (res)
         {

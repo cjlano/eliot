@@ -23,7 +23,6 @@
 #include <cstring>
 #include <cwchar>
 #include <cwctype>
-#include <algorithm>
 
 #include "dic_internals.h"
 #include "dic_exception.h"
@@ -233,8 +232,7 @@ void Dictionary::searchRacc(const wstring &iWord,
     // Transform the given word to make it suitable for display
     wdstring displayWord = convertToDisplay(iWord);
     // Make it uppercase
-    std::transform(displayWord.begin(), displayWord.end(),
-                   displayWord.begin(), towupper);
+    displayWord = toUpper(displayWord);
 
     // Try to add a letter at the front
     const wstring &letters = getHeader().getLetters();
@@ -288,8 +286,7 @@ void Dictionary::searchBenj(const wstring &iWord, vector<wdstring> &oWordList,
     // Transform the given word to make it suitable for display
     wdstring displayWord = convertToDisplay(iWord);
     // Make it uppercase
-    std::transform(displayWord.begin(), displayWord.end(),
-                   displayWord.begin(), towupper);
+    displayWord = toUpper(displayWord);
 
     const DicEdge *edge0, *edge1, *edge2, *edgetst;
     edge0 = getEdgeAt(getRoot());

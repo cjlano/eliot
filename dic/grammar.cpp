@@ -31,6 +31,7 @@
 
 #include "dic.h"
 #include "header.h"
+#include "encoding.h"
 #include "regexp.h"
 
 using namespace boost::spirit::classic;
@@ -54,9 +55,7 @@ struct RegexpGrammar : grammar<RegexpGrammar>
 
     RegexpGrammar(const wstring &letters)
     {
-        wstring lower = letters;
-        std::transform(lower.begin(), lower.end(), lower.begin(), towlower);
-        m_allLetters = letters + lower;
+        m_allLetters = letters + toLower(letters);
     }
 
     template <typename ScannerT>
@@ -138,8 +137,7 @@ void evaluate(const Header &iHeader, iter_t const& i, stack<Node*> &evalStack,
 
         wstring choiceLetters(i->value.begin(), i->value.end());
         // Make sure the letters are in upper case
-        std::transform(choiceLetters.begin(), choiceLetters.end(),
-                       choiceLetters.begin(), towupper);
+        choiceLetters = toUpper(choiceLetters);
         // The dictionary letters are already in upper case
         const wstring &letters = iHeader.getLetters();
         wstring::const_iterator itLetter;

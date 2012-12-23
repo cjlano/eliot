@@ -18,7 +18,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <algorithm> // For std::transform
 #include <QtGui/QPainter>
 #include <QtGui/QPaintEvent>
 #include <QtCore/QSettings>
@@ -27,6 +26,7 @@
 #include "prefs_dialog.h"
 #include "qtcommon.h"
 #include "tile.h"
+#include "encoding.h"
 
 using namespace std;
 
@@ -181,9 +181,8 @@ void TileWidget::paintEvent(QPaintEvent *iEvent)
     // Draw the letter
     if (!m_tile.isEmpty())
     {
-        wstring chr = m_tile.getDisplayStr();
+        wstring chr = toUpper(m_tile.getDisplayStr());
         // Make the display char in upper case
-        std::transform(chr.begin(), chr.end(), chr.begin(), towupper);
         painter.setPen(m_isJoker ? TextJokerColour : TextNormalColour);
         painter.setFont(letterFont);
         if (!m_tile.isPureJoker())

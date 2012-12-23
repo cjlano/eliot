@@ -20,13 +20,13 @@
 
 #include <boost/foreach.hpp>
 
-#include <algorithm>
 #include <wctype.h>
 #include <sstream>
 
 #include "move.h"
 #include "rack.h"
 #include "pldrack.h"
+#include "encoding.h"
 #include "debug.h"
 
 
@@ -60,8 +60,7 @@ Move::Move(const wstring &iLetters)
     : m_score(0), m_letters(iLetters)
 {
     // Make the letters uppercase
-    std::transform(m_letters.begin(), m_letters.end(),
-                   m_letters.begin(), towupper);
+    m_letters = toUpper(m_letters);
 
     if (m_letters.empty())
         m_type = PASS;

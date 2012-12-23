@@ -22,7 +22,6 @@
 #include "config.h"
 
 #include <fstream>
-#include <algorithm>
 #include <cstdlib>
 #include <cstring>
 #include <cerrno>
@@ -45,6 +44,7 @@
 #include "header.h"
 #include "dic_exception.h"
 #include "dic_internals.h"
+#include "encoding.h"
 #include "tile.h"
 
 
@@ -81,14 +81,10 @@ Dictionary::Dictionary(const string &iPath)
     initializeTiles();
 
     // Concatenate the uppercase and lowercase letters
-    wstring lower = m_header->getLetters();
-    std::transform(lower.begin(), lower.end(), lower.begin(), towlower);
-    m_allLetters = m_header->getLetters() + lower;
+    m_allLetters = m_header->getLetters() + toLower(m_header->getLetters());
 
     // Same for the input characters
-    lower = m_header->getInputChars();
-    std::transform(lower.begin(), lower.end(), lower.begin(), towlower);
-    m_allInputChars = m_header->getInputChars() + lower;
+    m_allInputChars = m_header->getInputChars() + toLower(m_header->getInputChars());
 
     // Build the cache for the convertToDisplay() and convertFromInput()
     // methods.
@@ -100,10 +96,9 @@ Dictionary::Dictionary(const string &iPath)
         BOOST_FOREACH(wstring str, it->second)
         {
             // Make sure the string is in uppercase
-            std::transform(str.begin(), str.end(), str.begin(), towupper);
+            str = toUpper(str);
             // Make a lowercase copy
-            wstring lower = str;
-            std::transform(lower.begin(), lower.end(), lower.begin(), towlower);
+            wstring lower = toLower(str);
             // Fill the cache
             m_displayInputCache[towupper(it->first)].push_back(str);
             m_displayInputCache[towlower(it->first)].push_back(lower);

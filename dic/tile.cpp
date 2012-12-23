@@ -21,13 +21,15 @@
 
 #include <sstream>
 #include <string>
-#include <algorithm>
-#include <wctype.h>
+#include <cwctype>
 #include "tile.h"
 #include "header.h"
 #include "encoding.h"
 #include "dic_exception.h"
 #include "debug.h"
+
+
+using namespace std;
 
 
 INIT_LOGGER(dic, Tile);
@@ -114,9 +116,7 @@ wstring Tile::getDisplayStr() const
         throw DicException("Tile::getDisplayStr: Invalid tile");
     if (m_joker && iswalpha(m_char))
     {
-        wstring str = m_header->getDisplayStr(m_code);
-        std::transform(str.begin(), str.end(), str.begin(), towlower);
-        return str;
+        return ::toLower(m_header->getDisplayStr(m_code));
     }
     return m_header->getDisplayStr(m_code);
 }

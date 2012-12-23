@@ -19,8 +19,6 @@
  *****************************************************************************/
 
 #include <boost/foreach.hpp>
-#include <algorithm> // For transform
-#include <cwctype> // For towupper
 
 #include "arbitration.h"
 #include "rack.h"
@@ -62,9 +60,7 @@ void Arbitration::setRackManual(const wstring &iLetters)
     // coming from user input. We do not consider a lowercase
     // letter to be a joker which has been assigned to a letter.
     // As a result, we simply make all the letters uppercase
-    wstring upperLetters = iLetters;
-    std::transform(upperLetters.begin(), upperLetters.end(),
-                   upperLetters.begin(), towupper);
+    const wstring &upperLetters = toUpper(iLetters);
     const PlayedRack &newRack = helperSetRackManual(false, upperLetters);
     setGameAndPlayersRack(newRack);
 }

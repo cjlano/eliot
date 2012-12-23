@@ -21,7 +21,6 @@
 
 #include <string>
 #include <sstream>
-#include <algorithm> // For std::transform
 #include <wctype.h>
 #include "tile.h"
 #include "round.h"
@@ -124,7 +123,7 @@ wstring Round::getWord() const
     {
         wstring chr = getTile(i).getDisplayStr();
         if (isJoker(i))
-            std::transform(chr.begin(), chr.end(), chr.begin(), towlower);
+            chr = toLower(chr);
         s += chr;
     }
     return s;

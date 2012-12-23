@@ -19,9 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <algorithm>
-#include <cwctype> // For towupper
-
 #include "config.h"
 #if ENABLE_NLS
 #   include <libintl.h>
@@ -77,9 +74,7 @@ void Training::setRackManual(bool iCheck, const wstring &iLetters)
     // coming from user input. We do not consider a lowercase
     // letter to be a joker which has been assigned to a letter.
     // As a result, we simply make all the letters uppercase
-    wstring upperLetters = iLetters;
-    std::transform(upperLetters.begin(), upperLetters.end(),
-                   upperLetters.begin(), towupper);
+    wstring upperLetters = toUpper(iLetters);
     const PlayedRack &newRack = helperSetRackManual(iCheck, upperLetters);
     Command *pCmd1 = new GameRackCmd(*this, newRack);
     pCmd1->setHumanIndependent(false);

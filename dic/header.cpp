@@ -637,9 +637,7 @@ wstring Header::writeDisplayAndInput() const
         BOOST_FOREACH(const wstring &str, it->second)
         {
             // Make sure the string is uppercase
-            wstring upStr = str;
-            std::transform(upStr.begin(), upStr.end(), upStr.begin(), towupper);
-            serialized += L"|" + upStr;
+            serialized += L"|" + toUpper(str);
         }
     }
     return serialized;
