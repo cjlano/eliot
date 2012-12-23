@@ -171,7 +171,7 @@ public:
 
     /**
      * This function checks whether it is legal to play the given word at the
-     * given coordinates. If so, the function fills a Round object, also given
+     * given coordinates. If so, the function fills a Move object, also given
      * as a parameter.
      * Possible return values: same as the play() method
      * If checkRack is false, the return value 4 is impossible to get
@@ -179,7 +179,7 @@ public:
      */
     int checkPlayedWord(const wstring &iCoord,
                         const wstring &iWord,
-                        Round &oRound,
+                        Move &oMove,
                         bool checkRack = true) const;
 
 private:

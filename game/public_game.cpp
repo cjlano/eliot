@@ -161,11 +161,11 @@ int PublicGame::play(const wstring &iWord, const wstring &iCoord)
 
 int PublicGame::computePoints(const wstring &iWord, const wstring &iCoord) const
 {
-    Round round;
-    int res = m_game.checkPlayedWord(iCoord, iWord, round);
+    Move move;
+    int res = m_game.checkPlayedWord(iCoord, iWord, move);
     if (res > 0)
         return -res;
-    return round.getPoints();
+    return move.getScore();
 }
 
 

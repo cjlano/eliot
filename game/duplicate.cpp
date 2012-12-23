@@ -71,27 +71,16 @@ int Duplicate::play(const wstring &iCoord, const wstring &iWord)
     ASSERT(!hasPlayed(m_currPlayer), "Human player has already played");
 
     // Perform all the validity checks, and try to fill a round
-    Round round;
-    int res = checkPlayedWord(iCoord, iWord, round);
+    Move move;
+    int res = checkPlayedWord(iCoord, iWord, move);
     if (res != 0 && Settings::Instance().getBool("duplicate.reject-invalid"))
     {
         return res;
     }
 
     // If we reach this point, either the move is valid and we can use the
-    // "round" variable, or it is invalid but played nevertheless
-    if (res == 0)
-    {
-        // Everything is OK, we can play the word
-        recordPlayerMove(currPlayer, Move(round));
-    }
-    else
-    {
-        // Convert the invalid word for display
-        const wdstring &dispWord = getDic().convertToDisplay(iWord);
-        // Record the invalid move of the player
-        recordPlayerMove(currPlayer, Move(dispWord, iCoord));
-    }
+    // "move" variable, or it is invalid but played nevertheless
+    recordPlayerMove(currPlayer, move);
 
     // Little hack to handle duplicate games with only AI players.
     // This will have no effect when there is at least one human player

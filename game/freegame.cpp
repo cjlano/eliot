@@ -57,32 +57,16 @@ FreeGame::FreeGame(const GameParams &iParams)
 int FreeGame::play(const wstring &iCoord, const wstring &iWord)
 {
     // Perform all the validity checks, and try to fill a round
-    Round round;
-    int res = checkPlayedWord(iCoord, iWord, round);
+    Move move;
+    int res = checkPlayedWord(iCoord, iWord, move);
     if (res != 0 && Settings::Instance().getBool("freegame.reject-invalid"))
     {
         return res;
     }
 
     // If we reach this point, either the move is valid and we can use the
-    // "round" variable, or it is invalid but played nevertheless
-    if (res == 0)
-    {
-        Move move(round);
-
-        // Update the rack and the score of the current player
-        recordPlayerMove(move, *m_players[m_currPlayer]);
-    }
-    else
-    {
-        // Convert the invalid word for display
-        const wdstring &dispWord = getDic().convertToDisplay(iWord);
-
-        Move move(dispWord, iCoord);
-
-        // Record the invalid move of the player
-        recordPlayerMove(move, *m_players[m_currPlayer]);
-    }
+    // "move" variable, or it is invalid but played nevertheless
+    recordPlayerMove(move, *m_players[m_currPlayer]);
 
     // Next turn
     endTurn();

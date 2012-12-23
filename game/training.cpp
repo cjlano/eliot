@@ -89,18 +89,14 @@ void Training::setRackManual(bool iCheck, const wstring &iLetters)
 
 int Training::play(const wstring &iCoord, const wstring &iWord)
 {
-    // Perform all the validity checks, and fill a round
-    Round round;
-
     m_board.removeTestRound();
 
-    int res = checkPlayedWord(iCoord, iWord, round);
+    // Perform all the validity checks, and fill a move
+    Move move;
+    int res = checkPlayedWord(iCoord, iWord, move);
     if (res != 0)
-    {
         return res;
-    }
 
-    Move move(round);
     recordPlayerMove(move, *m_players[m_currPlayer]);
 
     // Next turn

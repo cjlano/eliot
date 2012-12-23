@@ -526,17 +526,21 @@ void Game::nextPlayer()
 
 int Game::checkPlayedWord(const wstring &iCoord,
                           const wstring &iWord,
-                          Round &oRound, bool checkRack) const
+                          Move &oMove, bool checkRack) const
 {
     ASSERT(getNPlayers() != 0, "Expected at least one player");
+
+    // Assume that the move is invalid by default
+    const wdstring &dispWord = getDic().convertToDisplay(iWord);
+    oMove = Move(dispWord, iCoord);
 
     if (!getDic().validateLetters(iWord))
         return 1;
 
     // Init the round with the given coordinates
-    oRound = Round();
-    oRound.accessCoord().setFromString(iCoord);
-    if (!oRound.getCoord().isValid())
+    Round round;
+    round.accessCoord().setFromString(iCoord);
+    if (!round.getCoord().isValid())
     {
         return 2;
     }
@@ -556,11 +560,11 @@ int Game::checkPlayedWord(const wstring &iCoord,
     {
         tiles.push_back(Tile(iWord[i]));
     }
-    oRound.setWord(tiles);
+    round.setWord(tiles);
 
     // Check the word position, compute its points,
     // and specify the origin of each letter (board or rack)
-    int res = m_board.checkRound(oRound);
+    int res = m_board.checkRound(round);
     if (res != 0)
         return res + 4;
     // In duplicate mode, the first word must be horizontal
@@ -568,7 +572,7 @@ int Game::checkPlayedWord(const wstring &iCoord,
         (getMode() == GameParams::kDUPLICATE ||
          getMode() == GameParams::kARBITRATION))
     {
-        if (oRound.getCoord().getDir() == Coord::VERTICAL)
+        if (round.getCoord().getDir() == Coord::VERTICAL)
             return 10;
     }
 
@@ -581,14 +585,14 @@ int Game::checkPlayedWord(const wstring &iCoord,
         Rack rack = player->getCurrentRack().getRack();
 
         Tile t;
-        for (unsigned int i = 0; i < oRound.getWordLen(); i++)
+        for (unsigned int i = 0; i < round.getWordLen(); i++)
         {
-            if (oRound.isPlayedFromRack(i))
+            if (round.isPlayedFromRack(i))
             {
-                if (oRound.isJoker(i))
+                if (round.isJoker(i))
                     t = Tile::Joker();
                 else
-                    t = oRound.getTile(i);
+                    t = round.getTile(i);
 
                 if (!rack.in(t))
                 {
@@ -598,6 +602,9 @@ int Game::checkPlayedWord(const wstring &iCoord,
             }
         }
     }
+
+    // The move is valid
+    oMove = Move(round);
 
     return 0;
 }

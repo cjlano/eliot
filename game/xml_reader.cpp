@@ -134,15 +134,15 @@ static Move buildMove(const Game &iGame, map<string, string> &attr,
     if (type == "valid")
     {
         wstring word = iGame.getDic().convertFromInput(fromUtf8(attr["word"]));
-        Round round;
+        Move move;
         int res = iGame.checkPlayedWord(fromUtf8(attr["coord"]),
-                                        word, round, checkRack);
+                                        word, move, checkRack);
         if (res != 0)
         {
             throw LoadGameException(FMT2(_("Invalid move marked as valid: %1% (%2%)"),
                                          attr["word"], attr["coord"]));
         }
-        return Move(round);
+        return move;
     }
     else if (type == "invalid")
     {
