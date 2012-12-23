@@ -148,16 +148,29 @@ MainWindow::MainWindow(QWidget *iParent)
                      boardWidget, SLOT(refresh()));
 
     QHBoxLayout *hlayout = new QHBoxLayout;
+    QSplitter *vSplitter = new QSplitter(Qt::Vertical);
 #if 0
     QDockWidget *dock = new QDockWidget;
     dock->setWidget(boardWidget);
     boardWidget->setWindowTitle(_q("Board"));
 
-    hlayout->addWidget(dock);
+    vSplitter->addWidget(dock);
 #else
-    hlayout->addWidget(boardWidget);
+    vSplitter->addWidget(boardWidget);
 #endif
 
+    // Rack widget below the board
+    RackWidget *rackWidget = new RackWidget;
+    QObject::connect(&m_playModel, SIGNAL(moveChanged(const wstring&, const Coord&)),
+                     rackWidget, SLOT(refresh()));
+    rackWidget->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
+    QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+                     rackWidget, SLOT(setGame(const PublicGame*)));
+    QObject::connect(this, SIGNAL(gameUpdated()),
+                     rackWidget, SLOT(refresh()));
+    vSplitter->addWidget(rackWidget);
+
+    hlayout->addWidget(vSplitter);
     m_ui.groupBoxTest->setLayout(hlayout);
 
 #if 1
