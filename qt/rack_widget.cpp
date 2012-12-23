@@ -19,6 +19,10 @@
  *****************************************************************************/
 
 #include <QtGui/QHBoxLayout>
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QDragLeaveEvent>
+#include <QtGui/QDragMoveEvent>
+#include <QtGui/QDropEvent>
 
 #include "rack_widget.h"
 #include "tile_widget.h"
@@ -34,6 +38,9 @@ using namespace std;
 INIT_LOGGER(qt, RackWidget);
 
 
+#define MIME_TYPE "text/x-tile"
+
+
 RackWidget::RackWidget(QWidget *parent)
     : QFrame(parent), m_game(NULL), m_showOnlyLastTurn(false)
 {
@@ -43,6 +50,8 @@ RackWidget::RackWidget(QWidget *parent)
     layout->setSpacing(5);
     layout->setAlignment(Qt::AlignCenter);
     setLayout(layout);
+
+    setAcceptDrops(true);
 }
 
 
@@ -89,7 +98,10 @@ void RackWidget::setRack(const vector<Tile> &iTiles)
     }
     while (m_tilesVect.size() < tilesCount)
     {
-        TileWidget *tileWidget = new TileWidget;
+        TileWidget *tileWidget =
+            new TileWidget(0, TileWidget::NONE, 0, m_tilesVect.size());
+        QObject::connect(tileWidget, SIGNAL(mousePressed(int, int, QMouseEvent*)),
+                         this, SLOT(tilePressed(int, int, QMouseEvent*)));
         tileWidget->setBorder(2);
         layout()->addWidget(tileWidget);
         m_tilesVect.push_back(tileWidget);
@@ -104,4 +116,139 @@ void RackWidget::setRack(const vector<Tile> &iTiles)
     }
 }
 
+
+// Drag & drop handling
+
+
+void RackWidget::tilePressed(int row, int col, QMouseEvent *event)
+{
+    ASSERT(row == 0, "Multi-line racks are not supported");
+    ASSERT(col >= 0 && (unsigned)col < m_tilesVect.size(),
+           "Invalid tile index: " << col);
+
+    LOG_DEBUG("Starting drag for tile " << col);
+
+    TileWidget *tileWidget = m_tilesVect[col];
+
+    // Save the initial column of the moved tile
+    QByteArray itemData;
+    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+    dataStream << col;
+    QMimeData *mimeData = new QMimeData;
+    mimeData->setData(MIME_TYPE, itemData);
+
+    // Create an image of the tile
+    QPixmap pixmap(tileWidget->size());
+    tileWidget->render(&pixmap);
+
+    // Initiate the drag
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(mimeData);
+    drag->setHotSpot(event->pos());
+    drag->setPixmap(pixmap);
+
+    if (!(drag->exec(Qt::MoveAction) == Qt::MoveAction))
+    {
+        // TODO
+    }
+}
+
+
+void RackWidget::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasFormat(MIME_TYPE))
+        event->accept();
+    else
+        event->ignore();
+}
+
+
+void RackWidget::dragLeaveEvent(QDragLeaveEvent *event)
+{
+    event->accept();
+}
+
+
+void RackWidget::dragMoveEvent(QDragMoveEvent *event)
+{
+    if (event->mimeData()->hasFormat(MIME_TYPE))
+    {
+        event->setDropAction(Qt::MoveAction);
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
+    }
+}
+
+
+void RackWidget::dropEvent(QDropEvent *event)
+{
+    int closestCol = findClosestTile(event->pos());
+    if (event->mimeData()->hasFormat(MIME_TYPE))
+    {
+        // Retrieve the initial column of the moved tile
+        QByteArray data = event->mimeData()->data(MIME_TYPE);
+        QDataStream dataStream(&data, QIODevice::ReadOnly);
+        int initialCol;
+        dataStream >> initialCol;
+
+        if (initialCol == closestCol)
+        {
+            event->ignore();
+            return;
+        }
+        LOG_DEBUG("Dropping tile " << initialCol << " closest to tile " << closestCol);
+
+        // Get the initial tiles
+        vector<Tile> tiles;
+        Q_FOREACH(const TileWidget *tileWidget, m_tilesVect)
+        {
+            tiles.push_back(tileWidget->getTile());
+        }
+        // Change the order
+        Tile moved = tiles[initialCol];
+        tiles.erase(tiles.begin() + initialCol);
+        tiles.insert(tiles.begin() + closestCol, moved);
+        // Update the rack
+        setRack(tiles);
+
+        event->setDropAction(Qt::MoveAction);
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
+    }
+}
+
+
+int RackWidget::findTile(const QPoint &iPos) const
+{
+    for (unsigned i = 0; i < m_tilesVect.size(); ++i)
+    {
+        if (m_tilesVect[i]->geometry().contains(iPos))
+            return i;
+    }
+    return -1;
+}
+
+
+int RackWidget::findClosestTile(const QPoint &iPos) const
+{
+    int minDist = geometry().bottomRight().manhattanLength();
+    int minIdx = -1;
+    for (unsigned i = 0; i < m_tilesVect.size(); ++i)
+    {
+        QPoint distPoint = iPos - m_tilesVect[i]->geometry().center();
+        int dist = distPoint.manhattanLength();
+        if (dist < minDist)
+        {
+            minDist = dist;
+            minIdx = i;
+        }
+    }
+    return minIdx;
+}
 

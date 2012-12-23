@@ -64,6 +64,8 @@ public:
 
     int getSquareSize() const;
 
+    const Tile & getTile() const { return m_tile; }
+
     virtual int heightForWidth(int w) const;
 
     /// Define a default size

@@ -52,6 +52,12 @@ public slots:
     void refresh();
     void setRack(const vector<Tile> &iTiles);
 
+protected:
+    virtual void dragEnterEvent(QDragEnterEvent *event);
+    virtual void dragLeaveEvent(QDragLeaveEvent *event);
+    virtual void dragMoveEvent(QDragMoveEvent *event);
+    virtual void dropEvent(QDropEvent *event);
+
 private:
     /// Encapsulated tiles
     vector<TileWidget *> m_tilesVect;
@@ -64,6 +70,17 @@ private:
      * (useful for on the external board, in particular in arbitration mode)
      */
     bool m_showOnlyLastTurn;
+
+    /**
+     * Return the 0-based index of the tile found at the given (relative)
+     * position. If there is no such tile, return -1.
+     */
+    int findTile(const QPoint &iPos) const;
+
+    int findClosestTile(const QPoint &iPos) const;
+
+private slots:
+    void tilePressed(int row, int col, QMouseEvent *event);
 };
 
 #endif
