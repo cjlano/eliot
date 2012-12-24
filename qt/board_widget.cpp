@@ -30,6 +30,7 @@
 #include "tile.h"
 #include "board.h"
 #include "play_model.h"
+#include "move.h"
 
 using namespace std;
 
@@ -101,6 +102,8 @@ BoardWidget::BoardWidget(PlayModel &iPlayModel, QWidget *parent)
     // Listen to changes in the coordinates
     QObject::connect(&m_playModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
                      this, SLOT(updateArrow(const Coord&, const Coord&)));
+    QObject::connect(&m_playModel, SIGNAL(moveChanged(const Move&, const Move&)),
+                     this, SLOT(onMoveChanged(const Move&)));
 }
 
 
@@ -128,6 +131,22 @@ void BoardWidget::updateArrow(const Coord &iNewCoord, const Coord &iOldCoord)
         TileWidget *t = m_widgetsMatrix[iNewCoord.getRow()][iNewCoord.getCol()];
         t->arrowChanged(iNewCoord.isValid(), iNewCoord.getDir() == Coord::VERTICAL);
     }
+}
+
+
+void BoardWidget::onMoveChanged(const Move &iMove)
+{
+    if (m_game == NULL)
+        return;
+
+    // FIXME
+    Board &board = const_cast<Board&>(m_game->getBoard());
+    board.removeTestRound();
+    if (iMove.isValid())
+    {
+        board.testRound(iMove.getRound());
+    }
+    refresh();
 }
 
 

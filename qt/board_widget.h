@@ -31,6 +31,7 @@ class PublicGame;
 class TileWidget;
 class PlayModel;
 class Coord;
+class Move;
 
 class BoardWidget: public QFrame
 {
@@ -57,6 +58,7 @@ protected:
 private slots:
     void tileClicked(int row, int col, QMouseEvent *iEvent);
     void updateArrow(const Coord &iNewCoord, const Coord &iOldCoord);
+    void onMoveChanged(const Move &iMove);
 
 private:
     /// Encapsulated game, can be NULL
