@@ -20,23 +20,22 @@
 
 #include "play_model.h"
 
+#include "encoding.h"
+#include "debug.h"
+
 
 INIT_LOGGER(qt, PlayModel);
 
 
 PlayModel::PlayModel()
 {
-    QObject::connect(this, SIGNAL(coordChanged(const Coord&, const Coord&)),
-                     this, SLOT(onMoveChanged()));
-    QObject::connect(this, SIGNAL(wordChanged(const wstring&, const wstring&)),
-                     this, SLOT(onMoveChanged()));
 }
 
 
 void PlayModel::clear()
 {
     setCoord(Coord());
-    setWord(L"");
+    setMove(Move());
 }
 
 
@@ -52,20 +51,20 @@ void PlayModel::setCoord(const Coord &iCoord)
 }
 
 
-void PlayModel::setWord(const wstring &iWord)
+void PlayModel::setMove(const Move &iMove)
 {
+    ASSERT(iMove.isValid() || iMove.isInvalid() || iMove.isNull(),
+           "Unexpected move type");
+
+    LOG_DEBUG("Setting PlayModel move to " << lfw(iMove.toString()));
+
     // Avoid useless work
-    if (iWord == m_currWord)
-        return;
+    // TODO
+    //if (iMove == m_currMove)
+    //    return;
 
-    m_prevWord = m_currWord;
-    m_currWord = iWord;
-    emit wordChanged(iWord, m_prevWord);
-}
-
-
-void PlayModel::onMoveChanged()
-{
-    emit moveChanged(m_currWord, m_currCoord);
+    m_prevMove = m_currMove;
+    m_currMove = iMove;
+    emit moveChanged(iMove, m_prevMove);
 }
 

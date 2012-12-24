@@ -158,6 +158,10 @@ public:
      */
     int play(const wstring &iWord, const wstring &iCoord);
 
+    // TODO: doc
+    int checkPlayedWord(const wstring &iWord, const wstring &iCoord,
+                        Move &oMove) const;
+
     /**
      * Compute the points for playing the word iWord at coordinates iCoord.
      * A negative return value indicates an error (same codes as for the

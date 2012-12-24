@@ -25,6 +25,7 @@
 #include <QObject>
 
 #include "coord.h"
+#include "move.h"
 #include "logging.h"
 
 using std::wstring;
@@ -58,24 +59,19 @@ public:
     void setCoord(const Coord &iCoord);
     const Coord & getCoord() const { return m_currCoord; }
 
-    void setWord(const wstring &iWord);
-    const wstring & getWord() const { return m_currWord; }
+    void setMove(const Move &iMove);
+    const Move &getMove() const { return m_currMove; }
 
 signals:
     void coordChanged(const Coord &iNewCoord, const Coord &iOldCoord);
-    void wordChanged(const wstring &iNewWord, const wstring &iOldWord);
-    /// Emitted whenever coordChanged() or wordChanged() is emitted
-    void moveChanged(const wstring &iWord, const Coord &iCoord);
-
-private slots:
-    void onMoveChanged();
+    void moveChanged(const Move &iMove, const Move &iOldMove);
 
 private:
     Coord m_currCoord;
     Coord m_prevCoord;
 
-    wstring m_currWord;
-    wstring m_prevWord;
+    Move m_currMove;
+    Move m_prevMove;
 };
 
 #endif

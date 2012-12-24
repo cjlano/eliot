@@ -54,7 +54,7 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
 
     // Set all the connections
     QObject::connect(&m_lineEditPlay, SIGNAL(textChanged(const QString&)),
-                     this, SLOT(updatePointsAndState()));
+                     this, SLOT(onWordChanged(const QString&)));
     QObject::connect(&m_lineEditPlay, SIGNAL(returnPressed()),
                      this, SLOT(playWord()));
     QObject::connect(&m_lineEditCoord, SIGNAL(textChanged(const QString&)),
@@ -106,7 +106,8 @@ bool PlayWordMediator::GetPlayedWord(QLineEdit &iEditWord,
         {
             // Cannot parse the string...
             *oPlayedWord = wfq(word);
-            *oProblemCause = _q("Cannot play word: misplaced parentheses");
+            if (oProblemCause)
+                *oProblemCause = _q("Cannot play word: misplaced parentheses");
             return false;
         }
 
@@ -215,6 +216,18 @@ void PlayWordMediator::onCoordChanged(const QString &iText)
 {
     Coord coord(wfq(iText));
     m_playModel.setCoord(coord);
+    updatePointsAndState();
+}
+
+
+void PlayWordMediator::onWordChanged(const QString &iText)
+{
+    wstring playedWord;
+    GetPlayedWord(m_lineEditPlay, m_game->getDic(), &playedWord, NULL);
+
+    Move move;
+    m_game->checkPlayedWord(playedWord, wfq(m_lineEditCoord.text()), move);
+    m_playModel.setMove(move);
     updatePointsAndState();
 }
 
