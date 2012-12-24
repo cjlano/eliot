@@ -90,8 +90,8 @@ signals:
 private slots:
     void playWord();
     void updatePointsAndState();
-    void onCoordChanged(const QString &iText);
-    void onWordChanged(const QString &iText);
+    void onCoordChanged();
+    void onWordChanged();
     void updateCoord(const Coord &iNewCoord);
 
 private:

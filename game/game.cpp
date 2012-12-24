@@ -526,7 +526,8 @@ void Game::nextPlayer()
 
 int Game::checkPlayedWord(const wstring &iCoord,
                           const wstring &iWord,
-                          Move &oMove, bool checkRack) const
+                          Move &oMove, bool checkRack,
+                          bool checkWordAndJunction) const
 {
     ASSERT(getNPlayers() != 0, "Expected at least one player");
 
@@ -546,7 +547,7 @@ int Game::checkPlayedWord(const wstring &iCoord,
     }
 
     // Check the existence of the word
-    if (!getDic().searchWord(iWord))
+    if (checkWordAndJunction && !getDic().searchWord(iWord))
     {
         return 3;
     }
@@ -564,11 +565,11 @@ int Game::checkPlayedWord(const wstring &iCoord,
 
     // Check the word position, compute its points,
     // and specify the origin of each letter (board or rack)
-    int res = m_board.checkRound(round);
+    int res = m_board.checkRound(round, checkWordAndJunction);
     if (res != 0)
         return res + 4;
     // In duplicate mode, the first word must be horizontal
-    if (m_board.isVacant(8, 8) &&
+    if (checkWordAndJunction && m_board.isVacant(8, 8) &&
         (getMode() == GameParams::kDUPLICATE ||
          getMode() == GameParams::kARBITRATION))
     {

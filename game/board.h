@@ -63,7 +63,7 @@ public:
 
     void addRound(const Dictionary &iDic, const Round &iRound);
     void removeRound(const Dictionary &iDic, const Round &iRound);
-    int  checkRound(Round &iRound) const;
+    int  checkRound(Round &iRound, bool checkJunction = true) const;
 
     /**
      * Preview
@@ -121,7 +121,8 @@ private:
                       const Matrix<Cross> &iCrossMx,
                       const Matrix<int> &iPointsMx,
                       const Matrix<bool> &iJokerMx,
-                      Round &iRound) const;
+                      Round &iRound,
+                      bool checkJunction) const;
 #ifdef DEBUG
     void checkDouble();
 #endif

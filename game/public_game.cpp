@@ -161,7 +161,7 @@ int PublicGame::play(const wstring &iWord, const wstring &iCoord)
 
 int PublicGame::checkPlayedWord(const wstring &iWord, const wstring &iCoord, Move &oMove) const
 {
-    return m_game.checkPlayedWord(iCoord, iWord, oMove, true);
+    return m_game.checkPlayedWord(iCoord, iWord, oMove, true, false);
 }
 
 

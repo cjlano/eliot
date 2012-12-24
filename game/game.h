@@ -180,7 +180,8 @@ public:
     int checkPlayedWord(const wstring &iCoord,
                         const wstring &iWord,
                         Move &oMove,
-                        bool checkRack = true) const;
+                        bool checkRack = true,
+                        bool checkWordAndJunction = true) const;
 
 private:
     /// Game characteristics

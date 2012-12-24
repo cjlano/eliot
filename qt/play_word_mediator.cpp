@@ -54,11 +54,11 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
 
     // Set all the connections
     QObject::connect(&m_lineEditPlay, SIGNAL(textChanged(const QString&)),
-                     this, SLOT(onWordChanged(const QString&)));
+                     this, SLOT(onWordChanged()));
     QObject::connect(&m_lineEditPlay, SIGNAL(returnPressed()),
                      this, SLOT(playWord()));
     QObject::connect(&m_lineEditCoord, SIGNAL(textChanged(const QString&)),
-                     this, SLOT(onCoordChanged(const QString&)));
+                     this, SLOT(onCoordChanged()));
     QObject::connect(&m_lineEditCoord, SIGNAL(returnPressed()),
                      this, SLOT(playWord()));
     QObject::connect(&m_pushButtonPlay, SIGNAL(clicked()),
@@ -212,15 +212,15 @@ void PlayWordMediator::playWord()
 }
 
 
-void PlayWordMediator::onCoordChanged(const QString &iText)
+void PlayWordMediator::onCoordChanged()
 {
-    Coord coord(wfq(iText));
+    Coord coord(wfq(m_lineEditCoord.text()));
     m_playModel.setCoord(coord);
-    updatePointsAndState();
+    onWordChanged();
 }
 
 
-void PlayWordMediator::onWordChanged(const QString &iText)
+void PlayWordMediator::onWordChanged()
 {
     wstring playedWord;
     GetPlayedWord(m_lineEditPlay, m_game->getDic(), &playedWord, NULL);

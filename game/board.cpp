@@ -270,7 +270,7 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
                          const Matrix<Cross> &iCrossMx,
                          const Matrix<int> &iPointsMx,
                          const Matrix<bool> &iJokerMx,
-                         Round &iRound) const
+                         Round &iRound, bool checkJunction) const
 {
     bool isolated = true;
 
@@ -340,7 +340,8 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
             else
             {
                 // The letter is not in the crosscheck
-                return 3;
+                if (checkJunction)
+                    return 3;
             }
         }
     }
@@ -356,7 +357,7 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
 
     // The word must cover at least one anchor square, except
     // for the first turn
-    if (isolated && !m_isEmpty)
+    if (checkJunction && isolated && !m_isEmpty)
         return 5;
     // The first word must be horizontal
     // Deactivated, as a vertical first word is allowed in free games,
@@ -366,7 +367,7 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
         return 6;
 #endif
     // The first word must cover the H8 square
-    if (m_isEmpty
+    if (checkJunction && m_isEmpty
         && (row != 8 || col > 8 || col + iRound.getWordLen() <= 8))
     {
         return 7;
@@ -385,12 +386,12 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
 }
 
 
-int Board::checkRound(Round &iRound) const
+int Board::checkRound(Round &iRound, bool checkJunction) const
 {
     if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
     {
         return checkRoundAux(m_tilesRow, m_crossRow,
-                             m_pointRow, m_jokerRow, iRound);
+                             m_pointRow, m_jokerRow, iRound, checkJunction);
     }
     else
     {
@@ -399,7 +400,7 @@ int Board::checkRound(Round &iRound) const
         iRound.accessCoord().swap();
 
         int res = checkRoundAux(m_tilesCol, m_crossCol,
-                                m_pointCol, m_jokerCol, iRound);
+                                m_pointCol, m_jokerCol, iRound, checkJunction);
 
         // Restore the coordinates
         iRound.accessCoord().swap();

@@ -159,6 +159,7 @@ public:
     int play(const wstring &iWord, const wstring &iCoord);
 
     // TODO: doc
+    // Ignores the word validity and connexion with the rest
     int checkPlayedWord(const wstring &iWord, const wstring &iCoord,
                         Move &oMove) const;
 
