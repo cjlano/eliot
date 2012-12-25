@@ -282,6 +282,8 @@ void XmlReader::endElement(const string& namespaceURI,
             m_params.setMode(GameParams::kTRAINING);
         else if (m_data == "arbitration")
             m_params.setMode(GameParams::kARBITRATION);
+        else if (m_data == "topping")
+            m_params.setMode(GameParams::kTOPPING);
         else
             throw GameException("Invalid game mode: " + m_data);
         return;

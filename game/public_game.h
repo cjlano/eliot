@@ -71,6 +71,7 @@ public:
         kFREEGAME,
         kDUPLICATE,
         kARBITRATION,
+        kTOPPING,
     };
     GameMode getMode() const;
 

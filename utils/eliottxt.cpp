@@ -366,6 +366,28 @@ void helpArbitration()
 }
 
 
+void helpTopping()
+{
+    printf("  ?    : aide -- cette page\n");
+    printf("  a [g|gm|gd|l|p|s|S|t|T] : afficher :\n");
+    printf("            g -- grille\n");
+    printf("            gm -- grille + valeur des cases\n");
+    printf("            gd -- grille + debug cross (debug only)\n");
+    printf("            l -- lettres non jouées\n");
+    printf("            p -- partie\n");
+    printf("            r -- recherche\n");
+    printf("            s -- score\n");
+    printf("            S -- score de tous les joueurs\n");
+    printf("            t -- tirage\n");
+    printf("            T -- tirage de tous les joueurs\n");
+    printf("  t [] : changer le tirage\n");
+    printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
+    printf("  s [] : sauver la partie en cours dans le fichier []\n");
+    printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay)\n");
+    printf("  q    : quitter le mode entraînement\n");
+}
+
+
 void help()
 {
     printf("  ?        : aide -- cette page\n");
@@ -373,6 +395,10 @@ void help()
     printf("  ej       : démarrer le mode entraînement en partie joker\n");
     printf("  ee       : démarrer le mode entraînement en partie détonante\n");
     printf("  e8       : démarrer le mode entraînement en partie 7 sur 8\n");
+    printf("  t        : démarrer le mode topping\n");
+    printf("  tj       : démarrer le mode topping en partie joker\n");
+    printf("  te       : démarrer le mode topping en partie détonante\n");
+    printf("  t8       : démarrer le mode topping en partie 7 sur 8\n");
     printf("  d [] {}  : démarrer une partie duplicate avec\n");
     printf("                [] joueurs humains et {} joueurs IA\n");
     printf("  dj [] {} : démarrer une partie duplicate avec\n");
@@ -799,6 +825,36 @@ void loopArbitration(PublicGame &iGame)
 }
 
 
+void loopTopping(PublicGame &iGame)
+{
+    printf("mode topping\n");
+    printf("[?] pour l'aide\n");
+
+    bool quit = false;
+    while (!quit)
+    {
+        const vector<wstring> &tokens = readTokens();
+        if (tokens.empty())
+            continue;
+        try
+        {
+            wchar_t command = parseCharInList(tokens, 0, L"#?adhjsq");
+            if (command == L'?')
+                helpTopping();
+            else if (command == L'q')
+                quit = true;
+            else
+                commonCommands(iGame, tokens);
+        }
+        catch (std::exception &e)
+        {
+            printf("%s\n", e.what());
+        }
+    }
+    printf("fin du mode topping\n");
+}
+
+
 void mainLoop(const Dictionary &iDic)
 {
     printf("[?] pour l'aide\n");
@@ -839,6 +895,8 @@ void mainLoop(const Dictionary &iDic)
                                 loopDuplicate(*game);
                             else if (game->getMode() == PublicGame::kARBITRATION)
                                 loopArbitration(*game);
+                            else if (game->getMode() == PublicGame::kTOPPING)
+                                loopTopping(*game);
                             //GameFactory::Instance()->releaseGame(*game);
                             delete game;
                         }
@@ -903,6 +961,17 @@ void mainLoop(const Dictionary &iDic)
                             game->addPlayer(new AIPercent(1));
                         game->start();
                         loopArbitration(*game);
+                        //GameFactory::Instance()->releaseGame(*game);
+                        delete game;
+                    }
+                    break;
+                case L't':
+                    {
+                        // New training game
+                        PublicGame *game = readGame(iDic, GameParams::kTOPPING, tokens[0]);
+                        game->addPlayer(new HumanPlayer);
+                        game->start();
+                        loopTopping(*game);
                         //GameFactory::Instance()->releaseGame(*game);
                         delete game;
                     }

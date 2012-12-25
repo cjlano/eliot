@@ -163,6 +163,8 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
         out << "freegame";
     else if (iGame.getMode() == GameParams::kARBITRATION)
         out << "arbitration";
+    else if (iGame.getMode() == GameParams::kTOPPING)
+        out << "topping";
     else
         out << "training";
     out << "</Mode>" << endl;

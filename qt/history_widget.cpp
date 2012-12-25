@@ -310,9 +310,12 @@ void HistoryTabWidget::setGame(const PublicGame *iGame)
         QObject::connect(m_gameHistoryWidget, SIGNAL(requestDefinition(QString)),
                          this, SIGNAL(requestDefinition(QString)));
 
-        // In training mode, the players history is completely useless
-        if (m_game->getMode() == PublicGame::kTRAINING)
+        // In training and topping modes, the players history is completely useless
+        if (m_game->getMode() == PublicGame::kTRAINING ||
+            m_game->getMode() == PublicGame::kTOPPING)
+        {
             return;
+        }
 
         // Add one history tab per player
         for (unsigned int i = 0; i < m_game->getNbPlayers(); ++i)

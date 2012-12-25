@@ -43,6 +43,7 @@ class GameParams
         kFREEGAME,
         kDUPLICATE,
         kARBITRATION,
+        kTOPPING,
     };
 
     /**

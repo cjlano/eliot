@@ -574,7 +574,8 @@ int Game::checkPlayedWord(const wstring &iCoord,
     // In duplicate mode, the first word must be horizontal
     if (checkWordAndJunction && m_board.isVacant(8, 8) &&
         (getMode() == GameParams::kDUPLICATE ||
-         getMode() == GameParams::kARBITRATION))
+         getMode() == GameParams::kARBITRATION ||
+         getMode() == GameParams::kTOPPING))
     {
         if (round.getCoord().getDir() == Coord::VERTICAL)
             return 10;

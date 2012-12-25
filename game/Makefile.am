@@ -57,6 +57,7 @@ libgame_a_SOURCES= \
     arbitration.cpp arbitration.h \
     freegame.cpp freegame.h \
     training.cpp training.h \
+    topping.cpp topping.h \
     public_game.cpp public_game.h \
     game_factory.cpp game_factory.h \
     xml_writer.cpp xml_writer.h \

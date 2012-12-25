@@ -102,6 +102,8 @@ NewGame::NewGame(QWidget *iParent)
                      this, SLOT(enablePlayers(bool)));
     QObject::connect(radioButtonArbitration, SIGNAL(toggled(bool)),
                      this, SLOT(enablePlayers(bool)));
+    QObject::connect(radioButtonTopping, SIGNAL(toggled(bool)),
+                     this, SLOT(enablePlayers(bool)));
 
     QObject::connect(checkBoxJoker, SIGNAL(stateChanged(int)),
                      this, SLOT(onJokerChecked(int)));
@@ -123,8 +125,10 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
         params.setMode(GameParams::kFREEGAME);
     else if (radioButtonDuplicate->isChecked())
         params.setMode(GameParams::kDUPLICATE);
-    else
+    else if (radioButtonArbitration->isChecked())
         params.setMode(GameParams::kARBITRATION);
+    else
+        params.setMode(GameParams::kTOPPING);
 
     if (checkBoxJoker->isChecked())
         params.addVariant(GameParams::kJOKER);
@@ -138,7 +142,8 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
     PublicGame *game = new PublicGame(*tmpGame);
 
     // Add the players
-    if (!radioButtonTraining->isChecked())
+    if (!radioButtonTraining->isChecked() &&
+        !radioButtonTopping->isChecked())
     {
         const QList<PlayerDef> &players = m_helper->getPlayers(false);
         set<QString> allNames;
@@ -184,7 +189,7 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
 void NewGame::enableOkButton()
 {
     // Enable the "Ok" button:
-    // - always in training mode
+    // - always in training mode or duplicate mode
     // - if there is at least one player in duplicate mode
     // - if there are at least 2 players in free game mode
     bool disable =
@@ -199,7 +204,8 @@ void NewGame::enablePlayers(bool checked)
     // Testing the "checked" variable prevents from doing the work twice
     if (checked)
     {
-        groupBoxPlayers->setEnabled(!radioButtonTraining->isChecked());
+        groupBoxPlayers->setEnabled(!radioButtonTraining->isChecked() &&
+                                    !radioButtonTopping->isChecked());
     }
 }
 

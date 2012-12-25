@@ -41,6 +41,7 @@
 #include "freegame.h"
 #include "duplicate.h"
 #include "arbitration.h"
+#include "topping.h"
 #include "player.h"
 #include "ai_percent.h"
 #include "dic.h"
@@ -103,6 +104,12 @@ Game *GameFactory::createGame(const GameParams &iParams)
     {
         LOG_INFO("Creating an arbitration game");
         Arbitration *game = new Arbitration(iParams);
+        return game;
+    }
+    if (iParams.getMode() == GameParams::kTOPPING)
+    {
+        LOG_INFO("Creating a topping game");
+        Topping *game = new Topping(iParams);
         return game;
     }
     throw GameException("Unknown game type");

@@ -480,6 +480,32 @@ void MainWindow::updateForGame(PublicGame *iGame)
             QObject::connect(m_arbitrationWidget, SIGNAL(playerSelected(unsigned)),
                              this, SLOT(onPlayerSelected(unsigned)));
         }
+        else if (iGame->getMode() == PublicGame::kTOPPING)
+        {
+            setWindowTitle(_q("Topping mode") + " - Eliot");
+            m_ui.groupBoxPlayers->setTitle(_q("Topping"));
+
+            // Players widget
+            m_playersWidget = new PlayerTabWidget(m_playModel, NULL);
+            m_ui.groupBoxPlayers->layout()->addWidget(m_playersWidget);
+            QObject::connect(m_playersWidget, SIGNAL(gameUpdated()),
+                             this, SIGNAL(gameUpdated()));
+            QObject::connect(m_playersWidget, SIGNAL(notifyInfo(QString)),
+                             this, SLOT(displayInfoMsg(QString)));
+            QObject::connect(m_playersWidget, SIGNAL(notifyProblem(QString)),
+                             this, SLOT(displayErrorMsg(QString)));
+            QObject::connect(m_playersWidget, SIGNAL(requestDefinition(QString)),
+                             this, SLOT(showDefinition(QString)));
+            QObject::connect(this, SIGNAL(gameUpdated()),
+                             m_playersWidget, SLOT(refresh()));
+            m_playersWidget->setGame(iGame);
+
+            // Players score
+            m_scoresWidget = new ScoreWidget(NULL, iGame);
+            m_ui.groupBoxPlayers->layout()->addWidget(m_scoresWidget);
+            QObject::connect(this, SIGNAL(gameUpdated()),
+                             m_scoresWidget, SLOT(refresh()));
+        }
         else
         {
             if (iGame->getMode() == PublicGame::kDUPLICATE)

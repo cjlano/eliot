@@ -25,6 +25,7 @@
 #include "duplicate.h"
 #include "arbitration.h"
 #include "freegame.h"
+#include "topping.h"
 #include "game_factory.h"
 #include "game_exception.h"
 #include "xml_writer.h"
@@ -52,6 +53,8 @@ PublicGame::GameMode PublicGame::getMode() const
         return kDUPLICATE;
     else if (dynamic_cast<FreeGame*>(&m_game))
         return kFREEGAME;
+    else if (dynamic_cast<Topping*>(&m_game))
+        return kTOPPING;
     else
         return kTRAINING;
 }
