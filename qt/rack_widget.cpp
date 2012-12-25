@@ -27,6 +27,7 @@
 #include "rack_widget.h"
 #include "tile_widget.h"
 #include "tile_layout.h"
+#include "play_model.h"
 #include "qtcommon.h"
 
 #include "public_game.h"
@@ -42,7 +43,8 @@ INIT_LOGGER(qt, RackWidget);
 
 
 RackWidget::RackWidget(QWidget *parent)
-    : QFrame(parent), m_game(NULL), m_showOnlyLastTurn(false)
+    : QFrame(parent), m_game(NULL),
+      m_playModel(NULL), m_showOnlyLastTurn(false)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
@@ -52,6 +54,19 @@ RackWidget::RackWidget(QWidget *parent)
     setLayout(layout);
 
     setAcceptDrops(true);
+}
+
+
+void RackWidget::setPlayModel(PlayModel *iPlayModel)
+{
+    if (m_playModel != NULL)
+        m_playModel->disconnect(this, SLOT(refresh()));
+    if (iPlayModel != NULL)
+    {
+        QObject::connect(iPlayModel, SIGNAL(moveChanged(const Move &, const Move&)),
+                         this, SLOT(refresh()));
+    }
+    m_playModel = iPlayModel;
 }
 
 
@@ -88,7 +103,9 @@ void RackWidget::refresh()
 
 void RackWidget::setRack(const vector<Tile> &iTiles)
 {
-    unsigned tilesCount = iTiles.size();
+    const vector<Tile> &remainingTiles = filterRack(iTiles);
+
+    unsigned tilesCount = remainingTiles.size();
 
     // Make sure we have as many widgets as there are letters in the rack
     while (m_tilesVect.size() > tilesCount)
@@ -112,8 +129,36 @@ void RackWidget::setRack(const vector<Tile> &iTiles)
     for (unsigned int i = 0; i < tilesCount; ++i)
     {
         TileWidget *tileWidget = m_tilesVect[i];
-        tileWidget->tileChanged(TileWidget::NORMAL, iTiles[i]);
+        tileWidget->tileChanged(TileWidget::NORMAL, remainingTiles[i]);
     }
+}
+
+
+vector<Tile> RackWidget::filterRack(const vector<Tile> &iTiles) const
+{
+    if (m_playModel == NULL || !m_playModel->getMove().isValid())
+        return iTiles;
+
+    vector<Tile> result = iTiles;
+    const Round &round = m_playModel->getMove().getRound();
+    for (unsigned i = 0; i < round.getWordLen(); ++i)
+    {
+        if (round.isPlayedFromRack(i))
+        {
+            const Tile &t = round.getTile(i);
+            vector<Tile>::iterator it;
+            for (it = result.begin(); it != result.end(); ++it)
+            {
+                if (*it == t)
+                {
+                    result.erase(it);
+                    break;
+                }
+            }
+        }
+    }
+
+    return result;
 }
 
 

@@ -161,9 +161,7 @@ MainWindow::MainWindow(QWidget *iParent)
 
     // Rack widget below the board
     RackWidget *rackWidget = new RackWidget;
-    // TODO
-//     QObject::connect(&m_playModel, SIGNAL(moveChanged(const wstring&, const Coord&)),
-//                      rackWidget, SLOT(refresh()));
+    rackWidget->setPlayModel(&m_playModel);
     rackWidget->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
     QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
                      rackWidget, SLOT(setGame(const PublicGame*)));

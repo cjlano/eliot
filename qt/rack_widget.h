@@ -33,6 +33,7 @@ using std::vector;
 class PublicGame;
 class TileWidget;
 class PlayedRack;
+class PlayModel;
 
 
 /**
@@ -46,6 +47,8 @@ class RackWidget: public QFrame
 public:
     explicit RackWidget(QWidget *parent = 0);
     void setShowOnlyLastTurn(bool iShow) { m_showOnlyLastTurn = iShow; }
+
+    void setPlayModel(PlayModel *iPlayModel);
 
 public slots:
     void setGame(const PublicGame *iGame);
@@ -65,11 +68,21 @@ private:
     /// Encapsulated game, can be NULL
     const PublicGame *m_game;
 
+    /// Word being played
+    PlayModel *m_playModel;
+
     /**
      * Indicate whether to show only the last rack
      * (useful for on the external board, in particular in arbitration mode)
      */
     bool m_showOnlyLastTurn;
+
+    /**
+     * If the play model is not NULL and contains a valid move, this method
+     * returns a vector of tiles filtered from the tiles in the move.
+     * Otherwise, the given tiles are returned without any change.
+     */
+    vector<Tile> filterRack(const vector<Tile> &iTiles) const;
 
     /**
      * Return the 0-based index of the tile found at the given (relative)
