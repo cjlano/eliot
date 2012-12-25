@@ -278,6 +278,12 @@ protected:
      */
     PlayedRack helperSetRackManual(bool iCheck, const wstring &iLetters) const;
 
+    /**
+     * Helper function to set the game rack and the players rack at the same time.
+     * Shouldn't be used in free game mode.
+     */
+    void setGameAndPlayersRack(const PlayedRack &iRack);
+
     void nextPlayer();
 
     /**

@@ -43,7 +43,6 @@
 #include "cmd/player_rack_cmd.h"
 #include "cmd/player_event_cmd.h"
 #include "cmd/game_move_cmd.h"
-#include "cmd/game_rack_cmd.h"
 #include "cmd/master_move_cmd.h"
 #include "ai_player.h"
 #include "navigation.h"
@@ -380,32 +379,6 @@ void Duplicate::setMasterMove(const Move &iMove)
 bool Duplicate::isArbitrationGame() const
 {
     return getParams().getMode() == GameParams::kARBITRATION;
-}
-
-
-void Duplicate::setGameAndPlayersRack(const PlayedRack &iRack)
-{
-    // Set the game rack
-    Command *pCmd = new GameRackCmd(*this, iRack);
-    accessNavigation().addAndExecute(pCmd);
-    LOG_INFO("Setting players rack to '" + lfw(iRack.toString()) + "'");
-    // All the players have the same rack
-    BOOST_FOREACH(Player *player, m_players)
-    {
-        Command *pCmd = new PlayerRackCmd(*player, iRack);
-        accessNavigation().addAndExecute(pCmd);
-    }
-
-    // Assign a "no move" pseudo-move to all the players.
-    // This avoids the need to distinguish between "has not played yet"
-    // and "has played with no move".
-    // This is also practical to know at which turn the warnings, penalties
-    // and solos should be assigned.
-    BOOST_FOREACH(Player *player, m_players)
-    {
-        Command *pCmd = new PlayerMoveCmd(*player, Move());
-        accessNavigation().addAndExecute(pCmd);
-    }
 }
 
 

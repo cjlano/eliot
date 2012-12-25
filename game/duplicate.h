@@ -26,7 +26,6 @@
 #include "logging.h"
 
 class Player;
-class PlayedRack;
 class Move;
 class PlayerEventCmd;
 
@@ -112,9 +111,6 @@ protected:
 
     /// Record a player move
     void recordPlayerMove(Player &ioPlayer, const Move &iMove);
-
-    /// Helper function to set the game rack and the players rack at the same time
-    void setGameAndPlayersRack(const PlayedRack &iRack);
 
     /**
      * This function does not terminate the turn itself, but performs some
