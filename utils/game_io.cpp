@@ -48,8 +48,6 @@ using boost::wformat;
 INIT_LOGGER(utils, GameIO);
 
 
-#define __UNUSED__ __attribute__((unused))
-
 void GameIO::printBoard(ostream &out, const PublicGame &iGame)
 {
     int row, col;
@@ -154,7 +152,7 @@ void GameIO::printNonPlayed(ostream &out, const PublicGame &iGame)
 }
 
 
-void GameIO::printPlayedRack(ostream &out, const PublicGame &iGame, int __UNUSED__ n)
+void GameIO::printPlayedRack(ostream &out, const PublicGame &iGame)
 {
     out << lfw(iGame.getCurrentRack().toString(PlayedRack::RACK_SIMPLE)) << endl;
 }

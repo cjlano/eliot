@@ -438,7 +438,7 @@ void displayData(const PublicGame &iGame, const vector<wstring> &tokens)
     else if (displayType == L"S")
         GameIO::printAllPoints(cout, iGame);
     else if (displayType == L"t")
-        GameIO::printPlayedRack(cout, iGame, iGame.getHistory().getSize());
+        GameIO::printPlayedRack(cout, iGame);
     else if (displayType == L"T")
         GameIO::printAllRacks(cout, iGame);
     else
