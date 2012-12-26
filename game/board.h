@@ -30,6 +30,7 @@
 #include "logging.h"
 
 class GameParams;
+class BoardLayout;
 class Dictionary;
 class Rack;
 class Round;
@@ -40,7 +41,6 @@ using namespace std;
 #define BOARD_MIN 1
 #define BOARD_MAX 15
 #define BOARD_DIM 15
-#define BOARD_REALDIM (BOARD_DIM + 2)
 
 
 /**
@@ -54,6 +54,8 @@ class Board
     DEFINE_LOGGER();
 public:
     Board(const GameParams &iParams);
+
+    const BoardLayout & getLayout() const { return m_layout; }
 
     bool isJoker(int iRow, int iCol) const;
     bool isVacant(int iRow, int iCol) const;
@@ -77,12 +79,6 @@ public:
     void searchFirst(const Dictionary &iDic, const Rack &iRack, Results &oResults) const;
 
     /**
-     *
-     */
-    static int GetWordMultiplier(int iRow, int iCol);
-    static int GetLetterMultiplier(int iRow, int iCol);
-
-    /**
      * 
      */
     string getCellContent_row(int row, int col) const;
@@ -91,6 +87,8 @@ public:
 private:
 
     const GameParams &m_params;
+
+    const BoardLayout &m_layout;
 
     Matrix<Tile> m_tilesRow;
     Matrix<Tile> m_tilesCol;
@@ -108,9 +106,6 @@ private:
 
     /// Flag indicating if the board is empty or if it has letters
     bool m_isEmpty;
-
-    static const int m_tileMultipliers[BOARD_REALDIM][BOARD_REALDIM];
-    static const int m_wordMultipliers[BOARD_REALDIM][BOARD_REALDIM];
 
     /**
      * board_cross.c

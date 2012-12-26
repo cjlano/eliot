@@ -25,12 +25,13 @@
 #include <string>
 #include <stdlib.h>
 
-#include <dic.h>
 #include "game_io.h"
 #include "game_params.h"
+#include "dic.h"
 #include "public_game.h"
 #include "bag.h"
 #include "board.h"
+#include "board_layout.h"
 #include "results.h"
 #include "player.h"
 #include "encoding.h"
@@ -50,16 +51,17 @@ INIT_LOGGER(utils, GameIO);
 
 void GameIO::printBoard(ostream &out, const PublicGame &iGame)
 {
-    int row, col;
+    int nbRows = iGame.getBoard().getLayout().getRowCount();
+    int nbCols = iGame.getBoard().getLayout().getColCount();
 
     out << "   ";
-    for (col = BOARD_MIN; col <= BOARD_MAX; col++)
-        out << setw(3) << col - BOARD_MIN + 1;
+    for (int col = 1; col <= nbCols; ++col)
+        out << setw(3) << col;
     out << endl;
-    for (row = BOARD_MIN; row <= BOARD_MAX; row++)
+    for (int row = 1; row <= nbRows; ++row)
     {
-        out << " " << (char)(row - BOARD_MIN + 'A') << "  ";
-        for (col = BOARD_MIN; col <= BOARD_MAX; col++)
+        out << " " << (char)(row + 'A' - 1) << "  ";
+        for (int col = 1; col <= nbCols; ++col)
         {
             if (iGame.getBoard().isVacant(row, col))
                 out << " - ";
@@ -74,23 +76,24 @@ void GameIO::printBoard(ostream &out, const PublicGame &iGame)
 /* this mode is used for regression tests */
 void GameIO::printBoardDebug(ostream &out, const PublicGame &iGame)
 {
-    int row, col;
+    int nbRows = iGame.getBoard().getLayout().getRowCount();
+    int nbCols = iGame.getBoard().getLayout().getColCount();
 
     /* first printf row cell contents */
-    for (row = BOARD_MIN; row <= BOARD_MAX; row++)
+    for (int row = 1; row <= nbRows; ++row)
     {
-        out << " " << (char)(row - BOARD_MIN + 'A') << "r ";
-        for (col = BOARD_MIN; col <= BOARD_MAX; col++)
+        out << " " << (char)(row + 'A' - 1) << "r ";
+        for (int col = 1; col <= nbCols; ++col)
         {
             out << iGame.getBoard().getCellContent_row(row, col);
         }
         out << endl;
     }
     out << " -" << endl;
-    for (row = BOARD_MIN; row <= BOARD_MAX; row++)
+    for (int row = 1; row <= nbRows; ++row)
     {
-        out << " " << (char)(row - BOARD_MIN + 'A') << "c ";
-        for (col = BOARD_MIN; col <= BOARD_MAX; col++)
+        out << " " << (char)(row + 'A' - 1) << "c ";
+        for (int col = 1; col <= nbCols; ++col)
         {
             out << iGame.getBoard().getCellContent_col(row, col);
         }
@@ -101,24 +104,26 @@ void GameIO::printBoardDebug(ostream &out, const PublicGame &iGame)
 
 void GameIO::printBoardMultipliers(ostream &out, const PublicGame &iGame)
 {
-    int row, col;
+    int nbRows = iGame.getBoard().getLayout().getRowCount();
+    int nbCols = iGame.getBoard().getLayout().getColCount();
 
     out << "   ";
-    for (col = BOARD_MIN; col <= BOARD_MAX; col++)
-        out << setw(3) << col - BOARD_MIN + 1;
+    for (int col = 1; col <= nbCols; ++col)
+        out << setw(3) << col;
     out << endl;
 
-    for (row = BOARD_MIN; row <= BOARD_MAX; row++)
+    const BoardLayout & boardLayout = iGame.getBoard().getLayout();
+    for (int row = 1; row <= nbRows; ++row)
     {
-        out << " " << (char)(row - BOARD_MIN + 'A') << " ";
-        for (col = BOARD_MIN; col <= BOARD_MAX; col++)
+        out << " " << (char)(row + 'A' - 1) << " ";
+        for (int col = 1; col <= nbCols; ++col)
         {
             if (!iGame.getBoard().isVacant(row, col))
                 out << padAndConvert(iGame.getBoard().getDisplayStr(row, col), 3);
             else
             {
-                int wm = iGame.getBoard().GetWordMultiplier(row, col);
-                int tm = iGame.getBoard().GetLetterMultiplier(row, col);
+                int wm = boardLayout.getWordMultiplier(row, col);
+                int tm = boardLayout.getLetterMultiplier(row, col);
 
                 if (wm > 1)
                     out << "  " << ((wm == 3) ? '@' : '#');

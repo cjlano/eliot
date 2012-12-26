@@ -27,6 +27,7 @@
 #include "board.h"
 #include "board_search.h"
 #include "game_params.h"
+#include "board_layout.h"
 #include "tile.h"
 #include "round.h"
 #include "rack.h"
@@ -34,63 +35,14 @@
 #include "encoding.h"
 #include "debug.h"
 
-#define oo 0
-#define __ 1
-#define T2 2
-#define T3 3
-#define W2 2
-#define W3 3
+#define BOARD_REALDIM (BOARD_DIM + 2)
 
 
 INIT_LOGGER(game, Board);
 
 
-const int Board::m_tileMultipliers[BOARD_REALDIM][BOARD_REALDIM] =
-{
-    { oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo },
-    { oo,__,__,__,T2,__,__,__,__,__,__,__,T2,__,__,__,oo },
-    { oo,__,__,__,__,__,T3,__,__,__,T3,__,__,__,__,__,oo },
-    { oo,__,__,__,__,__,__,T2,__,T2,__,__,__,__,__,__,oo },
-    { oo,T2,__,__,__,__,__,__,T2,__,__,__,__,__,__,T2,oo },
-    { oo,__,__,__,__,__,__,__,__,__,__,__,__,__,__,__,oo },
-    { oo,__,T3,__,__,__,T3,__,__,__,T3,__,__,__,T3,__,oo },
-    { oo,__,__,T2,__,__,__,T2,__,T2,__,__,__,T2,__,__,oo },
-    { oo,__,__,__,T2,__,__,__,__,__,__,__,T2,__,__,__,oo },
-    { oo,__,__,T2,__,__,__,T2,__,T2,__,__,__,T2,__,__,oo },
-    { oo,__,T3,__,__,__,T3,__,__,__,T3,__,__,__,T3,__,oo },
-    { oo,__,__,__,__,__,__,__,__,__,__,__,__,__,__,__,oo },
-    { oo,T2,__,__,__,__,__,__,T2,__,__,__,__,__,__,T2,oo },
-    { oo,__,__,__,__,__,__,T2,__,T2,__,__,__,__,__,__,oo },
-    { oo,__,__,__,__,__,T3,__,__,__,T3,__,__,__,__,__,oo },
-    { oo,__,__,__,T2,__,__,__,__,__,__,__,T2,__,__,__,oo },
-    { oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo }
-};
-
-
-const int Board::m_wordMultipliers[BOARD_REALDIM][BOARD_REALDIM] =
-{
-    { oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo },
-    { oo,W3,__,__,__,__,__,__,W3,__,__,__,__,__,__,W3,oo },
-    { oo,__,W2,__,__,__,__,__,__,__,__,__,__,__,W2,__,oo },
-    { oo,__,__,W2,__,__,__,__,__,__,__,__,__,W2,__,__,oo },
-    { oo,__,__,__,W2,__,__,__,__,__,__,__,W2,__,__,__,oo },
-    { oo,__,__,__,__,W2,__,__,__,__,__,W2,__,__,__,__,oo },
-    { oo,__,__,__,__,__,__,__,__,__,__,__,__,__,__,__,oo },
-    { oo,__,__,__,__,__,__,__,__,__,__,__,__,__,__,__,oo },
-    { oo,W3,__,__,__,__,__,__,W2,__,__,__,__,__,__,W3,oo },
-    { oo,__,__,__,__,__,__,__,__,__,__,__,__,__,__,__,oo },
-    { oo,__,__,__,__,__,__,__,__,__,__,__,__,__,__,__,oo },
-    { oo,__,__,__,__,W2,__,__,__,__,__,W2,__,__,__,__,oo },
-    { oo,__,__,__,W2,__,__,__,__,__,__,__,W2,__,__,__,oo },
-    { oo,__,__,W2,__,__,__,__,__,__,__,__,__,W2,__,__,oo },
-    { oo,__,W2,__,__,__,__,__,__,__,__,__,__,__,W2,__,oo },
-    { oo,W3,__,__,__,__,__,__,W3,__,__,__,__,__,__,W3,oo },
-    { oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo,oo }
-};
-
-
 Board::Board(const GameParams &iParams):
-    m_params(iParams),
+    m_params(iParams), m_layout(iParams.getBoardLayout()),
     m_tilesRow(BOARD_REALDIM, Tile()),
     m_tilesCol(BOARD_REALDIM, Tile()),
     m_jokerRow(BOARD_REALDIM, false),
@@ -142,8 +94,9 @@ bool Board::isJoker(int iRow, int iCol) const
 
 bool Board::isVacant(int iRow, int iCol) const
 {
-    ASSERT(iRow >= BOARD_MIN && iRow <= BOARD_MAX &&
-           iCol >= BOARD_MIN && iCol <= BOARD_MAX, "Invalid coordinates");
+    ASSERT(iRow >= 1 && (unsigned)iRow <= m_layout.getRowCount() &&
+           iCol >= 1 && (unsigned)iCol <= m_layout.getColCount(),
+           "Invalid coordinates");
     return m_tilesRow[iRow][iCol].isEmpty();
 }
 
@@ -154,7 +107,7 @@ void Board::addRound(const Dictionary &iDic, const Round &iRound)
     int col = iRound.getCoord().getCol();
     if (iRound.getCoord().getDir() == Coord::HORIZONTAL)
     {
-        for (unsigned int i = 0; i < iRound.getWordLen(); i++)
+        for (unsigned i = 0; i < iRound.getWordLen(); i++)
         {
             const Tile &t = iRound.getTile(i);
             if (isVacant(row, col + i))
@@ -282,7 +235,7 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
     int col = iRound.getCoord().getCol();
 
     // Is the word going out of the board?
-    if (col + iRound.getWordLen() > BOARD_MAX + 1)
+    if (col + iRound.getWordLen() >= BOARD_REALDIM)
         return 8;
 
     // Is the word an extension of another word?
@@ -323,16 +276,17 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
 
                 int l;
                 if (!iRound.isJoker(i))
-                    l = t.getPoints() * m_tileMultipliers[row][col + i];
+                    l = t.getPoints() * getLayout().getLetterMultiplier(row, col + i);
                 else
                     l = 0;
                 pts += l;
-                wordmul *= m_wordMultipliers[row][col + i];
+                int wm = getLayout().getWordMultiplier(row, col + i);
+                wordmul *= wm;
 
                 int p = iPointsMx[row][col + i];
                 if (p >= 0)
                 {
-                    ptscross += (p + l) * m_wordMultipliers[row][col + i];
+                    ptscross += (p + l) * wm;
                 }
                 ++fromrack;
                 iRound.setFromRack(i);
@@ -466,24 +420,6 @@ const Tile& Board::getTestTile(int iRow, int iCol) const
 }
 
 
-int Board::GetWordMultiplier(int iRow, int iCol)
-{
-    if (iRow < BOARD_MIN || iRow > BOARD_MAX ||
-        iCol < BOARD_MIN || iCol > BOARD_MAX)
-        return 0;
-    return m_wordMultipliers[iRow][iCol];
-}
-
-
-int Board::GetLetterMultiplier(int iRow, int iCol)
-{
-    if (iRow < BOARD_MIN || iRow > BOARD_MAX ||
-        iCol < BOARD_MIN || iCol > BOARD_MAX)
-        return 0;
-    return m_tileMultipliers[iRow][iCol];
-}
-
-
 // #define CELL_STRING_FORMAT "[%c:%s:%2d]"
 #define CELL_STRING_FORMAT "[%s:%2d]"
 
@@ -511,9 +447,11 @@ string Board::getCellContent_col(int row, int col) const
 #ifdef DEBUG
 void Board::checkDouble()
 {
-    for (int row = BOARD_MIN; row <= BOARD_MAX; row++)
+    const unsigned nbRows = m_layout.getRowCount();
+    const unsigned nbCols = m_layout.getColCount();
+    for (unsigned row = 1; row <= nbRows; row++)
     {
-        for (int col = BOARD_MIN; col <= BOARD_MAX; col++)
+        for (unsigned col = 1; col <= nbCols; col++)
         {
             ASSERT(m_tilesRow[row][col] == m_tilesCol[col][row],
                    "Tiles inconsistency at " << row << "x" << col);

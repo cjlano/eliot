@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2003-2007 Olivier Teulière
+ * Copyright (C) 2012 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -18,45 +18,40 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef MATRIX_H_
-#define MATRIX_H_
+#ifndef BOARD_LAYOUT_H_
+#define BOARD_LAYOUT_H_
 
-#include <vector>
+#include "matrix.h"
+#include "logging.h"
 
-using std::vector;
 
-
-// Template matrix class for convenience.
-template <class T>
-class Matrix: public vector<vector<T> >
+/**
+ * Board layout (size and special squares)
+ */
+class BoardLayout
 {
+    DEFINE_LOGGER();
 public:
-    /// Construct a matrix with an initial value
-    Matrix(int iSize1, int iSize2, const T &iValue)
-    {
-        resize(iSize1, iSize2, iValue);
-    }
+    BoardLayout();
 
-    /// Construct a square matrix with an initial value
-    Matrix(int iSize, const T &iValue)
-    {
-        resize(iSize, iSize, iValue);
-    }
+    unsigned getRowCount() const;
+    unsigned getColCount() const;
+    int getWordMultiplier(unsigned iRow, unsigned iCol) const;
+    int getLetterMultiplier(unsigned iRow, unsigned iCol) const;
 
-    Matrix()
-    {
-    }
+    static const BoardLayout & GetDefault();
 
-    /**
-     * Resize the matrix to iSize1 rows and iSize2 cols.
-     * The contents may be erased.
-     */
-    void resize(int iSize1, int iSize2, const T &iValue)
-    {
-        this->resize(iSize1, vector<T>(iSize2, iValue));
-    }
+private:
 
-    using::vector<vector<T> >::resize;
+    static BoardLayout m_defaultLayout;
+
+    Matrix<int> m_wordMultipliers;
+    Matrix<int> m_tileMultipliers;
+
+    bool isValidCoord(unsigned iRow, unsigned iCol) const;
+
+    void setDefaultLayout();
+
 };
 
 #endif

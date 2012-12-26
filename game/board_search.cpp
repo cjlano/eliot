@@ -246,6 +246,7 @@ void BoardSearch::evalMove(Results &oResults, Round &iWord) const
     int row = iWord.getCoord().getRow();
     int col = iWord.getCoord().getCol();
 
+    const BoardLayout & boardLayout = m_params.getBoardLayout();
     for (unsigned int i = 0; i < len; i++)
     {
         if (!m_tilesMx[row][col+i].isEmpty())
@@ -258,15 +259,16 @@ void BoardSearch::evalMove(Results &oResults, Round &iWord) const
             int l;
             if (!iWord.isJoker(i))
                 l = iWord.getTile(i).getPoints() *
-                    Board::GetLetterMultiplier(row, col + i);
+                    boardLayout.getLetterMultiplier(row, col + i);
             else
                 l = 0;
             pts += l;
-            wordmul *= Board::GetWordMultiplier(row, col + i);
+            int wm = boardLayout.getWordMultiplier(row, col + i);
+            wordmul *= wm;
 
             int t = m_pointsMx[row][col+i];
             if (t >= 0)
-                ptscross += (t + l) * Board::GetWordMultiplier(row, col + i);
+                ptscross += (t + l) * wm;
             fromrack++;
         }
     }

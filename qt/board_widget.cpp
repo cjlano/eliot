@@ -28,6 +28,7 @@
 #include "qtcommon.h"
 #include "public_game.h"
 #include "tile.h"
+#include "board_layout.h"
 #include "board.h"
 #include "play_model.h"
 #include "move.h"
@@ -41,9 +42,14 @@ INIT_LOGGER(qt, BoardWidget);
 BoardWidget::BoardWidget(PlayModel &iPlayModel, QWidget *parent)
     : QFrame(parent), m_game(NULL),
     m_playModel(iPlayModel), m_showTemporarySigns(true),
-    m_showOnlyLastTurn(false),
-    m_widgetsMatrix(BOARD_MAX + 1, BOARD_MAX + 1, 0)
+    m_showOnlyLastTurn(false)
 {
+    const BoardLayout & boardLayout = BoardLayout::GetDefault();
+    const unsigned nbRows = boardLayout.getRowCount();
+    const unsigned nbCols = boardLayout.getColCount();
+
+    m_widgetsMatrix.resize(nbRows + 1, nbCols + 1, 0);
+
     // Try to have a black background... FIXME: not working well!
     QPalette pal = palette();
     for (int i = 0; i <= 19; ++i)
@@ -52,37 +58,39 @@ BoardWidget::BoardWidget(PlayModel &iPlayModel, QWidget *parent)
     setForegroundRole(QPalette::Window);
     setBackgroundRole(QPalette::Window);
 
-    TileLayout *layout = new TileLayout(BOARD_MAX + 1, BOARD_MAX + 1);
+    TileLayout *layout = new TileLayout(nbRows + 1, nbCols + 1);
     layout->setSpacing(1);
     layout->setAlignment(Qt::AlignHCenter);
+
     // Line full of coordinates
     TileWidget *cornerTile = new TileWidget;
     cornerTile->setCoordText("");
     layout->addWidget(cornerTile);
-    for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
+    for (unsigned int col = 1; col <= nbCols; ++col)
     {
         TileWidget *coordTile = new TileWidget;
         coordTile->setCoordText(QString("%1").arg(col));
         layout->addWidget(coordTile);
     }
+
     // Rest of the board
-    for (unsigned int row = BOARD_MIN; row <= BOARD_MAX; ++row)
+    for (unsigned int row = 1; row <= nbRows; ++row)
     {
         // Add the coordinate
         TileWidget *coordTile = new TileWidget;
-        coordTile->setCoordText(QString(QChar('A' + row - BOARD_MIN)));
+        coordTile->setCoordText(QString(QChar('A' + row - 1)));
         layout->addWidget(coordTile);
         // Add the squares
-        for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
+        for (unsigned int col = 1; col <= nbCols; ++col)
         {
             TileWidget::Multiplier mult = TileWidget::NONE;
-            if (Board::GetWordMultiplier(row, col) == 3)
+            if (boardLayout.getWordMultiplier(row, col) == 3)
                 mult = TileWidget::WORD_TRIPLE;
-            else if (Board::GetWordMultiplier(row, col) == 2)
+            else if (boardLayout.getWordMultiplier(row, col) == 2)
                 mult = TileWidget::WORD_DOUBLE;
-            else if (Board::GetLetterMultiplier(row, col) == 3)
+            else if (boardLayout.getLetterMultiplier(row, col) == 3)
                 mult = TileWidget::LETTER_TRIPLE;
-            else if (Board::GetLetterMultiplier(row, col) == 2)
+            else if (boardLayout.getLetterMultiplier(row, col) == 2)
                 mult = TileWidget::LETTER_DOUBLE;
             TileWidget *t = new TileWidget(this, mult, row, col);
             m_widgetsMatrix[row][col] = t;
@@ -159,9 +167,11 @@ void BoardWidget::refresh()
         // Note: the TileWidget class will redraw the tile only if something
         // has changed, to avoid useless repainting.
         const Board &board = m_game->getBoard();
-        for (unsigned int row = BOARD_MIN; row <= BOARD_MAX; ++row)
+        const unsigned nbRows = board.getLayout().getRowCount();
+        const unsigned nbCols = board.getLayout().getColCount();
+        for (unsigned row = 1; row <= nbRows; ++row)
         {
-            for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
+            for (unsigned col = 1; col <= nbCols; ++col)
             {
                 if (board.isTestChar(row, col) && m_showTemporarySigns)
                 {
@@ -191,9 +201,9 @@ void BoardWidget::refresh()
     else
     {
         // Clear the board
-        for (unsigned int row = BOARD_MIN; row <= BOARD_MAX; ++row)
+        for (unsigned row = 1; row < m_widgetsMatrix.size(); ++row)
         {
-            for (unsigned int col = BOARD_MIN; col <= BOARD_MAX; ++col)
+            for (unsigned col = 1; col < m_widgetsMatrix[1].size(); ++col)
             {
                 m_widgetsMatrix[row][col]->tileChanged(TileWidget::BOARD_EMPTY);
             }
@@ -222,7 +232,7 @@ void BoardWidget::paintEvent(QPaintEvent *)
     QLine vLine(0, 0, 0, rect.height() + 1);
     hLine.translate(rect.left() - 1, rect.top() - 1);
     vLine.translate(rect.left() - 1, rect.top() - 1);
-    for (int i = 0; i <= BOARD_MAX; ++i)
+    for (unsigned i = 0; i < m_widgetsMatrix.size(); ++i)
     {
         painter.drawLine(hLine);
         painter.drawLine(vLine);

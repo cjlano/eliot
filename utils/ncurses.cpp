@@ -42,6 +42,7 @@
 #include "game_factory.h"
 #include "game_params.h"
 #include "board.h"
+#include "board_layout.h"
 #include "bag.h"
 #include "public_game.h"
 #include "results.h"
@@ -232,13 +233,14 @@ void CursesIntf::drawBoard(WINDOW *win, int y, int x) const
     }
 
     // The board itself
+    const BoardLayout & boardLayout = m_game->getBoard().getLayout();
     for (int row = 1; row < 16; row++)
     {
         for (int col = 1; col < 16; col++)
         {
             // Handle colors
-            int wm = m_game->getBoard().GetWordMultiplier(row, col);
-            int lm = m_game->getBoard().GetLetterMultiplier(row, col);
+            int wm = boardLayout.getWordMultiplier(row, col);
+            int lm = boardLayout.getLetterMultiplier(row, col);
             if (wm == 3)
                 wattron(win, COLOR_PAIR(COLOR_RED));
             else if (wm == 2)

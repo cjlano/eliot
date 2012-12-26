@@ -41,6 +41,7 @@ libgame_a_SOURCES= \
     ai_player.h \
     ai_percent.cpp ai_percent.h \
     game_params.h \
+    board_layout.cpp board_layout.h \
     board.cpp board.h \
     board_cross.cpp \
     matrix.h \

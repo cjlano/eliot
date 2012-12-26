@@ -22,6 +22,7 @@
 #define GAME_PARAMS_H_
 
 #include "game_exception.h"
+#include "board_layout.h"
 
 class Dictionary;
 
@@ -82,6 +83,8 @@ class GameParams
             m_rackSize = 8;
     }
 
+    void setBoardLayout(const BoardLayout &iLayout) { m_boardLayout = iLayout; }
+
     // Getters
     const Dictionary & getDic() const { return m_dic; }
     GameMode getMode() const { return m_mode; }
@@ -90,7 +93,10 @@ class GameParams
     int getLettersToPlay() const { return m_lettersToPlay; }
     int getBonusPoints() const { return m_bonusPoints; }
 
+    const BoardLayout & getBoardLayout() const { return m_boardLayout; }
+
  private:
+    BoardLayout m_boardLayout;
     const Dictionary &m_dic;
     GameMode m_mode;
     unsigned int m_variants;
