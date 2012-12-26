@@ -42,6 +42,31 @@ NewGame::NewGame(QWidget *iParent)
 {
     setupUi(this);
 
+    radioButtonDuplicate->setToolTip(_q(
+            "In duplicate mode, all the players are always faced with the same board and the same rack,\n"
+            "thus eliminating any \"luck\" (and tactics).\n"
+            "Each player scores the points of the word (s)he found, but only\n"
+            "the best move is played on the board.\n"
+            "This mode allows an unlimited number of simultaneous players, and is therefore\n"
+            "often used for official tournaments."));
+    radioButtonFreeGame->setToolTip(_q(
+            "This mode is the classical one, often played in family, where players play in turn,\n"
+            "each with his own rack. Players are allowed to change letters, thus passing their turn.\n"
+            "With only 2 players, some tactics can often be used, because the best move\n"
+            "is not necessarily the one with the best score."));
+    radioButtonTraining->setToolTip(_q(
+            "In training mode, the player can set the rack freely and can see all the possible moves.\n"
+            "There is no opponent, the goal is simply to make some progress."));
+    radioButtonArbitration->setToolTip(_q(
+            "The arbitration mode allows arbitrating a duplicate game, possibly with many players.\n"
+            "The arbitrator can set the master move, and keep track of the players moves easily.\n"
+            "This mode is ideal for arbitrating duplicate games in clubs or in tournaments."));
+    radioButtonTopping->setToolTip(_q(
+            "In topping mode, the goal is to find the top as quickly as possible. The player is allowed\n"
+            "to try as many moves as possible until he finds the top, but there are penalties\n"
+            "when the player takes too much time to find it (or doesn't fint it at all).\n"
+            "This mode can be quite difficult, and is mostly intended for experienced players."));
+
     checkBoxJoker->setToolTip(_q(
             "In a joker game, each rack contains a joker.\n"
             "When a word containing the joker is played on the grid, the joker is then replaced\n"

@@ -111,9 +111,6 @@
         </property>
         <item>
          <widget class="QCheckBox" name="checkBoxJoker">
-          <property name="toolTip">
-           <string>_(&quot;In a joker game, each rack contains a joker. When a word containing the joker is played on the grid, the joker is then replaced by the corresponding letter from the bag, and the joker stays in the rack. When the corresponding letter is not present in the bag, the joker is placed on the board. This variant, particularly interesting in Duplicate mode, is good to train using the joker.&quot;)</string>
-          </property>
           <property name="text">
            <string>_(&quot;Joker game&quot;)</string>
           </property>
@@ -121,9 +118,6 @@
         </item>
         <item>
          <widget class="QCheckBox" name="checkBoxExplosive">
-          <property name="toolTip">
-           <string>_(&quot;An explosive game is a bit like a joker game, except than when the computer chooses the rack (containing a joker), it performs a search and finds the best word possible with the rack. Then, if possible, it replaces the joker in the rack with the letter allowing to play this best word. This variant, unlike the joker game, allows playing with a normal-looking rack, but it usually gives much higher scores than in a normal game.&quot;)</string>
-          </property>
           <property name="text">
            <string>_(&quot;Explosive game&quot;)</string>
           </property>
