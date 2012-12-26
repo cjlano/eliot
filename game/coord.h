@@ -59,13 +59,8 @@ public:
     void swap();
 
 
-    enum coord_mode_t
-    {
-        COORD_MODE_COMPACT,
-        COORD_MODE_LONG
-    };
     void setFromString(const wstring &iStr);
-    wstring toString(coord_mode_t mode = COORD_MODE_COMPACT) const;
+    wstring toString() const;
 
 private:
     Direction m_dir;

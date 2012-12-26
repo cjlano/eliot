@@ -49,14 +49,6 @@ bool Coord::isValid() const
             m_col >= BOARD_MIN && m_col <= BOARD_MAX);
 }
 
-/*
-void Coord::operator=(const Coord &iOther)
-{
-    m_dir = iOther.m_dir;
-    m_row = iOther.m_row;
-    m_col = iOther.m_col;
-}
-*/
 
 bool Coord::operator==(const Coord &iOther) const
 {
@@ -66,6 +58,7 @@ bool Coord::operator==(const Coord &iOther) const
         && m_col == iOther.m_col
         && m_dir == iOther.m_dir;
 }
+
 
 void Coord::swap()
 {
@@ -105,7 +98,7 @@ void Coord::setFromString(const wstring &iWStr)
         setCol(-1);
 }
 
-wstring Coord::toString(coord_mode_t mode) const
+wstring Coord::toString() const
 {
     ASSERT(isValid(), "Invalid coordinates");
 
@@ -116,22 +109,10 @@ wstring Coord::toString(coord_mode_t mode) const
     _swprintf(scol, 3, L"%d", m_col);
     _swprintf(srow, 3, L"%c", m_row + 'A' - 1);
 
-    switch (mode)
-    {
-    case COORD_MODE_COMPACT:
-        if (getDir() == HORIZONTAL)
-            _swprintf(res, 7, L"%ls%ls", srow, scol);
-        else
-            _swprintf(res, 7, L"%ls%ls", scol, srow);
-        break;
-    case COORD_MODE_LONG:
-        if (getDir() == HORIZONTAL)
-            _swprintf(res, 7, L"%2ls %2ls", srow, scol);
-        else
-            _swprintf(res, 7, L"%2ls %2ls", scol, srow);
-        break;
-    }
-
+    if (getDir() == HORIZONTAL)
+        _swprintf(res, 7, L"%ls%ls", srow, scol);
+    else
+        _swprintf(res, 7, L"%ls%ls", scol, srow);
 
     return res;
 }
