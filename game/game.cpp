@@ -576,7 +576,7 @@ int Game::checkPlayedWord(const wstring &iCoord,
             return 10;
     }
 
-    if (checkRack)
+    if (checkWordAndJunction && checkRack)
     {
         // Check that the word can be formed with the tiles in the rack:
         // we first create a copy of the rack, then we remove the tiles

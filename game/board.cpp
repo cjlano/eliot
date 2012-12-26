@@ -351,7 +351,7 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
 
     // We may not be allowed to use so many letters from the rack
     // (cf. "7 among 8" variant)
-    if (fromrack > m_params.getLettersToPlay())
+    if (checkJunction && fromrack > m_params.getLettersToPlay())
         return 9;
 
     // The word must cover at least one anchor square, except
