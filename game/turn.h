@@ -161,6 +161,28 @@ class Turn
             return findMatchingCmd<CMD, TruePred<CMD> >(TruePred<CMD>());
         }
 
+        /**
+         * Find all the commands of the template type
+         */
+        template<typename CMD>
+        vector<const CMD *> findAllMatchingCmd() const
+        {
+            vector<const CMD *> results;
+            // TODO: can probably be simplified using std::find_if() (or something similar)
+            // associated with a TypePred functor doing the dynamic_cast
+            vector<Command*>::const_iterator it;
+            for (it = m_commands.begin(); it != m_commands.end(); ++it)
+            {
+                const CMD *cmd = dynamic_cast<const CMD*>(*it);
+                if (cmd != 0)
+                {
+                    // Found one!
+                    results.push_back(cmd);
+                }
+            }
+            return results;
+        }
+
     private:
         vector<Command *> m_commands;
         /**
