@@ -24,6 +24,7 @@
 #include <string>
 
 #include "game.h"
+#include "move.h"
 #include "logging.h"
 
 class Player;
@@ -60,6 +61,17 @@ public:
      */
     virtual void addPlayer(Player *iPlayer);
 
+    /**
+     * Word played by the player, with the corresponding elapsed time, in seconds
+     */
+    void tryWord(const wstring &iWord, const wstring &iCoord, int iElapsed);
+
+    /**
+     * Return all the moves tried by the player (including the invalid ones).
+     * The moves are returned in chronological order.
+     */
+    vector<Move> getTriedMoves() const;
+
 private:
     /// Private constructor and destructor to force using the GameFactory class
     Topping(const GameParams &iParams);
@@ -71,6 +83,12 @@ private:
 
     /// Finish the game
     void endGame();
+
+    /**
+     * Return the score of the top move.
+     * If no move is possible at all, return -1.
+     */
+    int getTopScore() const;
 
 };
 

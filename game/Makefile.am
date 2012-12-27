@@ -35,6 +35,7 @@ libgame_a_SOURCES= \
     turn_data.cpp turn_data.h \
     history.cpp history.h \
     player.cpp player.h \
+    cmd/topping_move_cmd.cpp cmd/topping_move_cmd.h \
     cmd/player_event_cmd.cpp cmd/player_event_cmd.h \
     cmd/player_move_cmd.cpp cmd/player_move_cmd.h \
     cmd/player_rack_cmd.cpp cmd/player_rack_cmd.h \

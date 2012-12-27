@@ -48,6 +48,7 @@
 #include "cmd/player_move_cmd.h"
 #include "cmd/player_event_cmd.h"
 #include "cmd/master_move_cmd.h"
+#include "cmd/topping_move_cmd.h"
 #include "dic.h"
 #include "header.h"
 
@@ -261,7 +262,15 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
                 out << indent;
                 writeMove(out, moveCmd->getMove(), "MasterMove", -1);
                 out << endl;
-
+            }
+            else if (dynamic_cast<const ToppingMoveCmd*>(cmd))
+            {
+                const ToppingMoveCmd *moveCmd = static_cast<const ToppingMoveCmd*>(cmd);
+                unsigned int id = moveCmd->getPlayerId();
+                out << indent;
+                // FIXME: the elapsed time is not saved
+                writeMove(out, moveCmd->getMove(), "ToppingMove", id);
+                out << endl;
             }
             else if (dynamic_cast<const PlayerEventCmd*>(cmd))
             {

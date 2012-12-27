@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <boost/foreach.hpp>
+
 #include "config.h"
 #if ENABLE_NLS
 #   include <libintl.h>
@@ -31,15 +33,13 @@
 #include "tile.h"
 #include "settings.h"
 #include "rack.h"
-#include "round.h"
 #include "results.h"
-#include "move.h"
 #include "pldrack.h"
 #include "player.h"
+#include "turn.h"
+#include "cmd/topping_move_cmd.h"
 #include "cmd/player_move_cmd.h"
-#include "cmd/player_rack_cmd.h"
 #include "cmd/game_move_cmd.h"
-#include "cmd/game_rack_cmd.h"
 #include "encoding.h"
 
 #include "debug.h"
@@ -73,43 +73,56 @@ void Topping::start()
 }
 
 
-int Topping::play(const wstring &iCoord, const wstring &iWord)
+void Topping::tryWord(const wstring &iWord, const wstring &iCoord, int iElapsed)
 {
     m_board.removeTestRound();
 
-    // Perform all the validity checks, and fill a move
+    // Perform all the validity checks, and fill a move.
+    // We don't really care if the move is valid or not.
     Move move;
-    int res = checkPlayedWord(iCoord, iWord, move);
-    if (res != 0)
-        return res;
+    checkPlayedWord(iCoord, iWord, move);
+
+    // Record the try
+    LOG_INFO("Player " << m_currPlayer << " plays topping move after " <<
+             iElapsed << "s: " << lfw(move.toString()));
+    Command *pCmd = new ToppingMoveCmd(m_currPlayer, move, iElapsed);
+    accessNavigation().addAndExecute(pCmd);
 
     // Find the best score
-    BestResults results;
-    results.search(getDic(), getBoard(), m_players[0]->getCurrentRack().getRack(),
-                   getHistory().beforeFirstRound());
-    if (results.size() == 0)
-    {
-        // Just to be safe
-        endGame();
-        return 0;
-    }
-    int bestScore = results.get(0).getPoints();
+    int bestScore = getTopScore();
     LOG_DEBUG("Top score to be found: " << bestScore);
+    if (bestScore < 0)
+    {
+        endGame();
+        return;
+    }
+    ASSERT(move.getScore() <= bestScore, "The player found better than the top");
 
     if (move.getScore() < bestScore)
     {
-        // The player hasn't found the top yet
-        LOG_INFO("Player plays a subtop move: " << lfw(move.toString()));
-        // TODO
+        LOG_INFO("End of the game");
     }
     else
     {
         // End the turn
+        // FIXME
         recordPlayerMove(move, *m_players[m_currPlayer]);
 
         // Next turn
         endTurn();
     }
+}
+
+
+int Topping::play(const wstring &iCoord, const wstring &iWord)
+{
+#if 0
+    ASSERT(false, "The play() method should not be called in topping mode");
+    throw GameException("The play() method should not be called in topping mode. Please use tryWord() instead.");
+#else
+    // FIXME
+    tryWord(iWord, iCoord, 0);
+#endif
 
     return 0;
 }
@@ -161,4 +174,32 @@ void Topping::addPlayer(Player *iPlayer)
     iPlayer->setName(wfl(_("Topping")));
     Game::addPlayer(iPlayer);
 }
+
+
+int Topping::getTopScore() const
+{
+    BestResults results;
+    results.search(getDic(), getBoard(), m_players[0]->getCurrentRack().getRack(),
+                   getHistory().beforeFirstRound());
+    if (results.size() == 0)
+    {
+        // Just to be safe
+        return -1;
+    }
+    return results.get(0).getPoints();
+}
+
+
+vector<Move> Topping::getTriedMoves() const
+{
+    vector<Move> results;
+    const vector<const ToppingMoveCmd*> &cmdVect =
+        getNavigation().getCurrentTurn().findAllMatchingCmd<ToppingMoveCmd>();
+    BOOST_FOREACH(const ToppingMoveCmd * cmd, cmdVect)
+    {
+        results.push_back(cmd->getMove());
+    }
+    return results;
+}
+
 
