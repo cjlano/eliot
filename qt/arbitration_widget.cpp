@@ -166,9 +166,11 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
                      SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
                      this, SLOT(showPreview(const QItemSelection&)));
 
-    // Dynamic filter for search results
-    QObject::connect(lineEditFilter, SIGNAL(textChanged(const QString&)),
-                     this, SLOT(resultsFilterChanged(const QString&)));
+    // Dynamic filters for search results
+    QObject::connect(lineEditFilterWord, SIGNAL(textChanged(const QString&)),
+                     this, SLOT(resultsFilterWordChanged(const QString&)));
+    QObject::connect(lineEditFilterPoints, SIGNAL(textChanged(const QString&)),
+                     this, SLOT(resultsFilterPointsChanged(const QString&)));
 
     // Enable the assignment buttons according to the selections in trees
     QObject::connect(treeViewResults->selectionModel(),
@@ -440,9 +442,29 @@ void ArbitrationWidget::rackChanged()
 }
 
 
-void ArbitrationWidget::resultsFilterChanged(const QString &iFilter)
+void ArbitrationWidget::resultsFilterWordChanged(const QString &iFilter)
 {
+    // Clear the points filter
+    lineEditFilterPoints->blockSignals(true);
+    lineEditFilterPoints->clear();
+    lineEditFilterPoints->blockSignals(false);
+
     treeViewResults->clearSelection();
+    m_proxyResultsModel->setFilterKeyColumn(0);
+    m_proxyResultsModel->setFilterFixedString(iFilter);
+    emit gameUpdated();
+}
+
+
+void ArbitrationWidget::resultsFilterPointsChanged(const QString &iFilter)
+{
+    // Clear the word filter
+    lineEditFilterWord->blockSignals(true);
+    lineEditFilterWord->clear();
+    lineEditFilterWord->blockSignals(false);
+
+    treeViewResults->clearSelection();
+    m_proxyResultsModel->setFilterKeyColumn(2);
     m_proxyResultsModel->setFilterFixedString(iFilter);
     emit gameUpdated();
 }
@@ -476,7 +498,8 @@ void ArbitrationWidget::searchResults()
 {
     m_game->removeTestRound();
     emit notifyInfo(_q("Searching with rack '%1'...").arg(lineEditRack->text()));
-    lineEditFilter->clear();
+    lineEditFilterWord->clear();
+    lineEditFilterPoints->clear();
     m_results.clear();
     m_game->arbitrationSearch(m_results);
     emit notifyInfo(_q("Search done"));

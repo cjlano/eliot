@@ -77,9 +77,31 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEditFilter">
+             <widget class="QLineEdit" name="lineEditFilterWord">
               <property name="placeholderText">
-               <string>_(&quot;Filter&quot;)</string>
+               <string>_(&quot;Word&quot;)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEditFilterPoints">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>_(&quot;Points&quot;)</string>
               </property>
              </widget>
             </item>

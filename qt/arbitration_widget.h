@@ -65,7 +65,8 @@ private slots:
     void rackEdited(const QString &);
     void rackChanged();
     void searchResults();
-    void resultsFilterChanged(const QString &);
+    void resultsFilterWordChanged(const QString &);
+    void resultsFilterPointsChanged(const QString &);
     void enableCheckWordButton();
     void checkWord();
     void updateSelectedMove();
