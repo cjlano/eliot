@@ -312,7 +312,7 @@ void MainWindow::beep()
 
     LOG_DEBUG("Beep!")
     // FIXME: doesn't seem to be working on Ubuntu
-    // (even acter 'modprobe pcspkr' and when the 'beep' application works)
+    // (even after 'modprobe pcspkr' and when the 'beep' application works)
     QApplication::beep();
 }
 
