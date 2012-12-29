@@ -1,5 +1,7 @@
 <RCC>
   <qresource>
+    <file>images/go-down.png</file>
+    <file>images/go-up.png</file>
     <file>images/go-first.png</file>
     <file>images/go-previous.png</file>
     <file>images/go-next.png</file>

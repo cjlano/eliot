@@ -109,6 +109,10 @@ NewGame::NewGame(QWidget *iParent)
 
     QObject::connect(buttonAddFav, SIGNAL(clicked()),
                      this, SLOT(addFavoritePlayers()));
+    QObject::connect(buttonUp, SIGNAL(clicked()),
+                     m_helper, SLOT(moveSelectionUp()));
+    QObject::connect(buttonDown, SIGNAL(clicked()),
+                     m_helper, SLOT(moveSelectionDown()));
 }
 
 

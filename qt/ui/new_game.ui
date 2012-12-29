@@ -172,6 +172,28 @@
           </property>
          </spacer>
         </item>
+        <item>
+         <widget class="QPushButton" name="buttonUp">
+          <property name="toolTip">
+           <string>_(&quot;Move selection upwards&quot;)</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../eliot.qrc">
+            <normaloff>:/images/go-up.png</normaloff>:/images/go-up.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="buttonDown">
+          <property name="toolTip">
+           <string>_(&quot;Move selection downwards&quot;)</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../eliot.qrc">
+            <normaloff>:/images/go-down.png</normaloff>:/images/go-down.png</iconset>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>
@@ -201,7 +223,9 @@
   <tabstop>tablePlayers</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../eliot.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

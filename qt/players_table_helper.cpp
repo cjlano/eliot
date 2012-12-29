@@ -34,6 +34,7 @@
 #include "custom_popup.h"
 #include "misc_helpers.h"
 #include "qtcommon.h"
+#include "debug.h"
 
 
 INIT_LOGGER(qt, PlayersTableHelper);
@@ -270,6 +271,92 @@ void PlayersTableHelper::addRow(const PlayerDef &iDef)
     item->setData(Qt::DisplayRole, iDef.isDefault);
     m_tablePlayers->setItem(row, 3, item);
     emit rowCountChanged();
+}
+
+
+void PlayersTableHelper::moveRow(int rowFrom, int rowTo)
+{
+    ASSERT(rowFrom >= 0 && rowFrom < m_tablePlayers->rowCount(),
+           "Invalid rowFrom argument: " << rowFrom);
+    ASSERT(rowTo >= 0 && rowTo < m_tablePlayers->rowCount(),
+           "Invalid rowTo argument: " << rowTo);
+    ASSERT(rowFrom != rowTo, "moveRow() should be called with different values");
+
+    // We are going to insert a row, so update the indices
+    int realFrom = rowFrom;
+    int realTo = rowTo;
+    if (rowFrom < rowTo)
+        realTo = rowTo + 1;
+    else
+        realFrom = rowFrom + 1;
+
+    // Insert a new row
+    QAbstractItemModel *model = m_tablePlayers->model();
+    model->insertRow(realTo);
+
+    // Copy the values from the row to move
+    for (int col = 0; col < model->columnCount(); ++col)
+    {
+        QMap<int, QVariant> itemData = model->itemData(model->index(realFrom, col));
+        model->setItemData(model->index(realTo, col), itemData);
+    }
+
+    // Delete the old row
+    model->removeRow(realFrom);
+}
+
+
+void PlayersTableHelper::moveSelectionUp()
+{
+    QItemSelectionModel *selModel = m_tablePlayers->selectionModel();
+    if (!selModel->hasSelection())
+        return;
+
+    for (int i = 0; i < m_tablePlayers->rowCount() - 1; ++i)
+    {
+        if (!selModel->isRowSelected(i, QModelIndex()) &&
+            selModel->isRowSelected(i + 1, QModelIndex()))
+        {
+            // Find the first unselected row after this contiguous selection
+            int j = i + 1;
+            while (j + 1 < m_tablePlayers->rowCount() &&
+                   selModel->isRowSelected(j + 1, QModelIndex()))
+                ++j;
+
+            // Move the row
+            moveRow(i, j);
+
+            // Skip ahead
+            i = j;
+        }
+    }
+}
+
+
+void PlayersTableHelper::moveSelectionDown()
+{
+    QItemSelectionModel *selModel = m_tablePlayers->selectionModel();
+    if (!selModel->hasSelection())
+        return;
+
+    for (int i = m_tablePlayers->rowCount() - 1; i >= 0; --i)
+    {
+        if (!selModel->isRowSelected(i, QModelIndex()) &&
+            selModel->isRowSelected(i - 1, QModelIndex()))
+        {
+            // Find the last row of this contiguous selection
+            int j = i - 1;
+            while (j - 1 < m_tablePlayers->rowCount() &&
+                   selModel->isRowSelected(j - 1, QModelIndex()))
+                --j;
+
+            // Move the row
+            moveRow(i, j);
+
+            // Skip ahead
+            i = j;
+        }
+    }
 }
 
 

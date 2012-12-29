@@ -28,11 +28,13 @@ bin_PROGRAMS = eliot
 
 RESOURCES = \
     images/eliot.xpm \
+    images/go-down.png \
     images/go-first.png \
     images/go-jump.png \
     images/go-last.png \
     images/go-next.png \
     images/go-previous.png \
+    images/go-up.png \
     images/info_16px.png \
     images/playlist_16px.png \
     images/preferences.png \

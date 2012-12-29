@@ -77,6 +77,10 @@ public:
     void addPopupAction(QAction *iAction);
     void addPopupRemoveAction();
 
+public slots:
+    void moveSelectionUp();
+    void moveSelectionDown();
+
 signals:
     void rowCountChanged();
 
@@ -97,6 +101,8 @@ private:
     /// Return a "normalized" player def, i.e. with correct values
     PlayerDef normalize(const PlayerDef &iDef) const;
 
+    /// Move row at index rowFrom to index rowTo
+    void moveRow(int rowFrom, int rowTo);
 };
 
 
