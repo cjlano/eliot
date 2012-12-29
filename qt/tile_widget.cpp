@@ -115,7 +115,6 @@ void TileWidget::tileChanged(State state, const Tile &iTile, bool isJoker)
     m_state = state;
     m_tile = iTile;
     m_isJoker = isJoker;
-    m_state = state;
     update();
 }
 
