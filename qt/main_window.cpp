@@ -59,6 +59,7 @@
 #include "score_widget.h"
 #include "player_widget.h"
 #include "training_widget.h"
+#include "topping_widget.h"
 #include "arbitration_widget.h"
 #include "history_widget.h"
 #include "stats_widget.h"
@@ -77,6 +78,7 @@ const char *MainWindow::m_windowName = "MainWindow";
 MainWindow::MainWindow(QWidget *iParent)
     : QMainWindow(iParent), m_dic(NULL), m_game(NULL),
     m_playersWidget(NULL), m_trainingWidget(NULL),
+    m_toppingWidget(NULL),
     m_arbitrationWidget(NULL), m_scoresWidget(NULL),
     m_bagWindow(NULL), m_boardWindow(NULL),
     m_historyWindow(NULL), m_statsWindow(NULL), m_timerWindow(NULL),
@@ -411,6 +413,10 @@ void MainWindow::updateForGame(PublicGame *iGame)
         QtCommon::DestroyObject(m_trainingWidget, this);
         m_trainingWidget = NULL;
 
+        // Destroy the topping widget
+        QtCommon::DestroyObject(m_toppingWidget, this);
+        m_toppingWidget = NULL;
+
         // Destroy the arbitration widget
         QtCommon::DestroyObject(m_arbitrationWidget, this);
         m_arbitrationWidget = NULL;
@@ -486,19 +492,16 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_ui.groupBoxPlayers->setTitle(_q("Topping"));
 
             // Players widget
-            m_playersWidget = new PlayerTabWidget(m_playModel, NULL);
-            m_ui.groupBoxPlayers->layout()->addWidget(m_playersWidget);
-            QObject::connect(m_playersWidget, SIGNAL(gameUpdated()),
+            m_toppingWidget = new ToppingWidget(NULL, m_playModel, iGame);
+            m_ui.groupBoxPlayers->layout()->addWidget(m_toppingWidget);
+            QObject::connect(m_toppingWidget, SIGNAL(gameUpdated()),
                              this, SIGNAL(gameUpdated()));
-            QObject::connect(m_playersWidget, SIGNAL(notifyInfo(QString)),
+            QObject::connect(m_toppingWidget, SIGNAL(notifyInfo(QString)),
                              this, SLOT(displayInfoMsg(QString)));
-            QObject::connect(m_playersWidget, SIGNAL(notifyProblem(QString)),
+            QObject::connect(m_toppingWidget, SIGNAL(notifyProblem(QString)),
                              this, SLOT(displayErrorMsg(QString)));
-            QObject::connect(m_playersWidget, SIGNAL(requestDefinition(QString)),
-                             this, SLOT(showDefinition(QString)));
             QObject::connect(this, SIGNAL(gameUpdated()),
-                             m_playersWidget, SLOT(refresh()));
-            m_playersWidget->setGame(iGame);
+                             m_toppingWidget, SLOT(refresh()));
 
             // Players score
             m_scoresWidget = new ScoreWidget(NULL, iGame);

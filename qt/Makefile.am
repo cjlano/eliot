@@ -54,6 +54,7 @@ EXTRA_DIST = \
     ui/player_widget.ui \
     ui/prefs_dialog.ui \
     ui/tables_dialog.ui \
+    ui/topping_widget.ui \
     ui/training_widget.ui \
     eliot.qrc \
     $(RESOURCES) \
@@ -83,6 +84,7 @@ eliot_SOURCES = \
     stats_widget.cpp stats_widget.h \
     play_word_mediator.cpp play_word_mediator.h \
     tables_dialog.cpp tables_dialog.h \
+    topping_widget.cpp topping_widget.h \
     training_widget.cpp training_widget.h \
     player_widget.cpp player_widget.h \
     prefs_dialog.cpp prefs_dialog.h \
@@ -98,6 +100,7 @@ nodist_eliot_SOURCES = \
     ui/new_game.ui.h \
     ui/player_widget.ui.h \
     ui/tables_dialog.ui.h \
+    ui/topping_widget.ui.h \
     ui/training_widget.ui.h \
     ui/prefs_dialog.ui.h \
     ui/dic_tools_widget.ui.h \
@@ -127,6 +130,7 @@ nodist_eliot_SOURCES = \
     play_word_mediator.moc.cpp \
     player_widget.moc.cpp \
     tables_dialog.moc.cpp \
+    topping_widget.moc.cpp \
     training_widget.moc.cpp \
     prefs_dialog.moc.cpp \
     aux_window.moc.cpp \

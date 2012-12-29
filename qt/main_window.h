@@ -41,6 +41,7 @@ class HistoryTabWidget;
 class PlayerTabWidget;
 class ScoreWidget;
 class TrainingWidget;
+class ToppingWidget;
 class ArbitrationWidget;
 class AuxWindow;
 class TimerModel;
@@ -148,6 +149,9 @@ private:
 
     /// Widget for the training mode
     TrainingWidget *m_trainingWidget;
+
+    /// Widget for the topping mode
+    ToppingWidget *m_toppingWidget;
 
     /// Widget for the arbitration mode
     ArbitrationWidget *m_arbitrationWidget;

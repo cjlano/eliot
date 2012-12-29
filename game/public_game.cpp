@@ -244,6 +244,13 @@ void PublicGame::trainingSetRackManual(bool iCheck, const wstring &iLetters)
 
 /***************************/
 
+vector<Move> PublicGame::toppingGetTriedMoves() const
+{
+    return getTypedGame<Topping>(m_game).getTriedMoves();
+}
+
+/***************************/
+
 void PublicGame::duplicateSetPlayer(unsigned int p)
 {
     getTypedGame<Duplicate>(m_game).setPlayer(p);

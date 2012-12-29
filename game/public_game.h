@@ -21,6 +21,7 @@
 #ifndef PUBLIC_GAME_H_
 #define PUBLIC_GAME_H_
 
+#include <vector>
 #include <string>
 
 class GameParams;
@@ -207,6 +208,15 @@ public:
     void trainingSetRackRandom(bool iCheck, RackMode iRackMode);
 
     void trainingSetRackManual(bool iCheck, const wstring &iLetters);
+
+
+    /***************
+     * Topping games
+     * These methods throw an exception if the current game is not in
+     * the Topping mode.
+     ***************/
+
+    vector<Move> toppingGetTriedMoves() const;
 
     /***************
      * Duplicate games
