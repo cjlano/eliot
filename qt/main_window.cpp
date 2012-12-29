@@ -63,7 +63,6 @@
 #include "history_widget.h"
 #include "stats_widget.h"
 #include "dic_tools_widget.h"
-#include "players_table_helper.h"
 #include "fav_players.h"
 #include "timer_widget.h"
 #include "dic_wizard.h"
