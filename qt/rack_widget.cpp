@@ -44,7 +44,8 @@ INIT_LOGGER(qt, RackWidget);
 
 RackWidget::RackWidget(QWidget *parent)
     : QFrame(parent), m_game(NULL),
-      m_playModel(NULL), m_showOnlyLastTurn(false)
+      m_playModel(NULL), m_showOnlyLastTurn(false),
+      m_dragOrigin(-1)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
@@ -103,9 +104,9 @@ void RackWidget::refresh()
 
 void RackWidget::setRack(const vector<Tile> &iTiles)
 {
-    const vector<Tile> &remainingTiles = filterRack(iTiles);
+    m_tiles = filterRack(iTiles);
 
-    unsigned tilesCount = remainingTiles.size();
+    unsigned tilesCount = m_tiles.size();
 
     // Make sure we have as many widgets as there are letters in the rack
     while (m_tilesVect.size() > tilesCount)
@@ -129,7 +130,7 @@ void RackWidget::setRack(const vector<Tile> &iTiles)
     for (unsigned int i = 0; i < tilesCount; ++i)
     {
         TileWidget *tileWidget = m_tilesVect[i];
-        tileWidget->tileChanged(TileWidget::NORMAL, remainingTiles[i]);
+        tileWidget->tileChanged(TileWidget::NORMAL, m_tiles[i]);
     }
 }
 
@@ -176,11 +177,9 @@ void RackWidget::tilePressed(int row, int col, QMouseEvent *event)
     TileWidget *tileWidget = m_tilesVect[col];
 
     // Save the initial column of the moved tile
-    QByteArray itemData;
-    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-    dataStream << col;
     QMimeData *mimeData = new QMimeData;
-    mimeData->setData(MIME_TYPE, itemData);
+    mimeData->setData(MIME_TYPE, QByteArray());
+    m_dragOrigin = col;
 
     // Create an image of the tile
     QPixmap pixmap(tileWidget->size());
@@ -219,6 +218,12 @@ void RackWidget::dragMoveEvent(QDragMoveEvent *event)
     if (event->mimeData()->hasFormat(MIME_TYPE))
     {
         event->setDropAction(Qt::MoveAction);
+
+        int closestCol = findClosestTile(event->pos());
+        moveTile(m_dragOrigin, closestCol, true);
+        // We have a new drag origin, since we just moved the tile
+        m_dragOrigin = closestCol;
+
         event->accept();
     }
     else
@@ -230,34 +235,12 @@ void RackWidget::dragMoveEvent(QDragMoveEvent *event)
 
 void RackWidget::dropEvent(QDropEvent *event)
 {
-    int closestCol = findClosestTile(event->pos());
     if (event->mimeData()->hasFormat(MIME_TYPE))
     {
-        // Retrieve the initial column of the moved tile
-        QByteArray data = event->mimeData()->data(MIME_TYPE);
-        QDataStream dataStream(&data, QIODevice::ReadOnly);
-        int initialCol;
-        dataStream >> initialCol;
+        int closestCol = findClosestTile(event->pos());
+        LOG_DEBUG("Dropping tile " << m_dragOrigin << " closest to tile " << closestCol);
 
-        if (initialCol == closestCol)
-        {
-            event->ignore();
-            return;
-        }
-        LOG_DEBUG("Dropping tile " << initialCol << " closest to tile " << closestCol);
-
-        // Get the initial tiles
-        vector<Tile> tiles;
-        Q_FOREACH(const TileWidget *tileWidget, m_tilesVect)
-        {
-            tiles.push_back(tileWidget->getTile());
-        }
-        // Change the order
-        Tile moved = tiles[initialCol];
-        tiles.erase(tiles.begin() + initialCol);
-        tiles.insert(tiles.begin() + closestCol, moved);
-        // Update the rack
-        setRack(tiles);
+        moveTile(m_dragOrigin, closestCol);
 
         event->setDropAction(Qt::MoveAction);
         event->accept();
@@ -296,4 +279,22 @@ int RackWidget::findClosestTile(const QPoint &iPos) const
     }
     return minIdx;
 }
+
+
+void RackWidget::moveTile(int fromPos, int toPos, bool shaded)
+{
+    if (fromPos != toPos)
+    {
+        // Change the order
+        Tile moved = m_tiles[fromPos];
+        m_tiles.erase(m_tiles.begin() + fromPos);
+        m_tiles.insert(m_tiles.begin() + toPos, moved);
+        // Update the rack
+        setRack(m_tiles);
+    }
+    // Change the look of the moved tile
+    m_tilesVect[toPos]->tileChanged(shaded ? TileWidget::RACK_PLAYED : TileWidget::NORMAL,
+                                    m_tiles[toPos]);
+}
+
 

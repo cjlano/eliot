@@ -53,6 +53,7 @@ public:
         PREVIEW,
         BOARD_EMPTY,
         RACK_PLAYED,
+        SHADED = RACK_PLAYED,
     };
 
     explicit TileWidget(QWidget *parent = 0, Multiplier multiplier = NONE,

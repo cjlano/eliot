@@ -62,7 +62,13 @@ protected:
     virtual void dropEvent(QDropEvent *event);
 
 private:
-    /// Encapsulated tiles
+    /// Tiles from which widgets are created
+    vector<Tile> m_tiles;
+
+    /**
+     * Encapsulated tiles.
+     * Always in sync with m_tiles, except maybe during a drag & drop operation.
+     */
     vector<TileWidget *> m_tilesVect;
 
     /// Encapsulated game, can be NULL
@@ -76,6 +82,8 @@ private:
      * (useful for on the external board, in particular in arbitration mode)
      */
     bool m_showOnlyLastTurn;
+
+    int m_dragOrigin;
 
     /**
      * If the play model is not NULL and contains a valid move, this method
@@ -91,6 +99,8 @@ private:
     int findTile(const QPoint &iPos) const;
 
     int findClosestTile(const QPoint &iPos) const;
+
+    void moveTile(int fromPos, int toPos, bool shaded = false);
 
 private slots:
     void tilePressed(int row, int col, QMouseEvent *event);
