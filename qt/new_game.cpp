@@ -66,6 +66,7 @@ NewGame::NewGame(QWidget *iParent)
     QObject::connect(addToFavAction, SIGNAL(triggered()),
                      this, SLOT(addSelectedToFav()));
     m_helper->addPopupAction(addToFavAction);
+    m_helper->setUpDown(buttonUp, buttonDown);
 
     // Initialize the model of the default players
     QList<PlayerDef> fav = PlayersTableHelper::getFavPlayers();
@@ -109,10 +110,6 @@ NewGame::NewGame(QWidget *iParent)
 
     QObject::connect(buttonAddFav, SIGNAL(clicked()),
                      this, SLOT(addFavoritePlayers()));
-    QObject::connect(buttonUp, SIGNAL(clicked()),
-                     m_helper, SLOT(moveSelectionUp()));
-    QObject::connect(buttonDown, SIGNAL(clicked()),
-                     m_helper, SLOT(moveSelectionDown()));
 }
 
 

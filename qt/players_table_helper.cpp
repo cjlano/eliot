@@ -71,7 +71,8 @@ PlayersTableHelper::PlayersTableHelper(QObject *parent,
                                        bool showDefaultColumn)
     : QObject(parent), m_tablePlayers(tablePlayers),
     m_buttonAdd(addButton), m_buttonRemove(removeButton),
-    m_showDefaultColumn(showDefaultColumn)
+    m_showDefaultColumn(showDefaultColumn),
+    m_buttonUp(0), m_buttonDown(0)
 {
     // Initialize the table headers
     tablePlayers->setColumnCount(m_showDefaultColumn ? 4 : 3);
@@ -101,11 +102,11 @@ PlayersTableHelper::PlayersTableHelper(QObject *parent,
     }
     if (m_buttonRemove)
     {
-        QObject::connect(tablePlayers, SIGNAL(itemSelectionChanged()),
-                         this, SLOT(enableRemoveButton()));
         QObject::connect(m_buttonRemove, SIGNAL(clicked()),
                          this, SLOT(removeSelectedRows()));
     }
+    QObject::connect(tablePlayers, SIGNAL(itemSelectionChanged()),
+                     this, SLOT(enableSelDepButtons()));
 
     PlayersTypeDelegate *typeDelegate = new PlayersTypeDelegate(this);
     m_tablePlayers->setItemDelegateForColumn(1, typeDelegate);
@@ -116,6 +117,21 @@ PlayersTableHelper::PlayersTableHelper(QObject *parent,
     CustomPopup *popup = new CustomPopup(m_tablePlayers);
     QObject::connect(popup, SIGNAL(popupCreated(QMenu&, const QPoint&)),
                      this, SLOT(populateMenu(QMenu&, const QPoint&)));
+}
+
+
+void PlayersTableHelper::setUpDown(QPushButton *iButtonUp, QPushButton *iButtonDown)
+{
+    ASSERT(m_buttonUp == 0 && m_buttonDown == 0,
+           "The up and down buttons can only be associated once");
+    m_buttonUp = iButtonUp;
+    m_buttonDown = iButtonDown;
+    QObject::connect(m_buttonUp, SIGNAL(clicked()),
+                     this, SLOT(moveSelectionUp()));
+    QObject::connect(m_buttonDown, SIGNAL(clicked()),
+                     this, SLOT(moveSelectionDown()));
+    // Set a correct initial state
+    enableSelDepButtons();
 }
 
 
@@ -156,9 +172,15 @@ void PlayersTableHelper::addPopupRemoveAction()
 }
 
 
-void PlayersTableHelper::enableRemoveButton()
+void PlayersTableHelper::enableSelDepButtons()
 {
-    m_buttonRemove->setEnabled(!m_tablePlayers->selectedItems().isEmpty());
+    bool hasSelection = !m_tablePlayers->selectedItems().isEmpty();
+    if (m_buttonRemove)
+        m_buttonRemove->setEnabled(hasSelection);
+    if (m_buttonUp)
+        m_buttonUp->setEnabled(hasSelection);
+    if (m_buttonDown)
+        m_buttonDown->setEnabled(hasSelection);
 }
 
 

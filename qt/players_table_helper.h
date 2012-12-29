@@ -63,6 +63,9 @@ public:
                        QPushButton *removeButton = 0,
                        bool showDefaultColumn = false);
 
+    /// Associate up/down buttons
+    void setUpDown(QPushButton *iButtonUp, QPushButton *iButtonDown);
+
     QList<PlayerDef> getPlayers(bool onlySelected) const;
     void addPlayers(const QList<PlayerDef> &iList);
     void addPlayer(const PlayerDef &iPlayer,
@@ -77,19 +80,18 @@ public:
     void addPopupAction(QAction *iAction);
     void addPopupRemoveAction();
 
-public slots:
-    void moveSelectionUp();
-    void moveSelectionDown();
-
 signals:
     void rowCountChanged();
 
 private slots:
     void populateMenu(QMenu &, const QPoint &);
-    void enableRemoveButton();
+    /// Enable selection-dependent buttons
+    void enableSelDepButtons();
     void removeSelectedRows();
     void addRow();
     void addRow(const PlayerDef &iDef);
+    void moveSelectionUp();
+    void moveSelectionDown();
 
 private:
     QTableWidget *m_tablePlayers;
@@ -97,6 +99,9 @@ private:
     QPushButton *m_buttonRemove;
     QList<QAction*> m_popupActions;
     bool m_showDefaultColumn;
+    // Up/down buttons (optional)
+    QPushButton *m_buttonUp;
+    QPushButton *m_buttonDown;
 
     /// Return a "normalized" player def, i.e. with correct values
     PlayerDef normalize(const PlayerDef &iDef) const;
