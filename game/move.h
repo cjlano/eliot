@@ -121,6 +121,9 @@ class Move
         /// To help debugging
         wstring toString() const;
 
+        /// Equality operator
+        bool operator==(const Move &iOther) const;
+
     private:
 
         enum Type

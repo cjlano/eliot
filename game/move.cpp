@@ -163,3 +163,15 @@ wstring Move::toString() const
     return wss.str();
 }
 
+
+bool Move::operator==(const Move &iOther) const
+{
+    return m_type == iOther.m_type
+        && m_score == iOther.m_score
+        && m_word == iOther.m_word
+        && m_coord == iOther.m_coord
+        && m_letters == iOther.m_letters
+        && m_round == iOther.m_round;
+}
+
+
