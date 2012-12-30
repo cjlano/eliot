@@ -40,7 +40,8 @@ const QColor TileWidget::BoardW2Colour(255, 147, 196);
 const QColor TileWidget::BoardW3Colour(240, 80, 94);
 const QColor TileWidget::TileNormalColour(255, 235, 205);
 const QColor TileWidget::TilePreviewColour(183, 183, 123);
-const QColor TileWidget::TilePlayedColour(Qt::white);
+const QColor TileWidget::TilePlayedColour(Qt::darkGray);
+const QColor TileWidget::TileShadedColour(Qt::darkGray);
 const QColor TileWidget::TextNormalColour(0, 0, 0);
 const QColor TileWidget::TextJokerColour(255, 0, 0);
 const QColor TileWidget::ArrowColour(10, 10, 10);
@@ -162,6 +163,8 @@ void TileWidget::paintEvent(QPaintEvent *iEvent)
             color = TilePreviewColour;
         else if (m_state == RACK_PLAYED)
             color = TilePlayedColour;
+        else if (m_state == SHADED)
+            color = TileShadedColour;
         else
             color = TileNormalColour;
     }

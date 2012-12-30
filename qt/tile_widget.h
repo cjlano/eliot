@@ -53,7 +53,7 @@ public:
         PREVIEW,
         BOARD_EMPTY,
         RACK_PLAYED,
-        SHADED = RACK_PLAYED,
+        SHADED,
     };
 
     explicit TileWidget(QWidget *parent = 0, Multiplier multiplier = NONE,
@@ -122,6 +122,7 @@ private:
     static const QColor TileNormalColour;
     static const QColor TilePreviewColour;
     static const QColor TilePlayedColour;
+    static const QColor TileShadedColour;
     static const QColor TextNormalColour;
     static const QColor TextJokerColour;
     static const QColor ArrowColour;

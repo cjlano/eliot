@@ -293,7 +293,7 @@ void RackWidget::moveTile(int fromPos, int toPos, bool shaded)
         setRack(m_tiles);
     }
     // Change the look of the moved tile
-    m_tilesVect[toPos]->tileChanged(shaded ? TileWidget::RACK_PLAYED : TileWidget::NORMAL,
+    m_tilesVect[toPos]->tileChanged(shaded ? TileWidget::SHADED : TileWidget::NORMAL,
                                     m_tiles[toPos]);
 }
 
