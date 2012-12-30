@@ -84,6 +84,9 @@ public:
 
     wstring toString() const;
 
+    /// Equality operator
+    bool operator==(const Round &iOther) const;
+
 private:
     vector<Tile> m_word;
     vector<bool> m_rackOrigin;

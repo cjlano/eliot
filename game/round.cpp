@@ -153,3 +153,14 @@ wstring Round::toString() const
     return oss.str();
 }
 
+
+bool Round::operator==(const Round &iOther) const
+{
+    return m_word == iOther.m_word
+        && m_rackOrigin == iOther.m_rackOrigin
+        && m_coord == iOther.m_coord
+        && m_points == iOther.m_points
+        && m_bonus == iOther.m_bonus;
+}
+
+
