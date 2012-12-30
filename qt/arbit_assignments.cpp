@@ -430,7 +430,8 @@ void ArbitAssignments::selectAllPlayers()
 
 bool ArbitAssignments::isAssignMasterAllowed() const
 {
-    return m_game->isLastTurn() && m_selectedMove.isValid();
+    return m_game->isLastTurn() && m_selectedMove.isValid() &&
+        !m_game->hasMasterGame();
 }
 
 

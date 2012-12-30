@@ -128,6 +128,7 @@ TrainingWidget::TrainingWidget(QWidget *parent, PlayModel &iPlayModel, PublicGam
     {
         QValidator * val = ValidatorFactory::newRackValidator(this, m_game->getBag());
         lineEditRack->setValidator(val);
+        lineEditRack->setReadOnly(m_game->hasMasterGame());
     }
 
     // Notify that the rack changed

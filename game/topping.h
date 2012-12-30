@@ -74,7 +74,7 @@ public:
 
 private:
     /// Private constructor and destructor to force using the GameFactory class
-    Topping(const GameParams &iParams);
+    Topping(const GameParams &iParams, const Game *iMasterGame);
 
     /// Record a player move
     void recordPlayerMove(const Move &iMove, Player &ioPlayer);

@@ -51,7 +51,11 @@ class Game
 {
     DEFINE_LOGGER();
 public:
-    Game(const GameParams &iParams);
+    /**
+     * The iMasterGame parameter is optional.
+     * This game takes ownership of the master game, if one is provided.
+     */
+    Game(const GameParams &iParams, const Game *iMasterGame);
     virtual ~Game();
 
     /***************
@@ -66,6 +70,8 @@ public:
 
     /// Get the game characteristics
     const GameParams & getParams() const { return m_params; }
+
+    bool hasMasterGame() const { return m_masterGame != NULL; }
 
     /**
      * Get the dictionary associated with the game.
@@ -187,6 +193,9 @@ private:
     /// Game characteristics
     GameParams m_params;
 
+    /// Master game (can be NULL)
+    const Game *m_masterGame;
+
     /**
      * History of the game.
      */
@@ -195,6 +204,7 @@ private:
     Navigation m_navigation;
 
     int m_points;
+
 
     /// Change the player who is supposed to play
     void setCurrentPlayer(unsigned int iPlayerId) { m_currPlayer = iPlayerId; }
@@ -277,6 +287,20 @@ protected:
      * The '+' and '-' signs are accepted in the letters but ignored.
      */
     PlayedRack helperSetRackManual(bool iCheck, const wstring &iLetters) const;
+
+    /**
+     * Helper method to retrieve the rack for the current turn
+     * in the master game. Should only be called when hasMasterGame()
+     * returns true.
+     */
+    PlayedRack getRackFromMasterGame() const;
+
+    /**
+     * Helper method to retrieve the move played for the current turn
+     * in the master game. Should only be called when hasMasterGame()
+     * returns true.
+     */
+    Move getMoveFromMasterGame() const;
 
     /**
      * Helper function to set the game rack and the players rack at the same time.

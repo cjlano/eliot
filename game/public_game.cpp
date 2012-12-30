@@ -66,6 +66,12 @@ const GameParams & PublicGame::getParams() const
 }
 
 
+bool PublicGame::hasMasterGame() const
+{
+    return m_game.hasMasterGame();
+}
+
+
 const Dictionary & PublicGame::getDic() const
 {
     return m_game.getDic();

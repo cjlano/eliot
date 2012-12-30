@@ -85,7 +85,7 @@ private:
     bool m_finished;
 
     /// Private constructor to force using the GameFactory class
-    FreeGame(const GameParams &iParams);
+    FreeGame(const GameParams &iParams, const Game *iMasterGame);
 
     /// Make the AI player whose ID is p play its turn
     void playAI(unsigned int p);

@@ -52,8 +52,9 @@
 INIT_LOGGER(game, Game);
 
 
-Game::Game(const GameParams &iParams):
-    m_params(iParams), m_board(m_params), m_bag(iParams.getDic())
+Game::Game(const GameParams &iParams, const Game *iMasterGame):
+    m_params(iParams), m_masterGame(iMasterGame),
+    m_board(m_params), m_bag(iParams.getDic())
 {
     m_points = 0;
     m_currPlayer = 0;
@@ -66,6 +67,7 @@ Game::~Game()
     {
         delete p;
     }
+    delete m_masterGame;
 }
 
 
@@ -185,9 +187,56 @@ bool Game::canDrawRack(const PlayedRack &iPld, bool iCheck, int *reason) const
 }
 
 
+PlayedRack Game::getRackFromMasterGame() const
+{
+    ASSERT(hasMasterGame(), "No master game defined");
+
+    // End the game when we reach the end of the master game,
+    // even if it is still possible to draw a rack
+    const unsigned currTurn = getNavigation().getCurrTurn();
+    if (currTurn >= m_masterGame->getHistory().getSize())
+        throw EndGameException(_("No more turn in the master game"));
+
+    const TurnData &turnData = m_masterGame->getHistory().getTurn(currTurn);
+    const PlayedRack &pldRack = turnData.getPlayedRack();
+    LOG_INFO("Using rack from master game: " << lfw(pldRack.toString()));
+
+    // Sanity check
+    ASSERT(rackInBag(pldRack.getRack(), m_bag),
+           "Cannot draw same rack as in the master game");
+
+    return pldRack;
+}
+
+
+Move Game::getMoveFromMasterGame() const
+{
+    ASSERT(hasMasterGame(), "No master game defined");
+
+    const unsigned currTurn = getNavigation().getCurrTurn();
+    // Should never happen (already checked in getRackFromMasterGame())
+    ASSERT(currTurn < m_masterGame->getHistory().getSize(),
+           "Not enough turns in the master game");
+
+    const TurnData &turnData = m_masterGame->getHistory().getTurn(currTurn);
+    const Move &move = turnData.getMove();
+
+    // If the move is not valid, it means we reached the end
+    // of the master game. In this case, also end the current game.
+    if (!move.isValid())
+        throw EndGameException(_("No move defined for this turn in the master game"));
+
+    return move;
+}
+
+
 PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
                                      bool iCheck, set_rack_mode mode) const
 {
+    // If a master game is defined, use it to retrieve the rack
+    if (hasMasterGame())
+        return getRackFromMasterGame();
+
     int reason = 0;
     if (!canDrawRack(iPld, iCheck, &reason))
     {
@@ -639,7 +688,6 @@ void Game::setGameAndPlayersRack(const PlayedRack &iRack)
         accessNavigation().addAndExecute(pCmd);
     }
 }
-
 
 
 Game::CurrentPlayerCmd::CurrentPlayerCmd(Game &ioGame,

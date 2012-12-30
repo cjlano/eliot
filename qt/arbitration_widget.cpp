@@ -242,10 +242,11 @@ void ArbitrationWidget::refresh()
     updateResultsModel();
     m_assignmentsWidget->refresh();
 
-    // The rack can only be changed at the last turn
+    // The rack can only be changed at the last turn,
+    // and if there is no master game
     bool isLastTurn = m_game->isLastTurn();
-    lineEditRack->setReadOnly(!isLastTurn);
-    buttonRandom->setEnabled(isLastTurn);
+    lineEditRack->setReadOnly(!isLastTurn || m_game->hasMasterGame());
+    buttonRandom->setEnabled(isLastTurn && !m_game->hasMasterGame());
 
     // Disable controls when the game is finished, but only
     // for the last turn (to allow changing players moves in

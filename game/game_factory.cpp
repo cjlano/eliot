@@ -80,36 +80,36 @@ void GameFactory::Destroy()
 }
 
 
-Game *GameFactory::createGame(const GameParams &iParams)
+Game *GameFactory::createGame(const GameParams &iParams, const Game *iMasterGame)
 {
     if (iParams.getMode() == GameParams::kTRAINING)
     {
         LOG_INFO("Creating a training game");
-        Training *game = new Training(iParams);
+        Training *game = new Training(iParams, iMasterGame);
         return game;
     }
     if (iParams.getMode() == GameParams::kFREEGAME)
     {
         LOG_INFO("Creating a free game");
-        FreeGame *game = new FreeGame(iParams);
+        FreeGame *game = new FreeGame(iParams, iMasterGame);
         return game;
     }
     if (iParams.getMode() == GameParams::kDUPLICATE)
     {
         LOG_INFO("Creating a duplicate game");
-        Duplicate *game = new Duplicate(iParams);
+        Duplicate *game = new Duplicate(iParams, iMasterGame);
         return game;
     }
     if (iParams.getMode() == GameParams::kARBITRATION)
     {
         LOG_INFO("Creating an arbitration game");
-        Arbitration *game = new Arbitration(iParams);
+        Arbitration *game = new Arbitration(iParams, iMasterGame);
         return game;
     }
     if (iParams.getMode() == GameParams::kTOPPING)
     {
         LOG_INFO("Creating a topping game");
-        Topping *game = new Topping(iParams);
+        Topping *game = new Topping(iParams, iMasterGame);
         return game;
     }
     throw GameException("Unknown game type");

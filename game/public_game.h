@@ -83,6 +83,8 @@ public:
     /// Get the game characteristics
     const GameParams & getParams() const;
 
+    bool hasMasterGame() const;
+
     /**
      * Get the dictionary associated with the game.
      * You should never create a new dictionary object while a Game

@@ -21,7 +21,8 @@
 #ifndef NEW_GAME_H_
 #define NEW_GAME_H_
 
-#include <QDialog>
+#include <QtGui/QDialog>
+#include <QtGui/QPalette>
 
 #include "ui/new_game.ui.h"
 #include "logging.h"
@@ -37,7 +38,7 @@ class NewGame: public QDialog, private Ui::NewGameDialog
     DEFINE_LOGGER();
 
 public:
-    explicit NewGame(QWidget *iParent = 0);
+    explicit NewGame(const Dictionary& iDic, QWidget *iParent = 0);
 
     /// Possible values for the player type
     static const char * kHUMAN;
@@ -47,18 +48,30 @@ public:
      * Create and return a game object from the information of the dialog.
      * The Game object is always valid
      */
-    PublicGame * createGame(const Dictionary& iDic) const;
+    PublicGame * createGame() const;
+
+signals:
+    void notifyProblem(QString iMsg) const;
 
 private slots:
     void enableOkButton();
+    void enableMasterControls();
     void enablePlayers(bool);
     void addSelectedToFav();
     void addFavoritePlayers();
     void onJokerChecked(int);
     void onExplosiveChecked(int);
+    void browseMasterGame();
+    void validateMasterGame(QString);
 
 private:
+    const Dictionary &m_dic;
     PlayersTableHelper *m_helper;
+
+    QPalette m_blackPalette;
+    QPalette m_redPalette;
+
+    bool isMasterGameValid(QString iPath) const;
 };
 
 #endif

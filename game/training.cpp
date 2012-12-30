@@ -48,8 +48,8 @@
 INIT_LOGGER(game, Training);
 
 
-Training::Training(const GameParams &iParams)
-    : Game(iParams), m_results(1000)
+Training::Training(const GameParams &iParams, const Game *iMasterGame)
+    : Game(iParams, iMasterGame), m_results(1000)
 {
 }
 
@@ -70,6 +70,9 @@ void Training::setRackRandom(bool iCheck, set_rack_mode mode)
 
 void Training::setRackManual(bool iCheck, const wstring &iLetters)
 {
+    ASSERT(!hasMasterGame(),
+           "Changing the rack is not allowed when there is a master game");
+
     // Letters can be lowercase or uppercase as they are
     // coming from user input. We do not consider a lowercase
     // letter to be a joker which has been assigned to a letter.
@@ -137,7 +140,11 @@ void Training::endTurn()
     m_results.clear();
 
     // Play the word on the board
-    const Move &move = m_players[m_currPlayer]->getLastMove();
+    Move move;
+    if (hasMasterGame())
+        move = getMoveFromMasterGame();
+    else
+        move = m_players[m_currPlayer]->getLastMove();
     Command *pCmd = new GameMoveCmd(*this, move, m_currPlayer);
     accessNavigation().addAndExecute(pCmd);
     accessNavigation().newTurn();

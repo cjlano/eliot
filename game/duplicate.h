@@ -107,7 +107,7 @@ public:
 
 protected:
     // Protected constructor to force using the GameFactory class
-    Duplicate(const GameParams &iParams);
+    Duplicate(const GameParams &iParams, const Game *iMasterGame);
 
     /// Record a player move
     void recordPlayerMove(Player &ioPlayer, const Move &iMove);

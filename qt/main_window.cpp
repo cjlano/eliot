@@ -854,7 +854,9 @@ void MainWindow::onGameNew()
         }
     }
 
-    NewGame newGameDialog;
+    NewGame newGameDialog(*m_dic);
+    QObject::connect(&newGameDialog, SIGNAL(notifyProblem(QString)),
+                     this, SLOT(displayErrorMsg(QString)));
     int res = newGameDialog.exec();
     if (res == QDialog::Rejected)
         return;
@@ -863,7 +865,7 @@ void MainWindow::onGameNew()
     destroyCurrentGame();
 
     // Create a new game
-    m_game = newGameDialog.createGame(*m_dic);
+    m_game = newGameDialog.createGame();
     if (m_game == NULL)
         return;
 

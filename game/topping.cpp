@@ -48,8 +48,8 @@
 INIT_LOGGER(game, Topping);
 
 
-Topping::Topping(const GameParams &iParams)
-    : Game(iParams)
+Topping::Topping(const GameParams &iParams, const Game *iMasterGame)
+    : Game(iParams, iMasterGame)
 {
 }
 

@@ -18,6 +18,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <QtGui/QCompleter>
+#include <QtGui/QFileSystemModel>
+#include <QtGui/QFileDialog>
 #include <QtCore/QSettings>
 
 #include "new_game.h"
@@ -37,10 +40,14 @@ const char * NewGame::kHUMAN = _("Human");
 const char * NewGame::kAI = _("Computer");
 
 
-NewGame::NewGame(QWidget *iParent)
-    : QDialog(iParent)
+NewGame::NewGame(const Dictionary &iDic, QWidget *iParent)
+    : QDialog(iParent), m_dic(iDic)
 {
     setupUi(this);
+
+    m_blackPalette = lineEditMaster->palette();
+    m_redPalette = lineEditMaster->palette();
+    m_redPalette.setColor(QPalette::Text, Qt::red);
 
     radioButtonDuplicate->setToolTip(_q(
             "In duplicate mode, all the players are always faced with the same board and the same rack,\n"
@@ -118,6 +125,10 @@ NewGame::NewGame(QWidget *iParent)
                      this, SLOT(enableOkButton()));
     QObject::connect(radioButtonTraining, SIGNAL(toggled(bool)),
                      this, SLOT(enableOkButton()));
+    QObject::connect(checkBoxUseMaster, SIGNAL(toggled(bool)),
+                     this, SLOT(enableOkButton()));
+    QObject::connect(lineEditMaster, SIGNAL(textChanged(QString)),
+                     this, SLOT(enableOkButton()));
 
     QObject::connect(radioButtonDuplicate, SIGNAL(toggled(bool)),
                      this, SLOT(enablePlayers(bool)));
@@ -130,20 +141,38 @@ NewGame::NewGame(QWidget *iParent)
     QObject::connect(radioButtonTopping, SIGNAL(toggled(bool)),
                      this, SLOT(enablePlayers(bool)));
 
+    QObject::connect(radioButtonFreeGame, SIGNAL(toggled(bool)),
+                     this, SLOT(enableMasterControls()));
+
     QObject::connect(checkBoxJoker, SIGNAL(stateChanged(int)),
                      this, SLOT(onJokerChecked(int)));
     QObject::connect(checkBoxExplosive, SIGNAL(stateChanged(int)),
                      this, SLOT(onExplosiveChecked(int)));
 
+    // Master games
+    QObject::connect(checkBoxUseMaster, SIGNAL(toggled(bool)),
+                     widgetMasterControls, SLOT(setEnabled(bool)));
+    QObject::connect(buttonBrowseMaster, SIGNAL(clicked()),
+                     this, SLOT(browseMasterGame()));
+    QObject::connect(lineEditMaster, SIGNAL(textChanged(QString)),
+                     this, SLOT(validateMasterGame(QString)));
+
     QObject::connect(buttonAddFav, SIGNAL(clicked()),
                      this, SLOT(addFavoritePlayers()));
+
+    // Auto-completion on the master game path
+    QCompleter *completer = new QCompleter(this);
+    QFileSystemModel *model = new QFileSystemModel(this);
+    model->setRootPath(QDir::currentPath());
+    completer->setModel(model);
+    lineEditMaster->setCompleter(completer);
 }
 
 
-PublicGame * NewGame::createGame(const Dictionary &iDic) const
+PublicGame * NewGame::createGame() const
 {
     // Game parameters
-    GameParams params(iDic);
+    GameParams params(m_dic);
     if (radioButtonTraining->isChecked())
         params.setMode(GameParams::kTRAINING);
     else if (radioButtonFreeGame->isChecked())
@@ -162,8 +191,27 @@ PublicGame * NewGame::createGame(const Dictionary &iDic) const
     if (checkBox7Among8->isChecked())
         params.addVariant(GameParams::k7AMONG8);
 
+    // Load the master game if needed
+    Game *masterGame = NULL;
+    if (checkBoxUseMaster->isChecked())
+    {
+        const QString &path = lineEditMaster->text();
+        try
+        {
+            masterGame = GameFactory::Instance()->load(lfq(path), m_dic);
+        }
+        catch (const GameException &e)
+        {
+            // Should not happen, since we have already done validation.
+            // But the user may have changed the file itself after the validation...
+            emit notifyProblem("Error loading master game: " + qfl(e.what()));
+            // Give up loading the game
+            return NULL;
+        }
+    }
+
     // Create the game
-    Game *tmpGame = GameFactory::Instance()->createGame(params);
+    Game *tmpGame = GameFactory::Instance()->createGame(params, masterGame);
     PublicGame *game = new PublicGame(*tmpGame);
 
     // Add the players
@@ -220,7 +268,20 @@ void NewGame::enableOkButton()
     bool disable =
         (radioButtonDuplicate->isChecked() && m_helper->getRowCount() < 1) ||
         (radioButtonFreeGame->isChecked() && m_helper->getRowCount() < 2);
+    // The "Ok" button is also disabled when a master game is used,
+    // but no ivalid master game is specified
+    disable = disable || (checkBoxUseMaster->isChecked() && !isMasterGameValid(lineEditMaster->text()));
+
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!disable);
+}
+
+
+void NewGame::enableMasterControls()
+{
+    // Do not allow master games in free game mode: it would
+    // work only when loading another free game, with the same
+    // number of players. And this is probably not useful anyway.
+    groupBoxMaster->setEnabled(!radioButtonFreeGame->isChecked());
 }
 
 
@@ -285,4 +346,43 @@ void NewGame::onExplosiveChecked(int newState)
     if (newState == Qt::Checked)
         checkBoxJoker->setChecked(false);
 }
+
+
+void NewGame::browseMasterGame()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, _q("Load a game"));
+    if (fileName != "")
+    {
+        lineEditMaster->setText(fileName);
+    }
+}
+
+
+void NewGame::validateMasterGame(QString iPath)
+{
+    // Validate the given path
+    bool isValid = isMasterGameValid(iPath);
+
+    // Update the path colour
+    lineEditMaster->setPalette(isValid ? m_blackPalette : m_redPalette);
+}
+
+
+bool NewGame::isMasterGameValid(QString iPath) const
+{
+    bool isValid = false;
+    try
+    {
+        Game *game = GameFactory::Instance()->load(lfq(iPath), m_dic);
+        // Free games are not accepted as master games
+        isValid = game->getParams().getMode() != GameParams::kFREEGAME;
+        delete game;
+    }
+    catch (const GameException &e)
+    {
+        // Ignore the exception
+    }
+    return isValid;
+}
+
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>459</height>
+    <height>471</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -136,6 +136,51 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupBoxMaster">
+     <property name="title">
+      <string>_(&quot;Master game&quot;)</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QCheckBox" name="checkBoxUseMaster">
+        <property name="text">
+         <string>_(&quot;Use a master game&quot;)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widgetMasterControls" native="true">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>_(&quot;Saved game to use:&quot;)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEditMaster"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="buttonBrowseMaster">
+           <property name="text">
+            <string>_(&quot;Browse...&quot;)</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupBoxPlayers">
      <property name="title">
       <string>_(&quot;Players&quot;)</string>
@@ -216,11 +261,18 @@
   <tabstop>radioButtonDuplicate</tabstop>
   <tabstop>radioButtonFreeGame</tabstop>
   <tabstop>radioButtonTraining</tabstop>
+  <tabstop>radioButtonArbitration</tabstop>
+  <tabstop>radioButtonTopping</tabstop>
   <tabstop>checkBoxJoker</tabstop>
   <tabstop>checkBoxExplosive</tabstop>
   <tabstop>checkBox7Among8</tabstop>
+  <tabstop>checkBoxUseMaster</tabstop>
+  <tabstop>lineEditMaster</tabstop>
+  <tabstop>buttonBrowseMaster</tabstop>
   <tabstop>pushButtonAdd</tabstop>
   <tabstop>buttonAddFav</tabstop>
+  <tabstop>buttonUp</tabstop>
+  <tabstop>buttonDown</tabstop>
   <tabstop>tablePlayers</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
@@ -235,8 +287,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>194</x>
-     <y>309</y>
+     <x>203</x>
+     <y>461</y>
     </hint>
     <hint type="destinationlabel">
      <x>173</x>
@@ -251,8 +303,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>101</x>
-     <y>298</y>
+     <x>110</x>
+     <y>461</y>
     </hint>
     <hint type="destinationlabel">
      <x>75</x>

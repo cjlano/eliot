@@ -36,14 +36,17 @@
 INIT_LOGGER(game, Arbitration);
 
 
-Arbitration::Arbitration(const GameParams &iParams)
-    : Duplicate(iParams)
+Arbitration::Arbitration(const GameParams &iParams, const Game *iMasterGame)
+    : Duplicate(iParams, iMasterGame)
 {
 }
 
 
 void Arbitration::setRackRandom()
 {
+    ASSERT(!hasMasterGame(),
+           "Changing the rack is not allowed when there is a master game");
+
     undoCurrentRack();
 
     const PlayedRack &newRack =
@@ -54,6 +57,9 @@ void Arbitration::setRackRandom()
 
 void Arbitration::setRackManual(const wstring &iLetters)
 {
+    ASSERT(!hasMasterGame(),
+           "Changing the rack is not allowed when there is a master game");
+
     undoCurrentRack();
 
     // Letters can be lowercase or uppercase as they are

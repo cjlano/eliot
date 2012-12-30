@@ -56,8 +56,8 @@
 INIT_LOGGER(game, Duplicate);
 
 
-Duplicate::Duplicate(const GameParams &iParams)
-    : Game(iParams)
+Duplicate::Duplicate(const GameParams &iParams, const Game *iMasterGame)
+    : Game(iParams, iMasterGame)
 {
 }
 
@@ -119,11 +119,19 @@ void Duplicate::start()
     // Complete the racks
     try
     {
-        // Reset the master move
-        setMasterMove(Move());
+        if (hasMasterGame())
+        {
+            // When a master game is defined, it forces the master move
+            setMasterMove(getMoveFromMasterGame());
+        }
+        else
+        {
+            // Reset the master move
+            setMasterMove(Move());
+        }
 
         bool fillRacks = Settings::Instance().getBool("arbitration.fill-rack");
-        if (isArbitrationGame() && !fillRacks)
+        if (isArbitrationGame() && !fillRacks && !hasMasterGame())
             setGameAndPlayersRack(getHistory().getCurrentRack());
         else
         {
@@ -244,6 +252,11 @@ Player * Duplicate::findBestPlayer() const
 void Duplicate::endTurn()
 {
     static const unsigned int REF_PLAYER_ID = 0;
+
+    // If there is a master game, the master move should still have its
+    // original value (set in the start() method)
+    ASSERT(!hasMasterGame() || m_masterMove == getMoveFromMasterGame(),
+           "The master move has been modified");
 
     // Define the master move if it is not already defined
     if (!m_masterMove.isValid())

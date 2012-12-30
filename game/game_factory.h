@@ -49,7 +49,7 @@ public:
     static void Destroy();
 
     /// Create a game
-    Game *createGame(const GameParams &iParams);
+    Game *createGame(const GameParams &iParams, const Game *iMasterGame = NULL);
 
     /// Return the loaded game, or NULL if there was a problem
     Game *load(const string &iFileName, const Dictionary &iDic);

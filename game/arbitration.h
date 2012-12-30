@@ -72,7 +72,7 @@ public:
 
 private:
     // Private constructor to force using the GameFactory class
-    Arbitration(const GameParams &iParams);
+    Arbitration(const GameParams &iParams, const Game *iMasterGame);
 
     /// Undo the current rack, and subsequent commands
     void undoCurrentRack();
