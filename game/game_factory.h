@@ -56,9 +56,6 @@ public:
 
     Game *createFromCmdLine(int argc, char **argv);
 
-    /// Destroy a Game object, created by any of the createXXX methods above
-    void releaseGame(Game &iGame);
-
 private:
 
     GameFactory();

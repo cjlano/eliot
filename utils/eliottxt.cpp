@@ -897,7 +897,6 @@ void mainLoop(const Dictionary &iDic)
                                 loopArbitration(*game);
                             else if (game->getMode() == PublicGame::kTOPPING)
                                 loopTopping(*game);
-                            //GameFactory::Instance()->releaseGame(*game);
                             delete game;
                         }
                         catch (const std::exception &e)
@@ -913,7 +912,6 @@ void mainLoop(const Dictionary &iDic)
                         game->addPlayer(new HumanPlayer);
                         game->start();
                         loopTraining(*game);
-                        //GameFactory::Instance()->releaseGame(*game);
                         delete game;
                     }
                     break;
@@ -929,7 +927,6 @@ void mainLoop(const Dictionary &iDic)
                             game->addPlayer(new AIPercent(1));
                         game->start();
                         loopDuplicate(*game);
-                        //GameFactory::Instance()->releaseGame(*game);
                         delete game;
                     }
                     break;
@@ -945,7 +942,6 @@ void mainLoop(const Dictionary &iDic)
                             game->addPlayer(new AIPercent(1));
                         game->start();
                         loopFreegame(*game);
-                        //GameFactory::Instance()->releaseGame(*game);
                         delete game;
                     }
                     break;
@@ -961,7 +957,6 @@ void mainLoop(const Dictionary &iDic)
                             game->addPlayer(new AIPercent(1));
                         game->start();
                         loopArbitration(*game);
-                        //GameFactory::Instance()->releaseGame(*game);
                         delete game;
                     }
                     break;
@@ -972,7 +967,6 @@ void mainLoop(const Dictionary &iDic)
                         game->addPlayer(new HumanPlayer);
                         game->start();
                         loopTopping(*game);
-                        //GameFactory::Instance()->releaseGame(*game);
                         delete game;
                     }
                     break;

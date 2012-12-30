@@ -196,7 +196,6 @@ CursesIntf::CursesIntf(WINDOW *win, PublicGame& iGame)
 
 CursesIntf::~CursesIntf()
 {
-    //GameFactory::Instance()->releaseGame(*m_game);
     delete m_game;
     GameFactory::Destroy();
 }
@@ -658,7 +657,6 @@ void CursesIntf::loadGame(WINDOW *win, int y, int x)
         try
         {
             PublicGame *loaded = PublicGame::load(lfw(filename), m_game->getDic());
-            //GameFactory::Instance()->releaseGame(*m_game);
             delete m_game;
             m_game = loaded;
             char s[100];

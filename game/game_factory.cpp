@@ -247,12 +247,6 @@ Game* GameFactory::load(const string &iFileName, const Dictionary &iDic)
 }
 
 
-void GameFactory::releaseGame(Game &iGame)
-{
-    delete &iGame;
-}
-
-
 void GameFactory::printUsage(const string &iBinaryName) const
 {
     cout << "Usage: " << iBinaryName << " [options]" << endl
