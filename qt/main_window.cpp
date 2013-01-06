@@ -437,8 +437,14 @@ void MainWindow::updateForGame(PublicGame *iGame)
         statusBar()->addWidget(m_turnLabel);
         m_turnLabel->show();
 
+        // Handle played moves
+        const char *playWordSlot =
+            iGame->getMode() == PublicGame::kTOPPING ?
+            SLOT(playWordTopping(const wstring&, const wstring&)) :
+            SLOT(playWord(const wstring&, const wstring&));
+        // The method to call depends on the game mode
         QObject::connect(&m_playModel, SIGNAL(movePlayed(const wstring&, const wstring&)),
-                         this, SLOT(playWord(const wstring&, const wstring&)));
+                         this, playWordSlot);
 
         if (iGame->getMode() == PublicGame::kTRAINING)
         {
@@ -776,6 +782,16 @@ void MainWindow::playWord(const wstring &iWord, const wstring &iCoord)
         }
         displayErrorMsg(msg);
     }
+}
+
+
+void MainWindow::playWordTopping(const wstring &iWord, const wstring &iCoord)
+{
+    ASSERT(m_game != NULL, "No game in progress");
+
+    /// FIXME: provide real timeout information
+    m_game->toppingPlay(iWord, iCoord, 12);
+    emit gameUpdated();
 }
 
 

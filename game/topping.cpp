@@ -114,15 +114,10 @@ void Topping::tryWord(const wstring &iWord, const wstring &iCoord, int iElapsed)
 }
 
 
-int Topping::play(const wstring &iCoord, const wstring &iWord)
+int Topping::play(const wstring &, const wstring &)
 {
-#if 0
     ASSERT(false, "The play() method should not be called in topping mode");
     throw GameException("The play() method should not be called in topping mode. Please use tryWord() instead.");
-#else
-    // FIXME
-    tryWord(iWord, iCoord, 0);
-#endif
 
     return 0;
 }

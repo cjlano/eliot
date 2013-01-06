@@ -218,6 +218,8 @@ public:
      * the Topping mode.
      ***************/
 
+    void toppingPlay(const wstring &iWord, const wstring &iCoord, int iElapsed);
+
     vector<Move> toppingGetTriedMoves() const;
 
     /***************

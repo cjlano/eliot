@@ -250,6 +250,12 @@ void PublicGame::trainingSetRackManual(bool iCheck, const wstring &iLetters)
 
 /***************************/
 
+void PublicGame::toppingPlay(const wstring &iWord, const wstring &iCoord, int iElapsed)
+{
+    getTypedGame<Topping>(m_game).tryWord(iWord, iCoord, iElapsed);
+}
+
+
 vector<Move> PublicGame::toppingGetTriedMoves() const
 {
     return getTypedGame<Topping>(m_game).getTriedMoves();
