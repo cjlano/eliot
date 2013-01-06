@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2010-2012 Olivier Teulière
+ * Copyright (C) 2012-2013 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -21,11 +21,11 @@
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QMenu>
 #include <QtGui/QHeaderView>
+#include <QtGui/QSortFilterProxyModel>
 
 #include "topping_widget.h"
 #include "qtcommon.h"
 #include "play_word_mediator.h"
-#include "validator_factory.h"
 
 #include "player.h"
 #include "dic.h"
@@ -59,16 +59,22 @@ ToppingWidget::ToppingWidget(QWidget *parent, PlayModel &iPlayModel, PublicGame 
     QObject::connect(m_mediator, SIGNAL(notifyProblem(QString)),
                      this, SIGNAL(notifyProblem(QString)));
 
-    // Associate the model to the view
+    // Associate the model to the view.
+    // We use a proxy for easy sorting.
     m_model = new QStandardItemModel(this);
-    tableViewMoves->setModel(m_model);
-    m_model->setColumnCount(3);
-    m_model->setHeaderData(0, Qt::Horizontal, _q("Word"), Qt::DisplayRole);
-    m_model->setHeaderData(1, Qt::Horizontal, _q("Ref"), Qt::DisplayRole);
-    m_model->setHeaderData(2, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
+    QSortFilterProxyModel * proxyModel = new QSortFilterProxyModel(this);
+    proxyModel->setDynamicSortFilter(true);
+    proxyModel->setSourceModel(m_model);
+    tableViewMoves->setModel(proxyModel);
 
-    QObject::connect(lineEditRack, SIGNAL(returnPressed()),
-                     this, SLOT(search()));
+    m_model->setColumnCount(4);
+    m_model->setHeaderData(0, Qt::Horizontal, _q("#"), Qt::DisplayRole);
+    m_model->setHeaderData(1, Qt::Horizontal, _q("Word"), Qt::DisplayRole);
+    m_model->setHeaderData(2, Qt::Horizontal, _q("Ref"), Qt::DisplayRole);
+    m_model->setHeaderData(3, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
+    tableViewMoves->sortByColumn(3);
+    // XXX: why is this needed? It is not needed in the ArbitrationWidget class
+    tableViewMoves->horizontalHeader()->setSortIndicator(3, Qt::DescendingOrder);
 
     // Add a context menu to the table header
     QAction *lockSizesAction = new QAction(_q("Lock columns sizes"), this);
@@ -81,6 +87,8 @@ ToppingWidget::ToppingWidget(QWidget *parent, PlayModel &iPlayModel, PublicGame 
 
     // Allow very thin columns
     tableViewMoves->horizontalHeader()->setMinimumSectionSize(1);
+
+    tableViewMoves->horizontalHeader()->resizeSection(1, 140);
 
     refresh();
 }
@@ -115,9 +123,6 @@ void ToppingWidget::updateModel()
     // Clear the table
     m_model->removeRows(0, m_model->rowCount());
 
-    // Force the sort column
-    tableViewMoves->sortByColumn(2);
-
     if (m_game == NULL)
         return;
 
@@ -127,26 +132,28 @@ void ToppingWidget::updateModel()
         const Move &m = triedMoves[i];
         int rowNum = m_model->rowCount();
         m_model->insertRow(rowNum);
+        m_model->setData(m_model->index(rowNum, 0), i);
         if (m.isValid())
         {
-            m_model->setData(m_model->index(rowNum, 0), qfw(m.getRound().getWord()));
-            m_model->setData(m_model->index(rowNum, 1),
+            m_model->setData(m_model->index(rowNum, 1), qfw(m.getRound().getWord()));
+            m_model->setData(m_model->index(rowNum, 2),
                              qfw(m.getRound().getCoord().toString()));
         }
         else
         {
             ASSERT(m.isInvalid(), "Unhandled move type");
-            m_model->setData(m_model->index(rowNum, 0), qfw(m.getBadWord()));
-            m_model->setData(m_model->index(rowNum, 1), qfw(m.getBadCoord()));
+            m_model->setData(m_model->index(rowNum, 1), qfw(m.getBadWord()));
+            m_model->setData(m_model->index(rowNum, 2), qfw(m.getBadCoord()));
         }
-        m_model->setData(m_model->index(rowNum, 2), m.getScore());
+        m_model->setData(m_model->index(rowNum, 3), m.getScore());
     }
 
     if (m_autoResizeColumns)
     {
         tableViewMoves->resizeColumnToContents(0);
-        tableViewMoves->resizeColumnToContents(1);
+        // tableViewMoves->resizeColumnToContents(1);
         tableViewMoves->resizeColumnToContents(2);
+        tableViewMoves->resizeColumnToContents(3);
     }
 }
 
