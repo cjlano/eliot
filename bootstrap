@@ -5,4 +5,6 @@ patch -p0 < po/makefile-qt4.patch
 aclocal -I m4
 autoheader
 automake --add-missing --foreign --copy -Wall
-autoconf
+# It would be nice to use -Wall, but AM_GNU_GETTEXT generates
+# way too many warnings in version 0.18.1
+autoconf -Wno-obsolete
