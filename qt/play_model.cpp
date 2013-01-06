@@ -59,9 +59,8 @@ void PlayModel::setMove(const Move &iMove)
     LOG_DEBUG("Setting PlayModel move to " << lfw(iMove.toString()));
 
     // Avoid useless work
-    // TODO
-    //if (iMove == m_currMove)
-    //    return;
+    if (iMove == m_currMove)
+        return;
 
     m_prevMove = m_currMove;
     m_currMove = iMove;
