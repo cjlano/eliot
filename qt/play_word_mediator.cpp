@@ -65,6 +65,9 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
                      this, SLOT(playWord()));
     QObject::connect(&m_playModel, SIGNAL(coordChanged(const Coord&, const Coord&)),
                      this, SLOT(updateCoord(const Coord&)));
+
+    // Initial state
+    updatePointsAndState();
 }
 
 
