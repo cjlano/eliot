@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef VALIDATORS_H_
-#define VALIDATORS_H_
+#ifndef PLAY_WORD_MEDIATOR_H_
+#define PLAY_WORD_MEDIATOR_H_
 
 #include <string>
 #include <QtGui/QValidator>
