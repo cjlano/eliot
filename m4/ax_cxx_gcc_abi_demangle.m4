@@ -33,7 +33,6 @@ ax_cv_cxx_gcc_abi_demangle,
  AC_TRY_COMPILE([#include <typeinfo>
 #include <cxxabi.h>
 #include <string>
-#include <cstdlib>
 
 template<typename TYPE>
 class A {};

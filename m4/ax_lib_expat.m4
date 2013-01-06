@@ -1,5 +1,5 @@
 # ===========================================================================
-#          http://www.nongnu.org/autoconf-archive/ax_lib_expat.html
+#       http://www.gnu.org/software/autoconf-archive/ax_lib_expat.html
 # ===========================================================================
 #
 # SYNOPSIS
@@ -28,7 +28,7 @@
 #   This macro calls:
 #
 #     AC_SUBST(EXPAT_CFLAGS)
-#     AC_SUBST(EXPAT_LDFLAGS)
+#     AC_SUBST(EXPAT_LIBS)
 #     AC_SUBST(EXPAT_VERSION)  -- only if version requirement is used
 #
 #   And sets:
@@ -41,12 +41,15 @@
 #
 #   Copying and distribution of this file, with or without modification, are
 #   permitted in any medium without royalty provided the copyright notice
-#   and this notice are preserved.
+#   and this notice are preserved. This file is offered as-is, without any
+#   warranty.
+
+#serial 9
 
 AC_DEFUN([AX_LIB_EXPAT],
 [
     AC_ARG_WITH([expat],
-        AC_HELP_STRING([--with-expat=@<:@ARG@:>@],
+        AS_HELP_STRING([--with-expat=@<:@ARG@:>@],
             [use Expat XML Parser from given prefix (ARG=path); check standard prefixes (ARG=yes); disable (ARG=no)]
         ),
         [
@@ -80,14 +83,14 @@ AC_DEFUN([AX_LIB_EXPAT],
     )
 
     AC_ARG_WITH([expat-inc],
-        AC_HELP_STRING([--with-expat-inc=@<:@DIR@:>@],
+        AS_HELP_STRING([--with-expat-inc=@<:@DIR@:>@],
             [path to Expat XML Parser headers]
         ),
         [expat_include_dir="$withval"],
         [expat_include_dir=""]
     )
     AC_ARG_WITH([expat-lib],
-        AC_HELP_STRING([--with-expat-lib=@<:@ARG@:>@],
+        AS_HELP_STRING([--with-expat-lib=@<:@ARG@:>@],
             [link options for Expat XML Parser libraries]
         ),
         [expat_lib_flags="$withval"],
@@ -95,7 +98,7 @@ AC_DEFUN([AX_LIB_EXPAT],
     )
 
     EXPAT_CFLAGS=""
-    EXPAT_LDFLAGS=""
+    EXPAT_LIBS=""
     EXPAT_VERSION=""
 
     dnl
@@ -123,8 +126,8 @@ AC_DEFUN([AX_LIB_EXPAT],
         saved_CPPFLAGS="$CPPFLAGS"
         CPPFLAGS="$CPPFLAGS -I$expat_include_dir"
 
-        saved_LIBS="$LIBS"
-        LIBS="$LIBS $expat_lib_flags"
+        saved_LDFLAGS="$LDFLAGS"
+        LIBS="$LDFLAGS $expat_lib_flags"
 
         dnl
         dnl Check Expat headers
@@ -171,7 +174,7 @@ p = NULL;
                     ]]
                 )],
                 [
-                EXPAT_LDFLAGS="$expat_lib_flags"
+                EXPAT_LIBS="$expat_lib_flags"
                 expat_lib_found="yes"
                 AC_MSG_RESULT([found])
                 ],
@@ -184,7 +187,7 @@ p = NULL;
         fi
 
         CPPFLAGS="$saved_CPPFLAGS"
-        LIBS="$saved_LIBS"
+        LDFLAGS="$saved_LDFLAGS"
     fi
 
     AC_MSG_CHECKING([for Expat XML Parser])
@@ -193,7 +196,7 @@ p = NULL;
         if test "$expat_header_found" = "yes" -a "$expat_lib_found" = "yes"; then
 
             AC_SUBST([EXPAT_CFLAGS])
-            AC_SUBST([EXPAT_LDFLAGS])
+            AC_SUBST([EXPAT_LIBS])
 
             HAVE_EXPAT="yes"
         else

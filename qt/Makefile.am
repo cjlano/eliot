@@ -141,7 +141,7 @@ BUILT_SOURCES = $(nodist_eliot_SOURCES)
 
 MOSTLYCLEANFILES = $(nodist_eliot_SOURCES)
 
-eliot_LDADD = ../game/libgame.a ../dic/libdic.a @QT_LIBS@ @LIBINTL@ @LIBCONFIG_LIBS@ @ARABICA_LIBS@ @EXPAT_LDFLAGS@
+eliot_LDADD = ../game/libgame.a ../dic/libdic.a @QT_LIBS@ @LIBINTL@ @LIBCONFIG_LIBS@ @ARABICA_LIBS@ @EXPAT_LIBS@
 # Needed for proper stack trace handling
 eliot_LDFLAGS = -rdynamic
 
