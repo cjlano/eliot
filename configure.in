@@ -3,12 +3,12 @@ dnl Process this file with autoconf to produce a configure script.
 dnl --------------------------------------------------------------
 dnl configure.in for Eliot
 dnl --------------------------------------------------------------
-AC_INIT(eliot, 2.1-git)
+AC_INIT([eliot],[2.1-git])
 AC_CONFIG_SRCDIR(qt/main.cpp)
 dnl See http://www.flameeyes.eu/autotools-mythbuster/automake/nonrecursive.html
 dnl for the subdir-objets arguments (used at the moment for game/cmd/)
 AM_INIT_AUTOMAKE([subdir-objects])
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_HOST
 AC_CANONICAL_BUILD
 
@@ -18,7 +18,7 @@ dnl --------------------------------------------------------------
 AC_PROG_INSTALL
 AC_PROG_CC
 dnl Needed for gettext
-AC_GNU_SOURCE
+AC_USE_SYSTEM_EXTENSIONS
 AC_PROG_CXX
 AC_PROG_MAKE_SET
 AC_PROG_RANLIB
@@ -53,7 +53,7 @@ if test "${ac_cv_c_Wextra}" != "no"; then
 fi
 
 dnl Logging
-AC_ARG_ENABLE([logging],AC_HELP_STRING([--enable-logging],[logging (default disabled)]))
+AC_ARG_ENABLE([logging],AS_HELP_STRING([--enable-logging],[logging (default disabled)]))
 if test "${enable_logging}" = "yes"; then
     want_logging=1
 else
@@ -61,7 +61,7 @@ else
 fi
 
 dnl Debug mode
-AC_ARG_ENABLE([debug],AC_HELP_STRING([--enable-debug],[debug mode (default disabled)]))
+AC_ARG_ENABLE([debug],AS_HELP_STRING([--enable-debug],[debug mode (default disabled)]))
 if test "${enable_debug}" = "yes"; then
     CPPFLAGS+=" -DDEBUG"
     CFLAGS+=" -g"
@@ -69,7 +69,7 @@ if test "${enable_debug}" = "yes"; then
 fi
 
 dnl Profile mode
-AC_ARG_ENABLE([profile],AC_HELP_STRING([--enable-profile],[profile mode (default disabled)]))
+AC_ARG_ENABLE([profile],AS_HELP_STRING([--enable-profile],[profile mode (default disabled)]))
 if test "${enable_profile}" = "yes"; then
     CPPFLAGS+=" -DPROFILE"
     CFLAGS+=" -pg"
@@ -78,7 +78,7 @@ if test "${enable_profile}" = "yes"; then
 fi
 
 dnl Regexp / Listdic / Compdic build enable
-AC_ARG_ENABLE([dictools],AC_HELP_STRING([--enable-dictools],[build independant dictionary tools (default enabled)]))
+AC_ARG_ENABLE([dictools],AS_HELP_STRING([--enable-dictools],[build independant dictionary tools (default enabled)]))
 AM_CONDITIONAL([BUILD_DICTOOLS], [test "${enable_dictools}" != "no"])
 
 dnl Define WIN32_BUILD if the compiler is i586-mingw32msvc-g++
@@ -151,7 +151,7 @@ dnl                   [AC_MSG_ERROR([Could not find libxml2 on your system (usin
 
 dnl Check for ncurses
 dnl We enable it if asked by the user, or if ncursesw is found
-AC_ARG_ENABLE([ncurses],AC_HELP_STRING([--enable-ncurses],
+AC_ARG_ENABLE([ncurses],AS_HELP_STRING([--enable-ncurses],
               [ncurses interface support (default enabled if ncursesw found on your system)]))
 AC_CHECK_HEADERS(ncursesw/curses.h, [has_ncursesw=1], [has_ncursesw=0])
 if test "${enable_ncurses}" != "no" -a "${has_ncursesw}" = "1"; then
@@ -165,7 +165,7 @@ fi
 AM_CONDITIONAL([BUILD_NCURSES], [test "${want_ncurses}" = "1"])
 
 dnl check for Qt
-AC_ARG_ENABLE([qt],AC_HELP_STRING([--enable-qt],
+AC_ARG_ENABLE([qt],AS_HELP_STRING([--enable-qt],
               [Qt interface support (default disabled)]))
 qt_ok=0
 AS_IF([test "${enable_qt}" != "no"],
@@ -183,7 +183,7 @@ AS_IF([test "${enable_qt}" != "no"],
 AM_CONDITIONAL([BUILD_QT], [test "${qt_ok}" = "1"])
 
 dnl Enable/disable text version
-AC_ARG_ENABLE([text],AC_HELP_STRING([--enable-text],[text interface support (default enabled)]))
+AC_ARG_ENABLE([text],AS_HELP_STRING([--enable-text],[text interface support (default enabled)]))
 AM_CONDITIONAL([BUILD_TEXT], [test "${enable_text}" != "no"])
 
 dnl Internationalization macros
