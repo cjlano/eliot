@@ -405,6 +405,8 @@ void MainWindow::updateForGame(PublicGame *iGame)
         statusBar()->removeWidget(m_lettersLabel);
         statusBar()->removeWidget(m_turnLabel);
 
+        m_playModel.disconnect(this);
+
         // Destroy the players widget
         QtCommon::DestroyObject(m_playersWidget, this);
         m_playersWidget = NULL;
@@ -434,6 +436,9 @@ void MainWindow::updateForGame(PublicGame *iGame)
         m_lettersLabel->show();
         statusBar()->addWidget(m_turnLabel);
         m_turnLabel->show();
+
+        QObject::connect(&m_playModel, SIGNAL(movePlayed(const wstring&, const wstring&)),
+                         this, SLOT(playWord(const wstring&, const wstring&)));
 
         if (iGame->getMode() == PublicGame::kTRAINING)
         {
@@ -707,6 +712,69 @@ void MainWindow::changeDictionary(QString iFileName)
         {
             displayErrorMsg(e.what());
         }
+    }
+}
+
+
+void MainWindow::playWord(const wstring &iWord, const wstring &iCoord)
+{
+    ASSERT(m_game != NULL, "No game in progress");
+
+    int res = m_game->play(iWord, iCoord);
+    if (res == 0)
+    {
+        emit gameUpdated();
+    }
+    else
+    {
+        // Try to be as explicit as possible concerning the error
+        QString msg = _q("Cannot play '%1' at position '%2':\n%3")
+            .arg(qfw(iWord)).arg(qfw(iCoord));
+        switch (res)
+        {
+            case 1:
+                msg = msg.arg(_q("Some letters are not valid for the current dictionary"));
+                break;
+            case 2:
+                msg = msg.arg(_q("Invalid coordinates"));
+                break;
+            case 3:
+                msg = msg.arg(_q("The word does not exist"));
+                break;
+            case 4:
+                msg = msg.arg(_q("The rack doesn't contain the letters needed to play this word"));
+                break;
+            case 5:
+                msg = msg.arg(_q("The word is part of a longer one"));
+                break;
+            case 6:
+                msg = msg.arg(_q("The word tries to replace an existing letter"));
+                break;
+            case 7:
+                msg = msg.arg(_q("An orthogonal word is not valid"));
+                break;
+            case 8:
+                msg = msg.arg(_q("The word is already present on the board at these coordinates"));
+                break;
+            case 9:
+                msg = msg.arg(_q("A word cannot be isolated (not connected to the placed words)"));
+                break;
+            case 10:
+                msg = msg.arg(_q("The first word of the game must be horizontal"));
+                break;
+            case 11:
+                msg = msg.arg(_q("The first word of the game must cover the H8 square"));
+                break;
+            case 12:
+                msg = msg.arg(_q("The word is going out of the board"));
+                break;
+            case 13:
+                msg = msg.arg(_q("The word contains too many letters from the rack"));
+                break;
+            default:
+                msg = msg.arg(_q("Incorrect or misplaced word"));
+        }
+        displayErrorMsg(msg);
     }
 }
 

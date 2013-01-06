@@ -67,3 +67,11 @@ void PlayModel::setMove(const Move &iMove)
     emit moveChanged(iMove, m_prevMove);
 }
 
+
+
+void PlayModel::playWord(const wstring &iWord, const wstring &iCoord)
+{
+    emit movePlayed(iWord, iCoord);
+}
+
+

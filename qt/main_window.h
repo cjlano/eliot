@@ -110,6 +110,9 @@ private slots:
     /** Load a new dictionary */
     void changeDictionary(QString);
 
+    /// Play the given word
+    void playWord(const wstring &iWord, const wstring &iCoord);
+
     /** Perform some updates when the game is updated */
     void refresh();
 
