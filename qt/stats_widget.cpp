@@ -52,7 +52,7 @@ const QColor StatsWidget::InvalidBrush(255, 0, 0);
 
 /**
  * Flipped version of a model (using the decorator pattern)
- * This implementation does not super tree-models.
+ * This implementation does not support tree-models.
  */
 class FlippedModel : public QAbstractItemModel
 {
@@ -307,7 +307,10 @@ QModelIndex StatsWidget::getIndex(int row, int col) const
 
 void StatsWidget::setSectionHidden(int index, bool iHide)
 {
-    m_table->setRowHidden(index, iHide);
+    if (isFlipped())
+        m_table->setColumnHidden(index, iHide);
+    else
+        m_table->setRowHidden(index, iHide);
 }
 
 
@@ -455,9 +458,15 @@ void StatsWidget::lockSizesChanged(bool checked)
 }
 
 
+bool StatsWidget::isFlipped() const
+{
+    return m_table->model() != m_model;
+}
+
+
 void StatsWidget::flipTable()
 {
-    bool flipped = m_table->model() != m_model;
+    bool flipped = isFlipped();
     m_table->setSortingEnabled(!flipped);
     if (flipped)
         m_table->setModel(m_model);

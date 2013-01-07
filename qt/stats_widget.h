@@ -77,6 +77,7 @@ private:
     QModelIndex getIndex(int row, int col) const;
     QString getTooltip(const TurnData &iTurn, const TurnData &iGameTurn) const;
 
+    bool isFlipped() const;
     void setSectionHidden(int index, bool iHide);
     void setModelSize(int rowCount, int colCount);
     void setModelHeader(int index, const QString &iText, bool iPlayerNames);
