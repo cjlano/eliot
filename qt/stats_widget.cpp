@@ -474,8 +474,13 @@ void StatsWidget::flipTable()
     else
     {
         QSortFilterProxyModel *proxy = new QSortFilterProxyModel;
+        proxy->setDynamicSortFilter(true);
         proxy->setSourceModel(m_flippedModel);
         m_table->setModel(proxy);
+        // Sort by ranking (last column)
+        const int col = m_flippedModel->columnCount() - 1;
+        m_table->sortByColumn(col);
+        m_table->horizontalHeader()->setSortIndicator(col, Qt::AscendingOrder);
     }
     refresh();
 }
