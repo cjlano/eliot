@@ -51,11 +51,6 @@ class Game
 {
     DEFINE_LOGGER();
 public:
-    /**
-     * The iMasterGame parameter is optional.
-     * This game takes ownership of the master game, if one is provided.
-     */
-    Game(const GameParams &iParams, const Game *iMasterGame);
     virtual ~Game();
 
     /***************
@@ -240,6 +235,13 @@ protected:
 
     /// Bag
     Bag m_bag;
+
+    /**
+     * Protected constructor.
+     * The iMasterGame parameter is optional (i.e. it can be NULL).
+     * This game takes ownership of the master game, if one is provided.
+     */
+    Game(const GameParams &iParams, const Game *iMasterGame);
 
     /*********************************************************
      * Helper functions
