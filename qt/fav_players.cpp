@@ -73,6 +73,13 @@ FavPlayersDialog::FavPlayersDialog(QWidget *parent)
     QPushButton *buttonRemove = new QPushButton(_q("Remove player"));
     hLayout->addWidget(buttonRemove);
     hLayout->addStretch();
+    QPushButton *buttonMoveUp = new QPushButton(QIcon(":/images/go-up.png"), "");
+    buttonMoveUp->setToolTip(_q("Move selection upwards"));
+    hLayout->addWidget(buttonMoveUp);
+    QPushButton *buttonMoveDown = new QPushButton(QIcon(":/images/go-down.png"), "");
+    buttonMoveDown->setToolTip(_q("Move selection downwards"));
+    hLayout->addWidget(buttonMoveDown);
+    hLayout->addStretch();
     QPushButton *buttonImport = new QPushButton(_q("CSV Import..."));
     hLayout->addWidget(buttonImport);
     QObject::connect(buttonImport, SIGNAL(clicked()),
@@ -90,6 +97,7 @@ FavPlayersDialog::FavPlayersDialog(QWidget *parent)
 
     m_helper = new PlayersTableHelper(this, tableFav, buttonAdd, buttonRemove, true);
     m_helper->addPopupRemoveAction();
+    m_helper->setUpDown(buttonMoveUp, buttonMoveDown);
     m_helper->addPlayers(m_helper->getFavPlayers());
 }
 
