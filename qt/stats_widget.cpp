@@ -178,9 +178,10 @@ void StatsWidget::refresh()
     for (unsigned i = 1; i <= histSize; ++i)
     {
         QString turnString = QString("#%1").arg(i);
-        // Show the move played for this turn, if it is valid
+        // Show the move played for this turn, if it is valid.
+        // We don't show it when the table is flipped, because it looks ugly.
         const Move &move = m_game->getHistory().getTurn(i - 1).getMove();
-        if (move.isValid())
+        if (move.isValid() && !isFlipped())
         {
             turnString += QString(" (%1 - %2)")
                 .arg(qfw(move.getRound().getWord()))
