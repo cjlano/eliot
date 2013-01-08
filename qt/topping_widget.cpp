@@ -24,12 +24,14 @@
 #include <QtGui/QSortFilterProxyModel>
 
 #include "topping_widget.h"
-#include "qtcommon.h"
 #include "play_word_mediator.h"
+#include "hints_dialog.h"
+#include "qtcommon.h"
 
-#include "player.h"
+#include "hints.h"
 #include "dic.h"
 #include "move.h"
+#include "pldrack.h"
 #include "public_game.h"
 #include "game_exception.h"
 #include "debug.h"
@@ -44,7 +46,10 @@ ToppingWidget::ToppingWidget(QWidget *parent, PlayModel &iPlayModel, PublicGame 
     : QWidget(parent), m_game(iGame), m_autoResizeColumns(true)
 {
     setupUi(this);
-    tableViewMoves->setAlternatingRowColors(true);
+
+    m_hintsDialog = new HintsDialog(this);
+    QObject::connect(m_hintsDialog, SIGNAL(hintUsed(const AbstractHint&)),
+                     this, SLOT(hintUsed(const AbstractHint&)));
 
     blackPalette = lineEditRack->palette();
     redPalette = lineEditRack->palette();
@@ -90,6 +95,9 @@ ToppingWidget::ToppingWidget(QWidget *parent, PlayModel &iPlayModel, PublicGame 
 
     tableViewMoves->horizontalHeader()->resizeSection(1, 140);
 
+    QObject::connect(pushButtonGetHints, SIGNAL(clicked()),
+                     this, SLOT(showHintsDialog()));
+
     refresh();
 }
 
@@ -105,7 +113,7 @@ void ToppingWidget::refresh()
     }
     else
     {
-        wstring rack = m_game->getPlayer(0).getCurrentRack().toString(PlayedRack::RACK_SIMPLE);
+        wstring rack = m_game->getCurrentRack().toString(PlayedRack::RACK_SIMPLE);
         // Update the rack only if it is needed, to avoid losing cursor position
         if (qfw(rack) != lineEditRack->text())
             lineEditRack->setText(qfw(rack));
@@ -161,6 +169,22 @@ void ToppingWidget::updateModel()
 void ToppingWidget::lockSizesChanged(bool checked)
 {
     m_autoResizeColumns = !checked;
+}
+
+
+void ToppingWidget::showHintsDialog()
+{
+    const Move &move = m_game->toppingGetTopMove();
+    m_hintsDialog->setMove(move);
+    // We don't care about the return value
+    m_hintsDialog->exec();
+}
+
+
+void ToppingWidget::hintUsed(const AbstractHint &iHint)
+{
+    // TODO
+    LOG_INFO("Hint " << iHint.getName() << " used for a cost of " << iHint.getCost());
 }
 
 

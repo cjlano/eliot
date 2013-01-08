@@ -28,10 +28,11 @@
 
 class QStandardItemModel;
 class QString;
-class QPoint;
 class PlayModel;
 class PlayWordMediator;
 class PublicGame;
+class HintsDialog;
+class AbstractHint;
 
 class ToppingWidget: public QWidget, private Ui::ToppingWidget
 {
@@ -56,6 +57,8 @@ protected:
 
 private slots:
     void lockSizesChanged(bool checked);
+    void showHintsDialog();
+    void hintUsed(const AbstractHint&);
 
 private:
     /// Encapsulated training game, can be NULL
@@ -69,6 +72,9 @@ private:
 
     /// Mediator for the "play word" controls
     PlayWordMediator *m_mediator;
+
+    /// Dialog used to display hints
+    HintsDialog *m_hintsDialog;
 
     /// Palette to write text in black
     QPalette blackPalette;

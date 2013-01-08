@@ -261,6 +261,12 @@ vector<Move> PublicGame::toppingGetTriedMoves() const
     return getTypedGame<Topping>(m_game).getTriedMoves();
 }
 
+
+Move PublicGame::toppingGetTopMove() const
+{
+    return getTypedGame<Topping>(m_game).getTopMove();
+}
+
 /***************************/
 
 void PublicGame::duplicateSetPlayer(unsigned int p)

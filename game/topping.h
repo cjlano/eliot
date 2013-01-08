@@ -72,6 +72,11 @@ public:
      */
     vector<Move> getTriedMoves() const;
 
+    /**
+     * Return the best possible move (or one of them, if there are several ones).
+     */
+    Move getTopMove() const;
+
 private:
     /// Private constructor and destructor to force using the GameFactory class
     Topping(const GameParams &iParams, const Game *iMasterGame);
@@ -86,7 +91,6 @@ private:
 
     /**
      * Return the score of the top move.
-     * If no move is possible at all, return -1.
      */
     int getTopScore() const;
 

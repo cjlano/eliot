@@ -171,17 +171,19 @@ void Topping::addPlayer(Player *iPlayer)
 }
 
 
-int Topping::getTopScore() const
+Move Topping::getTopMove() const
 {
     BestResults results;
     results.search(getDic(), getBoard(), m_players[0]->getCurrentRack().getRack(),
                    getHistory().beforeFirstRound());
-    if (results.size() == 0)
-    {
-        // Just to be safe
-        return -1;
-    }
-    return results.get(0).getPoints();
+    ASSERT(results.size() != 0, "No top move found");
+    return Move(results.get(0));
+}
+
+
+int Topping::getTopScore() const
+{
+    return getTopMove().getScore();
 }
 
 

@@ -222,6 +222,8 @@ public:
 
     vector<Move> toppingGetTriedMoves() const;
 
+    Move toppingGetTopMove() const;
+
     /***************
      * Duplicate games
      * These methods throw an exception if the current game is not in
