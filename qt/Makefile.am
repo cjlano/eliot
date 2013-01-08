@@ -76,6 +76,7 @@ eliot_SOURCES = \
     dic_tools_widget.cpp dic_tools_widget.h \
     players_table_helper.cpp players_table_helper.h \
     fav_players.cpp fav_players.h \
+    hints_dialog.cpp hints_dialog.h \
     new_game.cpp new_game.h \
     score_widget.cpp score_widget.h \
     dic_wizard.cpp dic_wizard.h \
@@ -117,6 +118,7 @@ nodist_eliot_SOURCES = \
     custom_popup.moc.cpp \
     players_table_helper.moc.cpp \
     fav_players.moc.cpp \
+    hints_dialog.moc.cpp \
     new_game.moc.cpp \
     dic_tools_widget.moc.cpp \
     arbitration_widget.moc.cpp \
