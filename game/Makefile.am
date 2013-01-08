@@ -34,6 +34,7 @@ libgame_a_SOURCES= \
     bag.cpp bag.h \
     turn_data.cpp turn_data.h \
     history.cpp history.h \
+    hints.cpp hints.h \
     player.cpp player.h \
     cmd/topping_move_cmd.cpp cmd/topping_move_cmd.h \
     cmd/player_event_cmd.cpp cmd/player_event_cmd.h \
