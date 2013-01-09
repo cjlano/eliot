@@ -170,11 +170,23 @@ vector<Tile> RackWidget::filterRack(const vector<Tile> &iTiles) const
 // Drag & drop handling
 
 
+bool RackWidget::canStartDragDrop() const
+{
+    if (m_game == NULL || m_game->isFinished())
+        return false;
+    // Drag & drop is not allowed when a word is being played
+    return m_tiles.size() == m_filteredTiles.size();
+}
+
+
 void RackWidget::tilePressed(int row, int col, QMouseEvent *event)
 {
     ASSERT(row == 0, "Multi-line racks are not supported");
     ASSERT(col >= 0 && (unsigned)col < m_tilesVect.size(),
            "Invalid tile index: " << col);
+
+    if (!canStartDragDrop())
+        return;
 
     LOG_DEBUG("Starting drag for tile " << col);
 

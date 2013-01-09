@@ -102,6 +102,8 @@ private:
      */
     vector<Tile> filterRack(const vector<Tile> &iTiles) const;
 
+    bool canStartDragDrop() const;
+
     /**
      * Return the 0-based index of the tile found at the given (relative)
      * position. If there is no such tile, return -1.
