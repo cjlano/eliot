@@ -21,7 +21,6 @@
 #include "game_signals.h"
 
 #include "public_game.h"
-#include "history.h"
 #include "encoding.h"
 #include "debug.h"
 
@@ -70,9 +69,9 @@ void GameSignals::notifyGameUpdated()
         emit newTurn(currTurn);
     }
     // Emit the gameRackChanged() signal if needed
-    if (isLastTurn && m_game->getHistory().getCurrentRack().toString(PlayedRack::RACK_EXTRA) != m_lastGameRack.toString(PlayedRack::RACK_EXTRA))
+    if (isLastTurn && m_game->getCurrentRack().toString(PlayedRack::RACK_EXTRA) != m_lastGameRack.toString(PlayedRack::RACK_EXTRA))
     {
-        m_lastGameRack = m_game->getHistory().getCurrentRack();
+        m_lastGameRack = m_game->getCurrentRack();
         LOG_DEBUG("Emitting gameRackChanged(" << lfw(m_lastGameRack.toString()) << ")");
         emit gameRackChanged(m_lastGameRack);
     }
