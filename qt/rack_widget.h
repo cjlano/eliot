@@ -54,6 +54,9 @@ public slots:
     void setGame(const PublicGame *iGame);
     void setRack(const PlayedRack &iRack);
 
+signals:
+    void gameUpdated();
+
 protected:
     virtual void dragEnterEvent(QDragEnterEvent *event);
     virtual void dragLeaveEvent(QDragLeaveEvent *event);

@@ -166,6 +166,8 @@ MainWindow::MainWindow(QWidget *iParent)
     RackWidget *rackWidget = new RackWidget;
     rackWidget->setPlayModel(&m_playModel);
     rackWidget->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
+    QObject::connect(rackWidget, SIGNAL(gameUpdated()),
+                     m_gameSignals, SLOT(notifyGameUpdated()));
     QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),
                      rackWidget, SLOT(setGame(const PublicGame*)));
     QObject::connect(m_gameSignals, SIGNAL(currPlayerRackChanged(const PlayedRack&)),
@@ -1281,6 +1283,8 @@ void MainWindow::onWindowsBoard()
         RackWidget *rackWidget = new RackWidget;
         rackWidget->setShowOnlyLastTurn(true);
         rackWidget->setGame(m_game);
+        QObject::connect(rackWidget, SIGNAL(gameUpdated()),
+                         m_gameSignals, SLOT(notifyGameUpdated()));
         QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),
                          rackWidget, SLOT(setGame(const PublicGame*)));
         QObject::connect(m_gameSignals, SIGNAL(currPlayerRackChanged(const PlayedRack&)),

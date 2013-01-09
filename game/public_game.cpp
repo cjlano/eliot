@@ -190,6 +190,12 @@ void PublicGame::shuffleRack()
 }
 
 
+void PublicGame::reorderRack(const PlayedRack &iRack)
+{
+    m_game.reorderRack(iRack);
+}
+
+
 void PublicGame::setTestRound(const Round &iRound)
 {
     m_game.accessBoard().testRound(iRound);

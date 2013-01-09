@@ -260,6 +260,17 @@ void RackWidget::dropEvent(QDropEvent *event)
 
         event->setDropAction(Qt::MoveAction);
         event->accept();
+
+        // Notify the rest of the world that the rack has changed
+        ASSERT(m_game != NULL, "No game in progress");
+        PlayedRack pldRack;
+        Q_FOREACH(const Tile &t, m_tiles)
+        {
+            pldRack.addNew(t);
+        }
+        // FIXME: const_cast
+        const_cast<PublicGame*>(m_game)->reorderRack(pldRack);
+        emit gameUpdated();
     }
     else
     {

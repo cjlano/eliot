@@ -178,6 +178,12 @@ public:
     void shuffleRack();
 
     /**
+     * Reorder the rack of the given player.
+     * An assertion is there to check that the letters are the same.
+     */
+    void reorderRack(const PlayedRack &iRack);
+
+    /**
      * Place a temporary word on the board for preview purposes.
      * It is up to the caller to provide a Round
      * which makes sense for the current game.

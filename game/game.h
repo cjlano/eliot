@@ -152,8 +152,24 @@ public:
      */
     virtual int play(const wstring &iCoord, const wstring &iWord) = 0;
 
-    /// Shuffle the rack of the current player
+    /**
+     * Shuffle the rack of the current player.
+     *
+     * Note that this is persistent only until the player gets a new rack.
+     * The shuffling will be lost by navigating in the game history, and
+     * will not be saved in savegames.
+     */
     void shuffleRack();
+
+    /**
+     * Change the rack of the current player.
+     * The letters must be the same as in the existing rack.
+     *
+     * Note that this is persistent only until the player gets a new rack.
+     * The reordering will be lost by navigating in the game history, and
+     * will not be saved in savegames.
+     */
+    void reorderRack(const PlayedRack &iNewRack);
 
     /// Return true if the player has played for the current turn
     // XXX: not very nice API, should be a player property...

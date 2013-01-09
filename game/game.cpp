@@ -94,6 +94,22 @@ void Game::shuffleRack()
 }
 
 
+void Game::reorderRack(const PlayedRack &iNewRack)
+{
+    LOG_DEBUG("Reordering rack for player " << currPlayer() <<
+              " (newRack=" << lfw(iNewRack.toString()) << ")");
+    const PlayedRack &pld = getCurrentPlayer().getCurrentRack();
+
+    // Make sure the new rack uses the same letters
+    ASSERT(pld.getRack() == iNewRack.getRack(),
+           "The old and new racks have different letters" <<
+           "(old=" << lfw(pld.toString()) << 
+           " new=" << lfw(iNewRack.toString()) << ")");
+
+    m_players[currPlayer()]->setCurrentRack(iNewRack);
+}
+
+
 void Game::realBag(Bag &ioBag) const
 {
     // Copy the bag
