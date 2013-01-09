@@ -207,9 +207,16 @@ void RackWidget::tilePressed(int row, int col, QMouseEvent *event)
     drag->setHotSpot(event->pos());
     drag->setPixmap(pixmap);
 
-    if (!(drag->exec(Qt::MoveAction) == Qt::MoveAction))
+    vector<Tile> tilesCopy = m_tiles;
+    if (drag->exec(Qt::MoveAction) != Qt::MoveAction)
     {
-        // TODO
+        LOG_DEBUG("Drag & drop failed (drop out of the widget?). Canceling...");
+        // Restore the rack as it was before the drag & drop
+        setTiles(tilesCopy);
+    }
+    else
+    {
+        LOG_DEBUG("Drag & drop finished");
     }
 }
 
