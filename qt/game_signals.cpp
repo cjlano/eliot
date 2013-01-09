@@ -21,6 +21,7 @@
 #include "game_signals.h"
 
 #include "public_game.h"
+#include "player.h"
 #include "encoding.h"
 #include "debug.h"
 
@@ -61,6 +62,7 @@ void GameSignals::notifyGameUpdated()
         LOG_DEBUG("Emitting turnChanged(" << currTurn << ", " << isLastTurn << ")");
         emit turnChanged(currTurn, isLastTurn);
     }
+
     // Emit the newTurn() signal if needed
     if (currTurn > m_lastTurn)
     {
@@ -68,12 +70,21 @@ void GameSignals::notifyGameUpdated()
         LOG_DEBUG("Emitting newTurn(" << currTurn << ")");
         emit newTurn(currTurn);
     }
+
     // Emit the gameRackChanged() signal if needed
     if (m_game->getCurrentRack().toString(PlayedRack::RACK_EXTRA) != m_lastGameRack.toString(PlayedRack::RACK_EXTRA))
     {
         m_lastGameRack = m_game->getCurrentRack();
         LOG_DEBUG("Emitting gameRackChanged(" << lfw(m_lastGameRack.toString()) << ")");
         emit gameRackChanged(m_lastGameRack);
+    }
+
+    // Emit the currPlayerRackChanged() signal if needed
+    if (m_game->getCurrentPlayer().getCurrentRack().toString(PlayedRack::RACK_EXTRA) != m_lastCurrPlayerRack.toString(PlayedRack::RACK_EXTRA))
+    {
+        m_lastCurrPlayerRack = m_game->getCurrentPlayer().getCurrentRack();
+        LOG_DEBUG("Emitting currPlayerRackChanged(" << lfw(m_lastCurrPlayerRack.toString()) << ")");
+        emit currPlayerRackChanged(m_lastCurrPlayerRack);
     }
 }
 

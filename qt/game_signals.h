@@ -54,14 +54,24 @@ signals:
     void gameChangedNonConst(PublicGame *iGame);
     /// The PublicGame object itself is changed (could be NULL)
     void gameChanged(const PublicGame *iGame);
+
     /// Something changed in the game. This is the least precise signal.
     void gameUpdated();
+
     /// The current turn has changed
     void turnChanged(int iCurrTurn, bool isLastTurn);
+
     /// Like turnChanged(), but only emitted when a new turn is created
     void newTurn(int iCurrTurn);
+
     /// Emitted when the game rack changes
     void gameRackChanged(const PlayedRack &iRack);
+
+    /**
+     * Emitted when the rack of the current player changes (because
+     * the rack itself changes, or because the current player changes)
+     */
+    void currPlayerRackChanged(const PlayedRack &iRack);
 
 private:
     /// Wrapped game (can be NULL)
@@ -75,6 +85,9 @@ private:
 
     // Last known game rack. Used to emit gameRackChanged()
     PlayedRack m_lastGameRack;
+
+    // Last known rack for the current player. Used to emit currPlayerRackChanged()
+    PlayedRack m_lastCurrPlayerRack;
 
 };
 

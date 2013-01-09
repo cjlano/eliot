@@ -215,6 +215,7 @@ void PlayerTabWidget::setGame(PublicGame *iGame)
 
     // Remove all the tabs
     int nbTabs = count();
+    blockSignals(true);
     for (int i = 0; i < nbTabs; ++i)
     {
         setCurrentIndex(0);
@@ -223,9 +224,11 @@ void PlayerTabWidget::setGame(PublicGame *iGame)
         disconnect(currentWidget());
         removeTab(0);
     }
+    blockSignals(false);
 
     if (iGame != NULL)
     {
+        blockSignals(true);
         // Add one tab per player
         for (unsigned int i = 0; i < iGame->getNbPlayers(); ++i)
         {
@@ -244,6 +247,7 @@ void PlayerTabWidget::setGame(PublicGame *iGame)
                 setTabEnabled(i, false);
         }
         setCurrentIndex(iGame->getCurrentPlayer().getId());
+        blockSignals(false);
     }
 }
 
@@ -262,10 +266,12 @@ void PlayerTabWidget::refresh()
 
 void PlayerTabWidget::changeCurrentPlayer(int p)
 {
+#if 0
     // This method is triggered somehow when creating a Duplicate game
     // after a FreeGame one. The next line avoids crashing in this case...
     if (m_game == NULL)
         return;
+#endif
 
     m_playModel.clear();
 
@@ -275,6 +281,7 @@ void PlayerTabWidget::changeCurrentPlayer(int p)
         widget(p)->isEnabled())
     {
         m_game->duplicateSetPlayer(p);
+        emit gameUpdated();
     }
 }
 
