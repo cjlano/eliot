@@ -50,6 +50,7 @@
 #include "round.h"
 #include "settings.h"
 
+#include "game_signals.h"
 #include "new_game.h"
 #include "tables_dialog.h"
 #include "prefs_dialog.h"
@@ -77,13 +78,13 @@ const char *MainWindow::m_windowName = "MainWindow";
 
 MainWindow::MainWindow(QWidget *iParent)
     : QMainWindow(iParent), m_dic(NULL), m_game(NULL),
+    m_gameSignals(new GameSignals),
     m_playersWidget(NULL), m_trainingWidget(NULL),
     m_toppingWidget(NULL),
     m_arbitrationWidget(NULL), m_scoresWidget(NULL),
     m_bagWindow(NULL), m_boardWindow(NULL),
     m_historyWindow(NULL), m_statsWindow(NULL), m_timerWindow(NULL),
-    m_dicToolsWindow(NULL), m_dicNameLabel(NULL), m_timerModel(NULL),
-    m_currentTurn(0), m_lastTurn(0), m_lastGameRack(L"")
+    m_dicToolsWindow(NULL), m_dicNameLabel(NULL), m_timerModel(NULL)
 {
 #ifdef DEBUG
     // Check that the string conversion routines are not buggy
@@ -120,9 +121,9 @@ MainWindow::MainWindow(QWidget *iParent)
                      this, SLOT(beep()));
     linkRackChangesAndTimer();
 
-    QObject::connect(this, SIGNAL(gameChangedNonConst(PublicGame*)),
+    QObject::connect(m_gameSignals, SIGNAL(gameChangedNonConst(PublicGame*)),
                      this, SLOT(updateForGame(PublicGame*)));
-    QObject::connect(this, SIGNAL(gameUpdated()),
+    QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                      this, SLOT(refresh()));
 
     // Status bar
@@ -144,9 +145,9 @@ MainWindow::MainWindow(QWidget *iParent)
 
     // Board
     BoardWidget *boardWidget = new BoardWidget(m_playModel);
-    QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+    QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),
                      boardWidget, SLOT(setGame(const PublicGame*)));
-    QObject::connect(this, SIGNAL(gameUpdated()),
+    QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                      boardWidget, SLOT(refresh()));
 
     QHBoxLayout *hlayout = new QHBoxLayout;
@@ -165,9 +166,9 @@ MainWindow::MainWindow(QWidget *iParent)
     RackWidget *rackWidget = new RackWidget;
     rackWidget->setPlayModel(&m_playModel);
     rackWidget->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
-    QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+    QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),
                      rackWidget, SLOT(setGame(const PublicGame*)));
-    QObject::connect(this, SIGNAL(gameUpdated()),
+    QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                      rackWidget, SLOT(refresh()));
     vSplitter->addWidget(rackWidget);
 
@@ -177,9 +178,9 @@ MainWindow::MainWindow(QWidget *iParent)
 #if 1
     // History
     m_historyTabWidget = new HistoryTabWidget;
-    QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+    QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),
                      m_historyTabWidget, SLOT(setGame(const PublicGame*)));
-    QObject::connect(this, SIGNAL(gameUpdated()),
+    QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                      m_historyTabWidget, SLOT(refresh()));
     QObject::connect(m_historyTabWidget, SIGNAL(requestDefinition(QString)),
                      this, SLOT(showDefinition(QString)));
@@ -193,8 +194,8 @@ MainWindow::MainWindow(QWidget *iParent)
     // Hide the players group box
     m_ui.groupBoxPlayers->hide();
 
-    emit gameChangedNonConst(NULL);
-    emit gameChanged(NULL);
+    // Notify everyone that we have no game yet
+    m_gameSignals->notifyGameChanged(NULL);
 
     // Load dictionary
     QString dicPath = qs.value(PrefsDialog::kINTF_DIC_PATH, "").toString();
@@ -227,6 +228,7 @@ MainWindow::~MainWindow()
     delete m_game;
     delete m_dic;
     delete m_timerModel;
+    delete m_gameSignals;
 
     // Destroy singletons
     GameFactory::Destroy();
@@ -243,8 +245,7 @@ void MainWindow::destroyCurrentGame()
 
     // Some controls, like the board, can live when there is no game.
     // We only have to give them a NULL handler instead of the current one.
-    emit gameChangedNonConst(NULL);
-    emit gameChanged(NULL);
+    m_gameSignals->notifyGameChanged(NULL);
 
     m_ui.groupBoxPlayers->hide();
 
@@ -277,27 +278,6 @@ void MainWindow::refresh()
         m_actionHistoryReplayTurn->setEnabled(!isLastTurn);
         if (m_game->isFinished())
             displayInfoMsg(_q("End of the game"));
-        // Emit the turnChanged() signal if needed
-        if (currTurn != m_currentTurn)
-        {
-            m_currentTurn = currTurn;
-            LOG_DEBUG("Emitting turnChanged(" << currTurn << ", " << isLastTurn << ")");
-            emit turnChanged(currTurn, isLastTurn);
-        }
-        // Emit the newTurn() signal if needed
-        if (currTurn > m_lastTurn)
-        {
-            m_lastTurn = currTurn;
-            LOG_DEBUG("Emitting newTurn(" << currTurn << ")");
-            emit newTurn(currTurn);
-        }
-        // Emit the gameRackChanged() signal if needed
-        if (isLastTurn && m_game->getHistory().getCurrentRack().toString() != m_lastGameRack)
-        {
-            m_lastGameRack = m_game->getHistory().getCurrentRack().toString();
-            LOG_DEBUG("Emitting gameRackChanged(" << lfw(m_lastGameRack) << ")");
-            emit gameRackChanged(qfw(m_lastGameRack));
-        }
 
         // Update the auto-saved game
         try
@@ -355,14 +335,14 @@ void MainWindow::linkRackChangesAndTimer()
     if (m_timerModel == NULL)
         return;
     // Disable the timer auto-start mechanism
-    disconnect(SIGNAL(gameRackChanged(const QString&)), m_timerModel);
+    m_gameSignals->disconnect(SIGNAL(gameRackChanged(const PlayedRack&)), m_timerModel);
     // Reconnect if needed
     QSettings qs;
     if (qs.value(PrefsDialog::kINTF_TIMER_AUTO_START, false).toBool())
     {
-        QObject::connect(this, SIGNAL(gameRackChanged(const QString&)),
+        QObject::connect(m_gameSignals, SIGNAL(gameRackChanged(const PlayedRack&)),
                          m_timerModel, SLOT(resetTimer()));
-        QObject::connect(this, SIGNAL(gameRackChanged(const QString&)),
+        QObject::connect(m_gameSignals, SIGNAL(gameRackChanged(const PlayedRack&)),
                          m_timerModel, SLOT(startTimer()));
     }
 }
@@ -385,7 +365,7 @@ void MainWindow::prefsUpdated()
 
     // Probably useless in most cases (currently only used for
     // the History alignment)
-    emit gameUpdated();
+    m_gameSignals->notifyGameUpdated();
 }
 
 
@@ -455,20 +435,20 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_trainingWidget = new TrainingWidget(NULL, m_playModel, iGame);
             m_ui.groupBoxPlayers->layout()->addWidget(m_trainingWidget);
             QObject::connect(m_trainingWidget, SIGNAL(gameUpdated()),
-                             this, SIGNAL(gameUpdated()));
+                             m_gameSignals, SIGNAL(gameUpdated()));
             QObject::connect(m_trainingWidget, SIGNAL(notifyInfo(QString)),
                              this, SLOT(displayInfoMsg(QString)));
             QObject::connect(m_trainingWidget, SIGNAL(notifyProblem(QString)),
                              this, SLOT(displayErrorMsg(QString)));
             QObject::connect(m_trainingWidget, SIGNAL(requestDefinition(QString)),
                              this, SLOT(showDefinition(QString)));
-            QObject::connect(this, SIGNAL(gameUpdated()),
+            QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                              m_trainingWidget, SLOT(refresh()));
 
             // Players score
             m_scoresWidget = new ScoreWidget(NULL, iGame);
             m_ui.groupBoxPlayers->layout()->addWidget(m_scoresWidget);
-            QObject::connect(this, SIGNAL(gameUpdated()),
+            QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                              m_scoresWidget, SLOT(refresh()));
         }
         else if (iGame->getMode() == PublicGame::kARBITRATION)
@@ -481,14 +461,14 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_arbitrationWidget = new ArbitrationWidget(m_ui.groupBoxPlayers, iGame, m_playModel);
             m_ui.groupBoxPlayers->layout()->addWidget(m_arbitrationWidget);
             QObject::connect(m_arbitrationWidget, SIGNAL(gameUpdated()),
-                             this, SIGNAL(gameUpdated()));
+                             m_gameSignals, SIGNAL(gameUpdated()));
             QObject::connect(m_arbitrationWidget, SIGNAL(notifyInfo(QString)),
                              this, SLOT(displayInfoMsg(QString)));
             QObject::connect(m_arbitrationWidget, SIGNAL(notifyProblem(QString)),
                              this, SLOT(displayErrorMsg(QString)));
             QObject::connect(m_arbitrationWidget, SIGNAL(requestDefinition(QString)),
                              this, SLOT(showDefinition(QString)));
-            QObject::connect(this, SIGNAL(gameUpdated()),
+            QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                              m_arbitrationWidget, SLOT(refresh()));
             // Connect with the dictionary tools only if needed
             linkArbitrationAnd7P1();
@@ -506,18 +486,18 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_toppingWidget = new ToppingWidget(NULL, m_playModel, iGame);
             m_ui.groupBoxPlayers->layout()->addWidget(m_toppingWidget);
             QObject::connect(m_toppingWidget, SIGNAL(gameUpdated()),
-                             this, SIGNAL(gameUpdated()));
+                             m_gameSignals, SIGNAL(gameUpdated()));
             QObject::connect(m_toppingWidget, SIGNAL(notifyInfo(QString)),
                              this, SLOT(displayInfoMsg(QString)));
             QObject::connect(m_toppingWidget, SIGNAL(notifyProblem(QString)),
                              this, SLOT(displayErrorMsg(QString)));
-            QObject::connect(this, SIGNAL(gameUpdated()),
+            QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                              m_toppingWidget, SLOT(refresh()));
 
             // Players score
             m_scoresWidget = new ScoreWidget(NULL, iGame);
             m_ui.groupBoxPlayers->layout()->addWidget(m_scoresWidget);
-            QObject::connect(this, SIGNAL(gameUpdated()),
+            QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                              m_scoresWidget, SLOT(refresh()));
         }
         else
@@ -532,21 +512,21 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_playersWidget = new PlayerTabWidget(m_playModel, NULL);
             m_ui.groupBoxPlayers->layout()->addWidget(m_playersWidget);
             QObject::connect(m_playersWidget, SIGNAL(gameUpdated()),
-                             this, SIGNAL(gameUpdated()));
+                             m_gameSignals, SIGNAL(gameUpdated()));
             QObject::connect(m_playersWidget, SIGNAL(notifyInfo(QString)),
                              this, SLOT(displayInfoMsg(QString)));
             QObject::connect(m_playersWidget, SIGNAL(notifyProblem(QString)),
                              this, SLOT(displayErrorMsg(QString)));
             QObject::connect(m_playersWidget, SIGNAL(requestDefinition(QString)),
                              this, SLOT(showDefinition(QString)));
-            QObject::connect(this, SIGNAL(gameUpdated()),
+            QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                              m_playersWidget, SLOT(refresh()));
             m_playersWidget->setGame(iGame);
 
             // Players score
             m_scoresWidget = new ScoreWidget(NULL, iGame);
             m_ui.groupBoxPlayers->layout()->addWidget(m_scoresWidget);
-            QObject::connect(this, SIGNAL(gameUpdated()),
+            QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                              m_scoresWidget, SLOT(refresh()));
         }
     }
@@ -729,7 +709,7 @@ void MainWindow::playWord(const wstring &iWord, const wstring &iCoord)
     int res = m_game->play(iWord, iCoord);
     if (res == 0)
     {
-        emit gameUpdated();
+        m_gameSignals->notifyGameUpdated();
     }
     else
     {
@@ -791,7 +771,7 @@ void MainWindow::playWordTopping(const wstring &iWord, const wstring &iCoord)
 
     /// FIXME: provide real timeout information
     m_game->toppingPlay(iWord, iCoord, 12);
-    emit gameUpdated();
+    m_gameSignals->notifyGameUpdated();
 }
 
 
@@ -957,9 +937,8 @@ void MainWindow::onGameNew()
 
     displayInfoMsg(_q("Game started"));
     m_game->start();
-    emit gameChangedNonConst(m_game);
-    emit gameChanged(m_game);
-    emit gameUpdated();
+
+    m_gameSignals->notifyGameChanged(m_game);
 }
 
 
@@ -1009,9 +988,9 @@ void MainWindow::loadGame(QString fileName)
             return;
         }
         m_ui.groupBoxPlayers->show();
-        emit gameChangedNonConst(m_game);
-        emit gameChanged(m_game);
-        emit gameUpdated();
+
+        m_gameSignals->notifyGameChanged(m_game);
+
         displayInfoMsg(_q("Game loaded"));
     }
 }
@@ -1250,7 +1229,7 @@ void MainWindow::onSettingsDefineTables()
                      this, SLOT(displayErrorMsg(QString)));
     if (dialog->exec() == QDialog::Accepted)
     {
-        emit gameUpdated();
+        m_gameSignals->notifyGameUpdated();
     }
 }
 
@@ -1275,9 +1254,9 @@ void MainWindow::onWindowsBag()
         bag->setGame(m_game);
         m_bagWindow = new AuxWindow(*bag, _q("Bag"), "BagWindow",
                                     m_actionWindowsBag);
-        QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+        QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),
                          bag, SLOT(setGame(const PublicGame*)));
-        QObject::connect(this, SIGNAL(gameUpdated()),
+        QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                          bag, SLOT(refresh()));
     }
     m_bagWindow->toggleVisibility();
@@ -1302,9 +1281,9 @@ void MainWindow::onWindowsBoard()
         RackWidget *rackWidget = new RackWidget;
         rackWidget->setShowOnlyLastTurn(true);
         rackWidget->setGame(m_game);
-        QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+        QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),
                          rackWidget, SLOT(setGame(const PublicGame*)));
-        QObject::connect(this, SIGNAL(gameUpdated()),
+        QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                          rackWidget, SLOT(refresh()));
         hSplitter->addWidget(rackWidget);
 
@@ -1319,9 +1298,9 @@ void MainWindow::onWindowsBoard()
         board->setShowTempSigns(false);
         board->setShowOnlyLastTurn(true);
         board->setGame(m_game);
-        QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+        QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),
                          board, SLOT(setGame(const PublicGame*)));
-        QObject::connect(this, SIGNAL(gameUpdated()),
+        QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                          board, SLOT(refresh()));
         vSplitter->addWidget(board);
 
@@ -1356,9 +1335,9 @@ void MainWindow::onWindowsHistory()
         history->setGame(m_game);
         m_historyWindow = new AuxWindow(*history, _q("History"), "HistoryWindow",
                                         m_actionWindowsHistory);
-        QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+        QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),
                          history, SLOT(setGame(const PublicGame*)));
-        QObject::connect(this, SIGNAL(gameUpdated()),
+        QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                          history, SLOT(refresh()));
     }
     m_historyWindow->toggleVisibility();
@@ -1374,9 +1353,9 @@ void MainWindow::onWindowsStatistics()
         stats->setGame(m_game);
         m_statsWindow = new AuxWindow(*stats, _q("Statistics"), "StatsWindow",
                                       m_actionWindowsStats);
-        QObject::connect(this, SIGNAL(gameChanged(const PublicGame*)),
+        QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),
                          stats, SLOT(setGame(const PublicGame*)));
-        QObject::connect(this, SIGNAL(gameUpdated()),
+        QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                          stats, SLOT(refresh()));
     }
     m_statsWindow->toggleVisibility();
@@ -1447,7 +1426,7 @@ void MainWindow::onHistoryFirstTurn()
         return;
 
     m_game->firstTurn();
-    emit gameUpdated();
+    m_gameSignals->notifyGameUpdated();
     unsigned int currTurn = m_game->getCurrTurn();
     unsigned int nbTurns = m_game->getNbTurns();
     displayInfoMsg(_q("Turn %1/%2").arg(currTurn).arg(nbTurns));
@@ -1460,7 +1439,7 @@ void MainWindow::onHistoryPrevTurn()
         return;
 
     m_game->prevTurn();
-    emit gameUpdated();
+    m_gameSignals->notifyGameUpdated();
     unsigned int currTurn = m_game->getCurrTurn();
     unsigned int nbTurns = m_game->getNbTurns();
     displayInfoMsg(_q("Turn %1/%2").arg(currTurn).arg(nbTurns));
@@ -1473,7 +1452,7 @@ void MainWindow::onHistoryNextTurn()
         return;
 
     m_game->nextTurn();
-    emit gameUpdated();
+    m_gameSignals->notifyGameUpdated();
     unsigned int currTurn = m_game->getCurrTurn();
     unsigned int nbTurns = m_game->getNbTurns();
     displayInfoMsg(_q("Turn %1/%2").arg(currTurn).arg(nbTurns));
@@ -1486,7 +1465,7 @@ void MainWindow::onHistoryLastTurn()
         return;
 
     m_game->lastTurn();
-    emit gameUpdated();
+    m_gameSignals->notifyGameUpdated();
     unsigned int currTurn = m_game->getCurrTurn();
     unsigned int nbTurns = m_game->getNbTurns();
     displayInfoMsg(_q("Turn %1/%2").arg(currTurn).arg(nbTurns));
@@ -1510,7 +1489,7 @@ void MainWindow::onHistoryReplayTurn()
 
     unsigned int currTurn = m_game->getCurrTurn();
     m_game->clearFuture();
-    emit gameUpdated();
+    m_gameSignals->notifyGameUpdated();
     displayInfoMsg(_q("Replaying from turn %1").arg(currTurn));
 }
 

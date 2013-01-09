@@ -32,6 +32,7 @@
 using std::string;
 
 
+class GameSignals;
 class Dictionary;
 class Bag;
 class Board;
@@ -59,14 +60,6 @@ public:
 
 signals:
     void dicChanged(const Dictionary *iDic);
-    void gameChanged(const PublicGame *iGame);
-    void gameChangedNonConst(PublicGame *iGame);
-    void gameUpdated();
-    void turnChanged(int iCurrTurn, bool isLastTurn);
-    /// Like turnChanged(), but only emitted when a new turn is created
-    void newTurn(int iCurrTurn);
-    /// Emitted when the game rack changes
-    void gameRackChanged(const QString &iNewrack);
 
 public slots:
     /// Display an error message to the user
@@ -144,6 +137,8 @@ private:
     /// Current game
     PublicGame *m_game;
 
+    GameSignals *m_gameSignals;
+
     /// The UI file generated with Qt Designer
     Ui::MainWindow m_ui;
 
@@ -208,15 +203,6 @@ private:
 
     /// Model for the timer widgets
     TimerModel *m_timerModel;
-
-    /// Current turn number. Used to emit turnChanged()
-    unsigned m_currentTurn;
-
-    /// Last known turn number. Used to emit newTurn()
-    unsigned m_lastTurn;
-
-    // Last known game rack. Used to emit gameRackChanged()
-    wstring m_lastGameRack;
 
     /// Save window state
     void writeSettings() const;

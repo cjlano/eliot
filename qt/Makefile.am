@@ -62,6 +62,7 @@ EXTRA_DIST = \
 
 eliot_SOURCES = \
     qtcommon.h qtcommon.cpp \
+    game_signals.h game_signals.cpp \
     play_model.h play_model.cpp \
     tile_widget.cpp tile_widget.h \
     rack_widget.cpp rack_widget.h \
@@ -108,6 +109,7 @@ nodist_eliot_SOURCES = \
     ui/dic_wizard_info_page.ui.h \
     ui/dic_wizard_letters_def_page.ui.h \
     ui/dic_wizard_conclusion_page.ui.h \
+    game_signals.moc.cpp \
     play_model.moc.cpp \
     tile_widget.moc.cpp \
     rack_widget.moc.cpp \
