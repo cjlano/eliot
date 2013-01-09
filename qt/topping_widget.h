@@ -57,6 +57,7 @@ protected:
 
 private slots:
     void lockSizesChanged(bool checked);
+    void shuffle();
     void showHintsDialog();
     void hintUsed(const AbstractHint&);
 

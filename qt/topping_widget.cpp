@@ -32,6 +32,7 @@
 #include "dic.h"
 #include "move.h"
 #include "pldrack.h"
+#include "player.h"
 #include "public_game.h"
 #include "game_exception.h"
 #include "debug.h"
@@ -63,6 +64,9 @@ ToppingWidget::ToppingWidget(QWidget *parent, PlayModel &iPlayModel, PublicGame 
                      this, SIGNAL(gameUpdated()));
     QObject::connect(m_mediator, SIGNAL(notifyProblem(QString)),
                      this, SIGNAL(notifyProblem(QString)));
+
+    QObject::connect(pushButtonShuffle, SIGNAL(clicked()),
+                     this, SLOT(shuffle()));
 
     // Associate the model to the view.
     // We use a proxy for easy sorting.
@@ -113,7 +117,7 @@ void ToppingWidget::refresh()
     }
     else
     {
-        wstring rack = m_game->getCurrentRack().toString(PlayedRack::RACK_SIMPLE);
+        wstring rack = m_game->getCurrentPlayer().getCurrentRack().toString(PlayedRack::RACK_SIMPLE);
         // Update the rack only if it is needed, to avoid losing cursor position
         if (qfw(rack) != lineEditRack->text())
             lineEditRack->setText(qfw(rack));
@@ -169,6 +173,13 @@ void ToppingWidget::updateModel()
 void ToppingWidget::lockSizesChanged(bool checked)
 {
     m_autoResizeColumns = !checked;
+}
+
+
+void ToppingWidget::shuffle()
+{
+    m_game->shuffleRack();
+    emit gameUpdated();
 }
 
 
