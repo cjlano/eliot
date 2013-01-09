@@ -339,7 +339,7 @@ void TrainingWidget::helperSetRack(bool iAll)
     {
         // FIXME: first parameter is hardcoded
         m_game->trainingSetRackRandom(true,
-                iAll ? PublicGame::kRACK_NEW : PublicGame::kRACK_NEW);
+                iAll ? PublicGame::kRACK_ALL : PublicGame::kRACK_NEW);
         emit gameUpdated();
         lineEditRack->setFocus();
     }
