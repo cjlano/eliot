@@ -69,7 +69,7 @@ void GameSignals::notifyGameUpdated()
         emit newTurn(currTurn);
     }
     // Emit the gameRackChanged() signal if needed
-    if (isLastTurn && m_game->getCurrentRack().toString(PlayedRack::RACK_EXTRA) != m_lastGameRack.toString(PlayedRack::RACK_EXTRA))
+    if (m_game->getCurrentRack().toString(PlayedRack::RACK_EXTRA) != m_lastGameRack.toString(PlayedRack::RACK_EXTRA))
     {
         m_lastGameRack = m_game->getCurrentRack();
         LOG_DEBUG("Emitting gameRackChanged(" << lfw(m_lastGameRack.toString()) << ")");
