@@ -308,9 +308,11 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
     vector<Tile> tiles;
     pld.getOldTiles(tiles);
     // The rack is already complete, there is nothing to do
-    // TODO: add a log here
     if (tiles.size() >= RACK_SIZE)
+    {
+        LOG_DEBUG("Rack already complete, nothing to do");
         return iPld;
+    }
 
     bool jokerAdded = false;
     // Are we dealing with a normal game or a joker game?
