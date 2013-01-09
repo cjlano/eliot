@@ -388,23 +388,23 @@ void MainWindow::updateForGame(PublicGame *iGame)
         m_playModel.disconnect(this);
 
         // Destroy the players widget
-        QtCommon::DestroyObject(m_playersWidget, this);
+        QtCommon::DestroyObject(m_playersWidget, m_gameSignals);
         m_playersWidget = NULL;
 
         // Destroy the training widget
-        QtCommon::DestroyObject(m_trainingWidget, this);
+        QtCommon::DestroyObject(m_trainingWidget, m_gameSignals);
         m_trainingWidget = NULL;
 
         // Destroy the topping widget
-        QtCommon::DestroyObject(m_toppingWidget, this);
+        QtCommon::DestroyObject(m_toppingWidget, m_gameSignals);
         m_toppingWidget = NULL;
 
         // Destroy the arbitration widget
-        QtCommon::DestroyObject(m_arbitrationWidget, this);
+        QtCommon::DestroyObject(m_arbitrationWidget, m_gameSignals);
         m_arbitrationWidget = NULL;
 
         // Destroy the scores widget
-        QtCommon::DestroyObject(m_scoresWidget, this);
+        QtCommon::DestroyObject(m_scoresWidget, m_gameSignals);
         m_scoresWidget = NULL;
     }
     else
@@ -435,7 +435,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_trainingWidget = new TrainingWidget(NULL, m_playModel, iGame);
             m_ui.groupBoxPlayers->layout()->addWidget(m_trainingWidget);
             QObject::connect(m_trainingWidget, SIGNAL(gameUpdated()),
-                             m_gameSignals, SIGNAL(gameUpdated()));
+                             m_gameSignals, SLOT(notifyGameUpdated()));
             QObject::connect(m_trainingWidget, SIGNAL(notifyInfo(QString)),
                              this, SLOT(displayInfoMsg(QString)));
             QObject::connect(m_trainingWidget, SIGNAL(notifyProblem(QString)),
@@ -461,7 +461,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_arbitrationWidget = new ArbitrationWidget(m_ui.groupBoxPlayers, iGame, m_playModel);
             m_ui.groupBoxPlayers->layout()->addWidget(m_arbitrationWidget);
             QObject::connect(m_arbitrationWidget, SIGNAL(gameUpdated()),
-                             m_gameSignals, SIGNAL(gameUpdated()));
+                             m_gameSignals, SLOT(notifyGameUpdated()));
             QObject::connect(m_arbitrationWidget, SIGNAL(notifyInfo(QString)),
                              this, SLOT(displayInfoMsg(QString)));
             QObject::connect(m_arbitrationWidget, SIGNAL(notifyProblem(QString)),
@@ -486,7 +486,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_toppingWidget = new ToppingWidget(NULL, m_playModel, iGame);
             m_ui.groupBoxPlayers->layout()->addWidget(m_toppingWidget);
             QObject::connect(m_toppingWidget, SIGNAL(gameUpdated()),
-                             m_gameSignals, SIGNAL(gameUpdated()));
+                             m_gameSignals, SLOT(notifyGameUpdated()));
             QObject::connect(m_toppingWidget, SIGNAL(notifyInfo(QString)),
                              this, SLOT(displayInfoMsg(QString)));
             QObject::connect(m_toppingWidget, SIGNAL(notifyProblem(QString)),
@@ -512,7 +512,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_playersWidget = new PlayerTabWidget(m_playModel, NULL);
             m_ui.groupBoxPlayers->layout()->addWidget(m_playersWidget);
             QObject::connect(m_playersWidget, SIGNAL(gameUpdated()),
-                             m_gameSignals, SIGNAL(gameUpdated()));
+                             m_gameSignals, SLOT(notifyGameUpdated()));
             QObject::connect(m_playersWidget, SIGNAL(notifyInfo(QString)),
                              this, SLOT(displayInfoMsg(QString)));
             QObject::connect(m_playersWidget, SIGNAL(notifyProblem(QString)),
