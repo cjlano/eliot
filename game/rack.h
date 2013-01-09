@@ -52,6 +52,8 @@ public:
 
     wstring toString() const;
 
+    bool operator==(const Rack &iOther) const;
+
 private:
     /// Vector indexed by tile codes, containing the number of tiles
     vector<unsigned int> m_tiles;

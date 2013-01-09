@@ -79,3 +79,11 @@ wstring Rack::toString() const
     return rs;
 }
 
+
+bool Rack::operator==(const Rack &iOther) const
+{
+    return m_tiles == iOther.m_tiles
+        && m_ntiles == iOther.m_ntiles;
+}
+
+
