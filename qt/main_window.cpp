@@ -168,8 +168,8 @@ MainWindow::MainWindow(QWidget *iParent)
     rackWidget->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
     QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),
                      rackWidget, SLOT(setGame(const PublicGame*)));
-    QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
-                     rackWidget, SLOT(refresh()));
+    QObject::connect(m_gameSignals, SIGNAL(gameRackChanged(const PlayedRack&)),
+                     rackWidget, SLOT(setRack(const PlayedRack&)));
     vSplitter->addWidget(rackWidget);
 
     hlayout->addWidget(vSplitter);
@@ -1283,8 +1283,8 @@ void MainWindow::onWindowsBoard()
         rackWidget->setGame(m_game);
         QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),
                          rackWidget, SLOT(setGame(const PublicGame*)));
-        QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
-                         rackWidget, SLOT(refresh()));
+        QObject::connect(m_gameSignals, SIGNAL(gameRackChanged(const PlayedRack&)),
+                         rackWidget, SLOT(setRack(const PlayedRack&)));
         hSplitter->addWidget(rackWidget);
 
         hSplitter->addWidget(new QWidget);

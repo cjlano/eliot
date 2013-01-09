@@ -81,32 +81,36 @@ void RackWidget::setGame(const PublicGame *iGame)
         layout->clear();
         m_tilesVect.clear();
     }
+}
+
+
+void RackWidget::setRack(const PlayedRack &iRack)
+{
+    ASSERT(m_game != NULL, "setRack() called without a game");
+    if (m_showOnlyLastTurn && !m_game->isLastTurn())
+        return;
+
+    // Get the tiles
+    vector<Tile> tiles;
+    iRack.getAllTiles(tiles);
+
+    // Update the rack
+    setTiles(tiles);
+}
+
+
+void RackWidget::setTiles(const vector<Tile> &iTiles)
+{
+    m_tiles = iTiles;
     refresh();
 }
 
 
 void RackWidget::refresh()
 {
-    if (m_game == NULL)
-        return;
+    m_filteredTiles = filterRack(m_tiles);
 
-    if (m_showOnlyLastTurn && !m_game->isLastTurn())
-        return;
-
-    // Get the tiles
-    vector<Tile> tiles;
-    m_game->getCurrentRack().getAllTiles(tiles);
-
-    // Update the rack
-    setRack(tiles);
-}
-
-
-void RackWidget::setRack(const vector<Tile> &iTiles)
-{
-    m_tiles = filterRack(iTiles);
-
-    unsigned tilesCount = m_tiles.size();
+    unsigned tilesCount = m_filteredTiles.size();
 
     // Make sure we have as many widgets as there are letters in the rack
     while (m_tilesVect.size() > tilesCount)
@@ -286,15 +290,15 @@ void RackWidget::moveTile(int fromPos, int toPos, bool shaded)
     if (fromPos != toPos)
     {
         // Change the order
-        Tile moved = m_tiles[fromPos];
-        m_tiles.erase(m_tiles.begin() + fromPos);
-        m_tiles.insert(m_tiles.begin() + toPos, moved);
+        Tile moved = m_filteredTiles[fromPos];
+        m_filteredTiles.erase(m_filteredTiles.begin() + fromPos);
+        m_filteredTiles.insert(m_filteredTiles.begin() + toPos, moved);
         // Update the rack
-        setRack(m_tiles);
+        setTiles(m_filteredTiles);
     }
     // Change the look of the moved tile
     m_tilesVect[toPos]->tileChanged(shaded ? TileWidget::SHADED : TileWidget::NORMAL,
-                                    m_tiles[toPos]);
+                                    m_filteredTiles[toPos]);
 }
 
 

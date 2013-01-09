@@ -52,8 +52,7 @@ public:
 
 public slots:
     void setGame(const PublicGame *iGame);
-    void refresh();
-    void setRack(const vector<Tile> &iTiles);
+    void setRack(const PlayedRack &iRack);
 
 protected:
     virtual void dragEnterEvent(QDragEnterEvent *event);
@@ -61,9 +60,20 @@ protected:
     virtual void dragMoveEvent(QDragMoveEvent *event);
     virtual void dropEvent(QDropEvent *event);
 
+private slots:
+    /**
+     * Refresh the widget, using m_tiles as a reference.
+     */
+    void refresh();
+    /// Set the tiles and refresh the widget
+    void setTiles(const vector<Tile> &iTiles);
+
 private:
     /// Tiles from which widgets are created
     vector<Tile> m_tiles;
+
+    /// Tiles after filtering (removing from m_tiles the ones in the word being played)
+    vector<Tile> m_filteredTiles;
 
     /**
      * Encapsulated tiles.
@@ -79,7 +89,7 @@ private:
 
     /**
      * Indicate whether to show only the last rack
-     * (useful for on the external board, in particular in arbitration mode)
+     * (useful on the external board, in particular in arbitration mode)
      */
     bool m_showOnlyLastTurn;
 
