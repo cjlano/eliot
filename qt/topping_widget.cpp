@@ -26,6 +26,8 @@
 #include "topping_widget.h"
 #include "play_word_mediator.h"
 #include "hints_dialog.h"
+#include "timer_widget.h"
+#include "play_model.h"
 #include "qtcommon.h"
 
 #include "hints.h"
@@ -43,10 +45,25 @@ using namespace std;
 INIT_LOGGER(qt, ToppingWidget);
 
 
-ToppingWidget::ToppingWidget(QWidget *parent, PlayModel &iPlayModel, PublicGame *iGame)
-    : QWidget(parent), m_game(iGame), m_autoResizeColumns(true)
+ToppingWidget::ToppingWidget(QWidget *parent, PlayModel &iPlayModel,
+                             TimerModel &iTimerModel, PublicGame *iGame)
+    : QWidget(parent), m_game(iGame), m_autoResizeColumns(true),
+    m_timerModel(&iTimerModel)
 {
     setupUi(this);
+
+    QObject::connect(&iPlayModel, SIGNAL(movePlayed(const wstring&, const wstring&)),
+                     this, SLOT(playWord(const wstring&, const wstring&)));
+
+    QHBoxLayout *layout = new QHBoxLayout(widgetContainer);
+    layout->setContentsMargins(0, 0, 0, 0);
+
+    TimerWidget *timerWidget = new TimerWidget(this, iTimerModel);
+    timerWidget->setEnabled(false);
+    iTimerModel.setChronoMode(true);
+    QObject::connect(&iTimerModel, SIGNAL(expired()),
+                     this, SLOT(timeoutPenalty()));
+    layout->addWidget(timerWidget);
 
     m_hintsDialog = new HintsDialog(this, true);
     QObject::connect(m_hintsDialog, SIGNAL(hintUsed(const AbstractHint&)),
@@ -192,10 +209,34 @@ void ToppingWidget::showHintsDialog()
 }
 
 
+void ToppingWidget::onNewTurn()
+{
+    m_timerModel->resetTimer();
+    m_timerModel->startTimer();
+}
+
+
+void ToppingWidget::playWord(const wstring &iWord, const wstring &iCoord)
+{
+    ASSERT(m_game != NULL, "No game in progress");
+
+    int elapsed = m_timerModel->getElapsed();
+    m_game->toppingPlay(iWord, iCoord, elapsed);
+    emit gameUpdated();
+}
+
+
 void ToppingWidget::hintUsed(const AbstractHint &iHint)
 {
     // TODO
     LOG_INFO("Hint " << iHint.getName() << " used for a cost of " << iHint.getCost());
+}
+
+
+void ToppingWidget::timeoutPenalty()
+{
+    // TODO
+    LOG_INFO("Timeout penalty given");
 }
 
 

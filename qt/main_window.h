@@ -106,9 +106,6 @@ private slots:
     /// Play the given word (all modes except topping)
     void playWord(const wstring &iWord, const wstring &iCoord);
 
-    /// Play the given word (topping mode only)
-    void playWordTopping(const wstring &iWord, const wstring &iCoord);
-
     /** Perform some updates when the game is updated */
     void refresh();
 

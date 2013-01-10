@@ -388,6 +388,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
         statusBar()->removeWidget(m_turnLabel);
 
         m_playModel.disconnect(this);
+        m_timerModel->resetTimer();
 
         // Destroy the players widget
         QtCommon::DestroyObject(m_playersWidget, m_gameSignals);
@@ -420,13 +421,8 @@ void MainWindow::updateForGame(PublicGame *iGame)
         m_turnLabel->show();
 
         // Handle played moves
-        const char *playWordSlot =
-            iGame->getMode() == PublicGame::kTOPPING ?
-            SLOT(playWordTopping(const wstring&, const wstring&)) :
-            SLOT(playWord(const wstring&, const wstring&));
-        // The method to call depends on the game mode
         QObject::connect(&m_playModel, SIGNAL(movePlayed(const wstring&, const wstring&)),
-                         this, playWordSlot);
+                         this, SLOT(playWord(const wstring&, const wstring&)));
 
         if (iGame->getMode() == PublicGame::kTRAINING)
         {
@@ -485,7 +481,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
             m_ui.groupBoxPlayers->setTitle(_q("Topping"));
 
             // Players widget
-            m_toppingWidget = new ToppingWidget(NULL, m_playModel, iGame);
+            m_toppingWidget = new ToppingWidget(NULL, m_playModel, *m_timerModel, iGame);
             m_ui.groupBoxPlayers->layout()->addWidget(m_toppingWidget);
             QObject::connect(m_toppingWidget, SIGNAL(gameUpdated()),
                              m_gameSignals, SLOT(notifyGameUpdated()));
@@ -493,14 +489,10 @@ void MainWindow::updateForGame(PublicGame *iGame)
                              this, SLOT(displayInfoMsg(QString)));
             QObject::connect(m_toppingWidget, SIGNAL(notifyProblem(QString)),
                              this, SLOT(displayErrorMsg(QString)));
+            QObject::connect(m_gameSignals, SIGNAL(newTurn(int)),
+                             m_toppingWidget, SLOT(onNewTurn()));
             QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
                              m_toppingWidget, SLOT(refresh()));
-
-            // Players score
-            m_scoresWidget = new ScoreWidget(NULL, iGame);
-            m_ui.groupBoxPlayers->layout()->addWidget(m_scoresWidget);
-            QObject::connect(m_gameSignals, SIGNAL(gameUpdated()),
-                             m_scoresWidget, SLOT(refresh()));
         }
         else
         {
@@ -708,6 +700,11 @@ void MainWindow::playWord(const wstring &iWord, const wstring &iCoord)
 {
     ASSERT(m_game != NULL, "No game in progress");
 
+    // Do nothing in Topping mode: this is already handled
+    // in the ToppingWidget class
+    if (m_game->getMode() == PublicGame::kTOPPING)
+        return;
+
     int res = m_game->play(iWord, iCoord);
     if (res == 0)
     {
@@ -764,16 +761,6 @@ void MainWindow::playWord(const wstring &iWord, const wstring &iCoord)
         }
         displayErrorMsg(msg);
     }
-}
-
-
-void MainWindow::playWordTopping(const wstring &iWord, const wstring &iCoord)
-{
-    ASSERT(m_game != NULL, "No game in progress");
-
-    /// FIXME: provide real timeout information
-    m_game->toppingPlay(iWord, iCoord, 12);
-    m_gameSignals->notifyGameUpdated();
 }
 
 

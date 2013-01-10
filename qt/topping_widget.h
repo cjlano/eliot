@@ -29,6 +29,7 @@
 class QStandardItemModel;
 class QString;
 class PlayModel;
+class TimerModel;
 class PlayWordMediator;
 class PublicGame;
 class HintsDialog;
@@ -40,16 +41,17 @@ class ToppingWidget: public QWidget, private Ui::ToppingWidget
     DEFINE_LOGGER();
 
 public:
-    explicit ToppingWidget(QWidget *parent, PlayModel &iPlayModel, PublicGame *iGame);
+    explicit ToppingWidget(QWidget *parent, PlayModel &iPlayModel,
+                           TimerModel &iTimerModel, PublicGame *iGame);
 
 public slots:
+    void onNewTurn();
     void refresh();
 
 signals:
     void gameUpdated();
     void notifyProblem(QString iMsg);
     void notifyInfo(QString iMsg);
-    void rackUpdated(const QString &iRack);
 
 protected:
     /// Define a default size
@@ -59,7 +61,9 @@ private slots:
     void lockSizesChanged(bool checked);
     void shuffle();
     void showHintsDialog();
+    void playWord(const wstring &iWord, const wstring &iCoord);
     void hintUsed(const AbstractHint&);
+    void timeoutPenalty();
 
 private:
     /// Encapsulated training game, can be NULL
@@ -73,6 +77,8 @@ private:
 
     /// Mediator for the "play word" controls
     PlayWordMediator *m_mediator;
+
+    TimerModel *m_timerModel;
 
     /// Dialog used to display hints
     HintsDialog *m_hintsDialog;
