@@ -51,6 +51,9 @@ public:
     bool wasAlertTriggered() const { return m_alertTriggered; }
     bool isExpired() const { return m_remaining == 0; }
 
+    bool isChronoMode() const { return m_chronoMode; }
+    void setChronoMode(bool iChrono);
+
     bool isActiveTimer() const;
 
 public slots:
@@ -81,6 +84,9 @@ private:
 
     /// Indicate whether we triggered an alert
     bool m_alertTriggered;
+
+    /// Indicate whether to show the remaining time or elapsed time
+    bool m_chronoMode;
 
     /// Timer used for the countdown
     QTimer *m_timer;

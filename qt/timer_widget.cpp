@@ -30,7 +30,8 @@ INIT_LOGGER(qt, TimerWidget);
 
 
 TimerModel::TimerModel(int iTotalDuration, int iAlertDuration)
-    : m_totalDuration(0), m_alertDuration(0), m_remaining(m_totalDuration)
+    : m_totalDuration(0), m_alertDuration(0), m_remaining(m_totalDuration),
+    m_chronoMode(false)
 {
     m_timer = new QTimer(this);
 
@@ -47,7 +48,7 @@ void TimerModel::setValue(int iNewValue)
     if (iNewValue != m_remaining)
     {
         m_remaining = iNewValue;
-        emit valueChanged(iNewValue);
+        emit valueChanged(m_chronoMode ? m_totalDuration - iNewValue : iNewValue);
     }
 }
 
@@ -123,6 +124,14 @@ void TimerModel::setAlertDuration(int iSeconds)
     resetTimer();
 }
 
+
+void TimerModel::setChronoMode(bool iChrono)
+{
+    m_chronoMode = iChrono;
+    // Refresh the value immediately, instead of waiting for the next timeout
+    emit valueChanged(m_chronoMode ? m_totalDuration - m_remaining : m_remaining);
+}
+
 // ---------------------------------------
 
 TimerWidget::TimerWidget(QWidget *parent, TimerModel &iTimerModel)
@@ -185,21 +194,29 @@ void TimerWidget::mousePressEvent(QMouseEvent *iEvent)
 {
     if (iEvent->button() == Qt::LeftButton)
     {
-        if (m_model.isActiveTimer())
+        if (iEvent->modifiers() == Qt::ControlModifier)
         {
-            // Pause execution
-            m_model.pauseTimer();
+            // Ctrl+click -> switch between timer mode and chrono mode
+            m_model.setChronoMode(!m_model.isChronoMode());
         }
-        else if (m_model.getValue() > 0)
+        else if (iEvent->modifiers() == Qt::NoModifier)
         {
-            // Resume execution
-            m_model.startTimer();
-        }
-        else
-        {
-            // Restart timer
-            m_model.resetTimer();
-            m_model.startTimer();
+            if (m_model.isActiveTimer())
+            {
+                // Pause execution
+                m_model.pauseTimer();
+            }
+            else if (m_model.getValue() > 0)
+            {
+                // Resume execution
+                m_model.startTimer();
+            }
+            else
+            {
+                // Restart timer
+                m_model.resetTimer();
+                m_model.startTimer();
+            }
         }
     }
     else if (iEvent->button() == Qt::RightButton)
@@ -209,10 +226,13 @@ void TimerWidget::mousePressEvent(QMouseEvent *iEvent)
 }
 
 
-void TimerWidget::mouseDoubleClickEvent(QMouseEvent*)
+void TimerWidget::mouseDoubleClickEvent(QMouseEvent *iEvent)
 {
-    m_model.resetTimer();
-    m_model.startTimer();
+    if (iEvent->modifiers() == Qt::NoModifier)
+    {
+        m_model.resetTimer();
+        m_model.startTimer();
+    }
 }
 
 
