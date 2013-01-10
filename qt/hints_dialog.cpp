@@ -49,12 +49,16 @@ struct CostComparator : public binary_function<const AbstractHint*, const Abstra
 };
 
 
-HintWidget::HintWidget(const AbstractHint &iHint, QWidget *parent)
+HintWidget::HintWidget(const AbstractHint &iHint,
+                       bool iShowCosts, QWidget *parent)
     : QWidget(parent), m_hint(iHint)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
 
-    QLabel *label = new QLabel(qfl(m_hint.getName()));
+    QString labelText = qfl(m_hint.getName());
+    if (iShowCosts)
+        labelText += " (" + _q("cost: %1").arg(m_hint.getCost()) + ")";
+    QLabel *label = new QLabel(labelText);
     label->setToolTip(qfl(m_hint.getDescription()));
     layout->addWidget(label);
 
@@ -77,15 +81,21 @@ void HintWidget::buttonClicked()
 
 
 
-HintsDialog::HintsDialog(QWidget *parent)
-    : QDialog(parent), m_move(NULL)
+HintsDialog::HintsDialog(QWidget *parent, bool iShowCosts)
+    : QDialog(parent), m_move(NULL), m_showCosts(iShowCosts)
 {
     initializeHints();
 
     QVBoxLayout *vLayout = new QVBoxLayout(this);
+    if (m_showCosts)
+    {
+        QLabel *label = new QLabel(_q("Each hint has a corresponding cost, seen as a time penalty."));
+        label->setWordWrap(true);
+        vLayout->addWidget(label);
+    }
     Q_FOREACH(const AbstractHint *hint, m_allHints)
     {
-        HintWidget *hintWidget = new HintWidget(*hint);
+        HintWidget *hintWidget = new HintWidget(*hint, m_showCosts);
         QObject::connect(hintWidget, SIGNAL(hintRequested(const AbstractHint&)),
                          this, SLOT(showHint(const AbstractHint&)));
         vLayout->addWidget(hintWidget);

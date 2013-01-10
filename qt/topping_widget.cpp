@@ -48,7 +48,7 @@ ToppingWidget::ToppingWidget(QWidget *parent, PlayModel &iPlayModel, PublicGame 
 {
     setupUi(this);
 
-    m_hintsDialog = new HintsDialog(this);
+    m_hintsDialog = new HintsDialog(this, true);
     QObject::connect(m_hintsDialog, SIGNAL(hintUsed(const AbstractHint&)),
                      this, SLOT(hintUsed(const AbstractHint&)));
 

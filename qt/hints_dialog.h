@@ -43,7 +43,9 @@ class HintWidget: public QWidget
     DEFINE_LOGGER();
 
 public:
-    explicit HintWidget(const AbstractHint &iHint, QWidget *parent = 0);
+    explicit HintWidget(const AbstractHint &iHint,
+                        bool iShowCosts,
+                        QWidget *parent = 0);
 
     const AbstractHint & getHint() const { return m_hint; }
 
@@ -68,7 +70,7 @@ class HintsDialog: public QDialog
     DEFINE_LOGGER();
 
 public:
-    explicit HintsDialog(QWidget *parent = 0);
+    explicit HintsDialog(QWidget *parent = 0, bool iShowCosts = false);
     ~HintsDialog();
 
 public slots:
@@ -84,6 +86,7 @@ private slots:
 private:
     const Move *m_move;
     vector<const AbstractHint *> m_allHints;
+    bool m_showCosts;
 
     /// Initialize the m_allHints vector
     void initializeHints();
