@@ -40,17 +40,22 @@ void GameSignals::notifyGameChanged(PublicGame *iGame)
     m_game = iGame;
     emit gameChangedNonConst(iGame);
     emit gameChanged(iGame);
-    if (iGame != NULL)
-        notifyGameUpdated();
+    notifyGameUpdated();
 }
 
 
 void GameSignals::notifyGameUpdated()
 {
-    emit gameUpdated();
-
     if (m_game == NULL)
+    {
+        m_currentTurn = 0;
+        m_lastTurn = 0;
+        m_lastGameRack = PlayedRack();
+        m_lastCurrPlayerRack = PlayedRack();
         return;
+    }
+
+    emit gameUpdated();
 
     unsigned currTurn = m_game->getCurrTurn();
     bool isLastTurn = m_game->isLastTurn();
