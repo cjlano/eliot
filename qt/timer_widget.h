@@ -41,6 +41,7 @@ public:
     // Accessors
     int getValue() const { return m_remaining; }
     void setValue(int iNewValue);
+    int getElapsed() const { return m_totalDuration - m_remaining; }
 
     int getTotalDuration() const { return m_totalDuration; }
     void setTotalDuration(int iSeconds);
