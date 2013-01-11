@@ -239,8 +239,9 @@ int Board::checkRoundAux(const Matrix<Tile> &iTilesMx,
         return 8;
 
     // Is the word an extension of another word?
-    if (!iTilesMx[row][col - 1].isEmpty() ||
-        !iTilesMx[row][col + iRound.getWordLen()].isEmpty())
+    if (checkJunction &&
+        (!iTilesMx[row][col - 1].isEmpty() ||
+         !iTilesMx[row][col + iRound.getWordLen()].isEmpty()))
     {
         return 1;
     }
