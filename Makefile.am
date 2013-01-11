@@ -37,6 +37,10 @@ package-win32-zip:
 		todos $(WIN32_PACKAGE_DIR)/$$i.txt; \
 	done
 
+# Copy reports
+	cp -r $(top_srcdir)/extras/reports $(WIN32_PACKAGE_DIR)
+	todos $(WIN32_PACKAGE_DIR)/reports/README.txt
+
 # Copy the mingw DLL
 	gunzip -c /usr/share/doc/mingw32-runtime/mingwm10.dll.gz > $(WIN32_PACKAGE_DIR)/mingwm10.dll
 
