@@ -38,7 +38,9 @@
 #include "player.h"
 #include "turn.h"
 #include "cmd/topping_move_cmd.h"
+#include "cmd/player_rack_cmd.h"
 #include "cmd/player_move_cmd.h"
+#include "cmd/player_event_cmd.h"
 #include "cmd/game_move_cmd.h"
 #include "encoding.h"
 
@@ -105,12 +107,43 @@ void Topping::tryWord(const wstring &iWord, const wstring &iCoord, int iElapsed)
     else
     {
         // End the turn
-        // FIXME
-        recordPlayerMove(move, *m_players[m_currPlayer]);
+        recordPlayerMove(move, *m_players[m_currPlayer], iElapsed);
 
         // Next turn
         endTurn();
     }
+}
+
+
+void Topping::turnTimeOut()
+{
+    LOG_INFO("Timeout reached, finishing turn automatically");
+
+    m_board.removeTestRound();
+
+    // Commented out, because the player already has
+    // an empty move by default
+#if 0
+    // The player didn't find the move
+    Command *pCmd = new PlayerMoveCmd(*m_players[m_currPlayer], Move());
+    accessNavigation().addAndExecute(pCmd);
+#endif
+
+    // Give a penalty to the player
+    // XXX: should we give the penalty directly in the NO_MOVE move?
+    // TODO: get the value from the preferences instead of hard-coding
+    addPenalty(180);
+
+    // Next turn
+    endTurn();
+}
+
+
+void Topping::addPenalty(int iPenalty)
+{
+    Command *pCmd = new PlayerEventCmd(*m_players[m_currPlayer],
+                                       PlayerEventCmd::PENALTY, iPenalty);
+    accessNavigation().addAndExecute(pCmd);
 }
 
 
@@ -123,15 +156,19 @@ int Topping::play(const wstring &, const wstring &)
 }
 
 
-void Topping::recordPlayerMove(const Move &iMove, Player &ioPlayer)
+void Topping::recordPlayerMove(const Move &iMove, Player &ioPlayer, int iElapsed)
 {
-    // FIXME: the score of the player should not be the score of the move in topping mode
-    LOG_INFO("Player " << ioPlayer.getId() << " plays: " << lfw(iMove.toString()));
+    ASSERT(iMove.isValid(), "Only valid rounds should be played");
+    // Modify the score of the given move, to be the elapsed time
+    Round copyRound = iMove.getRound();
+    copyRound.setPoints(iElapsed);
+    Move newMove(copyRound);
+
     // Update the rack and the score of the current player
     // PlayerMoveCmd::execute() must be called before Game::helperPlayMove()
     // (called in this class in endTurn()).
     // See the big comment in game.cpp, line 96
-    Command *pCmd = new PlayerMoveCmd(ioPlayer, iMove);
+    Command *pCmd = new PlayerMoveCmd(ioPlayer, newMove);
     accessNavigation().addAndExecute(pCmd);
 }
 
@@ -144,11 +181,17 @@ bool Topping::isFinished() const
 
 void Topping::endTurn()
 {
-    // Play the word on the board
-    const Move &move = m_players[m_currPlayer]->getLastMove();
+    // Play the top move on the board
+    const Move &move = getTopMove();
     Command *pCmd = new GameMoveCmd(*this, move, m_currPlayer);
     accessNavigation().addAndExecute(pCmd);
     accessNavigation().newTurn();
+
+    // Make sure that the player has the correct rack
+    // (in case he didn't find the top, or not the same one)
+    Command *pCmd2 = new PlayerRackCmd(*m_players[m_currPlayer],
+                getHistory().getCurrentRack());
+    accessNavigation().addAndExecute(pCmd2);
 
     // Start next turn...
     start();
@@ -174,7 +217,7 @@ void Topping::addPlayer(Player *iPlayer)
 Move Topping::getTopMove() const
 {
     BestResults results;
-    results.search(getDic(), getBoard(), m_players[0]->getCurrentRack().getRack(),
+    results.search(getDic(), getBoard(), getHistory().getCurrentRack().getRack(),
                    getHistory().beforeFirstRound());
     ASSERT(results.size() != 0, "No top move found");
     return Move(results.get(0));

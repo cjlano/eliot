@@ -20,7 +20,7 @@
 
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QMenu>
-#include <QtGui/QHeaderView>
+#include <QtGui/QMessageBox>
 #include <QtGui/QSortFilterProxyModel>
 
 #include "topping_widget.h"
@@ -60,7 +60,7 @@ ToppingWidget::ToppingWidget(QWidget *parent, PlayModel &iPlayModel,
 
     TimerWidget *timerWidget = new TimerWidget(this, iTimerModel);
     timerWidget->setEnabled(false);
-    iTimerModel.setChronoMode(true);
+    //iTimerModel.setChronoMode(true);
     QObject::connect(&iTimerModel, SIGNAL(expired()),
                      this, SLOT(timeoutPenalty()));
     layout->addWidget(timerWidget);
@@ -228,15 +228,26 @@ void ToppingWidget::playWord(const wstring &iWord, const wstring &iCoord)
 
 void ToppingWidget::hintUsed(const AbstractHint &iHint)
 {
-    // TODO
-    LOG_INFO("Hint " << iHint.getName() << " used for a cost of " << iHint.getCost());
+    LOG_INFO("Hint '" << iHint.getName() << "' used for a cost of " << iHint.getCost());
+    m_game->toppingAddPenalty(iHint.getCost());
+    emit gameUpdated();
 }
 
 
 void ToppingWidget::timeoutPenalty()
 {
-    // TODO
-    LOG_INFO("Timeout penalty given");
+    // Show the solution to the player in a dialog box
+    const Move &move = m_game->toppingGetTopMove();
+    QMessageBox::information(this, "Eliot - " + _q("End of turn"),
+                             _q("The allocated time for the turn has expired.\n"
+                                "The top is %1 at %2 for %3 points.")
+                             .arg(qfw(move.getRound().getWord()))
+                             .arg(qfw(move.getRound().getCoord().toString()))
+                             .arg(move.getScore()));
+
+    // End the turn
+    m_game->toppingTimeOut();
+    emit gameUpdated();
 }
 
 

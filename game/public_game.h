@@ -226,6 +226,10 @@ public:
 
     void toppingPlay(const wstring &iWord, const wstring &iCoord, int iElapsed);
 
+    void toppingTimeOut();
+
+    void toppingAddPenalty(int iPenalty);
+
     vector<Move> toppingGetTriedMoves() const;
 
     Move toppingGetTopMove() const;

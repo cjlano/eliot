@@ -262,6 +262,18 @@ void PublicGame::toppingPlay(const wstring &iWord, const wstring &iCoord, int iE
 }
 
 
+void PublicGame::toppingTimeOut()
+{
+    getTypedGame<Topping>(m_game).turnTimeOut();
+}
+
+
+void PublicGame::toppingAddPenalty(int iPenalty)
+{
+    getTypedGame<Topping>(m_game).addPenalty(iPenalty);
+}
+
+
 vector<Move> PublicGame::toppingGetTriedMoves() const
 {
     return getTypedGame<Topping>(m_game).getTriedMoves();

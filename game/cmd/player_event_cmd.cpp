@@ -31,10 +31,11 @@ INIT_LOGGER(game, PlayerEventCmd);
 PlayerEventCmd::PlayerEventCmd(Player &ioPlayer, EventType iEvent, int iPoints)
     : m_player(ioPlayer), m_eventType(iEvent), m_points(iPoints)
 {
-    ASSERT(iEvent == PENALTY || iEvent == END_GAME || iPoints >= 0,
-           "Negative points not allowed");
-    ASSERT(iEvent != PENALTY || iPoints <= 0,
-           "Positive points not allowed");
+    // Solos and warnings are always positive
+    ASSERT(iEvent != SOLO || iPoints >= 0, "Negative points not allowed");
+    ASSERT(iEvent != WARNING || iPoints >= 0, "Negative points not allowed");
+    // Penalties are negative in arbitration mode, but positive in topping mode
+    // End game points are positive for one player and negative for all the other players
 }
 
 

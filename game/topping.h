@@ -77,12 +77,25 @@ public:
      */
     Move getTopMove() const;
 
+    /**
+     * Indicate that the player didn't find the top in the allocated time.
+     * This will play the top on the board, give a points penalty to the player
+     * and start the next turn.
+     */
+    void turnTimeOut();
+
+    /**
+     * Give an additional penalty to the player (probably because
+     * he used a hint)
+     */
+    void addPenalty(int iPenalty);
+
 private:
     /// Private constructor and destructor to force using the GameFactory class
     Topping(const GameParams &iParams, const Game *iMasterGame);
 
     /// Record a player move
-    void recordPlayerMove(const Move &iMove, Player &ioPlayer);
+    void recordPlayerMove(const Move &iMove, Player &ioPlayer, int iElapsed);
 
     void endTurn();
 
