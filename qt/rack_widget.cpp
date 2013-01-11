@@ -134,7 +134,7 @@ void RackWidget::refresh()
     for (unsigned int i = 0; i < tilesCount; ++i)
     {
         TileWidget *tileWidget = m_tilesVect[i];
-        tileWidget->tileChanged(TileWidget::NORMAL, m_tiles[i]);
+        tileWidget->tileChanged(TileWidget::NORMAL, m_filteredTiles[i]);
     }
 }
 
