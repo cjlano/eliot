@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>474</width>
-    <height>630</height>
+    <height>699</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -485,6 +485,45 @@
              </widget>
             </item>
            </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_6">
+         <property name="title">
+          <string>_(&quot;Topping mode&quot;)</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_11">
+            <property name="text">
+             <string>_(&quot;Additional penalty given when the timer expires:&quot;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="spinBoxToppingExpPenalty">
+            <property name="maximum">
+             <number>9999</number>
+            </property>
+            <property name="value">
+             <number>60</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>

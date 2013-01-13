@@ -252,6 +252,11 @@ Settings::Settings()
     // Number of search results kept in a search
     arbitration.add("search-limit", Setting::TypeInt) = 100;
 
+    // ============== Topping mode options ==============
+    Setting &topping = m_conf->getRoot().add("topping", Setting::TypeGroup);
+
+    topping.add("timeout-penalty", Setting::TypeInt) = 60;
+
     // Try to read the values from the configuration file
     try
     {
@@ -272,6 +277,7 @@ Settings::Settings()
         copySetting<int>(tmpConf, *m_conf, "arbitration.solo-value");
         copySetting<int>(tmpConf, *m_conf, "arbitration.penalty-value");
         copySetting<int>(tmpConf, *m_conf, "arbitration.warnings-limit");
+        copySetting<int>(tmpConf, *m_conf, "topping.timeout-penalty");
     }
     catch (const std::exception &e)
     {
@@ -365,6 +371,8 @@ int Settings::getInt(const string &iName) const
         return 5;
     else if (iName == "arbitration.warnings-limit")
         return 3;
+    else if (iName == "arbitration.timeout-penalty")
+        return 60;
     return 0;
 #endif
 }

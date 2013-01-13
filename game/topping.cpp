@@ -131,8 +131,9 @@ void Topping::turnTimeOut()
 
     // Give a penalty to the player
     // XXX: should we give the penalty directly in the NO_MOVE move?
-    // TODO: get the value from the preferences instead of hard-coding
-    addPenalty(180);
+    int penalty = Settings::Instance().getInt("topping.timeout-penalty");
+    if (penalty > 0)
+        addPenalty(penalty);
 
     // Next turn
     endTurn();

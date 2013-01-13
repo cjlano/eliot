@@ -101,6 +101,8 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     spinBoxArbitSearchLimit->setToolTip(spinBoxTrainSearchLimit->toolTip());
     spinBoxArbitWarnLimit->setToolTip(_q("Maximal number of \"acceptable\" warnings.\n"
                                          "Any additional warning will give a penalty to the player."));
+    spinBoxToppingExpPenalty->setToolTip(_q("Number of points added to the player score when the timer expires.\n"
+                                            "Set it to 0 if you don't want any penalty."));
 
     // Auto-completion on the dictionary path
     QCompleter *completer = new QCompleter(this);
@@ -158,6 +160,9 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         spinBoxArbitPenaltyValue->setValue(Settings::Instance().getInt("arbitration.penalty-value"));
         spinBoxArbitWarnLimit->setValue(Settings::Instance().getInt("arbitration.warnings-limit"));
         spinBoxArbitSearchLimit->setValue(Settings::Instance().getInt("arbitration.search-limit"));
+
+        // Topping settings
+        spinBoxToppingExpPenalty->setValue(Settings::Instance().getInt("topping.timeout-penalty"));
 
         // Confirmations
         bool confoStartGame = qs.value(kCONFO_START_GAME, true).toBool();
@@ -290,6 +295,11 @@ void PrefsDialog::updateSettings()
                                     spinBoxArbitPenaltyValue->value());
         Settings::Instance().setInt("arbitration.warnings-limit",
                                     spinBoxArbitWarnLimit->value());
+
+        // Topping settings
+        Settings::Instance().setInt("topping.timeout-penalty",
+                                    spinBoxToppingExpPenalty->value());
+
 
         // Confirmations settings
         qs.setValue(kCONFO_START_GAME, checkBoxConfoStartGame->isChecked());
