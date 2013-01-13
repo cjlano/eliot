@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
+#include <algorithm>
+
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDragLeaveEvent>
@@ -151,15 +153,11 @@ vector<Tile> RackWidget::filterRack(const vector<Tile> &iTiles) const
         if (round.isPlayedFromRack(i))
         {
             const Tile &t = round.getTile(i);
-            vector<Tile>::iterator it;
-            for (it = result.begin(); it != result.end(); ++it)
-            {
-                if (*it == t)
-                {
-                    result.erase(it);
-                    break;
-                }
-            }
+            vector<Tile>::iterator it =
+                std::find(result.begin(), result.end(),
+                          t.isJoker() ? Tile::Joker() : t);
+            if (it != result.end())
+                result.erase(it);
         }
     }
 
