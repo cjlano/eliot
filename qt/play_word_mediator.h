@@ -23,6 +23,7 @@
 
 #include <string>
 #include <QtGui/QValidator>
+#include <QtGui/QPalette>
 
 #include "logging.h"
 
@@ -101,6 +102,13 @@ private:
     QLineEdit &m_lineEditPoints;
     QPushButton &m_pushButtonPlay;
     PlayModel &m_playModel;
+
+    /// Palette to write text in black
+    QPalette blackPalette;
+
+    /// Palette to write text in red
+    QPalette redPalette;
+
 
     /**
      * Wrapper around GetPlayedWord(), more practical to use.

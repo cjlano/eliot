@@ -45,6 +45,10 @@ PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
 {
     SetTooltips(m_lineEditPlay, m_lineEditCoord);
 
+    blackPalette = m_lineEditPlay.palette();
+    redPalette = m_lineEditPlay.palette();
+    redPalette.setColor(QPalette::Text, Qt::red);
+
     /// Set validators;
     if (m_game)
     {
@@ -170,13 +174,19 @@ void PlayWordMediator::onCoordChanged()
 
 void PlayWordMediator::onWordChanged()
 {
-    wstring playedWord;
-    GetPlayedWord(m_lineEditPlay, m_game->getDic(), &playedWord, NULL);
+    bool acceptableInput = m_lineEditPlay.hasAcceptableInput();
+    m_lineEditPlay.setPalette(acceptableInput ? blackPalette : redPalette);
 
-    Move move;
-    m_game->checkPlayedWord(playedWord, wfq(m_lineEditCoord.text()), move);
-    m_playModel.setMove(move);
-    updatePointsAndState();
+    if (acceptableInput)
+    {
+        wstring playedWord;
+        GetPlayedWord(m_lineEditPlay, m_game->getDic(), &playedWord, NULL);
+
+        Move move;
+        m_game->checkPlayedWord(playedWord, wfq(m_lineEditCoord.text()), move);
+        m_playModel.setMove(move);
+        updatePointsAndState();
+    }
 }
 
 
