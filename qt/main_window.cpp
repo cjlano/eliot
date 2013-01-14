@@ -26,6 +26,7 @@
 #include <QtGui/QFileDialog>
 #include <QtGui/QDockWidget>
 #include <QtGui/QCloseEvent>
+#include <QtGui/QPrintPreviewDialog>
 #include <QtGui/QPrintDialog>
 #include <QtGui/QPrinter>
 #include <QtGui/QPainter>
@@ -376,6 +377,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
     if (iGame == NULL)
     {
         m_actionGameSaveAs->setEnabled(false);
+        m_actionGamePrintPreview->setEnabled(false);
         m_actionGamePrint->setEnabled(false);
         m_actionHistoryFirstTurn->setEnabled(false);
         m_actionHistoryPrevTurn->setEnabled(false);
@@ -412,6 +414,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
     }
     else
     {
+        m_actionGamePrintPreview->setEnabled(true);
         m_actionGamePrint->setEnabled(true);
         m_actionGameSaveAs->setEnabled(true);
         m_actionSettingsDefineTables->setEnabled(iGame->getMode() == PublicGame::kARBITRATION);
@@ -801,6 +804,9 @@ void MainWindow::createMenu()
     m_actionGameSaveAs = addMenuAction(menuFile, _q("&Save as..."), _q("Ctrl+S"),
                   _q("Save the current game"), SLOT(onGameSaveAs()));
     menuFile->addSeparator();
+    m_actionGamePrintPreview = addMenuAction(menuFile, _q("&Print preview..."), QString(""),
+                  _q("Print preview"), SLOT(onGamePrintPreview()),
+                  false, QIcon(":/images/print-preview.png"));
     m_actionGamePrint = addMenuAction(menuFile, _q("&Print..."), _q("Ctrl+P"),
                   _q("Print the current game"), SLOT(onGamePrint()),
                   false, QIcon(":/images/printer.png"));
@@ -1014,152 +1020,169 @@ void MainWindow::onGamePrint()
 
     QPrinter printer(QPrinter::HighResolution);
     QPrintDialog printDialog(&printer, this);
-    if (printDialog.exec() == QDialog::Accepted)
+    if (printDialog.exec() != QDialog::Accepted)
+        return;
+
+    LOG_INFO("Printing game");
+    print(&printer);
+}
+
+
+void MainWindow::onGamePrintPreview()
+{
+    LOG_INFO("Print preview");
+    QPrintPreviewDialog previewDialog;
+    QObject::connect(&previewDialog, SIGNAL(paintRequested(QPrinter *)),
+                     this, SLOT(print(QPrinter*)));
+    previewDialog.exec();
+}
+
+
+void MainWindow::print(QPrinter *printer)
+{
+    ASSERT(m_game != NULL, "No game in progress");
+
+    QPainter painter(printer);
+    const History &history = m_game->getHistory();
+
+    // Printing parameters (XXX: these could be configurable by the users)
+    // Number of pixels virtually present on the page width. The bigger
+    // this number, the smaller the print result
+    static const int TOTAL_WIDTH = 700;
+    // Distance between 2 horizontal lines
+    static const int LINE_HEIGHT = 16;
+    // Font size, in pixels
+    static const int FONT_SIZE = 10;
+    // Width of the pen used to draw the grid lines
+    static const int PEN_WIDTH = 1;
+    // Offset of the text from the previous vertical line, in pixels
+    static const int TEXT_OFFSET = 10;
+    // Indicate whether the rack and the solution should be aligned
+    static const bool SHOULD_ALIGN = false;
+    // Columns widths
+    static const int colWidths[] = { 30, 120, 120, 35, 35 };
+    // Columns titles
+    static const char *colTitles[] = { _("N."), _("RACK"), _("SOLUTION"), _("REF"), _("PTS") };
+
+    static const unsigned int nbCols = sizeof(colWidths) / sizeof(int);
+    const unsigned int nbRows = history.getSize() + (SHOULD_ALIGN ? 1 : 2);
+
+    double scale = printer->pageRect().width() / double(TOTAL_WIDTH);
+    painter.scale(scale, scale);
+
+    QPen pen(painter.pen());
+    pen.setWidth(PEN_WIDTH);
+    painter.setPen(pen);
+
+    QFont font;
+    font.setPixelSize(FONT_SIZE);
+    painter.setFont(font);
+
+    int maxRight = 0;
+    for (unsigned int i = 0; i < nbCols; ++i)
+        maxRight += colWidths[i];
+    int maxBottom = LINE_HEIGHT * (nbRows + 1);
+
+    // Draw the horizontal lines
+    for (unsigned int i = 0; i <= nbRows + 1; ++i)
+        painter.drawLine(0, LINE_HEIGHT * i, maxRight, LINE_HEIGHT * i);
+
+    // Draw the vertical lines
+    painter.drawLine(0, 0, 0, maxBottom);
+    int curWidth = 0;
+    for (unsigned int i = 0; i < nbCols; ++i)
     {
-        LOG_INFO("Printing game");
-
-        QPainter painter(&printer);
-        const History &history = m_game->getHistory();
-
-        // Printing parameters (XXX: these could be configurable by the users)
-        // Number of pixels virtually present on the page width. The bigger
-        // this number, the smaller the print result
-        static const int TOTAL_WIDTH = 700;
-        // Distance between 2 horizontal lines
-        static const int LINE_HEIGHT = 16;
-        // Font size, in pixels
-        static const int FONT_SIZE = 10;
-        // Width of the pen used to draw the grid lines
-        static const int PEN_WIDTH = 1;
-        // Offset of the text from the previous vertical line, in pixels
-        static const int TEXT_OFFSET = 10;
-        // Indicate whether the rack and the solution should be aligned
-        static const bool SHOULD_ALIGN = false;
-        // Columns widths
-        static const int colWidths[] = { 30, 120, 120, 35, 35 };
-        // Columns titles
-        static const char *colTitles[] = { _("N."), _("RACK"), _("SOLUTION"), _("REF"), _("PTS") };
-
-        static const unsigned int nbCols = sizeof(colWidths) / sizeof(int);
-        const unsigned int nbRows = history.getSize() + (SHOULD_ALIGN ? 1 : 2);
-
-        double scale = printer.pageRect().width() / double(TOTAL_WIDTH);
-        painter.scale(scale, scale);
-
-        QPen pen(painter.pen());
-        pen.setWidth(PEN_WIDTH);
-        painter.setPen(pen);
-
-        QFont font;
-        font.setPixelSize(FONT_SIZE);
-        painter.setFont(font);
-
-        int maxRight = 0;
-        for (unsigned int i = 0; i < nbCols; ++i)
-            maxRight += colWidths[i];
-        int maxBottom = LINE_HEIGHT * (nbRows + 1);
-
-        // Draw the horizontal lines
-        for (unsigned int i = 0; i <= nbRows + 1; ++i)
-            painter.drawLine(0, LINE_HEIGHT * i, maxRight, LINE_HEIGHT * i);
-
-        // Draw the vertical lines
-        painter.drawLine(0, 0, 0, maxBottom);
-        int curWidth = 0;
-        for (unsigned int i = 0; i < nbCols; ++i)
-        {
-            curWidth += colWidths[i];
-            painter.drawLine(curWidth, 0, curWidth, maxBottom);
-        }
-
-        // Draw the titles
-        QFontMetrics fm = painter.fontMetrics();
-        int textHeight = fm.boundingRect('A').height();
-        curWidth = 0;
-        int curHeight = (LINE_HEIGHT + textHeight + 1) / 2;
-        for (unsigned int i = 0; i < nbCols; ++i)
-        {
-            int textWidth = fm.width(colTitles[i]);
-            painter.drawText(curWidth + (colWidths[i] - textWidth) / 2,
-                             curHeight,  colTitles[i]);
-            curWidth += colWidths[i];
-        }
-
-        // Draw the history of the game
-        int score = 0;
-        int nextHeight;
-        if (SHOULD_ALIGN)
-            nextHeight = curHeight;
-        else
-            nextHeight = curHeight + LINE_HEIGHT;
-        for (unsigned int i = 0; i < history.getSize(); ++i)
-        {
-            const TurnData &t = history.getTurn(i);
-            const Move &m = t.getMove();
-
-            curWidth = TEXT_OFFSET;
-            curHeight += LINE_HEIGHT;
-            nextHeight += LINE_HEIGHT;
-
-            // Turn number
-            painter.drawText(curWidth, curHeight, QString("%1").arg(i + 1));
-            curWidth += colWidths[0];
-
-            // Rack
-            painter.drawText(curWidth, curHeight,
-                             qfw(t.getPlayedRack().toString()));
-            curWidth += colWidths[1];
-
-            // Word and coordinates
-            if (m.isValid())
-            {
-                const Round &r = m.getRound();
-                painter.drawText(curWidth, nextHeight, qfw(r.getWord()));
-                curWidth += colWidths[2];
-                painter.drawText(curWidth, nextHeight,
-                                 qfw(r.getCoord().toString()));
-                curWidth += colWidths[3];
-            }
-            else if (m.isInvalid())
-            {
-                painter.drawText(curWidth, nextHeight,
-                                 "<" + qfw(m.getBadWord()) + ">");
-                curWidth += colWidths[2];
-                painter.drawText(curWidth, nextHeight, qfw(m.getBadCoord()));
-                curWidth += colWidths[3];
-            }
-            else if (m.isNull())
-            {
-                painter.drawText(curWidth, nextHeight, _q("(NO MOVE)"));
-                curWidth += colWidths[2];
-                curWidth += colWidths[3];
-            }
-            else if (m.isPass())
-            {
-                painter.drawText(curWidth, nextHeight, _q("(PASS)"));
-                curWidth += colWidths[2];
-                curWidth += colWidths[3];
-            }
-            else
-            {
-                painter.drawText(curWidth, nextHeight,
-                                 "[-" + qfw(m.getChangedLetters()) + "]");
-                curWidth += colWidths[2];
-                curWidth += colWidths[3];
-            }
-
-            // Score
-            painter.drawText(curWidth, nextHeight,
-                             QString("%1").arg(m.getScore()));
-            score += m.getScore();
-        }
-
-        // Total score
-        nextHeight += LINE_HEIGHT;
-        painter.drawText(curWidth, nextHeight, QString("%1").arg(score));
-
-        LOG_INFO("Game printed");
+        curWidth += colWidths[i];
+        painter.drawLine(curWidth, 0, curWidth, maxBottom);
     }
+
+    // Draw the titles
+    QFontMetrics fm = painter.fontMetrics();
+    int textHeight = fm.boundingRect('A').height();
+    curWidth = 0;
+    int curHeight = (LINE_HEIGHT + textHeight + 1) / 2;
+    for (unsigned int i = 0; i < nbCols; ++i)
+    {
+        int textWidth = fm.width(colTitles[i]);
+        painter.drawText(curWidth + (colWidths[i] - textWidth) / 2,
+                         curHeight,  colTitles[i]);
+        curWidth += colWidths[i];
+    }
+
+    // Draw the history of the game
+    int score = 0;
+    int nextHeight;
+    if (SHOULD_ALIGN)
+        nextHeight = curHeight;
+    else
+        nextHeight = curHeight + LINE_HEIGHT;
+    for (unsigned int i = 0; i < history.getSize(); ++i)
+    {
+        const TurnData &t = history.getTurn(i);
+        const Move &m = t.getMove();
+
+        curWidth = TEXT_OFFSET;
+        curHeight += LINE_HEIGHT;
+        nextHeight += LINE_HEIGHT;
+
+        // Turn number
+        painter.drawText(curWidth, curHeight, QString("%1").arg(i + 1));
+        curWidth += colWidths[0];
+
+        // Rack
+        painter.drawText(curWidth, curHeight,
+                         qfw(t.getPlayedRack().toString()));
+        curWidth += colWidths[1];
+
+        // Word and coordinates
+        if (m.isValid())
+        {
+            const Round &r = m.getRound();
+            painter.drawText(curWidth, nextHeight, qfw(r.getWord()));
+            curWidth += colWidths[2];
+            painter.drawText(curWidth, nextHeight,
+                             qfw(r.getCoord().toString()));
+            curWidth += colWidths[3];
+        }
+        else if (m.isInvalid())
+        {
+            painter.drawText(curWidth, nextHeight,
+                             "<" + qfw(m.getBadWord()) + ">");
+            curWidth += colWidths[2];
+            painter.drawText(curWidth, nextHeight, qfw(m.getBadCoord()));
+            curWidth += colWidths[3];
+        }
+        else if (m.isNull())
+        {
+            painter.drawText(curWidth, nextHeight, _q("(NO MOVE)"));
+            curWidth += colWidths[2];
+            curWidth += colWidths[3];
+        }
+        else if (m.isPass())
+        {
+            painter.drawText(curWidth, nextHeight, _q("(PASS)"));
+            curWidth += colWidths[2];
+            curWidth += colWidths[3];
+        }
+        else
+        {
+            painter.drawText(curWidth, nextHeight,
+                             "[-" + qfw(m.getChangedLetters()) + "]");
+            curWidth += colWidths[2];
+            curWidth += colWidths[3];
+        }
+
+        // Score
+        painter.drawText(curWidth, nextHeight,
+                         QString("%1").arg(m.getScore()));
+        score += m.getScore();
+    }
+
+    // Total score
+    nextHeight += LINE_HEIGHT;
+    painter.drawText(curWidth, nextHeight, QString("%1").arg(score));
+
+    LOG_INFO("Game printed");
 }
 
 

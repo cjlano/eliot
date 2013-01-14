@@ -48,6 +48,7 @@ class AuxWindow;
 class TimerModel;
 class QLabel;
 class QAction;
+class QPrinter;
 
 class MainWindow: public QMainWindow
 {
@@ -75,6 +76,7 @@ private slots:
     void onGameLoad();
     void onGameLoadAutoSave();
     void onGameSaveAs();
+    void onGamePrintPreview();
     void onGamePrint();
     void onGameQuit();
     void onSettingsChooseDic();
@@ -96,6 +98,9 @@ private slots:
     void onHistoryNextTurn();
     void onHistoryLastTurn();
     void onHistoryReplayTurn();
+
+    /// Print the game using the given printer
+    void print(QPrinter *printer);
 
     /// Simply emit a beep with the system speakers
     void beep();
@@ -158,6 +163,7 @@ private:
     ScoreWidget *m_scoresWidget;
 
     /// Actions enabled or disabled depending on the game state
+    QAction *m_actionGamePrintPreview;
     QAction *m_actionGamePrint;
     QAction *m_actionGameSaveAs;
     QAction *m_actionHistoryPrevTurn;
