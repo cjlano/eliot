@@ -6,13 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>560</width>
-    <height>150</height>
+    <width>642</width>
+    <height>151</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <widget class="QSplitter" name="splitter">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -25,21 +31,61 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEditRack">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
+       <item row="0" column="4">
         <widget class="QPushButton" name="pushButtonShuffle">
          <property name="text">
           <string>_(&quot;Shu&amp;ffle&quot;)</string>
          </property>
         </widget>
        </item>
+       <item row="0" column="1" colspan="3">
+        <widget class="QLineEdit" name="lineEditRack">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QPushButton" name="pushButtonPlay">
+         <property name="text">
+          <string>_(&quot;Play&quot;)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLineEdit" name="lineEditPoints">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QPushButton" name="pushButtonGetHints">
+         <property name="text">
+          <string>_(&quot;Get hints...&quot;)</string>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>_(&quot;Word:&quot;)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>_(&quot;Ref.:&quot;)</string>
@@ -47,6 +93,22 @@
         </widget>
        </item>
        <item row="1" column="1">
+        <widget class="QLineEdit" name="lineEditPlay">
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>_(&quot;Enter the word to play (case-insensitive). A joker from the rack must be written in parentheses. E.g.: w(o)rd or W(O)RD&quot;)</string>
+         </property>
+         <property name="statusTip">
+          <string>_(&quot;Enter the word to play (case-insensitive). A joker from the rack must be written in parentheses. E.g.: w(o)rd or W(O)RD&quot;)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
         <widget class="QLineEdit" name="lineEditCoords">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -68,57 +130,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>_(&quot;Word:&quot;)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="lineEditPlay">
-         <property name="toolTip">
-          <string>_(&quot;Enter the word to play (case-insensitive). A joker from the rack must be written in parentheses. E.g.: w(o)rd or W(O)RD&quot;)</string>
-         </property>
-         <property name="statusTip">
-          <string>_(&quot;Enter the word to play (case-insensitive). A joker from the rack must be written in parentheses. E.g.: w(o)rd or W(O)RD&quot;)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QPushButton" name="pushButtonPlay">
-         <property name="text">
-          <string>_(&quot;Play&quot;)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLineEdit" name="lineEditPoints">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>50</width>
-           <height>16777215</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QPushButton" name="pushButtonGetHints">
-         <property name="text">
-          <string>_(&quot;Get hints...&quot;)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2">
+       <item row="3" column="4">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -131,8 +143,53 @@
          </property>
         </spacer>
        </item>
-       <item row="3" column="0" rowspan="2" colspan="2">
-        <widget class="QWidget" name="widgetContainer" native="true"/>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>_(&quot;Total score:&quot;)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEditTotalScore">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="widgetContainer" native="true">
+         <zorder>horizontalLayoutWidget</zorder>
+         <zorder>horizontalLayoutWidget</zorder>
+         <zorder>horizontalLayoutWidget</zorder>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -165,6 +222,10 @@
     </widget>
    </item>
   </layout>
+  <zorder>splitter</zorder>
+  <zorder>widgetContainer</zorder>
+  <zorder>verticalLayoutWidget</zorder>
+  <zorder>splitter</zorder>
  </widget>
  <resources/>
  <connections/>

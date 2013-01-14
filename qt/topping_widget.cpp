@@ -52,6 +52,13 @@ ToppingWidget::ToppingWidget(QWidget *parent, PlayModel &iPlayModel,
 {
     setupUi(this);
 
+    splitter->setStretchFactor(0, 0);
+    splitter->setStretchFactor(1, 0);
+    splitter->setStretchFactor(2, 1);
+    QList<int> sizes;
+    sizes << 1 << 1 << 10;
+    splitter->setSizes(sizes);
+
     QObject::connect(&iPlayModel, SIGNAL(movePlayed(const wstring&, const wstring&)),
                      this, SLOT(playWord(const wstring&, const wstring&)));
 
@@ -141,6 +148,7 @@ void ToppingWidget::refresh()
         lineEditPlay->clear();
         lineEditCoords->clear();
         lineEditRack->setEnabled(true);
+        lineEditTotalScore->setText(QString("%1").arg(m_game->getCurrentPlayer().getTotalScore()));
         // Do not allow entering a move when displaying an old turn
         setEnabled(m_game->isLastTurn());
     }
