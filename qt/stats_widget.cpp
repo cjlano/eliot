@@ -162,10 +162,14 @@ void StatsWidget::refresh()
     setModelSize(nbPlayers + 1, histSize + 10);
 
     // Some fields are displayed only in some cases
+    const bool isTraining = m_game != NULL &&
+        m_game->getParams().getMode() == GameParams::kTRAINING;
     const bool isArbit = m_game != NULL &&
         m_game->getParams().getMode() == GameParams::kARBITRATION;
     const bool isFreeGame = m_game != NULL &&
         m_game->getParams().getMode() == GameParams::kFREEGAME;
+    const bool isTopping = m_game != NULL &&
+        m_game->getParams().getMode() == GameParams::kTOPPING;
     const bool canHaveSolos = m_game != NULL &&
         m_game->getParams().getMode() == GameParams::kDUPLICATE &&
         Settings::Instance().getInt("duplicate.solo-players") <= (int)m_game->getNbPlayers();
@@ -196,14 +200,17 @@ void StatsWidget::refresh()
     setModelHeader(col++, _q("End game points"), false);
     setSectionHidden(col, !isArbit && !canHaveSolos);
     setModelHeader(col++, _q("Solo points"), false);
-    setSectionHidden(col, !isArbit);
+    setSectionHidden(col, !isArbit && !isTopping);
     setModelHeader(col++, _q("Penalties"), false);
     setSectionHidden(col, !isArbit);
     setModelHeader(col++, _q("Warnings"), false);
 
     setModelHeader(col++, _q("Total"), false);
+    setSectionHidden(col, isTopping);
     setModelHeader(col++, _q("Diff"), false);
+    setSectionHidden(col, isTopping);
     setModelHeader(col++, _q("Game %"), false);
+    setSectionHidden(col, isTraining || isTopping);
     setModelHeader(col++, _q("Ranking"), false);
 
     // Define the header for the Game pseudo-player
