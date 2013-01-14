@@ -36,7 +36,7 @@ INIT_LOGGER(qt, PlayWordMediator);
 
 
 PlayWordMediator::PlayWordMediator(QObject *parent, QLineEdit &iEditPlay,
-                                   QLineEdit &iEditCoord, QLineEdit &iEditPoints,
+                                   QLineEdit &iEditCoord, QLineEdit *iEditPoints,
                                    QPushButton &iButtonPlay,
                                    PlayModel &iPlayModel, PublicGame *iGame)
     : QObject(parent), m_game(iGame), m_lineEditPlay(iEditPlay),
@@ -136,18 +136,21 @@ void PlayWordMediator::updatePointsAndState()
         m_lineEditCoord.hasAcceptableInput();
     m_pushButtonPlay.setEnabled(acceptableInput);
 
-    if (!acceptableInput)
-        m_lineEditPoints.clear();
-    else
+    if (m_lineEditPoints)
     {
-        // Compute the points of the word
-        const wstring &word = getWord();
-        const wstring &coords = wfq(m_lineEditCoord.text());
-        int points = m_game->computePoints(word, coords);
-        if (points >= 0)
-            m_lineEditPoints.setText(QString("%1").arg(points));
+        if (!acceptableInput)
+            m_lineEditPoints->clear();
         else
-            m_lineEditPoints.setText("#");
+        {
+            // Compute the points of the word
+            const wstring &word = getWord();
+            const wstring &coords = wfq(m_lineEditCoord.text());
+            int points = m_game->computePoints(word, coords);
+            if (points >= 0)
+                m_lineEditPoints->setText(QString("%1").arg(points));
+            else
+                m_lineEditPoints->setText("#");
+        }
     }
 }
 

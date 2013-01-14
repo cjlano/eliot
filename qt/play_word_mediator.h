@@ -57,7 +57,7 @@ class PlayWordMediator: public QObject
 
 public:
     PlayWordMediator(QObject *parent, QLineEdit &iEditWord,
-                     QLineEdit &iEditCoord, QLineEdit &iEditPoints,
+                     QLineEdit &iEditCoord, QLineEdit *iEditPoints,
                      QPushButton &iButtonPlay,
                      PlayModel &iPlayModel, PublicGame *iGame);
 
@@ -99,7 +99,7 @@ private:
     PublicGame *m_game;
     QLineEdit &m_lineEditPlay;
     QLineEdit &m_lineEditCoord;
-    QLineEdit &m_lineEditPoints;
+    QLineEdit *m_lineEditPoints;
     QPushButton &m_pushButtonPlay;
     PlayModel &m_playModel;
 

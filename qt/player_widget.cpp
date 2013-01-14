@@ -47,7 +47,7 @@ PlayerWidget::PlayerWidget(QWidget *parent, PlayModel &iPlayModel,
 
     // Use the mediator
     m_mediator = new PlayWordMediator(this, *lineEditPlay, *lineEditCoords,
-                                      *lineEditPoints, *pushButtonPlay,
+                                      lineEditPoints, *pushButtonPlay,
                                       iPlayModel, iGame);
     QObject::connect(m_mediator, SIGNAL(gameUpdated()),
                      this, SIGNAL(gameUpdated()));
