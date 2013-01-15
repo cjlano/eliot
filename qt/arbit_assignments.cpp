@@ -77,11 +77,6 @@ ArbitAssignments::ArbitAssignments(QWidget *parent, PublicGame *iGame)
     treeViewPlayers->setColumnWidth(7, 25);
 
     QShortcut *shortcut;
-    shortcut = new QShortcut(QString("A"), treeViewPlayers);
-    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
-    QObject::connect(shortcut, SIGNAL(activated()),
-                     this, SLOT(selectAllPlayers()));
-
     shortcut = new QShortcut(QKeySequence::Delete, treeViewPlayers);
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
     QObject::connect(shortcut, SIGNAL(activated()),
@@ -319,7 +314,7 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
     // Action to select all the players
     QAction *selectAllAction = new QAction(_q("Select all players"), this);
     selectAllAction->setStatusTip(_q("Select all the players"));
-    selectAllAction->setShortcut(Qt::Key_A);
+    selectAllAction->setShortcut(QKeySequence::SelectAll);
     QObject::connect(selectAllAction, SIGNAL(triggered()),
                      this, SLOT(selectAllPlayers()));
     iMenu.addAction(selectAllAction);
