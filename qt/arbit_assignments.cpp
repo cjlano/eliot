@@ -280,18 +280,22 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
         return;
 
     // Action to assign the selected move
+    QString selMoveString = _q("none");
     if (isAssignMoveAllowed())
     {
         const Move &move = m_selectedMove;
-        QAction *assignSelMoveAction =
-            new QAction(_q("Assign selected move (%1)").arg(formatMove(move)), this);
-        assignSelMoveAction->setStatusTip(_q("Assign move (%1) to the selected player(s)")
-                        .arg(formatMove(move)));
-        assignSelMoveAction->setShortcut(Qt::Key_Enter);
-        QObject::connect(assignSelMoveAction, SIGNAL(triggered()),
-                         this, SLOT(assignSelectedMove()));
-        iMenu.addAction(assignSelMoveAction);
+        selMoveString = formatMove(move);
     }
+    QAction *assignSelMoveAction =
+        new QAction(_q("Assign selected move (%1)").arg(selMoveString), this);
+    assignSelMoveAction->setStatusTip(_q("Assign move (%1) to the selected player(s)")
+                    .arg(selMoveString));
+    assignSelMoveAction->setShortcut(Qt::Key_Enter);
+    QObject::connect(assignSelMoveAction, SIGNAL(triggered()),
+                     this, SLOT(assignSelectedMove()));
+    iMenu.addAction(assignSelMoveAction);
+    if (!isAssignMoveAllowed())
+        assignSelMoveAction->setEnabled(false);
 
     // Action to assign the top move
     QAction *assignTopMoveAction = new QAction(_q("Assign top move (if unique)"), this);
