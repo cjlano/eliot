@@ -25,7 +25,13 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QLabel>
 #include <QtGui/QAction>
+#include <QtGui/QPainter>
+#include <QtGui/QPrinter>
+#include <QtGui/QPrintDialog>
+#include <QtGui/QPrintPreviewDialog>
 #include <QtCore/QLocale>
+
+#include "math.h" // For floor()
 
 #include "stats_widget.h"
 #include "qtcommon.h"
@@ -132,14 +138,27 @@ StatsWidget::StatsWidget(QWidget *parent, const PublicGame *iGame)
     QObject::connect(lockSizesAction, SIGNAL(toggled(bool)),
                      this, SLOT(lockSizesChanged(bool)));
 
+    m_table->setContextMenuPolicy(Qt::ActionsContextMenu);
+
     // Add a context menu option to flip the table
-    QAction *flipAction = new QAction(_q("Flip the table"), this);
+    QAction *flipAction = new QAction(_q("Flip table"), this);
     flipAction->setStatusTip(_q("Flip the table so that rows and columns are exchanged.\n"
                                 "This allows sorting the players by ranking, for example."));
     m_table->addAction(flipAction);
-    m_table->setContextMenuPolicy(Qt::ActionsContextMenu);
     QObject::connect(flipAction, SIGNAL(triggered()),
                      this, SLOT(flipTable()));
+
+    QAction *printPreviewAction = new QAction(_q("Print preview..."), this);
+    printPreviewAction->setStatusTip(_q("Print the table."));
+    m_table->addAction(printPreviewAction);
+    QObject::connect(printPreviewAction, SIGNAL(triggered()),
+                     this, SLOT(onPrintPreview()));
+
+    QAction *printAction = new QAction(_q("Print..."), this);
+    printAction->setStatusTip(_q("Print the table."));
+    m_table->addAction(printAction);
+    QObject::connect(printAction, SIGNAL(triggered()),
+                     this, SLOT(onPrint()));
 
     refresh();
 }
@@ -490,6 +509,72 @@ void StatsWidget::flipTable()
         m_table->horizontalHeader()->setSortIndicator(col, Qt::AscendingOrder);
     }
     refresh();
+}
+
+
+void StatsWidget::onPrint()
+{
+    QPrinter printer(QPrinter::HighResolution);
+    QPrintDialog printDialog(&printer, this);
+    if (printDialog.exec() != QDialog::Accepted)
+        return;
+
+    LOG_INFO("Printing statistics");
+    print(&printer);
+}
+
+
+void StatsWidget::onPrintPreview()
+{
+    QPrintPreviewDialog previewDialog;
+    QObject::connect(&previewDialog, SIGNAL(paintRequested(QPrinter *)),
+                     this, SLOT(print(QPrinter*)));
+    previewDialog.exec();
+}
+
+
+void StatsWidget::print(QPrinter *printer)
+{
+    // Dimensions of the page
+    const int pageWidth = printer->pageRect().width();
+    const int pageHeight = printer->pageRect().height();
+    // Dimensions of the table (without the useless space after
+    // the last row and last column)
+    const int width = 2 + m_table->verticalHeader()->width() + m_table->horizontalHeader()->length();
+    const int height = 2 + m_table->horizontalHeader()->height() + m_table->verticalHeader()->length();
+
+    QPainter painter(printer);
+    // Try to use as much space as possible on the page, by turning it if needed
+    bool rotated = false;
+    if ((pageWidth > pageHeight && height > width) ||
+        (pageWidth < pageHeight && height < width))
+    {
+        painter.translate(QPoint(pageWidth, 0));
+        painter.rotate(90);
+        rotated = true;
+    }
+
+    const double scaleX = (rotated ? pageHeight : pageWidth) / (double) width;
+    const double scaleY = (rotated ? pageWidth : pageHeight) / (double) height;
+    double scale = std::min(scaleX, scaleY);
+    // Only scale if there is too much to print on the page
+    if (scale > 1)
+        scale = floor(scale);
+    painter.scale(scale, scale);
+
+    // Little trick, needed to have the full table printed.
+    // If we don't do that, only the viewport is printed, which is not what we want
+    // when some contents is not displayed (i.e. when the scrollbars are shown).
+    m_table->resize(width, height);
+    // Disable scrollbars, because for some reason they get printed if the viewport
+    // was too small to show everything
+    m_table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_table->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    // Actually paint the widget
+    m_table->render(&painter, QPoint(0, 0), QRect(0, 0, width, height));
+    // Restore scrollbars
+    m_table->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    m_table->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 }
 
 

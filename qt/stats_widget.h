@@ -34,6 +34,7 @@ class QAbstractItemModel;
 class QStandardItemModel;
 class QVariant;
 class QModelIndex;
+class QPrinter;
 
 class StatsWidget: public QWidget
 {
@@ -50,6 +51,9 @@ public slots:
 private slots:
     void lockSizesChanged(bool checked);
     void flipTable();
+    void onPrintPreview();
+    void onPrint();
+    void print(QPrinter *printer);
 
 private:
     /// Encapsulated game, can be NULL
