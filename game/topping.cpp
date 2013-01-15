@@ -65,7 +65,7 @@ void Topping::start()
     {
         const PlayedRack &newRack =
             helperSetRackRandom(getHistory().getCurrentRack(), true, RACK_NEW);
-        setGameAndPlayersRack(newRack);
+        setGameAndPlayersRack(newRack, false);
     }
     catch (EndGameException &e)
     {
@@ -121,13 +121,9 @@ void Topping::turnTimeOut()
 
     m_board.removeTestRound();
 
-    // Commented out, because the player already has
-    // an empty move by default
-#if 0
     // The player didn't find the move
     Command *pCmd = new PlayerMoveCmd(*m_players[m_currPlayer], Move());
     accessNavigation().addAndExecute(pCmd);
-#endif
 
     // Give a penalty to the player
     // XXX: should we give the penalty directly in the NO_MOVE move?

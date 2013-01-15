@@ -682,7 +682,7 @@ int Game::checkPlayedWord(const wstring &iCoord,
 }
 
 
-void Game::setGameAndPlayersRack(const PlayedRack &iRack)
+void Game::setGameAndPlayersRack(const PlayedRack &iRack, bool iWithNoMove)
 {
     // Set the game rack
     Command *pCmd = new GameRackCmd(*this, iRack);
@@ -695,15 +695,18 @@ void Game::setGameAndPlayersRack(const PlayedRack &iRack)
         accessNavigation().addAndExecute(pCmd);
     }
 
-    // Assign a "no move" pseudo-move to all the players.
-    // This avoids the need to distinguish between "has not played yet"
-    // and "has played with no move".
-    // This is also practical to know at which turn the warnings, penalties
-    // and solos should be assigned.
-    BOOST_FOREACH(Player *player, m_players)
+    if (iWithNoMove)
     {
-        Command *pCmd = new PlayerMoveCmd(*player, Move());
-        accessNavigation().addAndExecute(pCmd);
+        // Assign a "no move" pseudo-move to all the players.
+        // This avoids the need to distinguish between "has not played yet"
+        // and "has played with no move" in duplicate and arbitration modes.
+        // This is also practical to know at which turn the warnings, penalties
+        // and solos should be assigned.
+        BOOST_FOREACH(Player *player, m_players)
+        {
+            Command *pCmd = new PlayerMoveCmd(*player, Move());
+            accessNavigation().addAndExecute(pCmd);
+        }
     }
 }
 

@@ -51,7 +51,7 @@ void Arbitration::setRackRandom()
 
     const PlayedRack &newRack =
         helperSetRackRandom(getHistory().getCurrentRack(), true, RACK_NEW);
-    setGameAndPlayersRack(newRack);
+    setGameAndPlayersRack(newRack, true);
 }
 
 
@@ -68,7 +68,7 @@ void Arbitration::setRackManual(const wstring &iLetters)
     // As a result, we simply make all the letters uppercase
     const wstring &upperLetters = toUpper(iLetters);
     const PlayedRack &newRack = helperSetRackManual(false, upperLetters);
-    setGameAndPlayersRack(newRack);
+    setGameAndPlayersRack(newRack, true);
 }
 
 

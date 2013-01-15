@@ -132,12 +132,12 @@ void Duplicate::start()
 
         bool fillRacks = Settings::Instance().getBool("arbitration.fill-rack");
         if (isArbitrationGame() && !fillRacks && !hasMasterGame())
-            setGameAndPlayersRack(getHistory().getCurrentRack());
+            setGameAndPlayersRack(getHistory().getCurrentRack(), true);
         else
         {
             const PlayedRack &newRack =
                 helperSetRackRandom(getHistory().getCurrentRack(), true, RACK_NEW);
-            setGameAndPlayersRack(newRack);
+            setGameAndPlayersRack(newRack, true);
         }
     }
     catch (EndGameException &e)

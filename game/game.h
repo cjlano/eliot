@@ -324,7 +324,7 @@ protected:
      * Helper function to set the game rack and the players rack at the same time.
      * Shouldn't be used in free game mode.
      */
-    void setGameAndPlayersRack(const PlayedRack &iRack);
+    void setGameAndPlayersRack(const PlayedRack &iRack, bool iWithNoMove);
 
     void nextPlayer();
 
