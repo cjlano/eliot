@@ -53,7 +53,7 @@ public:
      */
     bool selectPlayerByTable(unsigned tabNb, QString *oName);
 
-    bool isAssignMasterAllowed() const;
+    bool isSetMasterAllowed() const;
     bool isAssignMoveAllowed() const;
     bool isSuppressMoveAllowed() const;
     bool isEndTurnAllowed() const;
@@ -69,9 +69,9 @@ public slots:
     void refresh();
     void enableAssignmentButtons();
     void selectAllPlayers();
-    void assignMasterMove();
+    void setMasterMove();
+    void setDefaultMasterMove();
     void assignSelectedMove();
-    void assignDefaultMasterMove();
     void selectedMoveChanged(const Move&);
 
 private slots:

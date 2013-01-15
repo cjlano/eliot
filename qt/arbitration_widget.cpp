@@ -120,7 +120,7 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     shortcut = new QShortcut(QString("Shift+M"), treeViewResults);
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
     QObject::connect(shortcut, SIGNAL(activated()),
-                     m_assignmentsWidget, SLOT(assignMasterMove()));
+                     m_assignmentsWidget, SLOT(setMasterMove()));
 
     shortcut = new QShortcut(QString("Shift+A"), treeViewResults);
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
@@ -510,7 +510,7 @@ void ArbitrationWidget::searchResults()
     QSettings settings;
     if (settings.value(PrefsDialog::kARBIT_AUTO_MASTER, false).toBool())
     {
-        m_assignmentsWidget->assignDefaultMasterMove();
+        m_assignmentsWidget->setDefaultMasterMove();
     }
 
     // Set the focus to the first result
@@ -541,9 +541,9 @@ void ArbitrationWidget::populateResultsMenu(QMenu &iMenu, const QPoint &iPoint)
                                     .arg(formatMove(move)));
     setAsMasterAction->setShortcut(Qt::SHIFT + Qt::Key_M);
     QObject::connect(setAsMasterAction, SIGNAL(triggered()),
-                     m_assignmentsWidget, SLOT(assignMasterMove()));
+                     m_assignmentsWidget, SLOT(setMasterMove()));
     iMenu.addAction(setAsMasterAction);
-    if (!m_assignmentsWidget->isAssignMasterAllowed())
+    if (!m_assignmentsWidget->isSetMasterAllowed())
         setAsMasterAction->setEnabled(false);
 
     // Action to select all the players

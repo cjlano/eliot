@@ -118,7 +118,7 @@ ArbitAssignments::ArbitAssignments(QWidget *parent, PublicGame *iGame)
 
     // Move assignment
     QObject::connect(buttonSelectMaster, SIGNAL(clicked()),
-                     this, SLOT(assignMasterMove()));
+                     this, SLOT(setMasterMove()));
     QObject::connect(buttonSuppressMove, SIGNAL(clicked()),
                      this, SLOT(suppressMove()));
     QObject::connect(buttonAssign, SIGNAL(clicked()),
@@ -162,7 +162,7 @@ void ArbitAssignments::refresh()
     setEnabled(!m_game->isFinished());
 
     enableAssignmentButtons();
-    buttonSelectMaster->setEnabled(isAssignMasterAllowed());
+    buttonSelectMaster->setEnabled(isSetMasterAllowed());
     buttonEndTurn->setEnabled(isEndTurnAllowed());
 }
 
@@ -269,7 +269,7 @@ void ArbitAssignments::enableAssignmentButtons()
                                  .arg(formatMove(move)));
     }
     buttonSuppressMove->setEnabled(isSuppressMoveAllowed());
-    buttonSelectMaster->setEnabled(isAssignMasterAllowed());
+    buttonSelectMaster->setEnabled(isSetMasterAllowed());
 }
 
 
@@ -414,7 +414,7 @@ void ArbitAssignments::showMasterPreview()
     const Move &move = m_game->duplicateGetMasterMove();
     if (move.isValid())
     {
-        // TODO: deselect move in the Results?
+        // TODO: deselect move in the Results? or reselect the master move?
         m_game->setTestRound(move.getRound());
         emit gameUpdated();
     }
@@ -428,16 +428,16 @@ void ArbitAssignments::selectAllPlayers()
 }
 
 
-bool ArbitAssignments::isAssignMasterAllowed() const
+bool ArbitAssignments::isSetMasterAllowed() const
 {
     return m_game->isLastTurn() && m_selectedMove.isValid() &&
         !m_game->hasMasterGame();
 }
 
 
-void ArbitAssignments::assignMasterMove()
+void ArbitAssignments::setMasterMove()
 {
-    if (!isAssignMasterAllowed())
+    if (!isSetMasterAllowed())
         return;
 
     const Move &masterMove = m_game->duplicateGetMasterMove();
@@ -505,7 +505,7 @@ void ArbitAssignments::assignMasterMove()
 }
 
 
-void ArbitAssignments::assignDefaultMasterMove()
+void ArbitAssignments::setDefaultMasterMove()
 {
     const Move &currMove = m_game->duplicateGetMasterMove();
     // Do not overwrite an existing move
