@@ -38,6 +38,7 @@ class QSortFilterProxyModel;
 class QMenu;
 class QPoint;
 class QValidator;
+class QSignalMapper;
 
 class ArbitrationWidget: public QWidget, private Ui::ArbitrationWidget
 {
@@ -74,7 +75,7 @@ private slots:
     void updateCoordText(const Coord&);
     void updatePlayModel(const QString&);
     void populateResultsMenu(QMenu &iMenu, const QPoint &iPoint);
-    void selectTableNumber(int key);
+    void selectTableNumber(const QString &iKey);
     void endOfTurnRefresh();
 
 private:
@@ -100,6 +101,9 @@ private:
 
     /// Container for the moves manually entered in the interface
     QVector<Move> m_addedMoves;
+
+    /// Signal mapper used to react to some shortcuts (digits for the table number)
+    QSignalMapper *m_signalMapper;
 
     /// Accumulator used to build the table number
     KeyAccumulator *m_keyAccum;

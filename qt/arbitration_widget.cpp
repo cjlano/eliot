@@ -21,7 +21,9 @@
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QMenu>
+#include <QtGui/QShortcut>
 #include <QtCore/QSettings>
+#include <QtCore/QSignalMapper>
 
 #include "arbitration_widget.h"
 #include "arbit_assignments.h"
@@ -30,7 +32,6 @@
 #include "validator_factory.h"
 #include "play_word_mediator.h"
 #include "custom_popup.h"
-#include "misc_helpers.h"
 #include "play_model.h"
 
 #include "public_game.h"
@@ -115,30 +116,30 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     treeViewResults->setColumnWidth(1, 40);
     treeViewResults->setColumnWidth(2, 70);
 
-    KeyEventFilter *masterFilter = new KeyEventFilter(this, Qt::Key_M, Qt::SHIFT);
-    QObject::connect(masterFilter, SIGNAL(keyPressed(int, int)),
+    QShortcut *shortcut;
+    shortcut = new QShortcut(QString("Shift+M"), treeViewResults);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, SIGNAL(activated()),
                      m_assignmentsWidget, SLOT(assignMasterMove()));
-    treeViewResults->installEventFilter(masterFilter);
 
-    KeyEventFilter *selectAllFilter = new KeyEventFilter(this, Qt::Key_A, Qt::SHIFT);
-    QObject::connect(selectAllFilter, SIGNAL(keyPressed(int, int)),
+    shortcut = new QShortcut(QString("Shift+A"), treeViewResults);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, SIGNAL(activated()),
                      m_assignmentsWidget, SLOT(selectAllPlayers()));
-    treeViewResults->installEventFilter(selectAllFilter);
 
-    KeyEventFilter *numFilter = new KeyEventFilter(this, Qt::Key_0);
-    numFilter->addKey(Qt::Key_1);
-    numFilter->addKey(Qt::Key_2);
-    numFilter->addKey(Qt::Key_3);
-    numFilter->addKey(Qt::Key_4);
-    numFilter->addKey(Qt::Key_5);
-    numFilter->addKey(Qt::Key_6);
-    numFilter->addKey(Qt::Key_7);
-    numFilter->addKey(Qt::Key_8);
-    numFilter->addKey(Qt::Key_9);
-    numFilter->setIgnoreModifiers();
-    QObject::connect(numFilter, SIGNAL(keyPressed(int, int)),
-                     this, SLOT(selectTableNumber(int)));
-    treeViewResults->installEventFilter(numFilter);
+    // React to digits (0 to 9)
+    m_signalMapper = new QSignalMapper(this);
+    for (int i = 0; i <= 9; ++i)
+    {
+        QString numStr = QString("%1").arg(i);
+        shortcut = new QShortcut(numStr, treeViewResults);
+        shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+        QObject::connect(shortcut, SIGNAL(activated()),
+                         m_signalMapper, SLOT(map()));
+        m_signalMapper->setMapping(shortcut, numStr);
+    }
+    QObject::connect(m_signalMapper, SIGNAL(mapped(const QString&)),
+                     this, SLOT(selectTableNumber(const QString&)));
 
     // Validate manual rack changes
     QObject::connect(lineEditRack, SIGNAL(textEdited(const QString&)),
@@ -619,23 +620,10 @@ void ArbitrationWidget::selectAndFocusResult(int iRowNum, bool logical)
 }
 
 
-void ArbitrationWidget::selectTableNumber(int key)
+void ArbitrationWidget::selectTableNumber(const QString &iKey)
 {
-    QString keyStr = "";
-    if (key == Qt::Key_0) keyStr = "0";
-    else if (key == Qt::Key_1) keyStr = "1";
-    else if (key == Qt::Key_2) keyStr = "2";
-    else if (key == Qt::Key_3) keyStr = "3";
-    else if (key == Qt::Key_4) keyStr = "4";
-    else if (key == Qt::Key_5) keyStr = "5";
-    else if (key == Qt::Key_6) keyStr = "6";
-    else if (key == Qt::Key_7) keyStr = "7";
-    else if (key == Qt::Key_8) keyStr = "8";
-    else if (key == Qt::Key_9) keyStr = "9";
-    ASSERT(keyStr != "", "Unexpected key");
-
     // Build (and retrieve) the table number
-    QString tableNum = m_keyAccum->addText(keyStr);
+    QString tableNum = m_keyAccum->addText(iKey);
 
     // Select the player with this table number
     LOG_DEBUG("Selecting player with table number: " + lfq(tableNum));

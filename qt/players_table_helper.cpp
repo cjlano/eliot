@@ -28,11 +28,11 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QMenu>
 #include <QtGui/QAction>
+#include <QtGui/QShortcut>
 #include <QtCore/QSettings>
 
 #include "players_table_helper.h"
 #include "custom_popup.h"
-#include "misc_helpers.h"
 #include "qtcommon.h"
 #include "debug.h"
 
@@ -158,17 +158,13 @@ void PlayersTableHelper::addPopupRemoveAction()
 {
     QAction *removeAction = new QAction(_q("Remove selected player(s)"), this);
     removeAction->setStatusTip(_q("Remove the selected player(s) from the list"));
-    removeAction->setShortcut(Qt::Key_Delete);
+    removeAction->setShortcut(QKeySequence::Delete);
     QObject::connect(removeAction, SIGNAL(triggered()),
                      this, SLOT(removeSelectedRows()));
+    // Add the action to the popup menu...
     addPopupAction(removeAction);
-
-    // Install a custom event filter, to remove the selection when the
-    // "Delete" key is pressed
-    KeyEventFilter *filter = new KeyEventFilter(this, Qt::Key_Delete);
-    m_tablePlayers->installEventFilter(filter);
-    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
-                     this, SLOT(removeSelectedRows()));
+    // ... and to the table itself
+    m_tablePlayers->addAction(removeAction);
 }
 
 

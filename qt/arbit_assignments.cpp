@@ -23,11 +23,11 @@
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QMenu>
+#include <QtGui/QShortcut>
 
 #include "arbit_assignments.h"
 #include "qtcommon.h"
 #include "custom_popup.h"
-#include "misc_helpers.h"
 #include "prefs_dialog.h"
 
 #include "public_game.h"
@@ -76,35 +76,36 @@ ArbitAssignments::ArbitAssignments(QWidget *parent, PublicGame *iGame)
     treeViewPlayers->setColumnWidth(6, 25);
     treeViewPlayers->setColumnWidth(7, 25);
 
-    KeyEventFilter *filter = new KeyEventFilter(this, Qt::Key_A);
-    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
+    QShortcut *shortcut;
+    shortcut = new QShortcut(QString("A"), treeViewPlayers);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, SIGNAL(activated()),
                      this, SLOT(selectAllPlayers()));
-    treeViewPlayers->installEventFilter(filter);
 
-    filter = new KeyEventFilter(this, Qt::Key_Delete);
-    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
+    shortcut = new QShortcut(QKeySequence::Delete, treeViewPlayers);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, SIGNAL(activated()),
                      this, SLOT(suppressMove()));
-    treeViewPlayers->installEventFilter(filter);
 
-    filter = new KeyEventFilter(this, Qt::Key_T);
-    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
+    shortcut = new QShortcut(QString("T"), treeViewPlayers);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, SIGNAL(activated()),
                      this, SLOT(assignTopMove()));
-    treeViewPlayers->installEventFilter(filter);
 
-    filter = new KeyEventFilter(this, Qt::Key_S);
-    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
+    shortcut = new QShortcut(QString("S"), treeViewPlayers);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, SIGNAL(activated()),
                      this, SLOT(addRemoveSolo()));
-    treeViewPlayers->installEventFilter(filter);
 
-    filter = new KeyEventFilter(this, Qt::Key_W);
-    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
+    shortcut = new QShortcut(QString("W"), treeViewPlayers);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, SIGNAL(activated()),
                      this, SLOT(addRemoveWarning()));
-    treeViewPlayers->installEventFilter(filter);
 
-    filter = new KeyEventFilter(this, Qt::Key_P);
-    QObject::connect(filter, SIGNAL(keyPressed(int, int)),
+    shortcut = new QShortcut(QString("P"), treeViewPlayers);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, SIGNAL(activated()),
                      this, SLOT(addRemovePenalty()));
-    treeViewPlayers->installEventFilter(filter);
 
     // Display a preview of the master word when clicked
     QObject::connect(labelMasterMove, SIGNAL(clicked()),
