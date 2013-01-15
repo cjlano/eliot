@@ -24,49 +24,6 @@
 #include "misc_helpers.h"
 
 
-KeyEventFilter::KeyEventFilter(QObject *parent, int key, int modifiers)
-    : QObject(parent), m_ignoreModifiers(false)
-{
-    addKey(key, modifiers);
-}
-
-
-void KeyEventFilter::addKey(int key, int modifiers)
-{
-    m_keyVect.push_back(key);
-    m_modifiersVect.push_back(modifiers);
-}
-
-
-void KeyEventFilter::setIgnoreModifiers(bool ignore)
-{
-    m_ignoreModifiers = ignore;
-}
-
-
-bool KeyEventFilter::eventFilter(QObject *obj, QEvent *event)
-{
-    // If the Delete key is pressed, remove the selected line, if any
-    if (event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        for (unsigned i = 0; i < m_keyVect.size(); ++i)
-        {
-            if (keyEvent->key() == m_keyVect[i] &&
-                (m_ignoreModifiers || keyEvent->modifiers() == m_modifiersVect[i]))
-            {
-                emit keyPressed(m_keyVect[i], m_modifiersVect[i]);
-                return true;
-            }
-        }
-    }
-
-    // Standard event processing
-    return QObject::eventFilter(obj, event);
-}
-
-
-
 KeyAccumulator::KeyAccumulator(QObject *parent, int delayMs)
     : QObject(parent), m_delayMs(delayMs), m_currText("")
 {

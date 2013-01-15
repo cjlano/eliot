@@ -32,30 +32,6 @@ class QEvent;
 class QTimer;
 
 
-/// Event filter used for the edition of the players display
-class KeyEventFilter: public QObject
-{
-    Q_OBJECT;
-
-public:
-    KeyEventFilter(QObject *parent, int key, int modifier = Qt::NoModifier);
-    void addKey(int key, int modifier = Qt::NoModifier);
-    void setIgnoreModifiers(bool ignore = true);
-
-signals:
-    /// As its name indicates...
-    void keyPressed(int key, int modifiers);
-
-protected:
-    virtual bool eventFilter(QObject *obj, QEvent *event);
-
-private:
-    vector<int> m_keyVect;
-    vector<int> m_modifiersVect;
-    bool m_ignoreModifiers;
-};
-
-
 /**
  * Concatenate the given strings, as long as the delay between 2 consecutive
  * strings is not higher than the delayMs constructor parameter.
