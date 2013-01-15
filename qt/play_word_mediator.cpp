@@ -177,7 +177,7 @@ void PlayWordMediator::onCoordChanged()
 
 void PlayWordMediator::onWordChanged()
 {
-    bool acceptableInput = m_lineEditPlay.hasAcceptableInput();
+    bool acceptableInput = m_lineEditPlay.hasAcceptableInput() || m_lineEditPlay.text() == "";
     m_lineEditPlay.setPalette(acceptableInput ? blackPalette : redPalette);
 
     if (acceptableInput)
