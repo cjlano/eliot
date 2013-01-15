@@ -82,22 +82,34 @@ ArbitAssignments::ArbitAssignments(QWidget *parent, PublicGame *iGame)
     QObject::connect(shortcut, SIGNAL(activated()),
                      this, SLOT(suppressMove()));
 
-    shortcut = new QShortcut(QString("T"), treeViewPlayers);
+    // TRANSLATORS: 'T' is the keyboard shortcut used in arbitration mode
+    // to assign the top move to players. If translated, the translation
+    // will be used as shortcut instead of 'T'.
+    shortcut = new QShortcut(_q("T"), treeViewPlayers);
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
     QObject::connect(shortcut, SIGNAL(activated()),
                      this, SLOT(assignTopMove()));
 
-    shortcut = new QShortcut(QString("S"), treeViewPlayers);
+    // TRANSLATORS: 'S' stands for Solo, it is used as column header in
+    // the history, and in the players table in arbitration mode. It is also
+    // used as shortcut to assign a solo, in arbitration mode.
+    shortcut = new QShortcut(_q("S"), treeViewPlayers);
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
     QObject::connect(shortcut, SIGNAL(activated()),
                      this, SLOT(addRemoveSolo()));
 
-    shortcut = new QShortcut(QString("W"), treeViewPlayers);
+    // TRANSLATORS: 'W' stands for Warning, it is used as column header in
+    // the history, and in the players table in arbitration mode. It is also
+    // used as shortcut to assign a warning, in arbitration mode.
+    shortcut = new QShortcut(_q("W"), treeViewPlayers);
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
     QObject::connect(shortcut, SIGNAL(activated()),
                      this, SLOT(addRemoveWarning()));
 
-    shortcut = new QShortcut(QString("P"), treeViewPlayers);
+    // TRANSLATORS: 'P' stands for Penalty, it is used as column header in
+    // the history, and in the players table in arbitration mode. It is also
+    // used as shortcut to assign a penalty, in arbitration mode.
+    shortcut = new QShortcut(_q("P"), treeViewPlayers);
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
     QObject::connect(shortcut, SIGNAL(activated()),
                      this, SLOT(addRemovePenalty()));
@@ -300,7 +312,7 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
     // Action to assign the top move
     QAction *assignTopMoveAction = new QAction(_q("Assign top move (if unique)"), this);
     assignTopMoveAction->setStatusTip(_q("Assign the top move (if unique) to the selected player(s)"));
-    assignTopMoveAction->setShortcut(Qt::Key_T);
+    assignTopMoveAction->setShortcut(_q("T"));
     QObject::connect(assignTopMoveAction, SIGNAL(triggered()),
                      this, SLOT(assignTopMove()));
     iMenu.addAction(assignTopMoveAction);
@@ -326,7 +338,7 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
     // Action to give or remove a solo to players
     QAction *soloAction = new QAction(_q("Give (or remove) a solo"), this);
     soloAction->setStatusTip(_q("Give a solo to the selected player, or remove it if (s)he already has one"));
-    soloAction->setShortcut(Qt::Key_S);
+    soloAction->setShortcut(_q("S"));
     QObject::connect(soloAction, SIGNAL(triggered()),
                      this, SLOT(addRemoveSolo()));
     iMenu.addAction(soloAction);
@@ -336,7 +348,7 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
     // Action to give or remove a warning to players
     QAction *warningAction = new QAction(_q("Give (or remove) a warning"), this);
     warningAction->setStatusTip(_q("Give a warning to the selected player(s), or remove it if they already have one"));
-    warningAction->setShortcut(Qt::Key_W);
+    warningAction->setShortcut(_q("W"));
     QObject::connect(warningAction, SIGNAL(triggered()),
                      this, SLOT(addRemoveWarning()));
     iMenu.addAction(warningAction);
@@ -344,7 +356,7 @@ void ArbitAssignments::populatePlayersMenu(QMenu &iMenu, const QPoint &iPoint)
     // Action to give or remove a penalty to players
     QAction *penaltyAction = new QAction(_q("Give (or remove) a penalty"), this);
     penaltyAction->setStatusTip(_q("Give a penalty to the selected player(s), or remove it if they already have one"));
-    penaltyAction->setShortcut(Qt::Key_P);
+    penaltyAction->setShortcut(_q("P"));
     QObject::connect(penaltyAction, SIGNAL(triggered()),
                      this, SLOT(addRemovePenalty()));
     iMenu.addAction(penaltyAction);
