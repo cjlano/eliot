@@ -192,7 +192,7 @@ void TrainingWidget::updateModel()
     const Results &results = m_game->trainingGetResults();
     // Find the highest score
     int bestScore = -1;
-    if (results.size() != 0)
+    if (!results.isEmpty())
         bestScore = results.get(0).getPoints();
     for (unsigned int i = 0; i < results.size(); ++i)
     {

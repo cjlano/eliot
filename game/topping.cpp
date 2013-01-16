@@ -216,7 +216,7 @@ Move Topping::getTopMove() const
     BestResults results;
     results.search(getDic(), getBoard(), getHistory().getCurrentRack().getRack(),
                    getHistory().beforeFirstRound());
-    ASSERT(results.size() != 0, "No top move found");
+    ASSERT(!results.isEmpty(), "No top move found");
     return Move(results.get(0));
 }
 

@@ -65,7 +65,7 @@ void AIPercent::compute(const Dictionary &iDic, const Board &iBoard, bool iFirst
 
 Move AIPercent::getMove() const
 {
-    if (m_results->size() == 0)
+    if (m_results->isEmpty())
     {
         // If there is no result, pass the turn.
         // FIXME: in duplicate mode, we should return a move of type NO_MOVE

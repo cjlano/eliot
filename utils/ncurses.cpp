@@ -339,7 +339,7 @@ void CursesIntf::drawScoresRacks(WINDOW *win, int y, int x) const
 
     // Display a message when the search is complete
     if (m_game->getMode() == PublicGame::kTRAINING &&
-        m_game->trainingGetResults().size())
+        !m_game->trainingGetResults().isEmpty())
     {
         mvwprintw(win, y + 2*yOff - 1, x + 2, _("Search complete"));
     }

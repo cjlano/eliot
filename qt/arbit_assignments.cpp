@@ -472,7 +472,7 @@ void ArbitAssignments::setMasterMove()
     results.search(m_game->getDic(), m_game->getBoard(),
                    m_game->getCurrentRack().getRack(),
                    m_game->getHistory().beforeFirstRound());
-    ASSERT(results.size() != 0, "No possible valid move");
+    ASSERT(!results.isEmpty(), "No possible valid move");
     int bestScore = results.get(0).getPoints();
     if (bestScore > move.getScore())
     {
@@ -530,7 +530,7 @@ void ArbitAssignments::setDefaultMasterMove()
                    m_game->getCurrentRack().getRack(),
                    m_game->getHistory().beforeFirstRound());
     // XXX: End of game
-    if (results.size() == 0)
+    if (results.isEmpty())
         return;
 
     unsigned currIndex = 0;

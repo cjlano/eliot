@@ -52,6 +52,7 @@ public:
     virtual ~Results() {}
     unsigned int size() const { return m_rounds.size(); }
     const Round & get(unsigned int) const;
+    bool isEmpty() const { return m_rounds.empty(); }
 
     /**
      * Perform a search on the board. Every time a word is found,

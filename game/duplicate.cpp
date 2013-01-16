@@ -280,7 +280,7 @@ void Duplicate::endTurn()
             const Rack &rack =
                 m_players[REF_PLAYER_ID]->getLastRack().getRack();
             results.search(getDic(), getBoard(), rack, getHistory().beforeFirstRound());
-            if (results.size() == 0)
+            if (results.isEmpty())
             {
                 // This would be very bad luck that no move is possible...
                 // It's probably not even possible, but let's be safe.

@@ -721,7 +721,7 @@ int ArbitrationWidget::getBestScore() const
     results.search(m_game->getDic(), m_game->getBoard(),
                    m_game->getCurrentRack().getRack(),
                    m_game->getHistory().beforeFirstRound());
-    ASSERT(results.size() != 0, "No possible valid move");
+    ASSERT(!results.isEmpty(), "No possible valid move");
     return results.get(0).getPoints();
 }
 

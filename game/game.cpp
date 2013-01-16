@@ -453,7 +453,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
 
         BestResults res;
         res.search(getDic(), getBoard(), rack,  getHistory().beforeFirstRound());
-        if (res.size())
+        if (!res.isEmpty())
         {
             PlayedRack pldCopy = pld;
 
