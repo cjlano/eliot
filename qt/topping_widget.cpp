@@ -254,7 +254,7 @@ void ToppingWidget::timeoutPenalty()
                              .arg(move.getScore()));
 
     // End the turn
-    m_game->toppingTimeOut();
+    m_game->toppingTimeOut(m_timerModel->getTotalDuration());
     emit gameUpdated();
 }
 

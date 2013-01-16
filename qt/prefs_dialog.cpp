@@ -101,6 +101,8 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
     spinBoxArbitSearchLimit->setToolTip(spinBoxTrainSearchLimit->toolTip());
     spinBoxArbitWarnLimit->setToolTip(_q("Maximal number of \"acceptable\" warnings.\n"
                                          "Any additional warning will give a penalty to the player."));
+    checkBoxToppingElapsedPenalty->setToolTip(_q("If checked, the player gets, at each turn, a score penalty\n"
+                                                 "equal to the elapsed time for the turn."));
     spinBoxToppingExpPenalty->setToolTip(_q("Number of points added to the player score when the timer expires.\n"
                                             "Set it to 0 if you don't want any penalty."));
 
@@ -162,6 +164,7 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         spinBoxArbitSearchLimit->setValue(Settings::Instance().getInt("arbitration.search-limit"));
 
         // Topping settings
+        checkBoxToppingElapsedPenalty->setChecked(Settings::Instance().getBool("topping.elapsed-penalty"));
         spinBoxToppingExpPenalty->setValue(Settings::Instance().getInt("topping.timeout-penalty"));
 
         // Confirmations
@@ -297,6 +300,8 @@ void PrefsDialog::updateSettings()
                                     spinBoxArbitWarnLimit->value());
 
         // Topping settings
+        Settings::Instance().setBool("topping.elapsed-penalty",
+                                     checkBoxToppingElapsedPenalty->isChecked());
         Settings::Instance().setInt("topping.timeout-penalty",
                                     spinBoxToppingExpPenalty->value());
 

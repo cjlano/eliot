@@ -226,7 +226,7 @@ public:
 
     void toppingPlay(const wstring &iWord, const wstring &iCoord, int iElapsed);
 
-    void toppingTimeOut();
+    void toppingTimeOut(int iElapsed);
 
     void toppingAddPenalty(int iPenalty);
 

@@ -50,7 +50,7 @@ class Move
         /**
          * Default constructor, corresponding to no move
          */
-        Move();
+        Move(int iPoints = 0);
 
         /**
          * Constructor taking a (valid) round

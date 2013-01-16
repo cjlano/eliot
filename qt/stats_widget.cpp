@@ -378,11 +378,12 @@ void StatsWidget::setModelTurnData(const QModelIndex &iIndex,
                                    const TurnData &iTurn, const TurnData &iGameTurn)
 {
     // Set the text (score for the turn)
-    if (!iTurn.getMove().isNull())
+    int score = iTurn.getMove().getScore();
+    if (score != 0)
     {
-        int score = iTurn.getMove().getScore();
-        setModelText(iIndex, QVariant(score),
-                     score >= iGameTurn.getMove().getScore());
+        bool shouldUseBold = score >= iGameTurn.getMove().getScore()
+            && (m_game == 0 || m_game->getMode() != PublicGame::kTOPPING);
+        setModelText(iIndex, QVariant(score), shouldUseBold);
     }
 
     // Set the background color

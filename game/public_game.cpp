@@ -262,9 +262,9 @@ void PublicGame::toppingPlay(const wstring &iWord, const wstring &iCoord, int iE
 }
 
 
-void PublicGame::toppingTimeOut()
+void PublicGame::toppingTimeOut(int iElapsed)
 {
-    getTypedGame<Topping>(m_game).turnTimeOut();
+    getTypedGame<Topping>(m_game).turnTimeOut(iElapsed);
 }
 
 

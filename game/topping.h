@@ -82,7 +82,7 @@ public:
      * This will play the top on the board, give a points penalty to the player
      * and start the next turn.
      */
-    void turnTimeOut();
+    void turnTimeOut(int iElapsed);
 
     /**
      * Give an additional penalty to the player (probably because

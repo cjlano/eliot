@@ -255,6 +255,11 @@ Settings::Settings()
     // ============== Topping mode options ==============
     Setting &topping = m_conf->getRoot().add("topping", Setting::TypeGroup);
 
+    // If true, a score penalty equal to the number of elapsed seconds
+    // is given to the player at each turn
+    topping.add("elapsed-penalty", Setting::TypeBoolean) = true;
+
+    // Additional penalty points given to the player when the timer expires
     topping.add("timeout-penalty", Setting::TypeInt) = 60;
 
     // Try to read the values from the configuration file
@@ -277,6 +282,7 @@ Settings::Settings()
         copySetting<int>(tmpConf, *m_conf, "arbitration.solo-value");
         copySetting<int>(tmpConf, *m_conf, "arbitration.penalty-value");
         copySetting<int>(tmpConf, *m_conf, "arbitration.warnings-limit");
+        copySetting<int>(tmpConf, *m_conf, "topping.elapsed-penalty");
         copySetting<int>(tmpConf, *m_conf, "topping.timeout-penalty");
     }
     catch (const std::exception &e)
@@ -371,7 +377,7 @@ int Settings::getInt(const string &iName) const
         return 5;
     else if (iName == "arbitration.warnings-limit")
         return 3;
-    else if (iName == "arbitration.timeout-penalty")
+    else if (iName == "topping.timeout-penalty")
         return 60;
     return 0;
 #endif

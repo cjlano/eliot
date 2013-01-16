@@ -115,21 +115,24 @@ void Topping::tryWord(const wstring &iWord, const wstring &iCoord, int iElapsed)
 }
 
 
-void Topping::turnTimeOut()
+void Topping::turnTimeOut(int iElapsed)
 {
     LOG_INFO("Timeout reached, finishing turn automatically");
 
     m_board.removeTestRound();
 
-    // The player didn't find the move
-    Command *pCmd = new PlayerMoveCmd(*m_players[m_currPlayer], Move());
-    accessNavigation().addAndExecute(pCmd);
+    // Retrieve some settings
+    bool giveElapsedPenalty = Settings::Instance().getBool("topping.elapsed-penalty");
+    int timeoutPenalty = Settings::Instance().getInt("topping.timeout-penalty");
 
-    // Give a penalty to the player
-    // XXX: should we give the penalty directly in the NO_MOVE move?
-    int penalty = Settings::Instance().getInt("topping.timeout-penalty");
-    if (penalty > 0)
-        addPenalty(penalty);
+    // Compute the points to give to the player
+    int points = timeoutPenalty;
+    if (giveElapsedPenalty)
+        points += iElapsed;
+
+    // The player didn't find the move
+    Command *pCmd = new PlayerMoveCmd(*m_players[m_currPlayer], Move(points));
+    accessNavigation().addAndExecute(pCmd);
 
     // Next turn
     endTurn();
@@ -155,10 +158,14 @@ int Topping::play(const wstring &, const wstring &)
 
 void Topping::recordPlayerMove(const Move &iMove, Player &ioPlayer, int iElapsed)
 {
+    // Compute the penalty points to give to the player
+    bool giveElapsedPenalty = Settings::Instance().getBool("topping.elapsed-penalty");
+    int points = giveElapsedPenalty ? iElapsed : 0;
+
     ASSERT(iMove.isValid(), "Only valid rounds should be played");
-    // Modify the score of the given move, to be the elapsed time
+    // Modify the score of the given move, to be the computed score
     Round copyRound = iMove.getRound();
-    copyRound.setPoints(iElapsed);
+    copyRound.setPoints(points);
     Move newMove(copyRound);
 
     // Update the rack and the score of the current player

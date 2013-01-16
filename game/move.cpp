@@ -33,8 +33,8 @@
 INIT_LOGGER(game, Move);
 
 
-Move::Move()
-    :m_score(0)
+Move::Move(int iPoints)
+    :m_score(iPoints)
 {
     m_type = NO_MOVE;
 }
