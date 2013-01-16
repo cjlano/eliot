@@ -34,6 +34,7 @@
 #include "settings.h"
 #include "rack.h"
 #include "results.h"
+#include "move_selector.h"
 #include "pldrack.h"
 #include "player.h"
 #include "turn.h"
@@ -224,7 +225,10 @@ Move Topping::getTopMove() const
     results.search(getDic(), getBoard(), getHistory().getCurrentRack().getRack(),
                    getHistory().beforeFirstRound());
     ASSERT(!results.isEmpty(), "No top move found");
-    return Move(results.get(0));
+
+    // Find the most interesting top
+    MoveSelector selector;
+    return Move(selector.selectMaster(results));
 }
 
 

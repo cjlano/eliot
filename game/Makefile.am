@@ -55,6 +55,7 @@ libgame_a_SOURCES= \
     cmd/game_rack_cmd.h cmd/game_rack_cmd.cpp \
     cmd/master_move_cmd.h cmd/master_move_cmd.cpp \
     turn.cpp turn.h \
+    move_selector.cpp move_selector.h \
     duplicate.cpp duplicate.h \
     arbitration.cpp arbitration.h \
     freegame.cpp freegame.h \

@@ -37,6 +37,7 @@
 #include "round.h"
 #include "pldrack.h"
 #include "results.h"
+#include "move_selector.h"
 #include "player.h"
 #include "game.h"
 #include "turn_data.h"
@@ -458,7 +459,8 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
             PlayedRack pldCopy = pld;
 
             // Get the best word
-            const Round & bestRound = res.get(0);
+            MoveSelector selector;
+            const Round & bestRound = selector.selectMaster(res);
             LOG_DEBUG("helperSetRackRandom(): initial rack: "
                       << lfw(pld.toString()) << " (best word: "
                       << lfw(bestRound.getWord()) << ")");

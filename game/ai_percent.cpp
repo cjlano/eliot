@@ -74,6 +74,7 @@ Move AIPercent::getMove() const
     }
     else
     {
+        // TODO: use MoveSelector to select a correct move
         return Move(m_results->get(0));
     }
 }

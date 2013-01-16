@@ -38,6 +38,7 @@
 #include "move.h"
 #include "pldrack.h"
 #include "results.h"
+#include "move_selector.h"
 #include "player.h"
 #include "cmd/player_move_cmd.h"
 #include "cmd/player_rack_cmd.h"
@@ -286,7 +287,10 @@ void Duplicate::endTurn()
                 // It's probably not even possible, but let's be safe.
                 throw EndGameException(_("No possible move"));
             }
-            setMasterMove(Move(results.get(0)));
+
+            // Select a clever master move if possible
+            MoveSelector selector;
+            setMasterMove(Move(selector.selectMaster(results)));
         }
     }
 

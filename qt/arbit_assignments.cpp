@@ -31,6 +31,7 @@
 #include "prefs_dialog.h"
 
 #include "public_game.h"
+#include "move_selector.h"
 #include "player.h"
 #include "turn_data.h"
 #include "rack.h"
@@ -533,22 +534,11 @@ void ArbitAssignments::setDefaultMasterMove()
     if (results.isEmpty())
         return;
 
-    unsigned currIndex = 0;
-    unsigned jokerCount = results.get(0).countJokersFromRack();
-    if (jokerCount > 0)
-    {
-        for (unsigned i = 1; i < results.size(); ++i)
-        {
-            if (results.get(i).countJokersFromRack() < jokerCount)
-            {
-                currIndex = i;
-                jokerCount = results.get(i).countJokersFromRack();
-            }
-        }
-    }
+    // Find a good default
+    MoveSelector selector;
+    Move move = Move(selector.selectMaster(results));
 
     // Assign the master move
-    Move move = Move(results.get(currIndex));
     m_game->duplicateSetMasterMove(move);
     emit gameUpdated();
 }
