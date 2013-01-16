@@ -189,7 +189,10 @@ void HistoryWidget::updateModel()
             }
             if (m_isFreeGame)
             {
-                const wstring &name = m_game->getPlayer(t.getPlayer()).getName();
+                // In free game mode, the player id can be easily
+                // computed from the turn number
+                unsigned playerId = i % m_game->getNbPlayers();
+                const wstring &name = m_game->getPlayer(playerId).getName();
                 setCellData(rowNum, m_colPlayer, qfw(name));
             }
 
