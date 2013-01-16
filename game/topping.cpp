@@ -180,7 +180,7 @@ void Topping::endTurn()
 {
     // Play the top move on the board
     const Move &move = getTopMove();
-    Command *pCmd = new GameMoveCmd(*this, move, m_currPlayer);
+    Command *pCmd = new GameMoveCmd(*this, move);
     accessNavigation().addAndExecute(pCmd);
     accessNavigation().newTurn();
 

@@ -251,9 +251,8 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
             else if (dynamic_cast<const GameMoveCmd*>(cmd))
             {
                 const GameMoveCmd *moveCmd = static_cast<const GameMoveCmd*>(cmd);
-                unsigned int id = moveCmd->getPlayerId();
                 out << indent;
-                writeMove(out, moveCmd->getMove(), "GameMove", id);
+                writeMove(out, moveCmd->getMove(), "GameMove", -1);
                 out << endl;
             }
             else if (dynamic_cast<const MasterMoveCmd*>(cmd))

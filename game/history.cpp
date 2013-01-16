@@ -96,14 +96,12 @@ bool History::beforeFirstRound() const
 }
 
 
-void History::playMove(unsigned int iPlayer,
-                       const Move &iMove,
+void History::playMove(const Move &iMove,
                        const PlayedRack &iNewRack)
 {
     TurnData * current_turn = m_history.back();
 
     // Set the number and the round
-    current_turn->setPlayer(iPlayer);
     current_turn->setMove(iMove);
 
     // Create a new turn
@@ -125,11 +123,10 @@ void History::removeLastTurn()
         delete t;
     }
 
+#ifdef BACK_REMOVE_RACK_NEW_PART
     // Now we have the previous played round in back()
     TurnData *t = m_history.back();
-    t->setPlayer(0);
     //t->setRound(Round());
-#ifdef BACK_REMOVE_RACK_NEW_PART
     t->getPlayedRound().setNew(Rack());
 #endif
 }

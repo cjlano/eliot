@@ -83,8 +83,7 @@ public:
     bool beforeFirstRound() const;
 
     /// Update the history with the given move and complete the turn.
-    void playMove(unsigned int player, const Move &iMove,
-                  const PlayedRack &iNewRack);
+    void playMove(const Move &iMove, const PlayedRack &iNewRack);
 
     /// Remove last turn
     void removeLastTurn();

@@ -21,7 +21,6 @@
 #include <sstream>
 
 #include "cmd/game_move_cmd.h"
-#include "player.h"
 #include "game_params.h"
 #include "game.h"
 #include "rack.h"
@@ -31,11 +30,9 @@
 INIT_LOGGER(game, GameMoveCmd);
 
 
-GameMoveCmd::GameMoveCmd(Game &ioGame, const Move &iMove,
-                         unsigned int iPlayerId)
+GameMoveCmd::GameMoveCmd(Game &ioGame, const Move &iMove)
     : m_game(ioGame), m_move(iMove),
-    m_moveRack(ioGame.getHistory().getCurrentRack()),
-    m_playerId(iPlayerId)
+    m_moveRack(ioGame.getHistory().getCurrentRack())
 {
     setAutoExecutable(false);
 }
@@ -48,7 +45,7 @@ void GameMoveCmd::doExecute()
 
     // History of the game
     History &history = m_game.accessHistory();
-    history.playMove(m_playerId, m_move, newRack);
+    history.playMove(m_move, newRack);
 
     // Points
     m_game.addPoints(m_move.getScore());

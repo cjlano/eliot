@@ -311,7 +311,7 @@ void Duplicate::endTurn()
     // Play the master word on the board
     // We assign it to player 0 arbitrarily (this is only used
     // to retrieve the rack, which is the same for all players...)
-    Command *pCmd = new GameMoveCmd(*this, m_masterMove, REF_PLAYER_ID);
+    Command *pCmd = new GameMoveCmd(*this, m_masterMove);
     accessNavigation().addAndExecute(pCmd);
 
     // Change the turn after doing all the game changes.

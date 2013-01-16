@@ -44,7 +44,7 @@ void PlayerMoveCmd::doExecute()
     const PlayedRack &newRack = Move::ComputeRackForMove(m_originalRack, m_move);
 
     // Update the history and rack of the player
-    m_player.accessHistory().playMove(m_player.getId(), m_move, newRack);
+    m_player.accessHistory().playMove(m_move, newRack);
 }
 
 

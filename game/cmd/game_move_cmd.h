@@ -46,14 +46,12 @@ class GameMoveCmd: public Command
     DEFINE_LOGGER();
 
     public:
-        GameMoveCmd(Game &ioGame, const Move &iMove,
-                    unsigned int iPlayerId);
+        GameMoveCmd(Game &ioGame, const Move &iMove);
 
         virtual wstring toString() const;
 
         // Getters
         const Move & getMove() const { return m_move; }
-        unsigned int getPlayerId() const { return m_playerId; }
 
     protected:
         virtual void doExecute();
@@ -64,7 +62,6 @@ class GameMoveCmd: public Command
         Move m_move;
         Round m_round;
         PlayedRack m_moveRack;
-        unsigned int m_playerId;
 
         void playRound();
         void unplayRound();

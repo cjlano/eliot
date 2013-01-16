@@ -145,7 +145,7 @@ void Training::endTurn()
         move = getMoveFromMasterGame();
     else
         move = m_players[m_currPlayer]->getLastMove();
-    Command *pCmd = new GameMoveCmd(*this, move, m_currPlayer);
+    Command *pCmd = new GameMoveCmd(*this, move);
     accessNavigation().addAndExecute(pCmd);
     accessNavigation().newTurn();
 }

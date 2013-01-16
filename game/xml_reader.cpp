@@ -412,8 +412,7 @@ void XmlReader::endElement(const string& namespaceURI,
     else if (tag == "GameMove")
     {
         const Move &move = buildMove(*m_game, m_attributes, false);
-        Player &p = getPlayer(m_players, m_attributes["playerId"], tag);
-        GameMoveCmd *cmd = new GameMoveCmd(*m_game, move, p.getId());
+        GameMoveCmd *cmd = new GameMoveCmd(*m_game, move);
         m_game->accessNavigation().addAndExecute(cmd);
     }
 

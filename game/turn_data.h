@@ -42,10 +42,8 @@ class TurnData
     DEFINE_LOGGER();
 public:
     TurnData();
-    TurnData(unsigned int iPlayerId,
-             const PlayedRack& iPldRack, const Move& iMove);
+    TurnData(const PlayedRack& iPldRack, const Move& iMove);
 
-    void setPlayer(unsigned int iPlayerId)         { m_playerId = iPlayerId; }
     void setPlayedRack(const PlayedRack& iPldRack) { m_pldrack = iPldRack; }
     void setMove(const Move& iMove)             { m_move = iMove; }
     // Setters for events (warnings, penalties, solos, end game primes)
@@ -54,7 +52,6 @@ public:
     void addSoloPoints(int iPoints) { m_soloPoints += iPoints; }
     void addEndGamePoints(int iPoints) { m_endGamePoints += iPoints; }
 
-    unsigned int      getPlayer()     const { return m_playerId; }
     const PlayedRack& getPlayedRack() const { return m_pldrack; }
     const Move&       getMove()       const { return m_move; }
     // Getters for events (warnings, penalties, solos, end game primes)
@@ -66,7 +63,6 @@ public:
     wstring toString() const;
 
 private:
-    unsigned int m_playerId;
     PlayedRack m_pldrack;
     Move m_move;
     int m_warningsNb;
