@@ -463,36 +463,46 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
                       << lfw(pld.toString()) << " (best word: "
                       << lfw(bestRound.getWord()) << ")");
 
-            // Identify the joker
+            // Identify the tile we should use to replace the joker
+            Tile replacingTile;
+            bool jokerUsed = false;
             for (unsigned int i = 0; i < bestRound.getWordLen(); ++i)
             {
                 if (bestRound.isJoker(i) && bestRound.isPlayedFromRack(i))
                 {
                     const Tile &jokerTile = bestRound.getTile(i);
-                    const Tile &replacingTile = jokerTile.toUpper();
-                    LOG_DEBUG("helperSetRackRandom(): replacing Joker with "
-                              << lfw(replacingTile.toChar()));
-
-                    // If the bag does not contain this letter anymore,
-                    // simply keep the joker in the rack.
-                    if (bag.in(replacingTile))
-                    {
-                        // The bag contains the replacing letter
-                        // We need to swap the joker (it is necessarily in the
-                        // new tiles, because jokerAdded is true)
-                        Rack tmpRack = pld.getNew();
-                        ASSERT(tmpRack.in(Tile::Joker()),
-                               "No joker found in the new tiles!");
-                        tmpRack.remove(Tile::Joker());
-                        tmpRack.add(replacingTile);
-                        pld.setNew(tmpRack);
-
-                        // Make sure the invariant is still correct, otherwise we keep the joker
-                        if (!pld.checkRack(min, min))
-                            pld = pldCopy;
-                    }
+                    replacingTile = jokerTile.toUpper();
+                    jokerUsed = true;
                     break;
                 }
+            }
+            if (!jokerUsed)
+            {
+                // The joker was not needed for the top. Replace it with a
+                // randomly selected tile
+                LOG_DEBUG("helperSetRackRandom(): joker not needed for the top");
+                replacingTile = bag.selectRandom();
+            }
+
+            LOG_DEBUG("helperSetRackRandom(): replacing Joker with "
+                      << lfw(replacingTile.toChar()));
+
+            // If the bag does not contain the letter anymore,
+            // simply keep the joker in the rack.
+            if (bag.in(replacingTile))
+            {
+                // The bag contains the replacing letter
+                // We need to swap the joker (it is necessarily in the
+                // new tiles, because jokerAdded is true)
+                Rack tmpRack = pld.getNew();
+                ASSERT(tmpRack.in(Tile::Joker()), "No joker found in the new tiles");
+                tmpRack.remove(Tile::Joker());
+                tmpRack.add(replacingTile);
+                pld.setNew(tmpRack);
+
+                // Make sure the invariant is still correct, otherwise we keep the joker
+                if (!pld.checkRack(min, min))
+                    pld = pldCopy;
             }
         }
     }

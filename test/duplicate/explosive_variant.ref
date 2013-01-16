@@ -5,21 +5,21 @@ mode duplicate
 [?] pour l'aide
 commande> a g
      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- A   -  -  -  -  -  -  -  -  -  M  -  -  -  -  - 
- B   -  K  -  -  -  J  -  -  -  O  -  N  -  -  - 
+ A   -  -  -  V  E  R  O  N  A  I  S  E  -  -  - 
+ B   -  K  -  -  -  -  -  -  -  N  -  N  -  -  - 
  C   -  W  E  B  R  A  D  I  O  S  -  O  -  -  - 
- D   F  A  -  O  -  U  -  -  -  -  -  T  -  -  - 
- E   E  S  -  G  E  N  I  C  U  L  E  e  -  -  - 
- F   R  -  -  H  -  E  -  -  -  -  -  R  -  -  - 
- G   I  -  -  E  -  -  -  -  -  -  -  A  -  -  - 
- H   A  G  L  Y  P  H  E  S  -  L  A  I  N  E  E 
- I   -  -  -  S  U  A  -  P  L  a  N  T  O  N  S 
- J   -  -  -  -  -  -  -  E  -  -  -  -  -  -  - 
- K   -  -  -  -  A  T  T  E  N  U  E  Z  -  -  - 
- L   -  -  -  C  -  -  -  D  -  -  -  O  -  -  - 
- M   -  T  R  E  V  I  R  A  T  -  -  I  -  -  - 
- N   -  -  -  U  -  -  -  I  -  V  I  D  E  R  - 
- O   F  A  U  X  -  -  -  S  -  -  -  E  -  -  - 
+ D   F  A  -  O  -  -  -  -  -  O  -  L  -  -  - 
+ E   E  S  -  G  E  N  I  C  U  L  E  s  -  -  - 
+ F   R  -  -  H  -  -  -  -  -  A  -  -  -  -  - 
+ G   I  -  -  E  -  -  J  -  -  N  -  -  -  -  - 
+ H   A  G  L  Y  P  H  E  S  -  T  -  -  -  -  - 
+ I   -  -  -  s  -  -  -  P  -  -  -  L  -  -  - 
+ J   -  -  -  -  M  E  -  E  -  Q  -  U  -  -  - 
+ K   -  -  -  -  A  T  T  E  N  U  E  Z  -  -  M 
+ L   -  -  -  C  -  -  -  D  -  E  -  U  -  -  O 
+ M   -  T  R  E  V  I  R  A  T  -  -  L  -  -  I 
+ N   -  -  -  U  -  -  -  I  -  -  D  E  B  A  T 
+ O   F  A  U  X  -  -  -  S  -  -  -  S  -  -  I 
 commande> a p
 Game: player 1 out of 1
 Game: mode=Duplicate
@@ -36,20 +36,22 @@ Game: history:
     7 | A+ZTTNUE | ATTENUEZ       |  K5 | 118 | *
     8 |  CEUIELN | GENICULE       |  E4 |  94 | *
     9 |  TVIRETR | TREVIRAT       |  M2 |  76 | *
-   10 |  CSN?UXN | CEUX           |  4L |  50 |  
-   11 | NNS?+LOT | PLaNTONS       |  I8 |  61 | *
-   12 |  ?OUANAF | FAUX           |  O1 |  48 |  
-   13 | ANO?+RTI | NOTeRAIT       | 12B |  77 | *
-   14 |  MLIEDNO | ZOIDE          | 12K |  32 |  
-   15 | LMN+AUSE | SUA            |  I4 |  34 |  
-   16 | ELMN+ARE | LAINEE         | H10 |  31 |  
-   17 | MR+IVMEL | VIDER          | N10 |  34 |  
-   18 | LMM+QUEJ | JAUNE          |  6B |  30 |  
-   19 | LMMQ+OSM | MOS            | 10A |  27 |  
+   10 |  UXSNNCA | CEUX           |  4L |  50 |  
+   11 | ANNS+IOT | INSOLANT       | 10A |  83 | *
+   12 |  UAVNFOA | FAUX           |  O1 |  48 |  
+   13 | ANOV+RSE | VERONAIS       |  A4 |  95 | *
+   14 |  ESULOUL | LUZULES        | 12I |  34 |  
+   15 | O+LMEM?N | ENOLs          | 12A |  34 |  
+   16 | MM+QBTDE | QUE            | 10J |  26 |  
+   17 | BDMMT+M? | BOGHEYs        |  4C |  21 |  
+   18 | BDMMMT+A | DEBAT          | N11 |  16 |  
+   19 | MMM+JIRI | JE             |  7G |  17 |  
+   20 | IIMMMR+O | MOITI          | 15K |  21 |  
+   21 |    MMR+E | ME             |  J5 |  12 |  
 
 
-Rack 0: LMMQ
-Score 0: 1159
+Rack 0: MR
+Score 0: 1192
 commande> q
 fin du mode duplicate
 commande> q
