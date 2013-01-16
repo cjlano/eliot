@@ -388,7 +388,7 @@ void CursesIntf::drawHistory(Box &ioBox) const
     int y = ioBox.getTop();
 
     // Heading
-    string heading = truncString(_(" N |      RACK      |    SOLUTION     | REF | PTS | P | BONUS"),
+    string heading = truncString(_(" N |      RACK      |    SOLUTION     | REF | PTS | BONUS"),
                                  ioBox.getWidth() - 1);
     mvwprintw(m_win, y, x + 1, "%s", heading.c_str());
     mvwhline(m_win, y + 1, x + 1, ACS_HLINE, heading.size());
@@ -405,22 +405,21 @@ void CursesIntf::drawHistory(Box &ioBox) const
             const Round &r = m.getRound();
             wstring coord = r.getCoord().toString();
             ioBox.printDataLine(i, x,
-                " %2d   %s   %s   %s   %3d   %1d   %c",
+                " %2d   %s   %s   %s   %3d   %c",
                 i + 1, padAndConvert(t.getPlayedRack().toString(), 14, false).c_str(),
                 padAndConvert(r.getWord(), 15, false).c_str(),
                 padAndConvert(coord, 3).c_str(), r.getPoints(),
-                t.getPlayer(), r.getBonus() ? '*' : ' ');
+                r.getBonus() ? '*' : ' ');
         }
         else if (m.isInvalid())
         {
             // The move corresponds to an invalid word: display it
             wstring invWord = L"<" + m.getBadWord() + L">";
             ioBox.printDataLine(i, x,
-                " %2d   %s   %s   %s   %3d   %1d",
+                " %2d   %s   %s   %s   %3d",
                 i + 1, padAndConvert(t.getPlayedRack().toString(), 14, false).c_str(),
                 padAndConvert(invWord, 15, false).c_str(),
-                padAndConvert(m.getBadCoord(), 3).c_str(), m.getScore(),
-                t.getPlayer());
+                padAndConvert(m.getBadCoord(), 3).c_str(), m.getScore());
         }
         else
         {
@@ -434,10 +433,10 @@ void CursesIntf::drawHistory(Box &ioBox) const
                 action = L"(-" + m.getChangedLetters() + L")";
 
             ioBox.printDataLine(i, x,
-                " %2d   %s   %s   %s   %3d   %1d",
+                " %2d   %s   %s   %s   %3d",
                 i + 1, padAndConvert(t.getPlayedRack().toString(), 14, false).c_str(),
                 padAndConvert(action, 15, false).c_str(),
-                " - ", m.getScore(), t.getPlayer());
+                " - ", m.getScore());
         }
     }
     int nbLines = min(i + 2 - ioBox.getFirstLine(),
@@ -447,7 +446,6 @@ void CursesIntf::drawHistory(Box &ioBox) const
     mvwvline(m_win, y, x + 39, ACS_VLINE, nbLines);
     mvwvline(m_win, y, x + 45, ACS_VLINE, nbLines);
     mvwvline(m_win, y, x + 51, ACS_VLINE, nbLines);
-    mvwvline(m_win, y, x + 55, ACS_VLINE, nbLines);
 }
 
 
