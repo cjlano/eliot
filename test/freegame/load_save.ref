@@ -29,14 +29,14 @@ commande> a p
 Game: player 1 out of 2
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  WKRGENL | KERN           |  H6 |  26 |  
-    2 | 1 |  ASDNUED | DENUDAS        | 10B |  81 | *
-    3 | 0 | GLW+AOEV | (PASS)         |  -  |   0 |  
-    4 | 1 |  IMOCOTA | CAKTI          |  6F |  24 |  
-    5 | 0 |  AEGLOVW | (PASS)         |  -  |   0 |  
-    6 | 1 | MOO+ZATB | OZONAT         |  D7 |  50 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  WKRGENL | KERN           |  H6 |  26 |  
+    2 |  ASDNUED | DENUDAS        | 10B |  81 | *
+    3 | GLW+AOEV | (PASS)         |  -  |   0 |  
+    4 |  IMOCOTA | CAKTI          |  6F |  24 |  
+    5 |  AEGLOVW | (PASS)         |  -  |   0 |  
+    6 | MOO+ZATB | OZONAT         |  D7 |  50 |  
 
 
 Rack 0: AEGLOVW
@@ -65,13 +65,13 @@ commande> a p
 Game: player 2 out of 2
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  WKRGENL | KERN           |  H6 |  26 |  
-    2 | 1 |  ASDNUED | DENUDAS        | 10B |  81 | *
-    3 | 0 | GLW+AOEV | (PASS)         |  -  |   0 |  
-    4 | 1 |  IMOCOTA | CAKTI          |  6F |  24 |  
-    5 | 0 |  AEGLOVW | (PASS)         |  -  |   0 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  WKRGENL | KERN           |  H6 |  26 |  
+    2 |  ASDNUED | DENUDAS        | 10B |  81 | *
+    3 | GLW+AOEV | (PASS)         |  -  |   0 |  
+    4 |  IMOCOTA | CAKTI          |  6F |  24 |  
+    5 |  AEGLOVW | (PASS)         |  -  |   0 |  
 
 
 Rack 0: AEGLOVW
@@ -106,14 +106,14 @@ commande> a p
 Game: player 1 out of 2
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  WKRGENL | KERN           |  H6 |  26 |  
-    2 | 1 |  ASDNUED | DENUDAS        | 10B |  81 | *
-    3 | 0 | GLW+AOEV | (PASS)         |  -  |   0 |  
-    4 | 1 |  IMOCOTA | CAKTI          |  6F |  24 |  
-    5 | 0 |  AEGLOVW | (PASS)         |  -  |   0 |  
-    6 | 1 | MOO+ZATB | OZONAT         |  D7 |  50 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  WKRGENL | KERN           |  H6 |  26 |  
+    2 |  ASDNUED | DENUDAS        | 10B |  81 | *
+    3 | GLW+AOEV | (PASS)         |  -  |   0 |  
+    4 |  IMOCOTA | CAKTI          |  6F |  24 |  
+    5 |  AEGLOVW | (PASS)         |  -  |   0 |  
+    6 | MOO+ZATB | OZONAT         |  D7 |  50 |  
 
 
 Rack 0: AEGLOVW
@@ -138,27 +138,8 @@ commande> a g
  M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
-### Output deactivated due to the bug with rand seeds
-# commande> a p
-# Game: player 1 out of 2
-# Game: mode=Free game
-# Game: history:
-#     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-#    ===|===|==========|================|=====|=====|======
-#     1 | 0 |  WKRGENL | KERN           |  H6 |  26 |  
-#     2 | 1 |  ASDNUED | DENUDAS        | 10B |  81 | *
-#     3 | 0 | GLW+AOEV | (PASS)         |  -  |   0 |  
-#     4 | 1 |  IMOCOTA | CAKTI          |  6F |  24 |  
-#     5 | 0 |  AEGLOVW | (PASS)         |  -  |   0 |  
-#     6 | 1 | MOO+ZATB | OZONAT         |  D7 |  50 |  
-#     7 | 0 |  AEGLOVW | AVEZ           |  8A |  48 |  
-#     8 | 1 | BM+RBOVO | BRAVO          |  G4 |  25 |  
-# 
-# 
-# Rack 0: GLOW+PUQ
-# Rack 1: BMO+GDSI
-# Score 0:   74
-# Score 1:  180
+commande> # FIXME: Command deactivated due to the bug with rand seeds
+commande> # a p
 commande> s freegame.save
 commande> q
 fin du mode partie libre
@@ -182,27 +163,8 @@ commande> a g
  M   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  N   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
  O   -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
-### Output deactivated due to the bug with rand seeds
-# commande> a p
-# Game: player 1 out of 2
-# Game: mode=Free game
-# Game: history:
-#     N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-#    ===|===|==========|================|=====|=====|======
-#     1 | 0 |  WKRGENL | KERN           |  H6 |  26 |  
-#     2 | 1 |  ASDNUED | DENUDAS        | 10B |  81 | *
-#     3 | 0 | GLW+AOEV | (PASS)         |  -  |   0 |  
-#     4 | 1 |  IMOCOTA | CAKTI          |  6F |  24 |  
-#     5 | 0 |  AEGLOVW | (PASS)         |  -  |   0 |  
-#     6 | 1 | MOO+ZATB | OZONAT         |  D7 |  50 |  
-#     7 | 0 |  AEGLOVW | AVEZ           |  8A |  48 |  
-#     8 | 1 | BM+RBOVO | BRAVO          |  G4 |  25 |  
-# 
-# 
-# Rack 0: GLOW+PUQ
-# Rack 1: BMO+GDSI
-# Score 0:   74
-# Score 1:  180
+commande> # FIXME: Command deactivated due to the bug with rand seeds
+commande> # a p
 commande> q
 fin du mode partie libre
 commande> q

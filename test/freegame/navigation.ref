@@ -29,11 +29,11 @@ commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  NONTEEL | TONNE          |  H4 |  12 |  
-    2 | 1 |  NBZEUAU | AUNEZ          |  6F |  36 |  
-    3 | 2 |  NUDATMG | MATON          |  5E |  18 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  NONTEEL | TONNE          |  H4 |  12 |  
+    2 |  NBZEUAU | AUNEZ          |  6F |  36 |  
+    3 |  NUDATMG | MATON          |  5E |  18 |  
 
 
 Rack 0: EL+HI?WE
@@ -64,14 +64,14 @@ commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  NONTEEL | TONNE          |  H4 |  12 |  
-    2 | 1 |  NBZEUAU | AUNEZ          |  6F |  36 |  
-    3 | 2 |  NUDATMG | MATON          |  5E |  18 |  
-    4 | 0 | EL+HI?WE | WELcHE         |  3C |  48 |  
-    5 | 1 | BNU+FYTE | BEY            |  2H |  43 |  
-    6 | 2 | DGU+IDVA | VAGI           |  1I |  25 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  NONTEEL | TONNE          |  H4 |  12 |  
+    2 |  NBZEUAU | AUNEZ          |  6F |  36 |  
+    3 |  NUDATMG | MATON          |  5E |  18 |  
+    4 | EL+HI?WE | WELcHE         |  3C |  48 |  
+    5 | BNU+FYTE | BEY            |  2H |  43 |  
+    6 | DGU+IDVA | VAGI           |  1I |  25 |  
 
 
 Rack 0: I+SSPRNS
@@ -102,13 +102,13 @@ commande> a p
 Game: player 3 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  NONTEEL | TONNE          |  H4 |  12 |  
-    2 | 1 |  NBZEUAU | AUNEZ          |  6F |  36 |  
-    3 | 2 |  NUDATMG | MATON          |  5E |  18 |  
-    4 | 0 | EL+HI?WE | WELcHE         |  3C |  48 |  
-    5 | 1 | BNU+FYTE | BEY            |  2H |  43 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  NONTEEL | TONNE          |  H4 |  12 |  
+    2 |  NBZEUAU | AUNEZ          |  6F |  36 |  
+    3 |  NUDATMG | MATON          |  5E |  18 |  
+    4 | EL+HI?WE | WELcHE         |  3C |  48 |  
+    5 | BNU+FYTE | BEY            |  2H |  43 |  
 
 
 Rack 0: I+SSPRNS
@@ -139,12 +139,12 @@ commande> a p
 Game: player 2 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  NONTEEL | TONNE          |  H4 |  12 |  
-    2 | 1 |  NBZEUAU | AUNEZ          |  6F |  36 |  
-    3 | 2 |  NUDATMG | MATON          |  5E |  18 |  
-    4 | 0 | EL+HI?WE | WELcHE         |  3C |  48 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  NONTEEL | TONNE          |  H4 |  12 |  
+    2 |  NBZEUAU | AUNEZ          |  6F |  36 |  
+    3 |  NUDATMG | MATON          |  5E |  18 |  
+    4 | EL+HI?WE | WELcHE         |  3C |  48 |  
 
 
 Rack 0: I+SSPRNS
@@ -158,14 +158,14 @@ commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  NONTEEL | TONNE          |  H4 |  12 |  
-    2 | 1 |  NBZEUAU | AUNEZ          |  6F |  36 |  
-    3 | 2 |  NUDATMG | MATON          |  5E |  18 |  
-    4 | 0 | EL+HI?WE | WELcHE         |  3C |  48 |  
-    5 | 1 | BNU+FYTE | BEY            |  2H |  43 |  
-    6 | 2 | DGU+IDVA | VAGI           |  1I |  25 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  NONTEEL | TONNE          |  H4 |  12 |  
+    2 |  NBZEUAU | AUNEZ          |  6F |  36 |  
+    3 |  NUDATMG | MATON          |  5E |  18 |  
+    4 | EL+HI?WE | WELcHE         |  3C |  48 |  
+    5 | BNU+FYTE | BEY            |  2H |  43 |  
+    6 | DGU+IDVA | VAGI           |  1I |  25 |  
 
 
 Rack 0: I+SSPRNS
@@ -196,8 +196,8 @@ commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
 
 
 Rack 0: NONTEEL
@@ -245,9 +245,9 @@ commande> a p
 Game: player 2 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  NONTEEL | TONNE          |  H4 |  12 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  NONTEEL | TONNE          |  H4 |  12 |  
 
 
 Rack 0: EL+HI?WE
@@ -278,10 +278,10 @@ commande> a p
 Game: player 3 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  NONTEEL | TONNE          |  H4 |  12 |  
-    2 | 1 |  NBZEUAU | AUNEZ          |  6F |  36 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  NONTEEL | TONNE          |  H4 |  12 |  
+    2 |  NBZEUAU | AUNEZ          |  6F |  36 |  
 
 
 Rack 0: EL+HI?WE
@@ -312,11 +312,11 @@ commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  NONTEEL | TONNE          |  H4 |  12 |  
-    2 | 1 |  NBZEUAU | AUNEZ          |  6F |  36 |  
-    3 | 2 |  NUDATMG | MATON          |  5E |  18 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  NONTEEL | TONNE          |  H4 |  12 |  
+    2 |  NBZEUAU | AUNEZ          |  6F |  36 |  
+    3 |  NUDATMG | MATON          |  5E |  18 |  
 
 
 Rack 0: EL+HI?WE
@@ -348,14 +348,14 @@ commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  NONTEEL | TONNE          |  H4 |  12 |  
-    2 | 1 |  NBZEUAU | AUNEZ          |  6F |  36 |  
-    3 | 2 |  NUDATMG | MATON          |  5E |  18 |  
-    4 | 0 | EL+HI?WE | aWELE          |  3F |  30 |  
-    5 | 1 | BNU+FYTE | BEY            |  9G |  34 |  
-    6 | 2 | DGU+IDVA | VAGI           |  2J |  29 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  NONTEEL | TONNE          |  H4 |  12 |  
+    2 |  NBZEUAU | AUNEZ          |  6F |  36 |  
+    3 |  NUDATMG | MATON          |  5E |  18 |  
+    4 | EL+HI?WE | aWELE          |  3F |  30 |  
+    5 | BNU+FYTE | BEY            |  9G |  34 |  
+    6 | DGU+IDVA | VAGI           |  2J |  29 |  
 
 
 Rack 0: HI+CEEEP
@@ -386,17 +386,17 @@ commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  NONTEEL | TONNE          |  H4 |  12 |  
-    2 | 1 |  NBZEUAU | AUNEZ          |  6F |  36 |  
-    3 | 2 |  NUDATMG | MATON          |  5E |  18 |  
-    4 | 0 | EL+HI?WE | aWELE          |  3F |  30 |  
-    5 | 1 | BNU+FYTE | BEY            |  9G |  34 |  
-    6 | 2 | DGU+IDVA | VAGI           |  2J |  29 |  
-    7 | 0 | HI+CEEEP | (PASS)         |  -  |   0 |  
-    8 | 1 | FNTU+FSR | TURFS          |  N2 |  38 |  
-    9 | 2 | DDU+OREE | REDORE         |  4J |  22 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  NONTEEL | TONNE          |  H4 |  12 |  
+    2 |  NBZEUAU | AUNEZ          |  6F |  36 |  
+    3 |  NUDATMG | MATON          |  5E |  18 |  
+    4 | EL+HI?WE | aWELE          |  3F |  30 |  
+    5 | BNU+FYTE | BEY            |  9G |  34 |  
+    6 | DGU+IDVA | VAGI           |  2J |  29 |  
+    7 | HI+CEEEP | (PASS)         |  -  |   0 |  
+    8 | FNTU+FSR | TURFS          |  N2 |  38 |  
+    9 | DDU+OREE | REDORE         |  4J |  22 |  
 
 
 Rack 0: CEEEHIP
@@ -427,8 +427,8 @@ commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
 
 
 Rack 0: NONTEEL
@@ -459,9 +459,9 @@ commande> a p
 Game: player 2 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  NONTEEL | TONNE          |  H4 |  12 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  NONTEEL | TONNE          |  H4 |  12 |  
 
 
 Rack 0: EL+HI?WE
@@ -492,17 +492,17 @@ commande> a p
 Game: player 1 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  NONTEEL | TONNE          |  H4 |  12 |  
-    2 | 1 |  NBZEUAU | AUNEZ          |  6F |  36 |  
-    3 | 2 |  NUDATMG | MATON          |  5E |  18 |  
-    4 | 0 | EL+HI?WE | aWELE          |  3F |  30 |  
-    5 | 1 | BNU+FYTE | BEY            |  9G |  34 |  
-    6 | 2 | DGU+IDVA | VAGI           |  2J |  29 |  
-    7 | 0 | HI+CEEEP | (PASS)         |  -  |   0 |  
-    8 | 1 | FNTU+FSR | TURFS          |  N2 |  38 |  
-    9 | 2 | DDU+OREE | REDORE         |  4J |  22 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  NONTEEL | TONNE          |  H4 |  12 |  
+    2 |  NBZEUAU | AUNEZ          |  6F |  36 |  
+    3 |  NUDATMG | MATON          |  5E |  18 |  
+    4 | EL+HI?WE | aWELE          |  3F |  30 |  
+    5 | BNU+FYTE | BEY            |  9G |  34 |  
+    6 | DGU+IDVA | VAGI           |  2J |  29 |  
+    7 | HI+CEEEP | (PASS)         |  -  |   0 |  
+    8 | FNTU+FSR | TURFS          |  N2 |  38 |  
+    9 | DDU+OREE | REDORE         |  4J |  22 |  
 
 
 Rack 0: CEEEHIP

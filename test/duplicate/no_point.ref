@@ -18,9 +18,9 @@ commande> a p
 Game: player 1 out of 2
 Game: mode=Duplicate
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  ATNE??A | ay             |  H8 |   0 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  ATNE??A | ay             |  H8 |   0 |  
 
 
 Rack 0: AAENT+UL

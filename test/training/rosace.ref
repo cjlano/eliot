@@ -58,17 +58,17 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  WAEROSC | ROSACE         |  H8 |  22 |  
-    2 | 0 | W+TSREIN | WESTERN        | 13G |  54 |  
-    3 | 0 | I+RDTVI? | DIVeRTIR       |  8A |  83 | *
-    4 | 0 |  ELMOEAH | AH             |  I8 |  30 |  
-    5 | 0 | EELMO+PI | DIPLOMEE       |  A8 |  89 | *
-    6 | 0 |  OHUMJUI | JOUI           | 12K |  37 |  
-    7 | 0 | HMU+EAUA | HUE            | 14F |  34 |  
-    8 | 0 | AAMU+UBS | SAMBA          | 15H |  57 |  
-    9 | 0 | UU+NYTEP | TYPE           | O12 |  61 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  WAEROSC | ROSACE         |  H8 |  22 |  
+    2 | W+TSREIN | WESTERN        | 13G |  54 |  
+    3 | I+RDTVI? | DIVeRTIR       |  8A |  83 | *
+    4 |  ELMOEAH | AH             |  I8 |  30 |  
+    5 | EELMO+PI | DIPLOMEE       |  A8 |  89 | *
+    6 |  OHUMJUI | JOUI           | 12K |  37 |  
+    7 | HMU+EAUA | HUE            | 14F |  34 |  
+    8 | AAMU+UBS | SAMBA          | 15H |  57 |  
+    9 | UU+NYTEP | TYPE           | O12 |  61 |  
 
 
 Rack 0: NUU+S?GE

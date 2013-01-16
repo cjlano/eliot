@@ -39,9 +39,9 @@ Game: mode=Training
 Game: variant=joker
 Game: variant=7among8
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 | OSTMA?BN | TOMBANt        |  H4 |  70 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 | OSTMA?BN | TOMBANt        |  H4 |  70 | *
 
 
 Rack 0: S+DTGSE?Y
@@ -82,9 +82,9 @@ Game: mode=Training
 Game: variant=joker
 Game: variant=7among8
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 | OSTMA?BN | TOMBANt        |  H4 |  70 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 | OSTMA?BN | TOMBANt        |  H4 |  70 | *
 
 
 Rack 0: S+DTGSE?Y
@@ -93,13 +93,11 @@ commande> a l
  A B C D  E F G H I J K L M N O P Q R S T U V W X Y Z ?
  8 1 2 3 15 2 2 2 8 1 1 5 2 5 5 2 1 6 6 4 6 2 1 1 1 1 2
 commande> *
-### Output deactivated due to the bug with rand seeds
-# commande> a t
-# D?FAGRTA
+commande> # FIXME: Command deactivated due to the bug with rand seeds
+commande> # a t
 commande> *
-### Output deactivated due to the bug with rand seeds
-# commande> a t
-# ?XEUEEHI
+commande> # FIXME: Command deactivated due to the bug with rand seeds
+commande> # a t
 commande> 
 commande> q
 fin du mode entraînement

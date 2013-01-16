@@ -25,28 +25,28 @@ Game: player 1 out of 1
 Game: mode=Duplicate
 Game: variant=7among8
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 | ENEEGAQH | GENEE          |  H4 |  16 |  
-    2 | 0 | AHQ+RUMOZ | MARQUEZ        |  5C |  48 |  
-    3 | 0 | HO+EDOTMU | DEMARQUEZ      |  5A |  27 |  
-    4 | 0 | HMOOTU+?I | THOrIUM        |  G7 |  72 | *
-    5 | 0 | O+OULYENE | ONDOYEE        |  A3 |  54 |  
-    6 | 0 | LU+TEFISA | ELATIFS        | 14A |  97 | *
-    7 | 0 | U+EEIUHIS | HEU            | 15A |  37 |  
-    8 | 0 | -RLUIAOTS | LOTIRAIS       | 11D |  82 | *
-    9 | 0 | U+RREIXMS | XERUS          | 10J |  69 |  
-   10 | 0 | IMR+ER?BI | BRuMAIRE       |  D1 |  78 | *
-   11 | 0 | I+BSGCEJI | JUBES          |  M9 |  44 |  
-   12 | 0 | CGII+FERK | KEFIR          | 12A |  60 |  
-   13 | 0 | CGI+PLDEV | VELD           | L12 |  32 |  
-   14 | 0 | CGIP+WNPA | WADING         | 15J |  51 |  
-   15 | 0 | CPP+SINON | BIPONS         |  1D |  30 |  
-   16 | 0 | CNP+AAAVI | AVANCAI        |  2I |  92 | *
-   17 | 0 | P+AOLTUCA | PICOLAT        |  O1 |  36 |  
-   18 | 0 | AU+EEDTTN | ENDENTAT       |  L1 |  72 | *
-   19 | 0 |    U+LSU | SU             | 10A |  22 |  
-   20 | 0 |       LU | LU             |  I7 |  13 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 | ENEEGAQH | GENEE          |  H4 |  16 |  
+    2 | AHQ+RUMOZ | MARQUEZ        |  5C |  48 |  
+    3 | HO+EDOTMU | DEMARQUEZ      |  5A |  27 |  
+    4 | HMOOTU+?I | THOrIUM        |  G7 |  72 | *
+    5 | O+OULYENE | ONDOYEE        |  A3 |  54 |  
+    6 | LU+TEFISA | ELATIFS        | 14A |  97 | *
+    7 | U+EEIUHIS | HEU            | 15A |  37 |  
+    8 | -RLUIAOTS | LOTIRAIS       | 11D |  82 | *
+    9 | U+RREIXMS | XERUS          | 10J |  69 |  
+   10 | IMR+ER?BI | BRuMAIRE       |  D1 |  78 | *
+   11 | I+BSGCEJI | JUBES          |  M9 |  44 |  
+   12 | CGII+FERK | KEFIR          | 12A |  60 |  
+   13 | CGI+PLDEV | VELD           | L12 |  32 |  
+   14 | CGIP+WNPA | WADING         | 15J |  51 |  
+   15 | CPP+SINON | BIPONS         |  1D |  30 |  
+   16 | CNP+AAAVI | AVANCAI        |  2I |  92 | *
+   17 | P+AOLTUCA | PICOLAT        |  O1 |  36 |  
+   18 | AU+EEDTTN | ENDENTAT       |  L1 |  72 | *
+   19 |    U+LSU | SU             | 10A |  22 |  
+   20 |       LU | LU             |  I7 |  13 |  
 
 
 Rack 0: 

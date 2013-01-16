@@ -120,12 +120,12 @@ Game: player 1 out of 1
 Game: mode=Training
 Game: variant=joker
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  E?ESAVP | PAVEuSE        |  H2 |  80 | *
-    2 | 0 |  WHISKYS | WHISKEYS       |  5C | 126 | *
-    3 | 0 |  NII?NAX | kA             |  3G |   1 |  
-    4 | 0 | AIINNX+? | kAS            |  J3 |   2 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  E?ESAVP | PAVEuSE        |  H2 |  80 | *
+    2 |  WHISKYS | WHISKEYS       |  5C | 126 | *
+    3 |  NII?NAX | kA             |  3G |   1 |  
+    4 | AIINNX+? | kAS            |  J3 |   2 |  
 
 
 Rack 0: IINNX

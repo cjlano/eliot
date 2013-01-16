@@ -36,18 +36,18 @@ Game: player 1 out of 2
 Game: mode=Free game
 Game: variant=joker
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  ?AAUGOE | (PASS)         |  -  |   0 |  
-    2 | 1 |  EP?TFTI | FrIPE          |  H4 |  26 |  
-    3 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-    4 | 1 | TT+EB?AN | BATEReNT       |  5D |  86 | *
-    5 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-    6 | 1 |  RCWV?AB | WeB            |  9G |  36 |  
-    7 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-    8 | 1 | ACRV+SA? | VAiNCRAS       |  J2 |  91 | *
-    9 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-   10 | 1 |  USOM?DM | MOrDUS         | 10C |  34 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  ?AAUGOE | (PASS)         |  -  |   0 |  
+    2 |  EP?TFTI | FrIPE          |  H4 |  26 |  
+    3 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    4 | TT+EB?AN | BATEReNT       |  5D |  86 | *
+    5 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    6 |  RCWV?AB | WeB            |  9G |  36 |  
+    7 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    8 | ACRV+SA? | VAiNCRAS       |  J2 |  91 | *
+    9 |  AAEGOU? | (PASS)         |  -  |   0 |  
+   10 |  USOM?DM | MOrDUS         | 10C |  34 |  
 
 
 Rack 0: AAEGOU?
@@ -108,24 +108,24 @@ Game: player 1 out of 2
 Game: mode=Free game
 Game: variant=joker
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  ?AAUGOE | (PASS)         |  -  |   0 |  
-    2 | 1 |  EP?TFTI | FrIPE          |  H4 |  26 |  
-    3 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-    4 | 1 | TT+EB?AN | BATEReNT       |  5D |  86 | *
-    5 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-    6 | 1 |  RCWV?AB | WeB            |  9G |  36 |  
-    7 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-    8 | 1 | ACRV+SA? | VAiNCRAS       |  J2 |  91 | *
-    9 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-   10 | 1 |  USOM?DM | MOrDUS         | 10C |  34 |  
-   11 | 0 |  AAEGOU? | VExA           |  2J |   6 |  
-   12 | 1 | M+EEOSQ? | MORESQuE       |  E8 |  80 | *
-   13 | 0 | AGOU+?HD | ExO            | 15E |   2 |  
-   14 | 1 |  IRLF?DN | LINDoR         |  N1 |  50 |  
-   15 | 0 | ADGHU+VC | (PASS)         |  -  |   0 |  
-   16 | 1 | F+UI?ONL | FLIQUONs       | 13B |  86 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  ?AAUGOE | (PASS)         |  -  |   0 |  
+    2 |  EP?TFTI | FrIPE          |  H4 |  26 |  
+    3 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    4 | TT+EB?AN | BATEReNT       |  5D |  86 | *
+    5 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    6 |  RCWV?AB | WeB            |  9G |  36 |  
+    7 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    8 | ACRV+SA? | VAiNCRAS       |  J2 |  91 | *
+    9 |  AAEGOU? | (PASS)         |  -  |   0 |  
+   10 |  USOM?DM | MOrDUS         | 10C |  34 |  
+   11 |  AAEGOU? | VExA           |  2J |   6 |  
+   12 | M+EEOSQ? | MORESQuE       |  E8 |  80 | *
+   13 | AGOU+?HD | ExO            | 15E |   2 |  
+   14 |  IRLF?DN | LINDoR         |  N1 |  50 |  
+   15 | ADGHU+VC | (PASS)         |  -  |   0 |  
+   16 | F+UI?ONL | FLIQUONs       | 13B |  86 | *
 
 
 Rack 0: ACDGHUV
@@ -158,19 +158,19 @@ Game: player 2 out of 2
 Game: mode=Free game
 Game: variant=joker
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  ?AAUGOE | (PASS)         |  -  |   0 |  
-    2 | 1 |  EP?TFTI | FrIPE          |  H4 |  26 |  
-    3 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-    4 | 1 | TT+EB?AN | BATEReNT       |  5D |  86 | *
-    5 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-    6 | 1 |  RCWV?AB | WeB            |  9G |  36 |  
-    7 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-    8 | 1 | ACRV+SA? | VAiNCRAS       |  J2 |  91 | *
-    9 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-   10 | 1 |  USOM?DM | MOrDUS         | 10C |  34 |  
-   11 | 0 |  AAEGOU? | VExA           |  2J |   6 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  ?AAUGOE | (PASS)         |  -  |   0 |  
+    2 |  EP?TFTI | FrIPE          |  H4 |  26 |  
+    3 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    4 | TT+EB?AN | BATEReNT       |  5D |  86 | *
+    5 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    6 |  RCWV?AB | WeB            |  9G |  36 |  
+    7 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    8 | ACRV+SA? | VAiNCRAS       |  J2 |  91 | *
+    9 |  AAEGOU? | (PASS)         |  -  |   0 |  
+   10 |  USOM?DM | MOrDUS         | 10C |  34 |  
+   11 |  AAEGOU? | VExA           |  2J |   6 |  
 
 
 Rack 0: AGOU+?HD
@@ -203,18 +203,18 @@ Game: player 1 out of 2
 Game: mode=Free game
 Game: variant=joker
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  ?AAUGOE | (PASS)         |  -  |   0 |  
-    2 | 1 |  EP?TFTI | FrIPE          |  H4 |  26 |  
-    3 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-    4 | 1 | TT+EB?AN | BATEReNT       |  5D |  86 | *
-    5 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-    6 | 1 |  RCWV?AB | WeB            |  9G |  36 |  
-    7 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-    8 | 1 | ACRV+SA? | VAiNCRAS       |  J2 |  91 | *
-    9 | 0 |  AAEGOU? | (PASS)         |  -  |   0 |  
-   10 | 1 |  USOM?DM | MOrDUS         | 10C |  34 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  ?AAUGOE | (PASS)         |  -  |   0 |  
+    2 |  EP?TFTI | FrIPE          |  H4 |  26 |  
+    3 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    4 | TT+EB?AN | BATEReNT       |  5D |  86 | *
+    5 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    6 |  RCWV?AB | WeB            |  9G |  36 |  
+    7 |  AAEGOU? | (PASS)         |  -  |   0 |  
+    8 | ACRV+SA? | VAiNCRAS       |  J2 |  91 | *
+    9 |  AAEGOU? | (PASS)         |  -  |   0 |  
+   10 |  USOM?DM | MOrDUS         | 10C |  34 |  
 
 
 Rack 0: AAEGOU?

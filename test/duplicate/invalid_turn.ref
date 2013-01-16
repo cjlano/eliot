@@ -18,9 +18,9 @@ commande> a p
 Game: player 1 out of 2
 Game: mode=Duplicate
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  ILERERU | RELIEUR        |  H2 |  66 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  ILERERU | RELIEUR        |  H2 |  66 | *
 
 
 Rack 0: GUAUVBP
@@ -39,10 +39,10 @@ commande> a p
 Game: player 1 out of 2
 Game: mode=Duplicate
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  ILERERU | RELIEUR        |  H2 |  66 | *
-    2 | 0 |  GUAUVBP | BURGAU         |  2F |  17 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  ILERERU | RELIEUR        |  H2 |  66 | *
+    2 |  GUAUVBP | BURGAU         |  2F |  17 |  
 
 
 Rack 0: PV+REOWF

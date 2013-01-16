@@ -30,11 +30,11 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  AEOIRST | AORISTE        |  H4 |  66 | *
-    2 | 0 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
-    3 | 0 |  USTWUNT | TWIST          |  K8 |  28 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  AEOIRST | AORISTE        |  H4 |  66 | *
+    2 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
+    3 |  USTWUNT | TWIST          |  K8 |  28 |  
 
 
 Rack 0: NUU
@@ -61,10 +61,10 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  AEOIRST | AORISTE        |  H4 |  66 | *
-    2 | 0 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  AEOIRST | AORISTE        |  H4 |  66 | *
+    2 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
 
 
 Rack 0: USTWUNT
@@ -97,11 +97,11 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  AEOIRST | AORISTE        |  H4 |  66 | *
-    2 | 0 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
-    3 | 0 |  USTWUNT | TWIST          |  K8 |  28 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  AEOIRST | AORISTE        |  H4 |  66 | *
+    2 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
+    3 |  USTWUNT | TWIST          |  K8 |  28 |  
 
 
 Rack 0: NUU
@@ -129,12 +129,12 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  AEOIRST | AORISTE        |  H4 |  66 | *
-    2 | 0 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
-    3 | 0 |  USTWUNT | TWIST          |  K8 |  28 |  
-    4 | 0 |  NUUHRRS | HUNS           | 13H |  23 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  AEOIRST | AORISTE        |  H4 |  66 | *
+    2 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
+    3 |  USTWUNT | TWIST          |  K8 |  28 |  
+    4 |  NUUHRRS | HUNS           | 13H |  23 |  
 
 
 Rack 0: RRU
@@ -166,12 +166,12 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  AEOIRST | AORISTE        |  H4 |  66 | *
-    2 | 0 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
-    3 | 0 |  USTWUNT | TWIST          |  K8 |  28 |  
-    4 | 0 |  NUUHRRS | HUNS           | 13H |  23 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  AEOIRST | AORISTE        |  H4 |  66 | *
+    2 |  CDHIRZ? | DECHIReZ       | 10G | 100 | *
+    3 |  USTWUNT | TWIST          |  K8 |  28 |  
+    4 |  NUUHRRS | HUNS           | 13H |  23 |  
 
 
 Rack 0: RRU

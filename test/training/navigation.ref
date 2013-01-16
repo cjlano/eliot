@@ -39,11 +39,11 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
-    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
-    3 | 0 | ORSU+SCD | SOURDS         |  J6 |  30 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | SU+XULRO | LUX            |  I5 |  47 |  
+    3 | ORSU+SCD | SOURDS         |  J6 |  30 |  
 
 
 Rack 0: C
@@ -70,11 +70,11 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
-    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
-    3 | 0 | ORSU+SCD | SOURDS         |  J6 |  30 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | SU+XULRO | LUX            |  I5 |  47 |  
+    3 | ORSU+SCD | SOURDS         |  J6 |  30 |  
 
 
 Rack 0: C
@@ -101,10 +101,10 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
-    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | SU+XULRO | LUX            |  I5 |  47 |  
 
 
 Rack 0: ORSU+SCD
@@ -131,9 +131,9 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  SEUTISG | GITES          |  H4 |  16 |  
 
 
 Rack 0: SU+XULRO
@@ -160,8 +160,8 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
 
 
 Rack 0: SEUTISG
@@ -188,11 +188,11 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
-    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
-    3 | 0 | ORSU+SCD | SOURDS         |  J6 |  30 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | SU+XULRO | LUX            |  I5 |  47 |  
+    3 | ORSU+SCD | SOURDS         |  J6 |  30 |  
 
 
 Rack 0: C
@@ -228,10 +228,10 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
-    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | SU+XULRO | LUX            |  I5 |  47 |  
 
 
 Rack 0: ORSU+SCD
@@ -260,8 +260,8 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
 
 
 Rack 0: SEUTISG
@@ -288,9 +288,9 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  SEUTISG | GITES          |  H4 |  16 |  
 
 
 Rack 0: SU+XULRO
@@ -317,10 +317,10 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
-    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | SU+XULRO | LUX            |  I5 |  47 |  
 
 
 Rack 0: ORSU+SCD
@@ -358,11 +358,11 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Training
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  SEUTISG | GITES          |  H4 |  16 |  
-    2 | 0 | SU+XULRO | LUX            |  I5 |  47 |  
-    3 | 0 |    HELLO | OHE            |  J7 |  18 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  SEUTISG | GITES          |  H4 |  16 |  
+    2 | SU+XULRO | LUX            |  I5 |  47 |  
+    3 |    HELLO | OHE            |  J7 |  18 |  
 
 
 Rack 0: LL

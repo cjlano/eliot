@@ -59,11 +59,11 @@ commande> a p
 Game: player 1 out of 3
 Game: mode=Duplicate
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  ATOYDSI | OYATS          |  H4 |  30 |  
-    2 | 0 | DI+AEINS | DENIAISA       |  6A |  63 | *
-    3 | 0 |  P?RBFEG | FRaYE          |  5E |  45 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  ATOYDSI | OYATS          |  H4 |  30 |  
+    2 | DI+AEINS | DENIAISA       |  6A |  63 | *
+    3 |  P?RBFEG | FRaYE          |  5E |  45 |  
 
 
 Rack 0: BGP+BEET

@@ -234,15 +234,14 @@ void GameIO::printGameDebug(ostream &out, const PublicGame &iGame)
     if (iGame.getParams().hasVariant(GameParams::k7AMONG8))
         out << "Game: variant=7among8" << endl;
     out << "Game: history:" << endl;
-    out << "    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS" << endl;
-    out << "   ===|===|==========|================|=====|=====|======" << endl;
+    out << "    N |   RACK   |    SOLUTION    | REF | PTS | BONUS" << endl;
+    out << "   ===|==========|================|=====|=====|======" << endl;
     for (unsigned int i = 0; i < iGame.getHistory().getSize(); ++i)
     {
         const TurnData &turn = iGame.getHistory().getTurn(i);
         const Move &move = turn.getMove();
-        format fmter("%1% | %2% | %3% | %4% | %5% | %6% | %7%");
+        format fmter("%1% | %2% | %3% | %4% | %5% | %6%");
         fmter % padAndConvert(str(wformat(L"%1%") % (i + 1)), 5);
-        fmter % padAndConvert(str(wformat(L"%1%") % turn.getPlayer()), 1);
         fmter % padAndConvert(turn.getPlayedRack().toString(), 8);
         if (move.isValid())
         {

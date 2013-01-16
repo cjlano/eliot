@@ -36,10 +36,10 @@ commande> a p
 Game: player 1 out of 1
 Game: mode=Duplicate
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  UAXEHTS | SEAUX          |  H8 |  48 |  
-    2 | 0 | HT+IUONU | HUTIN          |  I9 |  37 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  UAXEHTS | SEAUX          |  H8 |  48 |  
+    2 | HT+IUONU | HUTIN          |  I9 |  37 |  
 
 
 Rack 0: OU+NEUNE

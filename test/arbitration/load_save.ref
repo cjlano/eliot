@@ -29,9 +29,9 @@ commande> a p
 Game: player 1 out of 2
 Game: mode=Arbitration
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  CHARITO | CHARIOT        |  H3 |  82 | *
 
 
 Rack 0: 
@@ -63,10 +63,10 @@ commande> a p
 Game: player 1 out of 2
 Game: mode=Arbitration
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
-    2 | 0 |  LAERSIU | HUILERAS       |  4H |  74 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  CHARITO | CHARIOT        |  H3 |  82 | *
+    2 |  LAERSIU | HUILERAS       |  4H |  74 | *
 
 
 Rack 0: 
@@ -95,9 +95,9 @@ commande> a p
 Game: player 1 out of 2
 Game: mode=Arbitration
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  CHARITO | CHARIOT        |  H3 |  82 | *
 
 
 Rack 0: 
@@ -132,10 +132,10 @@ commande> a p
 Game: player 1 out of 2
 Game: mode=Arbitration
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
-    2 | 0 |  LAERSIU | HUILERAS       |  4H |  74 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  CHARITO | CHARIOT        |  H3 |  82 | *
+    2 |  LAERSIU | HUILERAS       |  4H |  74 | *
 
 
 Rack 0: 
@@ -164,9 +164,9 @@ commande> a p
 Game: player 1 out of 2
 Game: mode=Arbitration
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  CHARITO | CHARIOT        |  H3 |  82 | *
 
 
 Rack 0: 
@@ -198,11 +198,11 @@ commande> a p
 Game: player 1 out of 2
 Game: mode=Arbitration
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
-    2 | 0 |  LAERSIU | HUILERAS       |  4H |  74 | *
-    3 | 0 |  TEEEPMO | ESTOMPEE       |  O3 |  83 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  CHARITO | CHARIOT        |  H3 |  82 | *
+    2 |  LAERSIU | HUILERAS       |  4H |  74 | *
+    3 |  TEEEPMO | ESTOMPEE       |  O3 |  83 | *
 
 
 Rack 0: 
@@ -236,11 +236,11 @@ commande> a p
 Game: player 1 out of 2
 Game: mode=Arbitration
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  CHARITO | CHARIOT        |  H3 |  82 | *
-    2 | 0 |  LAERSIU | HUILERAS       |  4H |  74 | *
-    3 | 0 |  TEEEPMO | ESTOMPEE       |  O3 |  83 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  CHARITO | CHARIOT        |  H3 |  82 | *
+    2 |  LAERSIU | HUILERAS       |  4H |  74 | *
+    3 |  TEEEPMO | ESTOMPEE       |  O3 |  83 | *
 
 
 Rack 0: 

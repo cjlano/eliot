@@ -74,14 +74,14 @@ Game: player 1 out of 2
 Game: mode=Free game
 Game: variant=7among8
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 | HMIRPIDR | HIP            |  H6 |  16 |  
-    2 | 1 | EIAA?FED | DEFIErA        |  I5 |  83 | *
-    3 | 0 | DIMRR+KEL | KREML          | H11 |  59 |  
-    4 | 1 | A+NOEDLSA | SANDALE        |  J9 |  79 | *
-    5 | 0 | DIR+WUHCB | BRUCHE         | 13C |  34 |  
-    6 | 1 | O+FIVMROZ | FORMOLIEZ      | 15C |  73 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 | HMIRPIDR | HIP            |  H6 |  16 |  
+    2 | EIAA?FED | DEFIErA        |  I5 |  83 | *
+    3 | DIMRR+KEL | KREML          | H11 |  59 |  
+    4 | A+NOEDLSA | SANDALE        |  J9 |  79 | *
+    5 | DIR+WUHCB | BRUCHE         | 13C |  34 |  
+    6 | O+FIVMROZ | FORMOLIEZ      | 15C |  73 | *
 
 
 Rack 0: DIW+EELIA

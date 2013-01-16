@@ -25,27 +25,27 @@ Game: player 1 out of 1
 Game: mode=Duplicate
 Game: variant=explosive
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  HSGPYEL | GLYPHES        |  H2 | 114 | *
-    2 | 0 |  OIAWEFR | FERIA          |  1D | 105 |  
-    3 | 0 | OW+HGBAE | BOGHEY         |  4C |  42 |  
-    4 | 0 | AW+EDESK | KWAS           |  2B |  51 |  
-    5 | 0 | DEE+PISA | SPEEDAIS       |  8H |  89 | *
-    6 | 0 |  OAADEIR | WEBRADIO       |  C2 |  46 |  
-    7 | 0 | A+ZTTNUE | ATTENUEZ       |  K5 | 118 | *
-    8 | 0 |  CEUIELN | GENICULE       |  E4 |  94 | *
-    9 | 0 |  TVIRETR | TREVIRAT       |  M2 |  76 | *
-   10 | 0 |  CSN?UXN | CEUX           |  4L |  50 |  
-   11 | 0 | NNS?+LOT | PLaNTONS       |  I8 |  61 | *
-   12 | 0 |  ?OUANAF | FAUX           |  O1 |  48 |  
-   13 | 0 | ANO?+RTI | NOTeRAIT       | 12B |  77 | *
-   14 | 0 |  MLIEDNO | ZOIDE          | 12K |  32 |  
-   15 | 0 | LMN+AUSE | SUA            |  I4 |  34 |  
-   16 | 0 | ELMN+ARE | LAINEE         | H10 |  31 |  
-   17 | 0 | MR+IVMEL | VIDER          | N10 |  34 |  
-   18 | 0 | LMM+QUEJ | JAUNE          |  6B |  30 |  
-   19 | 0 | LMMQ+OSM | MOS            | 10A |  27 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  HSGPYEL | GLYPHES        |  H2 | 114 | *
+    2 |  OIAWEFR | FERIA          |  1D | 105 |  
+    3 | OW+HGBAE | BOGHEY         |  4C |  42 |  
+    4 | AW+EDESK | KWAS           |  2B |  51 |  
+    5 | DEE+PISA | SPEEDAIS       |  8H |  89 | *
+    6 |  OAADEIR | WEBRADIO       |  C2 |  46 |  
+    7 | A+ZTTNUE | ATTENUEZ       |  K5 | 118 | *
+    8 |  CEUIELN | GENICULE       |  E4 |  94 | *
+    9 |  TVIRETR | TREVIRAT       |  M2 |  76 | *
+   10 |  CSN?UXN | CEUX           |  4L |  50 |  
+   11 | NNS?+LOT | PLaNTONS       |  I8 |  61 | *
+   12 |  ?OUANAF | FAUX           |  O1 |  48 |  
+   13 | ANO?+RTI | NOTeRAIT       | 12B |  77 | *
+   14 |  MLIEDNO | ZOIDE          | 12K |  32 |  
+   15 | LMN+AUSE | SUA            |  I4 |  34 |  
+   16 | ELMN+ARE | LAINEE         | H10 |  31 |  
+   17 | MR+IVMEL | VIDER          | N10 |  34 |  
+   18 | LMM+QUEJ | JAUNE          |  6B |  30 |  
+   19 | LMMQ+OSM | MOS            | 10A |  27 |  
 
 
 Rack 0: LMMQ

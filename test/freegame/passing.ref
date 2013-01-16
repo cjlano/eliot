@@ -46,52 +46,52 @@ commande> a p
 Game: player 2 out of 2
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  SEUTISG | (PASS)         |  -  |   0 |  
-    2 | 1 |  LXCORNU | ROUX           |  H5 |  26 |  
-    3 | 0 |  EGISSTU | (PASS)         |  -  |   0 |  
-    4 | 1 | CLN+?BEC | CiNECLUB       |  7B |  67 | *
-    5 | 0 |  EGISSTU | [UIET]         |  -  |   0 |  
-    6 | 1 |  LLESYEO | LYSEE          |  J5 |  48 |  
-    7 | 0 | GSS+TAUV | (PASS)         |  -  |   0 |  
-    8 | 1 | LO+AAOGT | GALA           |  8A |  26 |  
-    9 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   10 | 1 | OOT+EMTU | EMOTTE         |  8J |  24 |  
-   11 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   12 | 1 | OU+AOILU | AUX            |  8F |  18 |  
-   13 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   14 | 1 | ILOOU+NF | FOULONNAI      |  D1 |  82 | *
-   15 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   16 | 1 |  UTEISEE | FETEES         |  1D |  27 |  
-   17 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   18 | 1 | IU+IURIO | MURI           |  K8 |  12 |  
-   19 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   20 | 1 | IIOU+VDS | VISOU          | 10B |  31 |  
-   21 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   22 | 1 | DI+IERNE | DENIER         | 12G |  22 |  
-   23 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   24 | 1 | I+TBIADK | BATIK          |  N6 |  42 |  
-   25 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   26 | 1 | DIT+EHEQ | EQUIDE         |  3B |  30 |  
-   27 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   28 | 1 | HT+EPARR | TEPHRA         |  O1 |  49 |  
-   29 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   30 | 1 | R+OE?NSF | rENFORTS       |  M2 |  85 | *
-   31 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   32 | 1 |  TMEAALP | EMPALAT        | 13B |  78 | *
-   33 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   34 | 1 |  ZDMAWER | DAMEZ          | M11 |  40 |  
-   35 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   36 | 1 | RW+HINJI | HIE            |  E5 |  24 |  
-   37 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   38 | 1 |  IJNRW+N | JE             |  B2 |  18 |  
-   39 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   40 | 1 |    INNRW | VINER          | B10 |  16 |  
-   41 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   42 | 1 |       NW | DAW            | G12 |  13 |  
-   43 | 0 |  AGSSTUV | (PASS)         |  -  |   0 |  
-   44 | 1 |        N | EN             | 14M |   4 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  SEUTISG | (PASS)         |  -  |   0 |  
+    2 |  LXCORNU | ROUX           |  H5 |  26 |  
+    3 |  EGISSTU | (PASS)         |  -  |   0 |  
+    4 | CLN+?BEC | CiNECLUB       |  7B |  67 | *
+    5 |  EGISSTU | [UIET]         |  -  |   0 |  
+    6 |  LLESYEO | LYSEE          |  J5 |  48 |  
+    7 | GSS+TAUV | (PASS)         |  -  |   0 |  
+    8 | LO+AAOGT | GALA           |  8A |  26 |  
+    9 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   10 | OOT+EMTU | EMOTTE         |  8J |  24 |  
+   11 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   12 | OU+AOILU | AUX            |  8F |  18 |  
+   13 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   14 | ILOOU+NF | FOULONNAI      |  D1 |  82 | *
+   15 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   16 |  UTEISEE | FETEES         |  1D |  27 |  
+   17 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   18 | IU+IURIO | MURI           |  K8 |  12 |  
+   19 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   20 | IIOU+VDS | VISOU          | 10B |  31 |  
+   21 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   22 | DI+IERNE | DENIER         | 12G |  22 |  
+   23 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   24 | I+TBIADK | BATIK          |  N6 |  42 |  
+   25 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   26 | DIT+EHEQ | EQUIDE         |  3B |  30 |  
+   27 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   28 | HT+EPARR | TEPHRA         |  O1 |  49 |  
+   29 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   30 | R+OE?NSF | rENFORTS       |  M2 |  85 | *
+   31 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   32 |  TMEAALP | EMPALAT        | 13B |  78 | *
+   33 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   34 |  ZDMAWER | DAMEZ          | M11 |  40 |  
+   35 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   36 | RW+HINJI | HIE            |  E5 |  24 |  
+   37 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   38 |  IJNRW+N | JE             |  B2 |  18 |  
+   39 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   40 |    INNRW | VINER          | B10 |  16 |  
+   41 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   42 |       NW | DAW            | G12 |  13 |  
+   43 |  AGSSTUV | (PASS)         |  -  |   0 |  
+   44 |        N | EN             | 14M |   4 |  
 
 
 Rack 0: AGSSTUV

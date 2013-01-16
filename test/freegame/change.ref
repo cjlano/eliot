@@ -31,12 +31,12 @@ commande> a p
 Game: player 1 out of 2
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  JNNEDEI | [JID]          |  -  |   0 |  
-    2 | 1 |  TLAEOWA | [AOWALT]       |  -  |   0 |  
-    3 | 0 | EENN+MEN | [MN]           |  -  |   0 |  
-    4 | 1 | E+EEGAIS | [SGEEEAI]      |  -  |   0 |  
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  JNNEDEI | [JID]          |  -  |   0 |  
+    2 |  TLAEOWA | [AOWALT]       |  -  |   0 |  
+    3 | EENN+MEN | [MN]           |  -  |   0 |  
+    4 | E+EEGAIS | [SGEEEAI]      |  -  |   0 |  
 
 
 Rack 0: EEENN+ER

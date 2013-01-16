@@ -15,25 +15,25 @@ commande> a p
 Game: player 2 out of 3
 Game: mode=Free game
 Game: history:
-    N | P |   RACK   |    SOLUTION    | REF | PTS | BONUS
-   ===|===|==========|================|=====|=====|======
-    1 | 0 |  RAHITRD | HARDI          |  H4 |  26 |  
-    2 | 1 |  ?TIEXFA | FAXAIEnT       |  5E | 126 | *
-    3 | 2 |  ATOSBUF | BOUTEFAS       |  J1 |  73 | *
-    4 | 0 | RT+AREEN | ENTERRAI       |  8A |  77 | *
-    5 | 1 |  RZUGNSS | AZURS          |  F5 |  34 |  
-    6 | 2 |  MIMLLOP | PLOMB          |  1F |  30 |  
-    7 | 0 |  EEMNETV | VETEMENT       |  C6 |  78 | *
-    8 | 1 | GNRS+PEN | PURGES         |  3I |  24 |  
-    9 | 2 | ILM+HSVI | VIS            | 14A |  25 |  
-   10 | 0 |  AWELOUB | BAVE           | A12 |  36 |  
-   11 | 1 | NN+ELEEE | SELENE         |  8J |  21 |  
-   12 | 2 | HILM+?IC | aLCHIMIE       |  A1 | 101 | *
-   13 | 0 | LOUW+ULS | SLOW           |  N3 |  33 |  
-   14 | 1 | EN+STAAI | NANTAISE       |  N8 |  70 | *
-   15 | 2 |  DIJUUYO | JOYAU          | 12K |  44 |  
-   16 | 0 | LSUU+KAQ | AUQUEL         | 15J |  63 |  
-   17 | 1 |  OENIREN | NERONIEN       | 10G |  60 | *
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  RAHITRD | HARDI          |  H4 |  26 |  
+    2 |  ?TIEXFA | FAXAIEnT       |  5E | 126 | *
+    3 |  ATOSBUF | BOUTEFAS       |  J1 |  73 | *
+    4 | RT+AREEN | ENTERRAI       |  8A |  77 | *
+    5 |  RZUGNSS | AZURS          |  F5 |  34 |  
+    6 |  MIMLLOP | PLOMB          |  1F |  30 |  
+    7 |  EEMNETV | VETEMENT       |  C6 |  78 | *
+    8 | GNRS+PEN | PURGES         |  3I |  24 |  
+    9 | ILM+HSVI | VIS            | 14A |  25 |  
+   10 |  AWELOUB | BAVE           | A12 |  36 |  
+   11 | NN+ELEEE | SELENE         |  8J |  21 |  
+   12 | HILM+?IC | aLCHIMIE       |  A1 | 101 | *
+   13 | LOUW+ULS | SLOW           |  N3 |  33 |  
+   14 | EN+STAAI | NANTAISE       |  N8 |  70 | *
+   15 |  DIJUUYO | JOYAU          | 12K |  44 |  
+   16 | LSUU+KAQ | AUQUEL         | 15J |  63 |  
+   17 |  OENIREN | NERONIEN       | 10G |  60 | *
 
 
 Rack 0: KS+ROCT
