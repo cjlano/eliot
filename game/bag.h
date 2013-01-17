@@ -46,16 +46,16 @@ public:
     void replaceTile(const Tile &iTile);
 
     /// Count how many tiles identical to iTile are available in the bag
-    unsigned int count(const Tile &iTile) const;
+    unsigned count(const Tile &iTile) const;
 
     /**
      * Return how many tiles/vowels/consonants are available
      * Warning: b.getNbVowels() + b.getNbConsonants() != b.getNbTiles(),
      * because of the jokers and the 'Y'.
      */
-    unsigned int getNbTiles() const  { return m_nbTiles; }
-    unsigned int getNbVowels() const;
-    unsigned int getNbConsonants() const;
+    unsigned getNbTiles() const { return m_nbTiles; }
+    unsigned getNbVowels() const;
+    unsigned getNbConsonants() const;
 
     /**
      * Return a random available tile
@@ -88,10 +88,10 @@ private:
     map<Tile, int> m_tilesMap;
 
     /// Total number of tiles in the bag
-    int m_nbTiles;
+    unsigned m_nbTiles;
 
     /// Helper method, used by the various selectRandom*() methods
-    Tile selectRandomTile(unsigned int total,
+    Tile selectRandomTile(unsigned total,
                           bool onlyVowels, bool onlyConsonants) const;
 };
 

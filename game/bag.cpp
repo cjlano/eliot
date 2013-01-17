@@ -43,7 +43,7 @@ Bag::Bag(const Dictionary &iDic)
 }
 
 
-unsigned int Bag::count(const Tile &iTile) const
+unsigned Bag::count(const Tile &iTile) const
 {
     map<Tile, int>::const_iterator it = m_tilesMap.find(iTile);
     if (it != m_tilesMap.end())
@@ -52,7 +52,7 @@ unsigned int Bag::count(const Tile &iTile) const
 }
 
 
-unsigned int Bag::getNbVowels() const
+unsigned Bag::getNbVowels() const
 {
     int v = 0;
 
@@ -66,7 +66,7 @@ unsigned int Bag::getNbVowels() const
 }
 
 
-unsigned int Bag::getNbConsonants() const
+unsigned Bag::getNbConsonants() const
 {
     int c = 0;
 
@@ -118,7 +118,7 @@ Tile Bag::selectRandomConsonant() const
 }
 
 
-Tile Bag::selectRandomTile(unsigned int total,
+Tile Bag::selectRandomTile(unsigned total,
                            bool onlyVowels, bool onlyConsonants) const
 {
     ASSERT(total > 0, "Not enough tiles (of the requested kind) in the bag");
