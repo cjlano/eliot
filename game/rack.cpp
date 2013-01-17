@@ -36,7 +36,7 @@ Rack::Rack()
 
 void Rack::remove(const Tile &t)
 {
-    ASSERT(in(t),
+    ASSERT(count(t),
            "The rack does not contain the letter " + lfw(t.getDisplayStr()));
     m_tiles[t.toCode()]--;
     m_nbTiles--;

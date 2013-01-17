@@ -201,7 +201,7 @@ void BagWidget2::refresh()
     BOOST_FOREACH(const Tile &tile, m_game->getDic().getAllTiles())
     {
         const unsigned int nbInBag = bag.count(tile);
-        const unsigned int nbInRack = rack.in(tile);
+        const unsigned int nbInRack = rack.count(tile);
         ASSERT(nbInBag >= nbInRack, "Unexpected letters in the rack");
         for (unsigned i = 0; i < nbInBag - nbInRack; ++i)
         {

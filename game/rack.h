@@ -44,7 +44,7 @@ public:
     unsigned getNbTiles() const      { return m_nbTiles; }
     bool isEmpty() const        { return getNbTiles() == 0; }
 
-    unsigned in(const Tile &t) const { return m_tiles[t.toCode()]; }
+    unsigned count(const Tile &t) const { return m_tiles[t.toCode()]; }
     void add(const Tile &t)     { m_tiles[t.toCode()]++; m_nbTiles++; }
     void remove(const Tile &t);
     void clear();

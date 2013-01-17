@@ -497,7 +497,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
                 // We need to swap the joker (it is necessarily in the
                 // new tiles, because jokerAdded is true)
                 Rack tmpRack = pld.getNew();
-                ASSERT(tmpRack.in(Tile::Joker()), "No joker found in the new tiles");
+                ASSERT(tmpRack.count(Tile::Joker()), "No joker found in the new tiles");
                 tmpRack.remove(Tile::Joker());
                 tmpRack.add(replacingTile);
                 pld.setNew(tmpRack);
@@ -525,7 +525,7 @@ bool Game::rackInBag(const Rack &iRack, const Bag &iBag) const
 {
     BOOST_FOREACH(const Tile &t, getDic().getAllTiles())
     {
-        if (iRack.in(t) > iBag.count(t))
+        if (iRack.count(t) > iBag.count(t))
             return false;
     }
     return true;
@@ -678,7 +678,7 @@ int Game::checkPlayedWord(const wstring &iCoord,
                 else
                     t = round.getTile(i);
 
-                if (!rack.in(t))
+                if (!rack.count(t))
                 {
                     return 4;
                 }

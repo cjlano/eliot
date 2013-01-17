@@ -270,7 +270,7 @@ int FreeGame::checkPass(const Player &iPlayer,
     BOOST_FOREACH(wchar_t wch, iToChange)
     {
         // Remove the letter from the rack
-        if (!rack.in(Tile(wch)))
+        if (!rack.count(Tile(wch)))
         {
             return 2;
         }
