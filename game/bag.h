@@ -53,7 +53,7 @@ public:
      * Warning: b.getNbVowels() + b.getNbConsonants() != b.getNbTiles(),
      * because of the jokers and the 'Y'.
      */
-    unsigned int getNbTiles() const  { return m_ntiles; }
+    unsigned int getNbTiles() const  { return m_nbTiles; }
     unsigned int getNbVowels() const;
     unsigned int getNbConsonants() const;
 
@@ -91,7 +91,7 @@ private:
     map<Tile, int> m_tilesMap;
 
     /// Total number of tiles in the bag
-    int m_ntiles;
+    int m_nbTiles;
 
     /// Helper method, used by the various selectRandom*() methods
     Tile selectRandomTile(unsigned int total,

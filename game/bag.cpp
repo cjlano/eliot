@@ -35,12 +35,12 @@ INIT_LOGGER(game, Bag);
 
 
 Bag::Bag(const Dictionary &iDic)
-    : m_dic(iDic), m_ntiles(0)
+    : m_dic(iDic), m_nbTiles(0)
 {
     BOOST_FOREACH(const Tile &tile, m_dic.getAllTiles())
     {
         m_tilesMap[tile] = tile.maxNumber();
-        m_ntiles += tile.maxNumber();
+        m_nbTiles += tile.maxNumber();
     }
 }
 
@@ -88,7 +88,7 @@ void Bag::takeTile(const Tile &iTile)
            "The bag does not contain the letter " + lfw(iTile.getDisplayStr()));
 
     m_tilesMap[iTile]--;
-    m_ntiles--;
+    m_nbTiles--;
 }
 
 
@@ -98,13 +98,13 @@ void Bag::replaceTile(const Tile &iTile)
            "Cannot replace tile: " + lfw(iTile.getDisplayStr()));
 
     m_tilesMap[iTile]++;
-    m_ntiles++;
+    m_nbTiles++;
 }
 
 
 Tile Bag::selectRandom() const
 {
-    return selectRandomTile(m_ntiles, false, false);
+    return selectRandomTile(m_nbTiles, false, false);
 }
 
 
@@ -145,7 +145,7 @@ Tile Bag::selectRandomTile(unsigned int total,
 Bag & Bag::operator=(const Bag &iOther)
 {
     m_tilesMap = iOther.m_tilesMap;
-    m_ntiles = iOther.m_ntiles;
+    m_nbTiles = iOther.m_nbTiles;
     return *this;
 }
 
