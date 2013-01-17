@@ -49,6 +49,12 @@ public:
     unsigned count(const Tile &iTile) const;
 
     /**
+     * Return true if the bag contains the given letter.
+     * This is a shortcut for: count(iTile) != 0
+     */
+    bool contains(const Tile &iTile) const { return count(iTile); }
+
+    /**
      * Return how many tiles/vowels/consonants are available
      * Warning: b.getNbVowels() + b.getNbConsonants() != b.getNbTiles(),
      * because of the jokers and the 'Y'.

@@ -111,7 +111,7 @@ void GameMoveCmd::playRound()
             {
                 // Is the represented letter still available in the bag?
                 const Tile &t = m_round.getTile(i).toUpper();
-                if (bag.count(t))
+                if (bag.contains(t))
                 {
                     bag.replaceTile(Tile::Joker());
                     bag.takeTile(t);

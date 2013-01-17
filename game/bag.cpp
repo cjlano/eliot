@@ -82,7 +82,7 @@ unsigned Bag::getNbConsonants() const
 
 void Bag::takeTile(const Tile &iTile)
 {
-    ASSERT(count(iTile),
+    ASSERT(contains(iTile),
            "The bag does not contain the letter " + lfw(iTile.getDisplayStr()));
 
     m_tilesMap[iTile]--;
