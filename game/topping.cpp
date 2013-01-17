@@ -34,7 +34,6 @@
 #include "settings.h"
 #include "rack.h"
 #include "results.h"
-#include "move_selector.h"
 #include "pldrack.h"
 #include "player.h"
 #include "turn.h"
@@ -221,14 +220,13 @@ void Topping::addPlayer(Player *iPlayer)
 
 Move Topping::getTopMove() const
 {
-    BestResults results;
+    // Find the most interesting top
+    MasterResults results(getBag());
     results.search(getDic(), getBoard(), getHistory().getCurrentRack().getRack(),
                    getHistory().beforeFirstRound());
     ASSERT(!results.isEmpty(), "No top move found");
 
-    // Find the most interesting top
-    MoveSelector selector;
-    return Move(selector.selectMaster(results));
+    return Move(results.get(0));
 }
 
 

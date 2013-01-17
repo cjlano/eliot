@@ -25,10 +25,11 @@
 #include <cwctype>
 #include <cmath>
 
+#include "results.h"
 #include "tile.h"
 #include "round.h"
 #include "board.h"
-#include "results.h"
+#include "move_selector.h"
 #include "debug.h"
 
 
@@ -305,4 +306,42 @@ void LimitResults::clear()
     m_minScore = -1;
     m_total = 0;
 }
+
+
+
+MasterResults::MasterResults(const Bag &iBag)
+    : m_bag(iBag)
+{
+}
+
+
+void MasterResults::search(const Dictionary &iDic, const Board &iBoard,
+                           const Rack &iRack, bool iFirstWord)
+{
+    // Perform the search of the best results
+    m_bestResults.search(iDic, iBoard, iRack, iFirstWord);
+
+    // If the search yields no result, there is nothing else to do
+    if (m_bestResults.isEmpty())
+        return;
+
+    // Find the best round, according to the heuristics in MoveSelector
+    MoveSelector selector;
+    const Round &round = selector.selectMaster(m_bestResults);
+    m_rounds.push_back(round);
+}
+
+
+void MasterResults::add(const Round &iRound)
+{
+    m_bestResults.add(iRound);
+}
+
+
+void MasterResults::clear()
+{
+    m_rounds.clear();
+    m_bestResults.clear();
+}
+
 

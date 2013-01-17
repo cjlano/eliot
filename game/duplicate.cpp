@@ -38,7 +38,6 @@
 #include "move.h"
 #include "pldrack.h"
 #include "results.h"
-#include "move_selector.h"
 #include "player.h"
 #include "cmd/player_move_cmd.h"
 #include "cmd/player_rack_cmd.h"
@@ -276,7 +275,7 @@ void Duplicate::endTurn()
         {
             // If nobody played a valid round, we are forced to play a valid move.
             // So let's take the best one...
-            BestResults results;
+            MasterResults results(getBag());
             // Take the first player's rack
             const Rack &rack =
                 m_players[REF_PLAYER_ID]->getLastRack().getRack();
@@ -288,9 +287,7 @@ void Duplicate::endTurn()
                 throw EndGameException(_("No possible move"));
             }
 
-            // Select a clever master move if possible
-            MoveSelector selector;
-            setMasterMove(Move(selector.selectMaster(results)));
+            setMasterMove(Move(results.get(0)));
         }
     }
 

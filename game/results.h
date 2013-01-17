@@ -32,6 +32,7 @@ using namespace std;
 class Dictionary;
 class Board;
 class Rack;
+class Bag;
 
 
 /**
@@ -136,6 +137,28 @@ private:
     map<int, int> m_scoresCount;
     int m_total;
     int m_minScore;
+};
+
+/**
+ * This implementation starts with finding the rounds corresponding to the best
+ * score, like BestResults would do.
+ * After that, it uses a series of heuristics to identify the round which
+ * be best as "master move" in a duplicate game.
+ * All other rounds are discarded, so the size() method will always
+ * return 0 (if no round can be played at all) or 1.
+ */
+class MasterResults: public Results
+{
+public:
+    MasterResults(const Bag &iBag);
+    virtual void search(const Dictionary &iDic, const Board &iBoard,
+                        const Rack &iRack, bool iFirstWord);
+    virtual void clear();
+    virtual void add(const Round &iRound);
+
+private:
+    const Bag &m_bag;
+    BestResults m_bestResults;
 };
 
 #endif

@@ -31,7 +31,6 @@
 #include "prefs_dialog.h"
 
 #include "public_game.h"
-#include "move_selector.h"
 #include "player.h"
 #include "turn_data.h"
 #include "rack.h"
@@ -526,7 +525,7 @@ void ArbitAssignments::setDefaultMasterMove()
         return;
 
     // Search the best moves
-    BestResults results;
+    MasterResults results(m_game->getBag());
     results.search(m_game->getDic(), m_game->getBoard(),
                    m_game->getCurrentRack().getRack(),
                    m_game->getHistory().beforeFirstRound());
@@ -535,8 +534,7 @@ void ArbitAssignments::setDefaultMasterMove()
         return;
 
     // Find a good default
-    MoveSelector selector;
-    Move move = Move(selector.selectMaster(results));
+    Move move = Move(results.get(0));
 
     // Assign the master move
     m_game->duplicateSetMasterMove(move);
