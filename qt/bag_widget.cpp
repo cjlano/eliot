@@ -88,7 +88,7 @@ void BagWidget::updateModel()
     const Bag &bag = m_game->getBag();
     BOOST_FOREACH(const Tile &tile, m_game->getDic().getAllTiles())
     {
-        unsigned int nb = bag.in(tile);
+        unsigned int nb = bag.count(tile);
         if (nb != 0)
         {
             // Concatenate the display char nb times
@@ -105,7 +105,7 @@ void BagWidget::updateModel()
 
     labelVowels->setText(QString("%1").arg(bag.getNbVowels()));
     labelConsonants->setText(QString("%1").arg(bag.getNbConsonants()));
-    labelJokers->setText(QString("%1").arg(bag.in(Tile::Joker())));
+    labelJokers->setText(QString("%1").arg(bag.count(Tile::Joker())));
 }
 
 
@@ -200,7 +200,7 @@ void BagWidget2::refresh()
     unsigned int index = 0;
     BOOST_FOREACH(const Tile &tile, m_game->getDic().getAllTiles())
     {
-        const unsigned int nbInBag = bag.in(tile);
+        const unsigned int nbInBag = bag.count(tile);
         const unsigned int nbInRack = rack.in(tile);
         ASSERT(nbInBag >= nbInRack, "Unexpected letters in the rack");
         for (unsigned i = 0; i < nbInBag - nbInRack; ++i)

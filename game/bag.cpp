@@ -45,7 +45,7 @@ Bag::Bag(const Dictionary &iDic)
 }
 
 
-unsigned int Bag::in(const Tile &iTile) const
+unsigned int Bag::count(const Tile &iTile) const
 {
     map<Tile, int>::const_iterator it = m_tilesMap.find(iTile);
     if (it != m_tilesMap.end())
@@ -84,7 +84,7 @@ unsigned int Bag::getNbConsonants() const
 
 void Bag::takeTile(const Tile &iTile)
 {
-    ASSERT(in(iTile),
+    ASSERT(count(iTile),
            "The bag does not contain the letter " + lfw(iTile.getDisplayStr()));
 
     m_tilesMap[iTile]--;
@@ -94,7 +94,7 @@ void Bag::takeTile(const Tile &iTile)
 
 void Bag::replaceTile(const Tile &iTile)
 {
-    ASSERT(in(iTile) < iTile.maxNumber(),
+    ASSERT(count(iTile) < iTile.maxNumber(),
            "Cannot replace tile: " + lfw(iTile.getDisplayStr()));
 
     m_tilesMap[iTile]++;

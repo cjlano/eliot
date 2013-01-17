@@ -45,8 +45,8 @@ public:
     /// Replace a tile into the bag
     void replaceTile(const Tile &iTile);
 
-    /// Return how many tiles identical to iTile are available in the bag
-    unsigned int in(const Tile &iTile) const;
+    /// Count how many tiles identical to iTile are available in the bag
+    unsigned int count(const Tile &iTile) const;
 
     /**
      * Return how many tiles/vowels/consonants are available

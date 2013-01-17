@@ -267,7 +267,7 @@ void MainWindow::refresh()
         m_lettersLabel->setText(_q("Consonants: %1 | Vowels: %2 | Jokers: %3")
                                 .arg(bag.getNbConsonants())
                                 .arg(bag.getNbVowels())
-                                .arg(bag.in(Tile::Joker())));
+                                .arg(bag.count(Tile::Joker())));
         unsigned currTurn = m_game->getCurrTurn();
         m_turnLabel->setText(_q("Turn %1/%2")
                              .arg(currTurn)

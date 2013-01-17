@@ -516,7 +516,7 @@ void CursesIntf::drawBag(Box &ioBox) const
     {
         const wstring &chr = allTiles[i].getDisplayStr();
         wstring str;
-        for (unsigned int j = 0; j < m_game->getBag().in(allTiles[i]); ++j)
+        for (unsigned int j = 0; j < m_game->getBag().count(allTiles[i]); ++j)
              str += chr;
         ioBox.printDataLine(i, ioBox.getLeft() + 1,
                             "  %s        %2d        %2d       %s",

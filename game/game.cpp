@@ -348,7 +348,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
         }
 
         // 2) If there was no joker, we add one if possible
-        if (!jokerFound && bag.in(Tile::Joker()))
+        if (!jokerFound && bag.count(Tile::Joker()))
         {
             jokerAdded = true;
             pld.addNew(Tile::Joker());
@@ -356,7 +356,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
         }
 
         // 3) Remove all the jokers from the bag, to avoid taking another one
-        while (bag.in(Tile::Joker()))
+        while (bag.count(Tile::Joker()))
         {
             bag.takeTile(Tile::Joker());
         }
@@ -491,7 +491,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
 
             // If the bag does not contain the letter anymore,
             // simply keep the joker in the rack.
-            if (bag.in(replacingTile))
+            if (bag.count(replacingTile))
             {
                 // The bag contains the replacing letter
                 // We need to swap the joker (it is necessarily in the
@@ -525,7 +525,7 @@ bool Game::rackInBag(const Rack &iRack, const Bag &iBag) const
 {
     BOOST_FOREACH(const Tile &t, getDic().getAllTiles())
     {
-        if (iRack.in(t) > iBag.in(t))
+        if (iRack.in(t) > iBag.count(t))
             return false;
     }
     return true;

@@ -158,7 +158,7 @@ QValidator::State RackValidator::validate(QString &input, int &) const
     for (int i = 0; i < qinput.size(); ++i)
     {
         if ((unsigned int)qinput.count(qinput[i], Qt::CaseInsensitive) >
-            m_bag.in(intInput[i]))
+            m_bag.count(intInput[i]))
         {
             // ... except if they are part of a multichar input string
             if (dic.getHeader().isMultiCharPart(intInput[i]))

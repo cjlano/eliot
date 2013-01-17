@@ -143,7 +143,7 @@ void GameIO::printNonPlayed(ostream &out, const PublicGame &iGame)
     const Bag &bag = iGame.getBag();
     BOOST_FOREACH(const Tile &tile, iGame.getDic().getAllTiles())
     {
-        if (bag.in(tile) > 9)
+        if (bag.count(tile) > 9)
             out << " ";
         out << setw(2) << lfw(tile.getDisplayStr());
     }
@@ -151,7 +151,7 @@ void GameIO::printNonPlayed(ostream &out, const PublicGame &iGame)
 
     BOOST_FOREACH(const Tile &tile, iGame.getDic().getAllTiles())
     {
-        out << " " << bag.in(tile);
+        out << " " << bag.count(tile);
     }
     out << endl;
 }
