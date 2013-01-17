@@ -224,6 +224,7 @@ game/Makefile
 utils/Makefile
 qt/Makefile
 extras/Makefile
+extras/innosetup/eliot-setup.iss
 Makefile)
 AC_OUTPUT
 

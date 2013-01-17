@@ -2,20 +2,22 @@ SUBDIRS = intl dic game utils qt po extras
 
 ACLOCAL_AMFLAGS = -I m4
 
+WIN32_ZIP_FILE = $(top_builddir)/eliot-$(VERSION)-win32.zip
+WIN32_EXE_FILE = $(top_builddir)/eliot-$(VERSION)-win32.exe
 WIN32_PACKAGE_DIR = $(top_builddir)/eliot-$(VERSION)
+WIN32_INSTALLER_DIR = $(top_builddir)/eliot-installer-$(VERSION)
 MACOSX_PACKAGE_DIR = $(top_builddir)/eliot-$(VERSION)/Eliot.app
 
 DMG_FILE = $(top_builddir)/eliot-$(VERSION).dmg
 
-.PHONY: package-win32-zip package-macosx
+.PHONY: package-win32-dir package-win32-zip package-win32-exe package-macosx
 
 EXTRA_DIST = COPYING.arabica LGPL-2.0.txt
 
-# Prepare the win32 package
-package-win32-zip:
+# Prepare the win32 package (directory only)
+package-win32-dir:
 # Remove previous stuff
 	rm -rf $(WIN32_PACKAGE_DIR)
-	rm -f eliot-$(VERSION)-win32.zip
 
 	mkdir -p $(WIN32_PACKAGE_DIR)
 
@@ -44,9 +46,48 @@ package-win32-zip:
 # Copy the mingw DLL
 	gunzip -c /usr/share/doc/mingw32-runtime/mingwm10.dll.gz > $(WIN32_PACKAGE_DIR)/mingwm10.dll
 
+
+# Prepare the win32 package (zip version)
+package-win32-zip: package-win32-dir
+	rm -f $(WIN32_ZIP_FILE)
 # Zip the temporary dir and remove it
-	zip -r -9 eliot-$(VERSION)-win32.zip $(WIN32_PACKAGE_DIR)
+	zip -r -9 $(WIN32_ZIP_FILE) $(WIN32_PACKAGE_DIR)
 	rm -rf $(WIN32_PACKAGE_DIR)
+	@echo "Package generated: $(WIN32_ZIP_FILE)"
+
+
+# Prepare the win32 package (exe version)
+# This target supposes that a 'iscc' script is available:
+# see https://katastrophos.net/andre/blog/2009/03/16/setting-up-the-inno-setup-compiler-on-debian/
+# It also supposes the ELIOT_DIC_DIR environment variable points to a folder
+# containing the dictionaries, with the correct structure.
+package-win32-exe: package-win32-dir
+	rm -rf $(WIN32_INSTALLER_DIR)
+
+# Make sure that the environment variable is present,
+# and check quickly the directory
+	if [ ! -d "$(ELIOT_DIC_DIR)" ]; then \
+		echo "Environment variable ELIOT_DIC_DIR not correctly defined!"; \
+		exit 1; \
+	fi
+	if [ ! -d "$(ELIOT_DIC_DIR)/english" ]; then \
+		echo "Invalid directories structure in \\$$ELIOT_DIC_DIR!"; \
+		exit 1; \
+	fi
+
+# Prepare a temporary directory for InnoSetup
+	mkdir -p $(WIN32_INSTALLER_DIR)
+	mv $(WIN32_PACKAGE_DIR) $(WIN32_INSTALLER_DIR)/eliot
+	cp -r $(top_srcdir)/extras/innosetup/inno* $(WIN32_INSTALLER_DIR)
+	cp -r $(top_builddir)/extras/innosetup/* $(WIN32_INSTALLER_DIR)
+	cp -r $(ELIOT_DIC_DIR) $(WIN32_INSTALLER_DIR)
+
+# Run the compiler
+	iscc $(WIN32_INSTALLER_DIR)/eliot-setup.iss
+
+	mv $(WIN32_INSTALLER_DIR)/Output/*.exe $(WIN32_EXE_FILE)
+	rm -rf $(WIN32_INSTALLER_DIR)
+	@echo "Executable generated: $(WIN32_EXE_FILE)"
 
 
 # Prepare the macosx package
