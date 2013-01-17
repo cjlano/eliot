@@ -41,11 +41,11 @@ class Rack
 public:
     Rack();
 
-    unsigned int getNbTiles() const      { return m_ntiles; }
+    unsigned getNbTiles() const      { return m_nbTiles; }
     bool isEmpty() const        { return getNbTiles() == 0; }
 
-    unsigned int in(const Tile &t) const { return m_tiles[t.toCode()]; }
-    void add(const Tile &t)     { m_tiles[t.toCode()]++; m_ntiles++; }
+    unsigned in(const Tile &t) const { return m_tiles[t.toCode()]; }
+    void add(const Tile &t)     { m_tiles[t.toCode()]++; m_nbTiles++; }
     void remove(const Tile &t);
     void clear();
     void getTiles(vector<Tile> &oTiles) const;
@@ -57,7 +57,7 @@ public:
 private:
     /// Vector indexed by tile codes, containing the number of tiles
     vector<unsigned int> m_tiles;
-    unsigned int m_ntiles;
+    unsigned m_nbTiles;
 };
 
 #endif

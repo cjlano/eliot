@@ -29,7 +29,7 @@ INIT_LOGGER(game, Rack);
 
 
 Rack::Rack()
-    : m_tiles(Dictionary::GetDic().getTileNumber() + 1, 0), m_ntiles(0)
+    : m_tiles(Dictionary::GetDic().getTileNumber() + 1, 0), m_nbTiles(0)
 {
 }
 
@@ -39,24 +39,24 @@ void Rack::remove(const Tile &t)
     ASSERT(in(t),
            "The rack does not contain the letter " + lfw(t.getDisplayStr()));
     m_tiles[t.toCode()]--;
-    m_ntiles--;
+    m_nbTiles--;
 }
 
 
 void Rack::clear()
 {
-    for (unsigned int i = 0; i < m_tiles.size(); i++)
+    for (unsigned i = 0; i < m_tiles.size(); i++)
     {
         m_tiles[i] = 0;
     }
-    m_ntiles = 0;
+    m_nbTiles = 0;
 }
 
 
 void Rack::getTiles(vector<Tile> &oTiles) const
 {
-    oTiles.reserve(m_ntiles);
-    for (unsigned int i = 1; i < m_tiles.size(); i++)
+    oTiles.reserve(m_nbTiles);
+    for (unsigned i = 1; i < m_tiles.size(); i++)
     {
         // Add m_tiles[i] copies of the tile at the end of the vector
         oTiles.insert(oTiles.end(), m_tiles[i], Dictionary::GetDic().getTileFromCode(i));
@@ -67,11 +67,11 @@ void Rack::getTiles(vector<Tile> &oTiles) const
 wstring Rack::toString() const
 {
     wstring rs;
-    for (unsigned int i = 1; i < m_tiles.size(); i++)
+    for (unsigned i = 1; i < m_tiles.size(); i++)
     {
         // Append m_tiles[i] copies of the char
         const wstring &chr = Dictionary::GetDic().getTileFromCode(i).getDisplayStr();
-        for (unsigned int j = 0; j < m_tiles[i]; ++j)
+        for (unsigned j = 0; j < m_tiles[i]; ++j)
         {
             rs += chr;
         }
@@ -83,7 +83,7 @@ wstring Rack::toString() const
 bool Rack::operator==(const Rack &iOther) const
 {
     return m_tiles == iOther.m_tiles
-        && m_ntiles == iOther.m_ntiles;
+        && m_nbTiles == iOther.m_nbTiles;
 }
 
 
