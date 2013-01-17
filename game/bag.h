@@ -80,9 +80,6 @@ public:
     /// Convenience getter on the dictionary
     const Dictionary & getDic() const { return m_dic; }
 
-    /// Print on stderr all the letters of the bag (for debugging purposes)
-    void dumpAll() const;
-
 private:
     /// Dictionary
     const Dictionary &m_dic;

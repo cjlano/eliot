@@ -21,8 +21,6 @@
 
 #include <boost/foreach.hpp>
 
-#include <string>
-#include <cstdio>
 #include <cstdlib> // For rand()
 
 #include <dic.h>
@@ -149,15 +147,4 @@ Bag & Bag::operator=(const Bag &iOther)
     return *this;
 }
 
-
-void Bag::dumpAll() const
-{
-    std::pair<Tile, int> p;
-    BOOST_FOREACH(p, m_tilesMap)
-    {
-        if (p.second)
-            fprintf(stderr, "%lc[%i] ", p.first.toChar(), p.second);
-    }
-    fprintf(stderr, "\n");
-}
 
