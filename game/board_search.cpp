@@ -136,11 +136,11 @@ void BoardSearch::leftPart(Rack &iRack, Round &ioPartialWord,
 
     if (iLimit > 0)
     {
-        bool hasJokerInRack = iRack.count(Tile::Joker());
+        bool hasJokerInRack = iRack.contains(Tile::Joker());
         for (unsigned int succ = m_dic.getSucc(n); succ; succ = m_dic.getNext(succ))
         {
             const Tile &l = Tile(m_dic.getChar(succ));
-            if (iRack.count(l))
+            if (iRack.contains(l))
             {
                 iRack.remove(l);
                 ioPartialWord.addRightFromRack(l, false);
@@ -182,13 +182,13 @@ void BoardSearch::extendRight(Rack &iRack, Round &ioPartialWord,
         if (m_crossMx[iRow][iCol].isNone())
             return;
 
-        bool hasJokerInRack = iRack.count(Tile::Joker());
+        bool hasJokerInRack = iRack.contains(Tile::Joker());
         for (unsigned int succ = m_dic.getSucc(iNode); succ; succ = m_dic.getNext(succ))
         {
             const Tile &l = Tile(m_dic.getChar(succ));
             if (m_crossMx[iRow][iCol].check(l))
             {
-                if (iRack.count(l))
+                if (iRack.contains(l))
                 {
                     iRack.remove(l);
                     ioPartialWord.addRightFromRack(l, false);

@@ -45,6 +45,8 @@ public:
     bool isEmpty() const        { return getNbTiles() == 0; }
 
     unsigned count(const Tile &t) const { return m_tiles[t.toCode()]; }
+    bool contains(const Tile &t) const { return count(t); }
+
     void add(const Tile &t)     { m_tiles[t.toCode()]++; m_nbTiles++; }
     void remove(const Tile &t);
     void clear();

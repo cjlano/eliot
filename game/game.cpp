@@ -497,7 +497,7 @@ PlayedRack Game::helperSetRackRandom(const PlayedRack &iPld,
                 // We need to swap the joker (it is necessarily in the
                 // new tiles, because jokerAdded is true)
                 Rack tmpRack = pld.getNew();
-                ASSERT(tmpRack.count(Tile::Joker()), "No joker found in the new tiles");
+                ASSERT(tmpRack.contains(Tile::Joker()), "No joker found in the new tiles");
                 tmpRack.remove(Tile::Joker());
                 tmpRack.add(replacingTile);
                 pld.setNew(tmpRack);
@@ -678,7 +678,7 @@ int Game::checkPlayedWord(const wstring &iCoord,
                 else
                     t = round.getTile(i);
 
-                if (!rack.count(t))
+                if (!rack.contains(t))
                 {
                     return 4;
                 }
