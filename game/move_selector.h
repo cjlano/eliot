@@ -27,6 +27,8 @@ class Round;
 class BestResults;
 class Bag;
 class Dictionary;
+class Board;
+class Rack;
 
 
 /**
@@ -40,7 +42,8 @@ class MoveSelector
     DEFINE_LOGGER();
 public:
 
-    MoveSelector(const Bag &iBag, const Dictionary &iDic);
+    MoveSelector(const Bag &iBag, const Dictionary &iDic,
+                 const Board &iBoard, const Rack &iRack);
 
     /**
      * Return a move to be used as "master move" in a duplicate game.
@@ -58,9 +61,12 @@ public:
 private:
     const Bag &m_bag;
     const Dictionary &m_dic;
+    const Board &m_board;
+    const Rack &m_rack;
 
     int evalScore(const Round &iRound) const;
     int evalForJokersInRack(const Round &iRound) const;
+    int evalForRemainingLetters(const Round &iRound) const;
     int evalForExtensions(const Round &iRound) const;
 
 };
