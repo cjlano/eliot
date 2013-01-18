@@ -23,6 +23,8 @@
 #include "move_selector.h"
 #include "round.h"
 #include "results.h"
+#include "board.h"
+#include "board_layout.h"
 #include "bag.h"
 #include "rack.h"
 
@@ -38,6 +40,7 @@ INIT_LOGGER(game, MoveSelector);
 #define LETTER_REPEATED_5_TIMES (-40)
 #define LETTER_REPEATED_6_TIMES (-100)
 #define EXTENSION_1 50
+#define BENJAMIN 5
 
 
 MoveSelector::MoveSelector(const Bag &iBag, const Dictionary &iDic,
@@ -82,6 +85,7 @@ int MoveSelector::evalScore(const Round &iRound) const
     // and I don't have time to fix them at the moment... :)
 #if 0
     score += evalForExtensions(iRound);
+    score += evalForBenjamins(iRound);
 #endif
     // TODO: add more heuristics
     return score;
@@ -139,8 +143,63 @@ int MoveSelector::evalForExtensions(const Round &iRound) const
 
     // Give a bonus for each extension
     // TODO: it would be better to give a bonus only for extensions
-    // corresponding to letters still in the bag...
+    // corresponding to letters still in the bag, and allowed by the
+    // cross-checks...
     return results.size() * EXTENSION_1;
+}
+
+
+int MoveSelector::evalForBenjamins(const Round &iRound) const
+{
+    // Compute the word multiplier in case of benjamin
+    // TODO: this only depends on the coordinates, so it could easily be cached
+    int wordMult = 1;
+    const Coord &coord = iRound.getCoord();
+    const unsigned row = coord.getRow();
+    const unsigned col = coord.getCol();
+    if (coord.getDir() == Coord::HORIZONTAL)
+    {
+        // Make sure there is space for a benjamin on the board
+        if (col <= 3 ||
+            !m_board.isVacant(row, col - 1) ||
+            !m_board.isVacant(row, col - 2) ||
+            !m_board.isVacant(row, col - 3))
+        {
+            return 0;
+        }
+
+        // Compute the word multiplier
+        wordMult *= m_board.getLayout().getWordMultiplier(row, col - 1);
+        wordMult *= m_board.getLayout().getWordMultiplier(row, col - 2);
+        wordMult *= m_board.getLayout().getWordMultiplier(row, col - 3);
+    }
+    else
+    {
+        // Same thing for vertical words
+        if (row <= 3 ||
+            !m_board.isVacant(row - 1, col) ||
+            !m_board.isVacant(row - 2, col) ||
+            !m_board.isVacant(row - 3, col))
+        {
+            return 0;
+        }
+
+        // Compute the word multiplier
+        wordMult *= m_board.getLayout().getWordMultiplier(row - 1, col);
+        wordMult *= m_board.getLayout().getWordMultiplier(row - 2, col);
+        wordMult *= m_board.getLayout().getWordMultiplier(row - 3, col);
+    }
+
+    // Find possible benjamins
+    const wstring &roundWord = iRound.getWord();
+    vector<wdstring> results;
+    m_dic.searchBenj(roundWord, results);
+
+    // Give a bonus for each extension
+    // TODO: it would be better to give a bonus only for benjamins
+    // corresponding to letters still in the bag, and allowed by the
+    // cross-checks...
+    return results.size() * wordMult * BENJAMIN;
 }
 
 

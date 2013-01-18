@@ -68,6 +68,7 @@ private:
     int evalForJokersInRack(const Round &iRound) const;
     int evalForRemainingLetters(const Round &iRound) const;
     int evalForExtensions(const Round &iRound) const;
+    int evalForBenjamins(const Round &iRound) const;
 
 };
 
