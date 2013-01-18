@@ -21,13 +21,22 @@
 #include "move_selector.h"
 #include "round.h"
 #include "results.h"
+#include "bag.h"
 
+#include "dic.h"
 #include "debug.h"
 
 
 INIT_LOGGER(game, MoveSelector);
 
 #define PLAYED_JOKER (-1000)
+#define EXTENSION_1 50
+
+
+MoveSelector::MoveSelector(const Bag &iBag, const Dictionary &iDic)
+    : m_bag(iBag), m_dic(iDic)
+{
+}
 
 
 Round MoveSelector::selectMaster(const BestResults &iResults) const
@@ -60,7 +69,12 @@ int MoveSelector::evalScore(const Round &iRound) const
 {
     int score = 0;
     score += evalForJokersInRack(iRound);
-    // TODO: more heuristics
+    // Deactivated for now, as it breaks a few non-regression tests,
+    // and I don't have time to fix them at the moment... :)
+#if 0
+    score += evalForExtensions(iRound);
+#endif
+    // TODO: add more heuristics
     return score;
 }
 
@@ -68,6 +82,20 @@ int MoveSelector::evalScore(const Round &iRound) const
 int MoveSelector::evalForJokersInRack(const Round &iRound) const
 {
     return iRound.countJokersFromRack() * PLAYED_JOKER;
+}
+
+
+int MoveSelector::evalForExtensions(const Round &iRound) const
+{
+    // Find front and back extensions to the given round
+    const wstring &roundWord = iRound.getWord();
+    vector<wdstring> results;
+    m_dic.searchRacc(roundWord, results);
+
+    // Give a bonus for each extension
+    // TODO: it would be better to give a bonus only for extensions
+    // corresponding to letters still in the bag...
+    return results.size() * EXTENSION_1;
 }
 
 

@@ -25,6 +25,8 @@
 
 class Round;
 class BestResults;
+class Bag;
+class Dictionary;
 
 
 /**
@@ -37,6 +39,9 @@ class MoveSelector
 {
     DEFINE_LOGGER();
 public:
+
+    MoveSelector(const Bag &iBag, const Dictionary &iDic);
+
     /**
      * Return a move to be used as "master move" in a duplicate game.
      * The method takes the given moves and tries to find the optimal move,
@@ -51,9 +56,12 @@ public:
     Round selectMaster(const BestResults &iResults) const;
 
 private:
+    const Bag &m_bag;
+    const Dictionary &m_dic;
 
     int evalScore(const Round &iRound) const;
     int evalForJokersInRack(const Round &iRound) const;
+    int evalForExtensions(const Round &iRound) const;
 
 };
 
