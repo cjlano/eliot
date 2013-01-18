@@ -94,9 +94,7 @@ bool Board::isJoker(int iRow, int iCol) const
 
 bool Board::isVacant(int iRow, int iCol) const
 {
-    ASSERT(iRow >= 1 && (unsigned)iRow <= m_layout.getRowCount() &&
-           iCol >= 1 && (unsigned)iCol <= m_layout.getColCount(),
-           "Invalid coordinates");
+    ASSERT(m_layout.isValidCoord(iRow, iCol), "Invalid coordinates");
     return m_tilesRow[iRow][iCol].isEmpty();
 }
 

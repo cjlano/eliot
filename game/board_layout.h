@@ -34,6 +34,8 @@ class BoardLayout
 public:
     BoardLayout();
 
+    bool isValidCoord(unsigned iRow, unsigned iCol) const;
+
     unsigned getRowCount() const;
     unsigned getColCount() const;
     int getWordMultiplier(unsigned iRow, unsigned iCol) const;
@@ -47,8 +49,6 @@ private:
 
     Matrix<int> m_wordMultipliers;
     Matrix<int> m_tileMultipliers;
-
-    bool isValidCoord(unsigned iRow, unsigned iCol) const;
 
     void setDefaultLayout();
 
