@@ -282,7 +282,7 @@ Settings::Settings()
         copySetting<int>(tmpConf, *m_conf, "arbitration.solo-value");
         copySetting<int>(tmpConf, *m_conf, "arbitration.penalty-value");
         copySetting<int>(tmpConf, *m_conf, "arbitration.warnings-limit");
-        copySetting<int>(tmpConf, *m_conf, "topping.elapsed-penalty");
+        copySetting<bool>(tmpConf, *m_conf, "topping.elapsed-penalty");
         copySetting<int>(tmpConf, *m_conf, "topping.timeout-penalty");
     }
     catch (const std::exception &e)
