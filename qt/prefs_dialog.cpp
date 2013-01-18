@@ -44,6 +44,7 @@ const QString PrefsDialog::kINTF_TIMER_TOTAL_DURATION = "Interface/TimerTotalDur
 const QString PrefsDialog::kINTF_TIMER_ALERT_DURATION = "Interface/TimerAlertDuration";
 const QString PrefsDialog::kINTF_TIMER_BEEPS = "Interface/TimerBeeps";
 const QString PrefsDialog::kINTF_TIMER_AUTO_START = "Interface/TimerAutoStart";
+const QString PrefsDialog::kINTF_CHECK_FOR_UPDATES = "Interface/CheckForUpdates";
 const QString PrefsDialog::kARBIT_AUTO_MASTER = "Arbitration/AutoAssignMaster";
 const QString PrefsDialog::kARBIT_LINK_7P1 = "Arbitration/LinkRackWith7P1";
 const QString PrefsDialog::kDEFAULT_DEF_SITE = "http://fr.wiktionary.org/wiki/%w";
@@ -87,6 +88,9 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
                                       "reaches the alert level, and when it reaches 0."));
     checkBoxTimerAutoStart->setToolTip(_q("If checked, the timer will be reinitialized and restarted\n"
                                           "automatically every time that the main rack changes."));
+    checkBoxIntfCheckUpdates->setToolTip(_q("If checked, Eliot will connect to the Internet from time to time\n"
+                                            "(about once a week) to check if new versions are available.\n"
+                                            "New versions are never installed automatically, you just get a notification."));
     spinBoxTrainSearchLimit->setToolTip(_q("Maximum number of results returned by a search.\n"
                                            "The returned results will always be the best ones.\n"
                                            "Use 0 to disable the limit (warning: searches yielding many "
@@ -138,6 +142,8 @@ PrefsDialog::PrefsDialog(QWidget *iParent)
         checkBoxTimerBeeps->setChecked(timerBeeps);
         bool timerAutoStart = qs.value(kINTF_TIMER_AUTO_START, false).toBool();
         checkBoxTimerAutoStart->setChecked(timerAutoStart);
+        bool checkForUpdates = qs.value(kINTF_CHECK_FOR_UPDATES, true).toBool();
+        checkBoxIntfCheckUpdates->setChecked(checkForUpdates);
 
         // Duplicate settings
         checkBoxDuplRefuseInvalid->setChecked(Settings::Instance().getBool("duplicate.reject-invalid"));
@@ -258,6 +264,7 @@ void PrefsDialog::updateSettings()
             shouldEmitUpdate = true;
             qs.setValue(kINTF_TIMER_AUTO_START, checkBoxTimerAutoStart->isChecked());
         }
+        qs.setValue(kINTF_CHECK_FOR_UPDATES, checkBoxIntfCheckUpdates->isChecked());
 
         // Duplicate settings
         Settings::Instance().setBool("duplicate.reject-invalid",

@@ -90,6 +90,7 @@ eliot_SOURCES = \
     training_widget.cpp training_widget.h \
     player_widget.cpp player_widget.h \
     prefs_dialog.cpp prefs_dialog.h \
+    update_checker.cpp update_checker.h \
     aux_window.cpp aux_window.h \
     main_window.cpp main_window.h \
     main.cpp
@@ -137,6 +138,7 @@ nodist_eliot_SOURCES = \
     topping_widget.moc.cpp \
     training_widget.moc.cpp \
     prefs_dialog.moc.cpp \
+    update_checker.moc.cpp \
     aux_window.moc.cpp \
     main_window.moc.cpp \
     resources.cpp

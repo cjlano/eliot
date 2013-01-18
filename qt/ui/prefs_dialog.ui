@@ -184,6 +184,13 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="checkBoxIntfCheckUpdates">
+            <property name="text">
+             <string>_(&quot;Check periodially for new versions&quot;)</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -691,11 +698,13 @@
   <tabstop>spinBoxTimerTotal</tabstop>
   <tabstop>spinBoxTimerAlert</tabstop>
   <tabstop>checkBoxTimerBeeps</tabstop>
+  <tabstop>checkBoxTimerAutoStart</tabstop>
   <tabstop>lineEditDefSite</tabstop>
   <tabstop>lineEditIntfDicPath</tabstop>
   <tabstop>pushButtonIntfDicBrowse</tabstop>
   <tabstop>checkBoxIntfShowPoints</tabstop>
   <tabstop>checkBoxIntfAlignHistory</tabstop>
+  <tabstop>checkBoxIntfCheckUpdates</tabstop>
   <tabstop>checkBoxDuplRefuseInvalid</tabstop>
   <tabstop>spinBoxDuplSoloPlayers</tabstop>
   <tabstop>spinBoxDuplSoloValue</tabstop>
@@ -704,10 +713,18 @@
   <tabstop>checkBoxArbitAutoMaster</tabstop>
   <tabstop>checkBoxArbitFillRack</tabstop>
   <tabstop>checkBoxArbitLink7P1</tabstop>
+  <tabstop>checkBoxArbitSoloAuto</tabstop>
+  <tabstop>spinBoxArbitSoloPlayers</tabstop>
+  <tabstop>spinBoxArbitSoloValue</tabstop>
   <tabstop>spinBoxArbitPenaltyValue</tabstop>
+  <tabstop>spinBoxArbitWarnLimit</tabstop>
+  <tabstop>spinBoxArbitSearchLimit</tabstop>
+  <tabstop>checkBoxToppingElapsedPenalty</tabstop>
+  <tabstop>spinBoxToppingExpPenalty</tabstop>
   <tabstop>checkBoxConfoStartGame</tabstop>
   <tabstop>checkBoxConfoLoadGame</tabstop>
   <tabstop>checkBoxConfoLoadDic</tabstop>
+  <tabstop>checkBoxConfoReplayTurn</tabstop>
   <tabstop>checkBoxConfoQuitGame</tabstop>
   <tabstop>checkBoxConfoArbitReplaceMaster</tabstop>
   <tabstop>checkBoxConfoArbitLowMaster</tabstop>

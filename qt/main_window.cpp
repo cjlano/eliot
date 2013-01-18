@@ -70,6 +70,7 @@
 #include "timer_widget.h"
 #include "dic_wizard.h"
 #include "aux_window.h"
+#include "update_checker.h"
 #include "qtcommon.h"
 
 
@@ -217,6 +218,12 @@ MainWindow::MainWindow(QWidget *iParent)
         }
     }
     emit dicChanged(m_dic);
+
+    // Check for updates
+    UpdateChecker *checker = new UpdateChecker(this);
+    QObject::connect(checker, SIGNAL(notifyInfo(QString)),
+                     this, SLOT(displayInfoMsg(QString)));
+    checker->checkForUpdate();
 }
 
 
@@ -1422,7 +1429,8 @@ void MainWindow::onHelpAbout()
         "published by the Free Software Foundation; either version 2 of " \
         "the License, or (at your option) any later version.");
     msg += "<br><br>";
-    // Translate the URL, because the web site is translated in French
+    // TRANSLATORS: If the website is translated in your language,
+    // feel free to adapt the URL.
     QString url = _q("http://www.nongnu.org/eliot/en/");
     msg += _q("Web site: %1").arg(QString("<a href=\"%1\">%2</a>").arg(url).arg(url));
     // QMessageBox::about() doesn't add the nice information icon, so we create
