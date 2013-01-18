@@ -380,11 +380,12 @@ void helpTopping()
     printf("            S -- score de tous les joueurs\n");
     printf("            t -- tirage\n");
     printf("            T -- tirage de tous les joueurs\n");
-    printf("  t [] : changer le tirage\n");
-    printf("  j [] {} : jouer le mot [] aux coordonnées {}\n");
+    printf("  d [] : vérifier le mot []\n");
+    printf("  j [] {} <> : jouer le mot [] aux coordonnées {} après <> secondes\n");
+    printf("  t [] : simuler un timeout après [] secondes\n");
     printf("  s [] : sauver la partie en cours dans le fichier []\n");
     printf("  h [p|n|f|l|r] : naviguer dans l'historique (prev, next, first, last, replay)\n");
-    printf("  q    : quitter le mode entraînement\n");
+    printf("  q    : quitter le mode topping\n");
 }
 
 
@@ -838,11 +839,23 @@ void loopTopping(PublicGame &iGame)
             continue;
         try
         {
-            wchar_t command = parseCharInList(tokens, 0, L"#?adhjsq");
+            wchar_t command = parseCharInList(tokens, 0, L"#?adhjstq");
             if (command == L'?')
                 helpTopping();
             else if (command == L'q')
                 quit = true;
+            else if (command == L't')
+            {
+                int timeout = parseNum(tokens, 1);
+                iGame.toppingTimeOut(timeout);
+            }
+            else if (command == L'j')
+            {
+                const wstring &word = parseLetters(tokens, 1, iGame.getDic());
+                const wstring &coord = parseAlphaNum(tokens, 2);
+                int elapsed = parseNum(tokens, 3);
+                iGame.toppingPlay(word, coord, elapsed);
+            }
             else
                 commonCommands(iGame, tokens);
         }
@@ -962,7 +975,7 @@ void mainLoop(const Dictionary &iDic)
                     break;
                 case L't':
                     {
-                        // New training game
+                        // New topping game
                         PublicGame *game = readGame(iDic, GameParams::kTOPPING, tokens[0]);
                         game->addPlayer(new HumanPlayer);
                         game->start();
@@ -1000,7 +1013,7 @@ int main(int argc, char *argv[])
 
     if (argc != 2 && argc != 3)
     {
-        fprintf(stdout, "Usage: eliot /chemin/vers/ods5.dawg [random_seed]\n");
+        fprintf(stdout, "Usage: eliot /path/to/ods5.dawg [random_seed]\n");
         exit(1);
     }
 
