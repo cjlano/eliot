@@ -20,7 +20,6 @@
 
 #include "board_layout.h"
 
-#include "dic.h"
 #include "debug.h"
 
 #define oo 0
