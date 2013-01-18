@@ -205,6 +205,16 @@
   <zorder>verticalLayoutWidget</zorder>
   <zorder>splitter</zorder>
  </widget>
+ <tabstops>
+  <tabstop>lineEditRack</tabstop>
+  <tabstop>pushButtonShuffle</tabstop>
+  <tabstop>lineEditPlay</tabstop>
+  <tabstop>lineEditCoords</tabstop>
+  <tabstop>pushButtonPlay</tabstop>
+  <tabstop>pushButtonGetHints</tabstop>
+  <tabstop>lineEditTotalScore</tabstop>
+  <tabstop>tableViewMoves</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
