@@ -598,7 +598,7 @@ void MainWindow::onPlayerSelected(unsigned iPlayerId)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (m_game)
+    if (m_game && !m_game->isFinished())
     {
         QString msg = _q("A game has been started.");
         QString question = _q("Do you really want to quit?");
@@ -672,7 +672,7 @@ void MainWindow::changeDictionary(QString iFileName)
 {
     if (!iFileName.isEmpty())
     {
-        if (m_game)
+        if (m_game && !m_game->isFinished())
         {
             QString msg = _q("Loading a dictionary will stop the current game.");
             if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_LOAD_DIC,
@@ -910,7 +910,7 @@ void MainWindow::onGameNew()
         return;
     }
 
-    if (m_game)
+    if (m_game && !m_game->isFinished())
     {
         QString msg = _q("Starting a new game will stop the current one.");
         if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_START_GAME,
@@ -964,7 +964,7 @@ void MainWindow::loadGame(QString fileName)
         return;
     }
 
-    if (m_game)
+    if (m_game && !m_game->isFinished())
     {
         QString msg = _q("Loading a saved game will stop the current game.");
         if (!QtCommon::requestConfirmation(PrefsDialog::kCONFO_LOAD_GAME,
