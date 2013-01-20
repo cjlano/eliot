@@ -436,6 +436,14 @@ void ArbitrationWidget::rackChanged()
     buttonSearch->setEnabled(acceptableInput);
     lineEditRack->setPalette(acceptableInput ? blackPalette : redPalette);
     clearResults();
+
+    // Clear the filters
+    lineEditFilterWord->blockSignals(true);
+    lineEditFilterWord->clear();
+    lineEditFilterWord->blockSignals(false);
+    lineEditFilterPoints->blockSignals(true);
+    lineEditFilterPoints->clear();
+    lineEditFilterPoints->blockSignals(false);
 }
 
 
@@ -495,8 +503,6 @@ void ArbitrationWidget::searchResults()
 {
     m_game->removeTestRound();
     emit notifyInfo(_q("Searching with rack '%1'...").arg(lineEditRack->text()));
-    lineEditFilterWord->clear();
-    lineEditFilterPoints->clear();
     m_results.clear();
     m_game->arbitrationSearch(m_results);
     emit notifyInfo(_q("Search done"));

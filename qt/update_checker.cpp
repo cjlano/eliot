@@ -40,7 +40,8 @@ using namespace std;
 INIT_LOGGER(qt, UpdateChecker);
 
 #define SETTING_KEY "Interface/NextUpdateCheck"
-#define URL "http://www.nongnu.org/eliot/latest-version"
+//#define URL "http://www.nongnu.org/eliot/latest-version"
+#define URL "http://localhost/latest-version"
 
 
 UpdateChecker::UpdateChecker(QObject *parent)
