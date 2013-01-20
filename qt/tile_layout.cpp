@@ -177,13 +177,13 @@ void TileLayout::setGeometry(const QRect &rect)
     const int squareSizeWithSpacing = std::min(width / m_nbCols, height / m_nbRows);
     const int squareSize = squareSizeWithSpacing - spacing();
 
-    // Handle margins and alignment
-    int left = contentsRect().left() + contentsMargins().left();
+    // Handle alignment
+    int left = contentsRect().left();
     if (alignment() & Qt::AlignRight)
         left += width - m_nbCols * squareSizeWithSpacing;
     else if (alignment() & Qt::AlignHCenter)
         left += (width - m_nbCols * squareSizeWithSpacing) / 2;
-    int top = contentsRect().top() + contentsMargins().top();
+    int top = contentsRect().top();
     if (alignment() & Qt::AlignBottom)
         top += height - m_nbRows * squareSizeWithSpacing;
     else if (alignment() & Qt::AlignVCenter)
