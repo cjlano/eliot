@@ -109,6 +109,23 @@ td {
 }
 
 .legendText {
-
 }
 
+/* Tooltop handling */
+
+.container {
+    position:relative
+    }
+
+.infoBox {
+    display:none;
+}
+
+.top:hover .container .infoBox      { display:block;position:absolute; top:40px;left:40px;z-index:100;left:4px;top:4px;width:auto;height:auto;padding:5px 5px 5px 83px;border:1px solid #900;background-color:#FFEFEF;box-shadow: 10px 10px 5px #888888; }
+.subTop:hover .container .infoBox   { display:block;position:absolute; top:40px;left:40px;z-index:100;left:4px;top:4px;width:auto;height:auto;padding:5px 5px 5px 83px;border:1px solid #900;background-color:#FFEFEF;box-shadow: 10px 10px 5px #888888; }
+.topSolo:hover .container .infoBox  { display:block;position:absolute; top:40px;left:40px;z-index:100;left:4px;top:4px;width:auto;height:auto;padding:5px 5px 5px 83px;border:1px solid #900;background-color:#FFEFEF;box-shadow: 10px 10px 5px #888888; }
+.subSolo:hover .container .infoBox  { display:block;position:absolute; top:40px;left:40px;z-index:100;left:4px;top:4px;width:auto;height:auto;padding:5px 5px 5px 83px;border:1px solid #900;background-color:#FFEFEF;box-shadow: 10px 10px 5px #888888; }
+.normal1:hover .container .infoBox  { display:block;position:absolute; top:40px;left:40px;z-index:100;left:4px;top:4px;width:auto;height:auto;padding:5px 5px 5px 83px;border:1px solid #900;background-color:#FFEFEF;box-shadow: 10px 10px 5px #888888; }
+.normal2:hover .container .infoBox  { display:block;position:absolute; top:40px;left:40px;z-index:100;left:4px;top:4px;width:auto;height:auto;padding:5px 5px 5px 83px;border:1px solid #900;background-color:#FFEFEF;box-shadow: 10px 10px 5px #888888; }
+
+/* End of tooltip handling */

@@ -47,25 +47,40 @@
             </tr>
             #for $player in $gameData.players
             <tr class="statsTable">
-                <td class="playerName">$player.name</td>
+                <td class="playerName">$player.name
                 #for $turn in $player.turns.values
                     #if $gameData.isSolo($turn.num, $turn.move)
                         #if $gameData.isTop($turn.num, $turn.move)
-                <td class="topSolo">$turn.move.points</td>
+                <td class="topSolo">$turn.move.points
                         #else
-                <td class="subTopSolo">$turn.move.points</td>
+                <td class="subTopSolo">$turn.move.points
                         #end if
                     #else
                         #if $gameData.isTop($turn.num, $turn.move)
-                <td class="top">$turn.move.points</td>
+                <td class="top">$turn.move.points
                         #elif $gameData.isSubTop($turn.num, $turn.move)
-                <td class="subTop">$turn.move.points</td>
+                <td class="subTop">$turn.move.points
                         #elif $player.id % 2 == 1
-                <td class="normal1">$turn.move.points</td>
+                <td class="normal1">$turn.move.points
                         #else
-                <td class="normal2">$turn.move.points</td>
+                <td class="normal2">$turn.move.points
                         #end if
                     #end if
+                    <!-- Tooltip -->
+                    <div class="container">
+                        <div class="infoBox">
+                            <table class="infoTable"><tr>
+                                <td>Rack</td><td>$turn.rack</td>
+                            </tr><tr>
+                                <td>Word</td><td>$turn.move.word</td>
+                            </tr><tr>
+                                <td>Coords</td><td>$turn.move.coords</td>
+                            </tr><tr>
+                                <td>Score</td><td>$turn.move.points</td>
+                            </tr></table>
+                        </div>
+                    </div>
+                </td>
                 #end for
                 #if $player.id % 2 == 1
                 <td class="normal1">$player.rawScore</td>
