@@ -167,7 +167,6 @@ MainWindow::MainWindow(QWidget *iParent)
     // Rack widget below the board (hidden until there is a game)
     m_rackWidget = new RackWidget;
     m_rackWidget->setPlayModel(&m_playModel);
-    m_rackWidget->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
     QObject::connect(m_rackWidget, SIGNAL(gameUpdated()),
                      m_gameSignals, SLOT(notifyGameUpdated()));
     QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),

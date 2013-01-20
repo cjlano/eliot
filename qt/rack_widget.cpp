@@ -50,9 +50,11 @@ RackWidget::RackWidget(QWidget *parent)
       m_dragOrigin(-1)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    setFrameStyle(QFrame::Box | QFrame::Raised);
 
     TileLayout *layout = new TileLayout(1);
     layout->setSpacing(5);
+    layout->setContentsMargins(3, 3, 3, 3);
     layout->setAlignment(Qt::AlignCenter);
     setLayout(layout);
 
