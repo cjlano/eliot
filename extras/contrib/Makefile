@@ -1,7 +1,7 @@
 ICONV_VERSION = 1.14
 LIBCONFIG_VERSION = 1.4.8
 BOOST_VERSION = 1_49_0
-QT_VERSION = 4.7.2
+QT_VERSION = 4.8.2
 EXPAT_VERSION = 2.0.1
 ARABICA_VERSION = 2010-November
 LIBXML2_VERSION = 2.7.8
@@ -225,7 +225,11 @@ $(QT_DIR_FLAG): $(QT_ARCHIVE)
 	touch $@
 
 .qt: $(QT_DIR_FLAG)
-	# The final mv is needed, because of the way the QT4LOCALEDIR variable is computed
-	(cd $(QT_DIR); cp -r bin include lib share $(PREFIX); sed 's,@@PREFIX@@,$(PREFIX),' $(PREFIX)/lib/pkgconfig/QtCore.pc.in > $(PREFIX)/lib/pkgconfig/QtCore.pc; sed 's,@@PREFIX@@,$(PREFIX),' lib/pkgconfig/QtGui.pc.in > $(PREFIX)/lib/pkgconfig/QtGui.pc; rm $(PREFIX)/lib/pkgconfig/*.in; mkdir -p $(PREFIX)/share/qt4; mv $(PREFIX)/share/translations $(PREFIX)/share/qt4)
+	(cd $(QT_DIR); \
+		cp -r bin include lib share $(PREFIX); \
+		for i in QtCore QtGui QtNetwork; do \
+			sed 's,@@PREFIX@@,$(PREFIX),' $(PREFIX)/lib/pkgconfig/$$i.pc.in > $(PREFIX)/lib/pkgconfig/$$i.pc; \
+		done; \
+		rm $(PREFIX)/lib/pkgconfig/*.in)
 	touch $@
 
