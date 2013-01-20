@@ -39,6 +39,7 @@ class Board;
 class History;
 class PublicGame;
 class HistoryTabWidget;
+class RackWidget;
 class PlayerTabWidget;
 class ScoreWidget;
 class TrainingWidget;
@@ -146,6 +147,9 @@ private:
 
     /// Widget for the game history
     HistoryTabWidget *m_historyTabWidget;
+
+    /// Widget for the visual rack
+    RackWidget *m_rackWidget;
 
     /// Widget for the players
     PlayerTabWidget *m_playersWidget;

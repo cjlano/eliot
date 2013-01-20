@@ -164,17 +164,18 @@ MainWindow::MainWindow(QWidget *iParent)
     vSplitter->addWidget(boardWidget);
 #endif
 
-    // Rack widget below the board
-    RackWidget *rackWidget = new RackWidget;
-    rackWidget->setPlayModel(&m_playModel);
-    rackWidget->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
-    QObject::connect(rackWidget, SIGNAL(gameUpdated()),
+    // Rack widget below the board (hidden until there is a game)
+    m_rackWidget = new RackWidget;
+    m_rackWidget->setPlayModel(&m_playModel);
+    m_rackWidget->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
+    QObject::connect(m_rackWidget, SIGNAL(gameUpdated()),
                      m_gameSignals, SLOT(notifyGameUpdated()));
     QObject::connect(m_gameSignals, SIGNAL(gameChanged(const PublicGame*)),
-                     rackWidget, SLOT(setGame(const PublicGame*)));
+                     m_rackWidget, SLOT(setGame(const PublicGame*)));
     QObject::connect(m_gameSignals, SIGNAL(currPlayerRackChanged(const PlayedRack&)),
-                     rackWidget, SLOT(setRack(const PlayedRack&)));
-    vSplitter->addWidget(rackWidget);
+                     m_rackWidget, SLOT(setRack(const PlayedRack&)));
+    m_rackWidget->hide();
+    vSplitter->addWidget(m_rackWidget);
 
     hlayout->addWidget(vSplitter);
     m_ui.groupBoxTest->setLayout(hlayout);
@@ -425,6 +426,7 @@ void MainWindow::updateForGame(PublicGame *iGame)
         m_actionGamePrint->setEnabled(true);
         m_actionGameSaveAs->setEnabled(true);
         m_actionSettingsDefineTables->setEnabled(iGame->getMode() == PublicGame::kARBITRATION);
+        m_rackWidget->show();
         statusBar()->addWidget(m_lettersLabel);
         m_lettersLabel->show();
         statusBar()->addWidget(m_turnLabel);
