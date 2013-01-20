@@ -133,14 +133,11 @@ MainWindow::MainWindow(QWidget *iParent)
     // First widget, not added yet
     m_lettersLabel = new QLabel(statusBar());
     m_lettersLabel->setVisible(false);
-    m_lettersLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
     // Second widget, not added yet
     m_turnLabel = new QLabel(statusBar());
     m_turnLabel->setVisible(false);
-    m_turnLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
     // Third widget
     m_dicNameLabel = new QLabel(this);
-    m_dicNameLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
     statusBar()->addPermanentWidget(m_dicNameLabel);
     QObject::connect(this, SIGNAL(dicChanged(const Dictionary*)),
                      this, SLOT(updateStatusBar(const Dictionary*)));
