@@ -38,6 +38,7 @@ RESOURCES = \
     images/info_16px.png \
     images/playlist_16px.png \
     images/preferences.png \
+    images/print-preview.png \
     images/printer.png \
     images/quit_16px.png
 
