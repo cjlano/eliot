@@ -7,20 +7,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eliot 1.13\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
-"POT-Creation-Date: 2012-10-07 12:57+0200\n"
+"POT-Creation-Date: 2013-01-20 19:18+0100\n"
 "PO-Revision-Date: 2011-07-30 10:35+0100\n"
 "Last-Translator: Uroš Stefanović <urostajms @@ gmail.com>\n"
 "Language-Team: Serbian <traduc@traduc.org>\n"
-"Language: rs\n"
+"Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: dic/compdic.cpp:94
+#: dic/compdic.cpp:105
+#, boost-format
 msgid "'%1%' is not a valid letter."
 msgstr "'%1%' није важеће слово."
 
-#: dic/compdic.cpp:95
+#: dic/compdic.cpp:106
 msgid ""
 "For technical reasons, Eliot currently only supports alphabetical characters "
 "as internal character representation, even if the tile has a display string "
@@ -31,32 +32,37 @@ msgstr ""
 "на себи. Молимо Вас користите други карактер и сходно томе промените вашу "
 "листу речи."
 
-#: dic/compdic.cpp:134 dic/compdic.cpp:139 dic/compdicmain.cpp:58
+#: dic/compdic.cpp:145 dic/compdic.cpp:150 dic/compdicmain.cpp:58
+#, fuzzy, boost-format
 msgid "Could not open file '%1%'"
 msgstr "Не може да отвори датотеку '%1'"
 
-#: dic/compdic.cpp:256
+#: dic/compdic.cpp:268
+#, boost-format
 msgid "Error on line %1%, col %2%: %3%"
 msgstr "Грешка на линији %1%, колона %2%: %3%"
 
-#: dic/compdic.cpp:337
+#: dic/compdic.cpp:348
+#, boost-format
 msgid "Cannot open output file '%1%'"
 msgstr "Не може да отвори излазну датотеку '%1%'"
 
-#: dic/compdic.cpp:349
+#: dic/compdic.cpp:360
 msgid "The word list is empty!"
 msgstr "Листа речи је празна!"
 
 #: dic/compdicmain.cpp:94
+#, boost-format
 msgid "readLetters: Not enough fields in %1% (line %2%)"
 msgstr "учитајСлова: Недовољно поља у %1% (линија %2%)"
 
 #: dic/compdicmain.cpp:104
+#, boost-format
 msgid "readLetters: Invalid letter at line %1% (only one character allowed)"
 msgstr ""
 "учитајСлова: Неважеће слово на линији %1% (само један карактер дозвољен)"
 
-#: dic/compdicmain.cpp:126
+#: dic/compdicmain.cpp:126 dic/listdicmain.cpp:122
 msgid "Mandatory options:"
 msgstr "Обавезне опције:"
 
@@ -91,11 +97,11 @@ msgid ""
 "  -o, --output <string>   Path to the generated compressed dictionary file"
 msgstr "  -o, --output <string>   Стаза до генерисаног компресованог речника"
 
-#: dic/compdicmain.cpp:132
+#: dic/compdicmain.cpp:132 dic/listdicmain.cpp:130
 msgid "Other options:"
 msgstr "Друге опције:"
 
-#: dic/compdicmain.cpp:133
+#: dic/compdicmain.cpp:133 dic/listdicmain.cpp:131
 msgid "  -h, --help              Print this help and exit"
 msgstr "  -h, --help              Штампа помоћ и затвара"
 
@@ -177,27 +183,27 @@ msgstr "Пример за каталонски:"
 msgid "W 10 1 0 1 L.L L.L L-L L.L"
 msgstr "W 10 1 0 1 L·L L.L L-L ĿL"
 
-#: dic/compdicmain.cpp:244
+#: dic/compdicmain.cpp:244 dic/listdicmain.cpp:213
 msgid "A mandatory option is missing"
 msgstr "Обавезна опција недостаје"
 
 #: dic/compdicmain.cpp:256
+#, boost-format
 msgid " Load time: %1% s"
 msgstr " Време учитавања: %1% с"
 
 #: dic/compdicmain.cpp:257
+#, boost-format
 msgid " Compression time: %1% s"
 msgstr " Време компресије: %1% с"
 
 #: dic/compdicmain.cpp:259
+#, boost-format
 msgid " Maximum recursion level reached: %1%"
 msgstr " Максимални ниво рекурзије достигнут: %1%"
 
-#: dic/compdicmain.cpp:265
-msgid "Exception caught: %1%"
-msgstr "Ухваћен изузетак: %1%"
-
 #: dic/csv_helper.cpp:120
+#, boost-format
 msgid "Invalid CSV file (variable number of fields, from %1% to %2%)"
 msgstr "Неисправан CSV фајл (променљив број поља, од %1% до %2%)"
 
@@ -205,7 +211,8 @@ msgstr "Неисправан CSV фајл (променљив број поља,
 msgid "Invalid CSV data (variable number of fields)"
 msgstr "Неисправни CSV подаци (променљив број поља)"
 
-#: dic/header.cpp:199
+#: dic/header.cpp:210
+#, boost-format
 msgid ""
 "Header::Header: Too many different letters for the current format; only %1% "
 "are supported"
@@ -213,15 +220,17 @@ msgstr ""
 "Заглавље::Заглавље: Превише различитих слова за овај формат; само %1% су "
 "подржана"
 
-#: dic/header.cpp:309
+#: dic/header.cpp:320
+#, boost-format
 msgid "Header::getCharFromCode: No letter for code '%1%'"
 msgstr "Заглавље::узмиКарактерИзКода: Нема слова за код '%1%'"
 
-#: dic/header.cpp:325
+#: dic/header.cpp:334
+#, boost-format
 msgid "Header::getCodeFromChar: No code for letter '%1%' (val=%2%)"
 msgstr "Заглавље::узмиКодИзКарактера: Нема кода за слово '%1%' (вредност=%2%)"
 
-#: dic/header.cpp:386
+#: dic/header.cpp:395
 msgid ""
 "Too old dictionary format. This format is not supported anymore since Eliot "
 "1.8. You can create dictionaries in the new format with the 'compdic' tool "
@@ -231,114 +240,143 @@ msgstr ""
 "Можете да направите речнике у новом формату помоћу 'compdic' алатке коју је "
 "обезбедио Eliot (од верзије 1.6)."
 
-#: dic/header.cpp:643
+#: dic/header.cpp:650
+#, boost-format
 msgid "Dictionary name: %1%"
 msgstr "Име речника: %1%"
 
-#: dic/header.cpp:646
+#: dic/header.cpp:653
+#, boost-format
 msgid "Compressed on: %1%"
 msgstr "Компресовано у: %1%"
 
-#: dic/header.cpp:647
+#: dic/header.cpp:654
+#, boost-format
 msgid "Compressed using a binary compiled by: %1%"
 msgstr "Компресовано помоћу бинарног састављања: %1%"
 
-#: dic/header.cpp:648
+#: dic/header.cpp:655
+#, boost-format
 msgid "Dictionary type: %1%"
 msgstr "Тип речника: %1%"
 
-#: dic/header.cpp:649
+#: dic/header.cpp:656
+#, boost-format
 msgid "Letters: %1%"
 msgstr "Слова: %1%"
 
-#: dic/header.cpp:650
+#: dic/header.cpp:657
+#, boost-format
 msgid "Number of letters: %1%"
 msgstr "Број слова: %1%"
 
-#: dic/header.cpp:651
+#: dic/header.cpp:658
+#, boost-format
 msgid "Number of words: %1%"
 msgstr "Број речи: %1%"
 
-#: dic/header.cpp:654
+#: dic/header.cpp:661
+#, boost-format
 msgid "Header size: %1% bytes"
 msgstr "Величина заглавља: %1% бајтова"
 
-#: dic/header.cpp:655
+#: dic/header.cpp:662
+#, boost-format
 msgid "Root: %1% (edge)"
 msgstr "Корен: %1% (ивица)"
 
-#: dic/header.cpp:656
+#: dic/header.cpp:663
+#, boost-format
 msgid "Nodes: %1% used + %2% saved"
 msgstr "Чворови: %1% се користи + %2% сачувано"
 
-#: dic/header.cpp:657
+#: dic/header.cpp:664
+#, boost-format
 msgid "Edges: %1% used + %2% saved"
 msgstr "Ивице: %1% се користи + %2% сачувано"
 
-#: dic/header.cpp:661 qt/bag_widget.cpp:56 qt/dic_tools_widget.cpp:111
+#: dic/header.cpp:668 qt/bag_widget.cpp:56 qt/dic_tools_widget.cpp:111
 #: qt/dic_wizard.cpp:219
 msgid "Letter"
 msgstr "Слово"
 
-#: dic/header.cpp:661 qt/arbit_assignments.cpp:62
-#: qt/arbitration_widget.cpp:108 qt/bag_widget.cpp:57
-#: qt/dic_tools_widget.cpp:112 qt/dic_wizard.cpp:220 qt/history_widget.cpp:84
-#: qt/training_widget.cpp:73
+#: dic/header.cpp:668 qt/arbit_assignments.cpp:64
+#: qt/arbitration_widget.cpp:109 qt/bag_widget.cpp:57
+#: qt/dic_tools_widget.cpp:112 qt/dic_wizard.cpp:220 qt/history_widget.cpp:85
+#: qt/topping_widget.cpp:107 qt/training_widget.cpp:73
+#: qt/ui/arbitration_widget.ui.h:211
 msgid "Points"
 msgstr "Поени"
 
-#: dic/header.cpp:661 qt/dic_tools_widget.cpp:113 qt/dic_wizard.cpp:221
+#: dic/header.cpp:668 qt/dic_tools_widget.cpp:113 qt/dic_wizard.cpp:221
 msgid "Frequency"
 msgstr "Учесталост"
 
-#: dic/header.cpp:661
+#: dic/header.cpp:668
 msgid "Vowel"
 msgstr "Самогласник"
 
-#: dic/header.cpp:662
+#: dic/header.cpp:669
 msgid "Consonant"
 msgstr "Сугласник"
 
-#: dic/header.cpp:662
+#: dic/header.cpp:669
 msgid "Display"
 msgstr "Приказ"
 
-#: dic/header.cpp:662
+#: dic/header.cpp:669
 msgid "Alt. input"
 msgstr "Алт. унос"
 
-#: dic/listdicmain.cpp:68
+#: dic/listdicmain.cpp:105
 #, c-format
 msgid "offset binary   | structure\n"
 msgstr "бинарни офсет   | структура\n"
 
-#: dic/listdicmain.cpp:77
-#, c-format
-msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
-msgstr "користи се: %s [-a|-h|-l|-x] речник\n"
+#: dic/listdicmain.cpp:123
+#, fuzzy
+msgid "  -d, --dictionary <string>  Dictionary file (.dawg) to use"
+msgstr "  -d, --dicname <string>  Постави име и верзију речника"
 
-#: dic/listdicmain.cpp:78
-#, c-format
-msgid "  -a: print all\n"
-msgstr "  -a: штампај све\n"
+#: dic/listdicmain.cpp:124
+#, fuzzy
+msgid "Output options:"
+msgstr "Друге опције:"
 
-#: dic/listdicmain.cpp:79
-#, c-format
-msgid "  -h: print header\n"
-msgstr "  -h: штампај заглавље\n"
+#: dic/listdicmain.cpp:125
+#, fuzzy
+msgid "  -e, --header            Print the dictionary header"
+msgstr "  -h, --help              Штампа помоћ и затвара"
 
-#: dic/listdicmain.cpp:80
-#, c-format
-msgid "  -l: print dictionary word list\n"
-msgstr "  -l: штампај листу речи из речника\n"
+#: dic/listdicmain.cpp:126
+msgid "  -l, --letters           Print letters information, in a format"
+msgstr ""
 
-#: dic/listdicmain.cpp:81
-#, c-format
-msgid "  -x: print dictionary in hex\n"
-msgstr "  -x: штампај речник хексадецимално\n"
+#: dic/listdicmain.cpp:127
+msgid "                          suitable for the 'compdic' program"
+msgstr ""
+
+#: dic/listdicmain.cpp:128
+#, fuzzy
+msgid "  -w, --words             Print all the words stored in the dictionary"
+msgstr "   d, D             Проверава постојање речи у речнику"
+
+#: dic/listdicmain.cpp:129
+#, fuzzy
+msgid "  -x, --hexa              Print data as hexadecimal (for debugging)"
+msgstr "  -h, --help              Штампа помоћ и затвара"
+
+#: dic/listdicmain.cpp:133
+msgid "If no output option is specified, --header is used implicitly."
+msgstr ""
+
+#: dic/listdicmain.cpp:134
+#, fuzzy
+msgid "Example: "
+msgstr "Пример:"
 
 #: dic/regexpmain.cpp:45
-#, c-format
+#, c-format, boost-format
 msgid "usage: %s dictionary"
 msgstr "користи се: %s речник"
 
@@ -358,51 +396,179 @@ msgstr "резултат:"
 msgid "Invalid regular expression: "
 msgstr "Неважећи регуларни израз:"
 
-#: game/duplicate.cpp:285
+#: game/duplicate.cpp:287
 msgid "No possible move"
 msgstr "Нема могућих потеза"
 
-#: game/duplicate.cpp:365
+#: game/duplicate.cpp:352
 msgid "Cannot switch to a non-human player"
 msgstr "Не може да пребаци на играча који није човек"
 
-#: game/duplicate.cpp:369
+#: game/duplicate.cpp:356
 msgid "Cannot switch to a player who has already played"
 msgstr "Не може да пребаци на играча који већ одиграо"
 
-#: game/game.cpp:192
+#: game/game.cpp:214
+#, fuzzy
+msgid "No more turn in the master game"
+msgstr "Иди на следећи потез"
+
+#: game/game.cpp:243
+#, fuzzy
+msgid "No move defined for this turn in the master game"
+msgstr "Иди на први потез"
+
+#: game/game.cpp:260
 msgid "The bag is empty"
 msgstr "Врећица је празна"
 
-#: game/game.cpp:194
+#: game/game.cpp:262
 msgid "Not enough vowels or consonants to complete the rack"
 msgstr "Недовољно самогласника или сугласника да допуне сталак"
 
-#: game/game.cpp:250
+#: game/game.cpp:318
 msgid "Not a random mode"
 msgstr "Није насумични модел"
 
-#: game/game.cpp:456 qt/player_widget.cpp:195
+#: game/game.cpp:536 qt/player_widget.cpp:195
 msgid "Some letters are invalid for the current dictionary"
 msgstr "Нека слова су неважећа за овај речник"
 
-#: game/game.cpp:464
+#: game/game.cpp:544
 msgid "The bag does not contain all these letters"
 msgstr "Враћица не садржи сва ова слова"
 
-#: game/game.cpp:477
+#: game/game.cpp:557
 msgid "Not enough vowels or consonants in this rack"
 msgstr "Недовољно самогласмика или сугласника у овом сталку"
 
-#: game/game_factory.cpp:161
+#: game/game_factory.cpp:168
+#, fuzzy, boost-format
 msgid "Player %1%"
 msgstr "Играч %1"
 
-#: game/training.cpp:187 qt/main_window.cpp:385 qt/ui/new_game.ui.h:203
+#: game/hints.cpp:49 qt/score_widget.cpp:50
+msgid "Score"
+msgstr "Резултат"
+
+#: game/hints.cpp:50
+#, fuzzy
+msgid "Get the score of the move"
+msgstr "Иди на последњи потез"
+
+#: game/hints.cpp:57
+#, fuzzy, boost-format
+msgid "Score: %1%"
+msgstr "Резултат"
+
+#: game/hints.cpp:63
+#, fuzzy
+msgid "Orientation"
+msgstr "Арбитража"
+
+#: game/hints.cpp:64
+msgid "Get the orientation of the move (horizontal/vertical)"
+msgstr ""
+
+#: game/hints.cpp:73
+#, fuzzy, boost-format
+msgid "Orientation: %1%"
+msgstr "Казне: %1"
+
+#: game/hints.cpp:75
+msgid "horizontal"
+msgstr ""
+
+#: game/hints.cpp:77
+msgid "vertical"
+msgstr ""
+
+#: game/hints.cpp:84
+#, fuzzy
+msgid "Position"
+msgstr "Опис"
+
+#: game/hints.cpp:85
+#, fuzzy
+msgid "Get the coordinates of the move"
+msgstr "Иди на следећи потез"
+
+#: game/hints.cpp:93
+#, fuzzy, boost-format
+msgid "Position: %1%"
+msgstr "Поени: %1"
+
+#: game/hints.cpp:100
+msgid "Length"
+msgstr ""
+
+#: game/hints.cpp:101
+#, fuzzy
+msgid "Get the length of the word"
+msgstr "Прикажи/сакриј поене на плочицама на табли."
+
+#: game/hints.cpp:109
+#, boost-format
+msgid "Length: %1% letters"
+msgstr ""
+
+#: game/hints.cpp:116
+#, fuzzy
+msgid "Letters from board"
+msgstr "Учитај слова из листе речи"
+
+#: game/hints.cpp:117
+msgid "Get the letters of the word coming from the board"
+msgstr ""
+
+#: game/hints.cpp:133
+#, fuzzy, boost-format
+msgid "Letters from board: %1%"
+msgstr "Слова: %1%"
+
+#: game/hints.cpp:134
+msgid "(none)"
+msgstr ""
+
+#: game/hints.cpp:140
+#, fuzzy
+msgid "Word letters"
+msgstr "Листа речи:"
+
+#: game/hints.cpp:141
+msgid "Get the letters of the word in alphabetical order"
+msgstr ""
+
+#: game/hints.cpp:153
+#, fuzzy, boost-format
+msgid "Word letters: %1%"
+msgstr "Слова: %1%"
+
+#: game/hints.cpp:160
+#, fuzzy
+msgid "First letter"
+msgstr "&Први игра"
+
+#: game/hints.cpp:161
+#, fuzzy
+msgid "Get the first letter of the word"
+msgstr "Иди на први потез"
+
+#: game/hints.cpp:169
+#, fuzzy, boost-format
+msgid "First letter: %1%"
+msgstr "Слова: %1%"
+
+#: game/topping.cpp:216 qt/main_window.cpp:495 qt/ui/new_game.ui.h:282
+msgid "Topping"
+msgstr ""
+
+#: game/training.cpp:185 qt/main_window.cpp:444 qt/ui/new_game.ui.h:280
 msgid "Training"
 msgstr "Тренинг"
 
 #: game/xml_reader.cpp:84
+#, boost-format
 msgid "Cannot open file '%1%'"
 msgstr "Не може да отвори датотеку '%1%'"
 
@@ -410,177 +576,225 @@ msgstr "Не може да отвори датотеку '%1%'"
 msgid "Invalid string to int conversion: empty string received"
 msgstr "Неисправна стринг - број конверзија: примљен празан стринг"
 
-#: game/xml_reader.cpp:123
-msgid "Invalid player ID: %1%"
+#: game/xml_reader.cpp:124
+#, fuzzy, boost-format
+msgid "Invalid player ID: %1% (processing tag '%2%')"
 msgstr "Неважећи ID играча: %1%"
 
-#: game/xml_reader.cpp:141
+#: game/xml_reader.cpp:142
+#, boost-format
 msgid "Invalid move marked as valid: %1% (%2%)"
 msgstr "Неисправан потез означен као валидан: %1% (%2%)"
 
-#: game/xml_reader.cpp:164
+#: game/xml_reader.cpp:165
+#, boost-format
 msgid "Invalid move type: %1%"
 msgstr "Неважећи тип потеза: %1%"
 
-#: game/xml_reader.cpp:196
+#: game/xml_reader.cpp:197
 msgid "This saved game is not compatible with the current version of Eliot."
 msgstr "Сачувана игра није компатибилна са тренутном верзијом Eliot-а."
 
-#: game/xml_reader.cpp:253 game/xml_reader.cpp:258
+#: game/xml_reader.cpp:258 game/xml_reader.cpp:263
 msgid "The current dictionary is different from the one used in the saved game"
 msgstr "Тренутни речник другачији од коришћеног у сачуваној игри"
 
-#: game/xml_reader.cpp:269
+#: game/xml_reader.cpp:274
 msgid "The 'Mode' tag should be the first one to be closed"
 msgstr "'Начин' ознака треба бити прва затворена"
 
-#: game/xml_reader.cpp:289
+#: game/xml_reader.cpp:296
 msgid "The 'Variant' tag should be right after the 'Mode' one"
 msgstr "Поље 'Варијанта' би требало да буде после поља 'Начин'"
 
-#: game/xml_reader.cpp:298
+#: game/xml_reader.cpp:305
+#, boost-format
 msgid "Invalid game variant: %1%"
 msgstr "Неважећа варијанта игре: %1%"
 
-#: game/xml_reader.cpp:319
+#: game/xml_reader.cpp:328
+#, boost-format
 msgid "A player ID must be unique: %1%"
 msgstr "ИД играча мора бити јединствен: %1%"
 
-#: game/xml_reader.cpp:330
+#: game/xml_reader.cpp:339
+#, boost-format
 msgid "Invalid player type: %1%"
 msgstr "Неважећи тип играча: %1%"
 
-#: game/xml_reader.cpp:349 game/xml_reader.cpp:366
+#: game/xml_reader.cpp:361 game/xml_reader.cpp:378
+#, boost-format
 msgid "Rack invalid for the current dictionary: %1%"
 msgstr "Сталак неважећи за овај речник: %1%"
 
-#: game/xml_reader.cpp:383
+#: game/xml_reader.cpp:395
 msgid "The 'MasterMove' tag should only be present for duplicate games"
 msgstr "Поље 'МајсторскиПотез' ће бити презентовано само за игру дупликата"
 
-#: game/xml_writer.cpp:107
+#: game/xml_writer.cpp:109
+#, boost-format
 msgid "Unsupported move: %1%"
 msgstr "Неподржани потез: %1%"
 
-#: game/xml_writer.cpp:116
+#: game/xml_writer.cpp:118
+#, boost-format
 msgid "Cannot open file for writing: '%1%'"
 msgstr "Не може да отвори датотеку за упис: '%1%'"
 
-#: game/xml_writer.cpp:137
+#: game/xml_writer.cpp:139
 msgid "Invalid dictionary type"
 msgstr "Неисправан тип речника"
 
-#: game/xml_writer.cpp:189
+#: game/xml_writer.cpp:193
+#, boost-format
 msgid "Invalid player type for player %1%"
 msgstr "Неважећи тип играча: %1%"
 
-#: qt/arbit_assignments.cpp:58 qt/stats_widget.cpp:117
+#: qt/arbit_assignments.cpp:60 qt/stats_widget.cpp:199
 #: qt/ui/tables_dialog.ui.h:82
 msgid "Table"
 msgstr "Табела"
 
-#: qt/arbit_assignments.cpp:59 qt/history_widget.cpp:117
+#: qt/arbit_assignments.cpp:61 qt/history_widget.cpp:118
 #: qt/score_widget.cpp:49 qt/ui/tables_dialog.ui.h:80
 msgid "Player"
 msgstr "Играч"
 
-#: qt/arbit_assignments.cpp:60 qt/arbitration_widget.cpp:106
-#: qt/history_widget.cpp:82 qt/training_widget.cpp:71
+#: qt/arbit_assignments.cpp:62 qt/arbitration_widget.cpp:107
+#: qt/history_widget.cpp:83 qt/topping_widget.cpp:105
+#: qt/training_widget.cpp:71 qt/ui/arbitration_widget.ui.h:209
 msgid "Word"
 msgstr "Реч"
 
-#: qt/arbit_assignments.cpp:61 qt/arbitration_widget.cpp:107
-#: qt/history_widget.cpp:83 qt/training_widget.cpp:72
+#: qt/arbit_assignments.cpp:63 qt/arbitration_widget.cpp:108
+#: qt/history_widget.cpp:84 qt/topping_widget.cpp:106
+#: qt/training_widget.cpp:72
 msgid "Ref"
 msgstr "Реф"
 
-#: qt/arbit_assignments.cpp:150
+#. TRANSLATORS: 'S' stands for Solo, it is used as column header in
+#. the history, and in the players table in arbitration mode. It is also
+#. used as shortcut to assign a solo, in arbitration mode.
+#: qt/arbit_assignments.cpp:65 qt/arbit_assignments.cpp:96
+#: qt/arbit_assignments.cpp:341 qt/history_widget.cpp:86
+msgid "S"
+msgstr "S"
+
+#. TRANSLATORS: 'W' stands for Warning, it is used as column header in
+#. the history, and in the players table in arbitration mode. It is also
+#. used as shortcut to assign a warning, in arbitration mode.
+#: qt/arbit_assignments.cpp:66 qt/arbit_assignments.cpp:104
+#: qt/arbit_assignments.cpp:351 qt/history_widget.cpp:87
+msgid "W"
+msgstr "W"
+
+#. TRANSLATORS: 'P' stands for Penalty, it is used as column header in
+#. the history, and in the players table in arbitration mode. It is also
+#. used as shortcut to assign a penalty, in arbitration mode.
+#: qt/arbit_assignments.cpp:67 qt/arbit_assignments.cpp:112
+#: qt/arbit_assignments.cpp:359 qt/history_widget.cpp:88
+msgid "P"
+msgstr "P"
+
+#. TRANSLATORS: 'T' is the keyboard shortcut used in arbitration mode
+#. to assign the top move to players. If translated, the translation
+#. will be used as shortcut instead of 'T'.
+#: qt/arbit_assignments.cpp:88 qt/arbit_assignments.cpp:315
+msgid "T"
+msgstr ""
+
+#: qt/arbit_assignments.cpp:166
 msgid "Not selected yet"
 msgstr "Још није изабрано"
 
-#: qt/arbit_assignments.cpp:254 qt/arbit_assignments.cpp:274
-#: qt/arbitration_widget.cpp:537
+#: qt/arbit_assignments.cpp:280 qt/arbit_assignments.cpp:303
+#: qt/arbitration_widget.cpp:562
 msgid "Assign move (%1) to the selected player(s)"
 msgstr "Додели потез (%1) изабраним играчима"
 
-#: qt/arbit_assignments.cpp:273 qt/arbitration_widget.cpp:536
+#: qt/arbit_assignments.cpp:295
+msgid "none"
+msgstr ""
+
+#: qt/arbit_assignments.cpp:302 qt/arbitration_widget.cpp:561
 msgid "Assign selected move (%1)"
 msgstr "Додели изабран потез (%1)"
 
-#: qt/arbit_assignments.cpp:283
+#: qt/arbit_assignments.cpp:313
 msgid "Assign top move (if unique)"
 msgstr "Додели најбољи потез (ако је јединствен)"
 
-#: qt/arbit_assignments.cpp:284
+#: qt/arbit_assignments.cpp:314
 msgid "Assign the top move (if unique) to the selected player(s)"
 msgstr "Додели најбољи потез (ако је јединствен) изабраним играчима"
 
-#: qt/arbit_assignments.cpp:291
+#: qt/arbit_assignments.cpp:321
 msgid "Suppress assigned move"
 msgstr "Забрана додељеног потеза"
 
-#: qt/arbit_assignments.cpp:292
+#: qt/arbit_assignments.cpp:322
 msgid "Suppress the currently assigned move for the selected player(s)"
 msgstr "Забрани тренутно додељен потез изабраним играчима"
 
-#: qt/arbit_assignments.cpp:301 qt/arbitration_widget.cpp:527
+#: qt/arbit_assignments.cpp:331 qt/arbitration_widget.cpp:552
 msgid "Select all players"
 msgstr "Изабери све играче"
 
-#: qt/arbit_assignments.cpp:302 qt/arbitration_widget.cpp:528
+#: qt/arbit_assignments.cpp:332 qt/arbitration_widget.cpp:553
 msgid "Select all the players"
 msgstr "Изабери све играче"
 
-#: qt/arbit_assignments.cpp:309
+#: qt/arbit_assignments.cpp:339
 msgid "Give (or remove) a solo"
 msgstr "Дајте (или уклоните) соло"
 
-#: qt/arbit_assignments.cpp:310
+#: qt/arbit_assignments.cpp:340
 msgid ""
 "Give a solo to the selected player, or remove it if (s)he already has one"
 msgstr "Даје соло изабраном играчу, или га уклања ако га већ има"
 
-#: qt/arbit_assignments.cpp:317
+#: qt/arbit_assignments.cpp:349
 msgid "Give (or remove) a warning"
 msgstr "Дајте (или уклоните) упозорење"
 
-#: qt/arbit_assignments.cpp:318
+#: qt/arbit_assignments.cpp:350
 msgid ""
 "Give a warning to the selected player(s), or remove it if they already have "
 "one"
-msgstr "Дајте упозорење изабраним играчима, или га уклоните ако већ имају једно"
+msgstr ""
+"Дајте упозорење изабраним играчима, или га уклоните ако већ имају једно"
 
-#: qt/arbit_assignments.cpp:325
+#: qt/arbit_assignments.cpp:357
 msgid "Give (or remove) a penalty"
 msgstr "Дајте (или уклоните) казну"
 
-#: qt/arbit_assignments.cpp:326
+#: qt/arbit_assignments.cpp:358
 msgid ""
 "Give a penalty to the selected player(s), or remove it if they already have "
 "one"
 msgstr "Дајте казну изабраним играчима, или је уклоните ако већ имају једну"
 
-#: qt/arbit_assignments.cpp:407
+#: qt/arbit_assignments.cpp:439
 msgid "All players selected"
 msgstr "Сви играчи изабрани"
 
-#: qt/arbit_assignments.cpp:426
+#: qt/arbit_assignments.cpp:459
 msgid "There is already a master move for this turn."
 msgstr "Већ изабран мајсторски потез за овај потез."
 
-#: qt/arbit_assignments.cpp:427 qt/arbit_assignments.cpp:614
+#: qt/arbit_assignments.cpp:460 qt/arbit_assignments.cpp:635
 msgid "Do you want to replace it?"
 msgstr "Да ли желите да замените?"
 
-#: qt/arbit_assignments.cpp:446
+#: qt/arbit_assignments.cpp:479
 msgid "The selected move scores less than the maximum."
 msgstr "Изабрани потези доносе мање поена од максимума."
 
-#: qt/arbit_assignments.cpp:447 qt/arbit_assignments.cpp:469
+#: qt/arbit_assignments.cpp:480 qt/arbit_assignments.cpp:502
 msgid "Do you really want to select it as master move?"
 msgstr "Да ли заиста желиш да изабереш потез као мајсторски?"
 
-#: qt/arbit_assignments.cpp:466
+#: qt/arbit_assignments.cpp:499
 msgid ""
 "The selected move uses more jokers than another move with the same score "
 "(%1)."
@@ -588,28 +802,28 @@ msgstr ""
 "Изабрани потез користи више џокера од другог потеза који даје исти резултат "
 "(%1)."
 
-#: qt/arbit_assignments.cpp:604
+#: qt/arbit_assignments.cpp:625
 msgid ""
 "You are going to suppress the assigned move for the following players:\n"
 msgstr "Сада ћете да забраните додељене потезе следећим играчима:\n"
 
-#: qt/arbit_assignments.cpp:613
+#: qt/arbit_assignments.cpp:634
 msgid "The following players already have an assigned move:\n"
 msgstr "Следећи играчи већ имају додељен потез:\n"
 
-#: qt/arbit_assignments.cpp:633
+#: qt/arbit_assignments.cpp:654
 msgid "Move assignment suppressed"
 msgstr "Забрањене одигране доделе"
 
-#: qt/arbit_assignments.cpp:635
+#: qt/arbit_assignments.cpp:656
 msgid "Move assigned to player(s)"
 msgstr "Потез додељен играчу (играчима)"
 
-#: qt/arbit_assignments.cpp:716
+#: qt/arbit_assignments.cpp:746
 msgid "You must select a master move before ending the turn."
 msgstr "Морате изабрати мајсторски потез пре завршетка потеза."
 
-#: qt/arbit_assignments.cpp:732
+#: qt/arbit_assignments.cpp:762
 msgid ""
 "Some player(s) have no assigned move for this turn. If you continue, they "
 "will be assigned a \"(NO MOVE)\" pseudo-move, but you will be able to change "
@@ -618,19 +832,19 @@ msgstr ""
 "Неки играчи немају додељен потез за овај ред. Ако наставите, биће им додељен "
 "\"(БЕЗ ПОТЕЗА)\" квази-потез, али ћете моћи то да промените касније."
 
-#: qt/arbit_assignments.cpp:742
+#: qt/arbit_assignments.cpp:772
 msgid "New turn started"
 msgstr "Нови ред почео"
 
-#: qt/arbitration_widget.cpp:109
+#: qt/arbitration_widget.cpp:110
 msgid "Status"
 msgstr "Статус"
 
-#: qt/arbitration_widget.cpp:318
+#: qt/arbitration_widget.cpp:317
 msgid "Invalid"
 msgstr "Неисправно"
 
-#: qt/arbitration_widget.cpp:361
+#: qt/arbitration_widget.cpp:360
 msgid ""
 "Some player(s) already have an assigned move. These moves will be lost if "
 "you change the rack."
@@ -638,33 +852,35 @@ msgstr ""
 "Неки играчи већ имају додељен потез. Ови потези ће бити изгубљени ако "
 "промените сталак."
 
-#: qt/arbitration_widget.cpp:363
+#: qt/arbitration_widget.cpp:362
 msgid "Do you really want to change the rack?"
 msgstr "Да ли желите да промените сталак?"
 
-#: qt/arbitration_widget.cpp:429
+#: qt/arbitration_widget.cpp:428
 msgid ""
 "Warning: Cannot set the rack to '%1':\n"
 "%2"
-msgstr "Упозорење: Не може да постави сталак на '%1'\n%2"
+msgstr ""
+"Упозорење: Не може да постави сталак на '%1'\n"
+"%2"
 
-#: qt/arbitration_widget.cpp:479 qt/training_widget.cpp:355
+#: qt/arbitration_widget.cpp:505 qt/training_widget.cpp:356
 msgid "Searching with rack '%1'..."
 msgstr "Претражује са сталком '%1'..."
 
-#: qt/arbitration_widget.cpp:483 qt/training_widget.cpp:357
+#: qt/arbitration_widget.cpp:508 qt/training_widget.cpp:358
 msgid "Search done"
 msgstr "Претрага завршена"
 
-#: qt/arbitration_widget.cpp:515
+#: qt/arbitration_widget.cpp:540
 msgid "Use as master move"
 msgstr "Користи као мајсторски потез"
 
-#: qt/arbitration_widget.cpp:516
+#: qt/arbitration_widget.cpp:541
 msgid "Use the selected move (%1) as master move"
 msgstr "Користи изабран потез (%1) као мајсторски потез"
 
-#: qt/arbitration_widget.cpp:627
+#: qt/arbitration_widget.cpp:639
 msgid "Player at table %1 selected (%2)"
 msgstr "Играч на табли %1 изабран (%2)"
 
@@ -685,8 +901,8 @@ msgid "Show definition of '%1' in an external browser"
 msgstr "Прикажи дефиницију за '%1' у спољном претраживачу"
 
 #: qt/dic_tools_widget.cpp:101 qt/dic_tools_widget.cpp:106
-#: qt/ui/arbitration_widget.ui.h:194 qt/ui/player_widget.ui.h:160
-#: qt/ui/training_widget.ui.h:185
+#: qt/ui/arbitration_widget.ui.h:204 qt/ui/player_widget.ui.h:160
+#: qt/ui/training_widget.ui.h:186
 msgid "Rack:"
 msgstr "Сталак:"
 
@@ -719,7 +935,7 @@ msgstr "Реч '%1' постоји"
 msgid "The word '%1' does not exist"
 msgstr "Реч '%1' не постоји"
 
-#: qt/dic_tools_widget.cpp:212 qt/stats_widget.cpp:332
+#: qt/dic_tools_widget.cpp:212 qt/stats_widget.cpp:427
 msgid "Rack: %1"
 msgstr "Сталак: %1"
 
@@ -741,7 +957,7 @@ msgid "Save words list"
 msgstr "Сачувај листу речи"
 
 #: qt/dic_tools_widget.cpp:332 qt/dic_tools_widget.cpp:348
-#: qt/dic_tools_widget.cpp:427 qt/main_window.cpp:482
+#: qt/dic_tools_widget.cpp:427 qt/main_window.cpp:563
 msgid "Eliot - Error"
 msgstr "Eliot - Грешка"
 
@@ -860,7 +1076,8 @@ msgid ""
 "Some letters were not found in the current dictionary.\n"
 "Please complete the values manually."
 msgstr ""
-"Нека слова нису нађена у тренутном речнику.\nМолимо унесите вредности ручно."
+"Нека слова нису нађена у тренутном речнику.\n"
+"Молимо унесите вредности ручно."
 
 #: qt/dic_wizard.cpp:351
 msgid "Conclusion"
@@ -922,95 +1139,114 @@ msgstr "Додај играча"
 msgid "Remove player"
 msgstr "Уклони играча"
 
-#: qt/fav_players.cpp:76
+#: qt/fav_players.cpp:77 qt/ui/new_game.ui.h:295
+#, fuzzy
+msgid "Move selection upwards"
+msgstr "Уклони изабране играче"
+
+#: qt/fav_players.cpp:80 qt/ui/new_game.ui.h:298
+msgid "Move selection downwards"
+msgstr ""
+
+#: qt/fav_players.cpp:83
 msgid "CSV Import..."
 msgstr "Увези CSV..."
 
-#: qt/fav_players.cpp:80
+#: qt/fav_players.cpp:87
 msgid "CSV Export..."
 msgstr "Извези CSV..."
 
-#: qt/fav_players.cpp:109
+#: qt/fav_players.cpp:117
 msgid "Choose a CSV file containing favorite players to import"
 msgstr "Изаберите CSV фајл који садржи омиљене играче за увоз..."
 
-#: qt/fav_players.cpp:110 qt/fav_players.cpp:150
+#: qt/fav_players.cpp:118 qt/fav_players.cpp:158
 msgid "fav_players.csv"
 msgstr "fav_players.csv"
 
-#: qt/fav_players.cpp:111 qt/fav_players.cpp:151
+#: qt/fav_players.cpp:119 qt/fav_players.cpp:159
 msgid "CSV files (*.csv)"
 msgstr "CSV фајлови (*.csv)"
 
-#: qt/fav_players.cpp:118
+#: qt/fav_players.cpp:126
 msgid "Cannot open file '%1' for reading"
 msgstr "Не може да отвори датотеку '%1%' за читање"
 
-#: qt/fav_players.cpp:131
+#: qt/fav_players.cpp:139
 msgid "Invalid file (not enough values)"
 msgstr "Неисправан фајл (недовољно вредности)"
 
-#: qt/fav_players.cpp:140
+#: qt/fav_players.cpp:148
 msgid "Cannot import favorite players: %1"
 msgstr "Не може да увезе омиљене играче: %1"
 
-#: qt/fav_players.cpp:149
+#: qt/fav_players.cpp:157
 msgid "Choose a CSV file to save the favorite players"
 msgstr "Изабери CSV фајл да сачуваш омиљена играче"
 
-#: qt/fav_players.cpp:158
+#: qt/fav_players.cpp:166
 msgid "Cannot open file '%1' for writing"
 msgstr "Не може да отвори датотеку '%1%' за упис"
 
-#: qt/fav_players.cpp:181
+#: qt/fav_players.cpp:189
 msgid "Cannot export favorite players: %1"
 msgstr "Не може да извезе омиљене играче: %1"
 
-#: qt/history_widget.cpp:80
+#: qt/hints_dialog.cpp:60
+#, fuzzy
+msgid "cost: %1"
+msgstr "Поени: %1"
+
+#: qt/hints_dialog.cpp:67
+msgid "Show"
+msgstr ""
+
+#: qt/hints_dialog.cpp:92
+msgid "Each hint has a corresponding cost, seen as a time penalty."
+msgstr ""
+
+#: qt/hints_dialog.cpp:108
+#, fuzzy
+msgid "Hints"
+msgstr "Поени"
+
+#: qt/hints_dialog.cpp:148
+msgid "Hint"
+msgstr ""
+
+#: qt/history_widget.cpp:81
 msgid "Turn"
 msgstr "Потез"
 
-#: qt/history_widget.cpp:81 qt/ui/arbitration_widget.ui.h:193
+#: qt/history_widget.cpp:82 qt/ui/arbitration_widget.ui.h:203
 msgid "Rack"
 msgstr "Сталак"
 
-#: qt/history_widget.cpp:85
-msgid "W"
-msgstr "W"
-
-#: qt/history_widget.cpp:86
-msgid "P"
-msgstr "P"
-
-#: qt/history_widget.cpp:87
-msgid "S"
-msgstr "S"
-
-#: qt/history_widget.cpp:115 qt/stats_widget.cpp:133
+#: qt/history_widget.cpp:116 qt/stats_widget.cpp:227
 msgid "Total"
 msgstr "Укупно"
 
-#: qt/history_widget.cpp:116 qt/stats_widget.cpp:135
+#: qt/history_widget.cpp:117 qt/stats_widget.cpp:231
 msgid "Game %"
 msgstr "Игра %"
 
-#: qt/history_widget.cpp:212 qt/main_window.cpp:991 utils/ncurses.cpp:428
+#: qt/history_widget.cpp:216 qt/main_window.cpp:1171 utils/ncurses.cpp:429
 msgid "(NO MOVE)"
 msgstr "(БЕЗ ПОТЕЗА)"
 
-#: qt/history_widget.cpp:217 qt/main_window.cpp:997 utils/ncurses.cpp:430
+#: qt/history_widget.cpp:221 qt/main_window.cpp:1177 utils/ncurses.cpp:431
 msgid "(PASS)"
 msgstr "(ПРЕСКОЧЕНО)"
 
-#: qt/history_widget.cpp:275 qt/main_window.cpp:651
+#: qt/history_widget.cpp:279 qt/main_window.cpp:809
 msgid "&Game"
 msgstr "&Игра"
 
-#: qt/main_window.cpp:151 qt/main_window.cpp:1154 qt/ui/main_window.ui.h:145
+#: qt/main_window.cpp:160 qt/main_window.cpp:1335 qt/ui/main_window.ui.h:145
 msgid "Board"
 msgstr "Табла"
 
-#: qt/main_window.cpp:193
+#: qt/main_window.cpp:215
 msgid ""
 "Cannot load dictionary '%1' indicated in the preferences.\n"
 "Reason: %2"
@@ -1018,60 +1254,65 @@ msgstr ""
 "Не може да учита речник '%1%' дефинисан у подешавањима.\n"
 "Разлог: %2"
 
-#: qt/main_window.cpp:246
+#: qt/main_window.cpp:274
 msgid "Consonants: %1 | Vowels: %2 | Jokers: %3"
 msgstr "Суглесници: %1 | Самогласници: %2 | Џокери: %3"
 
-#: qt/main_window.cpp:251 qt/main_window.cpp:1279 qt/main_window.cpp:1292
-#: qt/main_window.cpp:1305 qt/main_window.cpp:1318
+#: qt/main_window.cpp:279 qt/main_window.cpp:1461 qt/main_window.cpp:1474
+#: qt/main_window.cpp:1487 qt/main_window.cpp:1500
 msgid "Turn %1/%2"
 msgstr "Потез %1/%2"
 
-#: qt/main_window.cpp:262
+#: qt/main_window.cpp:290
 msgid "End of the game"
 msgstr "Крај игре"
 
-#: qt/main_window.cpp:278
+#: qt/main_window.cpp:300
 msgid "Error during auto-save of the game: %1"
 msgstr "Грешка приликом аутоматског чувања игре: %1"
 
-#: qt/main_window.cpp:352
+#: qt/main_window.cpp:398
 msgid "No game"
 msgstr "Нема игре"
 
-#: qt/main_window.cpp:384 utils/ncurses.cpp:1119 qt/ui/prefs_dialog.ui.h:588
+#: qt/main_window.cpp:443 utils/ncurses.cpp:1118 qt/ui/prefs_dialog.ui.h:667
 msgid "Training mode"
 msgstr "Тренинг"
 
-#: qt/main_window.cpp:409
+#: qt/main_window.cpp:468
 msgid "Arbitration game"
 msgstr "Игра са арбитражом"
 
-#: qt/main_window.cpp:410
+#: qt/main_window.cpp:469
 msgid "Arbitration"
 msgstr "Арбитража"
 
-#: qt/main_window.cpp:436
+#: qt/main_window.cpp:494 qt/ui/prefs_dialog.ui.h:691
+#, fuzzy
+msgid "Topping mode"
+msgstr "Тренинг"
+
+#: qt/main_window.cpp:514
 msgid "Duplicate game"
 msgstr "Дупла игра"
 
-#: qt/main_window.cpp:438 qt/ui/new_game.ui.h:202
+#: qt/main_window.cpp:516 qt/ui/new_game.ui.h:279
 msgid "Free game"
 msgstr "Слободна игра"
 
-#: qt/main_window.cpp:439 qt/ui/main_window.ui.h:147 qt/ui/new_game.ui.h:215
+#: qt/main_window.cpp:517 qt/ui/main_window.ui.h:147 qt/ui/new_game.ui.h:291
 msgid "Players"
 msgstr "Играчи"
 
-#: qt/main_window.cpp:469
+#: qt/main_window.cpp:550
 msgid "No dictionary"
 msgstr "Нема речника"
 
-#: qt/main_window.cpp:472
+#: qt/main_window.cpp:553
 msgid "Dictionary: %1"
 msgstr "Речник: %1"
 
-#: qt/main_window.cpp:502
+#: qt/main_window.cpp:583
 msgid ""
 "No definitions site defined.\n"
 "Please define one in the preferences."
@@ -1079,298 +1320,371 @@ msgstr ""
 "Није дефинисан сајт за дефиниције.\n"
 "Молимо Вас дефинишите сајт у подешавањима."
 
-#: qt/main_window.cpp:529
+#: qt/main_window.cpp:610
 msgid "A game has been started."
 msgstr "Игра је почела."
 
-#: qt/main_window.cpp:530
+#: qt/main_window.cpp:611
 msgid "Do you really want to quit?"
 msgstr "Да ли желите да изађете?"
 
-#: qt/main_window.cpp:594
+#: qt/main_window.cpp:684
 msgid "Loading a dictionary will stop the current game."
 msgstr "Учитавање речника ће прекинути тренутну игру."
 
-#: qt/main_window.cpp:612
+#: qt/main_window.cpp:702
 msgid "Loaded dictionary '%1'"
 msgstr "Учитан речник '%1'"
 
-#: qt/main_window.cpp:652
+#: qt/main_window.cpp:733
+msgid ""
+"Cannot play '%1' at position '%2':\n"
+"%3"
+msgstr ""
+"Не можете одиграти '%1' на позицији '%2':\n"
+"%3"
+
+#: qt/main_window.cpp:738
+msgid "Some letters are not valid for the current dictionary"
+msgstr "Нека слова нису важећа за овај речник"
+
+#: qt/main_window.cpp:741
+msgid "Invalid coordinates"
+msgstr "Неисправне координате"
+
+#: qt/main_window.cpp:744
+msgid "The word does not exist"
+msgstr "Реч не постоји"
+
+#: qt/main_window.cpp:747
+msgid "The rack doesn't contain the letters needed to play this word"
+msgstr "Сталак не садржи слова потребна да се одигра ова реч"
+
+#: qt/main_window.cpp:750
+msgid "The word is part of a longer one"
+msgstr "Реч је део дуже речи"
+
+#: qt/main_window.cpp:753
+msgid "The word tries to replace an existing letter"
+msgstr "Реч покушава да замени постојеће слово"
+
+#: qt/main_window.cpp:756
+msgid "An orthogonal word is not valid"
+msgstr "Ортогонална реч није важећа"
+
+#: qt/main_window.cpp:759
+msgid "The word is already present on the board at these coordinates"
+msgstr "Реч већ постоји на табли на тој позицији"
+
+#: qt/main_window.cpp:762
+msgid "A word cannot be isolated (not connected to the placed words)"
+msgstr "Реч не може бити изолована (није повезана са постављеним речима)"
+
+#: qt/main_window.cpp:765
+msgid "The first word of the game must be horizontal"
+msgstr "Прва реч у игри мора да буде хоризонтална"
+
+#: qt/main_window.cpp:768
+msgid "The first word of the game must cover the H8 square"
+msgstr "Прва реч у игри мора да покрије поље H8"
+
+#: qt/main_window.cpp:771
+msgid "The word is going out of the board"
+msgstr "Реч иде изван табле"
+
+#: qt/main_window.cpp:774
+msgid "The word contains too many letters from the rack"
+msgstr "Реч садржи превише слова са сталка"
+
+#: qt/main_window.cpp:777 utils/ncurses.cpp:589
+msgid "Incorrect or misplaced word"
+msgstr "Нетачна или погрешна реч"
+
+#: qt/main_window.cpp:810
 msgid "&New..."
 msgstr "&Нова..."
 
-#: qt/main_window.cpp:652
+#: qt/main_window.cpp:810
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: qt/main_window.cpp:653
+#: qt/main_window.cpp:811
 msgid "Start a new game"
 msgstr "Започни нову игру"
 
-#: qt/main_window.cpp:655
+#: qt/main_window.cpp:813
 msgid "&Load..."
 msgstr "&Учитај..."
 
-#: qt/main_window.cpp:655
+#: qt/main_window.cpp:813
 msgid "Ctrl+O"
 msgstr "Ctrl+O"
 
-#: qt/main_window.cpp:656
+#: qt/main_window.cpp:814
 msgid "Load an existing game"
 msgstr "Учитај постојећу игру"
 
-#: qt/main_window.cpp:657
+#: qt/main_window.cpp:815
 msgid "Load the auto-saved game"
 msgstr "Учитај аутоматски сачувану игру"
 
-#: qt/main_window.cpp:658
+#: qt/main_window.cpp:816
 msgid "Load the automatically saved game (useful after a crash)"
 msgstr "Учитај аутоматски сачувану игру (корисно након квара)"
 
-#: qt/main_window.cpp:660
+#: qt/main_window.cpp:818
 msgid "&Save as..."
 msgstr "&Сачувај као..."
 
-#: qt/main_window.cpp:660
+#: qt/main_window.cpp:818
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
 
-#: qt/main_window.cpp:661
+#: qt/main_window.cpp:819
 msgid "Save the current game"
 msgstr "Сачувај тренутну игру"
 
-#: qt/main_window.cpp:663
+#: qt/main_window.cpp:821
+#, fuzzy
+msgid "&Print preview..."
+msgstr "&Штампај..."
+
+#: qt/main_window.cpp:822
+msgid "Print preview"
+msgstr ""
+
+#: qt/main_window.cpp:824
 msgid "&Print..."
 msgstr "&Штампај..."
 
-#: qt/main_window.cpp:663
+#: qt/main_window.cpp:824
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
-#: qt/main_window.cpp:664
+#: qt/main_window.cpp:825
 msgid "Print the current game"
 msgstr "Одштампај тренутну игру"
 
-#: qt/main_window.cpp:667
+#: qt/main_window.cpp:828
 msgid "&Quit"
 msgstr "&Излаз"
 
-#: qt/main_window.cpp:667
+#: qt/main_window.cpp:828
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: qt/main_window.cpp:668
+#: qt/main_window.cpp:829
 msgid "Quit Eliot"
 msgstr "Затвори Eliot"
 
-#: qt/main_window.cpp:673 qt/main_window.cpp:727
+#: qt/main_window.cpp:834 qt/main_window.cpp:888
 msgid "&History"
 msgstr "&Историја"
 
-#: qt/main_window.cpp:674
+#: qt/main_window.cpp:835
 msgid "&First turn"
 msgstr "&Први игра"
 
-#: qt/main_window.cpp:674
+#: qt/main_window.cpp:835
 msgid "Ctrl+Home"
 msgstr "Ctrl+Home"
 
-#: qt/main_window.cpp:675
+#: qt/main_window.cpp:836
 msgid "Go to the first turn of the game"
 msgstr "Иди на први потез"
 
-#: qt/main_window.cpp:677
+#: qt/main_window.cpp:838
 msgid "&Previous turn"
 msgstr "&Претходни потез"
 
-#: qt/main_window.cpp:677
+#: qt/main_window.cpp:838
 msgid "Ctrl+Left"
 msgstr "Ctrl+Left"
 
-#: qt/main_window.cpp:678
+#: qt/main_window.cpp:839
 msgid "Go to the previous turn of the game"
 msgstr "Иди на претходни потез"
 
-#: qt/main_window.cpp:680
+#: qt/main_window.cpp:841
 msgid "&Next turn"
 msgstr "&Следећи потез"
 
-#: qt/main_window.cpp:680
+#: qt/main_window.cpp:841
 msgid "Ctrl+Right"
 msgstr "Ctrl+Right"
 
-#: qt/main_window.cpp:681
+#: qt/main_window.cpp:842
 msgid "Go to the next turn of the game"
 msgstr "Иди на следећи потез"
 
-#: qt/main_window.cpp:683
+#: qt/main_window.cpp:844
 msgid "&Last turn"
 msgstr "&Последњи потез"
 
-#: qt/main_window.cpp:683
+#: qt/main_window.cpp:844
 msgid "Ctrl+End"
 msgstr "Ctrl+End"
 
-#: qt/main_window.cpp:684
+#: qt/main_window.cpp:845
 msgid "Go to the last turn of the game"
 msgstr "Иди на последњи потез"
 
-#: qt/main_window.cpp:686
+#: qt/main_window.cpp:847
 msgid "&Replay turn"
 msgstr "&Понови потез"
 
-#: qt/main_window.cpp:686
+#: qt/main_window.cpp:847
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: qt/main_window.cpp:687
+#: qt/main_window.cpp:848
 msgid ""
 "Play the game from the current position, replacing what was really played"
 msgstr ""
 "Одиграј игру са тренутне позиције, замењујући оно што је стварно одиграно"
 
-#: qt/main_window.cpp:699
+#: qt/main_window.cpp:860
 msgid "&Settings"
 msgstr "&Поставке"
 
-#: qt/main_window.cpp:700
+#: qt/main_window.cpp:861
 msgid "&Choose dictionary..."
 msgstr "&Изабери речник..."
 
-#: qt/main_window.cpp:700
+#: qt/main_window.cpp:861
 msgid "Ctrl+I"
 msgstr "Ctrl+I"
 
-#: qt/main_window.cpp:701
+#: qt/main_window.cpp:862
 msgid "Select a new dictionary"
 msgstr "Изабери нов речник"
 
-#: qt/main_window.cpp:702
+#: qt/main_window.cpp:863
 msgid "Create &new dictionary..."
 msgstr "Направи &нов речник..."
 
-#: qt/main_window.cpp:703
+#: qt/main_window.cpp:864
 msgid ""
 "Start the wizard for creating a new dictionary from an existing word list"
 msgstr "Покреће чаробњака који креира нови речник из постојеће листе речи"
 
-#: qt/main_window.cpp:706
+#: qt/main_window.cpp:867
 msgid "&Favorite players..."
 msgstr "Оми&љени играчи..."
 
-#: qt/main_window.cpp:707
+#: qt/main_window.cpp:868
 msgid "Define frequently used players for faster game creation"
 msgstr "Дефинише често коришћене играче за брже креирање игре"
 
-#: qt/main_window.cpp:710
+#: qt/main_window.cpp:871
 msgid "&Define players tables..."
 msgstr "&Дефиниши табеле за играче..."
 
-#: qt/main_window.cpp:711
+#: qt/main_window.cpp:872
 msgid "Define the tables where the players are sitting, in arbitration mode"
 msgstr "Дефиниши табеле по распореду седења, у арбитражи"
 
-#: qt/main_window.cpp:713
+#: qt/main_window.cpp:874
 msgid "&Preferences..."
 msgstr "&Подешавања"
 
-#: qt/main_window.cpp:713
+#: qt/main_window.cpp:874
 msgid "Ctrl+F"
 msgstr "Ctrl+F"
 
-#: qt/main_window.cpp:714
+#: qt/main_window.cpp:875
 msgid "Edit the preferences"
 msgstr "Промени подешавања"
 
-#: qt/main_window.cpp:719
+#: qt/main_window.cpp:880
 msgid "&Windows"
 msgstr "&Прозор"
 
-#: qt/main_window.cpp:720
+#: qt/main_window.cpp:881
 msgid "&Toolbar"
 msgstr "&Трака са алаткама"
 
-#: qt/main_window.cpp:720
+#: qt/main_window.cpp:881
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: qt/main_window.cpp:721
+#: qt/main_window.cpp:882
 msgid "Show/hide the toolbar"
 msgstr "Прикажи/сакриј траку са алаткама"
 
-#: qt/main_window.cpp:723
+#: qt/main_window.cpp:884
 msgid "&Bag"
 msgstr "&Врећица"
 
-#: qt/main_window.cpp:723 qt/ui/main_window.ui.h:129
+#: qt/main_window.cpp:884 qt/ui/main_window.ui.h:129
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: qt/main_window.cpp:724 qt/ui/main_window.ui.h:127
+#: qt/main_window.cpp:885 qt/ui/main_window.ui.h:127
 msgid "Show/hide the remaining tiles in the bag"
 msgstr "Прикажи/сакриј преостале плочице у врећици"
 
-#: qt/main_window.cpp:725
+#: qt/main_window.cpp:886
 msgid "&External board"
 msgstr "&Екстерна табла"
 
-#: qt/main_window.cpp:725 qt/ui/main_window.ui.h:134
+#: qt/main_window.cpp:886 qt/ui/main_window.ui.h:134
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: qt/main_window.cpp:726 qt/ui/main_window.ui.h:132
+#: qt/main_window.cpp:887 qt/ui/main_window.ui.h:132
 msgid "Show/hide the external board"
 msgstr "Прикажи/сакриј екстерну таблу"
 
-#: qt/main_window.cpp:727 qt/ui/main_window.ui.h:139
+#: qt/main_window.cpp:888 qt/ui/main_window.ui.h:139
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: qt/main_window.cpp:728 qt/ui/main_window.ui.h:137
+#: qt/main_window.cpp:889 qt/ui/main_window.ui.h:137
 msgid "Show/hide the game history"
 msgstr "Прикажи/сакриј историју игре"
 
-#: qt/main_window.cpp:730
+#: qt/main_window.cpp:891
 msgid "&Statistics"
 msgstr "&Статистика"
 
-#: qt/main_window.cpp:731
+#: qt/main_window.cpp:892
 msgid "Show/hide the statistics"
 msgstr "Прикажи/сакриј статистику"
 
-#: qt/main_window.cpp:732
+#: qt/main_window.cpp:893
 msgid "Ti&mer"
 msgstr "Тај&мер"
 
-#: qt/main_window.cpp:733
+#: qt/main_window.cpp:894
 msgid "Show/hide the timer"
 msgstr "Прикажи/сакриј тајмер"
 
-#: qt/main_window.cpp:734
+#: qt/main_window.cpp:895
 msgid "&Dictionary tools"
 msgstr "&Алатке речника"
 
-#: qt/main_window.cpp:734 qt/ui/main_window.ui.h:144
+#: qt/main_window.cpp:895 qt/ui/main_window.ui.h:144
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
 
-#: qt/main_window.cpp:735 qt/ui/main_window.ui.h:142
+#: qt/main_window.cpp:896 qt/ui/main_window.ui.h:142
 msgid "Show/hide the dictionary tools"
 msgstr "Прикажи/сакриј алатке речника"
 
-#: qt/main_window.cpp:739
+#: qt/main_window.cpp:900
 msgid "He&lp"
 msgstr "Пом&оћ"
 
-#: qt/main_window.cpp:740
+#: qt/main_window.cpp:901
 msgid "&About..."
 msgstr "&О програму..."
 
-#: qt/main_window.cpp:741 qt/main_window.cpp:1263
+#: qt/main_window.cpp:902 qt/main_window.cpp:1445
 msgid "About Eliot"
 msgstr "О Eliot-у"
 
-#: qt/main_window.cpp:752
+#: qt/main_window.cpp:913
 msgid ""
 "You have to select a dictionary (.dawg file) before starting a game. This "
 "can be done in the \"Settings\" menu.\n"
@@ -1382,102 +1696,102 @@ msgstr ""
 "\n"
 "Можете да преузмете речник са Eliot-ове веб странице."
 
-#: qt/main_window.cpp:761
+#: qt/main_window.cpp:922
 msgid "Starting a new game will stop the current one."
 msgstr "Почетак нове игре ће прекинути тренутну."
 
-#: qt/main_window.cpp:784
+#: qt/main_window.cpp:947
 msgid "Game started"
 msgstr "Игра је почела"
 
-#: qt/main_window.cpp:808
+#: qt/main_window.cpp:970
 msgid "You have to select a dictionary first!"
 msgstr "Морате прво изабрати речник!"
 
-#: qt/main_window.cpp:814
+#: qt/main_window.cpp:976
 msgid "Loading a saved game will stop the current game."
 msgstr "Учитавање сачуване игре ће прекинути тренутну игру."
 
-#: qt/main_window.cpp:823 utils/ncurses.cpp:648
+#: qt/main_window.cpp:985 qt/new_game.cpp:353 utils/ncurses.cpp:648
 msgid "Load a game"
 msgstr "Учитај игру"
 
-#: qt/main_window.cpp:834
+#: qt/main_window.cpp:996
 msgid "Error while loading the game:\n"
 msgstr "Грешка приликом учитавања игре:\n"
 
-#: qt/main_window.cpp:841 utils/ncurses.cpp:662
+#: qt/main_window.cpp:1003 utils/ncurses.cpp:661
 #, c-format
 msgid "Game loaded"
 msgstr "Игра је учитана"
 
-#: qt/main_window.cpp:851
+#: qt/main_window.cpp:1013
 msgid "Save a game"
 msgstr "Сачувај игру"
 
-#: qt/main_window.cpp:857
+#: qt/main_window.cpp:1019
 msgid "Game saved"
 msgstr "Игра је сачувана"
 
-#: qt/main_window.cpp:861
+#: qt/main_window.cpp:1023
 msgid "Error saving game: %1"
 msgstr "Грешка приликом чувања игре: %1"
 
-#: qt/main_window.cpp:899
+#: qt/main_window.cpp:1079
 msgid "N."
 msgstr "БР."
 
-#: qt/main_window.cpp:899
+#: qt/main_window.cpp:1079
 msgid "RACK"
 msgstr "СТАЛАК"
 
-#: qt/main_window.cpp:899
+#: qt/main_window.cpp:1079
 msgid "SOLUTION"
 msgstr "РЕШЕЊЕ"
 
-#: qt/main_window.cpp:899
+#: qt/main_window.cpp:1079
 msgid "REF"
 msgstr "РЕФ"
 
-#: qt/main_window.cpp:899
+#: qt/main_window.cpp:1079
 msgid "PTS"
 msgstr "ПОЕНИ"
 
-#: qt/main_window.cpp:1042 qt/prefs_dialog.cpp:296
+#: qt/main_window.cpp:1221 qt/prefs_dialog.cpp:344
 msgid "Choose a dictionary"
 msgstr "Изабери речник"
 
-#: qt/main_window.cpp:1050
+#: qt/main_window.cpp:1229
 msgid "Dictionary creation wizard"
 msgstr "Чаробњак за креирање речника"
 
-#: qt/main_window.cpp:1102 utils/ncurses.cpp:502 qt/ui/main_window.ui.h:125
+#: qt/main_window.cpp:1281 utils/ncurses.cpp:502 qt/ui/main_window.ui.h:125
 msgid "Bag"
 msgstr "Врећица"
 
-#: qt/main_window.cpp:1183 qt/ui/main_window.ui.h:135
+#: qt/main_window.cpp:1364 qt/ui/main_window.ui.h:135
 #: qt/ui/main_window.ui.h:146
 msgid "History"
 msgstr "Историја"
 
-#: qt/main_window.cpp:1201
+#: qt/main_window.cpp:1382
 msgid "Statistics"
 msgstr "Статистика"
 
-#: qt/main_window.cpp:1218 qt/ui/prefs_dialog.ui.h:547
+#: qt/main_window.cpp:1399 qt/ui/prefs_dialog.ui.h:624
 msgid "Timer"
 msgstr "Тајмер"
 
-#: qt/main_window.cpp:1231 qt/ui/dic_tools_widget.ui.h:305
+#: qt/main_window.cpp:1412 qt/ui/dic_tools_widget.ui.h:305
 #: qt/ui/main_window.ui.h:140
 msgid "Dictionary tools"
 msgstr "Алатке речника"
 
-#: qt/main_window.cpp:1250
+#: qt/main_window.cpp:1431
 msgid "Copyright (C) 1999-2012 - Antoine Fraboulet & Olivier Teuliere."
 msgstr "Ауторска права (C) 1999-2012 - Antoine Fraboulet & Olivier Teuliere."
 
-#: qt/main_window.cpp:1253
+#: qt/main_window.cpp:1434
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
 "under the terms of the GNU General Public License as published by the Free "
@@ -1488,15 +1802,17 @@ msgstr ""
 "одредбама GNU Опште Јавне Лиценце који је објавила Задужбина за слободан "
 "софтвер; било верзија 2 Лиценце, или (по вашем мишљењу) нека каснија верзија."
 
-#: qt/main_window.cpp:1259
+#. TRANSLATORS: If the website is translated in your language,
+#. feel free to adapt the URL.
+#: qt/main_window.cpp:1441 qt/update_checker.cpp:198
 msgid "http://www.nongnu.org/eliot/en/"
 msgstr "http://www.nongnu.org/eliot/en/"
 
-#: qt/main_window.cpp:1260
+#: qt/main_window.cpp:1442
 msgid "Web site: %1"
 msgstr "Веб страна: %1"
 
-#: qt/main_window.cpp:1328
+#: qt/main_window.cpp:1510
 msgid ""
 "Replaying this turn will modify the game history by deleting the turns after "
 "the displayed one (i.e. turns \"in the future\")."
@@ -1504,19 +1820,69 @@ msgstr ""
 "Понављање овог потеза ће променти историју игре тако што ће да обрише потезе "
 "одигране после приказаног потеза (нпр. потези \"у будућности\")."
 
-#: qt/main_window.cpp:1340
+#: qt/main_window.cpp:1522
 msgid "Replaying from turn %1"
 msgstr "Поново игра потез %1"
 
-#: qt/new_game.cpp:36 qt/players_table_helper.cpp:42
+#: qt/new_game.cpp:39 qt/players_table_helper.cpp:43
 msgid "Human"
 msgstr "Човек"
 
-#: qt/new_game.cpp:37 qt/players_table_helper.cpp:43
+#: qt/new_game.cpp:40 qt/players_table_helper.cpp:44
 msgid "Computer"
 msgstr "Рачунар"
 
-#: qt/new_game.cpp:46
+#: qt/new_game.cpp:53
+msgid ""
+"In duplicate mode, all the players are always faced with the same board and "
+"the same rack,\n"
+"thus eliminating any \"luck\" (and tactics).\n"
+"Each player scores the points of the word (s)he found, but only\n"
+"the best move is played on the board.\n"
+"This mode allows an unlimited number of simultaneous players, and is "
+"therefore\n"
+"often used for official tournaments."
+msgstr ""
+
+#: qt/new_game.cpp:60
+msgid ""
+"This mode is the classical one, often played in family, where players play "
+"in turn,\n"
+"each with his own rack. Players are allowed to change letters, thus passing "
+"their turn.\n"
+"With only 2 players, some tactics can often be used, because the best move\n"
+"is not necessarily the one with the best score."
+msgstr ""
+
+#: qt/new_game.cpp:65
+msgid ""
+"In training mode, the player can set the rack freely and can see all the "
+"possible moves.\n"
+"There is no opponent, the goal is simply to make some progress."
+msgstr ""
+
+#: qt/new_game.cpp:68
+msgid ""
+"The arbitration mode allows arbitrating a duplicate game, possibly with many "
+"players.\n"
+"The arbitrator can set the master move, and keep track of the players moves "
+"easily.\n"
+"This mode is ideal for arbitrating duplicate games in clubs or in "
+"tournaments."
+msgstr ""
+
+#: qt/new_game.cpp:72
+msgid ""
+"In topping mode, the goal is to find the top as quickly as possible. The "
+"player is allowed\n"
+"to try as many moves as possible until he finds the top, but there are "
+"penalties\n"
+"when the player takes too much time to find it (or doesn't fint it at all).\n"
+"This mode can be quite difficult, and is mostly intended for experienced "
+"players."
+msgstr ""
+
+#: qt/new_game.cpp:78
 msgid ""
 "In a joker game, each rack contains a joker.\n"
 "When a word containing the joker is played on the grid, the joker is then "
@@ -1535,7 +1901,7 @@ msgstr ""
 "Ова варијанта, посебно занимљива у дуплој игри, је добра за вежбање употребе "
 "џокера."
 
-#: qt/new_game.cpp:52
+#: qt/new_game.cpp:84
 msgid ""
 "An explosive game is a bit like a joker game, except that when the computer "
 "chooses the rack\n"
@@ -1556,7 +1922,7 @@ msgstr ""
 "сталком, али обично даје\n"
 "боље резултате него у обичној игри."
 
-#: qt/new_game.cpp:58
+#: qt/new_game.cpp:90
 msgid ""
 "With this variant, the rack contains 8 letters instead of 7,\n"
 "but at most 7 can be played at the same time.\n"
@@ -1566,27 +1932,27 @@ msgstr ""
 "али највише 7 могу да буду одиграна у једном потезу.\n"
 "То омогућава више комбинација за време игре, а тиме и већи резултат."
 
-#: qt/new_game.cpp:64
+#: qt/new_game.cpp:96
 msgid "Mark the selected player(s) as favorites"
 msgstr "Означи изабране играче као омиљене"
 
-#: qt/new_game.cpp:65
+#: qt/new_game.cpp:97
 msgid "Add the selected player(s) to the list of favorite players"
 msgstr "Додај изабране играче у листу омиљених играча"
 
-#: qt/new_game.cpp:81 qt/new_game.cpp:148
+#: qt/new_game.cpp:114 qt/new_game.cpp:227
 msgid "Player %1"
 msgstr "Играч %1"
 
-#: qt/new_game.cpp:82 qt/qtcommon.cpp:147 qt/ui/main_window.ui.h:124
+#: qt/new_game.cpp:115 qt/qtcommon.cpp:155 qt/ui/main_window.ui.h:124
 msgid "Eliot"
 msgstr "Eliot"
 
-#: qt/new_game.cpp:221
+#: qt/new_game.cpp:314
 msgid "Select the players to add"
 msgstr "Изаберите играче које желите да додате"
 
-#: qt/play_word_mediator.cpp:81
+#: qt/play_word_mediator.cpp:88
 msgid ""
 "Enter the word to play (case-insensitive).\n"
 "A joker from the rack must be written in parentheses.\n"
@@ -1596,7 +1962,7 @@ msgstr ""
 "Џокер из сталка мора бити написан у заградама.\n"
 "Нпр: р(е)ч или Р(Е)Ч"
 
-#: qt/play_word_mediator.cpp:84
+#: qt/play_word_mediator.cpp:91
 msgid ""
 "Enter the coordinates of the word.\n"
 "Specify the row before the column for horizontal words,\n"
@@ -1608,73 +1974,9 @@ msgstr ""
 "и колону пре врсте за усправне речи.\n"
 "Нпр: H4 или 4H"
 
-#: qt/play_word_mediator.cpp:109
+#: qt/play_word_mediator.cpp:117
 msgid "Cannot play word: misplaced parentheses"
 msgstr "Не може да одигра реч: погрешне заграде"
-
-#: qt/play_word_mediator.cpp:163
-msgid ""
-"Cannot play '%1' at position '%2':\n"
-"%3"
-msgstr ""
-"Не можете одиграти '%1' на позицији '%2':\n"
-"%3"
-
-#: qt/play_word_mediator.cpp:168
-msgid "Some letters are not valid for the current dictionary"
-msgstr "Нека слова нису важећа за овај речник"
-
-#: qt/play_word_mediator.cpp:171
-msgid "Invalid coordinates"
-msgstr "Неисправне координате"
-
-#: qt/play_word_mediator.cpp:174
-msgid "The word does not exist"
-msgstr "Реч не постоји"
-
-#: qt/play_word_mediator.cpp:177
-msgid "The rack doesn't contain the letters needed to play this word"
-msgstr "Сталак не садржи слова потребна да се одигра ова реч"
-
-#: qt/play_word_mediator.cpp:180
-msgid "The word is part of a longer one"
-msgstr "Реч је део дуже речи"
-
-#: qt/play_word_mediator.cpp:183
-msgid "The word tries to replace an existing letter"
-msgstr "Реч покушава да замени постојеће слово"
-
-#: qt/play_word_mediator.cpp:186
-msgid "An orthogonal word is not valid"
-msgstr "Ортогонална реч није важећа"
-
-#: qt/play_word_mediator.cpp:189
-msgid "The word is already present on the board at these coordinates"
-msgstr "Реч већ постоји на табли на тој позицији"
-
-#: qt/play_word_mediator.cpp:192
-msgid "A word cannot be isolated (not connected to the placed words)"
-msgstr "Реч не може бити изолована (није повезана са постављеним речима)"
-
-#: qt/play_word_mediator.cpp:195
-msgid "The first word of the game must be horizontal"
-msgstr "Прва реч у игри мора да буде хоризонтална"
-
-#: qt/play_word_mediator.cpp:198
-msgid "The first word of the game must cover the H8 square"
-msgstr "Прва реч у игри мора да покрије поље H8"
-
-#: qt/play_word_mediator.cpp:201
-msgid "The word is going out of the board"
-msgstr "Реч иде изван табле"
-
-#: qt/play_word_mediator.cpp:204
-msgid "The word contains too many letters from the rack"
-msgstr "Реч садржи превише слова са сталка"
-
-#: qt/play_word_mediator.cpp:207 utils/ncurses.cpp:589
-msgid "Incorrect or misplaced word"
-msgstr "Нетачна или погрешна реч"
 
 #: qt/player_widget.cpp:185
 msgid ""
@@ -1710,35 +2012,35 @@ msgstr "Игра је већ завршена!"
 msgid "Unknown error"
 msgstr "Непозната грешка"
 
-#: qt/players_table_helper.cpp:77
+#: qt/players_table_helper.cpp:79
 msgid "Name"
 msgstr "Име"
 
-#: qt/players_table_helper.cpp:78
+#: qt/players_table_helper.cpp:80
 msgid "Type"
 msgstr "Тип"
 
-#: qt/players_table_helper.cpp:79
+#: qt/players_table_helper.cpp:81
 msgid "Level"
 msgstr "Ниво"
 
-#: qt/players_table_helper.cpp:80
+#: qt/players_table_helper.cpp:82
 msgid "Default"
 msgstr "Подразумевано"
 
-#: qt/players_table_helper.cpp:142
+#: qt/players_table_helper.cpp:159
 msgid "Remove selected player(s)"
 msgstr "Уклони изабране играче"
 
-#: qt/players_table_helper.cpp:143
+#: qt/players_table_helper.cpp:160
 msgid "Remove the selected player(s) from the list"
 msgstr "Уклони изабране играче из листе"
 
-#: qt/players_table_helper.cpp:183
+#: qt/players_table_helper.cpp:202
 msgid "New player"
 msgstr "Нови играч"
 
-#: qt/prefs_dialog.cpp:75
+#: qt/prefs_dialog.cpp:77
 msgid ""
 "URL of the site used to display word definitions.\n"
 "In the URL, %w will be replaced with the word in lower case. Examples:\n"
@@ -1752,184 +2054,243 @@ msgstr ""
 "\thttp://en.wiktionary.org/wiki/%w\n"
 "\thttp://images.google.com/images?q=%w"
 
-#: qt/prefs_dialog.cpp:80
+#: qt/prefs_dialog.cpp:82
 msgid ""
 "Total duration of the timer, in seconds.\n"
 "Changing this value will reset the timer."
 msgstr ""
-"Укупно трајање тајмера, у секундама.\nПромена ове вредности ће ресетовати "
-"тајмер."
+"Укупно трајање тајмера, у секундама.\n"
+"Промена ове вредности ће ресетовати тајмер."
 
-#: qt/prefs_dialog.cpp:82
+#: qt/prefs_dialog.cpp:84
 msgid ""
 "Number of remaining seconds when an alert is triggered.\n"
 "Use a value of -1 to disable the alert.\n"
 "Changing this value will reset the timer."
 msgstr ""
-"Број преосталих секунди пре активирања аларма.\nКористите вредност -1 да "
-"онемогућите упозорење.\nПромена вредности ће ресетовати тајмер."
+"Број преосталих секунди пре активирања аларма.\n"
+"Користите вредност -1 да онемогућите упозорење.\n"
+"Промена вредности ће ресетовати тајмер."
 
-#: qt/prefs_dialog.cpp:85
+#: qt/prefs_dialog.cpp:87
 msgid ""
 "If checked, a beep will be emitted when the timer\n"
 "reaches the alert level, and when it reaches 0."
 msgstr ""
-"Ако је изабрано, звук ће се чути сваки пут кад тајмер\nдостигне ниво "
-"упозорења, и када буде 0."
+"Ако је изабрано, звук ће се чути сваки пут кад тајмер\n"
+"достигне ниво упозорења, и када буде 0."
 
-#: qt/prefs_dialog.cpp:87
+#: qt/prefs_dialog.cpp:89
+msgid ""
+"If checked, the timer will be reinitialized and restarted\n"
+"automatically every time that the main rack changes."
+msgstr ""
+
+#: qt/prefs_dialog.cpp:91
+msgid ""
+"If checked, Eliot will connect to the Internet from time to time\n"
+"(about once a week) to check if new versions are available.\n"
+"New versions are never installed automatically, you just get a notification."
+msgstr ""
+
+#: qt/prefs_dialog.cpp:94
 msgid ""
 "Maximum number of results returned by a search.\n"
 "The returned results will always be the best ones.\n"
 "Use 0 to disable the limit (warning: searches yielding many results could be "
 "very slow in this case!)."
 msgstr ""
-"Максимални број резултата из претраге.\nПронађен резултат ће увек бити онај "
-"најбољи.\nКористите 0 да искључите ограничење (упозорење: претрага која дај "
-"много резултата може бити веома спора у овом случају!)."
+"Максимални број резултата из претраге.\n"
+"Пронађен резултат ће увек бити онај најбољи.\n"
+"Користите 0 да искључите ограничење (упозорење: претрага која дај много "
+"резултата може бити веома спора у овом случају!)."
 
-#: qt/prefs_dialog.cpp:91
+#: qt/prefs_dialog.cpp:98
 msgid ""
 "If checked, a master move will be selected by default when searching the "
 "results.\n"
 "It is still possible to change the master move afterwards."
 msgstr ""
-"Ако је изабрано, мајсторски потез ће бити селектован као подразумеван када се "
-"тражи резултат.\nИ даље је могуће променити мајсторски потез након тога."
+"Ако је изабрано, мајсторски потез ће бити селектован као подразумеван када "
+"се тражи резултат.\n"
+"И даље је могуће променити мајсторски потез након тога."
 
-#: qt/prefs_dialog.cpp:94
+#: qt/prefs_dialog.cpp:101
 msgid ""
 "If checked, the rack will be completed with random letters.\n"
 "Uncheck this option if you prefer to choose the letters yourself."
 msgstr ""
-"Ако је изабрано, сталак ће се попунити насумично.\nАко није, дозвољено је да "
-"изаберете слова самостално."
+"Ако је изабрано, сталак ће се попунити насумично.\n"
+"Ако није, дозвољено је да изаберете слова самостално."
 
-#: qt/prefs_dialog.cpp:97
+#: qt/prefs_dialog.cpp:103
+#, fuzzy
+msgid ""
+"If checked, solos are given automatically, when appropriate.\n"
+"Uncheck this option if you prefer to do it manually."
+msgstr ""
+"Ако је изабрано, сталак ће се попунити насумично.\n"
+"Ако није, дозвољено је да изаберете слова самостално."
+
+#: qt/prefs_dialog.cpp:106
 msgid ""
 "Maximal number of \"acceptable\" warnings.\n"
 "Any additional warning will give a penalty to the player."
 msgstr ""
-"Максимални број \"прихватљивих\" упозорења.\nСвако додатно упозорење ће дати "
-"казну играчу."
+"Максимални број \"прихватљивих\" упозорења.\n"
+"Свако додатно упозорење ће дати казну играчу."
 
-#: qt/prefs_dialog.cpp:174 qt/prefs_dialog.cpp:189 qt/prefs_dialog.cpp:284
+#: qt/prefs_dialog.cpp:108
+msgid ""
+"If checked, the player gets, at each turn, a score penalty\n"
+"equal to the elapsed time for the turn."
+msgstr ""
+
+#: qt/prefs_dialog.cpp:110
+msgid ""
+"Number of points added to the player score when the timer expires.\n"
+"Set it to 0 if you don't want any penalty."
+msgstr ""
+
+#: qt/prefs_dialog.cpp:204 qt/prefs_dialog.cpp:219 qt/prefs_dialog.cpp:332
 msgid "%1 error"
 msgstr "%1 грешка"
 
-#: qt/prefs_dialog.cpp:175
+#: qt/prefs_dialog.cpp:205
 msgid "Cannot load preferences: %1"
 msgstr "Не може да учита подешавања: %1"
 
-#: qt/prefs_dialog.cpp:190 qt/prefs_dialog.cpp:285
+#: qt/prefs_dialog.cpp:220 qt/prefs_dialog.cpp:333
 msgid "Cannot save preferences: %1"
 msgstr "Не може да сачува подешавања: %1"
 
-#: qt/qtcommon.cpp:168
+#: qt/qtcommon.cpp:176
 msgid "Do you want to continue?"
 msgstr "Да ли желите да наставите?"
 
-#: qt/qtcommon.cpp:175
+#: qt/qtcommon.cpp:183
 msgid "Do not show this confirmation anymore"
 msgstr "Не приказуј више ово обавештење"
 
-#: qt/qtcommon.cpp:177
+#: qt/qtcommon.cpp:185
 msgid ""
 "You can still display the confirmation in the future,\n"
 "by changing the appropriate option in the preferences."
 msgstr ""
-"И даље можете приказати обавештење убудуће,\nтако што ћете променити "
-"одговарајуће опције у подешавањима."
+"И даље можете приказати обавештење убудуће,\n"
+"тако што ћете променити одговарајуће опције у подешавањима."
 
-#: qt/score_widget.cpp:50
-msgid "Score"
-msgstr "Резултат"
-
-#: qt/stats_widget.cpp:77 qt/training_widget.cpp:98
+#: qt/stats_widget.cpp:133 qt/topping_widget.cpp:113 qt/training_widget.cpp:98
 msgid "Lock columns sizes"
 msgstr "Закључај величину колона"
 
-#: qt/stats_widget.cpp:79 qt/training_widget.cpp:100
+#: qt/stats_widget.cpp:135 qt/topping_widget.cpp:115
+#: qt/training_widget.cpp:100
 msgid "Disable auto-resizing of the columns"
 msgstr "Онемогући аутоматско прилагођавање величине колона"
 
-#: qt/stats_widget.cpp:123
+#: qt/stats_widget.cpp:144
+msgid "Flip table"
+msgstr ""
+
+#: qt/stats_widget.cpp:145
+msgid ""
+"Flip the table so that rows and columns are exchanged.\n"
+"This allows sorting the players by ranking, for example."
+msgstr ""
+
+#: qt/stats_widget.cpp:151
+#, fuzzy
+msgid "Print preview..."
+msgstr "&Штампај..."
+
+#: qt/stats_widget.cpp:152 qt/stats_widget.cpp:158
+#, fuzzy
+msgid "Print the table."
+msgstr "Одштампај тренутну игру"
+
+#: qt/stats_widget.cpp:157
+#, fuzzy
+msgid "Print..."
+msgstr "&Штампај..."
+
+#: qt/stats_widget.cpp:217
 msgid "Sub-total"
 msgstr "Збир"
 
-#: qt/stats_widget.cpp:125
+#: qt/stats_widget.cpp:219
 msgid "End game points"
 msgstr "Поени на крају игре"
 
-#: qt/stats_widget.cpp:127
+#: qt/stats_widget.cpp:221
 msgid "Solo points"
 msgstr "Индивидуални поени"
 
-#: qt/stats_widget.cpp:129
+#: qt/stats_widget.cpp:223
 msgid "Penalties"
 msgstr "Казне"
 
-#: qt/stats_widget.cpp:131
+#: qt/stats_widget.cpp:225
 msgid "Warnings"
 msgstr "Упозорења"
 
-#: qt/stats_widget.cpp:134
+#: qt/stats_widget.cpp:229
 msgid "Diff"
 msgstr "Разлика"
 
-#: qt/stats_widget.cpp:136
+#: qt/stats_widget.cpp:233
 msgid "Ranking"
 msgstr "Рангирање"
 
-#: qt/stats_widget.cpp:139
+#: qt/stats_widget.cpp:236
 msgid "Game"
 msgstr "Игра"
 
-#: qt/stats_widget.cpp:336
+#: qt/stats_widget.cpp:431
 msgid "Word: %1"
 msgstr "Реч: %1"
 
-#: qt/stats_widget.cpp:337
+#: qt/stats_widget.cpp:432
 msgid "Ref: %1"
 msgstr "Реф: %1"
 
-#: qt/stats_widget.cpp:341
+#: qt/stats_widget.cpp:436
 msgid "Invalid move (%1 - %2)"
 msgstr "Нисправан потез (%1 - %2)"
 
-#: qt/stats_widget.cpp:347
+#: qt/stats_widget.cpp:442
 msgid "Changed letters: %1"
 msgstr "Замењена слова: %1"
 
-#: qt/stats_widget.cpp:351
+#: qt/stats_widget.cpp:446
 msgid "Passed turn"
 msgstr "Прескочен потез"
 
-#: qt/stats_widget.cpp:355
+#: qt/stats_widget.cpp:450
 msgid "No move"
 msgstr "Без потеза"
 
-#: qt/stats_widget.cpp:362
+#: qt/stats_widget.cpp:457
 msgid "Points: %1"
 msgstr "Поени: %1"
 
-#: qt/stats_widget.cpp:365
+#: qt/stats_widget.cpp:460
 msgid "Points: %1 (%2)"
 msgstr "Поени: %1 (%2)"
 
-#: qt/stats_widget.cpp:367
+#: qt/stats_widget.cpp:462
 msgid "max"
 msgstr "макс"
 
-#: qt/stats_widget.cpp:374
+#: qt/stats_widget.cpp:469
 msgid "Solo: %1"
 msgstr "Индивидуално: %1"
 
-#: qt/stats_widget.cpp:378
+#: qt/stats_widget.cpp:473
 msgid "Warnings: %1"
 msgstr "Упозорења: %1"
 
-#: qt/stats_widget.cpp:382
+#: qt/stats_widget.cpp:477
 msgid "Penalties: %1"
 msgstr "Казне: %1"
 
@@ -1938,44 +2299,91 @@ msgid "The table numbers must be unique, but \"%1\" appears several times."
 msgstr ""
 "Бројеви из табеле морају да буду јединствени, \"%1\" се појављује више пута."
 
-#: qt/training_widget.cpp:317
+#: qt/topping_widget.cpp:104
+msgid "#"
+msgstr ""
+
+#: qt/topping_widget.cpp:249
+#, fuzzy
+msgid "End of turn"
+msgstr "&Крај потеза"
+
+#: qt/topping_widget.cpp:250
+msgid ""
+"The allocated time for the turn has expired.\n"
+"The top is %1 at %2 for %3 points."
+msgstr ""
+
+#: qt/training_widget.cpp:318
 msgid ""
 "Warning: Cannot set the rack to '%1'\n"
 "%2"
-msgstr "Упозорење: Не може да постави сталак на '%1'\n%2"
+msgstr ""
+"Упозорење: Не може да постави сталак на '%1'\n"
+"%2"
 
-#: utils/ncurses.cpp:296
+#: qt/update_checker.cpp:68
+msgid "Checking for updates..."
+msgstr ""
+
+#: qt/update_checker.cpp:99
+msgid "Update check completed, no new version available"
+msgstr ""
+
+#: qt/update_checker.cpp:104
+msgid "Update check failed. Please check your internet connection"
+msgstr ""
+
+#. TRANSLATORS: Here %1 represents a version number.
+#: qt/update_checker.cpp:200
+msgid "Eliot %1 is available."
+msgstr ""
+
+#: qt/update_checker.cpp:201
+msgid "You can download it from %1."
+msgstr ""
+
+#: qt/update_checker.cpp:203
+msgid "This message will be displayed at most once a week."
+msgstr ""
+
+#: qt/update_checker.cpp:204
+msgid "New version available"
+msgstr ""
+
+#: utils/ncurses.cpp:298
 msgid "Scores"
 msgstr "Резултати"
 
-#: utils/ncurses.cpp:300 utils/ncurses.cpp:306
-#, c-format
+#: utils/ncurses.cpp:302 utils/ncurses.cpp:308
+#, c-format, boost-format
 msgid "%s: %d"
 msgstr "%s: %d"
 
-#: utils/ncurses.cpp:318
+#: utils/ncurses.cpp:320
 msgid "Racks"
 msgstr "Сталци"
 
-#: utils/ncurses.cpp:322 utils/ncurses.cpp:328
-#, c-format
+#: utils/ncurses.cpp:324 utils/ncurses.cpp:330
+#, c-format, boost-format
 msgid "%s: %ls"
 msgstr "%s: %ls"
 
-#: utils/ncurses.cpp:342 utils/ncurses.cpp:345
+#: utils/ncurses.cpp:344 utils/ncurses.cpp:347
 msgid "Search complete"
 msgstr "Претрага комплетирана"
 
-#: utils/ncurses.cpp:354 qt/ui/training_widget.ui.h:200
+#: utils/ncurses.cpp:356 qt/ui/training_widget.ui.h:201
 msgid "Search results"
 msgstr "Резултати претраге"
 
-#: utils/ncurses.cpp:383
+#: utils/ncurses.cpp:385
 msgid "History of the game"
 msgstr "Историја игре"
 
-#: utils/ncurses.cpp:389
-msgid " N |      RACK      |    SOLUTION     | REF | PTS | P | BONUS"
+#: utils/ncurses.cpp:391
+#, fuzzy
+msgid " N |      RACK      |    SOLUTION     | REF | PTS | BONUS"
 msgstr " БР |      СТАЛАК      |    РЕШЕЊЕ     | РЕФ | ПОЕНИ | И | БОНУС"
 
 #: utils/ncurses.cpp:456
@@ -2111,12 +2519,12 @@ msgid "Enter the word to check:"
 msgstr "Унеси реч за проверу:"
 
 #: utils/ncurses.cpp:609
-#, c-format
+#, c-format, boost-format
 msgid "The word '%ls' exists"
 msgstr "Реч '%ls' постоји"
 
 #: utils/ncurses.cpp:611
-#, c-format
+#, c-format, boost-format
 msgid "The word '%ls' does not exist"
 msgstr "Реч '%ls' не постоји"
 
@@ -2129,126 +2537,122 @@ msgid "Enter the file name:"
 msgstr "Унеси име датотеке:"
 
 #: utils/ncurses.cpp:632
-#, c-format
+#, c-format, boost-format
 msgid "Game saved in '%ls'"
 msgstr "Игра сачувана у '%ls'"
 
 #: utils/ncurses.cpp:637
-#, c-format
+#, c-format, boost-format
 msgid "Error saving game %s:"
 msgstr "Грешка приликом чувања игре %s:"
 
-#: utils/ncurses.cpp:667
+#: utils/ncurses.cpp:666
 msgid "Unable to load game: "
 msgstr "Не може да учита игру:"
 
-#: utils/ncurses.cpp:677
+#: utils/ncurses.cpp:676
 msgid "Pass your turn"
 msgstr "Прескочи свој потез"
 
-#: utils/ncurses.cpp:678
+#: utils/ncurses.cpp:677
 msgid "Enter the letters to change:"
 msgstr "Унеси слова за промену:"
 
-#: utils/ncurses.cpp:687
+#: utils/ncurses.cpp:686
 msgid "Cannot pass the turn"
 msgstr "Не можете прескочити потез"
 
-#: utils/ncurses.cpp:697
+#: utils/ncurses.cpp:696
 msgid "Set rack"
 msgstr "Постави сталак"
 
-#: utils/ncurses.cpp:698
+#: utils/ncurses.cpp:697
 msgid "Enter the new letters:"
 msgstr "Унеси нова слова:"
 
-#: utils/ncurses.cpp:710
+#: utils/ncurses.cpp:709
 msgid "Cannot take these letters from the bag:"
 msgstr "Не може да узме ова слова из врећице:"
 
-#: utils/ncurses.cpp:1121 qt/ui/prefs_dialog.ui.h:583
+#: utils/ncurses.cpp:1120 qt/ui/prefs_dialog.ui.h:662
 msgid "Free game mode"
 msgstr "Слободна игра"
 
-#: utils/ncurses.cpp:1123 qt/ui/prefs_dialog.ui.h:570
+#: utils/ncurses.cpp:1122 qt/ui/prefs_dialog.ui.h:649
 msgid "Duplicate mode"
 msgstr "Дупла игра"
 
-#: utils/ncurses.cpp:1126 qt/ui/new_game.ui.h:209
+#: utils/ncurses.cpp:1125 qt/ui/new_game.ui.h:284
 msgid "Joker game"
 msgstr "Џокер игра"
 
-#: utils/ncurses.cpp:1127
+#: utils/ncurses.cpp:1126
 msgid "[h for help]"
 msgstr "[h за помоћ]"
 
-#: qt/ui/arbit_assignments.ui.h:143
+#: qt/ui/arbit_assignments.ui.h:144
 msgid "Assignments"
 msgstr "Задаци"
 
-#: qt/ui/arbit_assignments.ui.h:144
+#: qt/ui/arbit_assignments.ui.h:145
 msgid "Master move:"
 msgstr "Мајсторски потез:"
 
-#: qt/ui/arbit_assignments.ui.h:146
+#: qt/ui/arbit_assignments.ui.h:147
 msgid "Select"
 msgstr "Изабери"
 
-#: qt/ui/arbit_assignments.ui.h:147
+#: qt/ui/arbit_assignments.ui.h:148
 msgid "Hide players with an assigned move"
 msgstr "Сакриј играче са додељеним потезима"
 
-#: qt/ui/arbit_assignments.ui.h:148
+#: qt/ui/arbit_assignments.ui.h:149
 msgid "Assign move"
 msgstr "Додели потез"
 
-#: qt/ui/arbit_assignments.ui.h:150
+#: qt/ui/arbit_assignments.ui.h:151
 msgid "Indicate that the selected player(s) did not play"
 msgstr "Означи да изабрани играчи нису играли"
 
-#: qt/ui/arbit_assignments.ui.h:152
+#: qt/ui/arbit_assignments.ui.h:153
 msgid "Suppress move"
 msgstr "Забрана потеза"
 
-#: qt/ui/arbit_assignments.ui.h:154
+#: qt/ui/arbit_assignments.ui.h:155
 msgid "Validate the current turn and start a new one"
 msgstr "Потврдите овај потез и почните нови"
 
-#: qt/ui/arbit_assignments.ui.h:156
+#: qt/ui/arbit_assignments.ui.h:157
 msgid "&End turn"
 msgstr "&Крај потеза"
 
-#: qt/ui/arbitration_widget.ui.h:195
+#: qt/ui/arbitration_widget.ui.h:205
 msgid "Random"
 msgstr "Насумично"
 
-#: qt/ui/arbitration_widget.ui.h:196 qt/ui/dic_tools_widget.ui.h:308
+#: qt/ui/arbitration_widget.ui.h:206 qt/ui/dic_tools_widget.ui.h:308
 #: qt/ui/dic_tools_widget.ui.h:310
 msgid "Search"
 msgstr "Претрага"
 
-#: qt/ui/arbitration_widget.ui.h:197
+#: qt/ui/arbitration_widget.ui.h:207
 msgid "Possible words"
 msgstr "Могуће речи"
 
-#: qt/ui/arbitration_widget.ui.h:198
+#: qt/ui/arbitration_widget.ui.h:208
 msgid "Filter results:"
 msgstr "Резултати филтера:"
 
-#: qt/ui/arbitration_widget.ui.h:199
-msgid "Filter"
-msgstr "Филтер"
-
-#: qt/ui/arbitration_widget.ui.h:200
+#: qt/ui/arbitration_widget.ui.h:212
 msgid "Word:"
 msgstr "Реч:"
 
-#: qt/ui/arbitration_widget.ui.h:201 qt/ui/player_widget.ui.h:164
-#: qt/ui/training_widget.ui.h:187
+#: qt/ui/arbitration_widget.ui.h:213 qt/ui/player_widget.ui.h:164
+#: qt/ui/training_widget.ui.h:188
 msgid "Ref.:"
 msgstr "Реф.:"
 
-#: qt/ui/arbitration_widget.ui.h:202
+#: qt/ui/arbitration_widget.ui.h:214
 msgid "Check word"
 msgstr "Провери реч"
 
@@ -2324,7 +2728,7 @@ msgid "Load this dictionary in Eliot"
 msgstr "Учитај овај речник у Eliot"
 
 #: qt/ui/dic_wizard_info_page.ui.h:143 qt/ui/dic_wizard_info_page.ui.h:144
-#: qt/ui/prefs_dialog.ui.h:560
+#: qt/ui/new_game.ui.h:290 qt/ui/prefs_dialog.ui.h:638
 msgid "Browse..."
 msgstr "Претрага..."
 
@@ -2345,8 +2749,8 @@ msgid ""
 "Use the values for the current dictionary for all the letters below (unknown "
 "letters will be ignored)"
 msgstr ""
-"Користи вредности из тренутног речника за сва слова испод (непозната слова ће "
-"бити игнорисана)"
+"Користи вредности из тренутног речника за сва слова испод (непозната слова "
+"ће бити игнорисана)"
 
 #: qt/ui/dic_wizard_letters_def_page.ui.h:96
 msgid "Use values from current dictionary"
@@ -2356,74 +2760,58 @@ msgstr "Користи вредности из тренутног речника
 msgid "External board"
 msgstr "Екстерна табла"
 
-#: qt/ui/new_game.ui.h:198
+#: qt/ui/new_game.ui.h:275
 msgid "New game"
 msgstr "Нова игра"
 
-#: qt/ui/new_game.ui.h:199
+#: qt/ui/new_game.ui.h:276
 msgid "Game type"
 msgstr "Тип игре"
 
-#: qt/ui/new_game.ui.h:200
+#: qt/ui/new_game.ui.h:277
 msgid "Mode:"
 msgstr "Начин:"
 
-#: qt/ui/new_game.ui.h:201
+#: qt/ui/new_game.ui.h:278
 msgid "Duplicate"
 msgstr "Дупликат"
 
-#: qt/ui/new_game.ui.h:204
+#: qt/ui/new_game.ui.h:281
 msgid "Arbitration (duplicate)"
 msgstr "Арбитража (дупликати)"
 
-#: qt/ui/new_game.ui.h:205
+#: qt/ui/new_game.ui.h:283
 msgid "Variant:"
 msgstr "Варијанта:"
 
-#: qt/ui/new_game.ui.h:207
-msgid ""
-"In a joker game, each rack contains a joker. When a word containing the "
-"joker is played on the grid, the joker is then replaced by the corresponding "
-"letter from the bag, and the joker stays in the rack. When the corresponding "
-"letter is not present in the bag, the joker is placed on the board. This "
-"variant, particularly interesting in Duplicate mode, is good to train using "
-"the joker."
-msgstr ""
-"У џокер игри, сваки сталак садржи џокер. Када је реч која садржи џокер "
-"одиграна, џокер се замењује одговарајућим словом из врећице, а џокер остаје "
-"на сталку. Када одговарајуће слово није у врећици, џокер се ставља на таблу. "
-"Ова варијанта, посебно занимљива у дуплој игри, је добра за вежбање употребе "
-"џокера."
-
-#: qt/ui/new_game.ui.h:211
-msgid ""
-"An explosive game is a bit like a joker game, except than when the computer "
-"chooses the rack (containing a joker), it performs a search and finds the "
-"best word possible with the rack. Then, if possible, it replaces the joker "
-"in the rack with the letter allowing to play this best word. This variant, "
-"unlike the joker game, allows playing with a normal-looking rack, but it "
-"usually gives much higher scores than in a normal game."
-msgstr ""
-"Експлозивна игра је помало слична џокер игри, осим када рачунар изабере "
-"сталак (који садржи џокер), онда обавља претраживање и тражи најбољу могућу "
-"реч. Тада, ако је могуће, замењује џокер у сталку са словом помоћу кога "
-"одигра најбољу реч. Ова варијанта, за разлику од џокер игре, дозвољава "
-"играње са нормалним сталком, али обично даје боље резултате него у обичној "
-"игри."
-
-#: qt/ui/new_game.ui.h:213
+#: qt/ui/new_game.ui.h:285
 msgid "Explosive game"
 msgstr "Експлозивна игра"
 
-#: qt/ui/new_game.ui.h:214
+#: qt/ui/new_game.ui.h:286
 msgid "7 among 8"
 msgstr "7 међу 8"
 
-#: qt/ui/new_game.ui.h:216
+#: qt/ui/new_game.ui.h:287
+#, fuzzy
+msgid "Master game"
+msgstr "Мајсторски потез:"
+
+#: qt/ui/new_game.ui.h:288
+#, fuzzy
+msgid "Use a master game"
+msgstr "Користи као мајсторски потез"
+
+#: qt/ui/new_game.ui.h:289
+#, fuzzy
+msgid "Saved game to use:"
+msgstr "Сачувај игру"
+
+#: qt/ui/new_game.ui.h:292
 msgid "Add &player"
 msgstr "Додај &играча"
 
-#: qt/ui/new_game.ui.h:217
+#: qt/ui/new_game.ui.h:293
 msgid "Add &favorite players..."
 msgstr "Додај &омиљене играче..."
 
@@ -2439,7 +2827,7 @@ msgstr "Замени слова:"
 msgid "&Pass"
 msgstr "Преско&чи"
 
-#: qt/ui/player_widget.ui.h:165 qt/ui/training_widget.ui.h:186
+#: qt/ui/player_widget.ui.h:165 qt/ui/training_widget.ui.h:187
 msgid "Play a word:"
 msgstr "Одиграј реч:"
 
@@ -2451,12 +2839,12 @@ msgstr ""
 "Унеси реч коју хоћеш да одиграш (неосетљива на величину слова). Џокер из "
 "сталка мора бити написан у заградама. Нпр: р(е)ч или Р(Е)Ч"
 
-#: qt/ui/player_widget.ui.h:172 qt/ui/training_widget.ui.h:195
+#: qt/ui/player_widget.ui.h:172 qt/ui/training_widget.ui.h:196
 msgid "Play"
 msgstr "Играј"
 
 #: qt/ui/player_widget.ui.h:174 qt/ui/player_widget.ui.h:177
-#: qt/ui/training_widget.ui.h:189 qt/ui/training_widget.ui.h:192
+#: qt/ui/training_widget.ui.h:190 qt/ui/training_widget.ui.h:193
 msgid ""
 "Enter the coordinates of the word. Specify the row before the column for "
 "horizontal words, and the column before the row for vertical words. E.g.: H4 "
@@ -2465,7 +2853,7 @@ msgstr ""
 "Унеси координате речи. Наведите ред пре колоне за водоравне речи, и колону "
 "пре реда за усправне речи. Нпр: H4 или 4H"
 
-#: qt/ui/player_widget.ui.h:179 qt/ui/training_widget.ui.h:194
+#: qt/ui/player_widget.ui.h:179 qt/ui/training_widget.ui.h:195
 msgid "Points:"
 msgstr "Поени:"
 
@@ -2477,51 +2865,55 @@ msgstr "Унесите слова која желите да замените"
 msgid "&Change"
 msgstr "&Замени"
 
-#: qt/ui/prefs_dialog.ui.h:546
+#: qt/ui/prefs_dialog.ui.h:623
 msgid "Preferences"
 msgstr "Подешавања"
 
-#: qt/ui/prefs_dialog.ui.h:548
-msgid "Timer total duration (in seconds):"
-msgstr "Укупно трајање тајмера (у секундама):"
-
-#: qt/ui/prefs_dialog.ui.h:549
+#: qt/ui/prefs_dialog.ui.h:625
 msgid "Alert level (in seconds):"
 msgstr "Ниво упозорења (у секундама):"
 
-#: qt/ui/prefs_dialog.ui.h:550
+#: qt/ui/prefs_dialog.ui.h:626
+msgid "Timer total duration (in seconds):"
+msgstr "Укупно трајање тајмера (у секундама):"
+
+#: qt/ui/prefs_dialog.ui.h:627
 msgid "Timer beeps"
 msgstr "Оглашавање тајмера"
 
-#: qt/ui/prefs_dialog.ui.h:551
+#: qt/ui/prefs_dialog.ui.h:628
+msgid "Start timer automatically when the rack changes"
+msgstr ""
+
+#: qt/ui/prefs_dialog.ui.h:629
 msgid "Miscellaneous"
 msgstr "Разно"
 
-#: qt/ui/prefs_dialog.ui.h:552
+#: qt/ui/prefs_dialog.ui.h:630
 msgid "Definitions site:"
 msgstr "Сајт за дефиниције:"
 
-#: qt/ui/prefs_dialog.ui.h:553
+#: qt/ui/prefs_dialog.ui.h:631
 msgid "Dictionary path:"
 msgstr "Путања речника:"
 
-#: qt/ui/prefs_dialog.ui.h:555
+#: qt/ui/prefs_dialog.ui.h:633
 msgid "Enter the dictionary path (mandatory to start a game)"
 msgstr "Унесите путању речника (неопходно за почетак игре)"
 
-#: qt/ui/prefs_dialog.ui.h:558
+#: qt/ui/prefs_dialog.ui.h:636
 msgid "Open a browser window to choose the dictionary"
 msgstr "Отвори прозор претраживича да изаберете речник"
 
-#: qt/ui/prefs_dialog.ui.h:562
+#: qt/ui/prefs_dialog.ui.h:640
 msgid "Show/hide the tiles points on the board."
 msgstr "Прикажи/сакриј поене на плочицама на табли."
 
-#: qt/ui/prefs_dialog.ui.h:564
+#: qt/ui/prefs_dialog.ui.h:642
 msgid "Display tiles points"
 msgstr "Прикажи поене на плочицама"
 
-#: qt/ui/prefs_dialog.ui.h:566
+#: qt/ui/prefs_dialog.ui.h:644
 msgid ""
 "If checked, the game and player histories will display the rack and the "
 "corresponding solution on the same line"
@@ -2529,15 +2921,19 @@ msgstr ""
 "Ако је селектовано, игра и историја играча ће приказати садржај сталка и "
 "одговарајуће решење у истој линији"
 
-#: qt/ui/prefs_dialog.ui.h:568
+#: qt/ui/prefs_dialog.ui.h:646
 msgid "Align the rack and the solution in history"
 msgstr "Поравнај сталак и решења у историји"
 
-#: qt/ui/prefs_dialog.ui.h:569
+#: qt/ui/prefs_dialog.ui.h:647
+msgid "Check periodially for new versions"
+msgstr ""
+
+#: qt/ui/prefs_dialog.ui.h:648
 msgid "Interface"
 msgstr "Интерфејс"
 
-#: qt/ui/prefs_dialog.ui.h:572 qt/ui/prefs_dialog.ui.h:585
+#: qt/ui/prefs_dialog.ui.h:651 qt/ui/prefs_dialog.ui.h:664
 msgid ""
 "If checked, playing an invalid or misplaced word will not be possible. If "
 "unchecked, you will get 0 point and lose your turn"
@@ -2545,43 +2941,43 @@ msgstr ""
 "Ако је селектовано, играње неважећих или погрешних речи неће бити могуће. "
 "Ако није, добићете 0 поена и изгубити потез"
 
-#: qt/ui/prefs_dialog.ui.h:574 qt/ui/prefs_dialog.ui.h:587
+#: qt/ui/prefs_dialog.ui.h:653 qt/ui/prefs_dialog.ui.h:666
 msgid "Refuse to play invalid moves"
 msgstr "Одбија да игра неважеће потезе"
 
-#: qt/ui/prefs_dialog.ui.h:575
+#: qt/ui/prefs_dialog.ui.h:654 qt/ui/prefs_dialog.ui.h:689
 msgid "Min. players for a solo:"
 msgstr "Мин. број играча за соло:"
 
-#: qt/ui/prefs_dialog.ui.h:576 qt/ui/prefs_dialog.ui.h:603
+#: qt/ui/prefs_dialog.ui.h:655 qt/ui/prefs_dialog.ui.h:685
 msgid "Solo value:"
 msgstr "Индивидуална вредност:"
 
-#: qt/ui/prefs_dialog.ui.h:578 qt/ui/prefs_dialog.ui.h:605
+#: qt/ui/prefs_dialog.ui.h:657 qt/ui/prefs_dialog.ui.h:687
 msgid "Value of the solo bonus. Set it to 0 if you don't want solo bonus"
 msgstr "Вредност соло бонуса. Поставите га на 0 ако не желите соло бонус"
 
-#: qt/ui/prefs_dialog.ui.h:581
+#: qt/ui/prefs_dialog.ui.h:660 qt/ui/prefs_dialog.ui.h:678
 msgid "Minimum number of players needed to take into account the solo bonus"
 msgstr "Минималан број играча којих је потребно узети у обзир соло бонуса"
 
-#: qt/ui/prefs_dialog.ui.h:589 qt/ui/prefs_dialog.ui.h:602
+#: qt/ui/prefs_dialog.ui.h:668 qt/ui/prefs_dialog.ui.h:690
 msgid "Search results limit:"
 msgstr "Резултати претраге у границама:"
 
-#: qt/ui/prefs_dialog.ui.h:590
+#: qt/ui/prefs_dialog.ui.h:669
 msgid "Arbitration mode"
 msgstr "Арбитража"
 
-#: qt/ui/prefs_dialog.ui.h:591
+#: qt/ui/prefs_dialog.ui.h:670
 msgid "Choose a master move automatically"
 msgstr "Изабери мајсторски потез аутоматски"
 
-#: qt/ui/prefs_dialog.ui.h:592
+#: qt/ui/prefs_dialog.ui.h:671
 msgid "Propose a new rack automatically"
 msgstr "Предложи нови сталак аутоматски"
 
-#: qt/ui/prefs_dialog.ui.h:594
+#: qt/ui/prefs_dialog.ui.h:673
 msgid ""
 "If checked, any change to the player rack in training mode will update the "
 "'Plus 1' tab of the 'Dictionary tools' window"
@@ -2589,83 +2985,96 @@ msgstr ""
 "Ако је селектовано, свака промена у играчевом сталку у тренинг игри ће "
 "ажурирати 'Плус 1' картицу у прозору 'Алатке речника'"
 
-#: qt/ui/prefs_dialog.ui.h:596
+#: qt/ui/prefs_dialog.ui.h:675
 msgid "Copy rack to the 'Plus 1' dictionary tool"
 msgstr "Копирај сталак у 'Плус 1' алатку за речник"
 
-#: qt/ui/prefs_dialog.ui.h:597
+#: qt/ui/prefs_dialog.ui.h:676
+#, fuzzy
+msgid "Handle solos automatically"
+msgstr "Предложи нови сталак аутоматски"
+
+#: qt/ui/prefs_dialog.ui.h:680
 msgid "Penalty value:"
 msgstr "Вредност казне:"
 
-#: qt/ui/prefs_dialog.ui.h:598
+#: qt/ui/prefs_dialog.ui.h:681
 msgid "Warnings limit:"
 msgstr "Границе за упозорења:"
 
-#: qt/ui/prefs_dialog.ui.h:600
+#: qt/ui/prefs_dialog.ui.h:683
 msgid "Default number of points for a penalty"
 msgstr "Подразумеван број поена за казну"
 
-#: qt/ui/prefs_dialog.ui.h:607
+#: qt/ui/prefs_dialog.ui.h:692
+msgid "Additional penalty given when the timer expires:"
+msgstr ""
+
+#: qt/ui/prefs_dialog.ui.h:693
+msgid "Give a 1 point penalty for each elapsed second"
+msgstr ""
+
+#: qt/ui/prefs_dialog.ui.h:694
 msgid "Game modes"
 msgstr "Модели игре"
 
-#: qt/ui/prefs_dialog.ui.h:608
+#: qt/ui/prefs_dialog.ui.h:695
 msgid "When a game is on going, ask for a confirmation:"
 msgstr "У току игре, затражи потврду:"
 
-#: qt/ui/prefs_dialog.ui.h:609
+#: qt/ui/prefs_dialog.ui.h:696
 msgid "Before starting a new game"
 msgstr "Пре почетка нове игре"
 
-#: qt/ui/prefs_dialog.ui.h:610
+#: qt/ui/prefs_dialog.ui.h:697
 msgid "Before loading a game"
 msgstr "Пре учитавања игре"
 
-#: qt/ui/prefs_dialog.ui.h:611
+#: qt/ui/prefs_dialog.ui.h:698
 msgid "Before loading a dictionary"
 msgstr "Пре бирања речника"
 
-#: qt/ui/prefs_dialog.ui.h:612
+#: qt/ui/prefs_dialog.ui.h:699
 msgid "Before replaying a turn"
 msgstr "Упозори пре понављања потеза"
 
-#: qt/ui/prefs_dialog.ui.h:613
+#: qt/ui/prefs_dialog.ui.h:700
 msgid "Before quitting Eliot"
 msgstr "Пре затварања Eliot-а"
 
-#: qt/ui/prefs_dialog.ui.h:614
+#: qt/ui/prefs_dialog.ui.h:701
 msgid "In arbitration mode, ask for a confirmation:"
 msgstr "У игри арбитраже, захтевај потврду:"
 
-#: qt/ui/prefs_dialog.ui.h:615
+#: qt/ui/prefs_dialog.ui.h:702
 msgid "Before replacing the selected master move"
 msgstr "Пре замене изабраног мајсторског потеза"
 
-#: qt/ui/prefs_dialog.ui.h:616
+#: qt/ui/prefs_dialog.ui.h:703
 msgid "When selecting a non optimal master move"
 msgstr "Када је изабран неоптимални мајсторски потез"
 
-#: qt/ui/prefs_dialog.ui.h:617
+#: qt/ui/prefs_dialog.ui.h:704
 msgid "When selecting a master move using jokers uselessly"
 msgstr "Када изабрани мајсторски потез користи без потребе"
 
-#: qt/ui/prefs_dialog.ui.h:618
+#: qt/ui/prefs_dialog.ui.h:705
 msgid "Before suppressing a player move"
 msgstr "Пре забране потеза играча"
 
-#: qt/ui/prefs_dialog.ui.h:619
+#: qt/ui/prefs_dialog.ui.h:706
 msgid "Before replacing a player move"
 msgstr "Упозори пре замене потеза"
 
-#: qt/ui/prefs_dialog.ui.h:620
+#: qt/ui/prefs_dialog.ui.h:707
 msgid "Before losing a player move (with a rack change)"
 msgstr "Пре него што играч изгуби потез (са заменом сталка)"
 
-#: qt/ui/prefs_dialog.ui.h:621
+#: qt/ui/prefs_dialog.ui.h:708
 msgid "When ending an incomplete turn"
 msgstr "Када се завршава некомплетан потез"
 
-#: qt/ui/prefs_dialog.ui.h:622
+#: qt/ui/prefs_dialog.ui.h:709
 msgid "Confirmations"
 msgstr "Потврде"
 
@@ -2673,21 +3082,72 @@ msgstr "Потврде"
 msgid "Players tables definition"
 msgstr "Дефиниција табела за играче"
 
-#: qt/ui/training_widget.ui.h:196
+#: qt/ui/training_widget.ui.h:197
 msgid "&New rack"
 msgstr "&Нови сталак"
 
-#: qt/ui/training_widget.ui.h:197
+#: qt/ui/training_widget.ui.h:198
 msgid "&Complement"
 msgstr "&Допуна"
 
-#: qt/ui/training_widget.ui.h:198
+#: qt/ui/training_widget.ui.h:199
 msgid "Sea&rch"
 msgstr "&Претрага"
 
-#: qt/ui/training_widget.ui.h:199
+#: qt/ui/training_widget.ui.h:200
 msgid "&Play selected"
 msgstr "&Одиграј изабрано"
+
+#~ msgid "Exception caught: %1%"
+#~ msgstr "Ухваћен изузетак: %1%"
+
+#~ msgid "usage: %s [-a|-h|-l|-x] dictionary\n"
+#~ msgstr "користи се: %s [-a|-h|-l|-x] речник\n"
+
+#~ msgid "  -a: print all\n"
+#~ msgstr "  -a: штампај све\n"
+
+#~ msgid "  -h: print header\n"
+#~ msgstr "  -h: штампај заглавље\n"
+
+#~ msgid "  -l: print dictionary word list\n"
+#~ msgstr "  -l: штампај листу речи из речника\n"
+
+#~ msgid "  -x: print dictionary in hex\n"
+#~ msgstr "  -x: штампај речник хексадецимално\n"
+
+#~ msgid "Filter"
+#~ msgstr "Филтер"
+
+#~ msgid ""
+#~ "In a joker game, each rack contains a joker. When a word containing the "
+#~ "joker is played on the grid, the joker is then replaced by the "
+#~ "corresponding letter from the bag, and the joker stays in the rack. When "
+#~ "the corresponding letter is not present in the bag, the joker is placed "
+#~ "on the board. This variant, particularly interesting in Duplicate mode, "
+#~ "is good to train using the joker."
+#~ msgstr ""
+#~ "У џокер игри, сваки сталак садржи џокер. Када је реч која садржи џокер "
+#~ "одиграна, џокер се замењује одговарајућим словом из врећице, а џокер "
+#~ "остаје на сталку. Када одговарајуће слово није у врећици, џокер се ставља "
+#~ "на таблу. Ова варијанта, посебно занимљива у дуплој игри, је добра за "
+#~ "вежбање употребе џокера."
+
+#~ msgid ""
+#~ "An explosive game is a bit like a joker game, except than when the "
+#~ "computer chooses the rack (containing a joker), it performs a search and "
+#~ "finds the best word possible with the rack. Then, if possible, it "
+#~ "replaces the joker in the rack with the letter allowing to play this best "
+#~ "word. This variant, unlike the joker game, allows playing with a normal-"
+#~ "looking rack, but it usually gives much higher scores than in a normal "
+#~ "game."
+#~ msgstr ""
+#~ "Експлозивна игра је помало слична џокер игри, осим када рачунар изабере "
+#~ "сталак (који садржи џокер), онда обавља претраживање и тражи најбољу "
+#~ "могућу реч. Тада, ако је могуће, замењује џокер у сталку са словом помоћу "
+#~ "кога одигра најбољу реч. Ова варијанта, за разлику од џокер игре, "
+#~ "дозвољава играње са нормалним сталком, али обично даје боље резултате "
+#~ "него у обичној игри."
 
 #, fuzzy
 #~ msgid "Changing letters: %1"
