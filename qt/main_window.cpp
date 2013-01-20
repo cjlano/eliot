@@ -382,6 +382,9 @@ void MainWindow::prefsUpdated()
 
 void MainWindow::updateForGame(PublicGame *iGame)
 {
+    // Try to reduce flicker
+    setUpdatesEnabled(false);
+
     if (iGame == NULL)
     {
         m_actionGameSaveAs->setEnabled(false);
@@ -536,6 +539,9 @@ void MainWindow::updateForGame(PublicGame *iGame)
                              m_scoresWidget, SLOT(refresh()));
         }
     }
+
+    // Restore visual updates
+    setUpdatesEnabled(true);
 }
 
 
