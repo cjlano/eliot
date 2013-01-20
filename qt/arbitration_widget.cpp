@@ -292,11 +292,6 @@ void ArbitrationWidget::updateResultsModel()
         LOG_DEBUG("Adding custom move: " << lfw(move.toString()));
         addSingleMove(move, TYPE_ADDED, i, bestScore);
     }
-
-    // FIXME arbitration begin
-    // XXX: useful?
-    //m_proxyResultsModel->invalidate();
-    // FIXME arbitration end
 }
 
 
