@@ -165,7 +165,7 @@ void TrainingWidget::refresh()
         pushButtonSearch->setEnabled(m_model->rowCount() == 0 &&
                                      lineEditRack->text() != "");
         // Do not allow entering a move when displaying an old turn
-        setEnabled(m_game->isLastTurn());
+        setEnabled(m_game->isLastTurn() && !m_game->isFinished());
     }
 }
 

@@ -64,6 +64,8 @@ Duplicate::Duplicate(const GameParams &iParams, const Game *iMasterGame)
 
 int Duplicate::play(const wstring &iCoord, const wstring &iWord)
 {
+    ASSERT(!isFinished(), "The game is already finished");
+
     Player &currPlayer = *m_players[m_currPlayer];
 
     ASSERT(currPlayer.isHuman(), "Human player expected");

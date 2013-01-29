@@ -115,7 +115,7 @@ void PlayerWidget::refresh()
     lineEditCoords->clear();
     lineEditChange->clear();
 
-    if (!m_game->isLastTurn())
+    if (!m_game->isLastTurn() || m_game->isFinished())
     {
         // Do not allow entering a move when displaying an old turn
         setEnabled(false);
