@@ -31,8 +31,8 @@
 #include "dic_internals.h"
 #include "logging.h"
 
-class DicEdge;
-class DictHeaderInfo;
+struct DicEdge;
+struct DictHeaderInfo;
 class Header;
 
 using namespace std;

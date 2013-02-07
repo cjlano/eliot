@@ -23,7 +23,7 @@
 
 class Dictionary;
 class Node;
-class searchRegExpLists;
+struct searchRegExpLists;
 
 bool parseRegexp(const Dictionary &iDic,
                  const wchar_t *input,

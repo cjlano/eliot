@@ -44,7 +44,7 @@ typedef unsigned char dic_code_t;
 struct params_cross_t;
 struct params_7plus1_t;
 struct params_regexp_t;
-class DicEdge;
+struct DicEdge;
 
 /**
  * A wdstring is a display string, i.e. it can contain more chars than
