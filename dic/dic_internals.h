@@ -22,6 +22,7 @@
 #define DIC_INTERNALS_H_
 
 #include <stdint.h>
+#include <cstring> // For memcpy
 #include "config.h"
 
 /**
