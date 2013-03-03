@@ -197,6 +197,6 @@ qt/ui/new_game.ui.h
 qt/ui/player_widget.ui.h
 qt/ui/prefs_dialog.ui.h
 qt/ui/tables_dialog.ui.h
-qt/ui/topping_widget.ui
+qt/ui/topping_widget.ui.h
 qt/ui/training_widget.ui.h
 
