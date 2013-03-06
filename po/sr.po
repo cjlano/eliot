@@ -33,9 +33,9 @@ msgstr ""
 "листу речи."
 
 #: dic/compdic.cpp:145 dic/compdic.cpp:150 dic/compdicmain.cpp:58
-#, fuzzy, boost-format
+#, boost-format
 msgid "Could not open file '%1%'"
-msgstr "Не може да отвори датотеку '%1'"
+msgstr "Не може да отвори датотеку '%1%'"
 
 #: dic/compdic.cpp:268
 #, boost-format
@@ -334,46 +334,41 @@ msgid "offset binary   | structure\n"
 msgstr "бинарни офсет   | структура\n"
 
 #: dic/listdicmain.cpp:123
-#, fuzzy
 msgid "  -d, --dictionary <string>  Dictionary file (.dawg) to use"
-msgstr "  -d, --dicname <string>  Постави име и верзију речника"
+msgstr "  -d, --dictionary <string>  Датотека речника (.dawg) која се користи"
 
 #: dic/listdicmain.cpp:124
-#, fuzzy
 msgid "Output options:"
-msgstr "Друге опције:"
+msgstr "Опције излаза:"
 
 #: dic/listdicmain.cpp:125
-#, fuzzy
 msgid "  -e, --header            Print the dictionary header"
-msgstr "  -h, --help              Штампа помоћ и затвара"
+msgstr "  -e, --header              Штампа заглавље речника"
 
 #: dic/listdicmain.cpp:126
 msgid "  -l, --letters           Print letters information, in a format"
-msgstr ""
+msgstr "  -l, --letters           Штампа информације о словима, у формату"
 
 #: dic/listdicmain.cpp:127
 msgid "                          suitable for the 'compdic' program"
-msgstr ""
+msgstr "                          погодан за 'compdic' програм"
 
 #: dic/listdicmain.cpp:128
-#, fuzzy
 msgid "  -w, --words             Print all the words stored in the dictionary"
-msgstr "   d, D             Проверава постојање речи у речнику"
+msgstr "  -w, --words             Штампа све речи из речника"
 
 #: dic/listdicmain.cpp:129
-#, fuzzy
 msgid "  -x, --hexa              Print data as hexadecimal (for debugging)"
-msgstr "  -h, --help              Штампа помоћ и затвара"
+msgstr ""
+"  -x, --hexa              Штампа податке хекцадецимално (за дебагирање)"
 
 #: dic/listdicmain.cpp:133
 msgid "If no output option is specified, --header is used implicitly."
-msgstr ""
+msgstr "Ако није опција излаза дефинисана, --заглавље се користи имплицитно."
 
 #: dic/listdicmain.cpp:134
-#, fuzzy
 msgid "Example: "
-msgstr "Пример:"
+msgstr "Пример: "
 
 #: dic/regexpmain.cpp:45
 #, c-format, boost-format
@@ -394,7 +389,7 @@ msgstr "резултат:"
 
 #: dic/regexpmain.cpp:107
 msgid "Invalid regular expression: "
-msgstr "Неважећи регуларни израз:"
+msgstr "Неважећи регуларни израз: "
 
 #: game/duplicate.cpp:289
 msgid "No possible move"
@@ -409,14 +404,12 @@ msgid "Cannot switch to a player who has already played"
 msgstr "Не може да пребаци на играча који већ одиграо"
 
 #: game/game.cpp:214
-#, fuzzy
 msgid "No more turn in the master game"
-msgstr "Иди на следећи потез"
+msgstr "Нема више потеза у мајсторској игри"
 
 #: game/game.cpp:243
-#, fuzzy
 msgid "No move defined for this turn in the master game"
-msgstr "Иди на први потез"
+msgstr "Није дефинисана игра за овај потез у мајсторској игри"
 
 #: game/game.cpp:260
 msgid "The bag is empty"
@@ -443,125 +436,116 @@ msgid "Not enough vowels or consonants in this rack"
 msgstr "Недовољно самогласмика или сугласника у овом сталку"
 
 #: game/game_factory.cpp:168
-#, fuzzy, boost-format
+#, boost-format
 msgid "Player %1%"
-msgstr "Играч %1"
+msgstr "Играч %1%"
 
 #: game/hints.cpp:49 qt/score_widget.cpp:50
 msgid "Score"
 msgstr "Резултат"
 
 #: game/hints.cpp:50
-#, fuzzy
 msgid "Get the score of the move"
-msgstr "Иди на последњи потез"
+msgstr "Сазнај резултат потеза"
 
 #: game/hints.cpp:57
-#, fuzzy, boost-format
+#, boost-format
 msgid "Score: %1%"
-msgstr "Резултат"
+msgstr "Резултат: %1%"
 
 #: game/hints.cpp:63
-#, fuzzy
 msgid "Orientation"
-msgstr "Арбитража"
+msgstr "Орјентација"
 
 #: game/hints.cpp:64
 msgid "Get the orientation of the move (horizontal/vertical)"
-msgstr ""
+msgstr "Сазнај орјентацију потеза (хоризонтално/вертикално)"
 
 #: game/hints.cpp:73
-#, fuzzy, boost-format
+#, boost-format
 msgid "Orientation: %1%"
-msgstr "Казне: %1"
+msgstr "Орјентација: %1%"
 
 #: game/hints.cpp:75
 msgid "horizontal"
-msgstr ""
+msgstr "хоризонтално"
 
 #: game/hints.cpp:77
 msgid "vertical"
-msgstr ""
+msgstr "вертиклано"
 
 #: game/hints.cpp:84
-#, fuzzy
 msgid "Position"
-msgstr "Опис"
+msgstr "Позиција"
 
 #: game/hints.cpp:85
-#, fuzzy
 msgid "Get the coordinates of the move"
-msgstr "Иди на следећи потез"
+msgstr "Сазнај координате потеза"
 
 #: game/hints.cpp:93
-#, fuzzy, boost-format
+#, boost-format
 msgid "Position: %1%"
-msgstr "Поени: %1"
+msgstr "Позиција: %1%"
 
 #: game/hints.cpp:100
 msgid "Length"
-msgstr ""
+msgstr "Дужина"
 
 #: game/hints.cpp:101
-#, fuzzy
 msgid "Get the length of the word"
-msgstr "Прикажи/сакриј поене на плочицама на табли."
+msgstr "Сазнај дужину речи"
 
 #: game/hints.cpp:109
 #, boost-format
 msgid "Length: %1% letters"
-msgstr ""
+msgstr "Дужина: %1% слова"
 
 #: game/hints.cpp:116
-#, fuzzy
 msgid "Letters from board"
-msgstr "Учитај слова из листе речи"
+msgstr "Слова са табле"
 
 #: game/hints.cpp:117
 msgid "Get the letters of the word coming from the board"
-msgstr ""
+msgstr "Сазнај слова речи са табле"
 
 #: game/hints.cpp:133
-#, fuzzy, boost-format
+#, boost-format
 msgid "Letters from board: %1%"
-msgstr "Слова: %1%"
+msgstr "Слова са табле: %1%"
 
 #: game/hints.cpp:134
 msgid "(none)"
-msgstr ""
+msgstr "(ништа)"
 
 #: game/hints.cpp:140
-#, fuzzy
 msgid "Word letters"
-msgstr "Листа речи:"
+msgstr "Слова из речи"
 
 #: game/hints.cpp:141
 msgid "Get the letters of the word in alphabetical order"
-msgstr ""
+msgstr "Добијај слова речи у азбучном реду"
 
 #: game/hints.cpp:153
-#, fuzzy, boost-format
+#, boost-format
 msgid "Word letters: %1%"
-msgstr "Слова: %1%"
+msgstr "Слова из речи: %1%"
 
 #: game/hints.cpp:160
-#, fuzzy
 msgid "First letter"
-msgstr "&Први игра"
+msgstr "Прво слово"
 
 #: game/hints.cpp:161
-#, fuzzy
 msgid "Get the first letter of the word"
-msgstr "Иди на први потез"
+msgstr "Сазнај прво слово речи"
 
 #: game/hints.cpp:169
-#, fuzzy, boost-format
+#, boost-format
 msgid "First letter: %1%"
-msgstr "Слова: %1%"
+msgstr "Прво слово: %1%"
 
 #: game/topping.cpp:216 qt/main_window.cpp:492 qt/ui/new_game.ui.h:282
 msgid "Topping"
-msgstr ""
+msgstr "Тражење најбоље речи"
 
 #: game/training.cpp:185 qt/main_window.cpp:441 qt/ui/new_game.ui.h:280
 msgid "Training"
@@ -577,9 +561,9 @@ msgid "Invalid string to int conversion: empty string received"
 msgstr "Неисправна стринг - број конверзија: примљен празан стринг"
 
 #: game/xml_reader.cpp:124
-#, fuzzy, boost-format
+#, boost-format
 msgid "Invalid player ID: %1% (processing tag '%2%')"
-msgstr "Неважећи ID играча: %1%"
+msgstr "Неважећи ID играча: %1% (обрађује се '%2%')"
 
 #: game/xml_reader.cpp:142
 #, boost-format
@@ -701,7 +685,7 @@ msgstr "P"
 #. will be used as shortcut instead of 'T'.
 #: qt/arbit_assignments.cpp:88 qt/arbit_assignments.cpp:315
 msgid "T"
-msgstr ""
+msgstr "Т"
 
 #: qt/arbit_assignments.cpp:166
 msgid "Not selected yet"
@@ -714,7 +698,7 @@ msgstr "Додели потез (%1) изабраним играчима"
 
 #: qt/arbit_assignments.cpp:295
 msgid "none"
-msgstr ""
+msgstr "ништа"
 
 #: qt/arbit_assignments.cpp:302 qt/arbitration_widget.cpp:561
 msgid "Assign selected move (%1)"
@@ -1140,13 +1124,12 @@ msgid "Remove player"
 msgstr "Уклони играча"
 
 #: qt/fav_players.cpp:77 qt/ui/new_game.ui.h:295
-#, fuzzy
 msgid "Move selection upwards"
-msgstr "Уклони изабране играче"
+msgstr "Помери избор нагоре"
 
 #: qt/fav_players.cpp:80 qt/ui/new_game.ui.h:298
 msgid "Move selection downwards"
-msgstr ""
+msgstr "Помери селекцију надоле"
 
 #: qt/fav_players.cpp:83
 msgid "CSV Import..."
@@ -1193,26 +1176,24 @@ msgid "Cannot export favorite players: %1"
 msgstr "Не може да извезе омиљене играче: %1"
 
 #: qt/hints_dialog.cpp:60
-#, fuzzy
 msgid "cost: %1"
-msgstr "Поени: %1"
+msgstr "цена: %1"
 
 #: qt/hints_dialog.cpp:67
 msgid "Show"
-msgstr ""
+msgstr "Прикажи"
 
 #: qt/hints_dialog.cpp:92
 msgid "Each hint has a corresponding cost, seen as a time penalty."
-msgstr ""
+msgstr "Сваки предлог има одговарајућу казну, у виду временске казне."
 
 #: qt/hints_dialog.cpp:108
-#, fuzzy
 msgid "Hints"
-msgstr "Поени"
+msgstr "Предлози"
 
 #: qt/hints_dialog.cpp:148
 msgid "Hint"
-msgstr ""
+msgstr "Предлог"
 
 #: qt/history_widget.cpp:81
 msgid "Turn"
@@ -1288,9 +1269,8 @@ msgid "Arbitration"
 msgstr "Арбитража"
 
 #: qt/main_window.cpp:491 qt/ui/prefs_dialog.ui.h:691
-#, fuzzy
 msgid "Topping mode"
-msgstr "Тренинг"
+msgstr "Игра тражења најбољих речи"
 
 #: qt/main_window.cpp:511
 msgid "Duplicate game"
@@ -1445,13 +1425,12 @@ msgid "Save the current game"
 msgstr "Сачувај тренутну игру"
 
 #: qt/main_window.cpp:818
-#, fuzzy
 msgid "&Print preview..."
-msgstr "&Штампај..."
+msgstr "&Преглед пре штампања..."
 
 #: qt/main_window.cpp:819
 msgid "Print preview"
-msgstr ""
+msgstr "Преглед пре штампања"
 
 #: qt/main_window.cpp:821
 msgid "&Print..."
@@ -1843,6 +1822,13 @@ msgid ""
 "therefore\n"
 "often used for official tournaments."
 msgstr ""
+"У игри дупликата, сви играчи су увек суочени са истом таблом и истим "
+"словима,\n"
+"што елиминише „срећу“ (и тактику).\n"
+"Сваки играч осваја онолико поена колико носи реч коју је нашао, али само\n"
+"најбољи потез се одигра на табли.\n"
+"Овај мод омогућава неограничен број симултаних играча, и зато је\n"
+"често коришћен на званичним турнирима."
 
 #: qt/new_game.cpp:60
 msgid ""
@@ -1853,6 +1839,11 @@ msgid ""
 "With only 2 players, some tactics can often be used, because the best move\n"
 "is not necessarily the one with the best score."
 msgstr ""
+"Овај мод је класичан, често се игра у породици, где играчи играју потез,\n"
+"свако са својим словима. Играчима је дозвољено да замене слова, и тада "
+"пропуштају потез.\n"
+"Са само 2 играча одређена тактика може бити коришћена, пошто најбољи потез\n"
+"није обавезно и онај са највише поена."
 
 #: qt/new_game.cpp:65
 msgid ""
@@ -1860,6 +1851,9 @@ msgid ""
 "possible moves.\n"
 "There is no opponent, the goal is simply to make some progress."
 msgstr ""
+"У тренинг моду, играч може да постави сталак слободно и може да види све "
+"могуће потезе.\n"
+"Ту нема противника, једноставно је циљ постићи неки напредак."
 
 #: qt/new_game.cpp:68
 msgid ""
@@ -1870,6 +1864,11 @@ msgid ""
 "This mode is ideal for arbitrating duplicate games in clubs or in "
 "tournaments."
 msgstr ""
+"Мод арбитраже омогућава арбитражу игре дупликата, могуће са више играча.\n"
+"Судија може да постави мајсторски потез, и да води евиденцију о потезима "
+"играча врло лако.\n"
+"Овај мод је идеалан за арбитражу игре дупликата у клубовима или на "
+"такмичењима."
 
 #: qt/new_game.cpp:72
 msgid ""
@@ -1881,6 +1880,13 @@ msgid ""
 "This mode can be quite difficult, and is mostly intended for experienced "
 "players."
 msgstr ""
+"У игри тражења најбоље речи, циљ је пронаћи најбољу реч што је пре могуће. "
+"Играчу је дозвољено\n"
+"да одигра што више потеза све док не пронађе најбољу реч, али ту су казне\n"
+"када је потребно сувише времена да је пронађе (или да је уопште не "
+"пронађе).\n"
+"Ова игра може бити доста тешка, али је углавном занимљива искуснијим "
+"играчима."
 
 #: qt/new_game.cpp:78
 msgid ""
@@ -2085,6 +2091,8 @@ msgid ""
 "If checked, the timer will be reinitialized and restarted\n"
 "automatically every time that the main rack changes."
 msgstr ""
+"Ако је изабрано, тајмер ће бити враћен на почетак\n"
+"аутоматски сваки пут кад се главни сталак промени."
 
 #: qt/prefs_dialog.cpp:91
 msgid ""
@@ -2092,6 +2100,9 @@ msgid ""
 "(about once a week) to check if new versions are available.\n"
 "New versions are never installed automatically, you just get a notification."
 msgstr ""
+"Ако је изабрано, Eliot ће се конектовати на интернет с времена на време\n"
+"(отприлике једном недељно) у циљу провере да ли је доступна нова верзија.\n"
+"Нова верзија се никад не инсталира аутоматски, само ћете добити обавештење."
 
 #: qt/prefs_dialog.cpp:94
 msgid ""
@@ -2102,7 +2113,7 @@ msgid ""
 msgstr ""
 "Максимални број резултата из претраге.\n"
 "Пронађен резултат ће увек бити онај најбољи.\n"
-"Користите 0 да искључите ограничење (упозорење: претрага која дај много "
+"Користите 0 да искључите ограничење (упозорење: претрага која даје много "
 "резултата може бити веома спора у овом случају!)."
 
 #: qt/prefs_dialog.cpp:98
@@ -2124,13 +2135,12 @@ msgstr ""
 "Ако није, дозвољено је да изаберете слова самостално."
 
 #: qt/prefs_dialog.cpp:103
-#, fuzzy
 msgid ""
 "If checked, solos are given automatically, when appropriate.\n"
 "Uncheck this option if you prefer to do it manually."
 msgstr ""
-"Ако је изабрано, сталак ће се попунити насумично.\n"
-"Ако није, дозвољено је да изаберете слова самостално."
+"Ако је изабрано, самосталне игре су дате аутоматски, кад је прикладно.\n"
+"Не бирајте опцију ако желите да то радите самостално."
 
 #: qt/prefs_dialog.cpp:106
 msgid ""
@@ -2145,12 +2155,16 @@ msgid ""
 "If checked, the player gets, at each turn, a score penalty\n"
 "equal to the elapsed time for the turn."
 msgstr ""
+"Ако је изабрано, играч добија, у сваком потезу, казнене поене\n"
+"једнаке протеклом времену за потез."
 
 #: qt/prefs_dialog.cpp:110
 msgid ""
 "Number of points added to the player score when the timer expires.\n"
 "Set it to 0 if you don't want any penalty."
 msgstr ""
+"Број поена додатих игрчевом резулату када тајмер истекне.\n"
+"Поставите на 0 ако не желите казне."
 
 #: qt/prefs_dialog.cpp:204 qt/prefs_dialog.cpp:219 qt/prefs_dialog.cpp:332
 msgid "%1 error"
@@ -2191,28 +2205,27 @@ msgstr "Онемогући аутоматско прилагођавање ве�
 
 #: qt/stats_widget.cpp:144
 msgid "Flip table"
-msgstr ""
+msgstr "Окрени таблу"
 
 #: qt/stats_widget.cpp:145
 msgid ""
 "Flip the table so that rows and columns are exchanged.\n"
 "This allows sorting the players by ranking, for example."
 msgstr ""
+"Окреће таблу тако да су врсте и колоне замењене.\n"
+"То дозвољава сортирање играча по поенима, на пример."
 
 #: qt/stats_widget.cpp:151
-#, fuzzy
 msgid "Print preview..."
-msgstr "&Штампај..."
+msgstr "Преглед пре штампања..."
 
 #: qt/stats_widget.cpp:152 qt/stats_widget.cpp:158
-#, fuzzy
 msgid "Print the table."
-msgstr "Одштампај тренутну игру"
+msgstr "Одштампај таблу."
 
 #: qt/stats_widget.cpp:157
-#, fuzzy
 msgid "Print..."
-msgstr "&Штампај..."
+msgstr "Штампај..."
 
 #: qt/stats_widget.cpp:217
 msgid "Sub-total"
@@ -2301,18 +2314,19 @@ msgstr ""
 
 #: qt/topping_widget.cpp:104
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #: qt/topping_widget.cpp:249
-#, fuzzy
 msgid "End of turn"
-msgstr "&Крај потеза"
+msgstr "Крај потеза"
 
 #: qt/topping_widget.cpp:250
 msgid ""
 "The allocated time for the turn has expired.\n"
 "The top is %1 at %2 for %3 points."
 msgstr ""
+"Предвиђено време за потез је истекло.\n"
+"Најбољи потез је %1 на %2 за %3 поена."
 
 #: qt/training_widget.cpp:318
 msgid ""
@@ -2324,32 +2338,32 @@ msgstr ""
 
 #: qt/update_checker.cpp:67
 msgid "Checking for updates..."
-msgstr ""
+msgstr "Провери да ли постоје надоградње..."
 
 #: qt/update_checker.cpp:98
 msgid "Update check completed, no new version available"
-msgstr ""
+msgstr "Провера доградњи завршена, нема нове верзије"
 
 #: qt/update_checker.cpp:103
 msgid "Update check failed. Please check your internet connection"
-msgstr ""
+msgstr "Провера надоградњи неуспешна. Проверите интернет конекцију"
 
 #. TRANSLATORS: Here %1 represents a version number.
 #: qt/update_checker.cpp:199
 msgid "Eliot %1 is available."
-msgstr ""
+msgstr "Eliot %1 је доступан."
 
 #: qt/update_checker.cpp:200
 msgid "You can download it from %1."
-msgstr ""
+msgstr "Можете је преузети са %1."
 
 #: qt/update_checker.cpp:202
 msgid "This message will be displayed at most once a week."
-msgstr ""
+msgstr "Ова порука ће бити приказана највише једном недељно."
 
 #: qt/update_checker.cpp:203
 msgid "New version available"
-msgstr ""
+msgstr "Нова верзија доступна"
 
 #: utils/ncurses.cpp:298
 msgid "Scores"
@@ -2382,9 +2396,8 @@ msgid "History of the game"
 msgstr "Историја игре"
 
 #: utils/ncurses.cpp:391
-#, fuzzy
 msgid " N |      RACK      |    SOLUTION     | REF | PTS | BONUS"
-msgstr " БР |      СТАЛАК      |    РЕШЕЊЕ     | РЕФ | ПОЕНИ | И | БОНУС"
+msgstr " БР |      СТАЛАК      |    РЕШЕЊЕ     | РЕФ | ПОЕНИ | БОНУС"
 
 #: utils/ncurses.cpp:456
 msgid "Help"
@@ -2548,7 +2561,7 @@ msgstr "Грешка приликом чувања игре %s:"
 
 #: utils/ncurses.cpp:666
 msgid "Unable to load game: "
-msgstr "Не може да учита игру:"
+msgstr "Не може да учита игру: "
 
 #: utils/ncurses.cpp:676
 msgid "Pass your turn"
@@ -2793,19 +2806,16 @@ msgid "7 among 8"
 msgstr "7 међу 8"
 
 #: qt/ui/new_game.ui.h:287
-#, fuzzy
 msgid "Master game"
-msgstr "Мајсторски потез:"
+msgstr "Мајсторска игра"
 
 #: qt/ui/new_game.ui.h:288
-#, fuzzy
 msgid "Use a master game"
-msgstr "Користи као мајсторски потез"
+msgstr "Користи мајсторску игру"
 
 #: qt/ui/new_game.ui.h:289
-#, fuzzy
 msgid "Saved game to use:"
-msgstr "Сачувај игру"
+msgstr "Сачувана игра за коришћење:"
 
 #: qt/ui/new_game.ui.h:292
 msgid "Add &player"
@@ -2886,7 +2896,7 @@ msgstr "Оглашавање тајмера"
 
 #: qt/ui/prefs_dialog.ui.h:628
 msgid "Start timer automatically when the rack changes"
-msgstr ""
+msgstr "Покрени тајмер аутоматски када се сталак промени"
 
 #: qt/ui/prefs_dialog.ui.h:629
 msgid "Miscellaneous"
@@ -2930,7 +2940,7 @@ msgstr "Поравнај сталак и решења у историји"
 
 #: qt/ui/prefs_dialog.ui.h:647
 msgid "Check periodically for new versions"
-msgstr ""
+msgstr "Потражи нове верзије периодично"
 
 #: qt/ui/prefs_dialog.ui.h:648
 msgid "Interface"
@@ -2993,9 +3003,8 @@ msgid "Copy rack to the 'Plus 1' dictionary tool"
 msgstr "Копирај сталак у 'Плус 1' алатку за речник"
 
 #: qt/ui/prefs_dialog.ui.h:676
-#, fuzzy
 msgid "Handle solos automatically"
-msgstr "Предложи нови сталак аутоматски"
+msgstr "Предложи соло аутоматски"
 
 #: qt/ui/prefs_dialog.ui.h:680
 msgid "Penalty value:"
@@ -3011,11 +3020,11 @@ msgstr "Подразумеван број поена за казну"
 
 #: qt/ui/prefs_dialog.ui.h:692
 msgid "Additional penalty given when the timer expires:"
-msgstr ""
+msgstr "Додатна казна дата када тајмер истекне:"
 
 #: qt/ui/prefs_dialog.ui.h:693
 msgid "Give a 1 point penalty for each elapsed second"
-msgstr ""
+msgstr "Додели 1 казнени поен за сваку секунду након истека"
 
 #: qt/ui/prefs_dialog.ui.h:694
 msgid "Game modes"
@@ -3087,11 +3096,11 @@ msgstr "Дефиниција табела за играче"
 
 #: qt/ui/topping_widget.ui.h:201
 msgid "Get hints..."
-msgstr ""
+msgstr "Погледај предлоге..."
 
 #: qt/ui/topping_widget.ui.h:216
 msgid "Total score:"
-msgstr ""
+msgstr "Укупан резултат:"
 
 #: qt/ui/training_widget.ui.h:197
 msgid "&New rack"
@@ -3162,7 +3171,7 @@ msgstr "&Одиграј изабрано"
 
 #, fuzzy
 #~ msgid "Changing letters: %1"
-#~ msgstr "Замени слова:"
+#~ msgstr "Замени слова"
 
 #, fuzzy
 #~ msgid "Rack invalid for the current dictionary: "
