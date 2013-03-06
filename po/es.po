@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: eliot 1.9\n"
 "Report-Msgid-Bugs-To: eliot-dev@nongnu.org\n"
 "POT-Creation-Date: 2013-03-10 23:18+0100\n"
-"PO-Revision-Date: 2012-10-10 22:09+0100\n"
+"PO-Revision-Date: 2013-03-01 21:45+0100\n"
 "Last-Translator: Joan Montané <joan ---sense spam--- montane.cat>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.3\n"
+"X-Generator: Poedit 1.5.5\n"
 
 #: dic/compdic.cpp:105
 #, boost-format
@@ -348,47 +348,45 @@ msgid "offset binary   | structure\n"
 msgstr "offset binario  | estructura\n"
 
 #: dic/listdicmain.cpp:123
-#, fuzzy
 msgid "  -d, --dictionary <string>  Dictionary file (.dawg) to use"
-msgstr "  -d, --dicname <texto>  Establece el nombre y versión del diccionario"
+msgstr "  -d, --dictionary <texto>  Archivo del diccionario a usar (.dawg)"
 
 #: dic/listdicmain.cpp:124
-#, fuzzy
 msgid "Output options:"
-msgstr "Otras opciones:"
+msgstr "Opciones de salida:"
 
 #: dic/listdicmain.cpp:125
-#, fuzzy
 msgid "  -e, --header            Print the dictionary header"
-msgstr "  -h, --help              Muestra esta ayuda y sale"
+msgstr "  -e, --header            Muestra la cabecera del diccionario"
 
 #: dic/listdicmain.cpp:126
 msgid "  -l, --letters           Print letters information, in a format"
 msgstr ""
+"  -l, --letters           Muestra la información de las fitxa, en un formato"
 
 #: dic/listdicmain.cpp:127
 msgid "                          suitable for the 'compdic' program"
-msgstr ""
+msgstr "                          adecuado para el programa 'compdic'"
 
 #: dic/listdicmain.cpp:128
-#, fuzzy
 msgid "  -w, --words             Print all the words stored in the dictionary"
 msgstr ""
-"   d, D             Verificar la existencia de una palabra en el diccionario"
+"  -w, --words             Muestra todas las palabras almacenadas en el "
+"diccionario"
 
 #: dic/listdicmain.cpp:129
-#, fuzzy
 msgid "  -x, --hexa              Print data as hexadecimal (for debugging)"
-msgstr "  -h, --help              Muestra esta ayuda y sale"
+msgstr ""
+"  -x, --hexa              Muestra los datos en hexadecimal (para depuración "
+"de errores)"
 
 #: dic/listdicmain.cpp:133
 msgid "If no output option is specified, --header is used implicitly."
-msgstr ""
+msgstr "Si no se indica una opción de salida, --header se usar implícitamente."
 
 #: dic/listdicmain.cpp:134
-#, fuzzy
 msgid "Example: "
-msgstr "Ejemplo:"
+msgstr "Ejemplo: "
 
 #: dic/regexpmain.cpp:45
 #, c-format, boost-format
@@ -424,14 +422,12 @@ msgid "Cannot switch to a player who has already played"
 msgstr "No se puede cambiar a un jugador que ya haya jugado"
 
 #: game/game.cpp:214
-#, fuzzy
 msgid "No more turn in the master game"
-msgstr "Ir a la ronda siguiente de la partida"
+msgstr "No hay mas rondas en la partida màster"
 
 #: game/game.cpp:243
-#, fuzzy
 msgid "No move defined for this turn in the master game"
-msgstr "Ir a la ronda inicial de la partida"
+msgstr "No hay ninguna jugada definida para este turno en la partida màster"
 
 #: game/game.cpp:260
 msgid "The bag is empty"
@@ -467,116 +463,107 @@ msgid "Score"
 msgstr "Puntuación"
 
 #: game/hints.cpp:50
-#, fuzzy
 msgid "Get the score of the move"
-msgstr "Ir a la última ronda de la partida"
+msgstr "Obtener la puntuación de la jugada"
 
 #: game/hints.cpp:57
-#, fuzzy, boost-format
+#, boost-format
 msgid "Score: %1%"
-msgstr "Puntuación"
+msgstr "Puntuación: %1%"
 
 #: game/hints.cpp:63
-#, fuzzy
 msgid "Orientation"
-msgstr "Arbitraje"
+msgstr "Orientación"
 
 #: game/hints.cpp:64
 msgid "Get the orientation of the move (horizontal/vertical)"
-msgstr ""
+msgstr "Obtener la orientación de la jugada (horizontal o vertical)"
 
 #: game/hints.cpp:73
-#, fuzzy, boost-format
+#, boost-format
 msgid "Orientation: %1%"
-msgstr "Penalizaciones: %1"
+msgstr "Orientacion: %1%"
 
 #: game/hints.cpp:75
 msgid "horizontal"
-msgstr ""
+msgstr "horizontal"
 
 #: game/hints.cpp:77
 msgid "vertical"
-msgstr ""
+msgstr "vertical"
 
 #: game/hints.cpp:84
-#, fuzzy
 msgid "Position"
-msgstr "Descripción"
+msgstr "Posición"
 
 #: game/hints.cpp:85
-#, fuzzy
 msgid "Get the coordinates of the move"
-msgstr "Indiqueu les coordenades de la paraula."
+msgstr "Obtener las coordenadas de la jugada"
 
 #: game/hints.cpp:93
-#, fuzzy, boost-format
+#, boost-format
 msgid "Position: %1%"
-msgstr "Puntos: %1"
+msgstr "Posición: %1%"
 
 #: game/hints.cpp:100
 msgid "Length"
-msgstr ""
+msgstr "Longitud"
 
 #: game/hints.cpp:101
-#, fuzzy
 msgid "Get the length of the word"
-msgstr "Indiqueu les coordenades de la paraula."
+msgstr "Obtener la longitud de la palabra"
 
 #: game/hints.cpp:109
 #, boost-format
 msgid "Length: %1% letters"
-msgstr ""
+msgstr "Longitud: %1% fichas"
 
 #: game/hints.cpp:116
-#, fuzzy
 msgid "Letters from board"
-msgstr "Carga las letras des de la lista de palabras"
+msgstr "Fichas del tablero"
 
 #: game/hints.cpp:117
 msgid "Get the letters of the word coming from the board"
-msgstr ""
+msgstr "Obtener las fichas de la palabra que se encuentran en el tablero"
 
 #: game/hints.cpp:133
-#, fuzzy, boost-format
+#, boost-format
 msgid "Letters from board: %1%"
-msgstr "Fichas: %1%"
+msgstr "Fichas del tablero: %1%"
 
 #: game/hints.cpp:134
 msgid "(none)"
-msgstr ""
+msgstr "(ninguna)"
 
 #: game/hints.cpp:140
-#, fuzzy
 msgid "Word letters"
-msgstr "Fitxa"
+msgstr "Fichas de la palabra"
 
 #: game/hints.cpp:141
 msgid "Get the letters of the word in alphabetical order"
-msgstr ""
+msgstr "Obtiene las fichas de la palabra en orden alfabético"
 
 #: game/hints.cpp:153
-#, fuzzy, boost-format
+#, boost-format
 msgid "Word letters: %1%"
-msgstr "Fichas: %1%"
+msgstr "Fichas de la palabra: %1%"
 
 #: game/hints.cpp:160
-#, fuzzy
 msgid "First letter"
-msgstr "Ronda &inicial"
+msgstr "Primera ficha"
 
 #: game/hints.cpp:161
-#, fuzzy
 msgid "Get the first letter of the word"
-msgstr "Ir a la ronda inicial de la partida"
+msgstr "Obtener la primera ficha de la palabra"
 
 #: game/hints.cpp:169
-#, fuzzy, boost-format
+#, boost-format
 msgid "First letter: %1%"
-msgstr "Fichas: %1%"
+msgstr "Primera ficha: %1%"
 
 #: game/topping.cpp:216 qt/main_window.cpp:492 qt/ui/new_game.ui.h:282
 msgid "Topping"
-msgstr ""
+msgstr "Topping"
 
 #: game/training.cpp:185 qt/main_window.cpp:441 qt/ui/new_game.ui.h:280
 msgid "Training"
@@ -593,9 +580,9 @@ msgstr ""
 "Conversión de cadena a entero no válida: se ha recibido una cadena vacía"
 
 #: game/xml_reader.cpp:124
-#, fuzzy, boost-format
+#, boost-format
 msgid "Invalid player ID: %1% (processing tag '%2%')"
-msgstr "ID del jugador no válida: %1"
+msgstr "ID del jugador no válida: %1% (procesando etiqueta '%2%')"
 
 #: game/xml_reader.cpp:142
 #, boost-format
@@ -603,9 +590,9 @@ msgid "Invalid move marked as valid: %1% (%2%)"
 msgstr "Jugada no válida marcada como válida; %1% (%2%)"
 
 #: game/xml_reader.cpp:165
-#, fuzzy, boost-format
+#, boost-format
 msgid "Invalid move type: %1%"
-msgstr "Tipo de jugada no válido: %1"
+msgstr "Tipo de jugada no válido: %1%"
 
 #: game/xml_reader.cpp:197
 msgid "This saved game is not compatible with the current version of Eliot."
@@ -626,9 +613,9 @@ msgstr ""
 "La etiqueta 'Variant' debería estar justo después de la etiqueta 'Mode'"
 
 #: game/xml_reader.cpp:305
-#, fuzzy, boost-format
+#, boost-format
 msgid "Invalid game variant: %1%"
-msgstr "Variante de partida no válida: %1"
+msgstr "Variante de partida no válida: %1%"
 
 #: game/xml_reader.cpp:328
 #, boost-format
@@ -636,9 +623,9 @@ msgid "A player ID must be unique: %1%"
 msgstr "Un identificador de jugador debe ser único: %1%"
 
 #: game/xml_reader.cpp:339
-#, fuzzy, boost-format
+#, boost-format
 msgid "Invalid player type: %1%"
-msgstr "Tipo de jugador no válido: %1"
+msgstr "Tipo de jugador no válido: %1%"
 
 #: game/xml_reader.cpp:361 game/xml_reader.cpp:378
 #, boost-format
@@ -721,7 +708,7 @@ msgstr "P"
 #. will be used as shortcut instead of 'T'.
 #: qt/arbit_assignments.cpp:88 qt/arbit_assignments.cpp:315
 msgid "T"
-msgstr ""
+msgstr "T"
 
 #: qt/arbit_assignments.cpp:166
 msgid "Not selected yet"
@@ -734,7 +721,7 @@ msgstr "Asigna la jugada (%1) a los jugadores seleccionados"
 
 #: qt/arbit_assignments.cpp:295
 msgid "none"
-msgstr ""
+msgstr "ninguna"
 
 #: qt/arbit_assignments.cpp:302 qt/arbitration_widget.cpp:561
 msgid "Assign selected move (%1)"
@@ -1167,13 +1154,12 @@ msgid "Remove player"
 msgstr "Suprimir un jugador"
 
 #: qt/fav_players.cpp:77 qt/ui/new_game.ui.h:295
-#, fuzzy
 msgid "Move selection upwards"
-msgstr "Suprimir los jugadores seleccionados"
+msgstr "Mover la selección hacia arriba"
 
 #: qt/fav_players.cpp:80 qt/ui/new_game.ui.h:298
 msgid "Move selection downwards"
-msgstr ""
+msgstr "Mueve la selección hacia abajo"
 
 #: qt/fav_players.cpp:83
 msgid "CSV Import..."
@@ -1220,26 +1206,26 @@ msgid "Cannot export favorite players: %1"
 msgstr "No se pueden exportar los jugadores favoritos: %1"
 
 #: qt/hints_dialog.cpp:60
-#, fuzzy
 msgid "cost: %1"
-msgstr "Puntos: %1"
+msgstr "coste: %1"
 
 #: qt/hints_dialog.cpp:67
 msgid "Show"
-msgstr ""
+msgstr "Mostrar"
 
 #: qt/hints_dialog.cpp:92
 msgid "Each hint has a corresponding cost, seen as a time penalty."
 msgstr ""
+"Cada pista tiene un coste asociado, considérelo com una penalización de "
+"tiempo."
 
 #: qt/hints_dialog.cpp:108
-#, fuzzy
 msgid "Hints"
-msgstr "Puntos"
+msgstr "Pistas"
 
 #: qt/hints_dialog.cpp:148
 msgid "Hint"
-msgstr ""
+msgstr "Pista"
 
 #: qt/history_widget.cpp:81
 msgid "Turn"
@@ -1315,9 +1301,8 @@ msgid "Arbitration"
 msgstr "Arbitraje"
 
 #: qt/main_window.cpp:491 qt/ui/prefs_dialog.ui.h:691
-#, fuzzy
 msgid "Topping mode"
-msgstr "Modo de entrenamiento"
+msgstr "Modo topping"
 
 #: qt/main_window.cpp:511
 msgid "Duplicate game"
@@ -1475,13 +1460,12 @@ msgid "Save the current game"
 msgstr "Guarda la partida actual"
 
 #: qt/main_window.cpp:818
-#, fuzzy
 msgid "&Print preview..."
-msgstr "Im&primir..."
+msgstr "Vista &preliminar..."
 
 #: qt/main_window.cpp:819
 msgid "Print preview"
-msgstr ""
+msgstr "Vista preliminar"
 
 #: qt/main_window.cpp:821
 msgid "&Print..."
@@ -1880,6 +1864,13 @@ msgid ""
 "therefore\n"
 "often used for official tournaments."
 msgstr ""
+"En el modo duplicado, todos los jugadores tienen el mismo tablero y atril,\n"
+"esto elimina el cualquier «azar» (y la táctica).\n"
+"Cada jugador puntúa los puntos de la palabra que juega, pero sólo\n"
+"se ubica en el tablero la mejor jugada.\n"
+"Esta modalidad permite un número ilimitado de jugadores simultáneos i es "
+"usada\n"
+"habitualmente en torneos oficiales."
 
 #: qt/new_game.cpp:60
 msgid ""
@@ -1890,6 +1881,12 @@ msgid ""
 "With only 2 players, some tactics can often be used, because the best move\n"
 "is not necessarily the one with the best score."
 msgstr ""
+"Esta modalidad es la clásica, habitualmente jugada en familia, donde los "
+"jugadores juegan por turnos,\n"
+"cada uno con su propio atril. Los jugadores pueden cambiar fichas, perdiendo "
+"su turno.\n"
+"Con sólo 2 jugadores, se puede usar alguna táctica, porque la mejor jugada\n"
+"no es necesariamente la que puntúa más."
 
 #: qt/new_game.cpp:65
 msgid ""
@@ -1897,6 +1894,9 @@ msgid ""
 "possible moves.\n"
 "There is no opponent, the goal is simply to make some progress."
 msgstr ""
+"En la modalidad entrenamiento, el jugador puede configurar el atril "
+"libremente i ver todos los movimientos posibles.\n"
+"No hay adversario, el objetivo es simplemente progresar."
 
 #: qt/new_game.cpp:68
 msgid ""
@@ -1907,6 +1907,12 @@ msgid ""
 "This mode is ideal for arbitrating duplicate games in clubs or in "
 "tournaments."
 msgstr ""
+"La modalidad arbitraje permite arbitrar una partida duplicada, posiblemente "
+"con muchos jugadores.\n"
+"El árbitro puede decidir la jugada de referencia y gestionar las jugadas de "
+"los jugadores fácilmente.\n"
+"Esta modalidad es ideal para arbitrar partidas duplicadas en clubes o en "
+"torneos."
 
 #: qt/new_game.cpp:72
 msgid ""
@@ -1918,6 +1924,13 @@ msgid ""
 "This mode can be quite difficult, and is mostly intended for experienced "
 "players."
 msgstr ""
+"En la modalidad 'topping', el objectivo es encontrar la jugada de máxima "
+"puntuación tan rápido como sea posible. El jugador puede\n"
+"intentar tantas jugadas como desee hasta encontrar la de máxima puntuación, "
+"pero hay penalizaciones\n"
+"si el jugador tarda demasiado en encontrarla (o no lo consigue).\n"
+"Esta modalidad puede ser muy difícil y está destinada a jugadores "
+"experimentados."
 
 #: qt/new_game.cpp:78
 msgid ""
@@ -2122,6 +2135,8 @@ msgid ""
 "If checked, the timer will be reinitialized and restarted\n"
 "automatically every time that the main rack changes."
 msgstr ""
+"Si esta opción está marcada, el reloj se reiniciará automáticamente\n"
+"cada vez que el atril principal cambie."
 
 #: qt/prefs_dialog.cpp:91
 msgid ""
@@ -2129,6 +2144,9 @@ msgid ""
 "(about once a week) to check if new versions are available.\n"
 "New versions are never installed automatically, you just get a notification."
 msgstr ""
+"Si esta opción está marcada, Eliot conectará a internet de forma periódica\n"
+"(aprox. una vez a la semana) para comprobar si hay alguna versión nueva.\n"
+"Las versiones nuevas no se instalan nunca, sólo recibirá una notificación."
 
 #: qt/prefs_dialog.cpp:94
 msgid ""
@@ -2162,14 +2180,13 @@ msgstr ""
 "Desmarque esta opción si prefiere escoger las fichas manualmente."
 
 #: qt/prefs_dialog.cpp:103
-#, fuzzy
 msgid ""
 "If checked, solos are given automatically, when appropriate.\n"
 "Uncheck this option if you prefer to do it manually."
 msgstr ""
-"Si esta opción está marcada, el atril se completará con fichas de forma "
-"aleatoria.\n"
-"Desmarque esta opción si prefiere escoger las fichas manualmente."
+"Si esta opción está marcada, las bonificacions por jugada magistral se "
+"asignan automáticamente, cuando sea necesario.\n"
+"Desmarque esta opción si prefiere hacerlo manualmente."
 
 #: qt/prefs_dialog.cpp:106
 msgid ""
@@ -2184,12 +2201,17 @@ msgid ""
 "If checked, the player gets, at each turn, a score penalty\n"
 "equal to the elapsed time for the turn."
 msgstr ""
+"Si esta opción está marcada, el jugador obtiene, en cada ronda, \n"
+"una penalización en la puntuación igual al tiempo transcurrido en la ronda."
 
 #: qt/prefs_dialog.cpp:110
 msgid ""
 "Number of points added to the player score when the timer expires.\n"
 "Set it to 0 if you don't want any penalty."
 msgstr ""
+"El número de puntos añadidos a la puntuación del jugador cuando el reloj "
+"expira.\n"
+"Déjelo a 0 si no desa ninguna penalización."
 
 #: qt/prefs_dialog.cpp:204 qt/prefs_dialog.cpp:219 qt/prefs_dialog.cpp:332
 msgid "%1 error"
@@ -2230,26 +2252,25 @@ msgstr "Inhabilita el ajuste automático de tamaño de las columnas"
 
 #: qt/stats_widget.cpp:144
 msgid "Flip table"
-msgstr ""
+msgstr "Voltea la tabla"
 
 #: qt/stats_widget.cpp:145
 msgid ""
 "Flip the table so that rows and columns are exchanged.\n"
 "This allows sorting the players by ranking, for example."
 msgstr ""
+"Voltea la tabla de forma que se intercambian las filas y columnas.\n"
+"Esto permite ordenar los jugadores por puntuación, por ejemplo."
 
 #: qt/stats_widget.cpp:151
-#, fuzzy
 msgid "Print preview..."
-msgstr "Im&primir..."
+msgstr "Vista preliminar..."
 
 #: qt/stats_widget.cpp:152 qt/stats_widget.cpp:158
-#, fuzzy
 msgid "Print the table."
-msgstr "Imprime la partida actual"
+msgstr "Imprime la tabla."
 
 #: qt/stats_widget.cpp:157
-#, fuzzy
 msgid "Print..."
 msgstr "Im&primir..."
 
@@ -2339,18 +2360,19 @@ msgstr "Los números de mesa deben ser únicos, pero \"%1\" aparece repetido."
 
 #: qt/topping_widget.cpp:104
 msgid "#"
-msgstr ""
+msgstr "núm."
 
 #: qt/topping_widget.cpp:249
-#, fuzzy
 msgid "End of turn"
-msgstr "&Fin de la ronda"
+msgstr "Fin de la ronda"
 
 #: qt/topping_widget.cpp:250
 msgid ""
 "The allocated time for the turn has expired.\n"
 "The top is %1 at %2 for %3 points."
 msgstr ""
+"El tiempo asignado a la ronda ha finalizado.\n"
+"La mejor jugada és %1 a %2 consiguiendo %3 puntos."
 
 #: qt/training_widget.cpp:318
 msgid ""
@@ -2362,32 +2384,32 @@ msgstr ""
 
 #: qt/update_checker.cpp:67
 msgid "Checking for updates..."
-msgstr ""
+msgstr "Comprobando actualizaciones..."
 
 #: qt/update_checker.cpp:98
 msgid "Update check completed, no new version available"
-msgstr ""
+msgstr "La comprobación ha finalizado, no hay ninguna versión nueva disponible"
 
 #: qt/update_checker.cpp:103
 msgid "Update check failed. Please check your internet connection"
-msgstr ""
+msgstr "La comprobación ha fallado. Verifique la conexión a internet"
 
 #. TRANSLATORS: Here %1 represents a version number.
 #: qt/update_checker.cpp:199
 msgid "Eliot %1 is available."
-msgstr ""
+msgstr "Eliot %1 está disponible."
 
 #: qt/update_checker.cpp:200
 msgid "You can download it from %1."
-msgstr ""
+msgstr "Puede descargarlo desde %1"
 
 #: qt/update_checker.cpp:202
 msgid "This message will be displayed at most once a week."
-msgstr ""
+msgstr "Este mensaje se mostrará semanalmente."
 
 #: qt/update_checker.cpp:203
 msgid "New version available"
-msgstr ""
+msgstr "Hay una versión nueva disponible"
 
 #: utils/ncurses.cpp:298
 msgid "Scores"
@@ -2420,9 +2442,8 @@ msgid "History of the game"
 msgstr "Historial de la partida"
 
 #: utils/ncurses.cpp:391
-#, fuzzy
 msgid " N |      RACK      |    SOLUTION     | REF | PTS | BONUS"
-msgstr " N |     ATRIL      |    SOLUCIÓN     |COORD| PTS | P | BONIFICACIÓN"
+msgstr " N |     ATRIL      |    SOLUCIÓN     | REF | PTS | BONIFICACIÓN"
 
 #: utils/ncurses.cpp:456
 msgid "Help"
@@ -2589,7 +2610,7 @@ msgstr "Se ha producido un error al guardar la partida %s:"
 
 #: utils/ncurses.cpp:666
 msgid "Unable to load game: "
-msgstr "No se puede cargar la partida:"
+msgstr "No se puede cargar la partida: "
 
 #: utils/ncurses.cpp:676
 msgid "Pass your turn"
@@ -2678,7 +2699,7 @@ msgstr "Buscar"
 
 #: qt/ui/arbitration_widget.ui.h:207
 msgid "Possible words"
-msgstr "Palabras posibles:"
+msgstr "Palabras posibles"
 
 #: qt/ui/arbitration_widget.ui.h:208
 msgid "Filter results:"
@@ -2783,7 +2804,7 @@ msgstr "Lista de palabras:"
 
 #: qt/ui/dic_wizard_letters_def_page.ui.h:92
 msgid "Load letters from word list"
-msgstr "Carga las letras des de la lista de palabras"
+msgstr "Carga las letras desde la lista de palabras"
 
 #: qt/ui/dic_wizard_letters_def_page.ui.h:94
 msgid ""
@@ -2834,19 +2855,16 @@ msgid "7 among 8"
 msgstr "7 entre 8"
 
 #: qt/ui/new_game.ui.h:287
-#, fuzzy
 msgid "Master game"
-msgstr "Jugada de referencia:"
+msgstr "Partida màster"
 
 #: qt/ui/new_game.ui.h:288
-#, fuzzy
 msgid "Use a master game"
-msgstr "Usa como jugada de referencia"
+msgstr "Usa una partida màster"
 
 #: qt/ui/new_game.ui.h:289
-#, fuzzy
 msgid "Saved game to use:"
-msgstr "Guarda una partida"
+msgstr "Partida guardada a usar:"
 
 #: qt/ui/new_game.ui.h:292
 msgid "Add &player"
@@ -2928,7 +2946,7 @@ msgstr "Sonidos del reloj"
 
 #: qt/ui/prefs_dialog.ui.h:628
 msgid "Start timer automatically when the rack changes"
-msgstr ""
+msgstr "Inicia el reloj automáticamente cuando el atril cambia"
 
 #: qt/ui/prefs_dialog.ui.h:629
 msgid "Miscellaneous"
@@ -2974,7 +2992,7 @@ msgstr "Alinear el atril y la solución en el historial"
 
 #: qt/ui/prefs_dialog.ui.h:647
 msgid "Check periodically for new versions"
-msgstr ""
+msgstr "Comprueba periódicamente si hay versiones nuevas"
 
 #: qt/ui/prefs_dialog.ui.h:648
 msgid "Interface"
@@ -3042,9 +3060,8 @@ msgid "Copy rack to the 'Plus 1' dictionary tool"
 msgstr "Copiar el atril a la herramienta de diccionario 'Más 1'"
 
 #: qt/ui/prefs_dialog.ui.h:676
-#, fuzzy
 msgid "Handle solos automatically"
-msgstr "Proponer un atril nuevo automáticamente"
+msgstr "Gestionar las bonificaciones por jugada magistral automáticamente"
 
 #: qt/ui/prefs_dialog.ui.h:680
 msgid "Penalty value:"
@@ -3060,11 +3077,11 @@ msgstr "Número predeterminado de puntos de penalización"
 
 #: qt/ui/prefs_dialog.ui.h:692
 msgid "Additional penalty given when the timer expires:"
-msgstr ""
+msgstr "Penalización adicionals asignada cuando el tiempo finalizada:"
 
 #: qt/ui/prefs_dialog.ui.h:693
 msgid "Give a 1 point penalty for each elapsed second"
-msgstr ""
+msgstr "Asigna 1 punto de penalización por cada periodo superado"
 
 #: qt/ui/prefs_dialog.ui.h:694
 msgid "Game modes"
@@ -3138,11 +3155,11 @@ msgstr "Definición de las mesas de los jugadores"
 
 #: qt/ui/topping_widget.ui.h:201
 msgid "Get hints..."
-msgstr ""
+msgstr "Pistas..."
 
 #: qt/ui/topping_widget.ui.h:216
 msgid "Total score:"
-msgstr ""
+msgstr "Punt. total:"
 
 #: qt/ui/training_widget.ui.h:197
 msgid "&New rack"
