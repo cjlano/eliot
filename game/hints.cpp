@@ -37,6 +37,13 @@
 
 
 INIT_LOGGER(game, AbstractHint);
+INIT_LOGGER(game, ScoreHint);
+INIT_LOGGER(game, OrientationHint);
+INIT_LOGGER(game, PositionHint);
+INIT_LOGGER(game, LengthHint);
+INIT_LOGGER(game, BoardLettersHint);
+INIT_LOGGER(game, WordLettersHint);
+INIT_LOGGER(game, FirstLetterHint);
 
 
 AbstractHint::AbstractHint(const string &iName, const string &iDescription, int iCost)
@@ -55,6 +62,7 @@ ScoreHint::ScoreHint()
 
 string ScoreHint::giveHint(const Move &iMove) const
 {
+    LOG_DEBUG("Getting hint for move: " << lfw(iMove.toString()));
     return str(boost::format(_("Score: %1%")) % iMove.getScore());
 }
 
@@ -69,6 +77,7 @@ OrientationHint::OrientationHint()
 
 string OrientationHint::giveHint(const Move &iMove) const
 {
+    LOG_DEBUG("Getting hint for move: " << lfw(iMove.toString()));
     ASSERT(iMove.isValid(), "Hints only make sense for valid moves");
     const Coord &coord = iMove.getRound().getCoord();
     boost::format fmt(_("Orientation: %1%"));
@@ -90,6 +99,7 @@ PositionHint::PositionHint()
 
 string PositionHint::giveHint(const Move &iMove) const
 {
+    LOG_DEBUG("Getting hint for move: " << lfw(iMove.toString()));
     ASSERT(iMove.isValid(), "Hints only make sense for valid moves");
     return str(boost::format(_("Position: %1%"))
                % lfw(iMove.getRound().getCoord().toString()));
@@ -106,6 +116,7 @@ LengthHint::LengthHint()
 
 string LengthHint::giveHint(const Move &iMove) const
 {
+    LOG_DEBUG("Getting hint for move: " << lfw(iMove.toString()));
     ASSERT(iMove.isValid(), "Hints only make sense for valid moves");
     return str(boost::format(_("Length: %1% letters"))
                % iMove.getRound().getWordLen());
@@ -122,6 +133,7 @@ BoardLettersHint::BoardLettersHint()
 
 string BoardLettersHint::giveHint(const Move &iMove) const
 {
+    LOG_DEBUG("Getting hint for move: " << lfw(iMove.toString()));
     ASSERT(iMove.isValid(), "Hints only make sense for valid moves");
     // Retrieve the letters coming from the board
     wstring fromBoard;
@@ -146,6 +158,7 @@ WordLettersHint::WordLettersHint()
 
 string WordLettersHint::giveHint(const Move &iMove) const
 {
+    LOG_DEBUG("Getting hint for move: " << lfw(iMove.toString()));
     ASSERT(iMove.isValid(), "Hints only make sense for valid moves");
     vector<Tile> tiles = iMove.getRound().getTiles();
     // Sort the letters (we cannot sort directly the wstring from
@@ -174,6 +187,7 @@ FirstLetterHint::FirstLetterHint()
 
 string FirstLetterHint::giveHint(const Move &iMove) const
 {
+    LOG_DEBUG("Getting hint for move: " << lfw(iMove.toString()));
     ASSERT(iMove.isValid(), "Hints only make sense for valid moves");
     return str(boost::format(_("First letter: %1%"))
                % lfw(iMove.getRound().getTile(0).toChar()));
