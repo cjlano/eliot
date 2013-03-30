@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #include <boost/format.hpp>
+#include <boost/foreach.hpp>
 
 #include "config.h"
 #if ENABLE_NLS
@@ -146,9 +147,17 @@ WordLettersHint::WordLettersHint()
 string WordLettersHint::giveHint(const Move &iMove) const
 {
     ASSERT(iMove.isValid(), "Hints only make sense for valid moves");
-    wstring word = iMove.getRound().getWord();
-    // Sort the letters
-    std::sort(word.begin(), word.end());
+    vector<Tile> tiles = iMove.getRound().getTiles();
+    // Sort the letters (we cannot sort directly the wstring from
+    // Round::getWord(), because it would break digraph characters)
+    std::sort(tiles.begin(), tiles.end());
+
+    // Get the word
+    wstring word;
+    BOOST_FOREACH(const Tile &tile, tiles)
+    {
+        word += tile.getDisplayStr();
+    }
 
     return str(boost::format(_("Word letters: %1%"))
                % lfw(word));
