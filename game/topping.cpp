@@ -65,7 +65,19 @@ void Topping::start()
     {
         const PlayedRack &newRack =
             helperSetRackRandom(getHistory().getCurrentRack(), true, RACK_NEW);
-        setGameAndPlayersRack(newRack, false);
+        // FIXME: we assign an empty move to the player. It is not very clean,
+        // but at the moment it is needed to avoid a crash in History::addPenalty()
+        // when the player uses hints in the first turn.
+        // The actual bug lies probably in the design of the History class.
+        //
+        // The unfortunate consequence is that there will be 2 PlayerMoveCmd
+        // commands for the player, at every turn. Deleting the empty move is
+        // not possible (it would crash in the same way), and replacing it
+        // breaks the history of the game when going back to the previous turn.
+        // At the moment, having 2 PlayerMoveCmd doesn't seem to cause any
+        // particular problem, but it would be better to fix that
+        // nevertheless...
+        setGameAndPlayersRack(newRack, true);
     }
     catch (EndGameException &e)
     {
