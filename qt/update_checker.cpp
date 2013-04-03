@@ -121,6 +121,8 @@ UpdateChecker::VersionNumber UpdateChecker::parseVersionNumber(QString iVersion)
     {
         LOG_ERROR("Error parsing version number: " << lfq(iVersion));
         vn.major = -1;
+        vn.minor = -1;
+        vn.letter = 0;
         return vn;
     }
     vn.major = re.cap(1).toInt();
