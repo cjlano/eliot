@@ -344,7 +344,9 @@ void XmlWriter::write(const Game &iGame, const string &iFileName)
         const int playerTotal = player.getTotalScore();
 
         // Compute the percentage, compared to the top
-        long int percentage = lround((double)100 * playerTotal / gameTotal);
+        long int percentage = 0;
+        if (gameTotal != 0)
+            percentage = lround((double)100 * playerTotal / gameTotal);
 
         // Compute the rank of the player (naive algorithm)
         int rank = 1;
