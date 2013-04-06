@@ -131,6 +131,7 @@ package-macosx:
 	cd $(MACOSX_PACKAGE_DIR)/Contents/Frameworks; \
 	for lib in `ls`; do \
 		for dep in `otool -L $$lib | grep /opt/local/ | sed 's/ (.*//'`; do \
+			chmod 755 $$lib; \
 			install_name_tool -change $$dep @executable_path/../Frameworks/`basename $$dep` $$lib; \
 			install_name_tool -change $$dep @executable_path/../Frameworks/`basename $$dep` ../MacOS/Eliot; \
 		done; \
