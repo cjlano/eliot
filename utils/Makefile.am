@@ -37,7 +37,7 @@ endif
 
 if BUILD_NCURSES
 bin_PROGRAMS += eliotcurses
-eliotcurses_SOURCES = ncurses.cpp ncurses.h
+eliotcurses_SOURCES = curses_intf.cpp curses_intf.h
 eliotcurses_LDADD = ../game/libgame.a ../dic/libdic.a @CURSES_LIB@ @LIBINTL@ @LIBCONFIG_LIBS@ @ARABICA_LIBS@ @EXPAT_LIBS@
 if WITH_LOGGING
 eliotcurses_LDADD += @LOG4CXX_LIBS@

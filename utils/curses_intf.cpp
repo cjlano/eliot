@@ -37,7 +37,7 @@
 #include <cwctype> // For iswalnum
 #include <algorithm>
 
-#include "ncurses.h"
+#include "curses_intf.h"
 #include "dic.h"
 #include "game_factory.h"
 #include "game_params.h"

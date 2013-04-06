@@ -181,8 +181,8 @@ qt/validator_factory.cpp
 qt/validator_factory.h
 utils/game_io.cpp
 utils/game_io.h
-utils/ncurses.cpp
-utils/ncurses.h
+utils/curses_intf.cpp
+utils/curses_intf.h
 # Files generated from the .ui files of Qt designer.
 # It works, because Makefile.in.in was patched to support that...
 qt/ui/arbit_assignments.ui.h

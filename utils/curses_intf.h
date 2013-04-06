@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#ifndef NCURSES_H_
-#define NCURSES_H_
+#ifndef CURSES_INTF_H_
+#define CURSES_INTF_H_
 
 #include "config.h"
 
