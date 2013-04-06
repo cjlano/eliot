@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 2005-2012 Olivier Teulière
+ * Copyright (C) 2005-2013 Olivier Teulière
  * Authors: Olivier Teulière <ipkiss @@ gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,23 @@
 #ifndef NCURSES_H_
 #define NCURSES_H_
 
-#include <ncursesw/curses.h>
+#include "config.h"
+
+#if defined HAVE_NCURSESW_CURSES_H
+#   include <ncursesw/curses.h>
+#elif defined HAVE_NCURSESW_H
+#   include <ncursesw.h>
+#elif defined HAVE_NCURSES_CURSES_H
+#   include <ncurses/curses.h>
+#elif defined HAVE_NCURSES_H
+#   include <ncurses.h>
+#elif defined HAVE_CURSES_H
+#   include <curses.h>
+#else
+//  Should not happen, if configure did its job correctly
+#   error "No header to include for ncursesw. Bad configure detection?"
+#endif
+
 #include <string>
 
 #include "logging.h"

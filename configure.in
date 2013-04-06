@@ -153,8 +153,8 @@ dnl Check for ncurses
 dnl We enable it if asked by the user, or if ncursesw is found
 AC_ARG_ENABLE([ncurses],AS_HELP_STRING([--enable-ncurses],
               [ncurses interface support (default enabled if ncursesw found on your system)]))
-AC_CHECK_HEADERS(ncursesw/curses.h, [has_ncursesw=1], [has_ncursesw=0])
-if test "${enable_ncurses}" != "no" -a "${has_ncursesw}" = "1"; then
+AX_WITH_CURSES([--without-ncurses --with-ncursesw])
+if test "${enable_ncurses}" != "no" -a "${ax_cv_ncursesw}" = "yes"; then
     want_ncurses=1
 else
     want_ncurses=0
