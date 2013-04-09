@@ -149,8 +149,8 @@ void ToppingWidget::refresh()
         lineEditCoords->clear();
         lineEditRack->setEnabled(true);
         lineEditTotalScore->setText(QString("%1").arg(m_game->getCurrentPlayer().getTotalScore()));
-        // Do not allow entering a move when displaying an old turn
-        setEnabled(m_game->isLastTurn());
+        // Do not allow entering a move when displaying an old turn or if the game is finished
+        setEnabled(m_game->isLastTurn() && !m_game->isFinished());
     }
 }
 
