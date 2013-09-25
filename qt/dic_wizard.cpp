@@ -18,17 +18,17 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtGui/QLabel>
-#include <QtGui/QSpinBox>
-#include <QtGui/QHeaderView>
-#include <QtGui/QFileDialog>
-#include <QtGui/QStandardItemModel>
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QSet>
-#include <QtCore/QList>
-#include <QtGui/QCompleter>
-#include <QtGui/QFileSystemModel>
+#include <QLabel>
+#include <QSpinBox>
+#include <QHeaderView>
+#include <QFileDialog>
+#include <QStandardItemModel>
+#include <QFile>
+#include <QTextStream>
+#include <QSet>
+#include <QList>
+#include <QCompleter>
+#include <QFileSystemModel>
 
 #include "dic_wizard.h"
 #include "qtcommon.h"
@@ -156,7 +156,7 @@ bool WizardInfoPage::validatePage()
         foreach (QChar ch, badChars)
         {
             QString letterMsg = "\n\t" + _q("'%1' (ASCII code %2) at line %3");
-            msg += letterMsg.arg(ch).arg((int)ch.toAscii()).arg(lettersWithLine[ch]);
+            msg += letterMsg.arg(ch).arg((int)ch.toLatin1()).arg(lettersWithLine[ch]);
         }
         emit notifyProblem(msg + "\n\n" + _q("Please correct the word list."));
         return false;

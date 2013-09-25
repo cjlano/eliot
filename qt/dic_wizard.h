@@ -21,9 +21,9 @@
 #ifndef DIC_WIZARD_H_
 #define DIC_WIZARD_H_
 
-#include <QtGui/QWizard>
-#include <QtGui/QWizardPage>
-#include <QtGui/QStyledItemDelegate>
+#include <QWizard>
+#include <QWizardPage>
+#include <QStyledItemDelegate>
 
 #include "ui/dic_wizard_info_page.ui.h"
 #include "ui/dic_wizard_letters_def_page.ui.h"

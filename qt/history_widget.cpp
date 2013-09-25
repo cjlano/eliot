@@ -21,12 +21,12 @@
 #include "config.h"
 
 #include <cmath>
-#include <QtGui/QTreeView>
-#include <QtGui/QTabWidget>
-#include <QtGui/QHeaderView>
-#include <QtGui/QStandardItemModel>
-#include <QtGui/QMenu>
-#include <QtCore/QSettings>
+#include <QTreeView>
+#include <QTabWidget>
+#include <QHeaderView>
+#include <QStandardItemModel>
+#include <QMenu>
+#include <QSettings>
 
 #include "history_widget.h"
 #include "custom_popup.h"

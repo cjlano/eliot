@@ -21,8 +21,8 @@
 #ifndef CUSTOM_POPUP_H_
 #define CUSTOM_POPUP_H_
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
+#include <QObject>
+#include <QString>
 
 #include "logging.h"
 

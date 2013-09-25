@@ -21,10 +21,10 @@
 #ifndef PLAYERS_TABLE_HELPER_H_
 #define PLAYERS_TABLE_HELPER_H_
 
-#include <QtGui/QWidget>
-#include <QtGui/QItemDelegate>
-#include <QtCore/QString>
-#include <QtCore/QList>
+#include <QWidget>
+#include <QItemDelegate>
+#include <QString>
+#include <QList>
 
 #include "logging.h"
 

@@ -21,7 +21,7 @@
 #ifndef TOPPING_WIDGET_H_
 #define TOPPING_WIDGET_H_
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include "ui/topping_widget.ui.h"
 #include "logging.h"
 

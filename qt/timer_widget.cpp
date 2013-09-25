@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtCore/QTimer>
-#include <QtGui/QMouseEvent>
+#include <QTimer>
+#include <QMouseEvent>
 
 #include "timer_widget.h"
 #include "debug.h"

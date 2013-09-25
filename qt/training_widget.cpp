@@ -18,9 +18,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtGui/QStandardItemModel>
-#include <QtGui/QMenu>
-#include <QtGui/QHeaderView>
+#include <QStandardItemModel>
+#include <QMenu>
+#include <QHeaderView>
 
 #include "training_widget.h"
 #include "qtcommon.h"

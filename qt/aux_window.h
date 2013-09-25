@@ -21,7 +21,7 @@
 #ifndef AUX_WINDOW_H_
 #define AUX_WINDOW_H_
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 #include "logging.h"
 

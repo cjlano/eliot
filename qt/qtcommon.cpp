@@ -18,18 +18,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtGui/QApplication>
-#include <QtGui/QWidget>
-#include <QtGui/QDialog>
-#include <QtGui/QDialogButtonBox>
-#include <QtGui/QPushButton>
-#include <QtGui/QCheckBox>
-#include <QtGui/QIcon>
-#include <QtGui/QPixmap>
-#include <QtGui/QLabel>
-#include <QtGui/QStyle>
-#include <QtGui/QLayout>
-#include <QtCore/QSettings>
+#include <QApplication>
+#include <QWidget>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QIcon>
+#include <QPixmap>
+#include <QLabel>
+#include <QStyle>
+#include <QLayout>
+#include <QSettings>
 
 #include <iostream>
 

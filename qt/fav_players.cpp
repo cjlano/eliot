@@ -20,13 +20,13 @@
 
 #include <fstream>
 
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
-#include <QtGui/QLabel>
-#include <QtGui/QDialogButtonBox>
-#include <QtGui/QTableWidget>
-#include <QtGui/QFileDialog>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QLabel>
+#include <QDialogButtonBox>
+#include <QTableWidget>
+#include <QFileDialog>
 
 #include "fav_players.h"
 #include "players_table_helper.h"

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtGui/QLineEdit>
-#include <QtGui/QPushButton>
+#include <QLineEdit>
+#include <QPushButton>
 
 #include "play_word_mediator.h"
 #include "validator_factory.h"

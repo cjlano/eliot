@@ -18,10 +18,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtGui/QStandardItemModel>
-#include <QtGui/QMenu>
-#include <QtGui/QMessageBox>
-#include <QtGui/QSortFilterProxyModel>
+#include <QStandardItemModel>
+#include <QMenu>
+#include <QMessageBox>
+#include <QSortFilterProxyModel>
 
 #include "topping_widget.h"
 #include "play_word_mediator.h"

@@ -21,7 +21,7 @@
 #ifndef TILE_WIDGET_H_
 #define TILE_WIDGET_H_
 
-#include <QtGui/QFrame>
+#include <QFrame>
 #include "tile.h"
 #include "logging.h"
 

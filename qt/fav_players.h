@@ -21,7 +21,7 @@
 #ifndef FAV_PLAYERS_H_
 #define FAV_PLAYERS_H_
 
-#include <QtGui/QDialog>
+#include <QDialog>
 
 #include "logging.h"
 

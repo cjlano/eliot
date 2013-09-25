@@ -22,8 +22,8 @@
 #define PLAY_WORD_MEDIATOR_H_
 
 #include <string>
-#include <QtGui/QValidator>
-#include <QtGui/QPalette>
+#include <QValidator>
+#include <QPalette>
 
 #include "logging.h"
 

@@ -22,8 +22,8 @@
 #define MISC_HELPERS_H_
 
 #include <vector>
-#include <QtGui/QLabel>
-#include <QtCore/QString>
+#include <QLabel>
+#include <QString>
 
 using std::vector;
 

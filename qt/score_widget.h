@@ -21,7 +21,7 @@
 #ifndef SCORE_WIDGET_H_
 #define SCORE_WIDGET_H_
 
-#include <QtGui/QTreeView>
+#include <QTreeView>
 
 #include "logging.h"
 

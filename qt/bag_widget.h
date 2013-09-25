@@ -22,7 +22,7 @@
 #define BAG_WIDGET_H_
 
 #include <vector>
-#include <QtGui/QWidget>
+#include <QWidget>
 
 #include <ui/bag_widget.ui.h>
 #include "logging.h"

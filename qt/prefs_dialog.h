@@ -21,8 +21,8 @@
 #ifndef PREFS_DIALOG_H_
 #define PREFS_DIALOG_H_
 
-#include <QtGui/QDialog>
-#include <QtCore/QString>
+#include <QDialog>
+#include <QString>
 
 #include "ui/prefs_dialog.ui.h"
 #include "logging.h"

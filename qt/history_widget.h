@@ -21,8 +21,8 @@
 #ifndef HISTORY_WIDGET_H_
 #define HISTORY_WIDGET_H_
 
-#include <QtGui/QTreeView>
-#include <QtGui/QTabWidget>
+#include <QTreeView>
+#include <QTabWidget>
 
 #include "logging.h"
 

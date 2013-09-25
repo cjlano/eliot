@@ -21,7 +21,7 @@
 #ifndef STATS_WIDGET_H_
 #define STATS_WIDGET_H_
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 #include "logging.h"
 

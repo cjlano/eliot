@@ -23,7 +23,7 @@
 
 #include "config.h"
 #include <string>
-#include <QtCore/QString>
+#include <QString>
 #include "encoding.h"
 
 #if ENABLE_NLS

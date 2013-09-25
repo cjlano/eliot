@@ -22,8 +22,8 @@
 #define DIC_TOOLS_WIDGET_H_
 
 #include <string>
-#include <QtGui/QWidget>
-#include <QtGui/QPalette>
+#include <QWidget>
+#include <QPalette>
 
 #include "ui/dic_tools_widget.ui.h"
 #include "logging.h"

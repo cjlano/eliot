@@ -21,7 +21,7 @@
 #ifndef ARBITRATION_WIDGET_H_
 #define ARBITRATION_WIDGET_H_
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 #include <ui/arbitration_widget.ui.h>
 #include "results.h"

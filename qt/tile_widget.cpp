@@ -18,9 +18,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtGui/QPainter>
-#include <QtGui/QPaintEvent>
-#include <QtCore/QSettings>
+#include <QPainter>
+#include <QPaintEvent>
+#include <QSettings>
 
 #include "tile_widget.h"
 #include "prefs_dialog.h"

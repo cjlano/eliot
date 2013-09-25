@@ -21,7 +21,7 @@
 #ifndef TIMER_WIDGET_H_
 #define TIMER_WIDGET_H_
 
-#include <QtGui/QLCDNumber>
+#include <QLCDNumber>
 
 #include "logging.h"
 

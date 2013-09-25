@@ -21,7 +21,7 @@
 #ifndef TRAINING_WIDGET_H_
 #define TRAINING_WIDGET_H_
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include "ui/training_widget.ui.h"
 #include "logging.h"
 

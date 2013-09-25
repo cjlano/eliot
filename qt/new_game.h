@@ -21,8 +21,8 @@
 #ifndef NEW_GAME_H_
 #define NEW_GAME_H_
 
-#include <QtGui/QDialog>
-#include <QtGui/QPalette>
+#include <QDialog>
+#include <QPalette>
 
 #include "ui/new_game.ui.h"
 #include "logging.h"

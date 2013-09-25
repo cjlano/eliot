@@ -21,12 +21,12 @@
 #include <algorithm>
 #include <functional>
 
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
-#include <QtGui/QLabel>
-#include <QtGui/QDialogButtonBox>
-#include <QtGui/QMessageBox>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QLabel>
+#include <QDialogButtonBox>
+#include <QMessageBox>
 
 #include "hints_dialog.h"
 #include "qtcommon.h"

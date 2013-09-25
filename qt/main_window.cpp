@@ -20,20 +20,20 @@
 
 #include "config.h"
 
-#include <QtGui/QLabel>
-#include <QtGui/QFrame>
-#include <QtGui/QMessageBox>
-#include <QtGui/QFileDialog>
-#include <QtGui/QDockWidget>
-#include <QtGui/QCloseEvent>
-#include <QtGui/QPrintPreviewDialog>
-#include <QtGui/QPrintDialog>
-#include <QtGui/QPrinter>
-#include <QtGui/QPainter>
-#include <QtGui/QDesktopServices>
-#include <QtGui/QDesktopWidget>
-#include <QtCore/QSettings>
-#include <QtCore/QUrl>
+#include <QLabel>
+#include <QFrame>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QDockWidget>
+#include <QCloseEvent>
+#include <QPrintPreviewDialog>
+#include <QPrintDialog>
+#include <QPrinter>
+#include <QPainter>
+#include <QDesktopServices>
+#include <QDesktopWidget>
+#include <QSettings>
+#include <QUrl>
 
 #include "main_window.h"
 #include "dic.h"

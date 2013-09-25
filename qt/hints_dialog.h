@@ -23,7 +23,7 @@
 
 #include <vector>
 
-#include <QtGui/QDialog>
+#include <QDialog>
 
 #include "logging.h"
 

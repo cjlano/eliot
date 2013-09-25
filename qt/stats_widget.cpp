@@ -18,18 +18,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtGui/QTableView>
-#include <QtGui/QHeaderView>
-#include <QtGui/QStandardItemModel>
-#include <QtGui/QSortFilterProxyModel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QAction>
-#include <QtGui/QPainter>
-#include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
-#include <QtGui/QPrintPreviewDialog>
-#include <QtCore/QLocale>
+#include <QTableView>
+#include <QHeaderView>
+#include <QStandardItemModel>
+#include <QSortFilterProxyModel>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QAction>
+#include <QPainter>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QPrintPreviewDialog>
+#include <QLocale>
 
 #include "math.h" // For floor()
 

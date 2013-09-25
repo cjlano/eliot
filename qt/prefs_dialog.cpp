@@ -20,12 +20,12 @@
 
 #include "config.h"
 
-#include <QtCore/QSettings>
-#include <QtGui/QFileDialog>
-#include <QtGui/QMessageBox>
-#include <QtCore/QStringList>
-#include <QtGui/QCompleter>
-#include <QtGui/QFileSystemModel>
+#include <QSettings>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QStringList>
+#include <QCompleter>
+#include <QFileSystemModel>
 
 #include "prefs_dialog.h"
 #include "game_exception.h"

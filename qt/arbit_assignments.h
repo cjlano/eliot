@@ -21,7 +21,7 @@
 #ifndef ARBIT_ASSIGNMENTS_H_
 #define ARBIT_ASSIGNMENTS_H_
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 #include <ui/arbit_assignments.ui.h>
 #include "move.h"

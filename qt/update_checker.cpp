@@ -18,15 +18,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
-#include <QtGui/QMessageBox>
+#include <QMessageBox>
 
-#include <QtCore/QSettings>
-#include <QtCore/QDate>
-#include <QtCore/QVariant>
+#include <QSettings>
+#include <QDate>
+#include <QVariant>
 
 #include "config.h"
 
@@ -129,7 +129,7 @@ UpdateChecker::VersionNumber UpdateChecker::parseVersionNumber(QString iVersion)
     vn.minor = re.cap(2).toInt();
     vn.letter = 0;
     if (re.pos(3) != -1)
-        vn.letter = re.cap(3)[0].toAscii();
+        vn.letter = re.cap(3)[0].toLatin1();
     vn.suffix = re.cap(4);
 
     LOG_DEBUG("Parsed version number: " << vn.major << "." << vn.minor <<

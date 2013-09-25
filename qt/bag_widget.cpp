@@ -20,10 +20,10 @@
 
 #include <boost/foreach.hpp>
 #include <vector>
-#include <QtGui/QTreeView>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QStandardItemModel>
-#include <QtGui/QAction>
+#include <QTreeView>
+#include <QVBoxLayout>
+#include <QStandardItemModel>
+#include <QAction>
 
 #include "bag_widget.h"
 #include "tile_layout.h"

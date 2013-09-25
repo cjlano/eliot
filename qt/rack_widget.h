@@ -22,7 +22,7 @@
 #define RACK_WIDGET_H_
 
 #include <vector>
-#include <QtGui/QFrame>
+#include <QFrame>
 
 #include "tile.h"
 #include "logging.h"

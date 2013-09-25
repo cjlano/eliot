@@ -21,8 +21,8 @@
 #ifndef PLAYER_WIDGET_H_
 #define PLAYER_WIDGET_H_
 
-#include <QtGui/QWidget>
-#include <QtGui/QTabWidget>
+#include <QWidget>
+#include <QTabWidget>
 
 #include "ui/player_widget.ui.h"
 #include "logging.h"

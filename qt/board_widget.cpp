@@ -19,8 +19,8 @@
  *****************************************************************************/
 
 #include <cmath>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QPainter>
+#include <QMouseEvent>
+#include <QPainter>
 
 #include "board_widget.h"
 #include "tile_layout.h"

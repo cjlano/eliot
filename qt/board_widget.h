@@ -21,7 +21,7 @@
 #ifndef BOARD_WIDGET_H_
 #define BOARD_WIDGET_H_
 
-#include <QtGui/QFrame>
+#include <QFrame>
 
 #include "matrix.h"
 #include "logging.h"

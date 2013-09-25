@@ -18,10 +18,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtGui/QCompleter>
-#include <QtGui/QFileSystemModel>
-#include <QtGui/QFileDialog>
-#include <QtCore/QSettings>
+#include <QCompleter>
+#include <QFileSystemModel>
+#include <QFileDialog>
+#include <QSettings>
 
 #include "new_game.h"
 #include "players_table_helper.h"

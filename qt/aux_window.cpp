@@ -20,13 +20,13 @@
 
 #include "config.h"
 
-#include <QtGui/QApplication>
-#include <QtGui/QAction>
-#include <QtGui/QWidget>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QCloseEvent>
-#include <QtGui/QDesktopWidget>
-#include <QtCore/QSettings>
+#include <QApplication>
+#include <QAction>
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QCloseEvent>
+#include <QDesktopWidget>
+#include <QSettings>
 
 #include "aux_window.h"
 #include "qtcommon.h"

@@ -21,7 +21,7 @@
 #ifndef TILE_LAYOUT_H_
 #define TILE_LAYOUT_H_
 
-#include <QtGui/QLayout>
+#include <QLayout>
 
 #include "logging.h"
 

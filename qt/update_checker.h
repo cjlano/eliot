@@ -21,8 +21,8 @@
 #ifndef UPDATE_CHECKER_H_
 #define UPDATE_CHECKER_H_
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
+#include <QObject>
+#include <QString>
 
 #include "logging.h"
 

@@ -23,13 +23,13 @@
 #include <map>
 #include <vector>
 #include <fstream>
-#include <QtGui/QTreeView>
-#include <QtGui/QStandardItemModel>
-#include <QtGui/QLineEdit>
-#include <QtGui/QFileDialog>
-#include <QtGui/QMessageBox>
-#include <QtGui/QMenu>
-#include <QtCore/QString>
+#include <QTreeView>
+#include <QStandardItemModel>
+#include <QLineEdit>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QMenu>
+#include <QString>
 
 #include "dic_tools_widget.h"
 #include "custom_popup.h"

@@ -20,11 +20,13 @@
 
 #include <algorithm>
 
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QDragEnterEvent>
-#include <QtGui/QDragLeaveEvent>
-#include <QtGui/QDragMoveEvent>
-#include <QtGui/QDropEvent>
+#include <QHBoxLayout>
+#include <QDrag>
+#include <QDragEnterEvent>
+#include <QDragLeaveEvent>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+#include <QMimeData>
 
 #include "rack_widget.h"
 #include "tile_widget.h"

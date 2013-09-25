@@ -18,12 +18,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
-#include <QtGui/QStandardItemModel>
-#include <QtGui/QSortFilterProxyModel>
-#include <QtGui/QMenu>
-#include <QtGui/QShortcut>
-#include <QtCore/QSettings>
-#include <QtCore/QSignalMapper>
+#include <QStandardItemModel>
+#include <QSortFilterProxyModel>
+#include <QMenu>
+#include <QShortcut>
+#include <QSettings>
+#include <QSignalMapper>
 
 #include "arbitration_widget.h"
 #include "arbit_assignments.h"
@@ -109,8 +109,6 @@ ArbitrationWidget::ArbitrationWidget(QWidget *parent,
     m_resultsModel->setHeaderData(2, Qt::Horizontal, _q("Points"), Qt::DisplayRole);
     m_resultsModel->setHeaderData(3, Qt::Horizontal, _q("Status"), Qt::DisplayRole);
     treeViewResults->sortByColumn(2);
-
-    m_proxyResultsModel->setSupportedDragActions(Qt::CopyAction);
 
     treeViewResults->setColumnWidth(0, 120);
     treeViewResults->setColumnWidth(1, 40);

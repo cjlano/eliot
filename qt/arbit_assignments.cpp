@@ -20,10 +20,10 @@
 
 #include <boost/foreach.hpp>
 
-#include <QtGui/QStandardItemModel>
-#include <QtGui/QSortFilterProxyModel>
-#include <QtGui/QMenu>
-#include <QtGui/QShortcut>
+#include <QStandardItemModel>
+#include <QSortFilterProxyModel>
+#include <QMenu>
+#include <QShortcut>
 
 #include "arbit_assignments.h"
 #include "qtcommon.h"
