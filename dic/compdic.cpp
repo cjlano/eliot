@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Eliot
- * Copyright (C) 1999-2012 Antoine Fraboulet & Olivier Teulière
+ * Copyright (C) 1999-2013 Antoine Fraboulet & Olivier Teulière
  * Authors: Antoine Fraboulet <antoine.fraboulet @@ free.fr>
  *          Olivier Teulière <ipkiss @@ gmail.com>
  *
@@ -170,7 +170,11 @@ void CompDic::loadWordList(const string &iFileName, vector<wstring> &oWordList)
         // Ignore empty lines
         if (line == "")
             continue;
-        oWordList.push_back(readFromUTF8(line, "loadWordList"));
+        // Ensure the word is in upper case
+        wstring wstr = readFromUTF8(line, "loadWordList");
+        std::transform(wstr.begin(), wstr.end(), wstr.begin(), towupper);
+
+        oWordList.push_back(wstr);
     }
 
     // Sort the word list, to perform a better compression
