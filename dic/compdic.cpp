@@ -269,7 +269,7 @@ unsigned int CompDic::makeNode(ostream &outFile, const Header &iHeader,
         {
             // If an invalid character is found, be specific about the problem
             ostringstream oss;
-            oss << fmt(_("Error on line %1%, col %2%: %3%"))
+            oss << fmt(_("Error in the word list on line %1%, col %2%: %3%"))
                 % (1 + m_headerInfo.nwords)
                 % (m_endString - m_stringBuf)
                 % e.what() << endl;
