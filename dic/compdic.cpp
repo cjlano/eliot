@@ -271,7 +271,7 @@ unsigned int CompDic::makeNode(ostream &outFile, const Header &iHeader,
             ostringstream oss;
             oss << fmt(_("Error in the word list on line %1%, col %2%: %3%"))
                 % (1 + m_headerInfo.nwords)
-                % (m_endString - m_stringBuf)
+                % (1 + m_endString - m_stringBuf)
                 % e.what() << endl;
             throw DicException(oss.str());
         }
