@@ -11,8 +11,11 @@ Requested by users
 
  - Drag & drop? (03/02/09)
  - Continue a real game on Eliot (03/02/09)
- - In duplicate mode, display the rack in the External board (19/02/09)
- - Tiles on the rack more similar to the ones on the board (http://www.prise2tete.fr/forum/viewtopic.php?id=4956)
+ - Print several games in one shot (and 4 on the same page) (08/02/2011)
+ - Show the results in duplicate mode (22/09/10)
+ - Have help in multi-player modes (17/08/2011)
+ - In training mode, have a way to know if there is a Scrabble or not, before displaying the results (eliot-general@, 14/01/2014)
+ - In training mode, have a way to know if the word about to be played is the top move (eliot-general@, 14/01/2014)
 
 Implementation details
 ======================
@@ -25,7 +28,6 @@ Implementation details
 Not so urgent
 =============
 
- - add timers
  - network support
  - implement the dictionary as a GADDAG:
    http://www.cs.ubc.ca/local/reading/proceedings/spe91-95/spe/vol24/issue2/spe880.pdf
