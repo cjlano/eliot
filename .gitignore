@@ -4,6 +4,7 @@
 */Makefile.in
 Makefile
 Makefile.in
+compile
 config.guess
 config.h
 config.h.in
