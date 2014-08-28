@@ -58,32 +58,39 @@ bambara.LanguageName=Bambara
 
 
 [CustomMessages]
-; please, translate following 6 messages when adding a new installer language
+; please, translate the following 6 messages when adding a new installer language
 
 ;message1
 CreateStartMenuFolder=Create start menu folder
 catalan.CreateStartMenuFolder=Crea una carpeta al menú d'inici
 spanish.CreateStartMenuFolder=Crea una carpeta en el Menú Inicio
+french.CreateStartMenuFolder=Créer un dossier dans le menu Démarrer
 ;message2
 EliotDictionaries=DAWG dictionaries for {#AppName}
 catalan.EliotDictionaries=Diccionaris DAWG per a l'{#AppName}
 spanish.EliotDictionaries=Diccionarios DAWG para {#AppName}
+french.EliotDictionaries=Dictionnaires DAWG pour {#AppName}
 ;message3
-EliotIsInstalled={#AppName} is already installed in your computer. It must be uninstalled before install {#AppVersion} version. Do you want to continue?
+EliotIsInstalled={#AppName} is already installed on your computer. It must be uninstalled before installing {#AppVersion} version. Do you want to continue?
 catalan.EliotIsInstalled=L'{#AppName} ja és instal·lat a l'ordinador. Heu de desinstal·lar-lo abans d'instal·lar la versió {#AppVersion}. Voleu continuar?
 spanish.EliotIsInstalled=L'{#AppName} ya está instalado en el equipo. Debe desinstalar-lo antes de instalar la versión {#AppVersion}. ¿Desea continuar?
+french.EliotIsInstalled={#AppName} est déjà installé sur votre ordinateur. Il doit être désinstallé avant l'installation de la version {#AppVersion}. Voulez-vous continuer ?
 ;message4
 UninstallError=Error occurred uninstalling {#AppName}.
 catalan.UninstallError=S'ha produït un error en la desinstal·lació de la versió de l'{#AppName} a l'ordinador.
 spanish.UninstallError=Se ha producido un error en la desinstalación de la versión de l'{#AppName} en el equipo.
+french.UninstallError=Une erreur s'est produite durant la désinstallation d'{#AppName}.
 ;message5
 AbortInstallation={#AppName} {#AppVersion} installation was cancelled.
 catalan.AbortInstallation=S'ha cancel·lat la instal·lació de l'{#AppName} {#AppVersion}.
 spanish.AbortInstallation=Se ha cancelado la instalación de {#AppName} {#AppVersion}.
+french.AbortInstallation=L'installation d'{#AppName} {#AppVersion} a été annulée.
 ;message6
-SeveralDicts=You can select any of installed {#AppName} dictionaries in "{app}\dicts".
+SeveralDicts=You can select any of the installed {#AppName} dictionaries in "{app}\dicts".
 catalan.SeveralDicts=Podeu seleccionar qualsevol dels diccionaris de l'{#AppName} instal·lats a la carpeta "{app}\dicts".
 spanish.SeveralDicts=Puede seleccionar cualquiera de los diccionarios de {#AppName} instalados en la carpeta "{app}\dicts".
+french.SeveralDicts=Vous pouvez sélectionner n'importe quel dictionnaire d'{#AppName} installé dans le répertoire "{app}\dicts".
+
 [Types]
 Name: "compact"; Description: "{code:CompactInstall}"
 Name: "full"; Description: "{code:FullInstall}"
