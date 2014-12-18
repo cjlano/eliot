@@ -1867,7 +1867,7 @@ msgstr ""
 "ce qui élimine le facteur chance (et la tactique).\n"
 "Chaque joueur marque les points du mot qu'il a trouvé, mais seul le\n"
 "meilleur coup est joué sur le plateau.\n"
-"Ce mode de jeu permet un nomber illimité de joueurs simultanés, ce qui\n"
+"Ce mode de jeu permet un nombre illimité de joueurs simultanés, ce qui\n"
 "le rend très adapté aux tournois officiels."
 
 #: qt/new_game.cpp:60
