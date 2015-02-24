@@ -4,6 +4,7 @@
 */Makefile.in
 Makefile
 Makefile.in
+ar-lib
 compile
 config.guess
 config.h
