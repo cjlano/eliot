@@ -1,9 +1,9 @@
 # Force support of large files, to avoid the following link error:
 # /home/ipkiss/dev/eliot/contribs/extras/contrib-win32/inst/lib/libapr-2.a(apr_strings.o): In function `apr_strtoff@16':
 # /home/ipkiss/dev/eliot/contribs/extras/contrib-win32/apr/strings/apr_strings.c:240: undefined reference to `_strtoi'
-diff -ur ./configure.in.orig ./configure.in
---- ./configure.in.orig	2012-04-28 14:51:17.772384679 +0200
-+++ ./configure.in	2012-04-28 14:55:05.636390009 +0200
+diff -ur ./configure.ac.orig ./configure.ac
+--- ./configure.ac.orig	2012-04-28 14:51:17.772384679 +0200
++++ ./configure.ac	2012-04-28 14:55:05.636390009 +0200
 @@ -1698,7 +1698,7 @@
      # off_t can legitimately be smaller than size_t
      aprlfs=1

@@ -1,7 +1,7 @@
 dnl -*-m4-*-
 dnl Process this file with autoconf to produce a configure script.
 dnl --------------------------------------------------------------
-dnl configure.in for Eliot
+dnl configure.ac for Eliot
 dnl --------------------------------------------------------------
 AC_INIT([eliot],[2.2-git])
 AC_CONFIG_SRCDIR(qt/main.cpp)
