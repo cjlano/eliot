@@ -1,0 +1,54 @@
+Using seed: 24
+[?] pour l'aide
+commande> l 2 0
+mode partie libre
+[?] pour l'aide
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> a t
+BEFHLRT
+commande> p BEFH
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> p
+commande> a S
+Score 0:   -9
+Score 1:  -18
+commande> a T
+Rack 0: AEEOPUU
+Rack 1: CILORTZ
+commande> a p
+Game: player 2 out of 2
+Game: mode=Free game
+Game: history:
+    N |   RACK   |    SOLUTION    | REF | PTS | BONUS
+   ===|==========|================|=====|=====|======
+    1 |  AUEUOEP | (PASS)         |  -  |   0 |  
+    2 |  ELBFHTR | (PASS)         |  -  |   0 |  
+    3 |  AEEOPUU | (PASS)         |  -  |   0 |  
+    4 |  BEFHLRT | (PASS)         |  -  |   0 |  
+    5 |  AEEOPUU | (PASS)         |  -  |   0 |  
+    6 |  BEFHLRT | [BEFH]         |  -  |   0 |  
+    7 |  AEEOPUU | (PASS)         |  -  |   0 |  
+    8 | LRT+COIZ | (PASS)         |  -  |   0 |  
+    9 |  AEEOPUU | (PASS)         |  -  |   0 |  
+   10 |  CILORTZ | (PASS)         |  -  |   0 |  
+   11 |  AEEOPUU | (PASS)         |  -  |   0 |  
+   12 |  CILORTZ | (PASS)         |  -  |   0 |  
+
+
+Rack 0: AEEOPUU
+Rack 1: CILORTZ
+Score 0:   -9
+Score 1:  -18
+commande> p
+Cannot pass (3)
+commande> q
+fin du mode partie libre
+commande> q

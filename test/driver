@@ -90,6 +90,8 @@ arbitration/load_save 0  # randseed unused
 freegame/play       7
 # The human player always passes, letting the AI player do what it wants
 freegame/passing    1
+# Two humans play, and reach the end of the game by passing 3 times consecutively
+freegame/passing_3_times 24
 # 2 human players, changing letters a lot
 freegame/change     3
 # Three AI players

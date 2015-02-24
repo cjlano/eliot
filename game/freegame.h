@@ -96,14 +96,20 @@ private:
     /// Finish the current turn
     int endTurn();
 
-    /// Finish the game
-    void endGame();
+    /**
+     * Finish the game.
+     * @param The winning player is given, use an invalid player number to
+     * indicate that there was no winner (e.g.: all players pass several times)
+     */
+    void endGame(unsigned iWinningPlayer);
 
     /**
      * Check whether it is legal to change the letters of iToChange.
      * The return codes are the same as the ones on the pass() method
      */
     int checkPass(const Player &iPlayer, const wstring &iToChange) const;
+
+    bool allPlayersPassedThreeTimesInARow() const;
 };
 
 #endif /* _FREEGAME_H_ */

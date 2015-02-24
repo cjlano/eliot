@@ -169,9 +169,16 @@ int FreeGame::endTurn()
         catch (EndGameException &e)
         {
             // End of the game
-            endGame();
+            endGame(m_currPlayer);
             return 1;
         }
+    }
+
+    if (allPlayersPassedThreeTimesInARow())
+    {
+        LOG_INFO("All the players passed 3 times consecutively");
+        endGame(getNPlayers());
+        return 2;
     }
 
     // Next player
@@ -194,7 +201,7 @@ int FreeGame::endTurn()
 
 
 // Adjust the scores of the players with the points of the remaining tiles
-void FreeGame::endGame()
+void FreeGame::endGame(unsigned iWinningPlayer)
 {
     LOG_INFO("End of the game");
 
@@ -209,7 +216,9 @@ void FreeGame::endGame()
     // We currently handle case 1, and cannot handle case 3 until timers are
     // implemented.
     // For case 2, we need both to detect a blocked situation (not easy...) and
-    // to handle it in the endGame() method (very easy).
+    // to handle it in the endGame() method (very easy). As a workaround for
+    // case 2, we consider that if all players pass 3 times the game ends
+    // without any winner.
 
     // Add the points of the remaining tiles to the score of the current
     // player (i.e. the first player with an empty rack), and remove them
@@ -217,7 +226,7 @@ void FreeGame::endGame()
     int addedPoints = 0;
     for (unsigned int i = 0; i < getNPlayers(); i++)
     {
-        if (i != m_currPlayer)
+        if (i != iWinningPlayer)
         {
             const PlayedRack &pld = m_players[i]->getCurrentRack();
             pld.getAllTiles(tiles);
@@ -233,10 +242,13 @@ void FreeGame::endGame()
             accessNavigation().addAndExecute(pCmd);
         }
     }
-    // Add all the points to the current player
-    Command *pCmd = new PlayerEventCmd(*m_players[m_currPlayer],
-                                       PlayerEventCmd::END_GAME, addedPoints);
-    accessNavigation().addAndExecute(pCmd);
+    // Give all the points to the winning player
+    if (iWinningPlayer < getNPlayers())
+    {
+        Command *pCmd = new PlayerEventCmd(*m_players[m_currPlayer],
+                                        PlayerEventCmd::END_GAME, addedPoints);
+        accessNavigation().addAndExecute(pCmd);
+    }
 
     // Lock game
     m_finished = true;
@@ -305,5 +317,29 @@ int FreeGame::pass(const wstring &iToChange)
     endTurn();
 
     return 0;
+}
+
+
+bool FreeGame::allPlayersPassedThreeTimesInARow() const
+{
+    const unsigned NB_OF_PASSES = 3;
+    // Only one player really plays at each turn
+    const unsigned NB_TURNS_TO_CHECK = NB_OF_PASSES * getNPlayers();
+
+    bool result = true;
+    BOOST_FOREACH(const Player *player, m_players)
+    {
+        const History &history = player->getHistory();
+        result = result && (history.getSize() >= NB_TURNS_TO_CHECK);
+        for (unsigned turnNb = history.getSize() - NB_TURNS_TO_CHECK;
+             turnNb < history.getSize();
+             ++turnNb)
+        {
+            const Move &move = history.getTurn(turnNb).getMove();
+            // Players who did not play got a null move for the turn
+            result = result && (move.isPass() || move.isNull());
+        }
+    }
+    return result;
 }
 
