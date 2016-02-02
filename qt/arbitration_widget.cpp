@@ -436,12 +436,8 @@ void ArbitrationWidget::rackChanged()
     clearResults();
 
     // Clear the filters
-    lineEditFilterWord->blockSignals(true);
     lineEditFilterWord->clear();
-    lineEditFilterWord->blockSignals(false);
-    lineEditFilterPoints->blockSignals(true);
     lineEditFilterPoints->clear();
-    lineEditFilterPoints->blockSignals(false);
 }
 
 
