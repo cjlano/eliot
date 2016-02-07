@@ -661,10 +661,9 @@ int Game::checkPlayedWord(const wstring &iCoord,
     if (checkWordAndJunction && checkRack)
     {
         // Check that the word can be formed with the tiles in the rack:
-        // we first create a copy of the rack, then we remove the tiles
+        // we first create a copy of the game rack, then we remove the tiles
         // one by one
-        Player *player = m_players[m_currPlayer];
-        Rack rack = player->getCurrentRack().getRack();
+        Rack rack = getHistory().getCurrentRack().getRack();
 
         Tile t;
         for (unsigned int i = 0; i < round.getWordLen(); i++)
